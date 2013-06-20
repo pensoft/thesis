@@ -1,10 +1,8 @@
-/conf.php/1.1/Fri Jan 22 16:29:07 2010//
 D/HtmlText////
 D/fckeditor////
 D/publishing////
 D/yui////
 D/ajax_servers////
-/static.php/1.140/Result of merge//
 /EDispecher.js/1.1/Thu Feb  7 09:10:27 2013//
 /EWorkaround.js/1.2/Thu Feb  7 09:10:22 2013//
 /Range.js/1.1/Thu Feb  7 09:10:21 2013//
@@ -33,3 +31,5 @@ D/ajax_servers////
 /xmlTextareaSource.css/1.1/Thu Feb  7 09:10:27 2013//
 /xsl.css/1.26/Thu Feb  7 09:10:22 2013//
 /xsl_html_old.css/1.1/Thu Feb  7 09:10:51 2013//
+/conf.php/1.2/Thu Feb  7 09:10:22 2013//
+/static.php/1.142/Thu Jun 20 08:35:53 2013//

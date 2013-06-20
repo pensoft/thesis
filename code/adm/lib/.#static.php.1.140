@@ -2481,7 +2481,7 @@ function formatXmlRecursive(&$pCurrentElement, &$pContent, &$pXPath, &$pDeclared
 				formatXmlRecursive($lChild, $lTagContent, $pXPath, &$pDeclaredNamespaces, $pDepth + 1, $lFormatXml);
 			}
 		}else{//Comment
-			$lTagContent = EscapeTextContent($pCurrentElement->nodeValue);
+			$lTagContent = EscapeTextContent($pCurrentElement->nodeValue);			
 		}
 
 		$lTagEnd = GetElementCloseTag($pCurrentElement);

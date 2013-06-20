@@ -276,6 +276,21 @@ $t = array(
 		'DisplayName' => getstr('admin.stories.colIndexer'),
 	),
 	
+	'journal_id' => array (
+		'VType' => 'int' ,
+		'CType' => 'select' ,
+		'SrcValues' => '
+			SELECT null as id, \'--\' as name, 0 as ord
+				UNION
+			SELECT id, name, 1 as ord FROM pjs.journals
+			ORDER BY ord
+			',
+		'AddTags' => array(
+			'class' => 'coolinp',
+		),
+		'DisplayName' => getstr('admin.stories.colState'),
+	),
+	
 	'showedit' => array(
 		'CType' => 'action',
 		'Hidden' => true,
