@@ -1,0 +1,2 @@
+﻿SELECT max(role_id) as role_id, viewmode_id, sum(count) as count FROM spGetDashboardViewmodeCount(1, ARRAY[2,3,9,8,1]::int[], ARRAY[2,3,9,14,15,8,12,13,4,10,11]::int[], ARRAY[7,6]::int[], ARRAY[14,15,8,12,13,4,10,11]::int[], 531) GROUP BY viewmode_id
+order by role_id; 

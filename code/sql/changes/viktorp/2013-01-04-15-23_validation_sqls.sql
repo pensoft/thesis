@@ -1,0 +1,1 @@
+DELETE FROM pwt.custom_validation_rules WHERE id IN (60, 61, 62, 63, 64, 65, 66);

@@ -1,0 +1,1 @@
+ALTER TABLE pjs.documents ADD COLUMN document_review_due_date timestamp;

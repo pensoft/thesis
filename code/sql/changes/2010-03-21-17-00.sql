@@ -1,0 +1,1 @@
+ALTER TABLE xml_nodes ADD COLUMN is_formatting_tag int DEFAULT 0;

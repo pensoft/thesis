@@ -1,0 +1,5 @@
+ALTER TABLE pjs.email_task_definitions
+   ADD COLUMN parent_id integer;
+ALTER TABLE pjs.email_task_definitions ALTER COLUMN subject DROP NOT NULL;
+ALTER TABLE pjs.email_task_definitions ALTER COLUMN content_template DROP NOT NULL;
+

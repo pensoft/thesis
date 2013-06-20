@@ -1,0 +1,24 @@
+html,body {
+	margin: 0px;
+	padding: 0px;
+	line-height: 22px;
+	font-size: 11px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+p {
+	padding: 7px;
+	margin: 0px;
+}
+
+.P-Figure-Citation-Holder {
+	background:#DDD;
+}
+
+.P-Tables-Citation-Holder {
+	background:#DDD;
+}
+
+.P-References-Citation-Holder {
+	background: #DDD;
+}

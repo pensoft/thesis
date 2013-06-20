@@ -1,0 +1,6 @@
+ALTER TABLE pwt.templates 
+	ALTER COLUMN papertype_id TYPE INTEGER[]
+	USING array[papertype_id]::INTEGER[];
+
+change pwt.spcreatedocument
+SELECT INTO lTemplateId max(id) FROM pwt.templates WHERE pPaperType = ANY (papertype_id);

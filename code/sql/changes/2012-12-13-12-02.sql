@@ -1,0 +1,1 @@
+ALTER TABLE pjs.event_data ADD COLUMN event_data_type_id int NOT NULL REFERENCES pjs.event_data_types(id);

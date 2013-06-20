@@ -1,0 +1,2034 @@
+<?php
+function sortLink($pViewMode, $pOrderByColumn, $pSortOrder, $pCurrentColumn, $pTitle)
+{
+	
+	$lOrder = '';
+	$pCurrentColumn = str_replace('sort_', '', $pCurrentColumn);
+	//var_dump(array( $pViewMode, $pOrderByColumn, $pSortOrder, $pCurrentColumn, $pTitle));
+	if ($pCurrentColumn == $pOrderByColumn)
+		$lOrder = '&amp;order=' . $pSortOrder;
+	return '<a href="?view_mode=' . $pViewMode . '&amp;sort_by=' .$pCurrentColumn . $lOrder . '">' . getstr($pTitle) . '</a>';
+}
+
+function initWorldTree($identifier)
+{
+	if($identifier == "alerts_geographical_cats")
+		return "children: [
+		{
+			title: 'World', 
+			key: 3, 
+			expand: true,
+			children: [
+			{
+				title: 'Europe',
+				key: 1,
+				isLazy: true
+			},
+			{
+				title: 'Asia',
+				key: 5,
+				isLazy: true
+			}
+			]
+		}], ";
+}
+
+function reviewTypesPics($ids, $names)
+{
+	$lRet = "";
+	$i = 0;
+	$id = explode(',', $ids);
+	$name = explode(',', $names);
+	for($i = 0; $i < count($id); $i++)
+	{
+		$lRet .= '<img src="/i/review_type'.$id[$i]. '.png" alt="'.$name[$i].'" title="'.$name[$i].'" />&nbsp;';
+	}
+	return $lRet;
+}
+
+function editorial_office($group_id)
+{
+	if ($group_id == CONTACT_GROUP_ID)
+	{
+		return '<table>
+		<tr><td style="vertical-align: top !important"><img src="i/pensoft-eagle.png" alt="Pensoft&apos;s eagle" width="70" height="70" style="border: 1px; margin-right: 10px" /></td>
+			<td id="contacts">
+			<h3>Editorial Office</h3>
+			<p>Prof. Georgi Zlatarski Street 12<br />
+			1700 Sofia, Bulgaria <br />
+			Tel. +359-2-8704281<br />
+			Fax  +359-2-8704282<br />
+			Email <a href="mailto:bdj@pensoft.net">bdj@pensoft.net</a></p>
+			</td></tr>
+		</table>';
+	}
+}
+
+
+function to_xhtml($str)
+{
+	return htmlspecialchars($str, ENT_XHTML | ENT_SUBSTITUTE | ENT_QUOTES, 'UTF-8', false);
+}
+
+function strip_invalid($str)
+{
+	return preg_replace('/[\s\W]+/', '', $str);
+}
+
+function css_tag($css, $media = 'all')
+{
+	return '<link type="text/css" rel="stylesheet" href="/lib/' . $css . '.css" media="' . $media . '" />
+	';
+}
+function js_tag($js)
+{
+	return '<script src="/lib/' . $js . '.js" type="text/javascript"></script>
+	';
+}
+function render_else($arg, $instead)
+{
+	return $arg ? $arg : $instead;
+}
+
+function render_if($arg, $prefix, $suffix)
+{
+	if($arg)
+		return $prefix . htmlentities($arg, ENT_NOQUOTES | ENT_XHTML, 'UTF-8',false) . $suffix;
+	else
+		return '';
+}
+
+function suggestedBy($id)
+{
+
+	switch ($id)
+	{
+		case 1:
+			$res = 'by author'; break;
+		case 2:
+			$res = 'by E/SE'; break;
+		case 3:
+			$res = 'by PJS'; break;
+	}
+	return getstr($res);
+}
+
+function filterSE($letter, $doc_id)
+{
+	return " <a class='" . ($letter === strtoupper($_REQUEST['letter'])? 'current':'') . " letter'
+	 href='/view_document?id=$doc_id&amp;view_role=2&amp;mode=1&amp;letter=$letter'
+	 >$letter</a>";
+}
+function AlphabetFilter($doc_id){
+	$lRet = '';
+	foreach(range('A', 'Z') as $letter){
+		$lRet .= filterSE($letter, $doc_id);
+	}
+	return $lRet;
+}
+
+function SEexpertise($first, $second)
+{
+	return $first . (($first && $second) ? '<br />&nbsp;' : '') . $second;
+}
+function translate($text, $late)
+{
+	$prefix = $suffix = "";
+	if($late == 'late'){
+		$prefix = '<span class="late">';
+		$suffix = '</span>';
+	}
+    return $prefix . getstr($text) . $suffix;
+}
+function reduce($pWho, $late) {
+	foreach ($pWho as $key => $value) {
+		$pWho[$key] = translate($pWho[$key], $late[$key]);
+	}
+	return implode("<br />", $pWho);
+}
+function comma_if($lst) { return (strlen($lst) > 0) ? ", $lst" : ""; }
+
+function comma_ifs($first, $second, $prefix, $suffix, $sep = ", ") {
+	return render_if($first . (strlen($first) * strlen($second) ? $sep : "" ) . $second,
+					 $prefix,
+					 $suffix);
+	}
+function editor_notes($notes) { return (strlen($notes) > 0) ? '<img src="/i/note.png" title="'.$notes.'" alt="'.getstr('pjs.dashboard.editor_note') . '" />' : ""; }
+function issue($special_issue_name) {return ($special_issue_name ? '' : getstr('pjs.regularIssue')); }
+
+function nth($n)
+{
+	switch ($n)
+	{
+		case 1: $suffix = 'st'; break;
+		case 2: $suffix = 'nd'; break;
+		case 3: $suffix = 'rd'; break;
+		default: $suffix = 'th'; break;
+	}
+	return "$n<sup>$suffix</sup>";
+}
+function action($state_id, $submitter_email, $submitter_name, $late)
+{
+	$author = '<a href="mailto:'. $submitter_email. '" title="'.getstr('pjs.dashboards.EmailSubmittingAuthor').'">'.$submitter_name.'</a>';
+	$EditorialOffice = getstr('pjs.dashboards.EditorialOffice');
+	$CopyEditor = "Copy editor";
+	$LayoutEditor = "Layout Editor";
+	$SubjectEditor = "Subject Editor";
+	switch ($state_id)
+	 {
+	 	// 1  incomplete - inline
+	 	// 5  published  - inline
+	 	// 6  archived   - inline
+	 	// 7  rejected   - inline
+
+	 	case DOCUMENT_APPROVED_FOR_PUBLISH: //11
+	 		$who = $EditorialOffice;
+			$status = getstr('ask Teo'); break;
+	 	case DOCUMENT_WAITING_SE_ASSIGNMENT_STATE: //2
+			$who = $EditorialOffice;
+			$status = getstr('pjs.dashboards.actions.assignSubjectEditor'); break;
+
+	 	//Review
+		case DOCUMENT_IN_REVIEW_STATE: //3
+			$who = $SubjectEditor;
+			$status = getstr('take decision'); break;
+
+		case DOCUMENT_REVISIONS_AFTER_REVIEW_STATE: //9
+			$who = $author;
+			$status = getstr('pjs.dashboards.actions.WaitingAuthorAfterReviewRound'); break;
+
+		//Copy
+		case DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE: //14
+			$who = $author;
+			$status = getstr('pjs.dashboards.actions.WaitingAuthorSubmitVersionCopyEdit'); break;
+		case DOCUMENT_READY_FOR_COPY_REVIEW_STATE: //15
+			$who = $EditorialOffice;
+			$status = getstr('pjs.dashboards.actions.assignCopyEditor'); break;
+		case DOCUMENT_IN_COPY_REVIEW_STATE: //8
+			$who = $CopyEditor;
+			$status = getstr('pjs.dashboards.actions.linguisticEditing'); break;
+
+		//Layout
+		case DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_STATE: //12
+		case DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE: //17
+			$who = $author;
+			$status = getstr('pjs.dashboards.actions.WaitingAuthorSubmitVersionLayout'); break;
+		case DOCUMENT_READY_FOR_LAYOUT_STATE: //13
+			$who = $EditorialOffice;
+			$status = getstr('pjs.dashboards.actions.assignLayoutEditor'); break;
+		case DOCUMENT_IN_LAYOUT_REVIEW_STATE: //4
+			$who = $LayoutEditor;
+			$status = getstr('pjs.dashboards.actions.Layout'); break;
+		case DOCUMENT_WAITING_AUTHOR_VERSION_AFTER_LAYOUT_STATE: //10
+			$who = $author;
+			$status = getstr('pjs.dashboards.actions.WaitingAuthorAfterLayout'); break;
+	 }
+	return $status . '</td><td class="'. $late . '">' . $who;
+}
+
+function myfunc($pP) {
+	return $pP*100;
+}
+function getClearRowIfMultiple($pIsMultiple, $pHtmlIdent){
+	if( (int)$pIsMultiple == 2 ){
+		return '';
+	}else{
+		return '$("#' . $pHtmlIdent . '_autocomplete").tokenInput("clear");';
+	}
+}
+
+function disableTree($pIsDisabled, $pHtmlIdent){
+	if($pIsDisabled){
+		return '$("#tree' . $pHtmlIdent . '").dynatree("disable");';
+	}
+	return '';
+}
+
+function checkIsMultipleTokenInput($pIsMultiple){
+	if($pIsMultiple)
+		return '';
+	return 'tokenLimit: 1,';
+}
+
+function getProfilePic($pPhotoId, $pViewMode = 0){
+	$lRet = '';
+
+	if((int)$pPhotoId){
+		$lRet = '<div class="Prof-Photo">
+					<img class="P-Prof-Pic" width="67" height="70" src="/showimg.php?filename=c67x70y_' . (int)$pPhotoId . '.jpg" alt="Profile picture" />
+					<div class="P-Clear"></div>
+				</div>
+				' . ((int)$pViewMode ? "" : getstr('pwt.changeProfilePicture'));
+	}else {
+		$lRet = '<div class="Prof-Photo">
+					<img src="i/add_photo.png" width="67" height="70" alt="Profile picture" />
+					<div class="P-Clear"></div>
+				</div>
+				' . ((int)$pViewMode ? "" : getstr('pwt.addProfilePicture'));
+	}
+	return $lRet;
+}
+
+function getProfilePicSmall($pPhotoId){
+	$lRet = '';
+
+	if((int)$pPhotoId){
+		$lRet = '<img class="P-Prof-Pic" width="32" height="32" src="/showimg.php?filename=c32x32y_' . $pPhotoId . '.jpg" alt="Profile picture" />';
+	}else {
+		$lRet = '<img width="32" height="32" src="i/add_photo.png" alt="Profile picture" />';
+	}
+	return $lRet;
+}
+
+function getFormHeaderStep1($pIsProfileEdit){
+	global $user;
+
+	if((int)$pIsProfileEdit || $user->id){
+		$lRet = '<h2>' . getstr('pjs.profile.editstepone') . '</h2>';
+	}else{
+		$lRet = '<table cellspacing="0">
+					<tr>
+						<td class="reg-active-step"><span>' . getstr('pjs.register_step') . ' 1</span><br>' . getstr('pjs.account_information') . '</td>
+						<td><span>' . getstr('pjs.register_step') . ' 2</span><br>' . getstr('pjs.contact_information') . '</td>
+						<td><span>' . getstr('pjs.register_step') . ' 3</span><br>' . getstr('pjs.subscribe_to_email_and_rss') . '</td>
+					</tr>
+				</table>';
+	}
+	return $lRet;
+}
+
+function getFormHeaderStep2($pIsProfileEdit){
+	global $user;
+
+	if((int)$pIsProfileEdit || $user->id){
+		$lRet = '<h2>' . getstr('pjs.profile.editsteptwo') . '</h2>';
+	}else{
+		$lRet = '<table cellspacing="0">
+					<tr>
+						<td><span>' . getstr('pjs.register_step') . ' 1</span><br>' . getstr('pjs.account_information') . '</td>
+						<td class="reg-active-step"><span>' . getstr('pjs.register_step') . ' 2</span><br>' . getstr('pjs.contact_information') . '</td>
+						<td><span>' . getstr('pjs.register_step') . ' 3</span><br>' . getstr('pjs.subscribe_to_email_and_rss') . '</td>
+					</tr>
+				</table>';
+	}
+	return $lRet;
+}
+
+function getFormHeaderStep3($pIsProfileEdit){
+	global $user;
+
+	if((int)$pIsProfileEdit || $user->id){
+		$lRet = '<h2>' . getstr('pjs.profile.editstepthree') . '</h2>';
+	}else{
+		$lRet = '<table cellspacing="0">
+					<tr>
+						<td><span>' . getstr('pjs.register_step') . ' 1</span><br>' . getstr('pjs.account_information') . '</td>
+						<td><span>' . getstr('pjs.register_step') . ' 2</span><br>' . getstr('pjs.contact_information') . '</td>
+						<td class="reg-active-step"><span>' . getstr('pjs.register_step') . ' 3</span><br>' . getstr('pjs.subscribe_to_email_and_rss') . '</td>
+					</tr>
+				</table>';
+	}
+	return $lRet;
+}
+
+function getFormButtonStep1($pIsProfileEdit){
+	global $user;
+
+	if((int)$pIsProfileEdit || $user->id){
+		$lRet = '<div class="P-Grey-Btn-Holder P-Reg-Btn">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="submitProfileForm(\'registerfrm\', 1);">Save</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>
+				<div class="P-Grey-Btn-Holder P-Reg-Btn-R">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="window.location.href=\'/profile.php\';">Cancel</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>';
+	}else{
+		$lRet = '<div class="P-Grey-Btn-Holder P-Reg-Btn">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="SubmitRegForm(\'P-Registration-Content\', \'registerfrm\', 1, 1, 0)">' . getstr('pjs.nextstep') . ' 2 &raquo;</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>';
+	}
+	return $lRet;
+}
+
+function getFormButtonStep2($pIsProfileEdit){
+	global $user;
+
+	if((int)$pIsProfileEdit || $user->id){
+		$lRet = '<div class="P-Grey-Btn-Holder P-Reg-Btn">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="submitProfileForm(\'registerfrm\', 2);">Save</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>
+				<div class="P-Grey-Btn-Holder P-Reg-Btn-R">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="window.location.href=\'/profile.php\';">Cancel</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>';
+	}else{
+		$lRet = '<div class="P-Grey-Btn-Holder P-Reg-Btn">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="SubmitRegForm(\'P-Registration-Content\', \'registerfrm\', 2, 1, 0)">&laquo; ' . getstr('pjs.prevstep') . ' 1</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>
+				<div class="P-Grey-Btn-Holder P-Reg-Btn-R">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="SubmitRegForm(\'P-Registration-Content\', \'registerfrm\', 1, 2, 0)">' . getstr('pjs.nextstep') . ' 3 &raquo;</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>';
+	}
+	return $lRet;
+}
+
+function getFormButtonStep3($pIsProfileEdit){
+	global $user;
+
+	if((int)$pIsProfileEdit || $user->id){
+		$lRet = '<div class="P-Grey-Btn-Holder P-Reg-Btn">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="submitProfileForm(\'registerfrm\', 3);">Save</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>
+				<div class="P-Grey-Btn-Holder P-Reg-Btn-R">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="window.location.href=\'/profile.php\';">Cancel</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>';
+	}else{
+		$lRet = '<div class="P-Grey-Btn-Holder P-Reg-Btn">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="SubmitRegForm(\'P-Registration-Content\', \'registerfrm\', 2, 2, 0)">&laquo; ' . getstr('pjs.prevstep') . ' 2</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>
+				<div onclick="" class="P-Green-Btn-Holder P-Reg-Btn-R">
+					<div class="P-Green-Btn-Left"></div>
+					<div class="P-Green-Btn-Middle" onclick="SubmitRegForm(\'P-Registration-Content\', \'registerfrm\', 1, 3)">Finish</div>
+					<div class="P-Green-Btn-Right"></div>
+				</div>';
+	}
+	return $lRet;
+}
+
+function showSEProceedButton($pUserId, $pDocumentId, $pRoundNumber, $pReviewersCheck, $pDocumentReviewTypeId, $pDocumentReviewDueDate, $pRoundDueDate, $pUserVersionId, $pRole, $pRoundId, $pShowDivs = 1) {
+		
+	$lShowProceedBtn = ($pReviewersCheck == 'true' ? true : false);
+	//$lShowProceedBtn = false;
+	if((in_array($pRoundNumber, array(REVIEW_ROUND_ONE, REVIEW_ROUND_TWO))) && $pDocumentReviewTypeId == DOCUMENT_NON_PEER_REVIEW) {
+		$lMessage = getstr('pjs.showproceedbtnround2_text');
+	} else {
+		if($pRoundNumber == REVIEW_ROUND_ONE) {
+			$lMessage = getstr('pjs.showproceedbtnround1_text');
+		} elseif ($pRoundNumber == REVIEW_ROUND_TWO) {
+			$lMessage = getstr('pjs.showproceedbtnround2_text');
+		} elseif ($pRoundNumber == REVIEW_ROUND_THREE) {
+				$lMessage = getstr('pjs.showproceedbtnround2_text');
+		}
+	}
+	$lUrl = '\'/view_version.php?version_id=' . $pUserVersionId . '&id=' . $pDocumentId . '&view_role=' . $pRole . '&round=' . $pRoundNumber . '&round_user_id=' . $pUserId . '&duedate=' . $pRoundDueDate . '\'';
+	if($pShowDivs == '_0') {
+		if(in_array($pRoundNumber, array(REVIEW_ROUND_TWO, REVIEW_ROUND_THREE))) {
+			return '
+				<div class="document_author_holder_content_no_review_yet_middle">
+					<span class="yellow-green-txt">' . $lMessage . '</span>
+					<table cellpadding="0" cellspacing="0" width="100%" style="padding-top:10px;">
+						<tr>
+							<td align="center">
+								' . ($lShowProceedBtn ? '
+								<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
+									<div class="invite_reviewer_btn_left"></div>
+									<div class="invite_reviewer_btn_middle" onclick="confirmDocumentVersionsMerageEditor(' . $pRoundId . ', ' . $lUrl . ')">'. getstr('pjs.se_editiorial_decision_text') . '</div>
+									<div class="invite_reviewer_btn_right"></div>
+									<div class="P-Clear"></div>
+								</div>
+								' : '<img src="./i/SE_decision_not_allowed.png"></img>') . '
+							</td>
+						</tr>
+					</table>
+				</div>
+			';
+		} else {
+			return '';
+		}
+	}
+	$lRes = '
+		<div class="submission_notes_main_wrapper" style="padding-top:0px">
+			<div class="document_author_holder_rev" style="padding-top:0px">
+				<div class="document_author_holder_content">
+					<div class="document_author_holder_content_no_review_yet">
+						<div class="document_author_holder_content_no_review_yet_top">
+							<table width="100%" cellspacing="0" cellpadding="0">
+								<tbody><tr>
+									<td width="5"><div class="yellow-top-left"></div></td>
+									<td><div class="yellow-top-middle"></div></td>
+									<td width="5"><div class="yellow-top-right"></div></td>
+								</tr>
+							</tbody></table>
+						</div>
+						<div class="document_author_holder_content_no_review_yet_middle">
+							<span class="yellow-green-txt">' . $lMessage . '</span>
+							<table cellpadding="0" cellspacing="0" width="100%" style="padding-top:10px;">
+								<tr>
+									<td align="center">
+										' . ($lShowProceedBtn ? '
+										<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
+											<div class="invite_reviewer_btn_left"></div>
+											<div class="invite_reviewer_btn_middle" onclick="confirmDocumentVersionsMerageEditor(' . $pRoundId . ', ' . $lUrl . ')">'. getstr('pjs.se_editiorial_decision_text') . '</div>
+ 											<div class="invite_reviewer_btn_right"></div>
+											<div class="P-Clear"></div>
+										</div>
+										' : '<img src="./i/SE_decision_not_allowed.png"></img>') . '
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="document_author_holder_content_no_review_yet_bottom">
+							<table width="100%" cellspacing="0" cellpadding="0">
+								<tbody><tr>
+									<td width="5"><div class="yellow-bottom-left"></div></td>
+									<td><div class="yellow-bottom-middle"></div></td>
+									<td width="5"><div class="yellow-bottom-right"></div></td>
+								</tr>
+							</tbody></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	';
+
+	return $lRes;
+}
+/*
+function showSEProceedButton($pUserId, $pDocumentId, $pRoundNumber, $pReviewersCheck, $pDocumentReviewTypeId, $pDocumentReviewDueDate, $pRoundDueDate, $pUserVersionId, $pRole, $pRoundId) {
+	preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+) (\d+):(\d+):(\d+)/', $pRoundDueDate, $lMatch);
+
+	$lNowDate = strtotime(date("Y-m-d H:i:s"));
+	$lRoundDate = strtotime($lMatch[3] . '-' . $lMatch[2] . '-' . $lMatch[1] . ' ' . $lMatch[4] . ':' . $lMatch[5] . ':' . $lMatch[6]);
+	$lMatch = array();
+
+	$lShowProceedBtn = false;
+	$lFlag = 0;
+	if((in_array($pRoundNumber, array(REVIEW_ROUND_ONE, REVIEW_ROUND_TWO))) && $pDocumentReviewTypeId == DOCUMENT_NON_PEER_REVIEW) {
+		$lShowProceedBtn = true;
+		$lMessage = getstr('pjs.showproceedbtnround2_text');
+		$lFlag = 1;
+	}
+
+	if(!(int)$lFlag) {
+		if($pRoundNumber == REVIEW_ROUND_ONE) {
+			$lMessage = getstr('pjs.showproceedbtnround1_text');
+			$lReviewTypeChecks = true;
+			if(in_array($pDocumentReviewTypeId, array(DOCUMENT_COMMUNITY_PEER_REVIEW, DOCUMENT_PUBLIC_PEER_REVIEW))) {
+				preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+) (\d+):(\d+):(\d+)/', $pDocumentReviewDueDate, $lMatch);
+
+				$lDocRoundDate = strtotime($lMatch[3] . '-' . $lMatch[2] . '-' . $lMatch[1] . ' ' . $lMatch[4] . ':' . $lMatch[5] . ':' . $lMatch[6]);
+
+				if($lNowDate < $lDocRoundDate) {
+					$lReviewTypeChecks = false;
+				}
+			}
+
+			if(($lNowDate > $lRoundDate) || ($pReviewersCheck == 'true' && $lReviewTypeChecks)) {
+				$lShowProceedBtn = true;
+			}
+
+		} elseif ($pRoundNumber == REVIEW_ROUND_TWO) {
+			$lMessage = getstr('pjs.showproceedbtnround2_text');
+			if(($lNowDate > $lRoundDate) || ($pReviewersCheck == 'true')) {
+				$lShowProceedBtn = true;
+			}
+		} elseif ($pRoundNumber == REVIEW_ROUND_THREE) {
+				$lMessage = getstr('pjs.showproceedbtnround2_text');
+				$lShowProceedBtn = true;
+		}
+	}
+	$lRes = '
+		<div class="submission_notes_main_wrapper" style="padding-top:0px">
+			<div class="document_author_holder_rev" style="padding-top:0px">
+				<div class="document_author_holder_content">
+					<div class="document_author_holder_content_no_review_yet">
+						<div class="document_author_holder_content_no_review_yet_top">
+							<table width="100%" cellspacing="0" cellpadding="0">
+								<tbody><tr>
+									<td width="5"><div class="yellow-top-left"></div></td>
+									<td><div class="yellow-top-middle"></div></td>
+									<td width="5"><div class="yellow-top-right"></div></td>
+								</tr>
+							</tbody></table>
+						</div>
+						<div class="document_author_holder_content_no_review_yet_middle">
+							<span class="yellow-green-txt">' . $lMessage . '</span>
+							<table cellpadding="0" cellspacing="0" width="100%" style="padding-top:10px;">
+								<tr>
+									<td align="center">
+										' . ($lShowProceedBtn ? '
+										<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
+											<div class="invite_reviewer_btn_left"></div>
+											<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id=' . $pUserVersionId . '&id=' . $pDocumentId . '&view_role=' . $pRole . '&round=' . $pRoundId . '&round_user_id=' . $pUserId . '&duedate=' . $pRoundDueDate . '\')">'. getstr('pjs.se_editiorial_decision_text') . '</div>
+ 											<div class="invite_reviewer_btn_right"></div>
+											<div class="P-Clear"></div>
+										</div>
+										' : '<img src="./i/SE_decision_not_allowed.png"></img>') . '
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="document_author_holder_content_no_review_yet_bottom">
+							<table width="100%" cellspacing="0" cellpadding="0">
+								<tbody><tr>
+									<td width="5"><div class="yellow-bottom-left"></div></td>
+									<td><div class="yellow-bottom-middle"></div></td>
+									<td width="5"><div class="yellow-bottom-right"></div></td>
+								</tr>
+							</tbody></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	';
+
+	return $lRes;
+}
+*/
+function DisplaySETextAboutDedicatedReviewer($pReviewerState, $pReviewerUsrState, $pDecisionId, $PreviewersAssignmentDuedate, $pDesicionName, $pRevUsrDueDate, $pRoundId, $pRoundUserId, $pReviwerId){
+	$lRes = '';
+	if((int)$pDecisionId) {
+		$lRes = getstr('pjs.ready_text') . ': ' . $pDesicionName;
+		return $lRes;
+	}
+	$lDatePicker = '
+		$(function() {
+			$( "#to_date" ).datepicker({
+			showOn: "button",
+			buttonImage: "i/articleCalendar.png",
+			buttonImageOnly: true,
+			dateFormat: \'dd/mm/yy\',
+			onSelect: function(dateStr) {
+			}
+			});
+		}); ';
+	if(((int)$pReviewerUsrState != (int)REVIEWER_REMOVED || $pReviewerState == REVIEWER_CANCELLED_BY_SE_STATE || ((int)$pReviewerUsrState == (int)REVIEWER_REMOVED) && $pReviewerState == REVIEWER_INVITATION_NEW_STATE)) {
+		/* sended invitation (not confirmed)
+		 * */
+
+		preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+) (\d+):(\d+):(\d+)/', $PreviewersAssignmentDuedate, $lMatch);
+
+		$lNowDate = strtotime(date("Y-m-d"));
+		$lRevDate = strtotime($lMatch[3] . '-' . $lMatch[2] . '-' . $lMatch[1]);
+
+		if($lNowDate <= $lRevDate) {
+			$lDueDateFlag = 1;
+			$lSecDiff = $lRevDate - $lNowDate;
+		} else {
+			$lDueDateFlag = 2;
+			$lSecDiff = $lNowDate - $lRevDate;
+		}
+		$lDaysDiff = floor($lSecDiff/3600/24);
+		 switch ((int)$pReviewerState) {
+			case REVIEWER_INVITATION_NEW_STATE:
+				 $lRes = ($lDueDateFlag == 1 ?
+				 	'Request will time out in ' . $lDaysDiff . ' days <img id="duedate_editimg" class="ui-datepicker-trigger cursor"
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_invitation&roundduedate=' . $PreviewersAssignmentDuedate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
+					src="../i/edit.png"></img>
+				 	<!-- <input id="from_date" class="hasDatepicker" type="text" value="" name="from_date">
+
+				 	<script >
+				 		/*$(function() {
+					        $( "#from_date" ).datepicker();
+					    });*/
+
+
+
+						$(function() {
+							$( "#from_date" ).datepicker({
+								showOn: "button",
+								buttonImage: "/i/edit.png",
+								buttonImageOnly: true,
+								dateFormat: \'dd/mm/yy\',
+								onSelect: function(dateStr) {
+									alert(dateStr);
+								}
+							});
+						});
+					</script> -->
+				 	'
+				 		:
+				 	'<span style="color:red">Request is timeout in ' . $lDaysDiff . ' days <img id="duedate_editimg" class="ui-datepicker-trigger cursor" src="../i/edit.png"
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_invitation&roundduedate=' . $PreviewersAssignmentDuedate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
+					></img></span>'
+				 );
+
+				 break;
+			case REVIEWER_CONFIRMED_STATE:
+				if($pRevUsrDueDate) {
+					$lMatch = array();
+					preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+) (\d+):(\d+):(\d+)/', $pRevUsrDueDate, $lMatch);
+
+					$lNowDate = strtotime(date("Y-m-d"));
+					$lRevDate = strtotime($lMatch[3] . '-' . $lMatch[2] . '-' . $lMatch[1]);
+
+					if($lNowDate <= $lRevDate) {
+						$lDueDateFlag = 1;
+						$lSecDiff = $lRevDate - $lNowDate;
+					} else {
+						$lDueDateFlag = 2;
+						$lSecDiff = $lNowDate - $lRevDate;
+					}
+
+					$lDaysDiff = floor($lSecDiff/3600/24);
+				}
+
+				$lRes = ($lDueDateFlag == 1 ? '
+					Review is due in ' . $lDaysDiff . ' days <img id="duedate_editimg" class="ui-datepicker-trigger cursor" src="../i/edit.png"
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $PreviewersAssignmentDuedate . '&roundid=null&rounduserid=' . $pReviwerId . '\', 400, 200)"
+					></img>'
+						:
+					'<span style="color:red">Review is ' . $lDaysDiff . ' days late</span> <img id="duedate_editimg" class="ui-datepicker-trigger cursor" src="../i/edit.png"
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $PreviewersAssignmentDuedate . '&roundid=null&rounduserid=' . $pReviwerId . '\', 400, 200)"
+					></img>'
+				);
+				break;
+			case REVIEWER_CANCELLED_STATE:
+				 $lRes = 'Request declined';
+				 break;
+			case REVIEWER_CANCELLED_BY_SE_STATE:
+				 $lRes = 'Request canceled/timeout';
+				 break;
+			 default:
+				 break;
+		 }
+
+
+
+	} else {
+		 $lRes = 'Request canceled/timeout';
+	}	
+	return $lRes;
+}
+
+
+function DisplaySEActionsAboutDedicatedReviewer(
+	$pInvitationId,
+	$pReviewerState,
+	$pReviewerUsrState,
+	$pDecisionId,
+	$PreviewersAssignmentDuedate,
+	$pReviewerId,
+	$pRoundId,
+	$pDocumentId,
+	$pDocUsrId,
+	$pRoundNumber,
+	$pReviewerVersionId
+){
+	$lRes = '';
+	if((int)$pDecisionId) {
+		$lRes .= '<span class="reviewer_act"><img src="../i/review_ready.png"></img></span>';
+		return $lRes;
+	}
+	if(((int)$pReviewerUsrState != (int)REVIEWER_REMOVED || $pReviewerState == REVIEWER_CANCELLED_BY_SE_STATE || ((int)$pReviewerUsrState == (int)REVIEWER_REMOVED) && $pReviewerState == REVIEWER_INVITATION_NEW_STATE)) {
+		/* sended invitation (not confirmed)
+		 * */
+
+		 switch ((int)$pReviewerState) {
+			case REVIEWER_INVITATION_NEW_STATE:
+				 $lRes .= '
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="ConfirmReviewerInvitation(' . (int)$pDocumentId . ', ' . $pInvitationId . ')"><img src="../i/review_accepted.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int)$pDocumentId . ', ' . $pInvitationId . ', ' . (int)$pReviewerId . ')"><img src="../i/remove_reviewer.png"></img></a></span>
+				';
+				 break;
+			case REVIEWER_CONFIRMED_STATE: // /view_version.php?version_id=1003&id=335&view_role=3&round=2&round_user_id=695!!!!!!!!!!!!!!!!!!!!!!!!!?version_id=1003&id=' . $pDocumentId . '
+				 $lRes .= '
+					<span class="reviewer_act"><a href="javascript:openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')"><img src="../i/reviewing.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int)$pDocumentId . ', ' . $pInvitationId . ', ' . (int)$pReviewerId . ')"><img src="../i/remove_reviewer.png"></img></a></span>
+				';
+
+				$lToday = strtotime(date("d/m/Y"));
+				$lAssignedDate = strtotime($PreviewersAssignmentDuedate);
+				if($lAssignedDate) {
+					if($lAssignedDate < $lToday) {
+						$lRes .= '<span class="reviewer_act"><img src="../i/reviewer_notify.png"></img></span>';
+					}
+				}
+
+				 break;
+			case REVIEWER_CANCELLED_STATE:
+				 $lRes .= '
+				 	<span class="reviewer_act">
+					 	<a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int)$pDocUsrId . ', ' . $pRoundId . ')">
+							<img src="../i/in_review.png"></img>
+						</a>
+					</span>
+				';
+				 break;
+			case REVIEWER_CANCELLED_BY_SE_STATE:
+				 $lRes .= '
+					<span class="reviewer_act">
+						<a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int)$pDocUsrId . ', ' . $pRoundId . ')">
+							<img src="../i/in_review.png"></img>
+						</a>
+					</span>
+				';
+				 break;
+			 default:
+				 break;
+		 }
+
+
+
+	} else {
+		 $lRes .= '<span class="reviewer_act"><a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int)$pDocUsrId . ', ' . $pRoundId . ')"><img src="../i/in_review.png"></img></a></span>';
+	}
+	return $lRes;
+}
+
+
+
+function createHtmlEditorBase($pTextareaId){
+	global $docroot;
+
+	return '<script type="text/javascript">
+		CKEDITOR.config.language = \'en\';
+		var instance = CKEDITOR.instances[\'' . $pTextareaId . '\'];
+		if(instance){
+			instance.destroy(true);
+		}
+		CKEDITOR.replace( "' . $pTextareaId . '",
+		{
+			removePlugins: \'elementspath\',
+		});
+	</script>';
+
+}
+function createHtmlEditor($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $pWidth = 0, $pToolbarName = EDITOR_FULL_TOOLBAR_NAME, $pUseCommonToolbar = 0, $pCommonToolbarHolderId = ''){
+	global $docroot;
+
+	return '<script type="text/javascript">
+		CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
+		CKEDITOR.config.language = \'en\';
+		var instance = CKEDITOR.instances[\'' . $pTextareaId . '_textarea\'];
+		if(instance){
+			instance.destroy(true);
+		}
+
+		$( \'#' . $pTextareaId . '_textarea\' ).ckeditor(function(){
+				fixEditorMaximizeBtn(this);
+			}, {
+			extraPlugins : \'figs,tbls,refs,autosave\',
+			skin : \'office2003\',
+			toolbar : \'' . $pToolbarName . '\',
+			removePlugins: \'elementspath\',
+			height: ' . (int)$pHeight . '
+			' . ($pWidth > 0 ? (', width: ' . (int)$pWidth) : '') .
+			($pUseCommonToolbar ?
+				(',
+				sharedSpaces : {
+					top: \'' . $pCommonToolbarHolderId . '\'
+				}') :
+				''
+			) . '
+
+		});
+
+	</script>';
+
+}
+
+function addSpace($pPos){
+	$lRet = '';
+	$lSpace = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	$lCountSymbols = strlen($pPos)/2;
+	for($i = 1; $i < $lCountSymbols; $i++){
+		$lRet .= $lSpace;
+	}
+	return $lRet;
+}
+
+function getBrowseRowClass($pPos, $pShowMode, $pCurrentRowNum){
+	$lCountSymbols = strlen($pPos);
+	if((int)$pShowMode && (int)$pCurrentRowNum == 1)
+		return ' storyRowTitle ';
+	elseif($lCountSymbols == 2)
+		return ' browseRootRow ';
+	return ' browseRow ';
+}
+
+function parseUrls($txt) {
+    $parsed = '';
+    $lines = preg_split('/<br \/>/', $txt);
+    foreach ($lines as $line) {
+        $parsedLine = '';
+        if ($line) {
+            $words = preg_split('/[\ ]/', $line);
+            foreach ($words as $word) {
+                $w = parseWordUrls($word);
+                $parsedLine .= $w . ' ';
+            }
+        }
+        $parsed .= trim($parsedLine) . '<br />';
+    }
+    return $parsed;
+}
+
+function parseSpecialQuotes($str) {
+    return str_replace(array('&bdquo;', '„', '“', '”', '&laquo;', '&raquo;', '&ldquo;', '&rdquo;'), array('"', '"', '"', '"', '"', '"', '"', '"'), $str);
+}
+
+function parseWordUrls($str) {
+    $delim = '[\(\)\[\]\{\}\<\>\"\'\/\\\\.,;?!]*';
+    $left_delim = $delim;  // = '[\(\[\{\<\"\']*';
+    $right_delim = $delim;  // = '[\)\]\}\>\"\']*';
+    $url_pattern = '/^' . $left_delim . '((http|https|ftp|gopher|news):\/\/|www\.)/';
+    $email_pattern = '/^' . $left_delim . '[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.(?:[A-Za-z]{2}|com|org|net|biz|info|name|aero|jobs|museum)' . $right_delim . '$/';
+
+    if (preg_match($url_pattern, $str)) {
+        $address = preg_replace('/^' . $left_delim . '(http:\/\/)?(www\.)?(.+?)' . $right_delim . '$/', 'http://${2}${3}', $str);
+        $addr_orig = preg_replace('/^' . $left_delim . '(.+?)' . $right_delim . '$/', '${1}${2}', $str);
+        $link = '<a href="' . trim($address) . '" target="_blank" >' . $addr_orig . '</a>';
+        $res = preg_replace('/^(' . $left_delim . ')(.+?)(' . $right_delim . ')$/', '${1}' . $link . '${3}', $str);
+    } elseif (preg_match($email_pattern, $str)) {
+        $address = preg_replace('/^' . $left_delim . '(.+?)' . $right_delim . '$/', '${1}', $str);
+        $link = '<a href="mailto:' . trim($address) . '">' . $address . '</a>';
+        $res = preg_replace('/^(' . $left_delim . ')(.+?)(' . $right_delim . ')$/', '${1}' . $link . '${3}', $str);
+    } else {
+        $res = $str;
+    }
+    return $res;
+}
+
+function hideStoryTitle($pHideTitle){
+	if((int)$pHideTitle){
+		return ' P-Hidden ';
+	}
+	return '';
+}
+
+function showSEAddEvent($pDocumentId, $pId, $pAssignedSEUid, $pJournalId) {
+	if($pAssignedSEUid) {
+		return 'Assigned';
+	} else {
+		return "<a href='javascript:DocumentAddSe($pDocumentId, $pId , $pJournalId);'>Assign</a>";
+	}
+}
+
+function showCEAddEvent($pDocumentId, $pId, $pAssignedCEUid) {
+	if($pAssignedCEUid) {
+		return 'Assigned';
+	} else {
+		return '<a href="#" onclick="DocumentAddCE(' . $pDocumentId . ', ' . $pId . ');">Assign</a>';
+	}
+}
+
+function showLEAddEvent($pDocumentId, $pId, $pAssignedLEUid) {
+	if($pAssignedLEUid) {
+		return 'Assigned';
+	} else {
+		return '<a href="#" onclick="DocumentAddLE(' . $pDocumentId . ', ' . $pId . ');">Assign</a>';
+	}
+}
+
+function checkFilterLetter($pActiveClass, $pLetter) {
+
+	if(strtolower($pLetter) == strtolower($_REQUEST['letter'])) {
+		return $pActiveClass;
+	}
+
+	return '';
+}
+function reviewerIsPanel($pRole_id, $pReviewer_id)
+{
+	if(COMMUNITY_REVIEWER_ROLE == $pRole_id)
+		return '<td align="center"><input type="radio" name="'.$pReviewer_id.'"  value="n"  /></td>
+			    <td align="center">invited</td>';
+	else
+		return '<td align="center"><input type="radio" name="'.$pReviewer_id.'"  value="n"  /></td>
+			    <td align="center"><input type="radio" name="'.$pReviewer_id.'"  value="p" checked="checked" /></td>';
+}
+
+function showInvitationCheckBoxName($pInvited) {
+	if($pInvited) {
+		return 'already_invited[]';
+	} else {
+		return 'nominate[]';
+	}
+}
+
+function showInvitationCheckBoxDisable($pInvited) {
+	if($pInvited) {
+		return 'disabled="disabled" checked="checked"';
+	} else {
+		return '';
+	}
+}
+
+function GetArrayKeyValue($pArray, $pKey){
+	return $pArray[$pKey];
+}
+
+function getPrevIssueBtn($pJournalId, $pIssueId){
+	if((int)$pIssueId){
+		$lRet = '<a href="/browse_journal_issue_documents.php?journal_id=' . $pJournalId . '&amp;issue_id=' . $pIssueId . '">
+					&laquo; Previous
+				</a>';
+	}else{
+		$lRet = '<a href="javascript: void(0);" class="notActive">
+					&laquo; Previous
+				</a>';
+	}
+	return $lRet;
+}
+
+function getNextIssueBtn($pJournalId, $pIssueId){
+	if((int)$pIssueId){
+		$lRet = '<a href="/browse_journal_issue_documents.php?journal_id=' . $pJournalId . '&amp;issue_id=' . $pIssueId . '">
+					Next &raquo;
+				</a>';
+	}else{
+		$lRet = '<a href="javascript: void(0);" class="notActive">
+					Next &raquo;
+				</a>';
+	}
+	return $lRet;
+}
+
+function displayOriginalPic($pPicId){
+	if((int)$pPicId)
+		return '<img src="/showimg.php?filename=oo_' . $pPicId . '.jpg"></img>';
+}
+
+function intThis($pParam){
+	return (int)$pParam;
+}
+
+function getIssueYear($pYear){
+	if((int)$pYear)
+		return '(' . (int)$pYear . ')';
+}
+
+function getChangeStateBtn($pIssueState, $pJournalId, $pIssueId, $pBackIssue, $pIsCurrent){
+	if((int)$pIssueState){
+		if(!$pIsCurrent)
+			return '<a href="/edit_journal_issue.php?journal_id=' . (int)$pJournalId . '&amp;issue_id=' . (int)$pIssueId . '&amp;back_issue=' . (int)$pBackIssue . '&amp;tAction=makecurrent">' . getstr('pjs.make_current') . '</a>';
+	}else{
+		return '<a href="/edit_journal_issue.php?journal_id=' . (int)$pJournalId . '&amp;issue_id=' . (int)$pIssueId . '&amp;back_issue=' . (int)$pBackIssue . '&amp;tAction=changestate">' . getstr('pjs.publish_issue') . '</a>';
+	}
+}
+
+function hideIfFirst($pRowNum){
+	if((int)$pRowNum == 1)
+		return ' P-Hidden ';
+}
+
+function hideIfLast($pRowNum, $pRowsCount ){
+	if((int)$pRowNum == (int)$pRowsCount)
+		return ' P-Hidden ';
+}
+
+function getJournalFeaturesLinks($pJournalId, $pStoryId, $pTitle, $pType){
+	if(!(int)$pType){
+		return '<a class="link" href="/about#' . strip_invalid($pTitle) . '"><span></span><span class="content">' . $pTitle . '</span></a>';
+	}elseif((int)$pType == 1){
+		return '<a class="link" href="/browse_journal_special_issues.php?journal_id=' . (int)$pJournalId . '"><span></span><span class="content">' . getstr($pTitle) . '</span></a>';
+	}
+}
+
+function getIssueEditors($pEditors){
+	if($pEditors){
+		return  getstr('pjs.editors') . ' ' . $pEditors;
+	}
+}
+function getSubjectCategories($pCategories){
+
+	if($pCategories){
+		return '' . getstr('pjs.subject') . ' - ' . $pCategories . '';
+	}
+}
+
+function getTaxonCategories($pCategories){
+	if($pCategories){
+		return '' . getstr('pjs.taxon') . ' - ' . $pCategories . '';
+	}
+}
+
+function getChronoCategories($pCategories){
+	if($pCategories){
+		return '' . getstr('pjs.chronological') . ' - ' . $pCategories . '';
+	}
+}
+
+function getGeoCategories($pCategories){
+	if($pCategories){
+		return '' . getstr('pjs.geographical') . ' - ' . $pCategories . '';
+	}
+}
+
+function showReviewRoundDelimiters($pReviewRound) {
+
+	if($pReviewRound == 1) {
+		return '<div class="document_info_row_border_line"></div>';
+	}
+
+	return '';
+}
+
+function isChecked($pChecked = 0){
+	if((int)$pChecked)
+		return ' checked="checked" ';
+	else
+		return '';
+}
+
+function getUserExpertisesLink($pJournalId, $pUserId, $pIsSe){
+	if((int)$pIsSe)
+		return '<a href="/user_journal_expertises?user_id=' . (int)$pUserId . '&amp;tAction=showedit">' . getstr('pjs.expertises') . '</a>';
+}
+function getSearchSelectItems( $pDocumentId ){
+	$lRet = '';
+
+	if( (int)$pDocumentId ){
+		$lRet .= '
+			<option selected="selected" value="' . SEARCH_IN_ARTICLE . '">current article</option>
+			<option value="2">all articles</option>
+			';
+	}else{
+		$lRet .= '
+			<option selected="selected" value="' . SEARCH_IN_ALL_ARTICLES . '">all articles</option>
+			';
+	}
+
+	return $lRet;
+}
+function getSearchStr( $pSearchStr ){
+	if( $pSearchStr == '' || $pSearchStr == 'search_str' ){
+		return getstr('pwt.defaultSearchLabel');
+	}else
+		return $pSearchStr;
+}
+function showProfilePic() {
+	global $user;
+	if($user->photo_id)
+		return '<img border="0" alt="profile picture" src="/showimg.php?filename=c30x30y_' . (int)$user->photo_id . '.jpg">';
+	return '<img src="./i/user_no_img.png" alt="No image" />';
+}
+function getMatchingIssuesCount($pRecordsCnt){
+	if((int)$pRecordsCnt == 1)
+		return 1 . ' ' . getstr('pjs.issue_matching_your_criteria') . ':';
+	else
+		return '1-' . (int)$pRecordsCnt . ' ' . getstr('pjs.issues_matching_your_criteria') . ':';
+}
+
+function getSpecialIssueTxt($pIsSpecialIssue){
+	if((int)$pIsSpecialIssue)
+		return ': ' . getstr('pjs.special_issue');
+}
+
+function getCategoriesAndCount($pCatNames, $pCatCnt){
+	$lRet = '';
+	if($pCatNames){
+		$lNamesArr = explode(',', $pCatNames);
+		$lCntArr = explode(',', $pCatCnt);
+		for($i = 0; $i < count($lNamesArr); $i++){
+			$lRet .= $lNamesArr[$i] . ' ' . '<span>(' . $lCntArr[$i] . ')</span>, ';
+		}
+		return substr( $lRet, 0, -2);
+	}
+}
+
+function getLastFiveYears($pJournalId, $pSpecial, $pCntYears){
+	$lRet = '';
+	$lYear = (int)date('Y');
+	for($i=0; $i < (int)$pCntYears; $i++){
+		$lRet .= ' <span style="color: #b0ada2;">|</span> ' . '<a href="/browse_journal_issues.php?journal_id=' . (int)$pJournalId . '&year=' . ($lYear - $i) . '&special_issues=' . (int)$pSpecial . '" class="green">' . ($lYear - $i) . '</a>';
+	}
+	return $lRet;
+}
+
+function getLetters($pJournalId, $pAffiliationId){
+	$lRet = '';
+	foreach(range('A', 'Z') as $letter){
+		$lRet .= '
+					<a class="green letter" href="javascript: filterAuthorsLetter(' . $pAffiliationId . ', ' . (int)$pJournalId . ', \'' . $letter . '\')"> ' . $letter . '</a>';
+	}
+	return $lRet;
+}
+
+function showAssignmentSEDueDate($pSEName, $pRoundDueDate, $pDocumentId, $pRoundId, $pRoundUserId) {
+	preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+) (\d+):(\d+):(\d+)/', $pRoundDueDate, $lMatch);
+
+	$lNowDate = strtotime(date("Y-m-d"));
+	$lRoundDate = strtotime($lMatch[3] . '-' . $lMatch[2] . '-' . $lMatch[1]);
+
+	if($lNowDate <= $lRoundDate) {
+		$lDueDateFlag = 1;
+		$lSecDiff = $lRoundDate - $lNowDate;
+	} else {
+		$lDueDateFlag = 2;
+		$lSecDiff = $lNowDate - $lRoundDate;
+	}
+
+	$lDaysDiff = floor($lSecDiff/3600/24);
+
+	if($lDueDateFlag == 1) {
+		return '
+			<div class="document_author_holder_content_no_review_yet">
+				<div class="document_author_holder_content_no_review_yet_top">
+					<table width="100%" cellspacing="0" cellpadding="0">
+						<tbody><tr>
+							<td width="5"><div class="yellow-top-left"></div></td>
+							<td><div class="yellow-top-middle"></div></td>
+							<td width="5"><div class="yellow-top-right"></div></td>
+						</tr>
+					</tbody></table>
+				</div>
+
+				<div class="document_author_holder_content_no_review_yet_middle">
+					<table cellpadding="0" cellspacing="0" width="100%">
+						<colgroup>
+							<col width="25%"></col>
+							<col width="50%"></col>
+							<col width="25%"></col>
+						</colgroup>
+						<tr>
+							<td align="left">
+								<span class="subj_editor_name_class_1">' . $pSEName . '</div>
+							</td>
+								<span class="se_due_date_txt se_due_date_txt_green">Review assignment is due in ' . $lDaysDiff . ' days</span> <img class="pointer" onclick="openPopUp(\'/updateduedate.php?action=reviewers_assignment&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)" src="../i/edit.png" /></img>
+							<td align="center">
+							</td>
+							<td align="right">
+								<a href="view_document.php?id=' . $pDocumentId . '&view_role=3&mode=1">Invite Reviewers</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="document_author_holder_content_no_review_yet_bottom">
+					<table width="100%" cellspacing="0" cellpadding="0">
+						<tbody><tr>
+							<td width="5"><div class="yellow-bottom-left"></div></td>
+							<td><div class="yellow-bottom-middle"></div></td>
+							<td width="5"><div class="yellow-bottom-right"></div></td>
+						</tr>
+					</tbody></table>
+				</div>
+			</div>
+		';
+	} else {
+		return '
+			<div class="document_author_holder_content_no_review_yet document_author_holder_content_no_review_yet2">
+				<div class="document_author_holder_content_no_review_yet_top">
+					<table width="100%" cellspacing="0" cellpadding="0">
+						<tbody><tr>
+							<td width="5"><div class="yellow-top-left"></div></td>
+							<td><div class="yellow-top-middle"></div></td>
+							<td width="5"><div class="yellow-top-right"></div></td>
+						</tr>
+					</tbody></table>
+				</div>
+				<div class="document_author_holder_content_no_review_yet_middle">
+					<table width="100%" cellspacing="0" cellpadding="0">
+						<colgroup>
+							<col width="25%">
+							<col width="50%">
+							<col width="25%">
+						</colgroup>
+						<tbody><tr>
+							<td align="left">
+								<span class="subj_editor_name_class_1">' . $pSEName . '</div>
+							</td>
+							<td align="center">
+								<span class="se_due_date_txt">Review assignment is due in ' . $lDaysDiff . ' days</span> <img src="../i/"> &nbsp;<img class="pointer" onclick="openPopUp(\'/updateduedate.php?action=reviewers_assignment&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)" src="../i/edit.png" src="../i/edit.png"/>
+							</td>
+							<td align="right">
+								<a href="view_document.php?id=' . $pDocumentId . '&view_role=3&mode=1">Invite Reviewers</a>
+							</td>
+						</tr>
+					</tbody></table>
+				</div>
+				<div class="document_author_holder_content_no_review_yet_bottom">
+					<table width="100%" cellspacing="0" cellpadding="0">
+						<tbody><tr>
+							<td width="5"><div class="yellow-bottom-left"></div></td>
+							<td><div class="yellow-bottom-middle"></div></td>
+							<td width="5"><div class="yellow-bottom-right"></div></td>
+						</tr>
+					</tbody></table>
+				</div>
+			</div>
+		';
+	}
+
+}
+
+function showRejectSEButtons($pRoundNumber, $pUserId, $pDocumentId) {
+	if($pRoundNumber == REVIEW_ROUND_ONE) {
+		return '
+			<div class="subm_reject_or_holder">
+				<table cellpadding="0" cellspacing="0" width="100%">
+					<colgroup>
+						<col width="45%"></col>
+						<col width="10%"></col>
+						<col width="45%"></col>
+					</colgroup>
+					<tr>
+						<td><div class="or_line"></div></td>
+						<td align="center"><span class="or_text">OR</span></td>
+						<td><div class="or_line"></div></td>
+					</tr>
+				</table>
+			</div>
+			<div class="subm_reject_reasons_txt">
+				<span class="yellow-green-txt">You can reject this manuscript prior to peer review by explaining your reasoning below:</span>
+			</div>
+			<div class="subm_textarea_holder subm_textarea_holder_E">
+				<div class="subm_textarea_holder_top">
+					<table cellpadding="0" cellspacing="0" width="100%">
+						<tr>
+							<td width="4">
+								<div class="subm_textarea_holder_top_left"></div>
+							</td>
+							<td>
+								<div class="subm_textarea_holder_top_middle"></div>
+							</td>
+							<td width="4">
+								<div class="subm_textarea_holder_top_right"></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="subm_textarea_holder_middle">
+					<textarea onkeyup="ChangeRejectBtn(this, \'btn_rej_1\', \'btn_rej_2\', \'btn_rej_1_active\', \'btn_rej_2_active\')" name="notes_reject" id="ed_notes_reject"></textarea>
+				</div>
+				<div class="subm_textarea_holder">
+					<table cellpadding="0" cellspacing="0" width="100%">
+						<tr>
+							<td width="4">
+								<div class="subm_textarea_holder_top_left subm_textarea_holder_bottom_left"></div>
+							</td>
+							<td>
+								<div class="subm_textarea_holder_top_middle subm_textarea_holder_bottom_middle"></div>
+							</td>
+							<td width="4">
+								<div class="subm_textarea_holder_top_right subm_textarea_holder_bottom_right"></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="document_btn_actions_editor_holder">
+					<table cellpadding="0" cellspacing="0" width=100%>
+						<colgroup>
+							<col width="50%"></col>
+							<col width="50%"></col>
+						</colgroup>
+						<tr>
+							<td align="right">
+								<div id="btn_rej_1_active" class="btn_rej_1_active" style="display:none" onclick="SaveEditorDecision(' . $pUserId . ', ' . ROUND_DECISION_REJECT . ', ' . $pDocumentId . ')">
+									Reject
+								</div>
+								<div id="btn_rej_1"  class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
+									<img src="../i/btn_rej.jpg" />
+								</div>
+							</td>
+							<td align="left">
+								<div id="btn_rej_2_active" class="btn_rej_2_active" style="display:none" onclick="SaveEditorDecision(' . $pUserId . ', ' . ROUND_DECISION_REJECT_BUT_RESUBMISSION . ', ' . $pDocumentId . ')">
+									Reject, but resubmission encouraged
+								</div>
+								<div id="btn_rej_2" class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_sec">
+									<img src="../i/btn_rej_but.jpg" />
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		';
+	}
+
+	return '';
+}
+
+function getUserPictureIfExist($pPreviewPicId){
+	$lRet = '';
+
+	if((int)$pPreviewPicId){
+		$lRet = '<div class="Prof-Photo">
+					<img class="P-Prof-Pic" width="67" height="70" src="/showimg.php?filename=c67x70y_' . (int)$pPreviewPicId . '.jpg" alt="Profile picture" />
+					<div class="P-Clear"></div>
+				</div>';
+	}else {
+		$lRet = '<div class="Prof-Photo">
+					<img src="i/add_photo.png" width="67" height="70" alt="Profile picture" />
+					<div class="P-Clear"></div>
+				</div>';
+	}
+	return $lRet;
+}
+
+function getYourTasksBtn($pShow, $pJournalId){
+	if((int)$pShow){
+		return '<a href="/dashboard.php?view_mode=5&amp;journal_id=' . (int)$pJournalId . '" id="tasks">' . getstr('pjs.your_tasks') . '</a>';
+	}
+}
+
+function checkReviewRoundDate($pRoundDueDate, $pRoundId, $pRoundUserId) {
+	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
+	if($lDueDateArr['flag'] == 2) {
+		return '<span class="red_txt_due_date">Editorial decision is ' . $lDueDateArr['datediff_days'] . ' days late</span>
+					<img id="duedate_editimg" class="ui-datepicker-trigger pointer"
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
+					src="../i/edit.png"></img>';
+	} else {
+		return '<span class="green_txt_due_date">Editorial decision is due in ' . $lDueDateArr['datediff_days'] . ' days</span>
+		<img id="duedate_editimg" class="ui-datepicker-trigger pointer"
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
+					src="../i/edit.png"></img>';
+	}
+
+}
+
+function checkReviewRoundDateLinks($pRoundDueDate, $pUserVersionId, $pRole, $pRoundId, $pDocumentId, $pRoundUserId, $pCurrentRoundId) {
+	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
+	if($lDueDateArr['flag'] == 2) {
+		return '<a href="#">Send reminder</a> | <a href="#">Editorial decision</a>';
+	} else {
+		$lUrl = '/view_version.php?version_id=' . $pUserVersionId . '&id=' . $pDocumentId . '&view_role=' . $pRole . '&round=' . $pRoundId . '&round_user_id=' . $pRoundUserId .'&duedate='.$lDueDateArr["datediff_days"];
+ 		return '<a style="cursor: pointer" onclick="confirmDocumentVersionsMerageEditor(' . $pCurrentRoundId . ', \'' . $lUrl . '\')">Editorial decision</a>';
+ 		//~ return '<a href="javascript:openPopUp(\''. $lUrl .'\');">Editorial decision</a>';
+		//~ return '<a target="_blank" href="/view_version.php?version_id=' . $pUserVersionId . '">Editorial decision</a>';
+	}
+
+}
+
+function returnFormStaticField($pFieldValue){
+	if($pFieldValue) {
+		return $pFieldValue;
+	}
+	return '';
+}
+
+function showViewDocumentActiveSectionTab($pActiveTab, $pTab) {
+	return ((int)$pActiveTab == (int)substr($pTab, 1) ? 'viewdoc_activetab' : '');
+}
+
+function showCoAuthorCheck($pCoAuthor) {
+	if((int)$pCoAuthor) {
+		return '<img src="../i/review_accepted.png" />';
+	}
+	return '';
+}
+
+function showRoundVersionAndInfo($pRoundTypeId, $pVersionNum, $pRoundNumber) {
+	if(in_array($pRoundTypeId, array(R_ROUND_TYPE, LE_ROUND_TYPE, CE_ROUND_TYPE))) {
+		return '
+			<div class="document_author_holder_rev_info_top">
+				<div class="document_author_holder_rev_info_top_left">
+					' . (($pRoundNumber == REVIEW_ROUND_ONE && !in_array($pRoundTypeId, array(LE_ROUND_TYPE, CE_ROUND_TYPE))) ? 'Author\'s original submission' : 'Authors revision') . ' (Version ' . $pVersionNum . ')
+				</div>
+				<div class="document_author_holder_rev_info_top_right">
+					<img src="../i/eye.png">
+					<a href="#">' . ($pRoundTypeId == LE_ROUND_TYPE ? 'Download as PDF' : 'View manuscript') . '</a>
+				</div>
+				<div class="P-Clear"></div>
+			</div>
+		';
+	}
+}
+
+function checkRoundLabelHistory($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateId) {
+	if($pRoundTypeId == LE_ROUND_TYPE) {
+		return 'Proof reading';
+	} else {
+		return showRoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateId);
+	}
+}
+
+function checkSERoundLabel($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateId) {
+	if($pStateId == DOCUMENT_WAITING_AUTHOR_VERSION_AFTER_REVIEW_STATE){
+		return $pRoundName . ' round ' . ($pRoundNumber + 1);
+	} else {
+		return showRoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateId);
+	}
+}
+
+function showSERoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateId, $pAcceptedRoundNum) {
+	if($pStateId == DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE) {
+		return getstr('pjs.round_copy_editing_label');
+	}
+
+	if(in_array($pStateId, array(
+		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_STATE,
+		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE
+	))){
+		return 'Review round ' . $pAcceptedRoundNum;
+	} else {
+		return showRoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateId);
+	}
+}
+
+function showAuthorLELabel($pStateId) {
+	if($pStateId == DOCUMENT_READY_FOR_LAYOUT_STATE) {
+		return getstr('pjs.document_ready_for_layout_label_A_txt');
+	} else {
+		return getstr('pjs.document_in_layout_label_A_txt');
+	}
+}
+
+function showRoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateId) {
+	// check for document state in layout
+
+	if(
+		in_array(
+			(int)$pStateId,
+			array(
+				DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE,
+				DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_STATE,
+				DOCUMENT_READY_FOR_LAYOUT_STATE
+			)
+		)
+	) {
+		return getstr('pjs.layoutround_label');
+	}
+
+	// check for document state in copyediting
+	if(
+		in_array(
+			$pStateId,
+			array(DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE, DOCUMENT_READY_FOR_COPY_REVIEW_STATE)
+		)
+	) {
+		return getstr('pjs.copyeditinground_label');
+	}
+
+	if(!$pRoundTypeId) {
+		return $pRoundName . ' round ' . $pRoundNumber;
+	}
+
+	if($pRoundTypeId == R_ROUND_TYPE) {
+		return $pRoundName . ' round ' . $pRoundNumber;
+	} else {
+		return $pRoundName;
+	}
+}
+
+function showViewersLink($pRoundTypeId) {
+	if($pRoundTypeId == R_ROUND_TYPE) {
+		return '<img src="../i/eye.png"> <a href="#">View reviews</a>';
+	}
+
+	if($pRoundTypeId == CE_ROUND_TYPE) {
+		return '<a href="#">View copyedited version</a>';
+	}
+
+	return '&nbsp;';
+}
+
+function showBorderLine($pHasAbstractkeyworddata) {
+	if((int)$pHasAbstractkeyworddata) {
+		return '<div class="document_info_row_border_line"></div>';
+	}
+	return '';
+}
+function returnFormGetField(){
+	return $_GET['fieldName'];
+}
+function changeMenuStyleToBold($pGrpId, $pRoleId, $pAction){
+	if($pRoleId != 0 || $pAction == "Filter") {
+		return '<script type="text/javascript">
+			$(\'.siderBlockLinksHolder .link\').last().css(\'font-weight\', \'bold\');
+		</script>';
+	} else {
+
+	return '<script type="text/javascript">
+				var lHref = $(\'.siderBlockLinksHolder .link\').attr(\'st\');
+				$(\'.siderBlockLinksHolder .link\').each(function(){
+				if($(this).attr(\'st\') == '.$pGrpId.')
+					$(this).css(\'font-weight\', \'bold\');
+				});
+		</script>';
+	}
+}
+
+function showCurrentVersionAfterCopyEditing($pVersionNumber, $pStateId){
+	if($pStateId == DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE){
+		return 'Copy editor version';
+	} else {
+		return showCurrentVersion($pVersionNumber);
+	}
+}
+
+function showCurrentVersion($pVersionNumber) {
+	if((int)$pVersionNumber == 1) {
+		return getstr('pjs.authorOriginalSubmissionVersionLabel') . ' (Version ' . $pVersionNumber . ')';
+	} else {
+		return getstr('pjs.authorRevisionVersionLabel') . ' (Version ' . $pVersionNumber . ')';
+	}
+}
+function displayErrorIfExist($pError){
+	if ($pError){
+		return '<span class="errstr">' . $pError . '</span>';
+	}
+}
+
+function showViewScriptLabel($pStateId) {
+	if($pStateId == DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE){
+		return 'View copyedited version';
+	} else {
+		return 'View manuscript';
+	}
+}
+
+function checkAReviewRoundDate($pRoundDueDate, $pRoundId, $pRoundUserId) {
+	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
+
+	if($lDueDateArr['flag'] == 2) {
+		return '<span class="red_txt_due_date">Author\'s revised version is ' . $lDueDateArr['datediff_days'] . ' days late</span>
+				<img id="duedate_editimg" class="ui-datepicker-trigger pointer"
+				onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
+				src="../i/edit.png"></img>
+				';
+	} else {
+		return '<span class="green_txt_due_date">Author\'s revised version is due in ' . $lDueDateArr['datediff_days'] . ' days 
+				<img id="duedate_editimg" class="ui-datepicker-trigger pointer"
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
+					src="../i/edit.png"></img>
+		</span>';
+	}
+}
+
+function checkAReviewRoundDateReminder($pRoundDueDate) {
+	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
+
+	if($lDueDateArr['flag'] == 2) {
+		return '<a href="#">Send reminder</a>';
+	} else {
+		return '&nbsp;';
+	}
+
+}
+
+function ShowRoundNameByDocumentState($pStateId) {
+	if(in_array($pStateId, array(
+		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE,
+		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_STATE))
+	) {
+		return getstr('pjs.layoutround_label');
+	}
+
+	if(in_array($pStateId, array(
+		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE))
+	) {
+		return getstr('pjs.copyeditinground_label');
+	}
+
+	return '';
+
+}
+
+function checkEditorLEAssignDueDate($pRoundDueDate) {
+	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
+
+	if($lDueDateArr['flag'] == 2) {
+		return '<span class="red_txt_due_date">Layout editor assignment is ' . $lDueDateArr['datediff_days'] . ' days late</span>';
+	} else {
+		return '<span class="green_txt_due_date">Layout editor assignment is due in ' . $lDueDateArr['datediff_days'] . ' days</span>';
+	}
+
+}
+
+function CheckDueDateDays($pRoundDueDate, $pFormatType = 'days') {
+	$lResArr = array();
+	preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+) (\d+):(\d+):(\d+)/', $pRoundDueDate, $lMatch);
+
+	$lNowDate = strtotime(date("Y-m-d"));
+	$lRoundDate = strtotime($lMatch[3] . '-' . $lMatch[2] . '-' . $lMatch[1]);
+
+	if($lNowDate <= $lRoundDate) {
+		$lResArr['flag'] = 1;
+		$lResArr['datediff_days'] = $lRoundDate - $lNowDate;
+	} else {
+		$lResArr['flag'] = 2;
+		$lResArr['datediff_days'] = $lNowDate - $lRoundDate;
+	}
+
+	switch ($pFormatType) {
+		case 'days':
+			$lResArr['datediff_days'] = floor($lResArr['datediff_days']/3600/24);
+			break;
+		default:
+			break;
+	}
+
+	return $lResArr;
+}
+
+function checkEditorCEAssignDueDate($pRoundDueDate) {
+	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
+
+	if($lDueDateArr['flag'] == 2) {
+		return '<span class="red_txt_due_date">Copyeditor assignment is ' . $lDueDateArr['datediff_days'] . ' days late</span>';
+	} else {
+		return '<span class="green_txt_due_date">Copyeditor assignment is due in ' . $lDueDateArr['datediff_days'] . ' days</span>';
+	}
+
+}
+
+function checkEditorLEDecisionDueDate($pRoundDueDate, $pRoundId, $pRoundUserId) {
+	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
+
+	if($lDueDateArr['flag'] == 2) {
+		return '<span class="red_txt_due_date">First proof is ' . $lDueDateArr['datediff_days'] . ' days late
+		<img id="duedate_editimg" class="pointer" 
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
+					src="../i/edit.png" />
+		</span>';
+	} else {
+		return '<span class="green_txt_due_date">First proof is due in ' . $lDueDateArr['datediff_days'] . ' days
+		<img id="duedate_editimg" class="ui-datepicker-trigger pointer"
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
+					src="../i/edit.png" />
+		</span>';
+	}
+
+}
+
+function showELEDecisionActions($pRoundDueDate, $pDocumentId) {
+	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
+
+	if($lDueDateArr['flag'] == 2) {
+		$lRes .= '<a href="#">Send reminder</a> | ';
+	}
+
+	$lRes .= '<a href="/view_document.php?id=' . $pDocumentId . '&view_role=2&mode=1">Change layout editor</a>';
+	return $lRes;
+}
+
+function checkEditorCEDecisionDueDate($pRoundDueDate, $pRoundId, $pRoundUserId) {
+	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
+
+	if($lDueDateArr['flag'] == 2) {
+		return '<span class="red_txt_due_date">Linguistic editing is ' . $lDueDateArr['datediff_days'] . ' days late
+				<img id="duedate_editimg" class="pointer" 
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
+					src="../i/edit.png" />
+				</span>';
+	} else {
+		return '<span class="green_txt_due_date">Linguistic editing is due in ' . $lDueDateArr['datediff_days'] . ' days
+					<img id="duedate_editimg" class="pointer" 
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
+					src="../i/edit.png" />
+				</span>';
+	}
+
+}
+
+function showECEDecisionActions($pRoundDueDate, $pDocumentId) {
+	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
+
+	if($lDueDateArr['flag'] == 2) {
+		$lRes .= '<a href="#">Send reminder</a> | ';
+	}
+
+	$lRes .= '<a href="/view_document.php?id=' . $pDocumentId . '&view_role=2&mode=1">Change copyeditor</a>';
+	return $lRes;
+}
+function displayGroupNames($pId, $pJournalId, $pTitle){
+	return '
+		<a class="link" href="/browse_journal_groups.php?journal_id=' . $pJournalId . '&amp;grp_id=' . $pId . '">
+			<span></span>
+			<span class="content">' . $pTitle . '</span>
+		</a>
+	';
+}
+function displayGroupName($pGroupTitle, $pSubtitle){
+	$lResult = '';
+
+	if ($pGroupTitle != "grptitle"){
+		$lResult .= '<h1 class="dashboard-title withoutBorder">' . $pGroupTitle . '</h1>';
+		if ($pSubtitle != "grpsubtitle")
+			$lResult .= '<h3 class="dashboard-title withoutBorder groupSubtitle" >&nbsp;' . $pSubtitle . '</h3>';
+
+	} else {
+		$lResult .= '<h1 class="dashboard-title withoutBorder">' . getstr('pjs.subject_editors') . '</h1><h3></h3>';
+	}
+	return $lResult;
+}
+
+function showAgencies($pAgencies) {
+	$lArrAgencies = explode(',', $pAgencies);
+
+	$lRes = '';
+	foreach ($lArrAgencies as $key => $value) {
+		$lRes .= $value . '<br>';
+	}
+
+	return $lRes;
+}
+
+function formatDateDMY($pDate, $pSeparator = '-') {
+	preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+) (\d+):(\d+):(\d+)/', $pDate, $lMatch);
+	$lFormatedDate = $lMatch[1] . $pSeparator . $lMatch[2] . $pSeparator . $lMatch[3];
+
+	return $lFormatedDate;
+}
+
+function getClearDiv($pRowNum){
+	if((int)$pRowNum % 2 == 0)
+		return '
+					<div class="P-Clear"></div>
+				';
+}
+
+function showCopyEditingText($pStateId) {
+	if($pStateId == DOCUMENT_READY_FOR_COPY_REVIEW_STATE) {
+		return 'In Copy editing';
+	} else {
+		return 'Proof is being produced by Copy Editor';
+	}
+}
+function displayFilterBox($pRole){
+	if ($pRole != DEDICATED_REVIEWER_ROLE)
+		return '
+			<div class="box filter">
+				<h3>Filter <a href="JavaScript:void(0);"><img src="/i/filter.png" alt="filter" /></a></h3>
+				<div class="popup">
+					<br />
+					<a href="#" style="border-bottom: 1px solid #E2E2DC; border-top: none;" onclick="openFilterPopUp();">View reviews only from..</a>
+					<div class="filterInput"><input type="checkbox" value="asd" /><div class="block" style="background: #3FAD20;"></div> Subject editor: Pavel Stoev<img src="/i/eye.png" alt="eye" /></div>
+					<div class="filterInput"><input type="checkbox" value="asd" /><div class="block" style="background: #FF8F39;"></div> Nominated reviewer 1<img src="/i/eye.png" alt="eye" /></div>
+					<div class="filterInput"><input type="checkbox" value="asd" /><div class="block" style="background: #31AD8C;"></div> Reviewer 2: Bob Mesibov<img src="/i/eye.png" alt="eye" /></div>
+					<div class="filterInput"><input type="checkbox" value="asd" /><div class="block" style="background: #E370E2;"></div> Panel / Public<img src="/i/eye.png" alt="eye" /></div>
+					<br />
+					<a href="#">Show All reviews</a>
+				</div>
+				<a href="#" onclick="openFilterPopUp(); return false;">
+					View reviews only from..
+				</a>
+			</div>';
+}
+function showExpertises(){
+	return '
+	<script type="text/javascript">
+		//<![CDATA[
+		var lMode = $(\'#role\').val();
+		if(lMode == 3){
+			$(\'#categories_holder\').css(\'display\', \'block\');
+			$(\'#user_roles_checkbox\').css(\'display\', \'none\');
+			$(\'#user_roles_checkbox input\').css(\'display\', \'none\');
+		}
+		//]]>
+	</script>';
+}
+
+function showViewManuscriptLink($pStateId) {
+	if($pStateId == DOCUMENT_IN_LAYOUT_EDITING_STATE) {
+		return '<a href="#">Download as PDF</a>';
+	}
+	return '<a href="#">View manuscript</a>';
+}
+
+/*
+function displaySortArrow($pOper, $pDirection){
+	if((int)$pOper == 1){
+		return '<img src="/i/toparrow.png" alt="vote up" />';
+	}else {
+		return '<img src="/i/bottomarrow.png" alt="vote down" class="vote" />';
+	}
+}
+*/
+function displayFilterCriteria($pIssue, $pYear, $pLetter, $pAffiliation){
+	$lResult = '';
+	if($pYear)
+		$lResult .= '[' . $pYear . ']';
+	if($pIssue)
+		$lResult .= ' AND [Special issues]';
+	if($pLetter)
+		$lResult .= '[' . $pLetter . ']';
+	if($pAffiliation)
+		$lResult .= ' AND [' . $pAffiliation . ']';
+
+	if ($lResult)
+		return '<div class="filterCriteria">' . $lResult . '</div>';
+}
+function displayArticlesFilterCriteria($pTaxon, $pSubject, $pGeographical, $pChronical, $pFromdate, $pToDate, $pSectionType, $pFoundingAgency){
+	$lResult = '';
+	if($pTaxon)
+		$lResult .= '[' . $pTaxon . ']';
+	if($pSubject)
+		$lResult .= '[' . $pSubject . ']';
+	if($pGeographical)
+		$lResult .= '[' . $pGeographical . ']';
+	if($pChronical)
+		$lResult .= '[' . $pChronical . ']';
+	if($pFromdate)
+		$lResult .= '[' . $pFromdate . ' to ' . $pToDate . ']';
+	if($pSectionType)
+		$lResult .= '[' . $pSectionType . ']';
+	if($pFoundingAgency)
+		$lResult .= '[' . $pFoundingAgency . ']';
+	if ($lResult)
+		return '<div class="filterCriteria">' . $lResult . '</div>';
+}
+function htmlformid($pHtmlFormId) {
+	if ($pHtmlFormId != "htmlformid" && trim($pHtmlFormId) != '') {
+		return 'id="' . $pHtmlFormId . '"';
+	}
+	return '';
+}
+
+function showTasksPopUp($pEventIds) {
+	if(is_array($pEventIds) && (int)count($pEventIds)){
+		return '
+			<script>
+				$(document).ready(function() {
+					var eventids = ' . json_encode($pEventIds) . ';
+					LayerEventTasksFrm(\'P-Registration-Content\', eventids);
+				});
+			</script>
+		';
+	}
+	return '';
+}
+
+function convertToJSArray($pEventIds) {
+	return '[' . implode(',', $pEventIds) . ']';
+}
+
+function setRecCheckedAttr($pStateId) {
+	if($pStateId == TASK_DETAIL_SKIP_STATE_ID) {
+		return 'checked="checked"';
+	}
+	return '';
+}
+
+function showEditTaskActionButtons($pStateId) {
+	if($pStateId == TASK_DETAIL_NEW_STATE_ID) {
+		return '
+			<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first" style="float:left;width:155px;">
+				<div class="invite_reviewer_btn_left"></div>
+				<div onclick="PerformTaskAction(\'sendthis\', \'P-Registration-Content\')" class="invite_reviewer_btn_middle" style="width:147px;">Send and Next</div>
+				<div class="invite_reviewer_btn_right"></div>
+				<div class="P-Clear"></div>
+			</div>
+			<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first" style="float:left;width:155px;">
+				<div class="invite_reviewer_btn_left"></div>
+				<div onclick="PerformTaskAction(\'sendall\', \'P-Registration-Content\')" class="invite_reviewer_btn_middle" style="width:147px;">Send all emails</div>
+				<div class="invite_reviewer_btn_right"></div>
+				<div class="P-Clear"></div>
+			</div>
+			<div class="P-Clear"></div>
+		';
+	} else {
+		return '
+			<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first btn_inactive" style="float:left;width:155px;">
+				<div class="invite_reviewer_btn_left"></div>
+				<div class="invite_reviewer_btn_middle" style="width:147px;">Send and Next</div>
+				<div class="invite_reviewer_btn_right"></div>
+				<div class="P-Clear"></div>
+			</div>
+			<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first btn_inactive" style="float:left;width:155px;">
+				<div class="invite_reviewer_btn_left"></div>
+				<div class="invite_reviewer_btn_middle" style="width:147px;">Send all emails</div>
+				<div class="invite_reviewer_btn_right"></div>
+				<div class="P-Clear"></div>
+			</div>
+			<div class="P-Clear"></div>
+		';
+	}
+}
+
+function checkSelectedRecipient($pDetTaskId, $pSelectedDetTaskId) {
+	return ((int)$pDetTaskId == (int)$pSelectedDetTaskId ? 'taskpopup-list-row-holder-selected' : '');
+}
+function returnArrField($pFieldValue){
+	$lRes = str_replace('{', '', $pFieldValue);
+	$lRes = str_replace('}', '', $lRes);
+	$lRes = str_replace('"', ' ', $lRes);
+	return $lRes;
+}
+
+
+/**
+ * Here we will import the css for the versions page
+ * in which we will replace the user ids-
+ * so that the user changes to have style
+ * @param unknown_type $pUserIds an array containing info about all the users that have changes in the currently viewwed version
+ * 		The format of the array is
+ * 			usr_id => usr_name
+ */
+function IncludeVersionCss($pUserIds){
+	if ($pUserIds){
+	$lCss = file_get_contents(VERSION_USR_CSS_PATH);
+		if(!$lCss){
+			return '';
+		}
+		$lUserIdx = 1;
+		foreach ($pUserIds as $lUsrData){
+			$lUsrId = $lUsrData['id'];
+			$lCss = str_replace('$user_' . $lUserIdx . '$', $lUsrId, $lCss);
+			$lUserIdx++;
+		}
+		return $lCss;
+	}
+}
+
+function disableFormFields(){
+		return '<script>
+					$(function(){
+						lPreviewMode = $(\'#previewMode\').val();
+						if (lPreviewMode == 1)
+							$(\'form[name="document_review_form"] :input\').attr(\'disabled\', \'disabled\');
+					});
+				</script>';
+}
+function addSingleDocumentClass($pRole){
+	if ($pRole == DEDICATED_REVIEWER_ROLE)
+		return '<script type="text/javascript">
+					$(function(){
+						$(\'#previewHolder\').addClass(\'singleVersion\');
+					});
+				</script>';
+}
+
+function checkCommunityPublicDueDate($pRoundDueDate) {
+	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
+
+	if($lDueDateArr['flag'] == 2) {
+		return '<span class="red_txt_due_date">Reviews are ' . $lDueDateArr['datediff_days'] . ' days late</span>';
+	} else {
+		return '<span class="green_txt_due_date">Reviews are due in ' . $lDueDateArr['datediff_days'] . ' days</span>';
+	}
+
+}
+
+function showSeparatorReviewers($pFirstName, $pLastName, $pRecords, $pRownum) {
+	if($pRecords != $pRownum) {
+		return $pFirstName . ' ' . $pLastName . ', ';
+	} else {
+		return $pFirstName . ' ' . $pLastName;
+	}
+}
+
+function showHideReviewersText($pHideReviewersText) {
+	if($pHideReviewersText) {
+		return 'style="display:none"';
+	}
+}
+
+function checkManagePaddings($pHideReviewersText) {
+	if($pHideReviewersText) {
+		return 'style="padding-top:0px;"';
+	}
+}
+//~ showAssignmentSEDueDate
+function ChangeDueDate($pOper){
+	if ($pOper == 1)
+		return 'asdas das das da sdas dsadas dasdasd';
+	elseif ($pOper == 2)
+		return 'bababab khgkfkhf hfk hfghkgfhjgfhfhkgfhgfkhgf';
+	elseif ($pOper == 3)
+		return '';
+}
+?>

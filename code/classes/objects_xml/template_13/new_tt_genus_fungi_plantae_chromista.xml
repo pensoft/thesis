@@ -1,0 +1,95 @@
+<treatment>
+	<new_tt_genus_fungi_plantae_chromista>
+	  <taxon_name_genus>
+		<fields>
+		  <genus id="48" field_name="Genus">
+			<value></value>
+		  </genus>
+		  <taxon_authors id="50" field_name="Taxon Author(s)">
+			<value></value>
+		  </taxon_authors>
+		</fields>
+	  </taxon_name_genus>
+	  <external_links />
+	  <type_species_treatment>
+		<fields>
+		  <status id="440" field_name="Status">
+			<value value_id="1">new species described in this paper</value>
+		  </status>
+		  <genus id="441" field_name="Genus">
+			<value></value>
+		  </genus>
+		  <taxon_authors id="443" field_name="Taxon authors">
+			<value></value>
+		  </taxon_authors>
+		  <species id="442" field_name="Species">
+			<value></value>
+		  </species>
+		  <year id="444" field_name="Year">
+			<value></value>
+		  </year>
+		  <basionym_authors id="454" field_name="Basionym author(s)">
+			<value></value>
+		  </basionym_authors>
+		</fields>
+	  </type_species_treatment>
+	  <treatment_sections_genus_plantae>
+		<description>
+		  <fields>
+			<description id="212" field_name="Description">
+			  <value></value>
+			</description>
+		  </fields>
+		</description>
+		<diagnosis>
+		  <fields>
+			<diagnosis id="212" field_name="Diagnosis">
+			  <value></value>
+			</diagnosis>
+		  </fields>
+		</diagnosis>
+		<biology>
+		  <fields>
+			<biology id="212" field_name="Biology">
+			  <value></value>
+			</biology>
+		  </fields>
+		</biology>
+		<etymology>
+		  <fields>
+			<etimology id="212" field_name="Etymology">
+			  <value></value>
+			</etimology>
+		  </fields>
+		</etymology>
+		<ecology>
+		  <fields>
+			<ecology id="212" field_name="Ecology">
+			  <value></value>
+			</ecology>
+		  </fields>
+		</ecology>
+		<distribution>
+		  <fields>
+			<distribution id="212" field_name="Distribution">
+			  <value></value>
+			</distribution>
+		  </fields>
+		</distribution>
+		<notes>
+		  <fields>
+			<notes id="212" field_name="Notes">
+			  <value></value>
+			</notes>
+		  </fields>
+		</notes>
+		<conservation>
+		  <fields>
+			<conservation id="212" field_name="Conservation">
+			  <value></value>
+			</conservation>
+		  </fields>
+		</conservation>
+	  </treatment_sections_genus_plantae>
+	</new_tt_genus_fungi_plantae_chromista>
+</treatment>

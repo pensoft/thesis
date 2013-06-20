@@ -1,0 +1,446 @@
+<material>
+	<extended_darwincore>
+	  <fields>
+		<search_dc_term id="249">
+		  <value/>
+		</search_dc_term>
+		<type_status id="209">
+		  <value value_id="6"></value>
+		</type_status>
+	  </fields>
+	  <ttm_extant_marine_extended_dc>
+		<occurrence>
+		  <fields>
+			<occurrencedetails id="55" field_name="occurrenceDetails">
+			  <value></value>
+			</occurrencedetails>
+			<catalognumber id="54" field_name="catalogNumber">
+			  <value></value>
+			</catalognumber>
+			<occurrenceremarks id="56" field_name="occurrenceRemarks">
+			  <value></value>
+			</occurrenceremarks>
+			<recordnumber id="57" field_name="recordNumber">
+			  <value></value>
+			</recordnumber>
+			<recordedby id="58" field_name="recordedBy">
+			  <value></value>
+			</recordedby>
+			<individualid id="59" field_name="individualID">
+			  <value></value>
+			</individualid>
+			<individualcount id="60" field_name="individualCount">
+			  <value></value>
+			</individualcount>
+			<sex id="61" field_name="sex">
+			  <value></value>
+			</sex>
+			<lifestage id="62" field_name="lifeStage">
+			  <value></value>
+			</lifestage>
+			<reproductivecondition id="63" field_name="reproductiveCondition">
+			  <value></value>
+			</reproductivecondition>
+			<behavior id="64" field_name="behavior">
+			  <value></value>
+			</behavior>
+			<establishmentmeans id="65" field_name="establishmentMeans">
+			  <value></value>
+			</establishmentmeans>
+			<occurrencestatus id="66" field_name="occurrenceStatus">
+			  <value></value>
+			</occurrencestatus>
+			<preparations id="67" field_name="preparations">
+			  <value></value>
+			</preparations>
+			<disposition id="68" field_name="disposition">
+			  <value></value>
+			</disposition>
+			<othercatalognumbers id="69" field_name="otherCatalogNumbers">
+			  <value></value>
+			</othercatalognumbers>
+			<previousidentifications id="70" field_name="previousIdentifications">
+			  <value></value>
+			</previousidentifications>
+			<associatedmedia id="71" field_name="associatedMedia">
+			  <value></value>
+			</associatedmedia>
+			<associatedreferences id="72" field_name="associatedReferences">
+			  <value></value>
+			</associatedreferences>
+			<associatedoccurrences id="73" field_name="associatedOccurrences">
+			  <value></value>
+			</associatedoccurrences>
+			<associatedsequences id="74" field_name="associatedSequences">
+			  <value></value>
+			</associatedsequences>
+		  </fields>
+		</occurrence>
+		<taxon>
+		  <fields>
+			<taxonid id="75" field_name="taxonID">
+			  <value></value>
+			</taxonid>
+			<scientificnameid id="76" field_name="scientificNameID">
+			  <value></value>
+			</scientificnameid>
+			<acceptednameusageid id="77" field_name="acceptedNameUsageID">
+			  <value></value>
+			</acceptednameusageid>
+			<parentnameusageid id="78" field_name="parentNameUsageID">
+			  <value></value>
+			</parentnameusageid>
+			<originalnameusageid id="79" field_name="originalNameUsageID">
+			  <value></value>
+			</originalnameusageid>
+			<nameaccordingtoid id="80" field_name="nameAccordingToID">
+			  <value></value>
+			</nameaccordingtoid>
+			<namepublishedinid id="81" field_name="namePublishedInID">
+			  <value></value>
+			</namepublishedinid>
+			<taxonconceptid id="82" field_name="taxonConceptID">
+			  <value></value>
+			</taxonconceptid>
+			<scientificname id="83" field_name="scientificName">
+			  <value></value>
+			</scientificname>
+			<acceptednameusage id="84" field_name="acceptedNameUsage">
+			  <value></value>
+			</acceptednameusage>
+			<parentnameusage id="85" field_name="parentNameUsage">
+			  <value></value>
+			</parentnameusage>
+			<originalnameusage id="86" field_name="originalNameUsage">
+			  <value></value>
+			</originalnameusage>
+			<nameaccordingto id="87" field_name="nameAccordingTo">
+			  <value></value>
+			</nameaccordingto>
+			<namepublishedin id="88" field_name="namePublishedIn">
+			  <value></value>
+			</namepublishedin>
+			<higherclassification id="89" field_name="higherClassification">
+			  <value></value>
+			</higherclassification>
+			<kingdom id="90" field_name="kingdom">
+			  <value></value>
+			</kingdom>
+			<phylum id="91" field_name="phylum">
+			  <value></value>
+			</phylum>
+			<class id="92" field_name="class">
+			  <value></value>
+			</class>
+			<order id="93" field_name="order">
+			  <value></value>
+			</order>
+			<family id="94" field_name="family">
+			  <value></value>
+			</family>
+			<genus id="95" field_name="genus">
+			  <value></value>
+			</genus>
+			<subgenus id="96" field_name="subgenus">
+			  <value></value>
+			</subgenus>
+			<specificepithet id="97" field_name="specificEpithet">
+			  <value></value>
+			</specificepithet>
+			<infraspecificepithet id="98" field_name="infraspecificEpithet">
+			  <value></value>
+			</infraspecificepithet>
+			<taxonrank id="99" field_name="taxonRank">
+			  <value></value>
+			</taxonrank>
+			<verbatimtaxonrank id="100" field_name="verbatimTaxonRank">
+			  <value></value>
+			</verbatimtaxonrank>
+			<scientificnameauthorship id="101" field_name="scientificNameAuthorship">
+			  <value></value>
+			</scientificnameauthorship>
+			<vernacularname id="102" field_name="vernacularName">
+			  <value></value>
+			</vernacularname>
+			<nomenclaturalcode id="103" field_name="nomenclaturalCode">
+			  <value></value>
+			</nomenclaturalcode>
+			<taxonomicstatus id="104" field_name="taxonomicStatus">
+			  <value></value>
+			</taxonomicstatus>
+			<nomenclaturalstatus id="105" field_name="nomenclaturalStatus">
+			  <value></value>
+			</nomenclaturalstatus>
+			<taxonremarks id="106" field_name="taxonRemarks">
+			  <value></value>
+			</taxonremarks>
+		  </fields>
+		</taxon>
+		<location>
+		  <fields>
+			<locationid id="107" field_name="locationID">
+			  <value></value>
+			</locationid>
+			<highergeographyid id="108" field_name="higherGeographyID">
+			  <value></value>
+			</highergeographyid>
+			<highergeography id="109" field_name="higherGeography">
+			  <value></value>
+			</highergeography>
+			<continent id="110" field_name="continent">
+			  <value></value>
+			</continent>
+			<waterbody id="111" field_name="waterBody">
+			  <value></value>
+			</waterbody>
+			<islandgroup id="112" field_name="islandGroup">
+			  <value></value>
+			</islandgroup>
+			<island id="113" field_name="island">
+			  <value></value>
+			</island>
+			<country id="114" field_name="country">
+			  <value></value>
+			</country>
+			<countrycode id="115" field_name="countryCode">
+			  <value></value>
+			</countrycode>
+			<stateprovince id="116" field_name="stateProvince">
+			  <value></value>
+			</stateprovince>
+			<county id="117" field_name="county">
+			  <value></value>
+			</county>
+			<municipality id="118" field_name="municipality">
+			  <value></value>
+			</municipality>
+			<locality id="119" field_name="locality">
+			  <value></value>
+			</locality>
+			<verbatimlocality id="120" field_name="verbatimLocality">
+			  <value></value>
+			</verbatimlocality>
+			<verbatimelevation id="121" field_name="verbatimElevation">
+			  <value></value>
+			</verbatimelevation>
+			<minimumelevationinmeters id="122" field_name="minimumElevationInMeters">
+			  <value></value>
+			</minimumelevationinmeters>
+			<maximumelevationinmeters id="123" field_name="maximumElevationInMeters">
+			  <value></value>
+			</maximumelevationinmeters>
+			<verbatimdepth id="124" field_name="verbatimDepth">
+			  <value></value>
+			</verbatimdepth>
+			<minimumdepthinmeters id="125" field_name="minimumDepthInMeters">
+			  <value></value>
+			</minimumdepthinmeters>
+			<maximumdepthinmeters id="126" field_name="maximumDepthInMeters">
+			  <value></value>
+			</maximumdepthinmeters>
+			<minimumdistanceabovesurfaceinmeters id="127" field_name="minimumDistanceAboveSurfaceInMeters">
+			  <value></value>
+			</minimumdistanceabovesurfaceinmeters>
+			<maximumdistanceabovesurfaceinmeters id="128" field_name="maximumDistanceAboveSurfaceInMeters">
+			  <value></value>
+			</maximumdistanceabovesurfaceinmeters>
+			<locationaccordingto id="129" field_name="locationAccordingTo">
+			  <value></value>
+			</locationaccordingto>
+			<locationremarks id="130" field_name="locationRemarks">
+			  <value></value>
+			</locationremarks>
+			<verbatimcoordinates id="131" field_name="verbatimCoordinates">
+			  <value></value>
+			</verbatimcoordinates>
+			<verbatimlatitude id="132" field_name="verbatimLatitude">
+			  <value></value>
+			</verbatimlatitude>
+			<verbatimlongitude id="133" field_name="verbatimLongitude">
+			  <value></value>
+			</verbatimlongitude>
+			<verbatimcoordinatesystem id="134" field_name="verbatimCoordinateSystem">
+			  <value></value>
+			</verbatimcoordinatesystem>
+			<verbatimsrs id="135" field_name="verbatimSRS">
+			  <value></value>
+			</verbatimsrs>
+			<decimallatitude id="136" field_name="decimalLatitude">
+			  <value></value>
+			</decimallatitude>
+			<decimallongitude id="137" field_name="decimalLongitude">
+			  <value></value>
+			</decimallongitude>
+			<geodeticdatum id="138" field_name="geodeticDatum">
+			  <value></value>
+			</geodeticdatum>
+			<coordinateuncertaintyinmeters id="139" field_name="coordinateUncertaintyInMeters">
+			  <value></value>
+			</coordinateuncertaintyinmeters>
+			<coordinateprecision id="140" field_name="coordinatePrecision">
+			  <value></value>
+			</coordinateprecision>
+			<pointradiusspatialfit id="141" field_name="pointRadiusSpatialFit">
+			  <value></value>
+			</pointradiusspatialfit>
+			<footprintwkt id="142" field_name="footprintWKT">
+			  <value></value>
+			</footprintwkt>
+			<footprintsrs id="143" field_name="footprintSRS">
+			  <value></value>
+			</footprintsrs>
+			<footprintspatialfit id="144" field_name="footprintSpatialFit">
+			  <value></value>
+			</footprintspatialfit>
+			<georeferencedby id="145" field_name="georeferencedBy">
+			  <value></value>
+			</georeferencedby>
+			<georeferenceprotocol id="146" field_name="georeferenceProtocol">
+			  <value></value>
+			</georeferenceprotocol>
+			<georeferencesources id="147" field_name="georeferenceSources">
+			  <value></value>
+			</georeferencesources>
+			<georeferenceverificationstatus id="148" field_name="georeferenceVerificationStatus">
+			  <value></value>
+			</georeferenceverificationstatus>
+			<georeferenceremarks id="149" field_name="georeferenceRemarks">
+			  <value></value>
+			</georeferenceremarks>
+		  </fields>
+		</location>
+		<identification>
+		  <fields>
+			<identificationid id="150" field_name="identificationID">
+			  <value></value>
+			</identificationid>
+			<identifiedby id="151" field_name="identifiedBy">
+			  <value></value>
+			</identifiedby>
+			<dateidentified id="152" field_name="dateIdentified">
+			  <value></value>
+			</dateidentified>
+			<identificationreferences id="153" field_name="identificationReferences">
+			  <value></value>
+			</identificationreferences>
+			<identificationremarks id="154" field_name="identificationRemarks">
+			  <value></value>
+			</identificationremarks>
+			<identificationqualifier id="155" field_name="identificationQualifier">
+			  <value></value>
+			</identificationqualifier>
+		  </fields>
+		</identification>
+		<event>
+		  <fields>
+			<eventid id="175" field_name="eventID">
+			  <value></value>
+			</eventid>
+			<samplingprotocol id="176" field_name="samplingProtocol">
+			  <value></value>
+			</samplingprotocol>
+			<samplingeffort id="177" field_name="samplingEffort">
+			  <value></value>
+			</samplingeffort>
+			<eventdate id="178" field_name="eventDate">
+			  <value></value>
+			</eventdate>
+			<eventtime id="179" field_name="eventTime">
+			  <value></value>
+			</eventtime>
+			<startdayofyear id="180" field_name="startDayOfYear">
+			  <value></value>
+			</startdayofyear>
+			<enddayofyear id="181" field_name="endDayOfYear">
+			  <value></value>
+			</enddayofyear>
+			<year id="182" field_name="year">
+			  <value></value>
+			</year>
+			<month id="183" field_name="month">
+			  <value></value>
+			</month>
+			<day id="184" field_name="day">
+			  <value></value>
+			</day>
+			<verbatimeventdate id="185" field_name="verbatimEventDate">
+			  <value></value>
+			</verbatimeventdate>
+			<habitat id="186" field_name="habitat">
+			  <value></value>
+			</habitat>
+			<fieldnumber id="187" field_name="fieldNumber">
+			  <value></value>
+			</fieldnumber>
+			<fieldnotes id="188" field_name="fieldNotes">
+			  <value></value>
+			</fieldnotes>
+			<eventremarks id="189" field_name="eventRemarks">
+			  <value></value>
+			</eventremarks>
+		  </fields>
+		</event>
+		<record_level>
+		  <fields>
+			<type id="190" field_name="type">
+			  <value></value>
+			</type>
+			<modified id="191" field_name="modified">
+			  <value></value>
+			</modified>
+			<language id="192" field_name="language">
+			  <value></value>
+			</language>
+			<rights id="193" field_name="rights">
+			  <value></value>
+			</rights>
+			<rightsholder id="194" field_name="rightsHolder">
+			  <value></value>
+			</rightsholder>
+			<accessrights id="195" field_name="accessRights">
+			  <value></value>
+			</accessrights>
+			<bibliographiccitation id="196" field_name="bibliographicCitation">
+			  <value></value>
+			</bibliographiccitation>
+			<institutionid id="197" field_name="institutionID">
+			  <value></value>
+			</institutionid>
+			<collectionid id="198" field_name="collectionID">
+			  <value></value>
+			</collectionid>
+			<datasetid id="199" field_name="datasetID">
+			  <value></value>
+			</datasetid>
+			<institutioncode id="200" field_name="institutionCode">
+			  <value></value>
+			</institutioncode>
+			<collectioncode id="201" field_name="collectionCode">
+			  <value></value>
+			</collectioncode>
+			<datasetname id="202" field_name="datasetName">
+			  <value></value>
+			</datasetname>
+			<ownerinstitutioncode id="203" field_name="ownerInstitutionCode">
+			  <value></value>
+			</ownerinstitutioncode>
+			<basisofrecord id="204" field_name="basisOfRecord">
+			  <value></value>
+			</basisofrecord>
+			<informationwithheld id="205" field_name="informationWithheld">
+			  <value></value>
+			</informationwithheld>
+			<datageneralizations id="206" field_name="dataGeneralizations">
+			  <value></value>
+			</datageneralizations>
+			<dynamicproperties id="207" field_name="dynamicProperties">
+			  <value></value>
+			</dynamicproperties>
+			<source id="208" field_name="source">
+			  <value></value>
+			</source>
+		  </fields>
+		</record_level>
+	  </ttm_extant_marine_extended_dc>
+	</extended_darwincore>
+</material>

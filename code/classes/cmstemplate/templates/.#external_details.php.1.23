@@ -1,0 +1,384 @@
+<?php
+
+$gTemplArr = array(
+	'external_details.leftcol' => '
+		<div class="leftcol">
+			<a class="logoLink" href="/resources/articles/external_details.php?type=1&query={taxon_name}"><img class="noBorder" alt="logo" src="/img/ext_details/logo.jpg"></img></a>
+			{general_menu}
+			{taxonomy_menu}
+			{sequences_menu}
+			{images_menu}
+			{literature_menu}
+			<div class="leftMenuLabel">
+				Disclaimer
+			</div>
+			<div class="leftMenu disclaimerText">
+				Some of the searched sites, particularly taxon-oriented databases, do not provide either "AND" or "Exact phrase" 
+				search functions, or Application Programming Interface (API). This may lead to the listing of various homonyms, e.g., the taxon profile of spruce 
+				(<span class="taxonName">Picea abies</span>) will also display the chilopod species <span class="taxonName">Lithobius obesus</span> picea Matic, 1957 
+				in <a href="http://chilobase.bio.unipd.it/" target="_blank">Chilobase</a> and the fly <span class="taxonName">Tachina picea</span> Walker, 1853: 293 
+				in <a href="http://diptera.org" target="_blank">diptera.org</a>.			
+			</div>
+		</div>
+	',
+	
+	'external_details.leftLinksMenuStart' => '
+		<div class="leftMenuLabel">
+			{label}
+		</div>
+		<div class="leftMenu">
+	',
+	
+	'external_details.leftLinksMenuEnd' => '
+		</div>
+	',
+	
+	'external_details.leftLinksMenuRow' => '
+			<div class="leftMenuRowHolder {_showLinksMenuLastRowClass(records, rownum, lastLeftMenuRowHolder)}">
+				<table cellspacing="0" cellpadding="0" border="0" width="100%" height="100%">
+					<td class="leftMenuRowImage"><a href="{_ParseTaxonExternalLink(taxon_name, href, 0, postform)}">{_showImageIfSrcExists(picsrc)}</a></td>
+					<td class="leftMenuRowLink"><a href="{_ParseTaxonExternalLink(taxon_name, href, 0, postform)}">{title}</a></td>
+				</table>
+			</div>
+	',
+	
+	'external_details.topMenu' => '
+		<div class="topMenu" >
+			<table width="100%" height="100%" cellpadding="0" cellspacing="0" class="topMenuTable" style="visibility:hidden">
+				<tr>
+					<td>
+						<a href="#">Home</a>
+					</td>
+					<td>
+						<a href="#">About Pensoft</a>
+					</td>
+					<td>
+						<a href="#">Books</a>
+					</td>
+					<td>
+						<a href="#">e-Books</a>
+					</td>
+					<td class="activeMenuItem">
+						<a href="#">Journals</a>
+					</td>
+					<td>
+						<a href="#">Register/Log in</a>
+					</td>
+					<td>
+						<a href="#">E-mail Alert</a>
+					</td>
+					<td>
+						<a href="#">News</a>
+					</td>
+				</tr>
+			</table>
+		</div><!-- End of Top Menu -->
+	',
+
+	'external_details.RightColNoData' => '
+		<div class="rightColNoData"><img src="/img/ext_details/profile_nodata.jpg"></img></div>
+	',
+
+	'external_details.rightcol' => '
+		<div class="rightcol">
+			<div class="head">
+				{topmenu}
+				<div class="lLeftConthead">
+					<h1 class="mainTitle">
+						<span id="taxonName" style="white-space:nowrap;">{taxon_name}</span>
+					</h1>
+				</div>
+				<div class="searchfrm">
+					<form action="/resources/articles/external_details.php" method="get">
+						<div class="searchtxt">
+							Create your own taxon profile
+						</div>
+						<div class="srchInput">
+							<div class="leftsrchinp"></div>
+							<div class="mainsrchinp">
+								<input id="query" type="text" onfocus="rldContent(\'query\', \'Type taxon name here\');" onblur="rldContent2(\'query\', \'Type taxon name here\');" name="query" value="Type taxon name here"></input>
+							</div>
+							<div class="rightsrchinp"></div>
+							<div class="unfloat"></div>
+						</div>
+						<input type="submit" class="srchsmbbut" value="search"></input>
+						<div class="unfloat"></div>
+					</form>
+				</div>
+				<div class="unfloat"></div>
+			</div>
+			<div class="mainContent">
+				{profile_nodata}
+				{map}
+				{ncbiinfo}
+				{images}
+				{bhl}
+			</div>			
+		</div>
+		<div class="unfloat"></div>
+		<script>
+			autoReduceText(270, 24);
+		</script>
+	',
+	
+	'external_details.mapHead' => '
+		<div class="contentSection generalInfoSection">
+			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<td class="labelImg"> <a href="{_ParseTaxonExternalLink(taxon_name, gbif_link, postform)}"><img class="noBorder" src="/img/ext_details/gbif_logo.jpg"></img></a></td>
+					<td><h2 class="labelTitle">Global Biodiversity Information Facility</h2></td>
+				</tr>
+			</table>
+			<div class="sectionBody">				
+	',
+	
+	'external_details.mapFoot' => '		
+				<div class="gbifLink">Click <a href="{_ParseTaxonExternalLink(taxon_name, gbif_link, postform)}">here</a> to go to the GBIF search results for this taxon</div>
+			</div>
+		</div>
+	',
+	
+	'external_details.mapRow' => '		
+			{result}			
+	',
+	
+	'external_details.mapNoData' => '',
+	
+	'external_details.linksStart' => '
+		<div class="contentSection geneSequenceSection">
+			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<td class="labelImg"><img class="noBorder" src="/img/ext_details/ncbi_logo.jpg"></img></td>
+					<td><h2 class="labelTitle">Gene Sequences and PubMed Links</h2></td>
+				</tr>
+			</table>
+			<div class="sectionBody">
+	',
+	
+	'external_details.linksEnd' => '		
+			</div>
+		</div>
+	',
+	
+	'external_details.linksRow' => '		
+			{result}
+	',
+	
+	'external_details.imagesStart' => '		
+		<div class="contentSection imagesSection">
+			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<td class="labelImg"><a href="{_ParseTaxonExternalLink(taxon_name, wikimedia_link)}"><img class="noBorder" src="/img/ext_details/wikimedia_logo.jpg"></img></a></td>
+					<td><h2 class="labelTitle">Images from Wikimedia</h2></td>
+				</tr>
+			</table>
+			<div class="sectionBody">
+	',
+	
+	'external_details.imagesEnd' => '	
+				<div class="unfloat"></div>
+			</div>
+		</div>
+	',
+	
+	'external_details.imagesRow' => '		
+			<div class="imageRow">
+				<a href="{_ParseTaxonExternalLink(taxon_name, url)}"><img src="{url}" class="noBorder" alt="{title}"></img></a>
+			</div>
+			{_putUnfloat(rownum, itemsonrow)}
+	',
+	
+	'external_details.ncbiStart' => '		
+		<div class="contentSection imagesSection">
+			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<td class="labelImg"><a href="{_ParseTaxonExternalLink(taxon_name, ncbi_link)}"><img class="noBorder" src="/img/ext_details/ncbi_logo.jpg"></img></a></td>
+					<td><h2 class="labelTitle">Gene Sequences and PubMed links </h2></td>
+				</tr>
+			</table>
+			<div class="sectionBody">
+	',
+	
+	'external_details.ncbiEnd' => '	
+				<div class="unfloat"></div>
+			</div>
+		</div>
+	',
+	
+	'external_details.ncbiRow' => '
+			<div class="ncbiDetails">
+				<div class="ncbiDetail"><span class="label">Inherited blast name:</span> {division}</div>
+				<div class="ncbiDetail"><span class="label">Rank:</span> {rank}</div>
+				{lineage_object}
+			</div>
+			<div class="ncbiEntrezRecords">
+				{entrez_records}
+			</div>
+			<div class="unfloat"></div>
+			<div class="pubMedLinks">{pubmed_links}</div>			
+			<div class="ncbiDisclaimer">
+				Disclaimer: The NCBI taxonomy database is not an authoritative source for nomenclature or classification - please consult the relevant scientific literature for the most reliable information.
+			</div>
+
+	',
+	
+	'external_details.ncbiLineageStart' => '
+		<div class="ncbiDetail">
+			<div class="label">Lineage:</div><br/>
+	',
+	
+	'external_details.ncbiLineageRow' => '
+			<span class="ncbiLineageRow"><a href="{_ParseTaxonExternalLink(taxon_name, taxon_lineage_href)}">{scientific_name}</a>{_putColumnExceptOnLastRow(rownum, records)}</span>
+	',
+	
+	'external_details.ncbiLineageEnd' => '
+		</div>
+	',
+	
+	'external_details.entrezRecordsStart' => '		
+		<div class="entrezRecordsHolder">
+			<table class="entrezRecordsTable">
+				<tr>
+					<th colspan="2">Entrez records</th>
+				</tr>
+				<tr>
+					<th>Database name</th>
+					<th>Subtree links</th>
+				</tr>		
+	',
+	
+	'external_details.entrezRecordsEnd' => '	
+			</table>
+		</div>
+	',
+	
+	'external_details.entrezRecordsRow' => '		
+			<tr>
+				<td class="entrezDbName">{menuname}</td>
+				<td class="entrezSubtreeLink">{_ShowEntrezRecordsDbSubtreeLink(taxon_name, taxon_id, dbname, count)}</td>
+			</tr>
+
+	',
+	
+	'external_details.extLinkMenuStart' => '
+		<div class="barImages">
+	',
+	
+	'external_details.extLinkMenuEnd' => '
+		</div>
+	',
+	
+	'external_details.extLinkMenuRow' => '
+			<div class="barIcon">
+				<a href="{_ParseTaxonExternalLink(taxon_name, href, 0, postform)}">{_showImageIfSrcExists(picsrc)}</a>
+			</div>
+	',
+	
+	'external_details.extLinkRow' => '
+		<div class="wrapper" id="wrapper">
+			<div class="leftcol">
+				<a class="logoLink" href="/resources/articles/external_details.php?type=1&query={taxon_name}"><img class="noBorder" alt="logo" src="/img/ext_details/logo.jpg"></img></a>
+			</div>
+			<div class="rightcol">
+				<div class="head">
+					{topmenu}
+					<div class="bar">
+						<h1 class="mainTitle">
+							<a href="/resources/articles/external_details.php?query={taxon_name}&type=' . (int) TAXON_NAME_SEARCH_TYPE . '"><span id="taxonName" style="white-space:nowrap;">{taxon_name}</span></a>
+						</h1>
+						<div class="lLinks">
+							<div>
+								<a href="/resources/articles/external_details.php?type=1&query={taxon_name}">Back to taxon profile</a></span>
+							</div>
+							<div class="unfloat"></div>
+						</div>
+						{general_menu}
+					</div>
+				</div>				
+			</div>
+			<div class="unfloat"></div>
+		</div>
+		{_getLinkIframe(url, postform)}
+		<script>
+			autoReduceText(270, 24);
+		</script>
+		<script>
+			$(document).ready(function(){
+				resizeIframe();
+		   
+			});
+
+			$(window).resize(function() {
+				resizeIframe();
+			});
+
+			function resizeIframe() {
+				var lIframeHeight = $(window).height() - ($("#wrapper").height());				
+				$("#ext_link_iframe").height(lIframeHeight);				
+				return false;
+			}
+
+		</script>
+		
+	',
+	
+	'external_details.extLinksStart' => '
+		<div class="extLinksHolder">
+			<div class="extLinksTitle">Related links found in database {database_title}</div>
+	',
+	
+	'external_details.extLinksEnd' => '
+			<div class="extLinksSeeAll">To get a complete list click <a href="{_ParseTaxonExternalLink(taxon_name, see_all_link)}">here</a>.</div>
+		</div>
+	',
+	
+	'external_details.extLinksRow' => '
+			<div class="extLinkRow">
+				<a href="{_ParseTaxonExternalLink(taxon_name, link)}" title="{title}">{_CutText(title, 100)}</a>
+			</div>
+	',
+	
+	'external_details.googleMap' => '
+		<body style="margin:0px; padding:0px;" onload=\'initialize("{coordinates}")\'>
+		  <div id="map_canvas" style="width:100%; height:100%"></div>
+		</body>
+	',
+	
+	
+	'external_details.bhlStart' => '
+		<div class="contentSection generalInfoSection">
+			<table class="contentSectionLabel" cellspacing="0" cellpadding="4" border="0">
+				<tr>
+					<td class="labelImg"> <a href="{_ParseTaxonExternalLink(taxon_name, extlink)}"><img class="noBorder" src="/img/ext_details/bhl.jpg"></img></a></td>
+					<td><h2 class="labelTitle">Biodiversity Heritage Library</h2></td>
+				</tr>
+			</table>
+			<div class="sectionBody">	
+				<p><a href="{_ParseTaxonExternalLink(taxon_name, FullSizeImageUrl)}"><img border="0" align="right" src="{ThumbnailUrl}"></img></a>
+				<div class="BHLDetails_head">
+					<div class="BHLDetail"><span class="label">Bibliography for <span class="ncbiLineageRow"><a href="">{taxon_name}</a></span></span></div>
+					<span class="bhl_pageslink"><a href="{_ParseTaxonExternalLink(taxon_name, extlink)}">{numpages}</a></span> pages found in <span class="bhl_pageslink"><a href="{_ParseTaxonExternalLink(taxon_name, extlink)}">{numtitles}</a></span> titles
+				</div>
+		<br>
+	',
+	
+	'external_details.bhlEnd' => '
+		<div class="unfloat"></div>
+		<p>To get a complete list click <a href="{_ParseTaxonExternalLink(taxon_name, extlink)}">here</a></p>
+			</div>
+		</div>
+	',
+	
+	'external_details.bhl_title_row' => '		
+		<div class="BHLDetails"><span class="bhl_title">{title} ({pgcount})</span>
+		<br>{items_pages}
+		</div>
+	',
+	'external_details.bhl_volume' => '
+		<span>{_bhl_showvolume(volume)}</span>
+	',
+	'external_details.bhl_page' => '
+		<span class="bhl_pageslink"><a href="{_ParseTaxonExternalLink(taxon_name, pgurl)}">{pg}</a>{_bhl_writecomma(pgcount, pgcounter)}</span>
+	',
+);
+?>

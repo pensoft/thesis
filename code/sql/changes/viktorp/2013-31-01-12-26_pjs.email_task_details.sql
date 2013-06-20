@@ -1,0 +1,1 @@
+ALTER TABLE pjs.email_task_details ADD COLUMN createdate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP;

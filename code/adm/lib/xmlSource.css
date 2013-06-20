@@ -1,0 +1,21 @@
+.nodeName{
+	font-weight:bold;
+	color:#800080;
+}
+
+.attributeName {
+	color:black;
+	font-weight:bold;
+}
+
+.attributeValue{
+	color:blue;
+}
+
+a{
+	cursor:pointer;
+}
+
+.nodeContent{
+	border-left:thin solid #00FF66;
+}

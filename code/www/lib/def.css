@@ -1,0 +1,54 @@
+/* za calendar-a */
+#calidfrm {
+	position: absolute;
+	display: none;
+	width: 150px;
+	height: 200px;
+}
+
+#calid {
+	position: absolute;
+	display: none;
+	background-color: #f8f8f8;
+	border: 1px solid Black;
+	width: 150px;
+	height: 100px;
+	padding: 3px;
+}
+.cal td {
+	font-size : 11px;
+	font-family : Arial, Helvetica, sans-serif;
+	background-color: #f0f0f0;
+	cursor: pointer;
+	cursor: hand;
+}
+.cal th {
+	font-size : 11px;
+	font-family : Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	background-color: #e0e0e0;
+}
+.cal a {
+	font-family : Arial, Helvetica, sans-serif ;
+	text-decoration: none;
+	color: Black;
+	font-size: 11px;
+}
+.cal a:hover {
+	font-family : Arial, Helvetica, sans-serif ;
+	text-decoration: none;
+	color: #990000;
+	font-size: 11px;
+}
+
+#btmenu { position: relative; height: 34px; width: 100%;  z-index: 120; }
+#btmenu ul { position: absolute; right: 12px; top: 2px; margin: 0; padding: 0; list-style: none; font: normal 12px Arial, Helvetica, sans-serif; }
+#btmenu ul li { margin: 0; padding: 0; float: left; }
+#btmenu ul li a { display: block; _display: inline; padding: 7px 15px; color: #3056e3; text-decoration: none; margin-left: 1px; margin-right: 1px; _height: 20px; }
+#btmenu ul li a:hover { background-color: #3056e3; border: 1px solid #3056e3; color: white; margin: 0; }
+
+#btmenu ul li ul { visibility: hidden; position: absolute; background: white; top: 28px; border: 1px solid #3056e3; padding: 1px; right: auto; z-index: 120; width: 220px; }
+#btmenu ul li:hover ul, #btmenu ul li.over ul { visibility: visible; }
+#btmenu ul li ul li { float: none; _display: inline; width: 220px; padding: 1px; }
+#btmenu ul li ul li a { display: block; color: #666; -moz-box-sizing: border-box; padding: 4px 10px; margin: 1px; _height: 20px; }
+#btmenu ul li ul li a:hover { background-color: #3056e3; border: 1px solid #3056e3; margin: 0; _padding: 3px 9px 4px 10px; }

@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * A base controller class.
+ * All other controller class should extend (directly or not) this class.
+ *
+ * Every controller should at most communicate with the model and the view.
+ * No direct db communication is allowed - this communication should be implemented by the model.
+ * @author peterg
+ *
+ */
+class Story_Controller extend Base_Controller{
+	/**
+	 * In this hash we will keep references to all the models
+	 * the controller uses.
+	 *
+	 * @var hash
+	 */
+	var $m_models;
+	var $m_globalObjects;
+
+	function __construct(){
+	
+		lStoryData = story_model->GetStory(122);
+		lForumData = forummoder->getForumData(122);
+		
+		$this->m_pageView = new StoryView(array(
+			common_objects(),
+			'story_list' => array(
+				'ctype' => 'listdisplay',
+				'model_data' => lStoryData,
+			),
+			
+		
+		));
+		$this->m_models = array();
+		$this->m_globalObjects = array();
+	}
+	
+	function Display(){
+		$this->m_pageView->Display();
+	}
+}
+
+
+?>

@@ -1,0 +1,379 @@
+a img {
+  border: none;
+}
+
+* html {
+  font-size: 75%;
+}
+
+html {
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.P-Article-Preview {
+  width: 60em;
+  font-family: Tahoma;
+  text-align: justify;
+  margin: auto;
+}
+
+.dcLabel {
+  color: gray;
+}
+
+.tables {
+  display: table;
+}
+
+.subsection {
+  font-weight: bold;
+  font-size: 1.16667em;
+  line-height: 1.28571em;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+body {
+  margin: 0;
+}
+
+.P-Article-Preview-Base-Info-Block {
+  margin-top: 10px;
+  margin-bottom: 25px;
+  border: 1px solid #e2e2dc;
+  background: #fafaf8;
+  padding: 5px 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+.P-Article-Preview-Base-Info-Block .P-Article-Info-Block-Row {
+  padding: 5px 0px;
+  color: #535353;
+  font-size: 10px;
+}
+
+p {
+  font-size: 1em;
+  line-height: 1.5em;
+  margin-top: 0em;
+}
+
+a {
+  color: #0052cc;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.P-Article-Preview-Antet {
+  font-size: 10px;
+  color: #727272;
+}
+
+.P-Article-Preview-Title {
+  font-size: 1.83333em;
+  line-height: 1.63636em;
+  line-height: 1.63636em;
+  margin-top: 0em;
+  color: #1f1f1f;
+  font-weight: bold;
+  text-align: left;
+}
+.P-Article-Preview-Title p {
+  margin: 0;
+}
+
+.P-Article-Preview-Names {
+  margin-top: 1.5em;
+}
+.P-Article-Preview-Names a {
+  font-size: 12px;
+  color: #0052cc;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+.P-Article-Preview-Addresses {
+  margin-top: 5px;
+  font-size: 11px;
+}
+
+.P-Article-Preview-Block-Title, h1 {
+  font-size: 1.5em;
+  line-height: 2em;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+  color: #111111;
+  font-weight: bold;
+  margin-top: 24px;
+}
+
+h2 {
+  font-size: 1.33333em;
+  line-height: 2.25em;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.h-treatment {
+  font-size: 1.16667em;
+  line-height: 1.28571em;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+h1 + .P-Article-Preview-Block > h2,
+h2 + .P-Article-Preview-Block-Content > .P-Article-Preview-Block-Content > h3 {
+  margin-top: 0em;
+}
+
+.h-treatment-section {
+  font-weight: bold;
+  font-size: 1em;
+  line-height: 1.5em;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.materials {
+  text-align: left;
+  margin-top: 0;
+}
+
+.P-Article-Preview-Picture-Zoom-Small {
+  background: url('/i/zoom_icon_small.png');
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0;
+  right: -35px;
+  cursor: pointer;
+  display: block;
+}
+
+.Plate-part-letter {
+  position: absolute;
+  right: -35px;
+  top: 35px;
+  background: #7f7f7f;
+  color: white;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 14px;
+  line-height: 2.1em;
+}
+
+.figure {
+  margin: 10px 0 20px 0;
+}
+.figure .holder {
+  margin-top: 20px;
+  border: 1px solid #e2e2dc;
+  position: relative;
+  padding: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  display: table;
+}
+.figure img {
+  max-width: 663px;
+  max-height: 400px;
+}
+.figure .singlePlatePhoto {
+  max-width: 663px;
+  min-height: 70px;
+}
+.figure .plate2column {
+  width: 50%;
+  float: left;
+}
+.figure .plate2column .singlePlatePhoto {
+  display: table;
+  width: 296px;
+  height: 296px;
+}
+.figure .plate2column .singlePlatePhoto a {
+  display: table-cell;
+  vertical-align: middle;
+}
+.figure .plate2column .singlePlatePhoto img {
+  max-width: 296px;
+  max-height: 296px;
+}
+.figure .singlePlatePhoto {
+  margin-top: 10px;
+  border: 1px solid #e2e2dc;
+  position: relative;
+  padding: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+}
+.figure .description {
+  border-top-left-radius: 0;
+  margin-top: -4px;
+}
+
+.description {
+  border: 1px solid #e2e2dc;
+  position: relative;
+  padding: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  background: #fafaf8;
+  z-index: 2;
+}
+.description .name {
+  font-weight: bold;
+}
+
+.table {
+  margin: 10px 0;
+}
+.table .description {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.P-Article-Preview-Table-Row {
+  padding: 6px;
+  border: 1px solid #e2e2dc;
+}
+
+.Table-Body {
+  padding: 0px;
+}
+.Table-Body table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+}
+.Table-Body table td, .Table-Body table th {
+  border: 1px solid #e2e2dc;
+  padding: 6px;
+  text-align: left;
+}
+
+.myfieldHolder {
+  clear: both;
+  margin-bottom: 10px;
+}
+
+.fieldValue p:first {
+  display: inline;
+}
+
+.fieldLabel {
+  float: left;
+  color: #404040;
+  font-weight: bold;
+}
+.fieldLabel.no-float {
+  float: none;
+}
+
+.Identification_Key_Title {
+  font-size: 1.16667em;
+  line-height: 1.28571em;
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+  font-weight: bold;
+  text-align: left;
+}
+
+.KeyNotes {
+  text-align: justify;
+}
+
+.Supplemantary-File-Title {
+  font-size: 1.16667em;
+  line-height: 1.28571em;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+  font-weight: bold;
+  text-align: left;
+}
+
+.Supplemantary-File-Section-Label {
+  font-weight: bold;
+}
+
+.Supplemantary-P-Inline p {
+  display: inline;
+}
+
+.P-Preview-Comment.Active-Comment-Text {
+  background: none repeat scroll 0 0 #fdf5e3;
+}
+
+.P-References-Citation-Holder, .P-Figure-Citation-Holder, .P-Tables-Citation-Holder, .P-SupFiles-Citation-Holder {
+  background-color: #dddddd;
+}
+
+.references {
+  text-align: left;
+  padding-left: 20px;
+}
+.references li {
+  margin-bottom: 4px;
+}
+
+.P-Article-Preview-Table-Header {
+  padding: 6px;
+  border: 1px solid #e2e2dc;
+  background: #fafaf8;
+}
+
+.identification-key {
+  margin-bottom: 20px;
+}
+
+td, th {
+  text-align: left;
+}
+td p, th p {
+  margin: 0;
+}
+
+.DataSetHolder {
+	padding-left: 20px;
+}
+
+.DataSetColumnsHolder {
+	padding-left: 20px;
+}

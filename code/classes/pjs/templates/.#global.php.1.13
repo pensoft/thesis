@@ -1,0 +1,1474 @@
+<?php
+
+// @formatter->off
+$gTemplArr = array(
+	'global.empty' => '',
+
+	'global.htmlonlyheader' => '
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="bg" lang="bg">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<title>{pagetitle}</title>
+		<meta name="description" content="{description}" />
+		<meta name="keywords" content="{keywords}" />
+		<meta name="author" content="Etaligent.NET"/>
+		<meta name="distribution" content="global"/>
+		<meta name="robots" content="index, follow, all"/>
+		<link rel="SHORTCUT ICON" href="/favicon.ico" />
+		<link type="text/css" rel="stylesheet" href="/lib/def.css" media="all" title="default" />
+		<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css" media="all" title="default" />
+		<script src="/lib/js/jquery.js" type="text/javascript"></script>
+		<script src="/lib/js/jquery_ui.js" type="text/javascript"></script>
+		<script src="/lib/js/jquery.tinyscrollbar.min.js" type="text/javascript" ></script>
+		<script src="/lib/js/jquery.dynatree.min.js" type="text/javascript"></script>
+		<script src="/lib/js/jquery.simplemodal.js" type="text/javascript"></script>
+		<script src="/lib/js/jquery_form.js" type="text/javascript"></script>
+		<script src="/lib/js/jquery.tokeninput.js" type="text/javascript" ></script>
+		<script src="/lib/js/jquery.dragsort.js" type="text/javascript" ></script>
+		<script src="/lib/js/ajaxupload.3.5.js" type="text/javascript" ></script>
+		<script src="/lib/js/def.js" type="text/javascript"></script>
+		<!-- CKEditor BEGIN -->
+		<script type="text/javascript" src="/lib/ckeditor/ckeditor.js"></script>
+		<script type="text/javascript" src="/lib/ckeditor/adapters/jquery.js"></script>
+	</head>
+	<body>
+	',
+
+	'global.htmlonlyfooter' => '
+	</body>
+	</html>
+	',
+
+	'global.metadata' => '
+			<title>{pagetitle}</title>
+			<meta name="description" content="{description}" />
+			<meta name="keywords" content="{keywords}" />
+
+	',
+
+
+	'global.profile_pic_and_name' => '
+						<a href="/login.php?logout=1" class="logoutbtn"></a>
+						<a href="/profile.php" id="profile">
+							{_getProfilePicSmall(previewpicid)}
+							<span>{fullname}</span>
+							<!-- <img src="i/Barrow.png" alt="buttom arrow" /> -->
+						</a>
+	',
+
+	'global.login_register' => '
+						<div class="loginOrRegister">
+							<a href="javascript: void(0);" onclick="LayerRegFrm(\'P-Registration-Content\', 1);">' . getstr('pjs.register') . '</a> |
+							<a href="/login.php">' . getstr('pjs.login') . '</a>
+						</div>
+	',
+
+	'global.htmlstartcontent' => '
+		{*global.htmlonlyheader}
+			<div id="container">
+				<div id="header">
+					<div id="nav">
+						<div class="constrained">
+							<a href="/"><img src="i/logo.png" alt="logo" class="logo" /></a>
+							{mainmenu}						
+							{login_register_or_profile}
+	
+							<div id="cart">
+								<a href="#">
+									<img src="i/cartMenu.png" alt="cart" />
+									<span>14</span>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+						<div class="header-content">
+							<div class="constrained">
+								<div id="bioRiskLogo">
+									<a href="/">
+										<img src="i/bioRisk.png" alt="Bio Risk" />
+									</a>
+								</div>
+								<div class="wrapper">
+									<div id="button">
+										{YourTasks}
+										<img src="i/buttonRight.png" alt="button Right" />
+										<button>Submit a manuscript</button>
+										<img src="i/buttonLeft.png" class="left" alt="button Left" />
+									</div>
+									
+									{journal_menu}
+									
+								</div>
+								<form method="post" action="">
+									<div id="searchField">
+										<img src="i/leftSearch.png" style="float: left;" alt="search Field"></img>
+										<div class="searchWrapper">
+											<input type="text" name="search" value="Search ..."></input>
+										</div>
+										<img src="i/rightSearch.png" style="float: left;" alt="search Field"></img>
+										<input type="submit" name="submit" value=""></input>
+										<div class="clear"></div>
+										<p>
+											<input type="radio" name="filter" value="All"></input>All
+											<input type="radio" name="filter" value="Author"></input>Author
+											<input type="radio" name="filter" value="Title"></input>Title
+											<span>
+												<a href="#">Advanced search</a>
+											</span>
+										</p>
+									</div>
+								</form>
+							</div>
+					</div>
+					
+				</div><!-- END header -->
+				<div class="contentWrapper constrained" id="contentWrapper">
+	',
+
+	'global.sidebar_left' => '
+					<div id="leftSider" style="width: 185px;">
+						{journal_features}
+						<div class="clear"></div>
+						<div class="boxTopCorners" >
+							<div class="topLeftCorner"></div>
+							<div class="footerMID"></div>
+							<div class="topRightCorner"></div>
+						</div>
+						<div class="clear"></div>
+						<div class="mostVisited">
+							<div class="clear"></div>
+							<a href="#">
+								Most visited papers
+							</a>
+						</div>
+						<div class="boxFooter">
+							<div class="bottomLeftCorner"></div>
+							<div class="footerMID"></div>
+							<div class="bottomRightCorner"></div>
+						</div>
+						<div class="clear"></div>
+						<div class="leftHeadline">
+							<div class="headlineHolder">
+								<div class="left_ANG"></div>
+								<div class="MID">
+									<h3>Follow us</h3>
+								</div>
+								<div class="right_ANG"></div>
+							</div>
+							<div class="clear"></div>
+							<div class="siderBox">
+								<div id="social">
+									<a href="#"><img src="i/rss.png" alt="rss"></img></a>
+									<a href="#"><img src="i/fb.png" alt="facebook"></img></a>
+									<a href="#"><img src="i/tw.png" alt="twitter"></img></a>
+									<a href="#"><img src="i/m.png" alt=""></img></a>
+									<a href="#"><img src="i/gplus.png" alt="google plus"></img></a>
+									<div class="clear"></div>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="boxFooter">
+								<div class="bottomLeftCorner"></div>
+								<div class="footerMID"></div>
+								<div class="bottomRightCorner"></div>
+							</div>
+							<div class="clear"></div>
+							<div class="leftHeadline">
+								<div class="headlineHolder">
+									<div class="left_ANG"></div>
+									<div class="MID">
+										<h3>Browse</h3>
+									</div>
+									<div class="right_ANG"></div>
+								</div>
+								<div class="clear"></div>
+								<div class="siderBox" id="bolded">
+									<div class="link">
+										<div></div>
+										<div class="content"><a href="#">Articles</a></div>
+									</div>
+									<div class="link">
+										<div></div>
+										<div class="content"><a href="#">Issues</a></div>
+									</div>
+									<div class="link">
+										<div></div>
+										<div class="content"><a href="#">Authors</a></div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+							<div class="clear"></div>
+							<div class="boxFooter">
+								<div class="bottomLeftCorner"></div>
+								<div class="footerMID"></div>
+								<div class="bottomRightCorner"></div>
+								<div class="clear"></div>
+							</div>
+							<div class="clear"></div>
+							<div id="siderFooter">
+								<img src="i/openAccess.png" alt="open access"></img>
+								<div class="clear"></div>
+								<div>
+									This work is licensed under the
+									<span>
+										Creative Commons Attribution 3.0 (CC-BY).
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+	',
+
+	'global.htmlendcontent' => '
+				</div><!-- END contentWrapper -->
+			</div><!-- END container -->
+			<div id="P-Registration-Content"></div>
+			<script type="text/javascript">
+				$(document).ready(function(){
+					checkSize();
+				});
+			</script>
+		{*global.htmlonlyfooter}
+	',
+
+	// Language templates
+	'global.clangheader' => '
+	<div style="text-align:right;margin:5px;color:#C26A4F;font-size:10px;">
+	',
+	'global.clangrowtempl' => '
+
+		{name}&nbsp<a href="{url}"><img src="./i/{code}.gif" alt="language" style="border:none;"/></a>&nbsp;
+	',
+
+	'global.clangfooter' => '
+	</div>
+	',
+
+	'global.system_msg' => '
+		<h2>System message</h2>
+		{msg}
+	',
+
+	// Templates for pages
+	'global.simplepage' => '
+		{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="contentArticles" style="padding-top: 0px;">
+				<div id="articlesFullCol">
+					{contents}
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="border"></div>
+			<div class="corners">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+		</div>
+		{*global.htmlendcontent}
+	',
+
+	'global.simplepage_withleftcol' => '
+		{*global.htmlstartcontent}
+		{leftcol}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="contentArticles" style="padding-top: 0px;">
+				<div id="articlesFullCol">
+					{contents}
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="border"></div>
+			<div class="corners">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+		</div>
+		{*global.htmlendcontent}
+	',
+		
+	'global.loginpage' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="contentArticles content-main">
+				<div class="loginformWrapper">
+					<br/><div style="text-align: center;">{success_reg_message}{mail_confirmed_message}</div>
+					<div class="loginformWrapperInnner">
+						<br/><br/>
+						{form}
+					</div>
+				</div>
+			</div>
+			<div class="border"></div>
+			<div class="corners bottom">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+		
+	'global.fpasspage' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="contentArticles content-main">
+				<div class="loginformWrapper">
+					<br/><div style="text-align: center;">{success_reg_message}{mail_confirmed_message}</div>
+					<div class="loginformWrapperInnner">
+						<br/><br/>
+						{form}
+					</div>
+				</div>
+			</div>
+			<div class="border"></div>
+			<div class="corners bottom">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+		
+	'global.profilepage' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="content-main">
+				{content}
+			</div>
+			<div class="border"></div>
+			<div class="corners bottom">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+	
+
+	'global.registerpage' => '
+		{form}
+	',
+	
+	'global.stories_list' => '{content}',
+	
+	'global.show' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="content-main">
+				{stories_tree}
+				{content}
+			</div>
+			<div class="border"></div>
+			<div class="corners bottom">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+	
+	'global.journal_prices_page' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="content-main">
+				<br/>
+				<form name="prices_form" method="POST" enctype="multipart/form-data">
+					<table>
+						{prices_rows}
+						<tr>
+							<td>From page: <input type="text" name="range_start[]" value=""></input></td>
+							<td>To page: <input type="text" name="range_end[]" value=""></input></td>
+							<td>Price: <input type="text" name="price[]" value=""></input></td>
+						</tr>
+						<tr><td colspan="3"><br/> <input style="width: 80px; height: 25px;" type="submit" name="tAction" value="save"></input></td></tr>
+					</table>
+				</form>
+			</div>
+			<div class="border"></div>
+			<div class="corners bottom">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+
+	'global.edit_journal_section_page' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="content-main">
+				{form}
+			</div>
+			<div class="border"></div>
+			<div class="corners bottom">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+	
+	'global.browse_journal_sections' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="content-main">
+				<br/>
+				{journal_sections_list}
+				<br/>
+				<br/>
+				<a href="/edit_journal_section.php?journal_id={journal_id}&tAction=showedit">' . getstr('pjs.addNewSection') . '</a>
+			</div>
+			<div class="border"></div>
+			<div class="corners bottom">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+	
+	'global.browse' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="content-main">
+				{stories_tree}
+			</div>
+			<div class="border"></div>
+			<div class="corners bottom">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+	
+	'global.editprofilepage' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="content-main">
+				{form}
+			</div>
+			<div class="border"></div>
+			<div class="corners bottom">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+	
+	'global.index_page' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="contentArticles" style="padding-top: 0px;">
+				<div id="articles">
+					<h2>Recent publications</h2>
+					<div class="article" style="border-top: none;">
+						<div class="starHover" style="margin-top: 3px;"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								From documents to datasets: A MediaWiki-based method of annotating and extracting species
+								observations in century-old field notebooks method of annotating and extracting species
+								observations in century-old field notebooks
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie,
+							Michael Denslow, Joyce Gross, Zack Murrell, Tim Conyers, Peter Oboyski, Joan Ball,
+							Andrea Thomer, Robert Prys-Jones, Javier de la Torre, Patrick Kociolek, Lucy Fortson
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+							Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">doi: 10.3897/zookeys.215.2987</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="article">
+						<div class="articleHeadline">
+							<div class="star"></div>
+							<a href="#">
+								From documents to datasets: A MediaWiki-based method of annotating
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie,
+							Michael Denslow, Joyce Gross, Zack Murrell, Tim Conyers, Peter Oboyski, Joan Ball
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+							Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">Issue 212</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="article">
+						<div class="star"></div>
+						<div class="articleHeadline">
+							<a href="#">
+
+								Two new species and new record of Batricavus Yin &amp; Li 
+								(Coleoptera, Staphylinidae, Pselaphinae) from China
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+							Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">Issue 212: No specimen left behind ...</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="P-Clear"></div>
+					<div class="article">
+						<div class="star"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								From documents to datasets: A MediaWiki-based method of annotating and extracting
+								species observations in century-old field notebooks method of annotating and
+								extracting species observations in century-old field notebooks
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie,
+							Michael Denslow, Joyce Gross, Zack Murrell, Tim Conyers, Peter Oboyski,
+							Joan Ball, Andrea Thomer, Robert Prys-Jones, Javier de la Torre, Patrick
+							Kociolek, Lucy Fortson
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+							Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">doi: 10.3897/zookeys.215.2987</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="article">
+						<div class="star"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								From documents to datasets: A MediaWiki-based method of annotating
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie,
+							Michael Denslow, Joyce Gross, Zack Murrell, Tim Conyers, Peter Oboyski, Joan Ball
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+						Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">Issue 212</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="article">
+						<div class="star"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								Two new species and new record of Batricavus Yin &amp; Li (Coleoptera, Staphylinidae, Pselaphinae) 
+								from China
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+						Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">doi: 10.3897/zookeys.215.2987</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="article">
+						<div class="star"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								From documents to datasets: A MediaWiki-based method of annotating
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie,
+							Michael Denslow, Joyce Gross, Zack Murrell, Tim Conyers, Peter Oboyski, Joan Ball
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+							Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">Issue 212</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="article" id="lastArticle">
+						<div class="star"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								Two new species and new record of Batricavus Yin &amp; Li (Coleoptera, Staphylinidae, Pselaphinae) from China
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+							Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">Issue 212: No specimen left behind ...</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+						<div>
+							<a href="#">Abstract</a>
+							<a href="#">HTML</a>
+							<a href="#">XML</a>
+							<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="P-Clear"></div>
+				</div>	
+			</div>
+			{*global.right_sidebar}
+			<div class="border"></div>
+			<div class="corners bottom">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+	
+	'global.right_sidebar' => '
+			<div class="rightSider" id="rightSidebar">
+				<div class="rightSiderBox">
+					<div class="rightSiderBoxCorners">
+						<div class="topLeftCorner1"></div>
+						<div class="topRightCorner2"></div>
+					</div>
+					<div id="picture">
+						<img src="i/pic.png" alt="pic"></img>
+						<p>
+							Authors are thus encouraged to post the pdf files of
+							published papers on their homepages or elsewhere to 
+							expedite distribution.
+						</p>
+					</div>
+					<div class="corners">
+						<div class="bottomLeftCorner1"></div>
+						<div class="bottomRightCorner2"></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="headlineHolder">
+					<div class="left_ANG"></div>
+					<div class="MID">
+						<h3>Community feed</h3>
+					</div>
+					<div class="right_ANG"></div>
+					<div class="P-Clear"></div>
+				</div>
+				<div class="rightSiderBox">
+					<div class="feed">
+						<div class="img">
+							<img src="i/feed1.png" alt="feed image"></img>
+						</div>
+						<div class="title">
+							<a href="#">
+								Scorpio rising - An elusive new scorpion species from 
+								California lives underground
+							</a>
+							<div class="date">23.03.2012</div>
+						</div>
+						<div class="P-Clear"></div>
+					</div>
+					<div class="P-Clear"></div>
+					<div class="feed">
+						<div class="img">	
+							<img src="i/feed2.png" alt="feed image"></img>
+						</div>
+						<div class="title">
+							<a href="#">
+								new, giant wasp comes from Indonesia
+								A new pipe
+							</a>
+							<div class="date">23.03.2012</div>
+							<div class="P-Clear"></div>
+						</div>
+						<div class="P-Clear"></div>
+					</div>
+					<div class="P-Clear"></div>
+					<div class="feed">
+						<div class="img"><img src="i/feed3.png" alt="feed image"></img></div>
+						<div class="title">
+							<a href="#">
+								A new pipewort specices from a unique,
+								but fraglie habilat in indiana
+							</a>
+							<div class="date">23.03.2012</div>
+							<div class="P-Clear"></div>
+						</div>
+						<div class="P-Clear"></div>
+					</div>
+					<div class="P-Clear"></div>
+					<div class="feed">
+						<div class="img"><img src="i/feed4.png" alt="feed image"></img></div>
+						<div class="title">
+							<a href="#">
+								A new pipewort species from a unique, but fragile habitat in India
+							</a>
+							<div class="date">23.03.2012</div>
+							<div class="P-Clear"></div>
+						</div>
+						<div class="P-Clear"></div>
+					</div>
+					<div class="P-Clear"></div>
+					<div class="feed">
+						<div class="img"><img src="i/feed5.png" alt="feed image"></img></div>
+						<div class="title">
+							<a href="#">
+								Scorpio rising - An elusive new scorpion species from 
+								California lives underground
+							</a>
+							<div class="date">23.03.2012</div>
+							<div class="P-Clear"></div>
+						</div>
+						<div class="P-Clear"></div>
+					</div>
+					<div class="P-Clear"></div>
+					<div class="moreFeeds">
+						<a href="#">
+							All feeds <img src="i/rightArrows.png" alt=""></img>
+						</a>
+					</div>
+					<div class="P-Clear"></div>
+				</div>
+				<div class="P-Clear"></div>
+				<div class="corners">
+					<div class="bottomLeftCorner1"></div>
+					<div class="bottomRightCorner2"></div>
+				</div>
+				<div class="P-Clear"></div>
+			</div>
+			<div class="P-Clear"></div>	
+	',
+	
+	'global.single_journal' => '
+				<div id="articles">
+					<h2>Recent publications</h2>
+					<div class="article" style="border-top: none;">
+						<div class="starHover" style="margin-top: 3px;"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								From documents to datasets: A MediaWiki-based method of annotating and extracting species
+								observations in century-old field notebooks method of annotating and extracting species 
+								observations in century-old field notebooks
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie,
+							Michael Denslow, Joyce Gross, Zack Murrell, Tim Conyers, Peter Oboyski, Joan Ball,
+							Andrea Thomer, Robert Prys-Jones, Javier de la Torre, Patrick Kociolek, Lucy Fortson
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+							Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">doi: 10.3897/zookeys.215.2987</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="article">
+						<div class="articleHeadline">
+							<div class="star"></div>
+							<a href="#">
+								From documents to datasets: A MediaWiki-based method of annotating
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie, 
+							Michael Denslow, Joyce Gross, Zack Murrell, Tim Conyers, Peter Oboyski, Joan Ball
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+							Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">Issue 212</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="article">
+						<div class="star"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								Two new species and new record of Batricavus Yin &amp; Li 
+								(Coleoptera, Staphylinidae, Pselaphinae) from China
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+							Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">Issue 212: No specimen left behind ...</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="P-Clear"></div>
+					<div class="article">
+						<div class="star"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								From documents to datasets: A MediaWiki-based method of annotating and extracting
+								species observations in century-old field notebooks method of annotating and 
+								extracting species observations in century-old field notebooks
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie, 
+							Michael Denslow, Joyce Gross, Zack Murrell, Tim Conyers, Peter Oboyski, 
+							Joan Ball, Andrea Thomer, Robert Prys-Jones, Javier de la Torre, Patrick 
+							Kociolek, Lucy Fortson
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+							Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">doi: 10.3897/zookeys.215.2987</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="article">
+						<div class="star"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								From documents to datasets: A MediaWiki-based method of annotating
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie, 
+							Michael Denslow, Joyce Gross, Zack Murrell, Tim Conyers, Peter Oboyski, Joan Ball
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+						Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">Issue 212</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="article">
+						<div class="star"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								Two new species and new record of Batricavus Yin &amp; Li (Coleoptera, Staphylinidae, Pselaphinae) 
+								from China
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+						Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">doi: 10.3897/zookeys.215.2987</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="article">
+						<div class="star"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								From documents to datasets: A MediaWiki-based method of annotating
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie, 
+							Michael Denslow, Joyce Gross, Zack Murrell, Tim Conyers, Peter Oboyski, Joan Ball
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+							Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">Issue 212</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+							<div>
+								<a href="#">Abstract</a>
+								<a href="#">HTML</a>
+								<a href="#">XML</a>
+								<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="article" id="lastArticle">
+						<div class="star"></div>
+						<div class="articleHeadline">
+							<a href="#">
+								Two new species and new record of Batricavus Yin &amp; Li (Coleoptera, Staphylinidae, Pselaphinae) from China
+							</a>
+						</div>
+						<p>
+							Andrew Hill, Robert Guralnick, Arfon Smith, Andrew Sallans, Rosemary Gillespie
+						</p>
+						<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+						<div class="research">
+							Research article
+						</div>
+						<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+						&nbsp;&nbsp;&nbsp;
+						<a href="#" class="subLink">Issue 212: No specimen left behind ...</a>
+						<span class="price"><span>Reprint price:</span> <b>&euro; 8.20</b> <img src="i/cart.png" alt="cart"></img></span>
+						<div class="info">
+							<span><img src="i/paper.png" alt="paper"></img> 87-112</span>
+							<span><img src="i/articleCalendar.png" alt="Calendar"></img> 03.07.2012</span>
+							<span><img src="i/eye.png" alt="eye"></img> 465</span>
+						<div>
+							<a href="#">Abstract</a>
+							<a href="#">HTML</a>
+							<a href="#">XML</a>
+							<a href="#" class="clearBorder">PDF</a>
+							</div>
+						</div>
+					</div>
+					<div class="P-Clear"></div>
+				</div>
+	',
+	
+	'global.journal_page' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="contentArticles" style="padding-top: 5px; padding-bottom: 15px;">
+				{journal_list}
+				<div class="clear"></div>			
+			</div>
+			<div class="border"></div>
+			<div class="corners">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+	
+	'global.single_journal_page' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="contentArticles" style="padding-top: 5px; padding-bottom: 15px;">
+				{journal_list}
+				<div class="clear"></div>			
+			</div>
+			{*global.right_sidebar}
+			<div class="border"></div>
+			<div class="corners">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+	'global.journal_page' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="contentArticles" style="padding-top: 0px;">
+				{journal_list}
+				<p></p>
+				{static_block}
+				<div class="rightSider">
+					<div class="rightSiderBox">
+						<div class="rightSiderBoxCorners">
+							<div class="topLeftCorner1"></div>
+							<div class="topRightCorner2"></div>
+						</div>
+						<div id="picture">
+							<img src="i/pic.png" alt="pic" />
+							<p>
+								Authors are thus encouraged to post the pdf files of
+								published papers on their homepages or elsewhere to
+								expedite distribution.
+							</p>
+						</div>
+						<div class="corners">
+							<div class="bottomLeftCorner1"></div>
+							<div class="bottomRightCorner2"></div>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<div class="headlineHolder">
+						<div class="left_ANG"></div>
+						<div class="MID">
+							<h3>Community feed</h3>
+						</div>
+						<div class="right_ANG"></div>
+					</div>
+					<div class="rightSiderBox">
+						<div class="clear"></div>
+						<div class="feed">
+							<div class="img"><img src="i/feed1.png" alt="feed image" /></div>
+							<div class="title">
+								<a href="#">
+									Scorpio rising - An elusive new scorpion species from
+									California lives underground
+								</a>
+								<div class="date">23.03.2012</div>
+							</div>
+
+						</div>
+						<div class="clear"></div>
+						<div class="feed">
+							<div class="img"><img src="i/feed2.png" alt="feed image" /></div>
+								<div class="title">
+									<a href="#">
+										new, giant wasp comes from Indonesia
+										A new pipe
+									</a>
+									<div class="date">23.03.2012</div>
+							</div>
+						<div class="clear"></div>
+						<div class="feed">
+							<div class="img"><img src="i/feed3.png" alt="feed image" /></div>
+							<div class="title">
+								<a href="#">
+									A new pipewort specices from a unique,
+									but fraglie habilat in indiana
+								</a>
+								<div class="date">23.03.2012</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+						<div class="feed">
+							<div class="img"><img src="i/feed4.png" alt="feed image" /></div>
+							<div class="title">
+								<a href="#">
+									A new pipewort species from a unique, but fragile habitat in India
+								</a>
+								<div class="date">23.03.2012</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+						<div class="feed">
+							<div class="img"><img src="i/feed5.png" alt="feed image" /></div>
+							<div class="title">
+								<a href="#">
+									Scorpio rising - An elusive new scorpion species from
+									California lives underground
+								</a>
+							<div class="date">23.03.2012</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+							<div class="moreFeeds">
+								<a href="#">
+									All feeds <img src="i/rightArrows.png" alt="" />
+								</a>
+							</div>
+						</div>
+						</div>
+					<div class="corners">
+						<div class="bottomLeftCorner1"></div>
+						<div class="bottomRightCorner2"></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="border"></div>
+			<div class="corners">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+	
+	'global.edit_journal_page' => '
+	{*global.htmlstartcontent}
+		{*global.sidebar_left}
+		<div id="content" style="margin-left: 200px;">
+			<div class="border"></div>
+			<div class="corners">
+				<div class="topLeftCorner"></div>
+				<div class="topRightCorner"></div>
+			</div>
+			<div class="content-main">
+				{form}
+			</div>
+			<div class="border"></div>
+			<div class="corners bottom">
+				<div class="bottomLeftCorner"></div>
+				<div class="bottomRightCorner"></div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer">
+				<p>
+					Website design and publishing framework: <span class="bold">Copyright &#169; 2012 Pensoft Publishers | </span><a href="#">Contact us</a>
+				</p>
+			</div>
+		</div>
+	{*global.htmlendcontent}
+	',
+	
+	'global.dashboard' => '
+		{*global.htmlstartcontent}
+		{leftcol}
+		<div id="content" style="margin-left: 200px;">
+			<div id="dashboard-content">
+				<div id="articlesFullCol">
+					{contents}
+				</div>
+			</div>
+		</div>
+		{*global.htmlendcontent}
+	',	
+	
+	'global.picture' => '
+		{picture}
+	',
+	
+	'global.profile_picture' => '
+		<img class="P-Prof-Pic" src="/showimg.php?filename={pic_pref}_{pic_id}.jpg"></img>
+	',
+	
+	'global.default_profile_picture' => '
+		<img src="i/add_photo.png"></img>
+	',
+	'global.yourtasks' => '<a href="/dashboard.php?view_mode=5&journal_id={journal_id}"><div id="tasks">Your Tasks</div></a>',
+);
+?>

@@ -1,0 +1,10 @@
+<external_link object_id="39" display_name="External Link">
+	<fields>
+		<link_type id="52" field_name="Link type">
+			<value></value>
+		</link_type>
+		<link id="53" field_name="Link">
+			<value />
+		</link>
+	</fields>
+</external_link>

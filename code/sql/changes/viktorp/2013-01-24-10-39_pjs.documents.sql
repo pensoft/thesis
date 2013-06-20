@@ -1,0 +1,1 @@
+ALTER TABLE pjs.documents RENAME COLUMN document_review_due_date TO community_public_due_date;

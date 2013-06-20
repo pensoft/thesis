@@ -1,0 +1,19 @@
+keys:
+
+important association between 1st row and 2nd row (taxon and graphic) put in a subtable container (tbody).
+
+1st row: "lead" with associated or subpart
+
+
+tbody: to group lead and all related rows
+
+lead:
+
+ID |question| targetID
++ "related data"
+
+"negation" statement associated with prior statement
+
+leadID targetID
+
+anonymous lead: only works in case of dichotomous key.

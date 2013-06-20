@@ -1,0 +1,1 @@
+ALTER TABLE pjs.document_review_rounds ADD COLUMN can_proceed boolean NOT NULL DEFAULT false;

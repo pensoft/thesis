@@ -1,0 +1,1 @@
+INSERT INTO pjs.email_task_detail_states(name) VALUES('Manual task detail, waiting for approve');

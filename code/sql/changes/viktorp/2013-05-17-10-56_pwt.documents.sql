@@ -1,0 +1,1 @@
+INSERT INTO pwt.document_states(name, is_readonly) VALUES('Deleted in PWT', TRUE);

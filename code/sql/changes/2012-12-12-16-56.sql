@@ -1,0 +1,2 @@
+procedura - spdocumentse
+premahnat paramet1r peditor_round_type

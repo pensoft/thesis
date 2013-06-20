@@ -1,0 +1,21 @@
+#content {
+	font: 12px Verdana;
+	font-weight: bold;
+	overflow: hidden;
+}
+
+#content label {
+	display: block;
+	width: 40px;
+}
+
+#content input {
+	width: 120px;
+	background: #ffffff;
+}
+
+#content input.btn {
+	background: #C7C78F;
+	font-weight: normal;
+	border: 1px solid #737357;
+}

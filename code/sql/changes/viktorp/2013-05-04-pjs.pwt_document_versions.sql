@@ -1,0 +1,1 @@
+ALTER TABLE pjs.pwt_document_versions ADD COLUMN xml_with_changes xml;

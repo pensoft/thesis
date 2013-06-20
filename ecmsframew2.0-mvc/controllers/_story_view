@@ -1,0 +1,25 @@
+<?php
+
+
+
+class Story_View extend baseview{
+	
+
+	function __construct(){
+		$lTempls = new array(
+			G_DEFAULT => 'global.storypage',
+		);
+		
+		$lObjectsMetadata = new array(
+			'story_list' => array(
+				'templs' => array(
+					G_HEADER => 'stories.head',
+					G_ROWTEMPL => 'stories.row',
+					G_FOOTER => 'stories.footer',
+				),
+			),
+		);
+	}
+}
+
+?>

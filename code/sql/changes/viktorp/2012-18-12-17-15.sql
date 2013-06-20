@@ -1,0 +1,13 @@
+GRANT ALL ON TABLE pjs.event_data TO iusrpmt;
+GRANT ALL ON TABLE pjs.email_tasks TO iusrpmt;
+GRANT ALL ON TABLE pjs.email_task_details TO iusrpmt;
+GRANT ALL ON TABLE pjs.event_data_types TO iusrpmt;
+GRANT ALL ON TABLE pjs.event_data_value_types TO iusrpmt;
+GRANT ALL ON TABLE pjs.event_log TO iusrpmt;
+GRANT ALL ON TABLE pjs.event_types TO iusrpmt;
+GRANT ALL ON TABLE pjs.email_task_states TO iusrpmt;
+GRANT ALL ON TABLE pjs.email_task_detail_states TO iusrpmt;
+GRANT ALL ON TABLE pjs.email_task_definitions TO iusrpmt;
+GRANT ALL ON TABLE pjs.email_groups TO iusrpmt;
+GRANT ALL ON TABLE pjs.email_tasks_id_seq TO pensoft;
+GRANT ALL ON TABLE pjs.email_tasks_id_seq TO public;

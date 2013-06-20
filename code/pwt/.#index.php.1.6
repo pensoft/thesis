@@ -1,0 +1,29 @@
+<?php
+$docroot = getenv('DOCUMENT_ROOT');
+require_once($docroot . '/lib/static.php');
+
+
+
+$lPageArray = array(
+	'content' => array(
+			'ctype' => 'crs', 
+			'templs'=> array(
+				G_HEADER => 'global.empty',
+				G_ROWTEMPL => 'dashboard.content_row',
+				G_FOOTER => 'global.empty',
+				G_NODATA => 'global.empty',
+			),
+			'pagesize' => 10,
+			//~ 'usecustompn' => 1,
+			'sqlstr' => 'SELECT d.id as document_id, d.name as name, d.lastmoddate, array_to_string(array_agg(du.first_name), \', \') as fullname 
+							FROM pwt.documents d
+							JOIN pwt.document_users du ON du.document_id = d.id
+							WHERE du.usr_id = ' . q($user->id) . '
+							GROUP BY d.id, d.name, d.lastmoddate
+							ORDER BY d.lastmoddate DESC',
+	),
+);
+
+$inst = new cpage(array_merge($lPageArray, DefObjTempl()), array(G_MAINBODY => 'global.index_page'));
+$inst->Display();
+?>

@@ -1,0 +1,15 @@
+ALTER TABLE articles ADD COLUMN meta_identifier varchar;
+ALTER TABLE articles ADD COLUMN meta_identifier_type varchar;
+ALTER TABLE articles ADD COLUMN meta_pub_year int;
+ALTER TABLE articles ADD COLUMN meta_title varchar;
+ALTER TABLE articles ADD COLUMN meta_authors varchar;
+ALTER TABLE articles ADD COLUMN meta_url_of_pdf varchar;
+ALTER TABLE articles ADD COLUMN meta_part_of_host_publication int DEFAULT 0;
+ALTER TABLE articles ADD COLUMN meta_journal_type int DEFAULT 0;
+ALTER TABLE articles ADD COLUMN meta_start_page int;
+ALTER TABLE articles ADD COLUMN meta_end_page int;
+ALTER TABLE articles ADD COLUMN meta_book_title varchar;
+ALTER TABLE articles ADD COLUMN meta_journal_name varchar;
+ALTER TABLE articles ADD COLUMN meta_journal_volume_number varchar;
+ALTER TABLE articles ADD COLUMN meta_publisher_name varchar;
+ALTER TABLE articles ADD COLUMN meta_publisher_location varchar;

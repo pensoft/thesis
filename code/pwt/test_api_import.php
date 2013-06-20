@@ -1,0 +1,1 @@
+<?php echo urlencode(file_get_contents("s1.xml"));  ?>

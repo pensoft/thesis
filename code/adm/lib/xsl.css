@@ -1,0 +1,700 @@
+body {
+	margin: 0;
+	padding: 0;	
+	font-family: Verdana;
+	font-size: 11px!important;
+	color: #030000;
+	background: #fff;
+	text-indent:20px;
+	text-align:center;
+}
+
+form{
+	padding:0px;
+	margin:0px;
+}
+
+p{
+	margin:0px;
+	padding:0px 0px;
+}
+
+.unfloat{
+	float:none!important;
+	clear:both;
+}
+
+a{
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+.xrefLink{
+	cursor:pointer;
+}
+
+a, .xrefLink, .mainTitle, .secHolder .node_title, .referencesText .node_title, .acknowledgementsText .node_label, .doiNumber{
+	color:#00411e;
+}
+
+.wrapper{
+	width:578px;
+	height:700px;	
+	margin:0px auto;
+	/*padding:0px 20px 20px;	
+	border:1px solid #000;*/
+	text-align:left;
+}
+
+.mainTitle, .secHolder .node_title, .smallSecHolder .node_title, .smallSecHolder .node_label, .referencesText .node_title{
+	font-weight:bold;
+	display:block;
+	padding-top:20px;
+	padding-bottom:10px;
+}
+
+.mainTitle, .secHolder .node_title, .referencesText .node_title, .acknowledgementsText .node_label{	
+	font-size:13px;
+}
+
+.mainTitle, .authors, .affilations, .secHolder .node_title{
+	text-indent:0px;
+	padding-left:20px;
+	padding-right:20px;
+}
+
+.authors{
+	padding-top:0px;
+	padding-bottom:10px;
+	font-size:11px;
+}
+
+.affilations, .uris{
+	padding-top:7px;
+	padding-bottom:0px;
+}
+
+.affilations, .lMetaDates, .uris{
+	font-size:10px;
+	padding-left:20px;
+	padding-right:20px;
+	text-indent: 0px;
+}
+
+.authorNotes {
+	font-size:10px;
+	padding-left:20px;
+	padding-right:20px;
+	text-indent: 0px;
+}
+
+.authorNotes p {
+	padding-top:10px;
+	
+}
+
+.authors, .affilations, .abstractHolder .node_title, .abstractHolder .node_label, .keywordsHolder .node_title, .keywordsHolder .node_label, .linksButtonHolder a, .uris{
+	color:#595f36;
+}
+
+.abstractHolder .node_label, .abstractHolder .node_title, .keywordsHolder .node_title, .keywordsHolder .node_label{
+	font-weight:bold;
+	display:block;
+	padding:5px 0px;
+}
+
+
+.abstractHolder{
+	
+	padding:7px 0px;
+}
+
+.keywordsHolder{
+	
+	padding:7px 0px 0px;
+}
+
+.secHolder .node_title{
+	display:block;
+}
+
+.node_title, .node_label{
+	font-weight:bold;
+}
+
+.taxonName{
+	font-weight:bold;
+}
+
+.inlineSec{
+	padding:15px 0px;
+}
+
+.inlineSec .node_title, .inlineSec .node_label, .referenceRow .node_label{
+	float:left;
+	margin-right:-15px;
+	padding:0px!important;
+	
+}
+
+.inlineSec .node_title{
+	font-size:11px;
+	color:#000!important;
+	text-indent:20px;
+}
+
+.taxonTreatmentRow{
+	padding-bottom:0px;
+}
+
+.taxonCitations{
+	padding-bottom:0px;
+	padding-left:20px;
+	text-indent:-20px;
+	padding-top:15px;
+}
+
+.highlightButtonHolder{
+	margin:5px 0px;
+}
+
+.highlightButtonHolder, .linksButtonHolder{
+	text-indent:0px;
+	font-size:9px;
+}
+
+.highlightButtonHolder .highlightButtonHolder{
+	padding:2px;
+	margin-right:2px;
+}
+
+.highlightButtonHolder td{
+	text-align:center;
+	padding:2px 0px;
+}
+
+.highlightButtonHolder  a{
+	text-decoration:none;
+	color:#000;
+}
+
+.highlightButtonHolder  a.inactive{	
+	text-decoration:underline;
+}
+
+
+.taxon-treatmentsButton, .highlightWrapper .highlightTaxonTreatmentWrapper .node_taxon-treatment{
+	background:#e0dcea;
+}
+
+.taxon-namesButton, .highlightWrapper .highlightTaxonNameWrapper .node_taxon-name{
+	background:#fcdee0;
+}
+
+.countriesButton, .highlightWrapper .highlightCountryWrapper .node_country{
+	background:#e5ecda;
+}
+
+.citationsButton, .highlightWrapper .highlightCitationWrapper .node_citation{
+	background:#f3f1dc;	
+}
+
+.typescButton, .highlightWrapper .highlightTypeescWrapper .node_typesc{
+	background:#ddddf5;
+}
+
+.collectionsButton, .highlightWrapper .highlightCollectionWrapper .node_collections{
+	background:#fefffb;
+}
+
+.localitiesButton, .highlightWrapper .highlightLocalityWrapper .node_location, .localitiesMenu{
+	background:#e5edf8;
+}
+
+.offButton{
+	background:#f6f3d4;
+}
+
+.linksButtonHolder a{
+	text-decoration:none;
+}
+
+.linksButtonHolder{	
+	background:url('/img/linkBorder.jpg') no-repeat right 6px ;	
+}
+
+.linksButtonHolder td{	
+	background:url('/img/linkBorder.jpg') no-repeat left 6px ;
+	padding-left:4px;
+	text-align:center;
+	vertical-align:top;
+	white-space:nowrap;
+}
+
+td.lastButtonHolder{	
+	padding-right:4px;
+}
+
+.linksButtonWrapper{
+	border-top:1px solid #ced0b8;
+	border-bottom:1px solid #ced0b8;
+	padding:5px 0px 5px;
+	width:578px;
+}
+
+.figGroupHolder, .graphicHolder{
+	text-indent:0px;
+	padding:10px 0px;
+}
+
+.figGraphics, .graphicImg{
+	float:left;
+	width:346px;
+}
+
+.graphicImg img{
+	border:none;
+	width:334px;
+	margin-right:12px;
+	margin-bottom:12px;
+}
+
+.figGraphicImg{
+	float:left;
+	margin-right:12px;
+	margin-bottom:12px;
+	width:186px;
+}
+
+.figGraphicImg img{
+	border:none;
+	width:186px;
+}
+
+.figCaptions, .graphicCaptions{
+	width:184px;
+	float:left;
+}
+
+.headWrapper{
+	z-index:2;
+	position:relative;
+}
+
+.contentWrapper{
+	overflow-y:scroll;
+	height:642px;
+	position:relative;
+	z-index:1;
+	
+}
+
+.baloonWrapperTopLeft, .baloonWrapperTopRight, .baloonWrapperBottomLeft, .baloonWrapperBottomRight, .baloonWrapper{
+	position:absolute;
+	display:none;		
+	text-indent:0px;
+	z-index:2;
+}
+
+.baloonWrapperTopLeft .smallBaloon, .baloonWrapperTopRight .smallBaloon, .baloonWrapperBottomLeft .smallBaloon , .baloonWrapperBottomRight .smallBaloon , .baloonWrapper  .smallBaloon{
+	width:200px;
+}
+
+.baloonWrapperTopLeft .largeBaloon, .baloonWrapperTopRight .largeBaloon, .baloonWrapperBottomLeft .largeBaloon , .baloonWrapperBottomRight .largeBaloon , .baloonWrapper  .largeBaloon{
+	width:342px;
+}
+
+.baloonWrapperTopLeft, .baloonWrapperTopRight{/*Diva e otgore - strelkata e otdolu*/
+	padding:0px 0px 13px;
+}
+
+.baloonWrapperBottomLeft, .baloonWrapperBottomRight, .baloonWrapper{/*Diva e otdolu - strelkata e otgore*/
+	padding:12px 0px 0px;
+}
+
+.baloonContent{
+	background:#fffde9;
+	border-left:1px solid #949793;
+	border-right:1px solid #949793;
+	padding:2px 8px;
+	text-align:left;
+	text-indent:0px;
+	font-size:9px;
+	font-family:Verdana;
+	color:#211c1b;
+}
+
+.taxonMenuLabel{
+	font-weight:bold;
+	padding:0px 0px 3px 9px;
+	font-size:13px;
+	color:#5a6036;
+}
+
+.taxonMenuLabel, .taxonMenuLabel a{
+	color:#5a6036;
+	text-decoration:none;
+}
+
+.taxonMenuRow{
+	padding:3px 0px 3px 8px;	
+	background:url('/img/ext_details/taxonMenuRowBullet.jpg') no-repeat 0px 10px;
+}
+
+.taxonMenuRow .siteName a{		
+	border-bottom:2px solid #ccd4cb;
+	text-decoration:none;
+}
+
+.noBorder{
+	border:none!important;
+}
+
+.baloonTopLeftCorner, .baloonTopRightCorner, .baloonBottomLeftCorner, .baloonBottomRightCorner{
+	width:5px;
+	height:5px;
+}
+
+.baloonTopLeftCorner, .baloonBottomLeftCorner{
+	float:left;
+}
+
+.baloonTopRightCorner, .baloonBottomRightCorner{
+	float:right;
+}
+
+.baloonTopLeftCorner{
+	/*background:url('/img/ext_details/baloon.png') no-repeat 0px -96px;*/
+}
+
+.baloonTopRightCorner{
+	/*background:url('/img/ext_details/baloon.png') no-repeat -685px -96px;*/
+}
+
+.baloonBottomLeftCorner{
+	/*background:url('/img/ext_details/baloon.png') no-repeat 0px -781px;*/
+}
+
+.baloonBottomRightCorner{
+	/*background:url('/img/ext_details/baloon.png') no-repeat -685px -781px;*/
+}
+
+.baloonTop, .baloonTopMiddle, .baloonBottomMiddle{
+	height:5px;
+	font-size:1px;
+}
+
+.smallBaloon .baloonTopMiddle, .smallBaloon .baloonBottomMiddle{
+	width:190px;	
+}
+
+.largeBaloon .baloonTopMiddle, .largeBaloon .baloonBottomMiddle{
+	width:332px;	
+}
+
+.baloonTopMiddle, .baloonBottomMiddle{	
+	float:left;	
+	overflow:hidden;
+}
+
+.baloonTopMiddle{
+	/*background:url('/img/ext_details/baloon.png') no-repeat -5px -96px;*/
+}
+
+.baloonBottomMiddle{
+	/*background:url('/img/ext_details/baloon.png') no-repeat -5px -781px;*/
+}
+
+.arrowDiv{
+	position:absolute;
+	width:19px;
+	height:14px;	
+	font-size:1px;
+	z-index:3;
+}
+
+.baloonWrapperTopLeft .arrowDiv{/*Diva e otgore i otlqvo - strelkata e otdolu dqsno*/
+	
+	right:20px;
+	bottom:0px;	
+	/*background:url('/img/ext_details/baloon.png') no-repeat -84px -36px;*/
+	
+}
+
+.baloonWrapperTopRight .arrowDiv{/*Diva e otgore i otdqsno - strelkata e otdolu lqvo*/
+	left:20px;
+	bottom:0px;
+	/*background:url('/img/ext_details/baloon.png') no-repeat -36px -36px;*/
+}
+
+.baloonWrapperBottomLeft .arrowDiv{/*Diva e dolu i otlqvo - strelkata e gore dqsno*/	
+	right:20px;
+	top:0px;
+	/*background:url('/img/ext_details/baloon.png') no-repeat -305px -58px;*/
+}
+
+.baloonWrapperBottomRight .arrowDiv{/*Diva e dolu i dqsno - strelkata e gore lqvo*/
+	left:20px;
+	top:0px;
+	/*background:url('/img/ext_details/baloon.png') no-repeat -256px -58px;*/
+	
+}
+
+.taxonNameLink{
+	text-decoration:none;
+}
+
+.referenceBaloonContent{
+	display:none;
+}
+
+.FNBaloonContent{
+	display:none;
+}
+
+.localitiesForm{
+	display:none;
+}
+
+.localitiesMenu{
+	display:none;
+	position:absolute;
+	z-index:1000;
+	left:0px;
+	width:100%;
+	top:14px;
+	text-align:left;
+	padding:0px 0px;
+}
+.localitiesMenuRow{
+	padding:2px 5px 2px 5px ;
+	
+}
+
+#mapLocalityButton{
+	position:relative;
+	display:block;
+}
+
+.taxonNamesList{
+	display:none;
+}
+
+.noBackground{
+	background:none!important;
+}
+
+.taxonTreatmentsHolder{
+	padding:20px 0px 0px;
+	text-indent:none;
+}
+
+.innerTable{
+	width:100%;
+	border-top:1px solid #000;
+	border-bottom:1px solid #000;
+	margin:10px 0px;
+	padding:0px 0px 5px;
+}
+
+.innerTable td{
+	padding:0px;
+}
+
+.tableDiv{
+	padding:5px 0px;
+}
+
+.innerTable th{
+	text-align:center;
+	border-bottom:1px solid #000;
+	padding:5px 0px;
+}
+
+.baloonContent .graphicImg{
+	width:215px!important;
+}
+
+.baloonContent .graphicImg img{
+	width:203px!important;
+}
+
+.baloonContent .graphicCaptions{
+	width:108px!important;
+}
+
+.figureHolder, .tableHolder, .tableDiv{
+	display:none;
+}
+
+.taxonNomenclature .node_taxon-name{
+	font-weight:bold;
+}
+
+.taxonNomenclatureCitation .node_taxon-name{
+	font-weight:normal!important;
+}
+
+.taxonNomenclature .node_object_id{
+	display:block;
+}
+
+.keyTable table td.cell_1, .keyTable table th.cell_3{
+	width:50px;
+	vertical-align:top;
+}
+
+.keyTable table td.cell_1 .graphicHolder{
+	margin-left:50px;
+}
+
+.keyTable table td.cell_2, .keyTable table th.cell_3{
+	width:350px;
+	vertical-align:top;
+}
+
+.keyTable table td.cell_3, .keyTable table th.cell_3{
+	width:160px;
+	vertical-align:bottom;
+}
+
+table .graphicImg{
+	width:330px!important;
+}
+
+table .graphicImg img{
+	width:318px!important;
+}
+
+.tableWrapHolder{
+	text-indent:0px;
+	margin-top:15px;
+}
+
+.tableWrapHolder .node_title, .tableWrapHolder .node_label {
+	margin-right:5px!important;
+}
+
+.taxonTreatmentSec{
+	padding:0px!important;
+}
+
+.taxonNomenclature{
+	text-indent: 0px;
+	padding-bottom:10px;
+}
+
+.referenceRow{
+	padding-left:20px;
+	text-indent:-20px;
+}
+
+.metaDate .dateLabel{
+	text-transform:capitalize;
+}
+
+.authorNotes{
+	margin:10px 0px;
+}
+
+.lMetaDates{
+	margin:5px 0px;
+}
+
+.linksButtonHolder{
+	width:538px;
+}
+
+.linksButtonHolder .lLinkDiv{
+	height:12px;
+}
+
+.doiNumber{
+	margin:12px 0px 0px;
+}
+
+
+
+
+
+
+.pathTopLeftScrollBtn, .pathTopRightScrollBtn{
+	width:16px;
+	height:16px;
+	float:left;
+}
+
+.LeftScrollBtnLinkActive, .LeftScrollBtnLinkInactive, .RightScrollBtnLinkActive, .RightScrollBtnLinkInactive{
+	display:block;	
+	width:16px;
+	height:16px;
+	margin-top:3px;
+}
+
+.LeftScrollBtnLinkActive{
+	background:url('/img/ext_details/path_btn_left.gif') no-repeat 0px -3px;
+}
+
+.LeftScrollBtnLinkActive:hover{
+	background:url('/img/ext_details/path_btn_left_hover.gif') no-repeat 0px -3px;
+}
+
+.LeftScrollBtnLinkInactive{
+	background:url('/img/ext_details/path_btn_left_inactive.gif') no-repeat 0px -3px;
+}
+
+.RightScrollBtnLinkActive{
+	background:url('/img/ext_details/path_btn_right.gif') no-repeat 0px -3px;
+}
+
+.RightScrollBtnLinkActive:hover{
+	background:url('/img/ext_details/path_btn_right_hover.gif') no-repeat 0px -3px;
+}
+
+.RightScrollBtnLinkInactive{
+	background:url('/img/ext_details/path_btn_right_inactive.gif') no-repeat 0px -3px;
+}
+
+
+.pathScrollHolder{
+	position:relative;
+	height:16px;
+	width:538px;
+	margin:0px 4px;
+	overflow:hidden;
+	float:left;
+	z-index:1;
+}
+
+.pathScrollDiv{
+	position:absolute;
+	left:0px;
+	z-index:2;
+}
+
+
+.affiliationRow .node_label, .uriRow .uriSym{
+	font-weight:bold;
+}
+
+.authors .specialSymbols{
+	vertical-align:super;
+	font-size:10px;
+}
+
+.imgFloatLeft {
+	float:left;
+	width:346px;
+}
+
+.ImgTextFloatRight {
+	float:right;
+	width:207px;
+	padding-top:10px;
+	padding-right:8px;
+	text-indent:0px !important;
+}
+
+.ImgTextFloatRight span {
+	margin:0px 5px 0px 0px !important;
+}

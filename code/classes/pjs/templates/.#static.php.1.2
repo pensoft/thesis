@@ -1,0 +1,186 @@
+<?php
+
+function getClearRowIfMultiple($pIsMultiple, $pHtmlIdent){
+	if( (int)$pIsMultiple == 2 ){
+		return '';
+	}else{
+		return '$("#' . $pHtmlIdent . '_autocomplete").tokenInput("clear");';
+	}
+}
+
+function disableTree($pIsDisabled, $pHtmlIdent){
+	if($pIsDisabled){
+		return '$("#tree' . $pHtmlIdent . '").dynatree("disable");';
+	}
+	return '';
+}
+
+function checkIsMultipleTokenInput($pIsMultiple){
+	if($pIsMultiple)
+		return '';
+	return 'tokenLimit: 1,';
+}
+
+function getProfilePic($pPhotoId){
+	$lRet = '';
+	
+	if((int)$pPhotoId){
+		$lRet = '<div id="Prof-Photo" href="javascript:void(0)">
+					<img class="P-Prof-Pic" src="/showimg.php?filename=c67x70y_' . $pPhotoId . '.jpg">
+					<div class="P-Clear"></div>
+				</div>
+				' . getstr('pwt.changeProfilePicture');
+	}else {
+		$lRet = '<div id="Prof-Photo" href="javascript:void(0)">
+					<img src="i/add_photo.png">
+					<div class="P-Clear"></div>
+				</div>
+				' . getstr('pwt.addProfilePicture');
+	}
+	return $lRet;
+}
+
+function getProfilePicSmall($pPhotoId){
+	$lRet = '';
+	
+	if((int)$pPhotoId){
+		$lRet = '<img class="P-Prof-Pic" src="/showimg.php?filename=c32x32y_' . $pPhotoId . '.jpg">';
+	}else {
+		$lRet = '<img width="32" height="32" src="i/add_photo.png">';
+	}
+	return $lRet;
+}
+
+function getFormHeaderStep1($pIsProfileEdit){
+	global $user; 
+	
+	if((int)$pIsProfileEdit || $user->id){
+		$lRet = '<br/><h2>' . getstr('pjs.profile.editstepone') . '</h2>';
+	}else{
+		$lRet = '<table cellspacing="0">
+					<tr>
+						<td class="reg-active-step"><span>' . getstr('pjs.register_step') . ' 1</span><br>' . getstr('pjs.account_information') . '</td>
+						<td><span>' . getstr('pjs.register_step') . ' 2</span><br>' . getstr('pjs.contact_information') . '</td>
+						<td><span>' . getstr('pjs.register_step') . ' 3</span><br>' . getstr('pjs.subscribe_to_email_and_rss') . '</td>
+					</tr>
+				</table>';
+	}
+	return $lRet;
+}
+
+function getFormHeaderStep2($pIsProfileEdit){
+	global $user; 
+	
+	if((int)$pIsProfileEdit || $user->id){
+		$lRet = '<br/><h2>' . getstr('pjs.profile.editsteptwo') . '</h2>';
+	}else{
+		$lRet = '<table cellspacing="0">
+					<tr>
+						<td><span>' . getstr('pjs.register_step') . ' 1</span><br>' . getstr('pjs.account_information') . '</td>
+						<td class="reg-active-step"><span>' . getstr('pjs.register_step') . ' 2</span><br>' . getstr('pjs.contact_information') . '</td>
+						<td><span>' . getstr('pjs.register_step') . ' 3</span><br>' . getstr('pjs.subscribe_to_email_and_rss') . '</td>
+					</tr>
+				</table>';
+	}
+	return $lRet;
+}
+
+function getFormHeaderStep3($pIsProfileEdit){
+	global $user; 
+	
+	if((int)$pIsProfileEdit || $user->id){
+		$lRet = '<br/><h2>' . getstr('pjs.profile.editstepthree') . '</h2>';
+	}else{
+		$lRet = '<table cellspacing="0">
+					<tr>
+						<td><span>' . getstr('pjs.register_step') . ' 1</span><br>' . getstr('pjs.account_information') . '</td>
+						<td><span>' . getstr('pjs.register_step') . ' 2</span><br>' . getstr('pjs.contact_information') . '</td>
+						<td class="reg-active-step"><span>' . getstr('pjs.register_step') . ' 3</span><br>' . getstr('pjs.subscribe_to_email_and_rss') . '</td>
+					</tr>
+				</table>';
+	}
+	return $lRet;
+}
+
+function getFormButtonStep1($pIsProfileEdit){
+	global $user; 
+	
+	if((int)$pIsProfileEdit || $user->id){
+		$lRet = '<div class="P-Grey-Btn-Holder P-Reg-Btn">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="submitProfileForm(\'registerfrm\', 1);">Save</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>
+				<div class="P-Grey-Btn-Holder P-Reg-Btn-R">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="window.location.href=\'/profile.php\';">Cancel</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>';
+	}else{
+		$lRet = '<div class="P-Grey-Btn-Holder P-Reg-Btn">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="SubmitRegForm(\'P-Registration-Content\', \'registerfrm\', 1, 1, 0)">' . getstr('pjs.nextstep') . ' 2 &raquo;</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>';
+	}
+	return $lRet;
+}
+
+function getFormButtonStep2($pIsProfileEdit){
+	global $user; 
+	
+	if((int)$pIsProfileEdit || $user->id){
+		$lRet = '<div class="P-Grey-Btn-Holder P-Reg-Btn">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="submitProfileForm(\'registerfrm\', 2);">Save</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>
+				<div class="P-Grey-Btn-Holder P-Reg-Btn-R">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="window.location.href=\'/profile.php\';">Cancel</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>';
+	}else{
+		$lRet = '<div class="P-Grey-Btn-Holder P-Reg-Btn">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="SubmitRegForm(\'P-Registration-Content\', \'registerfrm\', 2, 1, 0)">&laquo; ' . getstr('pjs.prevstep') . ' 1</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>
+				<div class="P-Grey-Btn-Holder P-Reg-Btn-R">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="SubmitRegForm(\'P-Registration-Content\', \'registerfrm\', 1, 2, 0)">' . getstr('pjs.nextstep') . ' 3 &raquo;</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>';
+	}
+	return $lRet;
+}
+
+function getFormButtonStep3($pIsProfileEdit){
+	global $user; 
+	
+	if((int)$pIsProfileEdit || $user->id){
+		$lRet = '<div class="P-Grey-Btn-Holder P-Reg-Btn">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="submitProfileForm(\'registerfrm\', 3);">Save</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>
+				<div class="P-Grey-Btn-Holder P-Reg-Btn-R">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="window.location.href=\'/profile.php\';">Cancel</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>';
+	}else{
+		$lRet = '<div class="P-Grey-Btn-Holder P-Reg-Btn">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle" onclick="SubmitRegForm(\'P-Registration-Content\', \'registerfrm\', 2, 2, 0)">&laquo; ' . getstr('pjs.prevstep') . ' 2</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>
+				<div onclick="" class="P-Green-Btn-Holder P-Reg-Btn-R">
+					<div class="P-Green-Btn-Left"></div>
+					<div class="P-Green-Btn-Middle" onclick="SubmitRegForm(\'P-Registration-Content\', \'registerfrm\', 1, 3)">Finish</div>
+					<div class="P-Green-Btn-Right"></div>
+				</div>';
+	}
+	return $lRet;
+}
+?>

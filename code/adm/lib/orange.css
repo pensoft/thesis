@@ -1,0 +1,352 @@
+body {
+	margin: 0;
+	padding: 0;
+	/*font-family: "trebuchet MS", "Sans Serif";*/
+	font-family: Tahoma, Verdana, sans-serif;
+	font-size: 10px;
+	color: #1d283f;
+	background: #fff;
+}
+
+a {
+	color: #3c578e;
+	text-decoration: underline;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.frmbutton {
+	border:1px solid #1d283f;
+	padding: 1px 12px;
+	color: #1d283f;
+	font-weight: bold;
+	font-size: 10px;
+	background: #ccc;
+	cursor: pointer;
+	cursor: hand;
+}
+
+#wrapper {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.t {
+	background: url('/img/border_t.gif') 0 0 repeat-x; 
+	width: 100%;
+	/*height: 100%;*/
+	margin-bottom: 20px;
+}
+
+.b {
+	background: url('/img/border_b.gif') 0 100% repeat-x;
+	height: 100%;
+}
+
+.l {
+	background: url('/img/border_l.gif') 0 0 repeat-y;
+	height: 100%;
+}
+
+.r {
+	background: url('/img/border_r.gif') 100% 0 repeat-y;
+	height: 100%;
+}
+
+.bl {
+	background: url('/img/border_bl.gif') 0 100% no-repeat;
+	height: 100%;
+}
+
+.br {
+	background: url('/img/border_br.gif') 100% 100% no-repeat;
+	height: 100%;
+}
+
+.tl {
+	background: url('/img/border_tl.gif') 0 0 no-repeat;
+	height: 100%;
+}
+
+.tr {
+	background: url('/img/border_tr.gif') 100% 0 no-repeat; 
+	height: 100%;
+	padding: 7px;
+}
+
+.unfloat {
+	float: none !important;
+	clear: both !important;
+}
+
+#header {
+	padding: 10px;
+	height: 45px;
+	background: url('/img/header_bg.jpg') no-repeat top left;
+}
+
+#logo {
+	float: right;
+	background: url('/img/logo.gif') no-repeat top left;
+	width: 126px;
+	height: 44px;
+}
+
+#menu {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	background: url('/img/menu_bg_red.gif') repeat-x top left;
+	float: left;
+	width: 100%;
+	position: relative;
+}
+
+#menu a {
+	color: #fff;
+	font-weight: bold;
+	font-size: 12px;
+	text-decoration: none;
+	padding: 6px 12px;
+	height: 14px;
+	cursor: pointer;
+	cursor: hand;
+	float: left;
+	border-right: 1px solid #000;
+}
+
+#menu li {
+	float: left;
+}
+
+#menu li.disable {
+	color: #ccc;
+	font-weight: bold;
+	font-size: 12px;
+	text-decoration: none;
+	padding: 6px 12px;
+	height: 14px;
+	float: left;
+	border-right: 1px solid #000;
+}
+
+#menu ul {
+	/*display: none;*/
+	position: absolute;
+	z-index: 100;
+	width: 150px;
+	border: 2px outset #4f94cd;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	background: #f6f6f6 url('/img/submenu_bg_red.gif') repeat-y top left;
+}
+
+#menu ul li {
+	list-style: none;
+	padding: 0 4px 0 0;
+	float: none;
+	width: 150px;
+}
+
+#menu ul li a {
+	color: #1d283f;
+	font-weight: normal;
+	font-size: 10px;
+	float: none;
+	border: none;
+	display: block;
+	padding: 5px 1px 5px 30px;
+	height: auto;
+}
+
+#menu ul li a:hover {
+	padding: 4px 0 4px 29px;
+	background: #fef1b5;
+	border: 1px solid #1d283f;
+}
+
+#menu ul li a.hassm {
+	background: url('/img/marr.gif') no-repeat 98% 50%;
+}
+
+#menu ul li a:hover.hassm {
+	background: #fef1b5 url('/img/marr.gif') no-repeat 99% 50%;
+}
+
+#footer {
+	text-align: right;
+	font-size: 9px;
+	padding: 7px 1%;
+	height: 12px;
+	background: url('/img/menu_bg_red.gif') repeat-x top left;
+	position: fixed;
+	bottom: 0;
+	width: 98%;
+}
+
+* html #footer { /*IE6 only rule, applied on top of the default above*/
+	position: absolute;
+	top: expression(document.compatMode == "CSS1Compat" ? (documentElement.scrollTop + (documentElement.clientHeight-this.clientHeight))  + "px" : 
+		(document.body.scrollTop + (document.body.clientHeight-this.clientHeight)) + "px");
+}
+
+#main {
+	margin: 20px 0;
+}
+
+.loginform {
+	width: 450px;
+	margin: 0 auto;
+}
+
+.gridtable, .formtable {
+	width: 100%;
+	border-top: none;
+	border-left: 1px solid #929292;
+	border-right: 1px solid #929292;
+	border-bottom: 1px solid #929292;
+}
+
+.gridtable {
+	border-top: 1px solid #929292;
+}
+
+.gridtable th, .formtable th {
+	height: 26px;
+	padding: 0 5px;
+	background: url('/img/menu_bg_red.gif') repeat-x top left;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: left;
+}
+
+.gridtable th a, .formtable th a {
+	color: #fff;
+}
+
+.gridtable th.gridtools {
+	background: #fff url('/img/y.gif') no-repeat 10px 7px;
+	font-weight: bold;
+	color: #1d283f;
+	vertical-align: middle;
+	padding-left: 30px;
+}
+
+.gridtable th.gridtools a, .gridtools_sep {
+	float: right;
+	color: #1d283f;
+	margin-left: 5px;
+}
+
+.formtable th.formtools {
+	background: #fff;
+	font-weight: bold;
+	color: #1d283f;
+	vertical-align: middle;
+	padding-left: 30px;
+	border-top: 1px solid #929292;
+}
+
+.formtable th.formtools a, .formtools_sep {
+	float: right;
+	color: #1d283f;
+	margin-left: 5px;
+}
+
+.coolinp {
+	border: 1px solid #1d283f;
+	width: 100%;
+	color: #1d283f;
+}
+
+.err {
+	color: #ff0000;
+}
+
+.paging {
+	width: 98%;
+	padding: 0 1%;
+	text-align: right;
+}
+
+.pageing_info {
+	float: left;
+}
+
+.changelog {
+	background: #9fb6cd;
+	margin: 0;
+	border: 2px groove #1d283f;
+}
+
+.changelog legend {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+#framesholder iframe {
+	height: 150px;
+	width: 100%;
+	margin-bottom: 20px;
+	border: none;
+}
+
+.noMarginMain {
+	margin: 0 !important;
+}
+
+/* za calendar-a */
+#calidfrm {
+	position: absolute;
+	display: none;
+	width: 150px;
+	height: 200px;
+}
+
+#calid {
+	position: absolute;
+	display: none;
+	background-color: #f8f8f8;
+	border: 1px solid Black;
+	width: 150px;
+	height: 100px;
+	padding: 3px;
+}
+.cal td {
+	font-size : 11px;
+	font-family : Arial, Helvetica, sans-serif;
+	background-color: #f0f0f0;
+	cursor: pointer;
+	cursor: hand;
+}
+.cal th {
+	font-size : 11px;
+	font-family : Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	background-color: #e0e0e0;
+}
+.cal a {
+	font-family : Arial, Helvetica, sans-serif ;
+	text-decoration: none;
+	color: Black;
+	font-size: 11px;
+}
+.cal a:hover {
+	font-family : Arial, Helvetica, sans-serif ;
+	text-decoration: none;
+	color: #990000;
+	font-size: 11px;
+}
+
+.white_row {
+	background: #ffffff !important;
+}
+
+.color_row {
+	background: #fef1b5 !important;
+}

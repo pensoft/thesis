@@ -1,0 +1,1 @@
+ALTER TABLE pjs.document_review_round_users ADD COLUMN state_id int NOT NULL DEFAULT 1 REFERENCES pjs.document_review_round_user_states(id);

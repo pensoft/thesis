@@ -1,0 +1,1 @@
+ALTER TABLE pwt.object_fields ADD COLUMN dont_save_value boolean NOT NULL DEFAULT false;

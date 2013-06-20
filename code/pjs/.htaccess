@@ -1,0 +1,30 @@
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE text/javascript
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/rss+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+
+RewriteEngine On
+RewriteBase /
+
+#redirect evil www.bdj.com/* to bdj.com/*
+RewriteCond %{HTTP_HOST} ^www.biodiversitydatajournal.com [NC]
+RewriteRule ^(.*)$ http://biodiversitydatajournal.com/$1 [L,R=301]
+
+
+# Document root
+RewriteRule   ^()$  /journals
+
+RewriteRule   ^about$ /show?mode=1
+RewriteRule   ^board$ /browse_journal_groups?grp_id=93 [QSA]
+RewriteRule   ^contacts$ /browse_journal_groups?grp_id=106
+
+#add .php
+RewriteRule   ^/?([a-z|_]+)$ $1.php
+#add journal_id=1
+RewriteRule   ^(.*)$  $1?journal_id=1 [QSA,L]

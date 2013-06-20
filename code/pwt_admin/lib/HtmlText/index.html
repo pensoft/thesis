@@ -1,0 +1,23 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<META http-equiv=Content-Type content="text/html; charset=UTF-8" />
+
+	<script src="Range.js"></script>
+	<script src="CObject.js"></script>
+	<script src="Table.js"></script>
+	<script src="CLink.js"></script>
+	<script src="CImage.js"></script>
+	<script src="CContextMenu.js"></script>
+	<script src="HtmlText.js"></script>
+	<script src="common.js"></script>
+	<link href="HtmlText.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="htmltext_div" class="htmltextcontainer"></div>
+	<script>
+		var h=new HtmlText("htmltext_div","ime_na_textarea");
+		h.Display("<img src='http://google.com/intl/en_ALL/images/logo.gif' />");
+	</script>
+</body>
+</html>

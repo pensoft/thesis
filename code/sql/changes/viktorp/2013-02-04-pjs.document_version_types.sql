@@ -1,0 +1,1 @@
+INSERT INTO pjs.document_version_types(name) VALUES('Public Review version');

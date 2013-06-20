@@ -1,0 +1,1 @@
+INSERT INTO pjs.event_data_types("name", value_type) VALUES('Journal ID', 1);

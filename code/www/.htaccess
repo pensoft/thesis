@@ -1,0 +1,19 @@
+RewriteEngine On
+RewriteBase /
+
+# show.php
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteRule ^show/([0-9]+)_(.*)/(.+)$ show.php?storyid=$1&title=$2&rwr=/$3 [QSA,NC,L]
+
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteRule ^show/([0-9]+)_(.*)/?$ show.php?storyid=$1&title=$2 [QSA,NC,L]
+
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteRule ^show/([a-z0-9\_\.\-]+)/(.+)$ show.php?page=$1&rwr=/$2 [QSA,NC,L]
+
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteRule ^show/([a-z0-9\_\.\-]+)/?$ show.php?page=$1 [QSA,NC,L]

@@ -1,0 +1,1 @@
+ALTER TABLE pjs.email_task_details ADD COLUMN template_notes varchar;

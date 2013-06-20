@@ -1,0 +1,21 @@
+#divInfo {
+	font: 12px Verdana;
+	font-weight: bold;
+	overflow: hidden;
+}
+
+#divInfo label {
+	display: block;
+	width: 40px;
+}
+
+#divInfo input {
+	width: 120px;
+	background: #ffffff;
+}
+
+#divInfo input.btn {
+	background: #C7C78F;
+	font-weight: normal;
+	border: 1px solid #737357;
+}

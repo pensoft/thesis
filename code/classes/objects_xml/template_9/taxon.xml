@@ -1,0 +1,140 @@
+<checklist_taxon object_id="205" display_name="Taxon">
+	<fields>
+		<taxon_authors_and_year id="236"
+			field_name="Taxon author(s) and year">
+			<value />
+		</taxon_authors_and_year>
+		<form id="436" field_name="Form">
+			<value />
+		</form>
+		<variety id="435" field_name="Variety">
+			<value />
+		</variety>
+		<subspecies id="418" field_name="Subspecies">
+			<value />
+		</subspecies>
+		<species id="49" field_name="Species">
+			<value />
+		</species>
+		<subgenus id="417" field_name="Subgenus">
+			<value />
+		</subgenus>
+		<genus id="48" field_name="Genus">
+			<value />
+		</genus>
+		<subtribe id="434" field_name="Subtribe">
+			<value />
+		</subtribe>
+		<tribe id="433" field_name="Tribe">
+			<value />
+		</tribe>
+		<subfamily id="432" field_name="Subfamily">
+			<value />
+		</subfamily>
+		<family id="431" field_name="Family">
+			<value />
+		</family>
+		<superfamily id="430" field_name="Superfamily">
+			<value />
+		</superfamily>
+		<infraorder id="429" field_name="Infraorder">
+			<value />
+		</infraorder>
+		<suborder id="428" field_name="Suborder">
+			<value />
+		</suborder>
+		<order id="427" field_name="Order">
+			<value />
+		</order>
+		<superorder id="426" field_name="Superorder">
+			<value />
+		</superorder>
+		<subclass id="425" field_name="Subclass">
+			<value />
+		</subclass>
+		<class id="424" field_name="Class">
+			<value />
+		</class>
+		<superclass id="423" field_name="Superclass">
+			<value />
+		</superclass>
+		<subphylum id="422" field_name="Subphylum">
+			<value />
+		</subphylum>
+		<phylum id="421" field_name="Phylum">
+			<value />
+		</phylum>
+		<subkingdom id="420" field_name="Subkingdom">
+			<value />
+		</subkingdom>
+		<kingdom id="419" field_name="Kingdom">
+			<value />
+		</kingdom>
+		<im_not_here id="475" field_name="I'm not here">
+			<value />
+		</im_not_here>
+		<rank id="414" field_name="Rank">
+			<value></value>
+		</rank>
+	</fields>
+	<external_links object_id="40" display_name="External Links">
+	</external_links>
+	<nomenclature object_id="210" display_name="Nomenclature">
+		<fields>
+			<nomenclature id="474" field_name="Nomenclature">
+				<value />
+			</nomenclature>
+		</fields>
+	</nomenclature>
+	<materials object_id="38" display_name="Materials">
+		<fields>
+			<import_material_data_from_file id="463"
+				field_name="Import material data from file">
+				<value />
+			</import_material_data_from_file>
+		</fields>
+	</materials>
+	<eco-interactions object_id="209" display_name="Ecological interactions">
+		<fields>
+			<conservation_status id="465" field_name="Conservation status">
+				<value />
+			</conservation_status>
+			<native_status id="466" field_name="Native status">
+				<value />
+			</native_status>
+			<host_of id="467" field_name="Host of">
+				<value />
+			</host_of>
+			<parasite_of id="468" field_name="Parasite of">
+				<value />
+			</parasite_of>
+			<symbiotic_with id="469" field_name="Symbiotic with">
+				<value />
+			</symbiotic_with>
+			<feeds_on id="470" field_name="Feeds on">
+				<value />
+			</feeds_on>
+		</fields>
+	</eco-interactions>
+	<distribution object_id="208" display_name="Distribution">
+		<fields>
+			<distribution id="471" field_name="Distribution">
+				<value />
+			</distribution>
+		</fields>
+	</distribution>
+	<horizon object_id="207" display_name="Horizon">
+		<fields>
+			<horizon id="472" field_name="Horizon">
+				<value />
+			</horizon>
+		</fields>
+	</horizon>
+	<notes instance_id="116844" display_name="Notes">
+		<fields>
+			<notes id="473" field_name="Notes">
+				<value />
+			</notes>
+		</fields>
+	</notes>
+</checklist_taxon>

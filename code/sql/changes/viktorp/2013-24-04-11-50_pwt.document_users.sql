@@ -1,0 +1,1 @@
+ALTER TABLE pwt.document_users ADD COLUMN ord int;

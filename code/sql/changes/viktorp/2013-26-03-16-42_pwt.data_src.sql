@@ -1,0 +1,4 @@
+INSERT INTO pwt.data_src(name, query) VALUES('Taxon classification', 'SELECT id, name FROM public.taxon_categories WHERE name = \''{value}\'' ORDER BY name ASC');
+INSERT INTO pwt.data_src(name, query) VALUES('Subject classification', 'SELECT id, name FROM public.subject_categories WHERE name = \''{value}\'' ORDER BY name ASC');
+INSERT INTO pwt.data_src(name, query) VALUES('Chronological classification', 'SELECT id, name FROM public.chronological_categories WHERE name = \''{value}\'' ORDER BY name ASC');
+INSERT INTO pwt.data_src(name, query) VALUES('Geographical classification', 'SELECT id, name FROM public.geographical_categories WHERE name = \''{value}\'' ORDER BY name ASC');

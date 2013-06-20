@@ -1,0 +1,18 @@
+changes spGetDocumentInfo
+
+SELECT INTO lRes 
+			d.id, d.submitting_author_id, d.state_id, d.document_source_id, d.creation_step, 
+			d.name, d.abstract, d.keywords, d.journal_id, d.editor_notes, d.layout_notes, d.document_review_type_id, null,
+			v.version_num, dvt.name, !!js.title!!, null, null, null, null, d.notes_to_editor, null, d.submitted_date, null, null, null, d.community_public_due_date, d.current_round_id
+		FROM pjs.documents d
+		JOIN pjs.document_review_types dvt ON dvt.id = d.document_review_type_id
+		JOIN pjs.document_types dt ON dt.id = d.document_type_id
+		!!JOIN pjs.journal_sections js ON js.id = d.journal_section_id!!
+		LEFT JOIN (
+			SELECT version_num, document_id
+			FROM pjs.document_versions 
+			WHERE document_id = pDocumentId AND version_type_id = lAuthorVersionType
+			ORDER BY version_num DESC
+			LIMIT 1
+		) v ON v.document_id = d.id
+		WHERE d.id = pDocumentId;

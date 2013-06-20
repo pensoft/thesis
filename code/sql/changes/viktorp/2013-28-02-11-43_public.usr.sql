@@ -1,0 +1,1 @@
+ALTER TABLE public.usr ADD COLUMN admin boolean NOT NULL DEFAULT FALSE;

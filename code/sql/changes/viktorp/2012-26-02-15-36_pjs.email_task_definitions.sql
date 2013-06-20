@@ -1,0 +1,2 @@
+INSERT INTO pjs.email_task_definitions ("name", event_type_id, is_automated, subject, content_template, recipients) 
+	VALUES ('CE Decided', 19, FALSE, 'CE Decided Accept', 'Dear {first_name} {last_name}, CE for the current document corrects the lingiustics mistakes', ARRAY[2]);

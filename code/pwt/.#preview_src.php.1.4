@@ -1,0 +1,23 @@
+<?php
+
+$docroot = getenv('DOCUMENT_ROOT');
+require_once($docroot . '/lib/static.php');
+
+$gDocumentId = (int)$_REQUEST['document_id'];
+$gXSLPath = $_REQUEST['template_xsl_path'];
+
+$gRevisionId = (int)$_REQUEST['revision_id'];
+$gShowRevision = (int)$_REQUEST['show_revision'];
+$gRevisionXML = '';
+$lHideTip = false;
+if($gShowRevision){
+	$gRevisionXML = getRevisionXML($gDocumentId, $gRevisionId);
+	$lHideTip = true;
+}
+
+if($gDocumentId){
+	header("Content-type: text/html");
+	echo getDocumentPreview($gDocumentId, 1, $gXSLPath, $gRevisionXML, false, $lHideTip);
+}
+
+?>

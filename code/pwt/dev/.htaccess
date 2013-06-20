@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteBase /
+
+RewriteRule   ^data_paper.xsd$ /dev/template_xsd.php?id=5
+RewriteRule   ^editorial_correspondence.xsd$ /dev/template_xsd.php?id=8
+RewriteRule   ^general_research_article.xsd$ /dev/template_xsd.php?id=7
+RewriteRule   ^interactive_key.xsd$ /dev/template_xsd.php?id=4
+RewriteRule   ^species_inventory.xsd$ /dev/template_xsd.php?id=10
+RewriteRule   ^software_description.xsd$ /dev/template_xsd.php?id=3
+RewriteRule   ^taxonomic_paper.xsd$ /dev/template_xsd.php?id=9

@@ -1,0 +1,1 @@
+ALTER TABLE sid1storyprops ADD COLUMN journal_id int REFERENCES(pjs.journals.id);

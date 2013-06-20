@@ -1,0 +1,250 @@
+<?php
+define('PATH_XSL', PATH_CLASSES . 'pwt_xsl/');
+define('PATH_OBJECTS_XSL', PATH_CLASSES . 'objects_xml/');
+define('PATH_PMT_XSL', PATH_CLASSES . 'xsl/');
+define('PATH_PJS_DOCROOT', PATH_CHECKOUT . '/code/pjs/');
+
+
+define('ERR_EMPTY_FIELD', getstr('kfor.emptyField'));
+
+define('METADATA_OBJECT_ID', 14);
+define('METADATA_OBJECT_IDS_FOR_DIFFERENT_TEMPLATES', '14,152');
+define('DATA_PAPER_RESOURCES_DATA_SET_OBJECT_ID', 141);
+define('TITLE_AND_AUTHORS_OBJECT_ID', 9);
+define('AUTHOR_OBJECT_ID', 8);
+define('CONTRIBUTOR_OBJECT_ID', 12);
+define('FIRST_INSTANCE_IDS_FOR_DIFFERENT_TEMPLATES', '9,153');
+
+define('CONTAINER_ITEM_FIELD_TYPE', 1);
+define('CONTAINER_ITEM_OBJECT_TYPE', 2);
+define('CONTAINER_ITEM_CUSTOM_HTML_TYPE', 3);
+define('CONTAINER_ITEM_TABBED_ITEM_TYPE', 4);
+
+define('HTML_DEFAULT_RADIO_SEPARATOR', '<br/>');
+define('HTML_DEFAULT_CHECKBOX_SEPARATOR', '<br/>');
+define('HTML_DEFAULT_AUTOCOMPLETE_TEMPLATE', '"<a>" + item.name + "</a>"');
+define('HTML_DEFAULT_AUTOCOMPLETE_ONSELECT_FUNCTION', '
+						$( "#{field_html_identifier}_autocomplete" ).val( \'\' );
+						$( "#{field_html_identifier}" ).val( \'\' );
+						return false;');
+
+define('FIELD_HTML_INPUT_TYPE', 2);
+define('FIELD_HTML_SELECT_TYPE', 1);
+define('FIELD_HTML_EDITOR_TYPE', 3);
+define('FIELD_HTML_TEXTAREA_TYPE', 5);
+define('FIELD_HTML_TEXTAREA_THESIS_TYPE', 33);
+define('FIELD_HTML_TEXTAREA_THESIS_NEXT_COUPLET_TYPE', 34);
+define('FIELD_HTML_TEXTAREA_THESIS_TAXON_NAME_TYPE', 35);
+define('FIELD_HTML_TEXTAREA_ANTITHESIS_TYPE', 36);
+define('FIELD_HTML_EDITOR_TYPE_NO_CITATIONS', 37);
+define('FIELD_HTML_EDITOR_TYPE_ONLY_REFERENCE_CITATIONS', 43);
+
+define('FIELD_HTML_MULTIPLE_SELECT_TYPE', 6);
+define('FIELD_HTML_RADIO_TYPE', 7);
+define('FIELD_HTML_CHECKBOX_TYPE', 8);
+define('FIELD_HTML_AUTOCOMPLETE_TYPE', 9);
+define('FIELD_HTML_TEXTAREA_SIMPLE_TYPE', 18);
+define('FIELD_HTML_FACEBOOK_AUTOCOMPLETE_TYPE', 19);
+define('FIELD_HTML_FILE_UPLOAD_TYPE', 21);
+define('FIELD_HTML_TAXON_CLASSIFICATION_AUTOCOMPLETE_TYPE', 22);
+define('FIELD_HTML_TAXON_CLASSIFICATION_AUTOCOMPLETE_SINGLE_TYPE', 26);
+define('FIELD_HTML_SUBJECT_CLASSIFICATION_AUTOCOMPLETE_TYPE', 27);
+define('FIELD_HTML_SUBJECT_CLASSIFICATION_AUTOCOMPLETE_SINGLE_TYPE', 28);
+define('FIELD_HTML_CHRONOLOGICAL_CLASSIFICATION_AUTOCOMPLETE_TYPE', 30);
+define('FIELD_HTML_CHRONOLOGICAL_CLASSIFICATION_AUTOCOMPLETE_SINGLE_TYPE', 29);
+define('FIELD_HTML_GEOGRAPHICAL_CLASSIFICATION_AUTOCOMPLETE_TYPE', 32);
+define('FIELD_HTML_GEOGRAPHICAL_CLASSIFICATION_AUTOCOMPLETE_SINGLE_TYPE', 31);
+define('FIELD_HTML_ROUNDED_SIMPLE_TEXTAREA', 38);
+define('FIELD_HTML_FILE_UPLOAD_MATERIAL_TYPE', 44);
+
+
+define('FIELD_HELP_LABEL_ICON_STYLE', 1);
+define('FIELD_HELP_LABEL_DESCRIPTION_STYLE', 2);
+
+define('ACTION_HTML_MOVE_UP_TYPE', 10);
+define('ACTION_HTML_MOVE_DOWN_TYPE', 11);
+define('ACTION_HTML_TOP_RED_BTN_TYPE', 12);
+define('ACTION_HTML_ADD_BTN_TYPE', 13);
+define('ACTION_HTML_BOTTOM_EDIT_TYPE', 14);
+define('ACTION_HTML_ADD_ALL_TYPE', 15);
+define('ACTION_HTML_COMMENT_TYPE', 16);
+define('ACTION_HTML_VALIDATION_TYPE', 17);
+define('ACTION_HTML_CHECK_NAME_AVAILABILITY_TYPE', 20);
+define('ACTION_HTML_BOTTOM_SAVE_BTN_TYPE', 23);
+define('ACTION_HTML_BOTTOM_CANCEL_BTN_TYPE', 24);
+define('ACTION_HTML_BOTTTOM_RED_BTN_TYPE', 25);
+define('ACTION_HTML_TOP_CHANGE_MODE_TYPE', 39);
+define('ACTION_HTML_RIGHT_MOVE_UP_TYPE', 40);
+define('ACTION_HTML_RIGHT_MOVE_DOWN_TYPE', 41);
+define('ACTION_HTML_RIGHT_DELETE_TYPE', 42);
+
+define('ACTION_TOP_POS', 1);
+define('ACTION_BOTTOM_POS', 2);
+define('ACTION_AFTER_SAVE_POS', 3);
+define('ACTION_RIGHT_POS', 7);
+
+define('ACTIONS_REMOVE_ID', 3);
+define('ACTIONS_ADD_NEW_INSTANCE_ID', 4);
+define('ACTIONS_MOVE_UP_ID', 1);
+define('ACTIONS_MOVE_DOWN_ID', 2);
+
+define('FIELD_INT_TYPE', 1);
+define('FIELD_STRING_TYPE', 2);
+
+define('FIELD_CHECKBOX_MANY_TO_STRING_TYPE', 3);
+define('FIELD_CHECKBOX_MANY_TO_BIT_TYPE', 4);
+define('FIELD_CHECKBOX_MANY_TO_BIT_ONE_BOX_TYPE', 5);
+define('FIELD_CHECKBOX_MANY_TO_SQL_INT_ARRAY_TYPE', 6);
+define('FIELD_CHECKBOX_MANY_TO_SQL_STRING_ARRAY_TYPE', 7);
+define('FIELD_CHECKBOX_MANY_TO_SQL_DATE_ARRAY_TYPE', 9);
+define('FIELD_DATE_TYPE', 8);
+
+define('ITEMS_STRING_REPRESENTATION_DELIMITER', ',');
+
+
+
+define('INSTANCE_FIELD_NAME_SEPARATOR', '__');
+define('INSTANCE_EDIT_MODE', 1);
+define('INSTANCE_VIEW_MODE', 2);
+define('INSTANCE_TITLE_MODE', 3);
+define('INSTANCE_DEFAULT_MODE', INSTANCE_EDIT_MODE);
+
+define('CONTAINER_VERTICAL_TYPE', 1);
+define('CONTAINER_HORIZONTAL_TYPE', 2);
+
+//Lock-operations
+define('LOCK_AUTO_LOCK', 1);
+define('LOCK_AUTO_UNLOCK', 2);
+define('LOCK_EXPLICIT_UNLOCK', 3);
+define('LOCK_AUTO_EXPLICIT_UNLOCK', 4);
+
+define('USE_PERL_EXECS', 0);
+define(ACTION_AJAX_URL, AJAX_URL . '/lib/ajax_srv/action_srv.php');
+
+define('DEFAULT_XML_ENCODING', 'utf-8');
+//~ define('FCK_CUSTOMTOOLSNAME_TOOLS', 3);
+
+// Binaries
+//~ define('BINARY_FFMPEG', exec('which ffmpeg'));
+define('BINARY_CONVERT', exec('which convert'));
+
+// JS_VALIDATION_ON
+define('JS_VALIDATION_ON', 1);
+define('DEFAULT_ERROR_STRING', getstr('kfor.default_error'));
+define('DEF_AJAXCHECK_URL', '/lib/ajaxFormValidate.php');
+
+define('TAXON_BALOON_SRV', PTP_URL . '/getTaxonLinks.php');
+define('TAXON_EXTERNAL_LINK_BASE_LINK', PTP_URL . '/externalLink.php');
+define('TAXON_NAME_BASE_LINK', PTP_URL . '/external_details.php');
+define('TAXON_NAME_LINK', TAXON_NAME_BASE_LINK . '?type=1&amp;query=');
+
+define('SHOWFIGURE_URL', '/showfigure.php?filename=');
+
+define('SERIALIZE_INTERNAL_MODE', 1);
+define('SERIALIZE_INPUT_MODE', 2);
+
+define('EDITOR_FULL_TOOLBAR_NAME', 'FullToolbar');
+define('EDITOR_FULL_TOOLBAR_NAME_NO_MAXIMIZE', 'FullToolbarNoMaximize');
+define('EDITOR_SMALL_TOOLBAR_NAME', 'SmallToolbar');
+define('EDITOR_MODERATE_TOOLBAR_NAME', 'ModerateToolbar');
+define('EDITOR_MODERATE_TABLE_TOOLBAR_NAME', 'ModerateTableToolbar');
+define('EDITOR_REFERENCE_CITATION_TOOLBAR_NAME', 'ReferenceCitationToolbar');
+
+define('EDITOR_DEFAULT_HEIGHT', 380);
+define('EDITOR_SMALL_DEFAULT_HEIGHT', 75);
+define('EDITOR_THESIS_HEIGHT', 70);
+define('EDITOR_NEXT_COUPLET_HEIGHT', 42);
+
+//Link от където се взима информация за статия с дадено ид в пмц
+define('PMC_FETCH_LINK', 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&rettype=medline&retmode=xml&id=');
+define('PUBMED_FETCH_LINK', 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&rettype=medline&retmode=xml&id=');
+define('CROSSREF_PID', 'preprint@pensoft.net');
+define('CROSSREF_FETCH_LINK', 'http://www.crossref.org/openurl/?noredirect=true&pid=' . CROSSREF_PID . '&format=unixref&id=doi:');
+
+define('REFERENCE_OBJECT_ID', 95);
+define('REFERENCE_HOLDER_OBJECT_ID', 21);
+// Auto Save interval in milliseconds
+define('AUTO_SAVE_INTERVAL', 1000 * 60); // 1 minute
+
+define('DOCUMENT_TITLE_FIELD_ID', 3);
+define('AUTHOR_MAIL_NOTIFICATION_FIELD_ID', 288);
+define('FILE_UPLOAD_FIELD_ID', 222);
+define('MATERIAL_TYPE_FIELD_ID', 209);
+define('DOCUMENT_VIEW_LINK', SITE_URL . '/display_document.php?document_id=');
+
+// тип на действие (dashboard -> activity)
+define('ACTION_SAVE_DOCUMENT', 1);
+
+define('ACTIVITY_RECORDS_PER_PAGE', 10);
+
+// SORTABLE OBJECTS IN MENU
+define('SYSTEMATICS_OBJECT_ID', 54);
+define('IDENTIFICATION_KEYS_OBJECT_ID', 24);
+define('ADD_TAXON_ACTION_ID', 41);
+define('ADD_IDENTIFICATION_KEY_ID', 23);
+define('CHECKLIST_OBJECT_ID', 173);
+define('ADD_CHECKLIST_TAXON_OBJECT_ID', 174);
+define('CHECKLIST_LOCALITY_OBJECT_ID', 129);
+define('ADD_CHECKLIST_LOCALITY_OBJECT_ID', 183);
+define('CHECKLIST_LOCALITY_TAXON_OBJECT_ID', 188);
+
+define('TAXON_TREATMENT_OBJECT_ID', 41);
+define('SUPPLEMENTARY_FILE_OBJECT_ID', 55);
+define('SUPPLEMENTARY_FILES_OBJECT_ID', 56);
+
+// Изпращане на мейли / съобщения
+define('PENSOFT_SITE_URL', 'http://pwt.pensoft.net');
+define('PENSOFT_MAIL_ADDR', 'pwt@pensoft.net');
+define('PENSOFT_MAIL_DISPLAY', 'pwt@pensoft.net');
+define('PENSOFT_MAILSUBJ_REGISTER', '[PENSOFT WRITING TOOL] Verify your account');
+define('PENSOFT_MAILSUBJ_FPASS', '[PENSOFT WRITING TOOL] Forgotten Password');
+define('PENSOFT_MAILSUBJ_DOC_NEW_AUTHOR_REGISTER', '[PENSOFT WRITING TOOL] New User Registration');
+define('PENSOFT_MAILSUBJ_DOC_NEW_AUTHOR', '[PENSOFT WRITING TOOL] Invitation to co-author a manuscript');
+define('PENSOFT_MAILSUBJ_DOC_NEW_CONTRIBUTOR', '[PENSOFT WRITING TOOL] Invitation to contribute to a manuscript');
+
+
+define('CUSTOM_CHECK_VALIDATION_MODE', 1);
+define('CUSTOM_CHECK_AFTER_SAVE_MODE', 2);
+
+
+define('CUSTOM_CHECK_BREAKABLE_ERROR_TYPE', 2);
+define('CUSTOM_CHECK_NORMAL_ERROR_TYPE', 1);
+define('CUSTOM_CHECK_WARNING_TYPE', 3);
+
+define('PENSOFT_LOGO_IMG', './i/pwt_logo_beta.png');
+
+define('TAXON_NOMENCLATURE_TABLE_NAME', 'taxon_categories');
+
+define('AUTHOR_RIGHT_EDIT', 1);
+define('AUTHOR_RIGHT_COMMENT', 2);
+
+//Интервала, през който да се изпраща сигнала за подновяване на lock-а на документите (в сек).
+//Документа се счита за отключен, ако не е заключен в последните 2 пъти по-това секунди
+define('DOCUMENT_LOCK_TIMEOUT_INTERVAL', 15);
+
+define('DOCUMENT_AUTHOR_TYPE_ID', 2);
+define('DOCUMENT_CONTRIBUTOR_TYPE_ID', 4);
+
+define('YOU_TUBE_VIDEO_TYPE', 2);
+
+define('ACCEPT_REQUEST_BY_IP', '195.189.81.192/32');
+
+define('DEFAULT_DOCUMENT_PAPER_TYPE', 2);
+define('DEFAULT_TT_HABITAT_TYPE_ID', 1);
+define('TT_MATERIAL_CUSTOM_CREATION_ID', 6);
+define('TT_STATUS_TYPES_SRC_ID', 13);
+define('TT_HABITAT_TYPES_SRC_ID', 14);
+
+define('CITATION_FIGURE_PLATE_TYPE_ID', 1);
+define('CITATION_TABLE_TYPE_ID', 2);
+define('CITATION_REFERENCE_TYPE_ID', 3);
+
+define('PWT_MAX_ALLOWED_UPLOAD_FILE_MATERIAL_COUNT', 20);
+
+define('VERSION_USR_CSS_PATH', PATH_PJS_DOCROOT . 'lib/version_usr.css');
+define('PREVIEW_EDITABLE_HEADER_REPLACEMENT_TEXT', '$$EditPreviewHead$$');
+
+define('VERSION_INSERT_CHANGE_NODE_NAME', 'insert');
+define('VERSION_DELETE_CHANGE_NODE_NAME', 'delete');
+
+?>

@@ -1,0 +1,1 @@
+alter table pwt.template_objects add column xml_file_name character varying;

@@ -1,0 +1,417 @@
+!!!/var/www/webs/pensoft.eu/etalig/production.pmt/code/adm<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tp="http://www.plazi.org/taxpub" xmlns:php="http://php.net/xsl" xml:lang="bg" lang="bg"><head xmlns="">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="distribution" content="global">
+<meta name="robots" content="index, follow, all">
+<link rel="stylesheet" href="http://pmt.pensoft.eu/lib/xsl.css" media="all" title="default">
+<script type="text/javascript">
+		function swapDivClassname(pLink, pId, pClassName){
+			var lDiv = document.getElementById(pId);
+			if( lDiv ){
+				if( lDiv.className == pClassName ){
+					lDiv.className = '';
+					pLink.className = 'inactive'
+				}else{
+					lDiv.className = pClassName;
+					pLink.className = ''
+				}
+			}
+		}
+		function openw(url, title, options) {
+			var newwin = window.open(url, title, options);
+			newwin.focus();
+		}
+		
+		
+		function showBaloon(pBaloonType, pId, pEvent) {
+			
+			if( !pId )
+				return;
+			if( !gBaloon || !gBaloonWrapper)
+				return;
+				
+			
+			pEvent = pEvent || window.event;
+			clearTimeout(gTimeout);			
+			if( gActiveBaloonId && gActiveBaloonType == pBaloonType && gActiveBaloonId != pId ){
+				gFlagToHideBaloon = true;
+				hideBaloon(gActiveBaloonId);
+			}else if(gActiveBaloonType == pBaloonType && gActiveBaloonId == pId ){
+				return;
+			}
+			
+			gActiveBaloonId = pId;
+			gActiveBaloonType = pBaloonType;
+			gFlagToHideBaloon = false;
+			var lEventTarget = pEvent.target || pEvent.srcElement;	
+			if( pBaloonType == 1 ){//xref
+				var lReference = document.getElementById('reference_' + pId);
+				var lText = 'Reference not found!';
+				if( lReference ){
+					lText = lReference.innerHTML;// || lReference.innerText;
+				}
+				gBaloon.innerHTML = lText;
+				gBaloonInnerWrapper.className = 'largeBaloon';
+			}else if( pBaloonType == 2 ){//Taxoni
+				var lReferenceName = 'taxon_' + pId + '_baloon_div';
+				
+				var lReference = document.getElementById(lReferenceName);
+				gBaloonInnerWrapper.className = 'smallBaloon';
+				if( lReference ){
+					lText = lReference.innerHTML;// || lReference.innerText;
+				}else{
+					lText = 'Error during loading taxa data';
+				}
+				gBaloon.innerHTML = lText;
+				
+				
+			}else if( pBaloonType == 3 ){//Figuri				
+				var lFigure = document.getElementById('fig_' + pId);
+				var lText = 'Figure not found!';
+				if( lFigure ){
+					lText = lFigure.innerHTML;// || lFigure.innerText;
+				}
+				gBaloon.innerHTML = lText;
+				gBaloonInnerWrapper.className = 'largeBaloon';
+				
+				
+			}else if( pBaloonType == 4 ){//Tablici				
+				var lTable = document.getElementById('table_' + pId);
+				var lText = 'Table not found!';
+				if( lTable ){
+					lText = lTable.innerHTML;// || lTable.innerText;
+				}
+				gBaloon.innerHTML = lText;
+				gBaloonInnerWrapper.className = 'largeBaloon';
+				
+				
+			}			
+			gActiveBaloonId = pId;			
+			displayBaloon(lEventTarget, pEvent);			
+		}
+		
+		function displayBaloon(pEventTarget, pEvent){//Pozicionira i pokazva balona
+			if( !gBaloon || !gBaloonWrapper)
+				return;
+			var lUseWindowMaxY = parseInt('0');
+			gBaloonWrapper.style.display="block";			
+			positionBaloon(pEventTarget, pEvent, lUseWindowMaxY);
+			
+		}
+		
+		function hideBaloonEvent(pId, pEvent){			
+			if( !gBaloon || !gBaloonWrapper)
+				return;
+			gFlagToHideBaloon = true;
+			gTimeout = setTimeout("hideBaloon('" + pId + "')", 10);
+			
+		}
+		
+		function hideBaloon(pId){	
+			clearTimeout(gTimeout);
+			if( !gFlagToHideBaloon )
+				return;
+			
+			gBaloonIsShown = false;
+			gActiveBaloonId = 0;
+			gActiveBaloonType = false;
+			gBaloonWrapper.style.display="none";
+		}		
+
+		
+		function initBalloons(){
+			gBaloon = document.getElementById('baloonContent');
+			gBaloonIsShown = false;
+			gActiveBaloonId = 0;
+			gTimeout = false;
+			gActiveBaloonType = false;
+			gBaloonWrapper = document.getElementById('baloonWrapper');
+			gBaloonInnerWrapper = document.getElementById('baloonInnerWrapper');
+			gBaloonArrowImg = document.getElementById('baloonArrowImg');
+		}
+		
+		function positionBaloon(pEventTarget, pEvent, pUseWindowMaxY){
+			var lMousePos = getMousePosition(pEvent);
+			var lContentWrapper = document.getElementById('contentWrapper');						
+			
+			
+			
+			
+			//var lY = pEventTarget.offsetTop + pEventTarget.offsetHeight;
+			var lY = pEventTarget.offsetHeight;
+			//var lX = pEventTarget.offsetLeft;
+			var lX = 0;
+			var lParent = pEventTarget;
+			do {
+				lY += lParent.offsetTop;
+				lX += lParent.offsetLeft;
+				//alert(lParent.tagName + '-' + lY);
+			}
+			while((lParent = lParent.offsetParent) && lParent.id != 'contentWrapper')
+			
+			/*var lXMax = lMousePos['xMax'];*/
+			var lXMax = lContentWrapper.offsetWidth - 20;//-20 zaradi scrolla
+			var lYMax;
+			if( pUseWindowMaxY ){
+				lYMax = lMousePos['yMax'];
+			}else{
+				lYMax = lContentWrapper.scrollHeight;
+			}
+			lYMax = lYMax - 40;
+			var lClassName = 'baloonWrapper';
+			var lLeft = 0;
+			var lTop = 0;
+			var lImageName = '/img/ext_details/baloon_arrow';
+			if( lY + gBaloonWrapper.offsetHeight <= lYMax ){
+				lTop = lY;
+				lClassName = lClassName + 'Bottom';
+				lImageName = lImageName + '_bottom';
+			}else{
+				lTop = lY - gBaloonWrapper.offsetHeight - pEventTarget.offsetHeight;
+				if( lTop < 0 )
+					lTop = 0;				
+				lClassName = lClassName + 'Top';
+				lImageName = lImageName + '_top';
+			}
+			if( lX + gBaloonWrapper.offsetWidth <= lXMax ){
+				lLeft = lX;
+				lClassName = lClassName + 'Right';
+				lImageName = lImageName + '_right';
+			}else{
+				lLeft = lX -gBaloonWrapper.offsetWidth + 50;
+				if( lLeft < 0 )
+					lLeft = 0;							
+				lClassName = lClassName + 'Left';
+				lImageName = lImageName + '_left';
+			}
+			
+			lImageName = lImageName + '.gif';
+			gBaloonWrapper.style.left = lLeft + 'px';
+			gBaloonWrapper.style.top = lTop + 'px';
+			
+			gBaloonWrapper.className =  lClassName;
+			gBaloonArrowImg.setAttribute('src', lImageName);
+		}
+		
+		function submitForm( pFormName ){
+			eval('document.' + pFormName + '.submit()');			
+		}
+		
+		function showLocalitiesMenu(){
+			var lMenu = document.getElementById('localitiesMenuDiv');
+			if( lMenu )
+				lMenu.style.display='block';
+ 		}
+		
+		function hideLocalitiesMenu(){
+			var lMenu = document.getElementById('localitiesMenuDiv');
+			if( lMenu )
+				lMenu.style.display='none';
+		}
+		
+		function getMousePosition(pEvent){	
+		    if (document.layers) {
+			// When the page scrolls in Netscape, the event's mouse position
+			// reflects the absolute position on the screen. innerHight/Width
+			// is the position from the top/left of the screen that the user is
+			// looking at. pageX/YOffset is the amount that the user has
+			// scrolled into the page. So the values will be in relation to
+			// each other as the total offsets into the page, no matter if
+			// the user has scrolled or not.
+			xMousePos = pEvent.clientX;
+			yMousePos = pEvent.clientY;
+			xMousePosMax = window.innerWidth + window.pageXOffset;
+			yMousePosMax = window.innerHeight + window.pageYOffset;
+		    } else if (document.all) {
+			// When the page scrolls in IE, the event's mouse position
+			// reflects the position from the top/left of the screen the
+			// user is looking at. scrollLeft/Top is the amount the user
+			// has scrolled into the page. clientWidth/Height is the height/
+			// width of the current page the user is looking at. So, to be
+			// consistent with Netscape (above), add the scroll offsets to
+			// both so we end up with an absolute value on the page, no
+			// matter if the user has scrolled or not.	;
+			xMousePos = window.event.x + document.body.scrollLeft;
+			yMousePos = window.event.y + document.body.scrollTop;
+			xMousePosMax = document.body.clientWidth + document.body.scrollLeft;
+			yMousePosMax = document.body.clientHeight + document.body.scrollTop;
+		    } else if (document.getElementById) {
+			// Netscape 6 behaves the same as Netscape 4 in this regard
+			xMousePos = pEvent.clientX;
+			yMousePos = pEvent.clientY;
+			xMousePosMax = window.innerWidth + window.pageXOffset;
+			yMousePosMax = window.innerHeight + window.pageYOffset;
+		    }
+		    return {
+			'x' : xMousePos,
+			'y' : yMousePos,
+			'xMax' : xMousePosMax,
+			'yMax' : yMousePosMax
+		    };
+		}
+		
+		var gHolderDiv;
+		var gScrolDiv;
+		var gRightBtn;
+		var gLeftBtn;
+		var gLinksTable;
+		var gMinLeft;
+		function initScrollConstants(){
+			gHolderDiv = document.getElementById('scrollHolderDiv');
+			gScrolDiv = document.getElementById('scrollDiv');
+			gRightBtn = document.getElementById('scrollRightBtn');
+			gLeftBtn = document.getElementById('scrollLeftBtn');						
+			gLinksTable = document.getElementById('linksButtonHolder');
+			gScrolDiv.style.width = gLinksTable.offsetWidth + 'px';
+			gHolderDiv.style.width = '538px';
+			var gHolderWidth = gHolderDiv.offsetWidth;	
+			var gScrolWidth = gScrolDiv.offsetWidth;
+				
+			gMinLeft = gHolderWidth - gScrolWidth;
+			if(gMinLeft > 0)
+				gMinLeft = 0;
+			gCurrentLeftPos = 0;
+			
+			gInterval = null;
+			changeDivPosition(gCurrentLeftPos);
+		}
+		function scrollDivRight(){	
+			if( gMinLeft >= 0 ){
+				stopScroll()
+				return;
+			}
+			if( gCurrentLeftPos - 1 > gMinLeft )
+				gCurrentLeftPos = gCurrentLeftPos - 1;
+			else{
+				stopScroll()
+				gCurrentLeftPos = gMinLeft;
+			}
+			changeDivPosition(gCurrentLeftPos);
+		}
+
+		function scrollDivLeft(){
+			if( gMinLeft >= 0 ){
+				stopScroll()
+				return;
+			}
+			if( gCurrentLeftPos + 1 < 0 )
+				gCurrentLeftPos = gCurrentLeftPos + 1;
+			else{
+				gCurrentLeftPos = 0;
+				stopScroll()
+			}
+			changeDivPosition(gCurrentLeftPos);
+		}
+
+		function checkBtnClasses(){
+			if( gLeftBtn ){
+				if( gCurrentLeftPos == 0 || gMinLeft >= 0 ){
+					gLeftBtn.className = 'LeftScrollBtnLinkInactive';
+				}else{
+					gLeftBtn.className = 'LeftScrollBtnLinkActive';
+				}
+			}
+			if( gRightBtn ){
+				if( gCurrentLeftPos == gMinLeft || gMinLeft >= 0 ){
+					gRightBtn.className = 'RightScrollBtnLinkInactive';
+				}else{
+					gRightBtn.className = 'RightScrollBtnLinkActive';
+				}
+			}
+		}
+
+		function changeDivPosition(pLeft){
+			gScrolDiv.style.left  = pLeft + 'px';	
+			checkBtnClasses()
+		}
+
+		function stopScroll(){	
+			if(gInterval)
+				clearInterval(gInterval)
+		}
+
+		function startScroll(pDir){
+			if( gMinLeft >= 0 ){		
+				return;
+			}
+			if( pDir == 0){//Right		
+				gInterval = setInterval("scrollDivRight('right')", 20);
+			}else{	
+				gInterval = setInterval("scrollDivLeft('left')", 20);
+			}	
+		}
+		
+		function getfnlink(pFn, pEl) {
+			
+			
+			lDiv = document.getElementById(pFn);
+			lEl = lDiv.firstChild;
+			while (lEl.nodeType != 1) {
+				lEl = lEl.nextSibling;
+			}
+			for (var i = 0; i < lEl.childNodes.length; i++) {
+				if (lEl.childNodes[i].tagName && lEl.childNodes[i].tagName.toLowerCase() == 'a') {
+					lHref = lEl.childNodes[i].href;
+					break;
+				}
+			}
+			if (lHref)
+				pEl.href = lHref;
+		}
+
+        </script>
+</head>
+<body><div xmlns="" id="highlightWrapper" class=""><div id="highlightTaxonNameWrapper" class="highlightTaxonNameWrapper"><div id="highlightTaxonTreatmentWrapper" class="highlightTaxonTreatmentWrapper"><div id="highlightCountryWrapper" class="highlightCountryWrapper"><div id="highlightCitationWrapper" class="highlightCitationWrapper"><div id="highlightTypeescWrapper" class="highlightTypeescWrapper"><div id="highlightCollectionWrapper" class="highlightCollectionWrapper"><div id="highlightLocalityWrapper" class="highlightLocalityWrapper"><div class="wrapper">
+<div class="headWrapper">
+<table class="highlightButtonHolder" width="100%" cellspacing="1" cellpadding="0"><tr><td class="offButton"><a href="#" class="inactive" onclick="swapDivClassname(this, 'highlightWrapper', 'highlightWrapper')">Turn highlighting On/Off</a></td></tr></table>
+<div class="linksButtonWrapper">
+<div class="pathTopLeftScrollBtn"><a onMouseOver="startScroll(1)" onMouseOut="stopScroll()" class="LeftScrollBtnLinkActive" id="scrollLeftBtn"></a></div>
+<div class="pathScrollHolder" id="scrollHolderDiv"><div id="scrollDiv" class="pathScrollDiv"><table class="linksButtonHolder" cellspacing="0" cellpadding="3" id="linksButtonHolder"><tr><td class="linksButtonHolder"><a href="#top">Top</a></td></tr></table></div></div>
+<div class="pathTopRightScrollBtn"><a onMouseOver="startScroll(0)" onMouseOut="stopScroll()" class="RightScrollBtnLinkActive" id="scrollRightBtn"></a></div>
+<div class="unfloat"></div>
+</div>
+</div>
+<div class="contentWrapper" id="contentWrapper">
+<div class="baloonWrapper" id="baloonWrapper" onmouseover="showBaloon(gActiveBaloonType, gActiveBaloonId)" onmouseout="hideBaloonEvent(gActiveBaloonId, event)"><div id="baloonInnerWrapper">
+<div class="baloonTop">
+<div class="baloonTopLeftCorner"><img src="/img/ext_details/baloon_top_left.gif"></div>
+<div class="baloonTopMiddle"><img src="/img/ext_details/baloon_top_middle.jpg"></div>
+<div class="baloonTopRightCorner"><img src="/img/ext_details/baloon_top_right.gif"></div>
+<div class="unfloat"></div>
+</div>
+<div class="baloonContent" id="baloonContent"><div class="unfloat"></div></div>
+<div class="baloonBottomLeftCorner"><img src="/img/ext_details/baloon_bottom_left.gif"></div>
+<div class="baloonBottomMiddle"><img src="/img/ext_details/baloon_bottom_middle.jpg"></div>
+<div class="baloonBottomRightCorner"><img src="/img/ext_details/baloon_bottom_right.gif"></div>
+<div class="unfloat"></div>
+<div class="arrowDiv"><img id="baloonArrowImg" src="/img/ext_details/baloon_arrow_top_left.gif"></div>
+</div></div>
+<a name="top"></a><div class="doiNumber">
+			Zookeys : –, doi: </div>
+<div class="mainTitle"></div>
+<div class="authors"></div>
+<div class="affilations"></div>
+<div class="uris"></div>
+<div class="authorNotes"></div>
+<div class="lMetaDates">
+<p> </p>
+<br><div class="rifgtsrow">
+<p>(C) 2010  . This is an open access article distributed under the terms of the <a target="_blank" href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution License</a>, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p>
+<br><p>For reference, use of the paginated PDF or printed version of this article is recommended.</p>
+</div>
+</div>
+<a name="abstract"></a><div class="abstractHolder"><div class="abstractText"></div></div>
+<div class="keywordsHolder"><div class="keywordsText">
+<span class="node_label">Keywords</span><p></p>
+</div></div>
+<div class=" secHolder">fdsadasfsdf</div>
+<a name="acknowledgements"></a><div class="smallSecHolder acknowledgementsHolder"><div class="acknowledgementsText"></div></div>
+<a name="references"></a><div class="smallSecHolder  referencesHolder"><div class="referencesText"><span class="node_title">References</span></div></div>
+<a name="supplementarymaterials"></a><div class="supMaterialsHolder"></div>
+</div>
+</div></div></div></div></div></div></div></div></div>
+<script xmlns="">
+			initBalloons();			
+		</script><script xmlns="">initScrollConstants()</script></body></html>

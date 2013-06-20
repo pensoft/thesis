@@ -1,0 +1,9 @@
+changed select in spSaveDocument_review_round_users_form
+		ELSEIF (pOper = 2) THEN
+			SELECT INTO lResult.document_review_round_user_id, lResult.decision_id, lResult.question1, lResult.question2, lResult.question3, lResult.question4, lResult.question5,
+				lResult.question6, lResult.question7, lResult.notes_to_author, lResult.notes_to_editor, lResult.disclose_name, lResult.publish_review
+				f.document_review_round_user_id, COALESCE(usr.decision_id, f.decision_id), f.question1, f.question2, f.question3, f.question4, f.question5, f.question6, f.question7, f.notes_to_author, f.notes_to_editor,
+				f.disclose_name, f.publish_review
+				FROM pjs.document_review_round_users usr
+				left JOIN pjs.document_review_round_users_form f ON usr.id = f.document_review_round_user_id
+				WHERE usr.document_version_id = pGuid;	

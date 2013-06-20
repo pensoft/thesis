@@ -1,0 +1,1 @@
+ALTER TABLE pjs.documents ADD COLUMN layout_notes varchar;

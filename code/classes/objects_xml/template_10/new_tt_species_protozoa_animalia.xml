@@ -1,0 +1,90 @@
+<treatment>
+	<new_tt_species_protozoa_animalia>
+	  <taxon_name_species>
+		<fields>
+		  <genus id="48" field_name="Genus">
+			<value></value>
+		  </genus>
+		  <species id="49" field_name="Species">
+			<value></value>
+		  </species>
+		  <taxon_authors id="50" field_name="Taxon Author(s)">
+			<value></value>
+		  </taxon_authors>
+		</fields>
+	  </taxon_name_species>
+	  <external_links/>
+	  <materials>
+		<fields>
+		  <import_file id="210">
+			<value>0</value>
+		  </import_file>
+		</fields>
+	  </materials>
+	  <new_tt_species_sections>
+		<description>
+		  <fields>
+			<description id="212" field_name="Description">
+			  <value></value>
+			</description>
+		  </fields>
+		</description>
+		<diagnosis>
+		  <fields>
+			<diagnosis id="212" field_name="Diagnosis">
+			  <value></value>
+			</diagnosis>
+		  </fields>
+		</diagnosis>
+		<biology>
+		  <fields>
+			<biology id="212" field_name="Biology">
+			  <value></value>
+			</biology>
+		  </fields>
+		</biology>
+		<etymology>
+		  <fields>
+			<etimology id="212" field_name="Etymology">
+			  <value></value>
+			</etimology>
+		  </fields>
+		</etymology>
+		<ecology>
+		  <fields>
+			<ecology id="212" field_name="Ecology">
+			  <value></value>
+			</ecology>
+		  </fields>
+		</ecology>
+		<distribution>
+		  <fields>
+			<distribution id="212" field_name="Distribution">
+			  <value></value>
+			</distribution>
+		  </fields>
+		</distribution>
+		<notes>
+		  <fields>
+			<notes id="212" field_name="Notes">
+			  <value></value>
+			</notes>
+		  </fields>
+		</notes>
+		<conservation>
+		  <fields>
+			<conservation id="212" field_name="Conservation">
+			  <value></value>
+			</conservation>
+		  </fields>
+		</conservation>
+		<taxon_discussion>
+		  <fields>
+			<discussion id="212" field_name="Taxon Discussion">
+			  <value></value>
+			</discussion>
+		  </fields>
+		</taxon_discussion>
+	  </new_tt_species_sections>
+	</new_tt_species_protozoa_animalia>
+</treatment>

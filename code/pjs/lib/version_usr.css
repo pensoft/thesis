@@ -1,0 +1,189 @@
+@CHARSET "UTF-8";
+/*
+.change$user_1${
+	color:#FF0000;
+}
+
+.changeLegend$user_1${
+	background:#FF0000;
+}
+*/
+.hideChange$user_1$ .change$user_1$ {
+	color:inherit;
+}
+
+.hideChange$user_1$ .change$user_1$.ins{
+	display:none;
+}
+
+.hideChange$user_1$ .change$user_1$.del{
+	text-decoration: inherit;
+	background:inherit;
+}
+/*
+
+
+.multiple-change{
+	color:orange!important;
+}
+
+.del{
+	text-decoration: line-through;
+}
+
+.change$user_2${
+	color:#00FF00;
+}
+
+.changeLegend$user_2${
+	background:#00FF00;
+}
+
+*/
+.hideChange$user_2$ .change$user_2$ {
+	color:inherit;
+}
+
+.hideChange$user_2$ .change$user_2$.ins{
+	display:none;
+}
+
+.hideChange$user_2$ .change$user_2$.del{
+	text-decoration: inherit;
+	background:inherit;
+}
+
+
+/*
+.change$user_3${
+	color:#0000FF;
+}
+
+.changeLegend$user_3${
+	background:#0000FF;
+}
+*/
+.hideChange$user_3$ .change$user_3$ {
+	color:inherit;
+}
+
+.hideChange$user_3$ .change$user_3$.ins{
+	display:none;
+}
+
+.hideChange$user_3$ .change$user_3$.del{
+	text-decoration: inherit;
+	background:inherit;
+}
+
+/*
+.change$user_4${
+	color:#FFFF00;
+}
+
+.changeLegend$user_4${
+	background:#FFFF00;
+}
+*/
+.hideChange$user_4$ .change$user_4$ {
+	color:inherit;
+}
+
+.hideChange$user_4$ .change$user_4$.ins{
+	display:none;
+}
+
+.hideChange$user_4$ .change$user_4$.del{
+	text-decoration: inherit;
+	background:inherit;
+}
+/*
+.change$user_5${
+	color:#00FFFF;
+}
+
+.changeLegend$user_5${
+	background:#00FFFF;
+}
+*/
+.hideChange$user_5$ .change$user_5$ {
+	color:inherit;
+}
+
+.hideChange$user_5$ .change$user_5$.ins{
+	display:none;
+}
+
+.hideChange$user_5$ .change$user_5$.del{
+	text-decoration: inherit;
+	background:inherit;
+}
+
+
+/*
+.change$user_6${
+	color:#FF00FF;
+}
+
+.changeLegend$user_6${
+	background:#FF00FF;
+}*/
+
+.hideChange$user_6$ .change$user_6$ {
+	color:inherit;
+}
+
+.hideChange$user_6$ .change$user_6$.ins{
+	display:none;
+}
+
+.hideChange$user_6$ .change$user_6$.del{
+	text-decoration: inherit;
+	background:inherit;
+}
+
+
+/*
+.change$user_7${
+	color:#C0C0C0;
+}
+
+.changeLegend$user_7${
+	background:#C0C0C0;
+}
+*/
+.hideChange$user_7$ .change$user_7$ {
+	color:inherit;
+}
+
+.hideChange$user_7$ .change$user_7$.ins{
+	display:none;
+}
+
+.hideChange$user_7$ .change$user_7$.del{
+	text-decoration: inherit;
+	background:inherit;
+}
+
+
+/*
+.change$user_8${
+	color:#996633;
+}
+
+.changeLegend$user_8${
+	background:#996633;
+}
+*/
+.hideChange$user_8$ .change$user_8$ {
+	color:inherit;
+}
+
+.hideChange$user_8$ .change$user_8$.ins{
+	display:none;
+}
+
+.hideChange$user_8$ .change$user_8$.del{
+	text-decoration: inherit;
+	background:inherit;
+}

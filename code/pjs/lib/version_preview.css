@@ -1,0 +1,119 @@
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: Tahoma, Geneva, sans-serif
+}
+
+*[contenteditable="true"] {
+	background-color: white;
+	/*	background-image: url(img/icons/edit_icon.png); */
+	background-repeat: no-repeat;
+	background-position: 0px 8px;
+	border: 2px solid #fff;
+	padding-left: 20px;
+	padding-right: 15px;
+	/* white-space: pre-wrap; */
+	/* http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#best-practices-for-in-page-editors */
+}
+
+#cke_bottom_notes_to_author {
+	display: none;
+}
+
+#cke_bottom_notes_to_editor {
+	display: none;
+}
+
+*[contenteditable="true"]:hover {
+	background-image: url(../i/edit_icon.png);
+	background-position: 0 15px;
+}
+
+*[contenteditable="true"]:focus {
+	border: 2px solid #f1ca7f;
+	border-radius: 2px;
+}
+
+.P-Article-Preview {
+	border-radius: 10px;
+	padding: 0 10px
+}
+
+.P-Article-Preview-Hint {
+	margin-right: 10px;
+	display: none;
+}
+
+.P-Article-Preview-Title {
+	margin-top: 50px !important;
+}
+
+.P-Article-Preview-Picture-Desc {
+	background-position: 0px 3px;
+}
+
+.P-Article-Preview-Block-Subsection-Title {
+	margin-top: 12px;
+	margin-left: 6px
+}
+
+.ins {
+	border-bottom: 1px dashed #007F0C;
+}
+
+.ins {
+	background: #DDFFBE;
+	color: #000000;
+}
+
+.del {
+	border-bottom: none;
+}
+
+.del {
+	background: #FFE8E8;
+	color: #BC0000;
+}
+
+.hideChanges .ins, fake-insert.ins {
+	color: inherit!important;
+	text-decoration: inherit!important;
+	background:none !important;
+	border:none !important;
+}
+
+.hideChanges .del, fake-delete.del {
+	display: none
+}
+
+#changeContextMenu {
+	position: absolute;
+	z-index: 2;
+	background: white;
+	display: none;
+	border: 1px solid black;
+}
+
+#changeContextMenu a {
+	display: block;
+}
+
+.P-Version-User-Legend {
+	margin: 20px;
+}
+
+.P-Version-User-Legend-Title {
+	margin: 10px 0px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.P-Author-Version .unacceptedChange{
+	opacity: .5;
+	filter: alpha(opacity=50);
+}
+
+accepted-delete{
+	display:none!important;
+}

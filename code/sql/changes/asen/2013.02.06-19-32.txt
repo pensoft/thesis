@@ -1,0 +1,18 @@
+changes spSaveReviewerDecision
+
+lCpanelReviwerRoleId int;
+
+lCpanelReviwerRoleId = 7;	
+
+IF NOT EXISTS (
+			SELECT u.id
+			FROM usr u			
+			JOIN pjs.document_users du ON du.uid = u.id
+			JOIN pjs.documents d ON d.id = du.document_id
+			JOIN pjs.document_review_rounds r ON r.document_id = d.id AND r.id = d.current_round_id 
+			JOIN pjs.document_review_round_users i ON i.round_id = r.id AND i.document_user_id = du.id
+			WHERE u.id = pUid AND i.id = pRoundUserId AND du.role_id IN (lDedicatedReviewerRoleId, lCpanelReviwerRoleId)
+			AND d.state_id = lInReviewState
+		) THEN
+			RAISE EXCEPTION 'pjs.youCantPerformThisAction';
+		END IF;

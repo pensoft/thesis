@@ -1,0 +1,7 @@
+<config>
+  <login user="admin" pass="pmt123" host="http://adm.pmt.etaligent.net" url="/login/"/>
+  <dirs>
+	  <tempdir>c:\temp\</tempdir>
+  </dirs>
+  <jpegprefix>/lib/show_pic_by_filename.php?filename=</jpegprefix>
+</config>

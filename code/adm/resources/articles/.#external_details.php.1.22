@@ -1,0 +1,208 @@
+<?php
+$docroot = getenv('DOCUMENT_ROOT');
+require_once($docroot . '/lib/static.php');
+error_reporting((int)ERROR_REPORTING);
+session_write_close();
+$gQuery = trim(s($_REQUEST['query']));
+$gSearchType = (int) $_REQUEST['type'];
+if( $gQuery ){
+	switch((int) $gSearchType){
+		default:
+		case (int) TAXON_NAME_SEARCH_TYPE:{			
+			//~ echo '<h1>' . getstr('admin.external_details_about_taxon.title') . $gQuery . '</h1>';			
+			$lLeftCol =  new csimple_extlinks(array(
+				'templs' => array(
+					G_DEFAULT => 'external_details.leftcol',
+				),
+				'menus_templs' => array(
+					G_STARTRS => 'external_details.leftLinksMenuStart',
+					G_ENDRS => 'external_details.leftLinksMenuEnd',
+					G_ROWTEMPL => 'external_details.leftLinksMenuRow',
+				),
+				'menus' => array(
+					'general_menu' => array(
+						'label' => 'General',
+						'links' => array(
+							'gbif', 'eol', 'col', 'itis', 'species2000', 'worms', 'wikipedia', 'wikispecies', 'iucn', 'biolib'
+						),
+					),
+					'taxonomy_menu' => array(
+						'label' => 'Taxonomy',
+						'links' => array(
+							'fungorum', 'ipni', 'algaebase', 'tropicos', 'usda', 'gymnosperm', 'zoobank', 'fa', 'tol', 'treebase', 'chilobase', 'hymenopterans', 'diptera'
+							//~ 'landcare'
+						),
+					),
+					'sequences_menu' => array(
+						'label' => 'Gene Sequences',
+						'links' => array(
+							'ncbi', 'bold'
+						),
+					),
+					'images_menu' => array(
+						'label' => 'Images',
+						'links' => array(
+							'morphbank', 'wikimedia', 'yahoo_images'
+						),
+					),
+					'literature_menu' => array(
+						'label' => 'Literature',
+						'links' => array(
+							'google_scholar', 'pubmed', 'biodev'
+						),
+					),
+					//~ 'other_menu' => array(
+						//~ 'label' => 'Other',
+						//~ 'links' => array(
+							//~ 'biolib'
+						//~ ),
+					//~ ),
+					//~ 'taxonomy_menu' => array(
+						//~ 'label' => 'Taxonomy',
+						//~ 'links' => array(
+							//~ 'fishbase'
+						//~ ),
+					//~ ),					
+				),				
+				'taxon_name' => $gQuery,
+				'cache' => 'extdetails_leftcol',
+				'cachetimeout' => CACHE_TIMEOUT_LENGTH,
+			));
+			$lLeftCol->GetDataC();
+			$lResShow = 0;
+			
+			$lMap =new ctaxonmap(
+				array(	
+					'ctype' => 'ctaxonmap',
+					'templs' => array(
+						G_STARTRS => 'external_details.mapHead',
+						G_ENDRS => 'external_details.mapFoot',
+						G_ROWTEMPL => 'external_details.mapRow',
+						G_NODATA => 'external_details.mapNoData',
+					),
+					'taxon_name' => $gQuery,
+					'cache' => 'extdetails_gbifmap',
+					'cachetimeout' => CACHE_TIMEOUT_LENGTH,
+				)
+			);
+			$lMap->GetData();
+			$lMapRes = $lMap->m_recordCount;
+			
+			$lNCBI =new ctaxon_ncbiinfo(
+				array(	
+					'ctype' => 'ctaxon_ncbiinfo',
+					'ncbi_link' => $lLeftCol->GetMenuLinkHref('sequences_menu', 'ncbi'),
+					'templs' => array(
+						G_STARTRS => 'external_details.ncbiStart',
+						G_ENDRS => 'external_details.ncbiEnd',
+						G_ROWTEMPL => 'external_details.ncbiRow',
+					),
+					'lineage_templs' => array(
+						G_STARTRS => 'external_details.ncbiLineageStart',
+						G_ENDRS => 'external_details.ncbiLineageEnd',
+						G_ROWTEMPL => 'external_details.ncbiLineageRow',
+					),
+					'link_templs' => array(
+						G_STARTRS => 'external_details.extLinksStart',
+						G_ENDRS => 'external_details.extLinksEnd',
+						G_ROWTEMPL => 'external_details.extLinksRow',
+					),
+					'link_result_count' => 5,
+					'link_database' => EUTILS_PUBMED_DB,
+					'link_database_title' => 'PubMed',
+					'entrezrecords_templs' => array(
+						G_STARTRS => 'external_details.entrezRecordsStart',
+						G_ENDRS => 'external_details.entrezRecordsEnd',
+						G_ROWTEMPL => 'external_details.entrezRecordsRow',
+					),
+					'entrez_records_allowed_databases' => array(
+						EUTILS_PMC_DB => EUTILS_PMC_DISPLAY_NAME, 
+						EUTILS_TAXONOMY_DB => '', 
+						EUTILS_PROTEIN_DB => '',
+						EUTILS_POPSET_DB => '', 
+						EUTILS_NUCCORE_DB => EUTILS_NUCCORE_DISPLAY_NAME
+					),
+					'taxon_name' => $gQuery,
+					'cache' => 'extdetails_ncbiinfo',
+					'cachetimeout' => CACHE_TIMEOUT_LENGTH,
+				)
+			);
+			$lNCBI->GetData();
+			$lNCBIRes = $lNCBI->m_taxonid;
+			
+			$gBHL = new ctaxon_bhl (
+				array(
+					'templs' => array(
+						G_STARTRS => 'external_details.bhlStart',
+						G_ENDRS => 'external_details.bhlEnd',
+						G_ROWTEMPL => 'external_details.bhl_title_row',
+						G_VOLUME_TEMPL => 'external_details.bhl_volume',
+						G_PAGE_TEMPL => 'external_details.bhl_page'
+					),
+					'taxon_name' => $gQuery,
+					'pagesize' => 7,
+					//~ 'cache' => 'extdetails_bhl',
+					//~ 'cachetimeout' => CACHE_TIMEOUT_LENGTH,
+				)
+			);
+			$gBHL->GetData();
+			$lBHLRes = (int)$gBHL->m_recordCount;
+		
+			if(!$lNCBIRes && (int)$lMapRes == 0 && (int)$lBHLRes == 0) {
+				$lResShow = 1;
+				
+				$lprofile_nodata = new csimple(
+					array(
+						'ctype' => 'csimple',
+						'templs' => array(
+							G_DEFAULT => 'external_details.RightColNoData',
+						),
+					)
+				);
+			}
+			
+			$lRightCol =  new csimple(array(
+				'templs' => array(
+					G_DEFAULT => 'external_details.rightcol',
+				),
+				'map' => ((int)$lResShow ? '' : $lMap),
+				'ncbiinfo' => ((int)$lResShow ? '' : $lNCBI),
+				'images' => array(
+					'ctype' => 'ctaxon_mediawikiimages',
+					'itemsonrow' => 5,
+					'wikimedia_link' => $lLeftCol->GetMenuLinkHref('images_menu', 'wikimedia'),
+					'templs' => array(
+						G_STARTRS => 'external_details.imagesStart',
+						G_ENDRS => 'external_details.imagesEnd',
+						G_ROWTEMPL => 'external_details.imagesRow',
+					),
+					'taxon_name' => $gQuery,
+					'cache' => 'extdetails_yahooimages',
+					'cachetimeout' => CACHE_TIMEOUT_LENGTH,
+				),
+				'links' => $lLinks,
+				'topmenu' => array(
+					'ctype' => 'csimple',
+					'templs' => array(
+						G_DEFAULT => 'external_details.topMenu',
+					),
+				),
+				'bhl' => ((int)$lResShow ? '' : $gBHL),
+				'taxon_name' => $gQuery,
+				'cache' => 'extdetails_rightcol',
+				'cachetimeout' => CACHE_TIMEOUT_LENGTH,
+				'profile_nodata' => (is_object($lprofile_nodata) ? $lprofile_nodata->Display() : ''),
+			));
+			$t = array (
+				'leftcol' => $lLeftCol,
+				'rightcol' => $lRightCol
+			);						
+			$lTemplate = 'global.externaldetails';			
+			break;
+		}
+	}
+}
+
+$inst = new cpage($t, array(G_MAINBODY => $lTemplate));
+$inst->Display();
+?>

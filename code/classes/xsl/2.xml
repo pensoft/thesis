@@ -1,0 +1,430 @@
+<?xml version="1.0"?>
+<response xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns="http://www.eol.org/transfer/content/0.3" xmlns:php="http://php.net/xsl" xmlns:tp="http://www.plazi.org/taxpub" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dwc="http://rs.tdwg.org/dwc/dwcore/" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <taxon>
+        <dc:identifier>zookeys.251.3953.sp_1</dc:identifier>
+        <dwc:Kingdom>TAXON KINGDOM</dwc:Kingdom>
+        <dwc:Family>TAXON FAMILY</dwc:Family>
+        <dwc:ScientificName>Lathrobium baishanzuense Peng &amp; Li</dwc:ScientificName>
+        <dcterms:created>2012-12-17T14:06:57</dcterms:created>
+        <dcterms:modified>2012-12-17T14:06:57</dcterms:modified>
+        <reference doi="10.3897/zookeys.251.3953">Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</reference>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_1_description</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+            <mimeType>text/html</mimeType>
+            <agent role="author">Zhong Peng</agent>
+            <agent role="author">Li-Zhen Li</agent>
+            <agent role="author">Mei-Jun Zhao</agent>
+            <dc:title xml:lang="en">Description</dc:title>
+            <dc:language>en</dc:language>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription</subject>
+            <dc:description xml:lang="en">  
+Measurements and ratios:BL 8.50–9.30, FL 3.00–3.63, HL 1.13–1.15, HW 1.26–1.31, PL 1.48–1.54, PW 1.30–1.35, EL 0.98–1.00, HL/HW 0.88–0.90, HW/PW 0.97, HL/PL 0.75–0.76, PL/PW 1.14, EL/PL 0.65–0.66. 
+Habitus as in Fig. 1A. Body brown with paler apex, legs light brown, antennae brown to light brown.
+ 
+Head subquadrate (HL/HW 0.88–0.90); punctation coarse and sparse; interstices with very shallow microreticulation; eyes small, approximately 1/4–1/3 the length of postocular region in dorsal view. 
+Pronotum nearly parallel-sided; punctation sparser than that of head; impunctate midline broad; interstices without microsculpture. 
+Elytra with punctation denser than that of pronotum and well defined; hind wings completely reduced. 
+Abdomen with dense punctation; interstices with very shallow, transversely striate microsculpture. 
+Male. Sternite V (Fig. 3A) with dark setae in postero-median impression and posterior margin with several point-like setae; sternite VI (Fig. 3B) with sparse, short setae in postero-median impression and posterior margin with 7–8 peg-like setae; posterior margin of sternite VII (Fig. 3C) weakly concave, pubescence unmodified; sternite VIII (Fig. 3D) with deep asymmetric emargination and blackish setae along both sides of this emargination; sternite IX (Fig. 3E) asymmetric; aedeagus (Fig. 3F, 3G) with asymmetric, apically truncate ventral process, short and moderately sclerotized dorsal plate, and without sclerotized spines in internal sac.
+ 
+Female. Unknown. </dc:description>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_1_distribution</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+            <mimeType>text/html</mimeType>
+            <agent role="author">Zhong Peng</agent>
+            <agent role="author">Li-Zhen Li</agent>
+            <agent role="author">Mei-Jun Zhao</agent>
+            <dc:title xml:lang="en">Distribution</dc:title>
+            <dc:language>en</dc:language>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#Distribution</subject>
+            <dc:description xml:lang="en">  
+East China: Donggong mountain range. </dc:description>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_1_p_1</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/StillImage</dataType>
+            <mimeType>image/jpeg</mimeType>
+            <dcterms:created>2012</dcterms:created>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <dc:description xml:lang="en">Figure 1.Habitus of Lathrobium spp., A Lathrobium baishanzuense B Lathrobium immanissimum C Lathrobium pilosum. Scale bars: 1.0 mm.
+                        </dc:description>
+            <mediaURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g001.jpg</mediaURL>
+            <thumbnailURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g001.jpg</thumbnailURL>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_1_p_2</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/StillImage</dataType>
+            <mimeType>image/jpeg</mimeType>
+            <dcterms:created>2012</dcterms:created>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <dc:description xml:lang="en">Figure 3.Lathrobium baishanzuense. A male sternite V B male sternite VI C male sternite VIID male sternite VIII E male sternite IX F aedeagus in lateral view G aedeagus in ventral view. Scale bars: 0.5 mm.
+                        </dc:description>
+            <mediaURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g003.jpg</mediaURL>
+            <thumbnailURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g003.jpg</thumbnailURL>
+        </dataObject>
+    </taxon>
+    <taxon>
+        <dc:identifier>zookeys.251.3953.sp_2</dc:identifier>
+        <dwc:Kingdom>TAXON KINGDOM</dwc:Kingdom>
+        <dwc:Family>TAXON FAMILY</dwc:Family>
+        <dwc:ScientificName>Lathrobium manissimum Peng &amp; Li</dwc:ScientificName>
+        <dcterms:created>2012-12-17T14:06:57</dcterms:created>
+        <dcterms:modified>2012-12-17T14:06:57</dcterms:modified>
+        <reference doi="10.3897/zookeys.251.3953">Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</reference>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_2_description</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+            <mimeType>text/html</mimeType>
+            <agent role="author">Zhong Peng</agent>
+            <agent role="author">Li-Zhen Li</agent>
+            <agent role="author">Mei-Jun Zhao</agent>
+            <dc:title xml:lang="en">Description</dc:title>
+            <dc:language>en</dc:language>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription</subject>
+            <dc:description xml:lang="en">  
+Measurements and ratios:BL 10.57–12.51, FL 5.33–6.17, HL 1.63–1.70, HW 1.88–1.95, PL 2.23–2.30, PW 1.95–2.07, EL 1.40–1.50, HL/HW 0.86–0.88, HW/PW 0.94–0.96, HL/PL 0.73–0.74, PL/PW 1.11–1.14, EL/PL 0.63–0.65. 
+Habitus as in Fig. 1B. General appearance similar to that of Lathrobium baishanzuense, except for the much broader and larger body, the narrow impunctate midline on the pronotum and coarser punctation on the head, pronotum and elytra.
+ 
+Male. Sternite III (Fig. 4H) with dense dark setae in small posterior impression; sternite IV (Fig. 4I) with dense darkish setae in postero-median impression and posterior margin with several peg-like setae; sternite V (Fig. 4K) similar to sternite IV, but with sparser setae in larger impression; sternite VI (Fig. 4J) with long setae in postero-median impression and posterior margin with several peg-like setae; sternite VII (Fig. 4D) with sparse setae in postero-median impression; sternite VIII (Fig. 4G) with shallow symmetric emargination and short dark setae in large impression; sternite IX (Fig. 4C) asymmetric; aedeagus (Fig. 4F, 4L) with very long ventral process curved to the left in ventral view, broad dorsal plate and with single sclerotized apical spine in internal sac.
+ 
+Female. Posterior margin of tergite VIII (Fig. 4A) truncate; sternite VIII (Fig. 4B) longer than that of male, posterior margin strongly convex; tergite X (Fig. 4E) obtuse apically and almost reaching anterior margin of tergite IX (Fig. 4E).
+ </dc:description>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_2_distribution</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+            <mimeType>text/html</mimeType>
+            <agent role="author">Zhong Peng</agent>
+            <agent role="author">Li-Zhen Li</agent>
+            <agent role="author">Mei-Jun Zhao</agent>
+            <dc:title xml:lang="en">Distribution</dc:title>
+            <dc:language>en</dc:language>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#Distribution</subject>
+            <dc:description xml:lang="en">  
+East China: Donggong mountain range. </dc:description>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_2_p_1</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/StillImage</dataType>
+            <mimeType>image/jpeg</mimeType>
+            <dcterms:created>2012</dcterms:created>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <dc:description xml:lang="en">Figure 1.Habitus of Lathrobium spp., A Lathrobium baishanzuense B Lathrobium immanissimum C Lathrobium pilosum. Scale bars: 1.0 mm.
+                        </dc:description>
+            <mediaURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g001.jpg</mediaURL>
+            <thumbnailURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g001.jpg</thumbnailURL>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_2_p_2</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/StillImage</dataType>
+            <mimeType>image/jpeg</mimeType>
+            <dcterms:created>2012</dcterms:created>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <dc:description xml:lang="en">Figure 4.Lathrobium immanissimum. A female tergite VIII B female sternite VIII C male sternite IX D male sternite VII E female tergites IX-X F aedeagus in lateral view G male sternite VIII H male sternite III I male sternite IV J male sternite VI K male sternite V L aedeagus in ventral view. Scale bars: 0.5 mm.
+                        </dc:description>
+            <mediaURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g004.jpg</mediaURL>
+            <thumbnailURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g004.jpg</thumbnailURL>
+        </dataObject>
+    </taxon>
+    <taxon>
+        <dc:identifier>zookeys.251.3953.sp_3</dc:identifier>
+        <dwc:Kingdom>TAXON KINGDOM</dwc:Kingdom>
+        <dwc:Family>TAXON FAMILY</dwc:Family>
+        <dwc:ScientificName>Lathrobium pilosum Peng &amp; Li</dwc:ScientificName>
+        <dcterms:created>2012-12-17T14:06:57</dcterms:created>
+        <dcterms:modified>2012-12-17T14:06:57</dcterms:modified>
+        <reference doi="10.3897/zookeys.251.3953">Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</reference>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_3_description</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+            <mimeType>text/html</mimeType>
+            <agent role="author">Zhong Peng</agent>
+            <agent role="author">Li-Zhen Li</agent>
+            <agent role="author">Mei-Jun Zhao</agent>
+            <dc:title xml:lang="en">Description</dc:title>
+            <dc:language>en</dc:language>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription</subject>
+            <dc:description xml:lang="en">  
+Measurements and ratios:BL 9.10–10.00, FL 4.11–4.17, HL 1.20–1.26, HW 1.39–1.50, PL 1.75–1.79, PW 1.52–1.57, EL 1.11–1.13, HL/HW 0.84–0.86, HW/PW 0.91–0.96, HL/PL 0.69–0.70, PL/PW 1.14–1.15, EL/PL 0.63. 
+Habitus as in Fig. 1C. Similar to Lathrobium baishanzuense, except for the darker coloration of body, the somewhat larger body size, coarser and sparser punctation on the head and pronotum, and weakly convex lateral margins of pronotum in dorsal view.
+ 
+Male. Sternite IV (Fig. 5A) with cluster of dense dark setae in large postero-median impression, and posterior margin with 7–9 point-like setae; sternite V (Fig. 5B) similar to sternite IV, but with longer setae in smaller impression and posterior margin with numerous point-like setae; tergite VII (Fig. 5D) strongly transverse, posterior margin weakly concave, pubescence unmodified; sternite VIII (Fig. 5H) with triangular, symmetric emargination and short darkish setae in narrow impression; sternite IX (Fig. 5E) nearly symmetric; aedeagus (Fig. 5F, 5G) with narrow ventral process, broad dorsal plate in lateral view and with single sclerotized apical spine in internal sac.
+ 
+Female. Unknown. </dc:description>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_3_distribution</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+            <mimeType>text/html</mimeType>
+            <agent role="author">Zhong Peng</agent>
+            <agent role="author">Li-Zhen Li</agent>
+            <agent role="author">Mei-Jun Zhao</agent>
+            <dc:title xml:lang="en">Distribution</dc:title>
+            <dc:language>en</dc:language>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#Distribution</subject>
+            <dc:description xml:lang="en">  
+East China: Donggong mountain range. </dc:description>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_3_p_1</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/StillImage</dataType>
+            <mimeType>image/jpeg</mimeType>
+            <dcterms:created>2012</dcterms:created>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <dc:description xml:lang="en">Figure 1.Habitus of Lathrobium spp., A Lathrobium baishanzuense B Lathrobium immanissimum C Lathrobium pilosum. Scale bars: 1.0 mm.
+                        </dc:description>
+            <mediaURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g001.jpg</mediaURL>
+            <thumbnailURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g001.jpg</thumbnailURL>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_3_p_2</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/StillImage</dataType>
+            <mimeType>image/jpeg</mimeType>
+            <dcterms:created>2012</dcterms:created>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <dc:description xml:lang="en">Figure 5.Lathrobium pilosum. A male sternite IV B male sternite V C male sternite VI D male sternite VII E male sternite IX F aedeagus in lateral view G aedeagus in ventral view H male sternite VIII. Scale bars: 0.5 mm.
+                        </dc:description>
+            <mediaURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g005.jpg</mediaURL>
+            <thumbnailURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g005.jpg</thumbnailURL>
+        </dataObject>
+    </taxon>
+    <taxon>
+        <dc:identifier>zookeys.251.3953.sp_4</dc:identifier>
+        <dwc:Kingdom>TAXON KINGDOM</dwc:Kingdom>
+        <dwc:Family>TAXON FAMILY</dwc:Family>
+        <dwc:ScientificName>Lathrobium tangi Peng &amp; Li</dwc:ScientificName>
+        <dcterms:created>2012-12-17T14:06:57</dcterms:created>
+        <dcterms:modified>2012-12-17T14:06:57</dcterms:modified>
+        <reference doi="10.3897/zookeys.251.3953">Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</reference>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_4_description</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+            <mimeType>text/html</mimeType>
+            <agent role="author">Zhong Peng</agent>
+            <agent role="author">Li-Zhen Li</agent>
+            <agent role="author">Mei-Jun Zhao</agent>
+            <dc:title xml:lang="en">Description</dc:title>
+            <dc:language>en</dc:language>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription</subject>
+            <dc:description xml:lang="en">  
+Measurements and ratios:BL 8.62–10.06, FL 4.10–4.14, HL 1.11–1.20, HW 1.23–1.30, PL 1.65–1.70, PW 1.39–1.44, EL 1.04–1.11, HL/HW 0.90–0.92, HW/PW 0.88–0.90, HL/PL 0.67–0.71, PL/PW 1.18–1.19, EL/PL 0.63–0.65. 
+Habitus as in Fig. 2A. Similar to Lathrobium baishanzuense, except for the darker coloration of body, the somewhat larger body size, slightly coarser and sparser punctation on the head and pronotum, and weakly convex lateral margins of pronotum in dorsal view.
+ 
+Male. Sternite IV (Fig. 6C) with dense dark setae in large postero-median impression, and posterior margin with several point-like setae; sternite V (Fig. 6D) similar to sternite IV, but with much smaller impression, and posterior margin with numerous point-like setae; sternite VI (Fig. 6H) unmodified; posterior margin of sternite VII (Fig. 6E) weakly concave; sternite VIII (Fig. 6I) with subtriangular, asymmetric emargination and short dark setae in narrow impression; sternite IX (Fig. 6G) nearly symmetric; aedeagus (Fig. 6J, 6K) weakly asymmetric ventral process, large dorsal plate and with moderately sclerotized apical spine in internal sac.
+ 
+Female. Posterior margin of tergite VIII (Fig. 6A) convex; sternite VIII (Fig. 6B) longer than that of male, middle of apical margin with apically convex projection; tergite X (Fig. 6F) convex apically, longer than tergite IX in the middle, but not reaching anterior margin of tergite IX (Fig. 6F).
+ </dc:description>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_4_distribution</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+            <mimeType>text/html</mimeType>
+            <agent role="author">Zhong Peng</agent>
+            <agent role="author">Li-Zhen Li</agent>
+            <agent role="author">Mei-Jun Zhao</agent>
+            <dc:title xml:lang="en">Distribution</dc:title>
+            <dc:language>en</dc:language>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#Distribution</subject>
+            <dc:description xml:lang="en">  
+East China: Donggong mountain range. </dc:description>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_4_p_1</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/StillImage</dataType>
+            <mimeType>image/jpeg</mimeType>
+            <dcterms:created>2012</dcterms:created>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <dc:description xml:lang="en">Figure 2.Habitus of Lathrobium spp., A Lathrobium tangi B Lathrobium obstipum. Scale bars: 1.0 mm.
+                        </dc:description>
+            <mediaURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g002.jpg</mediaURL>
+            <thumbnailURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g002.jpg</thumbnailURL>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_4_p_2</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/StillImage</dataType>
+            <mimeType>image/jpeg</mimeType>
+            <dcterms:created>2012</dcterms:created>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <dc:description xml:lang="en">Figure 6.Lathrobium tangi. A female tergite VIIIB female sternite VIII C male sternite IV D male sternite V E male sternite VII F female tergites IX-X G male sternite IX H male sternite VI I male sternite VIII J aedeagus in lateral view K aedeagus in ventral view. Scale bars: 0.5 mm.
+                        </dc:description>
+            <mediaURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g006.jpg</mediaURL>
+            <thumbnailURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g006.jpg</thumbnailURL>
+        </dataObject>
+    </taxon>
+    <taxon>
+        <dc:identifier>zookeys.251.3953.sp_5</dc:identifier>
+        <dwc:Kingdom>TAXON KINGDOM</dwc:Kingdom>
+        <dwc:Family>TAXON FAMILY</dwc:Family>
+        <dwc:ScientificName>Lathrobium obstipum Peng &amp; Li</dwc:ScientificName>
+        <dcterms:created>2012-12-17T14:06:57</dcterms:created>
+        <dcterms:modified>2012-12-17T14:06:57</dcterms:modified>
+        <reference doi="10.3897/zookeys.251.3953">Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</reference>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_5_description</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+            <mimeType>text/html</mimeType>
+            <agent role="author">Zhong Peng</agent>
+            <agent role="author">Li-Zhen Li</agent>
+            <agent role="author">Mei-Jun Zhao</agent>
+            <dc:title xml:lang="en">Description</dc:title>
+            <dc:language>en</dc:language>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#GeneralDescription</subject>
+            <dc:description xml:lang="en">  
+Measurements and ratios:BL 6.34–7.23, FL 2.84–3.12, HL 0.65–0.71, HW 0.87–0.91, PL 1.11–1.19, PW 0.99–1.06, EL 0.76–0.81, HL/HW0.73–0.78, HW/PW 0.86–0.90, HL/PL 0.56–0.62, PL/PW 1.11–1.15, EL/PL 0.67–0.69. 
+Habitus as in Fig. 2B. Similar to Lathrobium baishanzuense, except for the lighter coloration of legs and antennae, the smaller body size, sparser punctation on the head and pronotum, and the somewhat broader impunctate midline on pronotum.
+ 
+Male. Sternites III-VI unmodified; posterior margin of sternite VII (Fig. 7G) nearly truncate; posterior margin of sternite VIII (Fig. 7H) truncate and with tuft of short setae in asymmetric position; sternite IX (Fig. 7D) nearly symmetric; aedeagus (Fig. 7E, 7F) with asymmetric, apically forficate ventral process, without sclerotized dorsal plate, and without sclerotized spines in internal sac.
+ 
+Female. Posterior margin of tergite VIII (Fig. 7A) weakly convex; sternite VIII (Fig. 7C) longer than that of male, posterior margin strongly convex; tergite X (Fig. 7B) convex apically, not reaching anterior margin of tergite IX (Fig. 7B).
+ </dc:description>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_5_distribution</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/Text</dataType>
+            <mimeType>text/html</mimeType>
+            <agent role="author">Zhong Peng</agent>
+            <agent role="author">Li-Zhen Li</agent>
+            <agent role="author">Mei-Jun Zhao</agent>
+            <dc:title xml:lang="en">Distribution</dc:title>
+            <dc:language>en</dc:language>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <subject>http://rs.tdwg.org/ontology/voc/SPMInfoItems#Distribution</subject>
+            <dc:description xml:lang="en">  
+East China: Donggong mountain range. </dc:description>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_5_p_1</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/StillImage</dataType>
+            <mimeType>image/jpeg</mimeType>
+            <dcterms:created>2012</dcterms:created>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <dc:description xml:lang="en">Figure 2.Habitus of Lathrobium spp., A Lathrobium tangi B Lathrobium obstipum. Scale bars: 1.0 mm.
+                        </dc:description>
+            <mediaURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g002.jpg</mediaURL>
+            <thumbnailURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g002.jpg</thumbnailURL>
+        </dataObject>
+        <dataObject>
+            <dc:identifier>zookeys.251.3953.sp_5_p_2</dc:identifier>
+            <dataType>http://purl.org/dc/dcmitype/StillImage</dataType>
+            <mimeType>image/jpeg</mimeType>
+            <dcterms:created>2012</dcterms:created>
+            <license>http://creativecommons.org/licenses/by/3.0/</license>
+            <dcterms:rightsHolder>Zhong Peng, Li-Zhen Li, Mei-Jun Zhao</dcterms:rightsHolder>
+            <dcterms:bibliographicCitation>Peng Z, Li L, Zhao M (2012) Five new apterous species of the genus Lathrobium Gravenhorst (Coleoptera, Staphylinidae, Paederinae) from the Baishanzu Natural Reserve, East China ZooKeys 251: @–@</dcterms:bibliographicCitation>
+            <audience>Expert users</audience>
+            <audience>General public</audience>
+            <dc:source>http://www.pensoft.net/journals/zookeys/article/3953/abstract/</dc:source>
+            <dc:description xml:lang="en">Figure 7.Lathrobium obstipum. A female tergite VIII B female tergites IX-X C female sternite VIIID male sternite IX E aedeagus in lateral view F aedeagus in ventral view G male sternite VII H male sternite VIII. Scale bars: 0.5 mm.
+                        </dc:description>
+            <mediaURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g007.jpg</mediaURL>
+            <thumbnailURL>http://www.pensoft.net/J_FILES/1/articles/3953/export.php_files/ZooKeys-251-000NaN-g007.jpg</thumbnailURL>
+        </dataObject>
+    </taxon>
+</response>

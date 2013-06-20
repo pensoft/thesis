@@ -1,0 +1,1 @@
+ALTER TABLE pjs.document_users ADD COLUMN co_author int NOT NULL DEFAULT 0;

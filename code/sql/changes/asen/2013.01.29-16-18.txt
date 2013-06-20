@@ -1,0 +1,2 @@
+Добавяне на колона в pwt.papertypes
+ALTER TABLE pwt.papertypes ADD COLUMN journals integer[]

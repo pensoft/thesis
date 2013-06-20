@@ -1,0 +1,44 @@
+body{
+	border:none!important;
+}
+
+span{
+	padding:0px 5px;
+	/*
+	border-left:1px solid red;
+	border-right:1px solid blue;
+	*/
+}
+
+div{
+	display:inline;
+	padding:0px 5px;
+	/*border-left:1px solid red;
+	border-right:1px solid blue;
+	*/
+}
+
+.node_bold{
+	font-weight:bold;
+}
+
+.node_italic{
+	font-style:italic;
+}
+
+.node_underline{
+	text-decoration:underline;
+}
+
+.node_strike{
+	text-decoration:line-through;
+}
+
+.node_p, .node_sec{
+	/*display:block;*/
+}
+/*
+.node_taxon-name{
+	color:red;
+	border:1px solid blue;
+}*/
