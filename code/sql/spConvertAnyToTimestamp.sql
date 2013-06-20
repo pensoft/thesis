@@ -24,10 +24,14 @@ GRANT EXECUTE ON FUNCTION spConvertAnyToTimestamp(
 	pValue text
 ) TO iusrpmt;
 
+DROP FUNCTION spConvertAnyToTimestamp(
+	pValue anyelement
+);
+
 CREATE OR REPLACE FUNCTION spConvertAnyToTimestamp(
 	pValue anyelement
 )
-  RETURNS date AS
+  RETURNS timestamp AS
 $BODY$
 DECLARE
 	lRes timestamp;

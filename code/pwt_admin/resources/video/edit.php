@@ -1,12 +1,4 @@
 <?php
-asd
-asd
-ass
-asd
-asd
-
-qweqw
-
 $docroot = getenv("DOCUMENT_ROOT");
 require_once($docroot . '/lib/static.php');
 $historypagetype=HISTORY_ACTIVE;

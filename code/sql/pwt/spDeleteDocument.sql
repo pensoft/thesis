@@ -8,10 +8,13 @@ $BODY$
 	DECLARE
 		lHasRights int;
 		lRet int;
+		cDeletedStateId CONSTANT int := 4;
 	BEGIN
 		lRet := 0;
 		SELECT INTO lHasRights count(id) FROM pwt.documents WHERE id = pdocumentid AND createuid = pUid;
 		IF lHasRights > 0 THEN
+			UPDATE pwt.documents SET state = cDeletedStateId WHERE id = pDocumentId;
+			/*
 			DELETE FROM pwt.document_users WHERE document_id = pDocumentId;
 			DELETE FROM pwt.document_versions WHERE document_id = pDocumentId;
 			DELETE FROM pwt.document_revisions WHERE document_id = pDocumentId;
@@ -27,6 +30,7 @@ $BODY$
 			DELETE FROM pwt.tables WHERE document_id = pDocumentId;
 			DELETE FROM pwt.activity WHERE document_id = pDocumentId;
 			DELETE FROM pwt.documents WHERE id = pDocumentId;
+			*/
 			lRet := 1;
 		END IF;
 			RETURN lRet;

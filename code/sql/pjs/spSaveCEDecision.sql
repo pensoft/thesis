@@ -38,6 +38,7 @@ $BODY$
 		lAuthorSubmittedVersionType int;
 		lCEDecisionEventType int;
 		lJournalId int;
+		cWaitingAuthorToProceedToCopyEditingAfterCEDocumentStateId CONSTANT int := 14;
 	BEGIN		
 		
 		lCERoleId = 9;		
@@ -90,9 +91,9 @@ $BODY$
 		WHERE du.id = pRoundUserId AND r.id = du.round_id;
 		
 		-- Change document state		
-		
+		--RAISE EXCEPTION 'test';
 		UPDATE pjs.documents SET
-			state_id = lWaitingAuthorToProceedToLayoutEditingAfterCEDocumentStateId
+			state_id = cWaitingAuthorToProceedToCopyEditingAfterCEDocumentStateId
 		WHERE id = lDocumentId;
 		
 		SELECT INTO lCurrentAuthorVersionId id 

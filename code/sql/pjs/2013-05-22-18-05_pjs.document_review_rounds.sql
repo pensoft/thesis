@@ -1,0 +1,1 @@
+ALTER TABLE pjs.document_review_rounds ADD COLUMN dedicated_reviewers_flag boolean NOT NULL DEFAULT TRUE;

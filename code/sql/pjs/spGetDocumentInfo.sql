@@ -26,7 +26,7 @@ CREATE TYPE ret_spGetDocumentInfo AS (
 	can_proceed boolean,
 	enough_reviewers boolean,
 	reviewers_assignment_duedate timestamp,
-	community_public_due_date timestamp,
+	panel_duedate timestamp,
 	current_round_id bigint,
 	review_lock boolean,
 	check_invited_users int,
@@ -38,7 +38,12 @@ CREATE TYPE ret_spGetDocumentInfo AS (
 	pwt_id bigint,
 	se_first_name varchar,
 	se_last_name varchar,
-	se_uname varchar
+	se_uname varchar,
+	public_duedate timestamp,
+	waitnominatedflag boolean,
+	waitpanelflag boolean,
+	caninvitenominatedflag boolean,
+	reviews int
 );
 
 CREATE OR REPLACE FUNCTION spGetDocumentInfo(
@@ -99,8 +104,8 @@ $BODY$
 		SELECT INTO lRes 
 			d.id, d.submitting_author_id, d.state_id, d.document_source_id, d.creation_step, 
 			d.name, d.abstract, d.keywords, d.journal_id, d.editor_notes, d.layout_notes, d.document_review_type_id, null,
-			dv.version_num, dvt.name, js.title, null, null, null, null, d.notes_to_editor, null, d.submitted_date, null, null, null, d.community_public_due_date, d.current_round_id, 
-			null, null, null, dv.id as author_version_id, null, null, null, pd.pwt_id, null, null, null
+			dv.version_num, dvt.name, js.title, null, null, null, null, d.notes_to_editor, null, d.submitted_date, null, null, null, d.panel_duedate, d.current_round_id, 
+			null, null, null, dv.id as author_version_id, null, null, null, pd.pwt_id, null, null, null, d.public_duedate
 		FROM pjs.documents d
 		JOIN pjs.document_review_rounds dr ON dr.id = d.current_round_id
 		JOIN pjs.document_versions dv ON dv.id = dr.create_from_version_id
@@ -196,6 +201,34 @@ $BODY$
 		WHERE dr.document_id = pDocumentId AND round_type_id NOT IN (lEditorRoundType, lAuthorRoundType)
 		ORDER BY dr.id DESC
 		LIMIT 1;
+		
+		/* These are flags for review round 1 and 2 -> for the green text above the take decision button */
+		lRes.waitnominatedflag = FALSE; 
+		lRes.waitpanelflag = FALSE; 
+		lRes.caninvitenominatedflag = FALSE; 
+		lRes.reviews = 0;
+		
+		IF (lRes.round_type = 1 AND (lRes.round_number = 1 OR lRes.round_number = 2) AND pRoleType = lSERoleType) THEN
+			
+			SELECT INTO 
+				lRes.waitnominatedflag, 
+				lRes.waitpanelflag, 
+				lRes.caninvitenominatedflag, 
+				lRes.reviews 
+				
+				waitnominatedflag, 
+				waitpanelflag, 
+				caninvitenominatedflag, 
+				reviews 
+			FROM pjs."spCheckDecisionFlags"(
+				pDocumentId, 
+				lRes.current_round_id, 
+				lRes.document_review_type_id,
+				lRes.panel_duedate, 
+				lRes.public_duedate
+			);
+			
+		END IF;
 		
 		-- document authors
 		SELECT INTO lRes.author_name aggr_concat_coma(u.first_name || ' ' || u.last_name)

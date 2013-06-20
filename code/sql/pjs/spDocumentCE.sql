@@ -8,6 +8,7 @@ CREATE TYPE ret_spDocumentCE AS (
 CREATE OR REPLACE FUNCTION spDocumentCE(
 	pOper int,
 	pDocumentId bigint,
+	pRoundId bigint,
 	pCEId int,
 	pUid int
 )
@@ -84,7 +85,8 @@ $BODY$
 			IF NOT EXISTS (
 				SELECT * 
 				FROM pjs.document_users du
-				WHERE document_id = pDocumentId AND role_id = lCERoleId
+				JOIN pjs.document_review_round_users drrus ON drrus.document_user_id = du.id AND drrus.round_id = pRoundId
+				WHERE document_id = pDocumentId AND role_id = lCERoleId 
 			) THEN
 				
 				-- >>> closing editor round
@@ -179,6 +181,7 @@ $BODY$
 GRANT EXECUTE ON FUNCTION spDocumentCE(
 	pOper int,
 	pDocumentId bigint,
+	pRoundId bigint,
 	pCEId int,
 	pUid int
 ) TO iusrpmt;

@@ -281,7 +281,7 @@ $t = array(
 		'CType' => 'select' ,
 		'SrcValues' => 'SELECT null AS id, \'--\' as name, 0 as ord
 				UNION 
-			SELECT id, name, 1 as ord FROM pjs.journals
+			SELECT id, name, 1 as ord FROM journals
 			ORDER BY ord
 		',
 		'AllowNulls' => false,

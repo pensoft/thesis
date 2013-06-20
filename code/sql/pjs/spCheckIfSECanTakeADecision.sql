@@ -17,18 +17,25 @@ $BODY$
 		cPublicPeerReview int := 4;
 		cSeCanTakeDecisionEventId int := 1;
 		lReviewType int;
-		lCommunityPublicDueDate timestamp;
+		lPanelDueDate timestamp;
+		lPublicDueDate timestamp;
+		lCanInviteDedicatedReviewers boolean;
+		lCurrentRoundId bigint;
+		cPanelReviewerRoleId CONSTANT int := 7;
+		cPublicReviewerRoleId CONSTANT int := 6;
+		lCanInvitePanelReviewers boolean;
 	BEGIN
 		lDedicatedReviewerRoleId = 5;
 		lNewInvitationStateId = 1;
 		lRes.result = FALSE;
 		
 		-- get round number for closed-peer; community-peer; public review type if round_due_date > now
-		SELECT INTO lRoundNumber, lReviewType, lCommunityPublicDueDate round_number, d.document_review_type_id, d.community_public_due_date
+		SELECT INTO lRoundNumber, lReviewType, lPanelDueDate, lPublicDueDate, lCurrentRoundId round_number, d.document_review_type_id, d.panel_duedate, d.public_duedate, d.current_round_id
 		FROM pjs.documents d 
 		JOIN pjs.document_review_rounds dr ON dr.id = d.current_round_id AND dr.round_due_date::date > now()::date 
 			-- if communite or public peer review
-			AND (CASE WHEN d.document_review_type_id IN (cCommunityPeerReview, cPublicPeerReview) AND dr.round_number = 1 THEN d.community_public_due_date::date > now()::date ELSE TRUE END)
+			AND (CASE WHEN d.document_review_type_id = cCommunityPeerReview AND dr.round_number = 1 AND d.panel_duedate IS NOT NULL THEN d.panel_duedate::date > now()::date ELSE TRUE END)
+			AND (CASE WHEN d.document_review_type_id = cPublicPeerReview AND dr.round_number = 1 AND d.public_duedate IS NOT NULL THEN d.public_duedate::date > now()::date ELSE TRUE END)
 		WHERE d.id = pDocumentId AND d.document_review_type_id IN (cClosedPeerReview, cCommunityPeerReview, cPublicPeerReview);
 		
 		--RAISE EXCEPTION 'round_number: %', lRoundNumber;
@@ -37,10 +44,32 @@ $BODY$
 		IF (lRoundNumber = 1) THEN
 		
 			-- checking for community_public_due_date is not due (the SE can not take decision)
-			IF(lReviewType = cCommunityPeerReview OR lReviewType = cPublicPeerReview) THEN
-				IF(lCommunityPublicDueDate::date > now()::date) THEN
+			IF(lReviewType = cCommunityPeerReview) THEN
+			
+				IF(lPanelDueDate::date > now()::date OR lPanelDueDate IS NULL) THEN
 					RETURN lRes;
 				END IF;
+				
+				-- check for can invite panels
+				SELECT INTO lCanInvitePanelReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, lCurrentRoundId, cPanelReviewerRoleId);
+				IF(lCanInvitePanelReviewers = TRUE) THEN
+					RETURN lRes;
+				END IF;
+				
+			END IF;
+			
+			IF(lReviewType = cPublicPeerReview) THEN
+				
+				IF(lPublicDueDate::date > now()::date OR lPublicDueDate IS NULL) THEN
+					RETURN lRes;
+				END IF;
+				
+				-- check for can invite panels
+				SELECT INTO lCanInvitePanelReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, lCurrentRoundId, cPanelReviewerRoleId);
+				IF(lCanInvitePanelReviewers = TRUE) THEN
+					RETURN lRes;
+				END IF;
+				
 			END IF;
 		
 			-- Check if there are unresponded invitations
@@ -59,11 +88,11 @@ $BODY$
 				FROM pjs.documents d
 				JOIN pjs.document_review_round_users r ON r.round_id = d.current_round_id
 				JOIN pjs.document_users u ON u.id = r.document_user_id
-				WHERE u.role_id = lDedicatedReviewerRoleId AND r.decision_id IS NULL AND r.state_id = lReviewerConfirmedStateId AND d.id = pDocumentId
+				WHERE u.role_id IN (lDedicatedReviewerRoleId, cPanelReviewerRoleId, cPublicReviewerRoleId) AND r.decision_id IS NULL AND r.state_id = lReviewerConfirmedStateId AND d.id = pDocumentId
 			) THEN
 				RETURN lRes;
 			END IF;
-		
+			--RAISE EXCEPTION 'lCurrentRoundId: %, lDedicatedReviewerRoleId: %', lCurrentRoundId, lDedicatedReviewerRoleId;
 			-- at least 1 reviewer that took decision
 			IF EXISTS(
 					SELECT * 
@@ -73,9 +102,17 @@ $BODY$
 					JOIN pjs.document_users u ON u.id = r.document_user_id
 					WHERE u.role_id = lDedicatedReviewerRoleId AND r.decision_id IS NOT NULL AND r.state_id = lReviewerConfirmedStateId AND d.id = pDocumentId
 			) THEN
+				--RAISE EXCEPTION '333';
 				lRes.result = TRUE;
 			ELSE 
-				lRes.result = FALSE;
+				-- check for can invite nominated reviewers
+				--RAISE EXCEPTION '222';
+				SELECT INTO lCanInviteDedicatedReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, lCurrentRoundId,lDedicatedReviewerRoleId);
+				IF(lCanInviteDedicatedReviewers = TRUE) THEN
+					lRes.result = FALSE;
+				ELSE
+					lRes.result = TRUE;
+				END IF;
 			END IF;
 			
 		-- round 2
@@ -106,6 +143,7 @@ $BODY$
 			
 		-- all other cases
 		ELSE
+			
 			lRes.result = TRUE;
 		END IF;
 		

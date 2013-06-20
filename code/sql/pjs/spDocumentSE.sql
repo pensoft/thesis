@@ -55,7 +55,6 @@ $BODY$
 		lCurrentRoundId bigint;
 		lRoundType int;
 		lCanProceed boolean;
-		lSECommunityPublicEvent int;
 	BEGIN		
 		--lSEAssignEventType = 2;
 		
@@ -230,14 +229,6 @@ $BODY$
 					-- SET due dates for current round and users
 					-- Updatating round due date
 					PERFORM pjs.spUpdateDueDates(1, pDocumentId, lSEAssignEventType, lRoundId, NULL);
-					
-					IF(lDocumentReviewType = 4) THEN
-						lSECommunityPublicEvent = 40;
-						PERFORM pjs.spUpdateDueDates(4, pDocumentId, lSECommunityPublicEvent, NULL, NULL);
-					ELSEIF(lDocumentReviewType = 3) THEN
-						lSECommunityPublicEvent = 41;
-						PERFORM pjs.spUpdateDueDates(4, pDocumentId, lSECommunityPublicEvent, NULL, NULL);
-					END IF;
 					
 				END IF;
 			ELSE 

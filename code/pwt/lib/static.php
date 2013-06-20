@@ -2218,8 +2218,9 @@ function showCommentAnswerForm($pInstanceId, $pDocumentId, $pRootMsg) {
 	return $lComment->Display();
 }
 
-function showCommentPic($pPhotoId) {
-	if($pPhotoId)
+function showCommentPic($pPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserId) {
+	$lUserIsDisclosed = CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserId);
+	if($pPhotoId && $lUserIsDisclosed)
 		return '<img border="0" alt="" src="/showimg.php?filename=c30x30y_' . (int)$pPhotoId . '.jpg" />';
 	return '<img src="./i/user_no_img.png" alt="" />';
 }
@@ -5574,10 +5575,17 @@ function GetLoginFormCaptchaTemplate(){
 
 function DisplayCommentUserName($pIsDisclosed, $pUserRealId, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName){
 // 	var_dump($pIsDisclosed);
-	if($pIsDisclosed || $pCurrentUserId == $pUserRealId){
+	if(CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserId)){
 		return $pCommentUserRealFullName;
 	}
 	return $pCommentUserUndisclosedName;
+}
+
+function CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserId){
+	if($pIsDisclosed || $pCurrentUserId == $pUserRealId){
+		return true;
+	}
+	return false;
 }
 
 function checkIfPasswordIsSecure($pPassword){

@@ -44,6 +44,11 @@ $BODY$
 		cSERoleId int := 3;
 		cPanelReviewerRoleId CONSTANT int := 7;
 		lReviewerRoleId int;
+		lSECommunityPublicEvent int;
+		lPanelDueDate timestamp;
+		lPublicDueDate timestamp;
+		lDocumentReviewType int;
+		lCanInvitePanelReviewers boolean;
 	BEGIN		
 		-- Check that the current user is SE for the specified document
 		IF NOT EXISTS (
@@ -93,8 +98,16 @@ $BODY$
 				JOIN pjs.document_user_invitations du ON du.document_id = d.id AND du.round_id = d.current_round_id
 				WHERE d.id = pDocumentId AND du.uid = pReviewerIds[lArrCnt] AND du.role_id = pRoleId
 			) THEN
+				--RAISE EXCEPTION 'aaa';
 				--RAISE NOTICE 'pReviewerIds=%', pReviewerIds[lArrCnt];
 				--RAISE EXCEPTION 'pjs.thisReviewerHasAlreadyBeenInvited';
+				
+				-- check for can invite nominated/panel reviewers
+				SELECT INTO lCanInvitePanelReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, pRoundId, pRoleId);
+				IF(lCanInvitePanelReviewers = FALSE) THEN
+					RAISE EXCEPTION 'pjs.cannotInviteMoreReviewers';
+				END IF;
+				
 				UPDATE pjs.document_user_invitations SET state_id = lConfirmInvitationStateId WHERE uid = pReviewerIds[lArrCnt] AND round_id = pRoundId;
 				
 				SELECT INTO lDocUsrId id FROM pjs.document_users WHERE uid = pReviewerIds[lArrCnt] AND document_id = pDocumentId AND role_id IN(cReviewerRoleId, cPanelReviewerRoleId) ORDER BY id DESC LIMIT 1;
@@ -113,13 +126,32 @@ $BODY$
 				-- manage due dates
 				--RAISE EXCEPTION 'Type: %, RoundId: %, ReviewerId: %', lReviewerInvitationEventType, pRoundId, pReviewerIds[lArrCnt];
 				PERFORM pjs.spUpdateDueDates(3, pDocumentId, lReviewerInvitationEventType, pRoundId, pReviewerIds[lArrCnt]);
+				
+				SELECT INTO lDocumentReviewType, lPanelDueDate, lPublicDueDate document_review_type_id, panel_duedate, public_duedate FROM pjs.documents WHERE id = pDocumentId;
+				--RAISE EXCEPTION 'lPanelDueDate: %, lDocumentReviewType: %', lPanelDueDate, lDocumentReviewType;
+				IF(lDocumentReviewType = 4 AND lPublicDueDate IS NULL) THEN
+					lSECommunityPublicEvent = 40;
+					PERFORM pjs.spUpdateDueDates(5, pDocumentId, lSECommunityPublicEvent, NULL, NULL);
+				ELSEIF(lDocumentReviewType = 3 AND lPanelDueDate IS NULL) THEN
+					lSECommunityPublicEvent = 41;
+					PERFORM pjs.spUpdateDueDates(4, pDocumentId, lSECommunityPublicEvent, NULL, NULL);
+				END IF;
+				
 			ELSE 
+				--RAISE EXCEPTION 'bbb';
 				--RAISE NOTICE 'ELSE pReviewerIds=%', pReviewerIds[lArrCnt];
 				--Invite the reviewer
 				-- INSERT INTO pjs.document_user_invitations(uid, document_id, round_id, due_date, role_id) 
 				-- SELECT pReviewerIds[lArrCnt], pDocumentId, d.current_round_id, now() + '1 week'::interval, pRoleId
 				-- FROM pjs.documents d
 				-- WHERE d.id = pDocumentId;
+				
+				-- check for can invite nominated/panel reviewers
+				SELECT INTO lCanInvitePanelReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, pRoundId, pRoleId);
+				IF(lCanInvitePanelReviewers = FALSE) THEN
+					RAISE EXCEPTION 'pjs.cannotInviteMoreReviewers';
+				END IF;
+				
 				UPDATE pjs.document_user_invitations 
 				   SET
 						date_invited= now(),
@@ -138,6 +170,17 @@ $BODY$
 				-- manage due dates
 				--RAISE EXCEPTION 'Type: %, RoundId: %, ReviewerId: %', lReviewerInvitationEventType, pRoundId, pReviewerIds[lArrCnt];
 				PERFORM pjs.spUpdateDueDates(3, pDocumentId, lReviewerInvitationEventType, pRoundId, pReviewerIds[lArrCnt]);
+				
+				SELECT INTO lDocumentReviewType, lPanelDueDate, lPublicDueDate document_review_type_id, panel_duedate, public_duedate FROM pjs.documents WHERE id = pDocumentId;
+				--RAISE EXCEPTION 'lPanelDueDate: %, lDocumentReviewType: %', lPanelDueDate, lDocumentReviewType;
+				IF(lDocumentReviewType = 4 AND lPublicDueDate IS NULL) THEN
+					lSECommunityPublicEvent = 40;
+					PERFORM pjs.spUpdateDueDates(5, pDocumentId, lSECommunityPublicEvent, NULL, NULL);
+				ELSEIF(lDocumentReviewType = 3 AND lPanelDueDate IS NULL) THEN
+					lSECommunityPublicEvent = 41;
+					PERFORM pjs.spUpdateDueDates(4, pDocumentId, lSECommunityPublicEvent, NULL, NULL);
+				END IF;
+				
 			END IF;
 			
 			lArrCnt = lArrCnt + 1;

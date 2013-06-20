@@ -71,7 +71,14 @@ $BODY$
 			
 			IF(pDocumentId IS NOT NULL) THEN
 				--RAISE EXCEPTION 'OFFSET: %', lOffsetDays;
-				UPDATE pjs.documents SET community_public_due_date = now() + (lOffsetDays*INTERVAL '1 day') WHERE id = pDocumentId;
+				UPDATE pjs.documents SET panel_duedate = now() + (lOffsetDays*INTERVAL '1 day') WHERE id = pDocumentId;
+			END IF;
+			--RAISE EXCEPTION 'OFFSET1: %', lOffsetDays;
+		ELSEIF pOper = 5 THEN 
+			
+			IF(pDocumentId IS NOT NULL) THEN
+				--RAISE EXCEPTION 'OFFSET: %', lOffsetDays;
+				UPDATE pjs.documents SET public_duedate = now() + (lOffsetDays*INTERVAL '1 day') WHERE id = pDocumentId;
 			END IF;
 			--RAISE EXCEPTION 'OFFSET1: %', lOffsetDays;
 		END IF;

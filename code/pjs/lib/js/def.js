@@ -253,10 +253,11 @@ function DocumentRemoveLE(pDocumentId, pLeId){
 	});
 }
 
-function DocumentAddCE(pDocumentId, pCeId){
+function DocumentAddCE(pDocumentId, pCeId, pCurrentRoundID){
 	return ExecuteSimpleDocumentAjaxRequest({
 		document_id : pDocumentId,
 		ce_id : pCeId,
+		current_round_id : pCurrentRoundID,
 		action : 'add_document_ce'
 	});
 }
