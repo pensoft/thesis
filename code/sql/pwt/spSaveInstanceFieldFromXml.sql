@@ -67,6 +67,7 @@ BEGIN
 	
 	lTemp = xpath('/*/value/text()', pFieldXml);
 	
+	
 	IF lRecord.type = lFieldIntType THEN
 		IF lRecord.data_src_id IS NOT NULL THEN
 			lTempText = lower(translate(lTemp[1]::text, ' ,.-*', ''));
@@ -127,7 +128,6 @@ BEGIN
 		IF NOT (lRecord.data_src_id IS NULL) AND array_upper(lTemp, 1) > 0 THEN
 			lTempTextArray = ARRAY[]::text[];			
 			lTempIntArray = ARRAY[]::int[];
-			
 			lSql = '';
 			FOR lIter2 IN
 				1 .. array_upper(lTemp, 1)
@@ -179,16 +179,15 @@ BEGIN
 	
 		
 	ELSEIF lRecord.type = lFieldStrType THEN
-		
 		--SELECT INTO lValueStr spXmlConcatArr(xpath('/*/value/node()', pFieldXml))::text;
 		/*Here we avoid the previous approach because
 		if the value contained direct html entities (e.g. &gt;) it decoded them automatically to their respective symbols
 		*/
 		SELECT INTO lTemp xpath('/*/value', pFieldXml);
+		
 		IF(lTemp[1]::text <> '<value/>') THEN
 			lValueStr = regexp_replace(lTemp[1]::text, '^<value(\s[^>]*)?>(.*)</value>', '\2');
 		END IF;
-
 	ELSEIF lRecord.type = lFieldStrArrType THEN
 		lValueStrArr = lTemp::text[];
 	ELSEIF lRecord.type = lFieldDateType THEN
@@ -215,6 +214,12 @@ BEGIN
 	
 	-- RAISE NOTICE 'SetValTo %, InstanceId %, field_id %', lValueInt, pInstanceId, pFieldId;
 	-- RAISE NOTICE 'ValInt %, ValStr %', lValueInt, lValueStr;
+	
+	lValueStr = replace(lValueStr, '&amp;', '&');
+	lValueStr = replace(lValueStr, '&quot;', '"');
+	lValueStr = replace(lValueStr, '&#039;', '\''');
+	lValueStr = replace(lValueStr, '&lt;', '<');
+	lValueStr = replace(lValueStr, '&gt;', '>');
 	
 	UPDATE pwt.instance_field_values SET
 		value_int = lValueInt,
