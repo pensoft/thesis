@@ -198,14 +198,14 @@ class cimport_materials extends csimple {
 							//file_put_contents('/tmp/materials.log', 'Value before: ' .  $val . "\n", FILE_APPEND);	
 							$lEmptyMaterialNodeValue = $this->m_Xpath->query('./value', $lEmptyMaterialNodes->item($i)); // Kade da replace-nem
 							$lNode = $lEmptyMaterialNodeValue->item(0);
-							$lValue = mb_convert_encoding($val, "UTF-8");
+							//$lValue = mb_convert_encoding($val, "HTML-ENTITIES", "UTF-8");
+							$lValue = $val;
+							$lValueEncoding = mb_detect_encoding( $lValue, "auto" );
+							$lValue = mb_convert_encoding($val, "UTF-8", $lValueEncoding);
 							//file_put_contents('/tmp/materials.log', 'Value converted to UTF-8: ' . $lValue . "\n", FILE_APPEND);
 							$lNode->nodeValue = '';
 							$lNode->appendChild($lNode->ownerDocument->createTextNode($lValue));
 							//file_put_contents('/tmp/materials.log', 'Value after: ' . $lNode->nodeValue . "\n\n", FILE_APPEND);
-							
-							
-							//~ $lEmptyMaterialNodeValue->item(0)->nodeValue = $val; // Slagame stoinostta na elementa v prazniq template
 						}
 					}
 				}
