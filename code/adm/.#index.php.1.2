@@ -1,12 +1,0 @@
-<?php
-$docroot = getenv('DOCUMENT_ROOT');
-//~ echo "dsadsa";
-//~ exit();
-require_once($docroot . '/lib/static.php');
-//~ var_dump($user);
-//~ exit();
-if (!(int)$user->id)  header('Location: /login/');HtmlStart();
-	header('Location: /resources/articles/');
-	exit;
-HtmlEnd();
-?>

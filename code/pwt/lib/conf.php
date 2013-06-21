@@ -6,7 +6,7 @@ define('CMS_SITEID', 1);
 //~ define('SITE_URL', 'http://pwt.pensoft.etaligent.net');
 //~ define('AJAX_URL', 'http://pensoft:pensoft123@pwt.pensoft.etaligent.net');
 
-define('SITE_URL', 'http://pwt.pensoft.net');
+define('SITE_URL', 'http://jordan.pwt.pensoft.dev');
 define('PJS_SITE_URL', 'http://biodiversitydatajournal.com');
 define('OLD_PJS_SITE_URL', 'http://www.pensoft.net');
 define('AJAX_URL', 'http://pwt.pensoft.net');
@@ -16,7 +16,7 @@ define('PTP_URL', 'http://ptp.pmt.etaligent.net');
 
 // db
 define('PGDB_SRV', 'localhost');
-define('PGDB_DB', 'pensoft2');
+define('PGDB_DB', 'pensoft_import_test6');
 define('PGDB_USR', 'iusrpmt');
 define('PGDB_PASS', 'oofskldkjn4l6s8jsd22');
 define('PGDB_PORT', '5432');
@@ -51,7 +51,7 @@ define('MYSQL_PASS', 'nadyadokoledasheinata');
 
 
 // path 
-define('PATH_CHECKOUT', '/var/www/pensoft/production.pmt/');
+define('PATH_CHECKOUT', '/var/www/pensoft/jordan.main/');
 define('PATH_ITEMS_COMMON', '/var/www/pensoft/items/');
 define('PATH_ITEMS_PRIVATE', PATH_CHECKOUT . 'items/');
 define('PATH_PWT_ITEMS_COMMON', '/var/www/pensoft/pwt_items/');
