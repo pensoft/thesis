@@ -117,8 +117,9 @@ class cimport_materials extends csimple {
 		)');
 
 		$lObjectXmlName = $this->m_con->mRs['result'];
-
+		
 		$this->m_EmptyXMLpath = PATH_OBJECTS_XSL . 'template_' . (int)$this->m_templateId . '/' . $lObjectXmlName;
+		//~ trigger_error($this->m_EmptyXMLpath, E_USER_NOTICE);
 	}
 
 	function ValidateUploadedFile() {
@@ -191,10 +192,14 @@ class cimport_materials extends csimple {
 			foreach($pMaterialData as $key => $val) {
 				if(trim($val != '')) { // Ако имаме стойност за слагане търсим елемента, за да го сложим на мястото му
 					$match_val = $this->m_MatchArr[$key]; // Ако имаме съвпадение в масива за мачване
+					
 					for($i = 0; $i < $lEmptyMaterialNodes->length; ++$i){
 						if(strtolower($key) == $lEmptyMaterialNodes->item($i)->nodeName || $match_val == $lEmptyMaterialNodes->item($i)->nodeName) {
 							$lEmptyMaterialNodeValue = $this->m_Xpath->query('./value', $lEmptyMaterialNodes->item($i)); // Kade da replace-nem
-							$lEmptyMaterialNodeValue->item(0)->nodeValue = $val; // Slagame stoinostta na elementa v prazniq template
+							$lNode = $lEmptyMaterialNodeValue->item(0);
+							$lNode->nodeValue = '';
+							$lNode->appendChild($lNode->ownerDocument->createTextNode($val));
+							//~ $lEmptyMaterialNodeValue->item(0)->nodeValue = $val; // Slagame stoinostta na elementa v prazniq template
 						}
 					}
 				}
@@ -239,6 +244,20 @@ class cimport_materials extends csimple {
 			$i = $this->m_MaterialsObjectIdx;
 			foreach($this->m_AllFieldValues as $lMaterialData) {
 				$this->prepareXML($lMaterialData, $i);
+				//~ trigger_error(
+				//~ 'SELECT * FROM spimportdocumentobjectfromxml(
+					//~ ' . (int)$this->m_documentId . ',
+					//~ \'' . q($this->m_XmlDom->saveXML()) . '\',
+					//~ ' . (int)$this->m_instanceId . ',
+					//~ ' . (int)$this->m_userId . ')'
+				//~ , E_USER_NOTICE);
+				
+				file_put_contents('/var/www/pensoft/viktorp.pmt/items/messaging/test.txt', 'SELECT * FROM spimportdocumentobjectfromxml(
+					' . (int)$this->m_documentId . ',
+					\'' . q($this->m_XmlDom->saveXML()) . '\',
+					' . (int)$this->m_instanceId . ',
+					' . (int)$this->m_userId . ')');
+				
 // 				var_dump('SELECT * FROM spimportdocumentobjectfromxml(
 // 					' . (int)$this->m_documentId . ',
 // 					\'' . q($this->m_XmlDom->saveXML()) . '\',

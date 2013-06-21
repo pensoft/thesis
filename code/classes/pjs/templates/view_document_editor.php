@@ -758,6 +758,7 @@ $gTemplArr = array(
 		{submission_notes}
 		<div class="document_info_row_border_line"></div>
 		{*view_document_editor.view_all_rounds}
+		{ce_rounds}
 		{ce_assign_obj}
 		{*view_document.view_document_foot}
 	',
@@ -1051,17 +1052,7 @@ $gTemplArr = array(
 									<col width="33%"></col>
 									<col width="33%"></col>
 								</colgroup>
-								<tr>
-									<td align="left" style="padding:0px 0px 0px 20px">
-										<div class="document_author_review_round_top_left document_author_review_round_top_left_editor">Editorial office</div>
-									</td>
-									<td align="center">
-										{_checkEditorCEAssignDueDate(round_due_date)}
-									</td>
-									<td align="right" style="padding:0px 20px 0px 0px">
-										<a href="view_document.php?id={document_id}&amp;view_role=2&amp;mode=1">Assign Copy Editor</a>
-									</td>
-								</tr>
+								{_showCopyEditorHolder(round_number, round_due_date, document_id)}
 							</table>
 						</div>
 						<div class="document_author_holder_content_no_review_yet_bottom">
@@ -1091,7 +1082,7 @@ $gTemplArr = array(
 
 	'view_document_editor.ceAvailableListStart' => '<div class="">Available CE</div>',
 
-	'view_document_editor.ceAvailableListRow' => '<div class="">{first_name} {last_name} <a href="#" onclick="DocumentAddCE({document_id}, {id});">add</a></div>',
+	'view_document_editor.ceAvailableListRow' => '<div class="">{first_name} {last_name} <a href="#" onclick="DocumentAddCE({document_id}, {id}, current_round_id);">add</a></div>',
 
 	'view_document_editor.leAvailableListStart' => '<div class="">Available LE</div>',
 
@@ -1180,7 +1171,7 @@ $gTemplArr = array(
 			<a href="mailto:{uname}">{uname}</a>
 		</td>
 		<td align="center">
-			{_showCEAddEvent(document_id, id, assigned_ce_uid)}
+			{_showCEAddEvent(document_id, id, assigned_ce_uid, current_round_id)}
 		</td>
 	</tr>',
 	
@@ -1259,6 +1250,7 @@ $gTemplArr = array(
 		{submission_notes}
 		<div class="document_info_row_border_line"></div>
 		{*view_document_editor.view_all_rounds}
+		{ce_rounds}
 		{ce_assigned}
 		{ce_obj}
 		{waiting_author}
@@ -1686,6 +1678,46 @@ $gTemplArr = array(
 				</div>
 			</div>
 		</div>
+	',
+
+	'view_document_editor.document_ce_round_row' => '
+		<div class="submission_notes_main_wrapper submission_notes_main_wrapper_E_view" id="collapse_closed_ce">
+			<table width="100%" cellspacing="0" cellpadding="0">
+				<colgroup>
+					<col width="33%"></col>
+					<col width="33%"></col>
+					<col width="33%"></col>
+				</colgroup>
+				<tbody>
+					<tr>
+						<td align="left">
+							<div class="document_author_review_round_top_left document_author_review_round_top_left_editor">{_getstr(pjs.copyeditinground_label)}</div>
+						</td>
+						<td align="center">
+							<a href="#" onclick="openPopUp(\'/view_version.php?version_id={copy_editor_version_id}&id={document_id}&view_role=' . (int)CE_ROLE . '\')">View copyedited version</a>
+						</td>
+						<td align="right">
+							<div><img src="../i/collapse_open.png"></img> <span class="collapse_text" onclick="Collapse(1, \'collapse_closed_ce\', \'collapse_opened_ce\')">Expand</span></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="submission_notes_main_wrapper" id="collapse_opened_ce" style="display:none;">
+			<div class="document_author_review_round_top">
+				<div class="document_author_review_round_top_left">{_getstr(pjs.copyeditinground_label)}</div>
+				<div class="document_author_review_round_top_right">
+					<img src="../i/collapse_close.png"></img>
+					<span class="collapse_text" onclick="Collapse(0, \'collapse_closed_ce\', \'collapse_opened_ce\')">Collapse</span>
+				</div>
+				<div class="P-Clear"></div>
+			</div>
+			<div class="document_author_holder_rev">
+				{_showCurrentAuthorVersion(version_num, author_version_id, document_id)}
+				{_showCurrentAuthorVersionCERound(document_id, copy_editor_version_id)}
+			</div>
+		</div>
+		<div class="document_info_row_border_line"></div>
 	',
 
 );

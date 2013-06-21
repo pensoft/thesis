@@ -290,7 +290,7 @@ class mDocuments_Model extends emBase_Model {
 		return $lResult;
 	}
 
-	function AddRemoveCE($pDocumentID, $pCEId, $pUid, $pAdd = true){
+	function AddRemoveCE($pDocumentID, $pCEId, $pUid, $pAdd = true, $pCurrentRoundId){
 		$lResult = array(
 			'err_cnt' => 0,
 			'err_msgs' => array()
@@ -299,7 +299,7 @@ class mDocuments_Model extends emBase_Model {
 			$lCon = $this->m_con;
 			//The checks whether the current user is journal manager or the specified se is SE of the journal of the document are performed in the SP
 
-			$lSql = 'SELECT * FROM spDocumentCE(' . (int) $pAdd . ', ' . (int)$pDocumentID . ', ' . (int)$pCEId . ', ' . (int)$pUid . ');';
+			$lSql = 'SELECT * FROM spDocumentCE(' . (int) $pAdd . ', ' . (int)$pDocumentID . ', ' . (int)$pCurrentRoundId . ',' . (int)$pCEId . ', ' . (int)$pUid . ');';
 			if(!$lCon->Execute($lSql)){
 				throw new Exception($lCon->GetLastError());
 			} else {
@@ -1339,6 +1339,25 @@ class mDocuments_Model extends emBase_Model {
 			$lResult['last_name'] = $this->m_con->mRs['last_name'];
 			$lResult['version_num'] = $this->m_con->mRs['version_num'];
 		}
+		return $lResult;
+	}
+
+	function GetCEDataList($pDocumentId) {
+		$lSql = 'SELECT u.first_name, u.last_name, dv.version_num, dv.id as copy_editor_version_id
+			FROM pjs.document_review_rounds dr
+			JOIN pjs.document_review_round_users drru ON drru.id = dr.decision_round_user_id
+			JOIN pjs.document_versions dv ON dv.id = drru.document_version_id
+			JOIN pjs.document_users du ON du.id = drru.document_user_id
+			JOIN usr u ON u.id = du.uid
+			WHERE dr.document_id = ' . (int)$pDocumentId . ' AND dr.round_type_id = ' . CE_ROUND_TYPE . ' AND dr.decision_id IS NOT NULL';
+
+		$lResult = array();
+		$this->m_con->Execute($lSql);
+		while(!$this->m_con->Eof()){
+			$lResult[] = $this->m_con->mRs;
+			$this->m_con->MoveNext();
+		}
+		
 		return $lResult;
 	}
 

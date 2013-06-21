@@ -425,9 +425,16 @@ function getFormButtonStep3($pIsProfileEdit) {
 	return $lRet;
 }
 
-function showSEProceedButton($pRoundUserId, $pDocumentId, $pRoundNumber, $pReviewersCheck, $pDocumentReviewTypeId, $pDocumentReviewDueDate, $pRoundDueDate, $pUserVersionId, $pRole, $pRoundId, $pShowDivs = 1, $pCheckInvited = 1, $pMergeFlag = 1, $pReviewersLock = 'false') {
+function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNominatedFlag, $pReviews, $pRoundUserId, $pDocumentId, $pRoundNumber, $pReviewersCheck, $pDocumentReviewTypeId, $pDocumentReviewDueDate, $pRoundDueDate, $pUserVersionId, $pRole, $pRoundId, $pShowDivs = 1, $pCheckInvited = 1, $pMergeFlag = 1, $pReviewersLock = 'false') {
 	$lShowProceedBtn = ($pReviewersCheck == 'true' ? true : false);
-	// $lShowProceedBtn = false;
+	$lMessage = '';
+	
+	/* Turn string to boolean vals */
+	$pWaitNominatedFlag = ($pWaitNominatedFlag == 'true' ? true : false);
+	$pWaitPanelFlag = ($pWaitPanelFlag == 'true' ? true : false);
+	$pCanInviteNominatedFlag = ($pCanInviteNominatedFlag == 'true' ? true : false);
+	/* Turn string to boolean vals */
+	
 	if($pRoundNumber == 3){
 		$pReviewersLock = 'true';
 	}
@@ -435,46 +442,110 @@ function showSEProceedButton($pRoundUserId, $pDocumentId, $pRoundNumber, $pRevie
 		REVIEW_ROUND_ONE,
 		REVIEW_ROUND_TWO
 	))) && $pDocumentReviewTypeId == DOCUMENT_NON_PEER_REVIEW){
-		$lMessage = getstr('pjs.showproceedbtnround2_text');
+		//~ $lMessage = getstr('pjs.showproceedbtnround2_text');
+		$lMessage = getstr('pjs.se_can_take_decision');
 	}else{
+		$lCheckRoundDueDateFlag = CheckDueDateDays($pRoundDueDate);
+		/*
+		var_dump($pWaitNominatedFlag);
+		var_dump($lCheckRoundDueDateFlag);
+		var_dump((int)$pReviews);
+		var_dump($pWaitPanelFlag);
+		var_dump($pCanInviteNominatedFlag);
+		*/
 		if($pRoundNumber == REVIEW_ROUND_ONE){
-			if($pDocumentReviewTypeId == DOCUMENT_CLOSED_PEER_REVIEW){
-				if(! $lShowProceedBtn){
-					$lMessage = sprintf(getstr('pjs.decision_button_text_closed_peer_in_due_date_round_1'), REVIEW_ROUND_ONE_NEEDED_DEDICATED_REVIEWERS);
-				}else if($lShowProceedBtn && ($pReviewersLock == 'false' || $pReviewersLock == 'f')){
-					$lMessage = getstr('pjs.decision_button_text_closed_peer_not_in_due_date_round_1');
-				}else{
-					$lMessage = getstr('pjs.showproceedbtnround2_text_closed_peer_round_1');
+			
+			switch($pDocumentReviewTypeId) {
+				case DOCUMENT_CLOSED_PEER_REVIEW: {
+					
+					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
+						$lMessage = getstr('pjs.conventional_peer_review_speedup');
+					} elseif ((int)$pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
+						$lMessage = getstr('pjs.conventional_peer_review_take_decision');
+					} elseif ((int)$pReviews == 0 && !($pCanInviteNominatedFlag || $pWaitNominatedFlag || $pWaitPanelFlag)) {
+						$lMessage = getstr('pjs.conventional_peer_review_take_decision_without_reviewers');
+					} else {
+						$lMessage = getstr('pjs.conventional_peer_review_to_proceed');
+					}
+					
+				break;
 				}
-			}else{
-				if(! $lShowProceedBtn){
-					$lMessage = sprintf(getstr('pjs.decision_button_text_community_public_peer_in_due_date_round_1'), REVIEW_ROUND_ONE_NEEDED_DEDICATED_REVIEWERS);
-				}else if($lShowProceedBtn && ($pReviewersLock == 'false' || $pReviewersLock == 'f')){
-					$lMessage = getstr('pjs.decision_button_text_community_public_peer_not_in_due_date_round_1');
-				}else{
-					$lMessage = getstr('pjs.showproceedbtnround2_text_community_public_round_1');
+				case DOCUMENT_COMMUNITY_PEER_REVIEW: {
+					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
+						$lMessage = getstr('pjs.community_peer_review_speedup');
+					} elseif ($pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
+						$lMessage = getstr('pjs.community_peer_review_take_decision');
+					} elseif ($pReviews == 0 && !($pCanInviteNominatedFlag || $pWaitNominatedFlag || $pWaitPanelFlag)) {
+						$lMessage = getstr('pjs.community_peer_review_take_decision_without_reviewers');
+					} else {
+						$lMessage = getstr('pjs.community_peer_review_to_proceed');
+					}
+					
+				break;
 				}
+				case DOCUMENT_PUBLIC_PEER_REVIEW: {
+					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
+						$lMessage = getstr('pjs.public_peer_review_speedup');
+					} elseif ($pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
+						$lMessage = getstr('pjs.public_peer_review_take_decision');
+					} elseif ($pReviews == 0 && !($pCanInviteNominatedFlag || $pWaitNominatedFlag || $pWaitPanelFlag)) {
+						$lMessage = getstr('pjs.public_peer_review_take_decision_without_reviewers');
+					} else {
+						$lMessage = getstr('pjs.public_peer_review_to_proceed');
+					}
+					
+				break;
+				}
+				default:
+				break;
 			}
 		}elseif($pRoundNumber == REVIEW_ROUND_TWO){
-			if($pDocumentReviewTypeId == DOCUMENT_CLOSED_PEER_REVIEW){
-				if(! $lShowProceedBtn){
-					$lMessage = sprintf(getstr('pjs.decision_button_text_closed_peer_in_due_date_round_2'), REVIEW_ROUND_ONE_NEEDED_DEDICATED_REVIEWERS);
-				}else if($lShowProceedBtn && ($pReviewersLock == 'false' || $pReviewersLock == 'f')){
-					$lMessage = getstr('pjs.decision_button_text_closed_peer_not_in_due_date_round_2');
-				}else{
-					$lMessage = getstr('pjs.showproceedbtnround2_text_closed_peer_round_2');
+			
+			switch($pDocumentReviewTypeId) {
+				case DOCUMENT_CLOSED_PEER_REVIEW: {
+					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
+						$lMessage = getstr('pjs.conventional_peer_review_speedup');
+					} elseif ($pReviews >= 1 && !$pWaitNominatedFlag) {
+						$lMessage = getstr('pjs.conventional_peer_review_take_decision');
+					} elseif ($pReviews == 0 && !$pWaitNominatedFlag) {
+						$lMessage = getstr('pjs.conventional_peer_review_take_decision_without_reviewers');
+					} else {
+						$lMessage = getstr('pjs.conventional_peer_review_to_proceed');
+					}
+					
+				break;
 				}
-			}else{
-				if(! $lShowProceedBtn){
-					$lMessage = sprintf(getstr('pjs.decision_button_text_community_public_peer_in_due_date_round_2'), REVIEW_ROUND_ONE_NEEDED_DEDICATED_REVIEWERS);
-				}else if($lShowProceedBtn && ($pReviewersLock == 'false' || $pReviewersLock == 'f')){
-					$lMessage = getstr('pjs.decision_button_text_community_public_peer_not_in_due_date_round_2');
-				}else{
-					$lMessage = getstr('pjs.showproceedbtnround2_text_community_public_round_2');
+				case DOCUMENT_COMMUNITY_PEER_REVIEW: {
+					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
+						$lMessage = getstr('pjs.community_peer_review_speedup');
+					} elseif ($pReviews >= 1 && !$pWaitNominatedFlag) {
+						$lMessage = getstr('pjs.community_peer_review_take_decision');
+					} elseif ($pReviews == 0 && !$pWaitNominatedFlag) {
+						$lMessage = getstr('pjs.community_peer_review_take_decision_without_reviewers');
+					} else {
+						$lMessage = getstr('pjs.community_peer_review_to_proceed');
+					}
+					
+				break;
 				}
+				case DOCUMENT_PUBLIC_PEER_REVIEW: {
+					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
+						$lMessage = getstr('pjs.public_peer_review_speedup');
+					} elseif ($pReviews >= 1 && !$pWaitNominatedFlag) {
+						$lMessage = getstr('pjs.public_peer_review_take_decision');
+					} elseif ($pReviews == 0 && !$pWaitNominatedFlag) {
+						$lMessage = getstr('pjs.public_peer_review_take_decision_without_reviewers');
+					} else {
+						$lMessage = getstr('pjs.public_peer_review_to_proceed');
+					}
+					
+				break;
+				}
+				default:
+				break;
 			}
 		}elseif($pRoundNumber == REVIEW_ROUND_THREE){
-			$lMessage = getstr('pjs.showproceedbtnround2_text');
+			$lMessage = getstr('pjs.se_can_take_decision');
 		}
 	}
 	$lUrl = '\'/view_version.php?version_id=' . $pUserVersionId . '&id=' . $pDocumentId . '&view_role=' . $pRole . '&round=' . $pRoundNumber . '&round_user_id=' . $pRoundUserId . '&duedate=' . $pRoundDueDate . '\'';
@@ -951,11 +1022,11 @@ function showSEAddEvent($pDocumentId, $pId, $pAssignedSEUid, $pJournalId) {
 	}
 }
 
-function showCEAddEvent($pDocumentId, $pId, $pAssignedCEUid) {
+function showCEAddEvent($pDocumentId, $pId, $pAssignedCEUid, $pCurrentRoundId) {
 	if($pAssignedCEUid){
 		return 'Assigned';
 	}else{
-		return '<a href="#" onclick="DocumentAddCE(' . $pDocumentId . ', ' . $pId . ');">Assign</a>';
+		return '<a href="#" onclick="DocumentAddCE(' . $pDocumentId . ', ' . $pId . ', ' . $pCurrentRoundId . ');">Assign</a>';
 	}
 }
 
@@ -1568,7 +1639,7 @@ function showRoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateI
 		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE,
 		DOCUMENT_READY_FOR_COPY_REVIEW_STATE
 	))){
-		return getstr('pjs.copyeditinground_label');
+		return getstr('pjs.copyeditinground_label') . ' ' . $pRoundNumber;
 	}
 
 	if(! $pRoundTypeId){
@@ -2147,7 +2218,7 @@ function addSingleDocumentClass($pRole) {
 }
 
 function checkCommunityPublicDueDate($pReviewProcessType, $pPanelDueDate, $pPublicDueDate) {
-	
+
 	if((int)$pReviewProcessType == DOCUMENT_PUBLIC_PEER_REVIEW) {
 		$lDueDateArr = CheckDueDateDays($pPublicDueDate);
 	} else {
@@ -2639,8 +2710,9 @@ function showNoPanelsData($pType, $pReviewType, $pDocumentId, $pRoundNumber) {
 	}
 }
 
-function showCommentPic($pPhotoId) {
-	if($pPhotoId)
+function showCommentPic($pPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId) {
+	$lIsDisclosed = CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId);
+	if($pPhotoId && $lIsDisclosed)
 		return '<img border="0" alt="" src="' . PWT_URL . '/showimg.php?filename=c30x30y_' . (int)$pPhotoId . '.jpg" />';
 	return '<img src="' . PWT_URL . '/i/user_no_img.png" alt="" />';
 }
@@ -2724,10 +2796,58 @@ function displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveU
 	return $lResult;
 }
 
-function DisplayCommentUserName($pIsDisclosed, $pCommentUid, $pCurrentUserIsEditor, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName){
-	if($pIsDisclosed || $pCurrentUserIsEditor || $pCurrentUserId == $pCommentUid){
+function DisplayCommentUserName($pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName){
+	if(CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId)){
 		return $pCommentUserRealFullName;
 	}
 	return $pCommentUserUndisclosedName;
+}
+
+function showCopyEditorHolder($pRoundNumber, $pRoundDueDate, $pDocumentID) {
+	if($pRoundNumber == 1) {
+		return '
+			<tr>
+				<td align="left" style="padding:0px 0px 0px 20px">
+					<div class="document_author_review_round_top_left document_author_review_round_top_left_editor">Editorial office</div>
+				</td>
+				<td align="center">
+					' . checkEditorCEAssignDueDate($pRoundDueDate) . '
+				</td>
+				<td align="right" style="padding:0px 20px 0px 0px">
+					<a href="view_document.php?id=' . (int)$pDocumentID . '&amp;view_role=2&amp;mode=1">Assign Copy Editor</a>
+				</td>
+			</tr>';
+	} else {
+		return '
+			<tr>
+				<td align="left" style="padding:0px 0px 0px 20px">
+					<div class="document_author_review_round_top_left document_author_review_round_top_left_editor">Editorial office</div>
+				</td>
+				<td align="center">
+					' . checkEditorCEAssignDueDate($pRoundDueDate) . '
+				</td>
+				<td align="right" style="padding:0px 20px 0px 0px">
+					<a href="view_document.php?id=' . (int)$pDocumentID . '&amp;view_role=2&amp;mode=1">Assign Copy Editor</a>
+				</td>
+			</tr>
+			<tr>
+				<td align="left" style="padding:20px 0px 0px 20px">
+					<div class="document_author_review_round_top_left document_author_review_round_top_left_editor">Editorial office</div>
+				</td>
+				<td align="center" style="padding-top:20px;">
+					' . checkEditorLEAssignDueDate($pRoundDueDate) . '
+				</td>
+				<td align="right" style="padding:20px 20px 0px 0px">
+					<a href="view_document.php?id=' . (int)$pDocumentID . '&amp;view_role=2&amp;mode=2">Assign Layout Editor</a>
+				</td>
+			</tr>';
+	}
+}
+
+function CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId){
+	if($pIsDisclosed || $pCurrentUserIsEditor || $pUserRealId == $pCurrentUserId){
+		return true;
+	}
+	return false;
 }
 ?>

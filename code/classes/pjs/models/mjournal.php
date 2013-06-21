@@ -259,7 +259,7 @@ class mJournal extends emBase_Model {
 	 * @param int $pJournalId
 	 * @param int $pDocumentId
 	 */
-	function GetAvailableCEList($pJournalId, $pDocumentId){
+	function GetAvailableCEList($pJournalId, $pDocumentId, $pCurrentRoundId){
 		if(!$pDocumentId){
 			$lSql = 'SELECT u.*
 			FROM pjs.journal_users ju
@@ -267,15 +267,16 @@ class mJournal extends emBase_Model {
 			WHERE ju.journal_id = ' . (int)$pJournalId . ' AND ju.role_id = ' . (int) CE_ROLE . '
 			';
 		}else{
-			$lSql = 'SELECT u.*, coalesce(du.id, 0) as assigned_ce_uid
+			$lSql = 'SELECT u.*, (CASE WHEN drrus.id IS NOT NULL THEN coalesce(du.id, 0) ELSE 0 END) as assigned_ce_uid
 			FROM pjs.journal_users ju
 			JOIN usr u ON u.id = ju.uid
 			LEFT JOIN pjs.document_users du ON du.uid = u.id AND du.document_id = ' . (int)$pDocumentId . ' AND du.role_id = ' . (int) CE_ROLE . '
+			LEFT JOIN pjs.document_review_round_users drrus ON drrus.document_user_id = du.id AND drrus.round_id = ' . (int)$pCurrentRoundId . '
 			WHERE ju.journal_id = ' . (int)$pJournalId . ' AND ju.role_id = ' . (int) CE_ROLE . '
 			';
 			
 		}
-		// 		var_dump($lSql);
+		 		var_dump($lSql);
 		$lResult = array();
 		$this->m_con->Execute($lSql);
 		while(!$this->m_con->Eof()){

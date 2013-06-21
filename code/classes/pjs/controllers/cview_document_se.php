@@ -60,7 +60,7 @@ class cView_Document_SE extends cView_Document {
 		
 		$lDocumentModel = new mDocuments_Model();
 		$lJournalModel = new mJournal();
-		
+		//~ var_dump($this->m_documentData);
 		switch ((int) $this->m_documentState) {
 			default :
 				$lLastRoundDecisionData = $lDocumentModel->GetLastReviewRoundDecisionData($this->m_documentId);

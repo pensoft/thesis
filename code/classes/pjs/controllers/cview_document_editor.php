@@ -291,7 +291,6 @@ class cView_Document_Editor extends cView_Document {
 		}
 		//Overview mode
 		if(!(int)$this->m_editor_mode) { 
-			
 			$lAssignedSEsData = $lDocumentModel->GetAssignedSEList($this->m_documentId);
 			$lAssignedSEs = new evList_Display(array(
 				'controller_data' => $lAssignedSEsData,
@@ -474,6 +473,17 @@ class cView_Document_Editor extends cView_Document {
 					);	
 					break;
 				case DOCUMENT_READY_FOR_COPY_REVIEW_STATE :
+					$lCEDecisionData = $lDocumentModel->GetCEDataList($this->m_documentId);
+					if(count($lCEDecisionData)) {
+						$lCEListObj = new evList_Display(array(
+							'controller_data' => $lCEDecisionData, 
+							'name_in_viewobject' => 'document_ce_rounds',
+							'document_id' => $this->m_documentId,
+							'author_version_id' => $this->m_documentData['author_version_id'],
+						)); 
+					}
+				
+				
 					$lCEAssignObj = new evSimple_Block_Display(array(
 						'controller_data' => $lDocumentModel->GetAuthorRoundDetails($this->m_documentId, E_ROUND_TYPE), 
 						'name_in_viewobject' => 'document_waiting_ce_assign_obj',
@@ -492,12 +502,24 @@ class cView_Document_Editor extends cView_Document {
 						'controller_data' => $this->m_documentData,
 						'name_in_viewobject' => 'document_waiting_ce_assign',
 						'ce_assign_obj' => $lCEAssignObj,
+						'ce_rounds' => $lCEListObj,
 					)); 
 					break;
 				case DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE: 			
 				case DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_STATE:
 				case DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE:
 				case DOCUMENT_IN_COPY_REVIEW_STATE :
+					
+					$lCEDecisionData = $lDocumentModel->GetCEDataList($this->m_documentId);
+					if(count($lCEDecisionData)) {
+						$lCEListObj = new evList_Display(array(
+							'controller_data' => $lCEDecisionData, 
+							'name_in_viewobject' => 'document_ce_rounds',
+							'document_id' => $this->m_documentId,
+							'author_version_id' => $this->m_documentData['author_version_id'],
+						)); 
+					}
+				
 					if(in_array($this->m_documentState, array(
 						DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE,
 						DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE,
@@ -516,20 +538,20 @@ class cView_Document_Editor extends cView_Document {
 					}
 					if($this->m_documentState == DOCUMENT_IN_COPY_REVIEW_STATE) {
 					//~ var_dump($this->m_documentData);
-						$lCEObj = new evSimple_Block_Display(array(
-							'controller_data' => $lDocumentModel->GetAuthorRoundDetails($this->m_documentId, CE_ROUND_TYPE), 
-							'name_in_viewobject' => 'document_waiting_ce_obj',
-							'round_name' => $this->m_documentData['round_name'],
-							'round_number' => $this->m_documentData['round_number'],
-							'round_type' => $this->m_documentData['round_type'],
-							'state_id' => $this->m_documentData['state_id'],
-							'version_num' => $this->m_documentData['version_num'],
-							'author_version_id' => $this->m_documentData['author_version_id'],
-							'current_round_id' => $this->m_documentData['current_round_id'],
-							'document_id' => $this->m_documentId,
-							'check_invited_users' => $this->m_documentData['check_invited_users'],
-							'merge_flag' => $this->m_documentData['merge_flag'],
-						)); 
+						//~ $lCEObj = new evSimple_Block_Display(array(
+							//~ 'controller_data' => $lDocumentModel->GetAuthorRoundDetails($this->m_documentId, CE_ROUND_TYPE), 
+							//~ 'name_in_viewobject' => 'document_waiting_ce_obj',
+							//~ 'round_name' => $this->m_documentData['round_name'],
+							//~ 'round_number' => $this->m_documentData['round_number'],
+							//~ 'round_type' => $this->m_documentData['round_type'],
+							//~ 'state_id' => $this->m_documentData['state_id'],
+							//~ 'version_num' => $this->m_documentData['version_num'],
+							//~ 'author_version_id' => $this->m_documentData['author_version_id'],
+							//~ 'current_round_id' => $this->m_documentData['current_round_id'],
+							//~ 'document_id' => $this->m_documentId,
+							//~ 'check_invited_users' => $this->m_documentData['check_invited_users'],
+							//~ 'merge_flag' => $this->m_documentData['merge_flag'],
+						//~ )); 
 					}
 					if(in_array($this->m_documentState, array(
 						DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE,
@@ -537,17 +559,17 @@ class cView_Document_Editor extends cView_Document {
 						))
 					) {
 						
-						$lCEDecisionData = $lDocumentModel->GetCEData($this->m_documentId);
-						if(count($lCEDecisionData)) {
-							$lCEObj = new evSimple_Block_Display(array(
-								'controller_data' => $lCEDecisionData, 
-								'name_in_viewobject' => 'document_waiting_ce_decision',
-								'copy_editor_version_id' => $this->m_documentData['copy_editor_version_id'],
-								'document_id' => $this->m_documentId,
-								'version_num' => $this->m_documentData['version_num'],
-								'author_version_id' => $this->m_documentData['author_version_id'],
-							)); 
-						}
+						//~ $lCEDecisionData = $lDocumentModel->GetCEData($this->m_documentId);
+						//~ if(count($lCEDecisionData)) {
+							//~ $lCEObj = new evSimple_Block_Display(array(
+								//~ 'controller_data' => $lCEDecisionData, 
+								//~ 'name_in_viewobject' => 'document_waiting_ce_decision',
+								//~ 'copy_editor_version_id' => $this->m_documentData['copy_editor_version_id'],
+								//~ 'document_id' => $this->m_documentId,
+								//~ 'version_num' => $this->m_documentData['version_num'],
+								//~ 'author_version_id' => $this->m_documentData['author_version_id'],
+							//~ )); 
+						//~ }
 					}
 					
 					$this->m_contentObject = new evSimple_Block_Display(array(
@@ -555,6 +577,7 @@ class cView_Document_Editor extends cView_Document {
 						'name_in_viewobject' => 'document_in_ce_state',
 						'waiting_author' => $lWaitAuthorRevisionObject,
 						'ce_assigned' => $lCEObj,
+						'ce_rounds' => $lCEListObj,
 					)); 
 					break;
 				case DOCUMENT_READY_FOR_LAYOUT_STATE :
@@ -592,17 +615,28 @@ class cView_Document_Editor extends cView_Document {
 					)); 
 					break;
 				case DOCUMENT_IN_LAYOUT_EDITING_STATE :
-					$lCEDecisionData = $lDocumentModel->GetCEData($this->m_documentId);
+					//~ $lCEDecisionData = $lDocumentModel->GetCEData($this->m_documentId);
+					//~ if(count($lCEDecisionData)) {
+						//~ $lCEObj = new evSimple_Block_Display(array(
+							//~ 'controller_data' => $lCEDecisionData, 
+							//~ 'name_in_viewobject' => 'document_waiting_ce_decision',
+							//~ 'copy_editor_version_id' => $this->m_documentData['copy_editor_version_id'],
+							//~ 'document_id' => $this->m_documentId,
+							//~ 'version_num' => $this->m_documentData['version_num'],
+							//~ 'author_version_id' => $this->m_documentData['author_version_id'],
+						//~ )); 
+					//~ }
+					
+					$lCEDecisionData = $lDocumentModel->GetCEDataList($this->m_documentId);
 					if(count($lCEDecisionData)) {
-						$lCEObj = new evSimple_Block_Display(array(
+						$lCEListObj = new evList_Display(array(
 							'controller_data' => $lCEDecisionData, 
-							'name_in_viewobject' => 'document_waiting_ce_decision',
-							'copy_editor_version_id' => $this->m_documentData['copy_editor_version_id'],
+							'name_in_viewobject' => 'document_ce_rounds',
 							'document_id' => $this->m_documentId,
-							'version_num' => $this->m_documentData['version_num'],
 							'author_version_id' => $this->m_documentData['author_version_id'],
 						)); 
 					}
+					
 					$lLEObj = new evSimple_Block_Display(array(
 						'controller_data' => $lDocumentModel->GetAuthorRoundDetails($this->m_documentId, LE_ROUND_TYPE), 
 						'name_in_viewobject' => 'document_waiting_le_obj',
@@ -622,7 +656,7 @@ class cView_Document_Editor extends cView_Document {
 						'controller_data' => $this->m_documentData,
 						'name_in_viewobject' => 'document_in_le_state',
 						'le_assigned' => $lLEObj,
-						'ce_obj' => $lCEObj,
+						'ce_obj' => $lCEListObj,
 					)); 
 					break;
 				case DOCUMENT_PUBLISHED_STATE :						
@@ -641,14 +675,24 @@ class cView_Document_Editor extends cView_Document {
 					}
 					
 					
-					$lCEDecisionData = $lDocumentModel->GetCEData($this->m_documentId);
+					//~ $lCEDecisionData = $lDocumentModel->GetCEData($this->m_documentId);
+					//~ if(count($lCEDecisionData)) {
+						//~ $lCEObj = new evSimple_Block_Display(array(
+							//~ 'controller_data' => $lCEDecisionData, 
+							//~ 'name_in_viewobject' => 'document_waiting_ce_decision',
+							//~ 'copy_editor_version_id' => $this->m_documentData['copy_editor_version_id'],
+							//~ 'document_id' => $this->m_documentId,
+							//~ 'version_num' => $this->m_documentData['version_num'],
+							//~ 'author_version_id' => $this->m_documentData['author_version_id'],
+						//~ )); 
+					//~ }
+					
+					$lCEDecisionData = $lDocumentModel->GetCEDataList($this->m_documentId);
 					if(count($lCEDecisionData)) {
-						$lCEObj = new evSimple_Block_Display(array(
+						$lCEListObj = new evList_Display(array(
 							'controller_data' => $lCEDecisionData, 
-							'name_in_viewobject' => 'document_waiting_ce_decision',
-							'copy_editor_version_id' => $this->m_documentData['copy_editor_version_id'],
+							'name_in_viewobject' => 'document_ce_rounds',
 							'document_id' => $this->m_documentId,
-							'version_num' => $this->m_documentData['version_num'],
 							'author_version_id' => $this->m_documentData['author_version_id'],
 						)); 
 					}
@@ -657,7 +701,7 @@ class cView_Document_Editor extends cView_Document {
 						'controller_data' => $this->m_documentData,
 						'name_in_viewobject' => 'document_approved_for_publish',
 						'ce_obj' => $lCEObj,
-						'le_obj' => $lLEObj,
+						'le_obj' => $lCEListObj,
 					)); break;
 				
 				case DOCUMENT_REJECTED_STATE :
@@ -692,7 +736,7 @@ class cView_Document_Editor extends cView_Document {
 			
 			foreach ($commonDocProperties as $key => $value)
 					$this->m_contentObject->SetVal($key, $value);			
-		} else{ //Action mode
+		} elseif($this->m_editor_mode == 1){ //Action mode
 			switch ($this->m_documentState) {
 				case DOCUMENT_WAITING_SE_ASSIGNMENT_STATE:
 				case DOCUMENT_IN_REVIEW_STATE :
@@ -730,7 +774,7 @@ class cView_Document_Editor extends cView_Document {
 						'author_version_id' => $this->m_documentData['author_version_id'],
 						'round_name' => $this->m_documentData['round_name'],
 						'ce_list' => new evList_Display(array(
-									'controller_data' => $lJournalModel->GetAvailableCEList($this->m_documentData['journal_id'], $this->m_documentId),
+									'controller_data' => $lJournalModel->GetAvailableCEList($this->m_documentData['journal_id'], $this->m_documentId, $this->m_documentData['current_round_id']),
 									'name_in_viewobject' => 'ce_allavailable_list',
 									'document_id' => $this->m_documentId,
 					                'round_number' => $this->m_documentData['round_number'],
@@ -741,6 +785,7 @@ class cView_Document_Editor extends cView_Document {
 									'check_invited_users' => $this->m_documentData['check_invited_users'],
 									'merge_flag' => $this->m_documentData['merge_flag'],
 					                'round_name' => $this->m_documentData['round_name'],
+									'current_round_id' => $this->m_documentData['current_round_id'],
             ))));break;
 				
 				case DOCUMENT_READY_FOR_LAYOUT_STATE:
@@ -768,6 +813,38 @@ class cView_Document_Editor extends cView_Document {
 								)))); break;
 				default:
 					break;
+			}
+		} elseif ($this->m_editor_mode == 2){
+			switch ($this->m_documentState) {
+				case DOCUMENT_READY_FOR_COPY_REVIEW_STATE:
+				case DOCUMENT_READY_FOR_LAYOUT_STATE:
+				case DOCUMENT_IN_LAYOUT_EDITING_STATE:
+					if($this->m_documentState == DOCUMENT_READY_FOR_COPY_REVIEW_STATE && $this->m_documentData['round_number'] > 1) {
+						$this->m_contentObject = new evSimple_Block_Display(array('controller_data' => $this->m_documentData,
+							'name_in_viewobject' => 'document_le_list',
+							'round_number' => $this->m_documentData['round_number'],
+							'round_type' => $this->m_documentData['round_type'],
+							'state_id' => $this->m_documentData['state_id'],
+							'version_num' => $this->m_documentData['version_num'],
+							'author_version_id' => $this->m_documentData['author_version_id'],
+							'round_name' => $this->m_documentData['round_name'],
+							'le_list' => new evList_Display(array(
+									'controller_data' => $lJournalModel->GetAvailableLEList($this->m_documentData['journal_id'], $this->m_documentId),
+									'name_in_viewobject' => 'le_allavailable_list',
+									'document_id' => $this->m_documentId,
+									'round_number' => $this->m_documentData['round_number'],
+									'round_type' => $this->m_documentData['round_type'],
+									'state_id' => $this->m_documentData['state_id'],
+									'version_num' => $this->m_documentData['version_num'],
+									'author_version_id' => $this->m_documentData['author_version_id'],
+									'round_name' => $this->m_documentData['round_name'],
+									'check_invited_users' => $this->m_documentData['check_invited_users'],
+									'merge_flag' => $this->m_documentData['merge_flag'],
+									)))); 
+					}
+					break;
+					default:
+						break;
 			}
 		}
 	}

@@ -166,13 +166,14 @@ class cView_Version extends cBase_Controller {
 		$this->m_versionType = (int)$lDocumentVersionData['version_type_id'];
 		$this->m_versionUID = (int)$lDocumentVersionData['uid'];
 		$this->m_versionUserRoundId = (int)$lDocumentVersionData['version_round_id'];
-		//var_dump($this->m_versionUID);
+		//~ var_dump($this->m_versionUID);
+		//~ var_dump($this->m_versionType);
 		switch ((int)$this->m_versionType) {
 			case DOCUMENT_VERSION_AUTHOR_SUBMIT_TYPE:
 				$this->m_viewingRole = AUTHOR_ROLE;
 				break;
 			case DOCUMENT_VERSION_REVIEWER_TYPE:
-			case COMMUNITY_REVIEWER_ROLE:
+			//~ case COMMUNITY_REVIEWER_ROLE:
 				$this->m_viewingRole = DEDICATED_REVIEWER_ROLE;
 				break;
 			case DOCUMENT_VERSION_SE_TYPE:
@@ -180,6 +181,7 @@ class cView_Version extends cBase_Controller {
 				break;
 			case DOCUMENT_VERSION_LE_TYPE:
 				$this->m_viewingRole = LE_ROLE;
+				break;
 			case DOCUMENT_VERSION_CE_TYPE:
 				$this->m_viewingRole = CE_ROLE;
 				break;

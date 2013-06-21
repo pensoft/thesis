@@ -39,7 +39,7 @@ $gTemplArr = array(
 	'comments.browseSplitHead' => '
 		<div id="P-Root-Comment-Holder-{id}" class="P-Root-Comment">
 			<div id="P-Root-Comment-{id}" class="P-Comments-Revisions-Item {_GetRootCommentStyle(start_instance_id, start_field_id, end_instance_id, end_field_id)}">
-				{_showCommentPic(photo_id)}
+				{_showCommentPic(photo_id, is_disclosed, usr_id, has_editor_permissions, current_user_id)}
 				<div class="P-Comments-Revisions-Item-Details">
 					<div class="username">{_DisplayCommentUserName(is_disclosed, usr_id, has_editor_permissions, current_user_id, fullname, undisclosed_user_fullname)} {rootid} {_DisplayDeleteCommentLink(id, rootid, original_id, usr_id)}</div>
 					<div class="commentdate">Comment / {_showFormatedPubDate(lastmoddate)}</div>
