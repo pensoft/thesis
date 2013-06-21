@@ -176,7 +176,7 @@ class cimport_materials extends csimple {
 	}
 
 	function prepareXML($pMaterialData, $pMaterialObjectIdx) {
-
+		//unlink('/tmp/materials.log');
 		//~ $this->m_EmptyXMLpath = PATH_OBJECTS_XSL . 'template_' . (int)$this->m_templateId . '/material_ttm_extant_na_extended_dc.xml';
 		if(is_file($this->m_EmptyXMLpath)){
 
@@ -195,10 +195,16 @@ class cimport_materials extends csimple {
 					
 					for($i = 0; $i < $lEmptyMaterialNodes->length; ++$i){
 						if(strtolower($key) == $lEmptyMaterialNodes->item($i)->nodeName || $match_val == $lEmptyMaterialNodes->item($i)->nodeName) {
+							//file_put_contents('/tmp/materials.log', 'Value before: ' .  $val . "\n", FILE_APPEND);	
 							$lEmptyMaterialNodeValue = $this->m_Xpath->query('./value', $lEmptyMaterialNodes->item($i)); // Kade da replace-nem
 							$lNode = $lEmptyMaterialNodeValue->item(0);
+							$lValue = mb_convert_encoding($val, "UTF-8");
+							//file_put_contents('/tmp/materials.log', 'Value converted to UTF-8: ' . $lValue . "\n", FILE_APPEND);
 							$lNode->nodeValue = '';
-							$lNode->appendChild($lNode->ownerDocument->createTextNode($val));
+							$lNode->appendChild($lNode->ownerDocument->createTextNode($lValue));
+							//file_put_contents('/tmp/materials.log', 'Value after: ' . $lNode->nodeValue . "\n\n", FILE_APPEND);
+							
+							
 							//~ $lEmptyMaterialNodeValue->item(0)->nodeValue = $val; // Slagame stoinostta na elementa v prazniq template
 						}
 					}

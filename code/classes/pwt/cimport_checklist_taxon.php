@@ -630,11 +630,14 @@ class cimport_checklist_taxon extends csimple {
 				$lFieldParsedName = $pFieldMappingArr[$lFieldParsedName];
 			}
 			if(array_key_exists($lFieldParsedName, $pObjectData) && $pObjectData[$lFieldParsedName] != ''){
-				$lFieldValueNode = $lXPath->query('./value', $lCurrentField); // Kade
-				                                                              // da
-				                                                              // replace-nem
+				$lFieldValueNode = $lXPath->query('./value', $lCurrentField); // Kade da replace-nem
 				if($lFieldValueNode->length){
-					$lFieldValueNode->item(0)->nodeValue = $pObjectData[$lFieldParsedName];
+					$lNode = $lFieldValueNode->item(0);
+					//$lValue = mb_convert_encoding($pObjectData[$lFieldParsedName], "UTF-8");
+					$lValue = $pObjectData[$lFieldParsedName];
+					$lNode->nodeValue = '';
+					$lNode->appendChild($lNode->ownerDocument->createTextNode($lValue));
+					//$lFieldValueNode->item(0)->nodeValue = $pObjectData[$lFieldParsedName];
 				}
 			}
 		}

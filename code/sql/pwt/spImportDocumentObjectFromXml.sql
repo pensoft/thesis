@@ -119,6 +119,7 @@ BEGIN
 		-- RAISE NOTICE 'Field Name %, field_id %', lCurrentFieldName, lRecord.field_id;
 		IF lRecord.field_id IS NOT NULL THEN
 			PERFORM spSaveInstanceFieldFromXml(lCurrentInstanceId, lRecord.field_id, lCurrentField, pUid);
+			--RAISE EXCEPTION 'spSaveInstanceFieldFromXml(%, %, %, %)', lCurrentInstanceId, lRecord.field_id, lCurrentField, pUid;
 		END IF;
 		
 	END LOOP;
