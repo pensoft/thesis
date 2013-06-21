@@ -83,7 +83,7 @@ $gTemplArr = array(
 	'comments.browseSplitHead' => '
 		<div id="P-Root-Comment-Holder-{id}" class="P-Root-Comment">
 			<div id="P-Root-Comment-{id}" class="P-Comments-Revisions-Item">
-				{_showCommentPic(photo_id)}
+				{_showCommentPic(photo_id, is_disclosed, usr_id, current_user_id)}
 				<div class="P-Comments-Revisions-Item-Details">
 					<div class="username">{_DisplayCommentUserName(is_disclosed, usr_id, current_user_id, fullname, undisclosed_user_fullname)} {_displayDeleteCommentBtn(id, usr_id)}</div>
 					<div class="commentdate">Comment / {_showFormatedPubDate(lastmoddate)}</div>

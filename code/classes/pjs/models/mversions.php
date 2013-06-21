@@ -1588,7 +1588,7 @@ class mVersions extends emBase_Model {
 			return false;
 		}
 		$lXPath = new DOMXPath($lDom);
-		$lReviewerChangesPatches = $this->GetPwtReviewRoundReviewerChangesPatch($pReviewRoundId, 0, 0, null, false);
+		$lReviewerChangesPatches = $this->GetPwtReviewRoundReviewerChangesPatch($pReviewRoundId, 0, 0, $pMergedComments = null, false);
 		$lReviewerChangesPatch = $lReviewerChangesPatches['field_patches'];
 		$lEditorChangedFields = $this->GetRoundPwtEditorModifiedFields($pReviewRoundId, $pRole);
 		//The ids of all the users who have made changes to the original version

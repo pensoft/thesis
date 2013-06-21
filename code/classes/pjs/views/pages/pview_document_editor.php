@@ -269,6 +269,17 @@ class pView_Document_Editor extends pView_Document {
 			)
 		);
 		
+		// CE rounds
+		$this->m_objectsMetadata['document_ce_rounds'] = array(
+			'templs' => array(
+				G_HEADER => 'global.empty',
+				G_FOOTER => 'global.empty',
+				G_STARTRS => 'global.empty',
+				G_ROWTEMPL => 'view_document_editor.document_ce_round_row',
+				G_ENDRS => 'global.empty',
+			)
+		);
+		
 		$this->m_objectsMetadata['assigned_reviewers_list_se_can_take_decision_closed_peer'] = array(
 			'templs' => array(
 				G_DEFAULT => 'view_document_editor.assigned_reviewers_list_se_can_take_decision_closed_peer',

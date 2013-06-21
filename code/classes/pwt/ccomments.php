@@ -86,7 +86,7 @@ class ccomments extends csimple {
 				JOIN pwt.document_object_instances i ON i.id = m2.root_object_instance_id AND m2.revision_id = spGetDocumentLatestCommentRevisionId(i.document_id, 0)
 				JOIN pwt.document_object_instances p ON p.document_id = i.document_id AND p.pos = substring(i.pos, 1, char_length(p.pos))
 				WHERE p.id = ' .  (int)$this->m_pubdata['instance_id']. '
-				ORDER BY m2.rootid, m2.mdate';
+				ORDER BY m2.rootid, m2.ord, m2.mdate';
 // 		var_dump($lSql);
 		$this->comments = new crsgroup(
 			array(
@@ -154,7 +154,7 @@ class ccomments extends csimple {
 				LEFT JOIN undisclosed_users uu ON uu.id = m2.undisclosed_usr_id
 				JOIN usr_titles ut ON ut.id = u.usr_title_id
 				WHERE m2.document_id =' .  (int)$this->m_pubdata['document_id']. '
-				ORDER BY m2.rootid, m2.mdate';
+				ORDER BY m2.rootid, m2.ord, m2.mdate';
 // 		var_dump($lSql);
 		$this->comments = new crsgroup(
 			array(

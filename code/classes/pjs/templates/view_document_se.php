@@ -25,7 +25,7 @@ $gTemplArr = array(
 			{submission_notes}
 			<div class="document_info_row_border_line"></div>
 			{submission_actions}
-			{_showSEProceedButton(round_user_id, document_id, round_number, reviewers_check, document_review_type_id, document_review_due_date, round_due_date, user_version_id, view_role, round_number, 1, 1, 1, reviewers_lock_flag)}
+			{_showSEProceedButton(waitnominatedflag, waitpanelflag, caninvitenominatedflag, reviews, round_user_id, document_id, round_number, reviewers_check, document_review_type_id, document_review_due_date, round_due_date, user_version_id, view_role, round_number, 1, 1, 1, reviewers_lock_flag)}
 		</div>
 		{*view_document.view_document_foot}
 	',
@@ -37,7 +37,7 @@ $gTemplArr = array(
 			<div class="document_info_row_border_line"></div>
 			{submission_actions}
 			{assigned_reviewers}
-			{_showSEProceedButton(round_user_id, document_id, round_number, reviewers_check, document_review_type_id, document_review_due_date, round_due_date, user_version_id, view_role, current_round_id, 1, check_invited_users, 1, reviewers_lock_flag)}
+			{_showSEProceedButton(waitnominatedflag, waitpanelflag, caninvitenominatedflag, reviews, round_user_id, document_id, round_number, reviewers_check, document_review_type_id, document_review_due_date, round_due_date, user_version_id, view_role, current_round_id, 1, check_invited_users, 1, reviewers_lock_flag)}
 		</div>
 		{*view_document.view_document_foot}
 	',
@@ -120,7 +120,7 @@ $gTemplArr = array(
 							<div class="document_author_holder_content_no_review_yet_middle">
 								{_showInviteReviewersButton(can_invite_reviewers, document_id, round_number, document_review_type_id, _1)}
 								{_showRejectSEButtons(round_number, userid, document_id)}
-								{_showSEProceedButton(round_user_id, document_id, round_number, reviewers_check, document_review_type_id, document_review_due_date, round_due_date, user_version_id, view_role, round_number, _0, 1, 1, can_invite_reviewers)}
+								{_showSEProceedButton(waitnominatedflag, waitpanelflag, caninvitenominatedflag, reviews, round_user_id, document_id, round_number, reviewers_check, document_review_type_id, document_review_due_date, round_due_date, user_version_id, view_role, round_number, _0, 1, 1, can_invite_reviewers)}
 								{_showInviteReviewersButton(can_invite_reviewers, document_id, round_number, document_review_type_id, _2)}
 							</div>
 							<div class="document_author_holder_content_no_review_yet_bottom">

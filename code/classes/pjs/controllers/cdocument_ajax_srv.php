@@ -227,13 +227,14 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 			}
 			$lDocumentId = (int) $this->GetValueFromRequestWithoutChecks('document_id');
 			$lCEId = (int) $this->GetValueFromRequestWithoutChecks('ce_id');
+			$lCurrentRoundId = (int) $this->GetValueFromRequestWithoutChecks('current_round_id');
 			$lDocumentsModel = new mDocuments_Model();
 			$lAdd = true;
 			switch ($this->m_action) {
 				case 'remove_document_ce' :
 					$lAdd = false;
 			}
-			$this->m_action_result = $lDocumentsModel->AddRemoveCE($lDocumentId, $lCEId, $this->GetUserId(), $lAdd);
+			$this->m_action_result = $lDocumentsModel->AddRemoveCE($lDocumentId, $lCEId, $this->GetUserId(), $lAdd, $lCurrentRoundId);
 			if($this->m_action_result['err_cnt']){
 				$this->m_errCnt = $this->m_action_result['err_cnt'];
 				$this->m_errMsgs = $this->m_action_result['err_msgs'];
