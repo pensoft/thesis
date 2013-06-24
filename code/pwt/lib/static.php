@@ -3529,8 +3529,8 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 		if(instance){
 			//instance.destroy(true);
 		}
-
-		CKEDITOR.replace(\'' . $pTextareaId . '_textarea\', {
+		
+		SaveCKEditorConfig(\'' . $pTextareaId . '_textarea\', {
 			' . GetCKEditorExtraAllowedContent() . ',
 			extraPlugins : \'figs,tbls,refs,autosave,sharedspace,sup_files'. $autogrow .'\',
 			on: {
@@ -3555,6 +3555,7 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 			) . '
 
 		});
+		ReloadCKEditor(\'' . $pTextareaId . '_textarea\');
 		//]]>
 	</script>';
 

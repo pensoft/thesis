@@ -91,6 +91,16 @@ var gCurrentDialog = null;
 
 var gCitationFlag = 0;
 
+var gCKEditorConfigs = {};
+
+function SaveCKEditorConfig(pTextareaId, pConfig){
+	gCKEditorConfigs[pTextareaId] = pConfig;
+}
+
+function ReloadCKEditor(pTextareaId){
+	CKEDITOR.replace(pTextareaId, gCKEditorConfigs[pTextareaId]);
+}
+
 function setCommentsPreviewMode(pMode){
 	gCommentsInPreviewMode = pMode;
 	if(pMode){
@@ -135,9 +145,9 @@ function MoveInstanceInTreeCallback(pInstanceId, pAjaxResult){
 		alert(pAjaxResult['err_msg']);
 		return;
 	}
-	var lSlapInstanceId = pAjaxResult['swap_id'];
+	var lSwapInstanceId = pAjaxResult['swap_id'];
 	var lOriginalInstanceWrapper = $('#instance_wrapper_' + pInstanceId).closest('.container_item_wrapper');
-	var lSwapInstanceWrapper = $('#instance_wrapper_' + lSlapInstanceId).closest('.container_item_wrapper');
+	var lSwapInstanceWrapper = $('#instance_wrapper_' + lSwapInstanceId).closest('.container_item_wrapper');
 
 	if(lOriginalInstanceWrapper.hasClass(gLastItemClass)){
 		lSwapInstanceWrapper.addClass(gLastItemClass);
@@ -151,7 +161,7 @@ function MoveInstanceInTreeCallback(pInstanceId, pAjaxResult){
 			return;
 
 	var lOriginalIdxLabel = $('#instance_idx_label_' + pInstanceId);
-	var lSwapIdxLabel = $('#instance_idx_label_' + lSlapInstanceId);
+	var lSwapIdxLabel = $('#instance_idx_label_' + lSwapInstanceId);
 
 	if(lOriginalIdxLabel.length > 0 && lSwapIdxLabel.length > 0){
 		var lOriginalIdx = lOriginalIdxLabel.html();
@@ -164,19 +174,65 @@ function MoveInstanceInTreeCallback(pInstanceId, pAjaxResult){
 
 	//Mouseout и mouseover event-ите ги слагаме за показваме/скриваме екшъните отдясно
 	$('#instance_wrapper_' + pInstanceId).trigger('mouseout');
+	
+	var lOriginalEditors = DestroyElementEditors(lOriginalInstanceWrapper);
+	var lSwapEditors = DestroyElementEditors(lSwapInstanceWrapper);
+	
+	var lOriginalClone = lOriginalInstanceWrapper.clone(1, 1);
+	var lSwapClone = lSwapInstanceWrapper.clone(1, 1);
+	
+	lOriginalInstanceWrapper.replaceWith(lSwapClone);
+	lSwapInstanceWrapper.replaceWith(lOriginalClone);
+	
+	for(var i in lOriginalEditors){
+		var lTextareaId = i;
+		$('#' + lTextareaId).val(lOriginalEditors[lTextareaId])
+//		console.log(lTextareaId + ' ' + $('#' + lTextareaId).val());
+		ReloadCKEditor(lTextareaId);
+	}
+	for(var i in lSwapEditors){
+		var lTextareaId = i;
+		$('#' + lTextareaId).val(lSwapEditors[lTextareaId])
+//		console.log(lTextareaId + ' ' + $('#' + lTextareaId).val());
+		ReloadCKEditor(lTextareaId);
+	}
 
-	lOriginalInstanceWrapper.before(lSwapInstanceWrapper.clone(1));
-	lSwapInstanceWrapper.before(lOriginalInstanceWrapper.clone(1));
+	
 
-	lOriginalInstanceWrapper.remove();
-	lSwapInstanceWrapper.remove();
-
-	$('#instance_wrapper_' + lSlapInstanceId).trigger('mouseover');
+	$('#instance_wrapper_' + lSwapInstanceId).trigger('mouseover');
 
 	handleMovementLinksDisplay(pInstanceId, pAjaxResult['original_available_move_up'], pAjaxResult['original_available_move_down']);
-	handleMovementLinksDisplay(lSlapInstanceId, pAjaxResult['swap_available_move_up'], pAjaxResult['swap_available_move_down']);
+	handleMovementLinksDisplay(lSwapInstanceId, pAjaxResult['swap_available_move_up'], pAjaxResult['swap_available_move_down']);
 
 
+}
+/**
+ * Destroys all the ckeditors in the specified element and 
+ * removes all the script tags in it
+ * @param pJQElement
+ * @returns an object with all the textareas in the element along with their contents
+ * so that the ckeditors can be easily recreated
+ */
+function DestroyElementEditors(pJQElement){
+	lResult = {};
+	pJQElement.find('textarea').each(function(pIdx, pElement){
+		var lTextareaId = pElement.id;
+		var lEditorInstance = CKEDITOR.instances[lTextareaId];
+		if(lEditorInstance){
+			lEditorInstance.updateElement();
+//			console.log(lTextareaId, lEditorInstance.getData())
+			lEditorInstance.destroy(true);
+			lResult[lTextareaId] = $(pElement).val();
+			$(pElement).hide();
+//			console.log(lTextareaId + 'A ' + $('#' + lTextareaId).val());
+		}
+	});
+	
+	
+	pJQElement.find('script').each(function(pIdx, pElement){
+		pElement.remove();
+	});
+	return lResult;
 }
 
 function handleMovementLinksDisplay(pInstanceId, pAllowMoveUp, pAllowMoveDown){
