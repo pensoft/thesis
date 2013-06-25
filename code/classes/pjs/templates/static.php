@@ -438,12 +438,14 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 	if($pRoundNumber == 3){
 		$pReviewersLock = 'true';
 	}
+	
+	/* START creating process messages (keys) */
 	if((in_array($pRoundNumber, array(
 		REVIEW_ROUND_ONE,
 		REVIEW_ROUND_TWO
 	))) && $pDocumentReviewTypeId == DOCUMENT_NON_PEER_REVIEW){
 		//~ $lMessage = getstr('pjs.showproceedbtnround2_text');
-		$lMessage = getstr('pjs.se_can_take_decision');
+		$lMessage = getstr('pjs.non_peer_review_take_decision_round_' . $pRoundNumber);
 	}else{
 		$lCheckRoundDueDateFlag = CheckDueDateDays($pRoundDueDate);
 		/*
@@ -459,39 +461,39 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 				case DOCUMENT_CLOSED_PEER_REVIEW: {
 					
 					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
-						$lMessage = getstr('pjs.conventional_peer_review_speedup');
+						$lMessage = getstr('pjs.conventional_peer_review_speedup_round_' . $pRoundNumber);
 					} elseif ((int)$pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
-						$lMessage = getstr('pjs.conventional_peer_review_take_decision');
+						$lMessage = getstr('pjs.conventional_peer_review_take_decision_round_' . $pRoundNumber);
 					} elseif ((int)$pReviews == 0 && !($pCanInviteNominatedFlag || $pWaitNominatedFlag || $pWaitPanelFlag)) {
-						$lMessage = getstr('pjs.conventional_peer_review_take_decision_without_reviewers');
+						$lMessage = getstr('pjs.conventional_peer_review_take_decision_without_reviewers_round_' . $pRoundNumber);
 					} else {
-						$lMessage = getstr('pjs.conventional_peer_review_to_proceed');
+						$lMessage = getstr('pjs.conventional_peer_review_to_proceed_round_' . $pRoundNumber);
 					}
 					
 				break;
 				}
 				case DOCUMENT_COMMUNITY_PEER_REVIEW: {
 					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
-						$lMessage = getstr('pjs.community_peer_review_speedup');
+						$lMessage = getstr('pjs.community_peer_review_speedup_round_' . $pRoundNumber);
 					} elseif ($pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
-						$lMessage = getstr('pjs.community_peer_review_take_decision');
+						$lMessage = getstr('pjs.community_peer_review_take_decision_round_' . $pRoundNumber);
 					} elseif ($pReviews == 0 && !($pCanInviteNominatedFlag || $pWaitNominatedFlag || $pWaitPanelFlag)) {
-						$lMessage = getstr('pjs.community_peer_review_take_decision_without_reviewers');
+						$lMessage = getstr('pjs.community_peer_review_take_decision_without_reviewers_round_' . $pRoundNumber);
 					} else {
-						$lMessage = getstr('pjs.community_peer_review_to_proceed');
+						$lMessage = getstr('pjs.community_peer_review_to_proceed_round_' . $pRoundNumber);
 					}
 					
 				break;
 				}
 				case DOCUMENT_PUBLIC_PEER_REVIEW: {
 					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
-						$lMessage = getstr('pjs.public_peer_review_speedup');
+						$lMessage = getstr('pjs.public_peer_review_speedup_round_' . $pRoundNumber);
 					} elseif ($pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
-						$lMessage = getstr('pjs.public_peer_review_take_decision');
+						$lMessage = getstr('pjs.public_peer_review_take_decision_round_' . $pRoundNumber);
 					} elseif ($pReviews == 0 && !($pCanInviteNominatedFlag || $pWaitNominatedFlag || $pWaitPanelFlag)) {
-						$lMessage = getstr('pjs.public_peer_review_take_decision_without_reviewers');
+						$lMessage = getstr('pjs.public_peer_review_take_decision_without_reviewers_round_' . $pRoundNumber);
 					} else {
-						$lMessage = getstr('pjs.public_peer_review_to_proceed');
+						$lMessage = getstr('pjs.public_peer_review_to_proceed_round_' . $pRoundNumber);
 					}
 					
 				break;
@@ -504,39 +506,39 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 			switch($pDocumentReviewTypeId) {
 				case DOCUMENT_CLOSED_PEER_REVIEW: {
 					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
-						$lMessage = getstr('pjs.conventional_peer_review_speedup');
+						$lMessage = getstr('pjs.conventional_peer_review_speedup_round_' . $pRoundNumber);
 					} elseif ($pReviews >= 1 && !$pWaitNominatedFlag) {
-						$lMessage = getstr('pjs.conventional_peer_review_take_decision');
+						$lMessage = getstr('pjs.conventional_peer_review_take_decision_round_' . $pRoundNumber);
 					} elseif ($pReviews == 0 && !$pWaitNominatedFlag) {
-						$lMessage = getstr('pjs.conventional_peer_review_take_decision_without_reviewers');
+						$lMessage = getstr('pjs.conventional_peer_review_take_decision_without_reviewers_round_' . $pRoundNumber);
 					} else {
-						$lMessage = getstr('pjs.conventional_peer_review_to_proceed');
+						$lMessage = getstr('pjs.conventional_peer_review_to_proceed_round_' . $pRoundNumber);
 					}
 					
 				break;
 				}
 				case DOCUMENT_COMMUNITY_PEER_REVIEW: {
 					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
-						$lMessage = getstr('pjs.community_peer_review_speedup');
+						$lMessage = getstr('pjs.community_peer_review_speedup_round_' . $pRoundNumber);
 					} elseif ($pReviews >= 1 && !$pWaitNominatedFlag) {
-						$lMessage = getstr('pjs.community_peer_review_take_decision');
+						$lMessage = getstr('pjs.community_peer_review_take_decision_round_' . $pRoundNumber);
 					} elseif ($pReviews == 0 && !$pWaitNominatedFlag) {
-						$lMessage = getstr('pjs.community_peer_review_take_decision_without_reviewers');
+						$lMessage = getstr('pjs.community_peer_review_take_decision_without_reviewers_round_' . $pRoundNumber);
 					} else {
-						$lMessage = getstr('pjs.community_peer_review_to_proceed');
+						$lMessage = getstr('pjs.community_peer_review_to_proceed_round_' . $pRoundNumber);
 					}
 					
 				break;
 				}
 				case DOCUMENT_PUBLIC_PEER_REVIEW: {
 					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
-						$lMessage = getstr('pjs.public_peer_review_speedup');
+						$lMessage = getstr('pjs.public_peer_review_speedup_round_' . $pRoundNumber);
 					} elseif ($pReviews >= 1 && !$pWaitNominatedFlag) {
-						$lMessage = getstr('pjs.public_peer_review_take_decision');
+						$lMessage = getstr('pjs.public_peer_review_take_decision_round_' . $pRoundNumber);
 					} elseif ($pReviews == 0 && !$pWaitNominatedFlag) {
-						$lMessage = getstr('pjs.public_peer_review_take_decision_without_reviewers');
+						$lMessage = getstr('pjs.public_peer_review_take_decision_without_reviewers_round_' . $pRoundNumber);
 					} else {
-						$lMessage = getstr('pjs.public_peer_review_to_proceed');
+						$lMessage = getstr('pjs.public_peer_review_to_proceed_round_' . $pRoundNumber);
 					}
 					
 				break;
@@ -545,9 +547,11 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 				break;
 			}
 		}elseif($pRoundNumber == REVIEW_ROUND_THREE){
-			$lMessage = getstr('pjs.se_can_take_decision');
+			$lMessage = getstr('pjs.take_decision_round_' . $pRoundNumber);
 		}
 	}
+	/* END creating process messages (keys) */
+	
 	$lUrl = '\'/view_version.php?version_id=' . $pUserVersionId . '&id=' . $pDocumentId . '&view_role=' . $pRole . '&round=' . $pRoundNumber . '&round_user_id=' . $pRoundUserId . '&duedate=' . $pRoundDueDate . '\'';
 	if($pShowDivs == '_0'){
 		if(in_array($pRoundNumber, array(

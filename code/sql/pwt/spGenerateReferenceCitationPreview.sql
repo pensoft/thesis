@@ -234,6 +234,7 @@ $BODY$
 		
 		END LOOP lReferenceLoop;
 		-- Накрая добавяме xref-овете
+		lTemp = replace(lTemp, '&', '&amp;');
 		lTemp = coalesce(lTemp, '') || lXrefTemp;
 		lRes.preview = lTemp;
 		RETURN lRes;		

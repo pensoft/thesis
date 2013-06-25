@@ -2,6 +2,7 @@
 CKEDITOR.plugins.add('autosave', {
 	init : function(editor) {
 		editor.on('blur', function(pElement) {
+			
 			var lPattern = new RegExp("^(\\d+)__(\\d+)","i"); // С това зимаме ид на инстанса и на филда
 			var lRootInstanceId = GetRootInstanceId();
 			var lLevel = getInstanceLevel(lRootInstanceId);
@@ -19,6 +20,7 @@ CKEDITOR.plugins.add('autosave', {
 					'dataType' : 'json',
 					'url' : gSaveInstanceSrv,
 					'root_instance_id' : lRootInstanceId,
+					'async': false,
 					'data' : {
 						'real_instance_id' : lMatch[1],
 						'root_instance_id' : lRootInstanceId,
