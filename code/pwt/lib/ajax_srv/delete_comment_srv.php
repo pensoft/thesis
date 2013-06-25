@@ -1,7 +1,7 @@
 <?php
 $docroot = getenv('DOCUMENT_ROOT');
 require_once($docroot . '/lib/static.php');
-ini_set('display_errors', 'on');
+ini_set('display_errors', 'off');
 
 $gCommentId = (int)$_REQUEST['comment_id'];
 
