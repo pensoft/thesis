@@ -239,7 +239,9 @@
 			<xsl:value-of select="php:function('date',  'Y-m-d\TH:i:s')"></xsl:value-of>
 		</xsl:variable>
 		<xsl:variable name="lTreatmentSecs" select="$pTaxonNode/tp:treatment-sec" />
-		<xsl:variable name="lTreatmentFigs" select="$pTaxonNode/tp:nomenclature/xref[@ref-type='fig']" />
+		
+		<xsl:variable name="lTreatmentDistinctFigs" select="php:function('GetTaxonDistinctFigsList', $pTaxonNode//xref[@ref-type='fig'])"/>
+		<xsl:variable name="lTreatmentFigs" select="$lTreatmentDistinctFigs/root/xref[@ref-type='fig']" />
 		<xsl:variable name="lDescription" select="$pTaxonNode/description" />
 		<xsl:variable name="lTaxonStatusNode" select="$pTaxonNode/tp:nomenclature/tp:taxon-status" />
 		<xsl:variable name="lTaxonName" select="$pTaxonNode/tp:nomenclature/tp:taxon-name" />
