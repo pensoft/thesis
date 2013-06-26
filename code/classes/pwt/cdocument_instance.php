@@ -330,7 +330,7 @@ class cdocument_instance extends csimple {
 			JOIN pwt.document_object_instances di ON di.id = '. (int) $this->m_instanceId . ' AND di.object_id = oc.object_id
 			LEFT JOIN pwt.v_instance_fields if ON if.instance_id = di.id AND if.field_id = cd.item_id AND cd.item_type = ' . (int) CONTAINER_ITEM_FIELD_TYPE . '
 			LEFT JOIN pwt.v_tabbed_items ti ON ti.tabbed_item_id = cd.item_id AND cd.item_type = ' . (int) CONTAINER_ITEM_TABBED_ITEM_TYPE . '
-			LEFT JOIN pwt.document_object_instances iso ON iso.parent_id = di.id
+			LEFT JOIN pwt.document_object_instances iso ON iso.parent_id = di.id and iso.display_in_tree = false
 				AND ((cd.item_type = ' . (int) CONTAINER_ITEM_OBJECT_TYPE . ' AND iso.object_id = cd.item_id)
 					OR (cd.item_type = ' . (int) CONTAINER_ITEM_TABBED_ITEM_TYPE . ' AND iso.object_id = ti.object_id)
 				) ' . $lChildSubinstancesWhere . '
