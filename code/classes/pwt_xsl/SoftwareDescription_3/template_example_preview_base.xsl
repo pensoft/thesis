@@ -219,23 +219,23 @@
 							<xsl:value-of select="$lCollectionName" />:&#160;</span>
 							<div class="fieldValue">
 							<xsl:attribute name="field_id">311</xsl:attribute>
-							<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
-							<xsl:call-template name="markContentEditableField">
-								<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-								<xsl:with-param name="pFieldId">311</xsl:with-param>
-							</xsl:call-template>
 							<xsl:apply-templates select="./fields/*[@id='311']/value" mode="formatting"/>
 						</div>
 					</div>
 				</xsl:if>
 				<xsl:if test="(./fields/*[@id='312']/value != '')">
 					<div class="myfieldHolder">
-						<span class="fieldLabel">
+						<span class="fieldLabel">							
 							<xsl:value-of select="$lCollectionIdentifier" />:&#160;</span>
 							<div class="fieldValue">
-							<xsl:attribute name="field_id">312</xsl:attribute>
-							<xsl:apply-templates select="./fields/*[@id='312']/value" mode="formatting"/>
-						</div>
+									<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
+								<xsl:call-template name="markContentEditableField">
+									<xsl:with-param name="pObjectId">115</xsl:with-param>
+									<xsl:with-param name="pFieldId">312</xsl:with-param>
+								</xsl:call-template>
+								<xsl:attribute name="field_id">312</xsl:attribute>
+								<xsl:apply-templates select="./fields/*[@id='312']/value" mode="formatting"/>
+							</div>
 					</div>
 				</xsl:if>
 			</div>
@@ -282,7 +282,12 @@
 							<span class="fieldLabel">
 								<xsl:value-of select="./@field_name"></xsl:value-of>:&#160;</span>
 								<div class="fieldValue">
+									<xsl:call-template name="markContentEditableField">
+										<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
+										<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
+									</xsl:call-template>
 									<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>
+									<xsl:attribute name="instance_id"><xsl:value-of select="../../@instance_id"></xsl:value-of></xsl:attribute>
 									<xsl:apply-templates select="./value" mode="formatting"/>
 								</div>
 						</div>
@@ -305,6 +310,10 @@
 							<span class="fieldLabel">
 								<xsl:value-of select="./@field_name"></xsl:value-of>:&#160;</span>
 								<div class="fieldValue">
+									<xsl:call-template name="markContentEditableField">
+										<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
+										<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
+									</xsl:call-template>
 									<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>
 									<xsl:apply-templates select="./value" mode="formatting"/>
 								</div>
@@ -328,6 +337,10 @@
 							<span class="fieldLabel">
 								<xsl:value-of select="./@field_name"></xsl:value-of>:&#160;</span>
 							<div class="fieldValue">
+								<xsl:call-template name="markContentEditableField">
+										<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
+										<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
+								</xsl:call-template>
 								<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>
 								<xsl:apply-templates select="./value" mode="formatting"/>
 							</div>
