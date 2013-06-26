@@ -86,7 +86,7 @@
 	<xsl:template match="*" mode="processSingleReferenceAuthorFirstLast">
 		<xsl:variable name="lAuthorParsedName">
 			<!-- First and Last name -->
-
+			
 			<xsl:value-of select="./fields/*[@id='250']/value"></xsl:value-of>
 		</xsl:variable>
 		<span>
@@ -141,6 +141,10 @@
 			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			<!-- Book Title -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+					<xsl:with-param name="pObjectId" select="./@object_id" />
+					<xsl:with-param name="pFieldId">255</xsl:with-param>
+				</xsl:call-template>
 				<xsl:attribute name="field_id">255</xsl:attribute>
 				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/>
 			</span>
@@ -149,6 +153,10 @@
 				<!-- Translated title -->
 				<xsl:text>[</xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">257</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">257</xsl:attribute>
 					<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='257']/value))"/>
 				</span>
@@ -159,6 +167,10 @@
 				<xsl:text> </xsl:text>
 				<!-- Edition -->
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">256</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">256</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='256']/value"/>
 				</span>
@@ -167,6 +179,10 @@
 			<xsl:if test="$lVolume != ''">
 				<xsl:text>, </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">258</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">258</xsl:attribute>
 					<xsl:value-of select="$lVolume" />
 				</span>
@@ -177,18 +193,30 @@
 
 			<!-- Publisher -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">259</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">259</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='259']/value" mode="formatting"/>
 			</span>
 			<xsl:text>, </xsl:text>
 			<!-- City -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">260</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">260</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='260']/value" mode="formatting"/>
 			</span>
 			<!-- # of pages -->
 			<xsl:text>, </xsl:text>
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">261</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">261</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='261']/value" mode="formatting"/>
 			</span>
@@ -197,6 +225,10 @@
 				<!-- Publication language -->
 				<xsl:text>[In </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">262</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='262']/value"></xsl:value-of>
 				</span>
@@ -218,6 +250,10 @@
 				<!-- ISBN -->
 				<xsl:text> [ISBN </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">264</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">264</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='264']/value"></xsl:value-of>
 				</span>
@@ -279,6 +315,10 @@
 			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			<!-- Book chapter Title -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">271</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">271</xsl:attribute>
 				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='271']/value))"/>
 			</span>
@@ -314,6 +354,10 @@
 			<xsl:if test="normalize-space(./fields/*[@id='255']/value) != ''">
 				<!-- Book title -->
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">255</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">255</xsl:attribute>
 					<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/>
 				</span>
@@ -322,6 +366,10 @@
 			<xsl:if test="normalize-space(./fields/*[@id='256']/value) != ''">
 				<!-- Edition -->
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">256</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">256</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='256']/value"/>
 				</span>
@@ -331,6 +379,10 @@
 			<xsl:if test="$lVolume != ''">
 				<xsl:text>, </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">258</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">258</xsl:attribute>
 					<xsl:value-of select="$lVolume" />
 				</span>
@@ -342,18 +394,30 @@
 
 			<!-- Publisher -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">259</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">259</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='259']/value" mode="formatting"/>
 			</span>
 			<xsl:text>, </xsl:text>
 			<!-- City -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">260</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">260</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='260']/value" mode="formatting"/>
 			</span>
 			<!-- # of pages -->
 			<xsl:text>, </xsl:text>
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">261</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">261</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='261']/value" mode="formatting"/>
 			</span>
@@ -363,6 +427,10 @@
 				<!-- Publication language -->
 				<xsl:text>[In </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">262</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='262']/value"></xsl:value-of>
 				</span>
@@ -384,6 +452,10 @@
 				<!-- ISBN -->
 				<xsl:text> [ISBN </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">264</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">264</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='264']/value"></xsl:value-of>
 				</span>
@@ -434,6 +506,10 @@
 			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			<!-- Article Title -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">276</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">276</xsl:attribute>
 				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='276']/value))"/>
 			</span>
@@ -442,6 +518,10 @@
 				<!-- Journal -->
 				<xsl:text> </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">243</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">243</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='243']/value"></xsl:value-of>
 				</span>
@@ -450,6 +530,10 @@
 				<xsl:text> </xsl:text>
 				<!-- Volume -->
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">258</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">258</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='258']/value"></xsl:value-of>
 				</span>
@@ -458,6 +542,10 @@
 				<xsl:text> (</xsl:text>
 				<!-- Issue -->
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">27</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">27</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='27']/value"></xsl:value-of>
 				</span>
@@ -468,6 +556,10 @@
 
 			<!-- FirtsPage -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">28</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">28</xsl:attribute>
 				<xsl:value-of select="./fields/*[@id='28']/value"></xsl:value-of>
 			</span>
@@ -475,6 +567,10 @@
 			<xsl:if test="normalize-space(./fields/*[@id='29']/value) != ''">
 				<xsl:text>-</xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">29</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">29</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='29']/value" />
 				</span>
@@ -484,6 +580,10 @@
 				<!-- Publication language -->
 				<xsl:text>[In </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">262</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='262']/value"></xsl:value-of>
 				</span>
@@ -505,6 +605,10 @@
 				<!-- ISBN -->
 				<xsl:text> [ISBN </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">264</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">264</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='264']/value"></xsl:value-of>
 				</span>
@@ -516,6 +620,7 @@
 				<a>
 					<xsl:attribute name="href"><xsl:text>http://dx.doi.org/</xsl:text><xsl:value-of select="./fields/*[@id='30']/value"></xsl:value-of></xsl:attribute>
 					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
+					<xsl:attribute name="field_id">30</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='30']/value"></xsl:value-of>
 				</a>
 			</xsl:if>
@@ -566,6 +671,10 @@
 			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			<!-- Title -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">26</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">26</xsl:attribute>
 				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='26']/value))"/>
 			</span>
@@ -600,6 +709,10 @@
 				<!-- Book title -->
 				<xsl:text> </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">255</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">255</xsl:attribute>
 					<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/>
 				</span>
@@ -607,6 +720,10 @@
 			<!-- Volume -->
 			<xsl:if test="$lVolume != ''">
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">258</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">258</xsl:attribute>
 					<xsl:value-of select="$lVolume" />
 				</span>
@@ -616,6 +733,10 @@
 			<xsl:if test="normalize-space(./fields/*[@id='272']/value) != ''">
 				<!-- Conference name -->
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">272</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">272</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='272']/value"></xsl:value-of>
 				</span>
@@ -626,6 +747,10 @@
 					<xsl:text>, </xsl:text>
 				</xsl:if>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">273</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">273</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='273']/value"></xsl:value-of>
 				</span>
@@ -636,6 +761,10 @@
 					<xsl:text>, </xsl:text>
 				</xsl:if>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">274</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">274</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='274']/value"></xsl:value-of>
 				</span>
@@ -647,6 +776,10 @@
 			<!-- Publisher -->
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='259']/value) != ''">
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">259</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="instance_id"><xsl:value-of select="./*[@object_id=104]/@instance_id" /></xsl:attribute>
 					<xsl:attribute name="field_id">259</xsl:attribute>
 					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='259']/value" mode="formatting"/>
@@ -656,6 +789,10 @@
 			<!-- City -->
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='260']/value) != ''">
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">260</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="instance_id"><xsl:value-of select="./*[@object_id=104]/@instance_id" /></xsl:attribute>
 					<xsl:attribute name="field_id">260</xsl:attribute>
 					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='260']/value" mode="formatting"/>
@@ -664,6 +801,10 @@
 			</xsl:if>
 			<!-- # of pages -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">261</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">261</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='261']/value" mode="formatting"/>
 			</span>
@@ -673,6 +814,10 @@
 				<!-- Publication language -->
 				<xsl:text>[In </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">262</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='262']/value"></xsl:value-of>
 				</span>
@@ -694,6 +839,10 @@
 				<!-- ISBN -->
 				<xsl:text> [ISBN </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">264</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">264</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='264']/value"></xsl:value-of>
 				</span>
@@ -759,6 +908,10 @@
 			<xsl:if test="normalize-space(./fields/*[@id='255']/value) != ''">
 				<!-- Book title -->
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">255</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">255</xsl:attribute>
 					<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/>
 				</span>
@@ -767,6 +920,10 @@
 			<!-- Volume -->
 			<xsl:if test="$lVolume != ''">
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">258</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">258</xsl:attribute>
 					<xsl:value-of select="$lVolume" />
 				</span>
@@ -776,6 +933,10 @@
 			<xsl:if test="normalize-space(./fields/*[@id='272']/value) != ''">
 				<!-- Conference name -->
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">272</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">272</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='272']/value"></xsl:value-of>
 				</span>
@@ -786,6 +947,10 @@
 					<xsl:text>, </xsl:text>
 				</xsl:if>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">273</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">273</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='273']/value"></xsl:value-of>
 				</span>
@@ -796,6 +961,10 @@
 					<xsl:text>, </xsl:text>
 				</xsl:if>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">274</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">274</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='274']/value"></xsl:value-of>
 				</span>
@@ -806,6 +975,10 @@
 			</xsl:if>
 			<!-- Publisher -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">259</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="instance_id"><xsl:value-of select="./*[@object_id=104]/@instance_id" /></xsl:attribute>
 				<xsl:attribute name="field_id">259</xsl:attribute>
 				<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='259']/value" mode="formatting"/>
@@ -813,6 +986,10 @@
 			<xsl:text>, </xsl:text>
 			<!-- City -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">260</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="instance_id"><xsl:value-of select="./*[@object_id=104]/@instance_id" /></xsl:attribute>
 				<xsl:attribute name="field_id">260</xsl:attribute>
 				<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='260']/value" mode="formatting"/>
@@ -821,6 +998,10 @@
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='243']/value) != ''">
 				<!-- Journal -->
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">243</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="instance_id"><xsl:value-of select="./*[@object_id=104]/@instance_id" /></xsl:attribute>
 					<xsl:attribute name="field_id">243</xsl:attribute>
 					<xsl:value-of select="./*[@object_id=104]/fields/*[@id='243']/value"></xsl:value-of>
@@ -830,6 +1011,10 @@
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='284']/value) != ''">
 				<!-- VOLUME -->
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">284</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="instance_id"><xsl:value-of select="./*[@object_id=104]/@instance_id" /></xsl:attribute>
 					<xsl:attribute name="field_id">284</xsl:attribute>
 					<xsl:value-of select="./*[@object_id=104]/fields/*[@id='284']/value"></xsl:value-of>
@@ -839,6 +1024,10 @@
 
 			<!-- # of pages -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">261</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">261</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='261']/value" mode="formatting"/>
 			</span>
@@ -848,6 +1037,10 @@
 				<!-- Publication language -->
 				<xsl:text>[In </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">262</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='262']/value"></xsl:value-of>
 				</span>
@@ -869,6 +1062,10 @@
 				<!-- ISBN -->
 				<xsl:text> [ISBN </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">264</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">264</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='264']/value"></xsl:value-of>
 				</span>
@@ -921,6 +1118,10 @@
 			<xsl:if test="normalize-space(./fields/*[@id='255']/value) != ''">
 				<!-- Book title -->
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">255</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">255</xsl:attribute>
 					<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/>
 				</span>
@@ -930,6 +1131,10 @@
 				<!-- Translated title -->
 				<xsl:text>[</xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">257</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">257</xsl:attribute>
 					<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='257']/value))"/>
 				</span>
@@ -938,18 +1143,30 @@
 
 			<!-- Publisher -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">259</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">259</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='259']/value" mode="formatting"/>
 			</span>
 			<xsl:text>, </xsl:text>
 			<!-- City -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">260</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">260</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='260']/value" mode="formatting"/>
 			</span>
 			<!-- # of pages -->
 			<xsl:text>, </xsl:text>
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">261</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">261</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='261']/value" mode="formatting"/>
 			</span>
@@ -959,6 +1176,10 @@
 				<!-- Publication language -->
 				<xsl:text>[In </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">262</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='262']/value"></xsl:value-of>
 				</span>
@@ -980,6 +1201,10 @@
 				<!-- ISBN -->
 				<xsl:text> [ISBN </xsl:text>
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">264</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">264</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='264']/value"></xsl:value-of>
 				</span>
@@ -1030,6 +1255,10 @@
 			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			<!-- Title -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">26</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">26</xsl:attribute>
 				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='26']/value))"/>
 			</span>
@@ -1037,6 +1266,10 @@
 			<xsl:if test="normalize-space(./fields/*[@id='279']/value) != ''">
 				<!-- Version -->
 				<span>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">279</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">279</xsl:attribute>
 					<xsl:value-of select="./fields/*[@id='279']/value"/>
 				</span>
@@ -1044,6 +1277,10 @@
 			</xsl:if>
 			<!-- Publisher -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">259</xsl:with-param>
+				</xsl:call-template>
 				<xsl:attribute name="field_id">259</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='259']/value" mode="formatting"/>
 			</span>
@@ -1052,7 +1289,7 @@
 				<xsl:text>Release date: </xsl:text>
 				<span>
 					<xsl:attribute name="field_id">285</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='285']/value"/>
+					<xsl:value-of select="php:function('customDateFormat', string(./fields/*[@id='285']/value))"/>
 				</span>
 				<xsl:text>.</xsl:text>
 			</xsl:if>
@@ -1078,6 +1315,10 @@
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 			<!-- Title -->
 			<span>
+				<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">26</xsl:with-param>
+					</xsl:call-template>
 				<xsl:attribute name="field_id">26</xsl:attribute>
 				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='26']/value))"/>
 			</span>
@@ -1099,7 +1340,7 @@
 				<xsl:text> Accession date: </xsl:text>
 				<span>
 					<xsl:attribute name="field_id">280</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='280']/value"/>
+					<xsl:value-of select="php:function('customDateFormat', string(./fields/*[@id='280']/value))"/>
 				</span>
 				<xsl:text>.</xsl:text>
 			</xsl:if>

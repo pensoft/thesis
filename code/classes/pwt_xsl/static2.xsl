@@ -29,6 +29,11 @@
 	<!-- ARTICLE TITLE -->
 	<xsl:template match="*" mode="articleTitle">
 		<div class="P-Article-Preview-Title" id="article_metadata">
+			<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
+			<xsl:call-template name="markContentEditableField">
+					<xsl:with-param name="pObjectId" select="../../@object_id" />
+					<xsl:with-param name="pFieldId">3</xsl:with-param>
+			</xsl:call-template>
 			<xsl:apply-templates select="." mode="formatting"/>
 		</div>
 	</xsl:template>
@@ -227,6 +232,26 @@
 			</div>
 		</xsl:if>
 	</xsl:template>
+	
+	<!-- Treatment material field -->
+ <xsl:template match="*" mode="treatmentMaterialFieldCustom">     
+   <span>
+    <xsl:attribute name="class">dcLabel</xsl:attribute>
+    <xsl:value-of select="./@field_name"></xsl:value-of><xsl:text>: </xsl:text>
+   </span> 
+   <!--<xsl:variable name="lId" select="./@id"></xsl:variable>-->
+   <!--<xsl:if test="($lId = 58) or ($lId = 60) or ($lId = 61) or ($lId = 114) or ($lId = 116)">-->
+		<span>
+			<xsl:call-template name="markContentEditableField">
+				<xsl:with-param name="pObjectId"><xsl:value-of select="./@object_id" /></xsl:with-param>
+				<xsl:with-param name="pFieldId"><xsl:value-of select="./@id" /></xsl:with-param>
+			</xsl:call-template>
+			<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
+			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+			<xsl:apply-templates select="./value" mode="formatting"/>
+		</span>
+   <!--</xsl:if>-->
+ </xsl:template>
 		
 	<!-- SUBSECTIONS - START -->
 	<!-- Default empty template.
@@ -321,7 +346,12 @@
 			<xsl:choose>
 				<xsl:when test="./@id = 214">
 					<div class="Supplemantary-File-Title">
+						<xsl:call-template name="markContentEditableField">
+							<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
+							<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
+						</xsl:call-template>
 						<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
+						<xsl:attribute name="instance_id"><xsl:value-of select="../../@instance_id" /></xsl:attribute>
 						<xsl:apply-templates select="./value" mode="formatting"/>
 					</div>
 				</xsl:when>
@@ -343,6 +373,12 @@
 							</span>
 							<xsl:text>: </xsl:text>
 							<span class="Supplemantary-P-Inline">
+								<xsl:call-template name="markContentEditableField">
+									<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
+									<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
+								</xsl:call-template>
+								<xsl:attribute name="instance_id"><xsl:value-of select="../../@instance_id" /></xsl:attribute>
+								<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
 								<xsl:apply-templates select="./value" mode="formatting"/>
 							</span>
 						</xsl:otherwise>

@@ -1,6 +1,6 @@
 <?php
 global $gSortedMaterialFieldIdsOrder;
-$gSortedMaterialFieldIdsOrder = array(200,109, 107);
+$gSortedMaterialFieldIdsOrder = array(209, 83, 86, 79, 88, 81, 87, 80, 82, 84, 77, 104, 105, 106, 75, 76, 78, 85, 89, 90, 91, 92, 93, 94, 99, 100, 102, 103, 95, 96, 97, 98, 101, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 59, 60, 61, 62, 67, 63, 64, 65, 54, 55, 56, 57, 58, 66, 68, 69, 70, 71, 72, 73, 74, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 150, 151, 152, 153, 154, 155, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208);
 /**
  * Тази функция ще ни връща id-то на адреса на контрибуторите.
  * Ще ги пазим в статичен масив понеже адресите се показват на 2 различни pass-а -
@@ -20,12 +20,51 @@ function getContributorAffId($pInstanceId){
 
 function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 	$lAllowed = array(
+		9 => array(3),
 		15 => array(18, 19),
-		//~ 16 => array(20),
-		//~ 18 => array(22),
-		//~ 166 => array(20),
-		//~ 168 => array(22),
-	);
+		16 => array(20),
+		18 => array(22),
+		166 => array(20),
+		168 => array(22),
+		57 => array(223),
+		50 => array(212),
+		58 => array(224),
+		47 => array(212),
+		48 => array(212),
+		71 => array(212),
+		78 => array(212),
+		49 => array(212),
+		77 => array(212),
+		76 => array(212),
+		79 => array(212),
+		75 => array(212),
+		80 => array(212),
+		102 => array(258, 276, 27, 28, 29, 243, 262),
+		103 => array(26, 264, 255, 258, 274, 273, 272, 261, 262),
+		98 => array(259, 260, 257, 255, 256, 258, 264, 261, 262),
+		99 => array(255, 256, 258, 259, 260, 264, 271, 261, 262),
+		105 => array(258, 261, 255, 264, 274, 273, 272, 262),
+		106 => array(255, 257, 264, 259, 260, 261, 262),
+		107 => array(259, 276, 26),
+		108 => array(26),
+		25 => array(54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74),
+		26 => array(88, 89, 91, 101, 102, 93, 94, 103, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 90, 92, 95, 96, 97, 98, 99, 100, 104, 105, 106),
+		27 => array(115, 107, 108, 109, 110, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 144, 145, 146, 147, 148, 149, 143),
+		28 => array(155, 154, 153, 152, 150, 151),
+		29 => array(157, 168, 169, 170, 171, 174, 162, 158, 159, 160, 161, 163, 164, 165, 166, 167, 172, 173),
+		30 => array(175, 182, 176, 183, 184, 188, 189, 177, 178, 179, 180, 181, 185, 186, 187),
+		31 => array(197, 199, 190, 191, 192, 193, 194, 195, 196, 198, 200, 201, 202, 203, 204, 205, 206, 207, 208),
+		210 => array(474), 
+		209 => array(470, 469, 468, 467, 466, 465), 
+		208 => array(471), 
+		207 => array(472),
+		206 => array(473),
+		202 => array(464),
+		23 => array(32),
+		22 => array(34, 35, 36, 37, 38, 39),
+		55 => array(214, 215, 216, 217),
+);
+
 	if(!array_key_exists($pObjectId, $lAllowed) || !in_array($pFieldId, $lAllowed[$pObjectId])){
 		return 0;
 	}
@@ -230,6 +269,11 @@ function parseReferenceItemTitle($pTitle){
 	return $pTitle;
 }
 
+function customDateFormat($pDate){
+	preg_match('/(.*)-(.*)-(.*)T(.*)/', $pDate, $lMatch);
+	return $lMatch[3] . '-' . $lMatch[2] . '-' . $lMatch[1];
+}
+
 function getFileNameById($pFileId) {
 	$lQuery = 'SELECT original_name
 				FROM pwt.media
@@ -320,10 +364,11 @@ function getEditPreviewHead($pDocumentId){
 		PJS_SITE_URL . '/lib/js/version_preview.js',
 		'/lib/js/editable_preview.js',
 	);
-	/*$lCss = array(
-		PJS_SITE_URL . '/lib/version_preview.css',
-		'/lib/css/editable_preview.css',
-	); */
+
+	$lCss = array(
+		// PJS_SITE_URL . '/lib/version_preview.css',
+		// '/lib/css/editable_preview.css',
+	);
 
 	$lLatestPjsRevisionChangeUids = getLatestPjsRevisionChangeUids($pDocumentId);
 // 	$lLatestPjsRevisionChangeUids = array(695);
@@ -428,10 +473,20 @@ function GetSortedMaterialFields($pFields){
 		if($lFieldValueNode->length){
 			$lFieldValue = $lFieldValueNode->item(0)->nodeValue;
 		}
+		$lInstanceIdValueNode = $lXPath->query('./../../@instance_id', $lCurrentField);
+		if($lInstanceIdValueNode->length){
+			$lInstanceIdValue = $lInstanceIdValueNode->item(0)->nodeValue;
+		}
+		$lObjectIdValueNode = $lXPath->query('./../../@object_id', $lCurrentField);
+		if($lObjectIdValueNode->length){
+			$lObjectIdValue = $lObjectIdValueNode->item(0)->nodeValue;
+		}
 		$lFieldsArr[$lFieldId] = array(
 			'id' => $lFieldId,
 			'field_name' => $lFieldName,
 			'value' => $lFieldValue,
+			'instance_id' => $lInstanceIdValue,
+			'object_id' => $lObjectIdValue,
 		);
 // 		var_dump($lCurrentField->ownerDocument->saveXML($lCurrentField));
 // 		var_dump($lFieldId, $lFieldValue);
@@ -447,9 +502,13 @@ function GetSortedMaterialFields($pFields){
 
 		$lFieldName = $lFieldData['field_name'];
 		$lFieldValue = $lFieldData['value'];
-
+		$lInstanceIdValue = $lFieldData['instance_id'];
+		$lObjectIdValue = $lFieldData['object_id'];
+				
 		$lChild->SetAttribute('id', $lFieldId);
 		$lChild->SetAttribute('field_name', $lFieldName);
+		$lChild->SetAttribute('instance_id', $lInstanceIdValue);
+		$lChild->SetAttribute('object_id', $lObjectIdValue);
 		$lValueNode = $lChild->appendChild($lDom->createElement('value', $lFieldValue));
 	}
 // 	var_dump($lDom->saveXML());
