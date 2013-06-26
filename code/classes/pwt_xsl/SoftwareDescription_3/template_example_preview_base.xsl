@@ -74,7 +74,10 @@
 						<title></title>
 					</head>
 					<body>
-						<xsl:copy-of select="$lContent"/>
+						<xsl:comment><xsl:value-of select="$pEditableHeaderReplacementText"></xsl:value-of></xsl:comment>
+						<div id="previewHolder">
+							<xsl:copy-of select="$lContent"/>
+						</div>
 					</body>
 				</html>
 			</xsl:when>
