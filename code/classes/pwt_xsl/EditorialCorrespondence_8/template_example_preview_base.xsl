@@ -38,6 +38,10 @@
 						<xsl:value-of select="/document/objects/*[@object_id='152']/*[@object_id='153']/@instance_id"/>
 					</xsl:attribute>
 					<div>
+						<xsl:call-template name="markContentEditableField">
+							<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+							<xsl:with-param name="pFieldId">3</xsl:with-param>
+						</xsl:call-template>
 						<xsl:attribute name="field_id">3</xsl:attribute>
 						<xsl:apply-templates select="/document/objects/*[@object_id='152']/*[@object_id='153']/fields/*[@id='3']" mode="articleTitle"/>
 					</div>

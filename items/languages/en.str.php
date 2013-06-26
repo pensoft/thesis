@@ -2050,5 +2050,56 @@ $STRARRAY = array(
 	'pwt.document_is_deleted' => 'This document is deleted',
 	
 	'regprof.pass_not_secure' => 'The password is not secure. Choose a password with a minimum length of 6 symbols',
+	
+	/* EDITORIAL keys */
+
+	'pjs.non_peer_review_take_decision_round_1' => "You can edit/comment on author's original submission and take your editorial decision.",
+	'pjs.non_peer_review_take_decision_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
+	'pjs.take_decision_round_3' => "pjs.take_decision_round_3",
+	
+	
+	/* CONVENTIONAL PEER keys */
+	
+	'pjs.conventional_peer_review_to_proceed_round_1' => "pjs.conventional_peer_review_to_proceed_round_1",
+	'pjs.conventional_peer_review_take_decision_round_1' => "pjs.conventional_peer_review_take_decision_round_1",
+	'pjs.conventional_peer_review_speedup_round_1' => "pjs.conventional_peer_review_speedup_round_1",
+	'pjs.conventional_peer_review_take_decision_without_reviewers_round_1' => "pjs.conventional_peer_review_take_decision_without_reviewers_round_1",
+	
+	'pjs.conventional_peer_review_to_proceed_round_2' => "pjs.conventional_peer_review_to_proceed_round_2",
+	'pjs.conventional_peer_review_take_decision_round_2' => "pjs.conventional_peer_review_take_decision_round_2",
+	'pjs.conventional_peer_review_speedup_round_2' => "pjs.conventional_peer_review_speedup_round_2",
+	'pjs.conventional_peer_review_take_decision_without_reviewers_round_2' => "pjs.conventional_peer_review_take_decision_without_reviewers_round_2",
+	
+	'pjs.take_decision_round_3' => "pjs.take_decision_round_3",
+	
+	
+	/* COMMUNITY PEER keys */
+	
+	'pjs.community_peer_review_to_proceed_round_1' => "pjs.community_peer_review_to_proceed_round_1",
+	'pjs.community_peer_review_take_decision_round_1' => "pjs.community_peer_review_take_decision_round_1",
+	'pjs.community_peer_review_speedup_round_1' => "pjs.community_peer_review_speedup_round_1",
+	'pjs.community_peer_review_take_decision_without_reviewers_round_1' => "pjs.community_peer_review_take_decision_without_reviewers_round_1",
+	
+	'pjs.community_peer_review_to_proceed_round_2' => "pjs.community_peer_review_to_proceed_round_2",
+	'pjs.community_peer_review_take_decision_round_2' => "pjs.community_peer_review_take_decision_round_2",
+	'pjs.community_peer_review_speedup_round_2' => "pjs.community_peer_review_speedup_round_2",
+	'pjs.community_peer_review_take_decision_without_reviewers_round_2' => "pjs.community_peer_review_take_decision_without_reviewers_round_2",
+	
+	'pjs.take_decision_round_3' => "pjs.take_decision_round_3",
+	
+	
+	/* PUBLIC PEER keys */
+	
+	'pjs.public_peer_review_to_proceed_round_1' => "pjs.public_peer_review_to_proceed_round_1",
+	'pjs.public_peer_review_take_decision_round_1' => "pjs.public_peer_review_take_decision_round_1",
+	'pjs.public_peer_review_speedup_round_1' => "pjs.public_peer_review_speedup_round_1",
+	'pjs.public_peer_review_take_decision_without_reviewers_round_1' => "pjs.public_peer_review_take_decision_without_reviewers_round_1",
+	
+	'pjs.public_peer_review_to_proceed_round_2' => "pjs.public_peer_review_to_proceed_round_2",
+	'pjs.public_peer_review_take_decision_round_2' => "pjs.public_peer_review_take_decision_round_2",
+	'pjs.public_peer_review_speedup_round_2' => "pjs.public_peer_review_speedup_round_2",
+	'pjs.public_peer_review_take_decision_without_reviewers_round_2' => "pjs.public_peer_review_take_decision_without_reviewers_round_2",
+	
+	'pjs.take_decision_round_3' => "pjs.take_decision_round_3",
 );
 ?>
