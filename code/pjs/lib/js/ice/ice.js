@@ -204,10 +204,10 @@ InlineChangeEditor.prototype = {
 		var lElementCopy = this.element.cloneNode(true);
 
 		// Remove all the cited figures/tables/plates
-		var lItemHolderBaseSelector = 'div[class="P-Article-Preview-Base-Info-Block"]';
-		var lFigureHolderSelector = lItemHolderBaseSelector + '[figure_id]';
-		var lPlateHolderSelector = lItemHolderBaseSelector + '[plate_id]';
-		var lTableHolderSelector = lItemHolderBaseSelector + '[table_id]';
+		var lItemHolderBaseSelector = 'div';
+		var lFigureHolderSelector = lItemHolderBaseSelector + '[class="figure"][figure_id]';
+		var lPlateHolderSelector = lItemHolderBaseSelector + '[class="figure"][plate_id]';
+		var lTableHolderSelector = lItemHolderBaseSelector + '[class="table"][table_id]';
 		ice.dom.each(ice.dom.find(lElementCopy, lPlateHolderSelector + ', ' +  lFigureHolderSelector + ', ' +  lTableHolderSelector), function(i, node){
 //			console.log(1);
 			$(node).remove();

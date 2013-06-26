@@ -267,16 +267,24 @@ class mJournal extends emBase_Model {
 			WHERE ju.journal_id = ' . (int)$pJournalId . ' AND ju.role_id = ' . (int) CE_ROLE . '
 			';
 		}else{
-			$lSql = 'SELECT u.*, (CASE WHEN drrus.id IS NOT NULL THEN coalesce(du.id, 0) ELSE 0 END) as assigned_ce_uid
-			FROM pjs.journal_users ju
-			JOIN usr u ON u.id = ju.uid
-			LEFT JOIN pjs.document_users du ON du.uid = u.id AND du.document_id = ' . (int)$pDocumentId . ' AND du.role_id = ' . (int) CE_ROLE . '
-			LEFT JOIN pjs.document_review_round_users drrus ON drrus.document_user_id = du.id AND drrus.round_id = ' . (int)$pCurrentRoundId . '
-			WHERE ju.journal_id = ' . (int)$pJournalId . ' AND ju.role_id = ' . (int) CE_ROLE . '
-			';
+			$lSql = ' 
+				SELECT 
+					u.*,
+					(
+						SELECT du.uid as uid
+						FROM pjs.documents d
+						JOIN pjs.document_review_round_users drrus ON drrus.round_id = d.current_round_id
+						JOIN pjs.document_users du ON du.id = drrus.document_user_id AND du.role_id = ' . (int) CE_ROLE . ' 
+						WHERE d.id = ' . (int)$pDocumentId . '
+						ORDER BY du.id DESC
+						LIMIT 1
+					) as assigned_ce_uid
+				FROM pjs.journal_users ju 
+				JOIN usr u ON u.id = ju.uid 
+				WHERE ju.journal_id = ' . (int)$pJournalId . ' AND ju.role_id = ' . (int) CE_ROLE;
 			
 		}
-		 		var_dump($lSql);
+		 // var_dump($lSql);
 		$lResult = array();
 		$this->m_con->Execute($lSql);
 		while(!$this->m_con->Eof()){

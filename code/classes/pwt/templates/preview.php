@@ -37,8 +37,10 @@ $gTemplArr = array(
 			<script>
 				$(document).ready(function(){
 					DisableChangeTracking();
+					{_EnableJSTracksFigures(track_figures)}
 					SetDisplayUserChangeEvent();
 					InitTrackers({revision_id}, {document_id});
+					
 					GetVersionUserDisplayNames();
 				});
 			</script>
@@ -48,6 +50,7 @@ $gTemplArr = array(
 			<script>
 				$(document).ready(function(){
 					DisableChangeTracking();
+					{_EnableJSTracksFigures(track_figures)}
 					InitTrackers({revision_id}, {document_id});
 				});
 			</script>

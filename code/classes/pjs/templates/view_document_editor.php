@@ -1691,7 +1691,7 @@ $gTemplArr = array(
 				<tbody>
 					<tr>
 						<td align="left">
-							<div class="document_author_review_round_top_left document_author_review_round_top_left_editor">{_getstr(pjs.copyeditinground_label)}</div>
+							<div class="document_author_review_round_top_left document_author_review_round_top_left_editor">{_getstr(pjs.copyeditinground_label)} {rownum}</div>
 						</td>
 						<td align="center">
 							<a href="#" onclick="openPopUp(\'/view_version.php?version_id={copy_editor_version_id}&id={document_id}&view_role=' . (int)CE_ROLE . '\')">View copyedited version</a>
@@ -1705,7 +1705,7 @@ $gTemplArr = array(
 		</div>
 		<div class="submission_notes_main_wrapper" id="collapse_opened_ce" style="display:none;">
 			<div class="document_author_review_round_top">
-				<div class="document_author_review_round_top_left">{_getstr(pjs.copyeditinground_label)}</div>
+				<div class="document_author_review_round_top_left">{_getstr(pjs.copyeditinground_label)} {rownum}</div>
 				<div class="document_author_review_round_top_right">
 					<img src="../i/collapse_close.png"></img>
 					<span class="collapse_text" onclick="Collapse(0, \'collapse_closed_ce\', \'collapse_opened_ce\')">Collapse</span>

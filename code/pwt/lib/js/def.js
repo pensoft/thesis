@@ -1479,6 +1479,7 @@ function SavePicDetails(pTitleHolder, pPicIdHolder) {
 
 /* Change plate description and photos text */
 function SavePlateData(pDescHolder, pPlateHolder, pPhotoHolder, pFormName, pClear) {
+	SyncCKEditors();
 	var desc = $('#' + pDescHolder).val();
 	var plateid = $("input[name*='" + pPlateHolder + "']").val();
 	var photo_id = $("input[name*='" + pPhotoHolder + "']").val();
@@ -1544,6 +1545,7 @@ function SavePlateData(pDescHolder, pPlateHolder, pPhotoHolder, pFormName, pClea
 
 /* Change plate desc */
 function SavePlateDataAndUpdateFiguresPopUp(pDescHolder, pPlateHolder, pPhotoHolder, pFormName) {
+	SyncCKEditors();
 	var desc = $('#' + pDescHolder).val();
 	var plateid = $("input[name*='" + pPlateHolder + "']").val();
 	var photo_id = $("input[name*='" + pPhotoHolder + "']").val();
@@ -3062,6 +3064,7 @@ function getVideoId(url){
 }
 
 function SaveVideoData(pVideoId, pVideoUrl, pDocumentId, pVideoTitle) {
+	SyncCKEditors();
 	var pVideoUrl = $("#" + pVideoUrl).val();
 	var pVideoTitle = $("#" + pVideoTitle).val();
 	$.ajax({
