@@ -483,12 +483,13 @@ class cView_Document_Editor extends cView_Document {
 						)); 
 					}
 				
-				
+					$lCurrentRoundNumber = count($lCEDecisionData) + 1;
+					
 					$lCEAssignObj = new evSimple_Block_Display(array(
 						'controller_data' => $lDocumentModel->GetAuthorRoundDetails($this->m_documentId, E_ROUND_TYPE), 
 						'name_in_viewobject' => 'document_waiting_ce_assign_obj',
 						'round_name' => $this->m_documentData['round_name'],
-						'round_number' => $this->m_documentData['round_number'],
+						'round_number' => (int)$lCurrentRoundNumber,
 						'round_type' => $this->m_documentData['round_type'],
 						'state_id' => $this->m_documentData['state_id'],
 						'version_num' => $this->m_documentData['version_num'],
@@ -519,7 +520,9 @@ class cView_Document_Editor extends cView_Document {
 							'author_version_id' => $this->m_documentData['author_version_id'],
 						)); 
 					}
-				
+					
+					$lCurrentCERoundNumber = count($lCEDecisionData) + 1;
+					
 					if(in_array($this->m_documentState, array(
 						DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE,
 						DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE,
@@ -537,21 +540,21 @@ class cView_Document_Editor extends cView_Document {
 						));	
 					}
 					if($this->m_documentState == DOCUMENT_IN_COPY_REVIEW_STATE) {
-					//~ var_dump($this->m_documentData);
-						//~ $lCEObj = new evSimple_Block_Display(array(
-							//~ 'controller_data' => $lDocumentModel->GetAuthorRoundDetails($this->m_documentId, CE_ROUND_TYPE), 
-							//~ 'name_in_viewobject' => 'document_waiting_ce_obj',
-							//~ 'round_name' => $this->m_documentData['round_name'],
-							//~ 'round_number' => $this->m_documentData['round_number'],
-							//~ 'round_type' => $this->m_documentData['round_type'],
-							//~ 'state_id' => $this->m_documentData['state_id'],
-							//~ 'version_num' => $this->m_documentData['version_num'],
-							//~ 'author_version_id' => $this->m_documentData['author_version_id'],
-							//~ 'current_round_id' => $this->m_documentData['current_round_id'],
-							//~ 'document_id' => $this->m_documentId,
-							//~ 'check_invited_users' => $this->m_documentData['check_invited_users'],
-							//~ 'merge_flag' => $this->m_documentData['merge_flag'],
-						//~ )); 
+					 //var_dump($this->m_documentData);
+						$lCEObj = new evSimple_Block_Display(array(
+							'controller_data' => $lDocumentModel->GetAuthorRoundDetails($this->m_documentId, CE_ROUND_TYPE), 
+							'name_in_viewobject' => 'document_waiting_ce_obj',
+							'round_name' => $this->m_documentData['round_name'],
+							'round_number' => (int)$lCurrentCERoundNumber,
+							'round_type' => $this->m_documentData['round_type'],
+							'state_id' => $this->m_documentData['state_id'],
+							'version_num' => $this->m_documentData['version_num'],
+							'author_version_id' => $this->m_documentData['author_version_id'],
+							'current_round_id' => $this->m_documentData['current_round_id'],
+							'document_id' => $this->m_documentId,
+							'check_invited_users' => $this->m_documentData['check_invited_users'],
+							'merge_flag' => $this->m_documentData['merge_flag'],
+						)); 
 					}
 					if(in_array($this->m_documentState, array(
 						DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE,
@@ -819,7 +822,10 @@ class cView_Document_Editor extends cView_Document {
 				case DOCUMENT_READY_FOR_COPY_REVIEW_STATE:
 				case DOCUMENT_READY_FOR_LAYOUT_STATE:
 				case DOCUMENT_IN_LAYOUT_EDITING_STATE:
-					if($this->m_documentState == DOCUMENT_READY_FOR_COPY_REVIEW_STATE && $this->m_documentData['round_number'] > 1) {
+					$lCEDecisionData = $lDocumentModel->GetCEDataList($this->m_documentId);
+					$lCERoundsCount = count($lCEDecisionData);
+					
+					if($this->m_documentState == DOCUMENT_READY_FOR_COPY_REVIEW_STATE && $lCERoundsCount > 0) {
 						$this->m_contentObject = new evSimple_Block_Display(array('controller_data' => $this->m_documentData,
 							'name_in_viewobject' => 'document_le_list',
 							'round_number' => $this->m_documentData['round_number'],

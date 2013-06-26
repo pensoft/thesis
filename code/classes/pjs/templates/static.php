@@ -1027,7 +1027,7 @@ function showSEAddEvent($pDocumentId, $pId, $pAssignedSEUid, $pJournalId) {
 }
 
 function showCEAddEvent($pDocumentId, $pId, $pAssignedCEUid, $pCurrentRoundId) {
-	if($pAssignedCEUid){
+	if($pAssignedCEUid == $pId){
 		return 'Assigned';
 	}else{
 		return '<a href="#" onclick="DocumentAddCE(' . $pDocumentId . ', ' . $pId . ', ' . $pCurrentRoundId . ');">Assign</a>';
