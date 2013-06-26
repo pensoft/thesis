@@ -62,7 +62,7 @@ feature.formdata = window.FormData !== undefined;
  */
 $.fn.ajaxSubmit = function(options) {
      if(SyncCKEditors){
-	SyncCKEditors();
+    	 SyncCKEditors();
      }
     /*jshint scripturl:true */
 

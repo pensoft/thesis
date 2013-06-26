@@ -13,6 +13,12 @@
 			</xsl:if>
 		</xsl:if>
 	</xsl:template>
+	
+	<xsl:template name="markContentEditableFiguresAndTables">			
+			<xsl:if test="$pTrackFigureAndTableChanges &gt; 0 and $pMarkContentEditableFields &gt; 0">
+				<xsl:attribute name="contenteditable">true</xsl:attribute>
+			</xsl:if>
+	</xsl:template>
 
 	<!-- JOURNAL INFO -->
 	<xsl:template name="journalInfo">
@@ -398,6 +404,7 @@
 	<!-- Single figure or plate -->
 	<xsl:template match="*" mode="figures">
 		<xsl:variable name="lFigId" select="php:function('getFigureId', string(./@id))"></xsl:variable>
+		<xsl:variable name="lIsPlate" select="@is_plate"></xsl:variable>
 		<xsl:choose>
 			<xsl:when test="@is_plate"> <!-- plate -->
 				<xsl:variable name="lPlateType" select="./@type"></xsl:variable>
@@ -465,11 +472,33 @@
 									<xsl:text>Figure </xsl:text><xsl:value-of select="$lFigId" /><xsl:text>. </xsl:text>
 								</div>
 							
-								<xsl:apply-templates select="./caption" mode="formatting"/>
-								<xsl:for-each select="./photo_description">
-									<b><xsl:number format="a" /></b><xsl:text>:&#160;</xsl:text>
-										<xsl:apply-templates  />
-									<br />
+								<div class="figureCaption">	
+									<xsl:call-template name="markContentEditableFiguresAndTables"></xsl:call-template>	
+									<xsl:attribute name="figure_id">
+										<xsl:value-of select="./@id"/>
+									</xsl:attribute>
+									<xsl:attribute name="is_plate">
+										<xsl:value-of select="$lIsPlate"/>
+									</xsl:attribute>				
+									<xsl:apply-templates select="./caption" mode="formatting"/>
+								</div>
+								<xsl:variable name="lFigRealId" select="./@id"></xsl:variable>
+								<xsl:for-each select="./photo_description">									
+									<b><xsl:number format="a" /></b><xsl:text>:&#160;</xsl:text>									
+									<span class="figureCaption plateCaption">
+										<xsl:call-template name="markContentEditableFiguresAndTables"></xsl:call-template>		
+										<xsl:attribute name="figure_id">
+											<xsl:value-of select="$lFigRealId"/>
+										</xsl:attribute>	
+										<xsl:attribute name="plate_column_num">
+											<xsl:value-of select="position()"></xsl:value-of>
+										</xsl:attribute>			
+										<xsl:attribute name="is_plate">
+											<xsl:value-of select="$lIsPlate"/>
+										</xsl:attribute>	
+										<xsl:apply-templates select="." mode="formatting"/>
+									</span>								
+									<br/>
 								</xsl:for-each>
 							</div>
 
@@ -496,7 +525,14 @@
 						<div class="name">
 							<xsl:text>Figure </xsl:text><xsl:value-of select="$lFigId" /><xsl:text>. </xsl:text>
 						</div>
-						<xsl:apply-templates select="./caption" mode="formatting"/>
+						<div class="figureCaption">
+							<xsl:call-template name="markContentEditableFiguresAndTables"></xsl:call-template>		
+							<xsl:attribute name="figure_id">
+								<xsl:value-of select="./@id"/>
+							</xsl:attribute>	
+							<xsl:attribute name="is_plate">0</xsl:attribute>			
+							<xsl:apply-templates select="./caption" mode="formatting"/>
+						</div>
 					</div>
 					<div class="P-Clear"></div>
 				</div>
@@ -532,7 +568,14 @@
 						<div class="name">
 							<xsl:text>Figure </xsl:text><xsl:value-of select="$lFigId" /><xsl:text>. </xsl:text>
 						</div>
-						<xsl:apply-templates select="./caption" mode="formatting"/>
+						<div class="figureCaption">
+							<xsl:call-template name="markContentEditableFiguresAndTables"></xsl:call-template>		
+							<xsl:attribute name="figure_id">
+								<xsl:value-of select="./@id"/>
+							</xsl:attribute>		
+							<xsl:attribute name="is_plate">0</xsl:attribute>			
+							<xsl:apply-templates select="./caption" mode="formatting"/>
+						</div>						
 					</div>
 					<div class="P-Clear"></div>
 				</div>
@@ -553,10 +596,28 @@
 			<xsl:attribute name="table_position"><xsl:value-of select="./@position"/></xsl:attribute>
 			<div class="description">
 				<div class="name">Table <xsl:value-of select="./@position" />.</div>
-				<span class="P-Inline"><xsl:apply-templates select="./title" mode="formatting"/></span>
+				<div class="P-Inline">
+					<div class="tableCaption">
+						<xsl:call-template name="markContentEditableFiguresAndTables"></xsl:call-template>		
+						<xsl:attribute name="table_id">
+							<xsl:value-of select="./@id"/>
+						</xsl:attribute>		
+						<xsl:attribute name="is_title">1</xsl:attribute>			
+						<xsl:apply-templates select="./title" mode="formatting"/>
+					</div>				
+				</div>
 			</div>
 			<div class="P-Clear"></div>
-			<div class="Table-Body"><xsl:apply-templates select="./description" mode="table_formatting"/></div>
+			<div class="Table-Body">
+				<div class="tableCaption">
+					<xsl:call-template name="markContentEditableFiguresAndTables"></xsl:call-template>		
+					<xsl:attribute name="table_id">
+						<xsl:value-of select="./@id"/>
+					</xsl:attribute>		
+					<xsl:attribute name="is_title">0</xsl:attribute>			
+					<xsl:apply-templates select="./description" mode="table_formatting"/>
+				</div>			
+			</div>
 		</div>
 	</xsl:template>
 

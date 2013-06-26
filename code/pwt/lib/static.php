@@ -2922,7 +2922,7 @@ function checkIfPreviewCanBeEdited($pDocumentId, $pRevisionId = false){
 	return lockDocument($pDocumentId);
 }
 
-function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLPath = '', $pXml = '', $pMarkContentEditableFields = false, $pRevisionPreview = false, $pPutEditableJSAndCss = false, $pInsertCommentPositionNodes = true){
+function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLPath = '', $pXml = '', $pMarkContentEditableFields = false, $pRevisionPreview = false, $pPutEditableJSAndCss = false, $pInsertCommentPositionNodes = true, $pTrackFigureChanges = false){
 // 	$docroot = getenv('DOCUMENT_ROOT');
 // 	require_once($docroot . '/lib/static_xsl_pmt.php');
 // 	$lPmtXml = getDocumentXml($pDocumentId);
@@ -2990,6 +2990,14 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 			'namespace' => null,
 			'name' => 'pPutEditableJSAndCss',
 			'value' => 1,
+		);
+	}
+	
+	if((int)$pTrackFigureChanges){
+		$lXslParameters [] = array (
+			'namespace' => null,
+			'name' => 'pTrackFigureAndTableChanges',
+			'value' => 1 
 		);
 	}
 
@@ -3112,13 +3120,34 @@ function moveObjectToCitationPos($pDomDoc, $pFigNum, $pPNodeToMove, $pDivObjectA
 				$lTableRow->parentNode->insertBefore($tr, $lTableRow->nextSibling->nextSibling);
 
 			} else {
-				$lNode = $figurenode->parentNode;
+				$lFigureParentNode = $figurenode->parentNode;
 
 				// махаме фигурата от документа
-				$lNode->removeChild($figurenode);
-
+				$lFigureParentNode->removeChild($figurenode);
+// 				$pPNodeToMove->insertBefore($figurenode);
 				// поставяме фигурата на правилното място
-				$pPNodeToMove->insertBefore($figurenode);
+				$lCitationElementsWrapper = null;
+				
+				if($pPNodeToMove->nextSibling && $pPNodeToMove->nextSibling->nodeName == CITATION_ELEMENT_CITATION_WRAPPER_NODE_NAME){
+					$lCitationElementsWrapper = $pPNodeToMove->nextSibling;
+// 					var_dump($pFigNum);
+// 					var_dump($figurenode->ownerDocument->SaveXML($figurenode));
+// 					var_dump($figurenode->ownerDocument->SaveXML($pPNodeToMove->nextSibling));
+// 					$pPNodeToMove->parentNode->insertBefore($figurenode, $pPNodeToMove->nextSibling);
+// 					var_dump($pPNodeToMove->ownerDocument->SaveXML($pPNodeToMove->parentNode));
+				}else{
+// 					$pPNodeToMove->insertBefore($figurenode);
+// 					$pPNodeToMove->parentNode->appendChild($figurenode);
+					$lCitationElementsWrapper = $pPNodeToMove->ownerDocument->createElement(CITATION_ELEMENT_CITATION_WRAPPER_NODE_NAME);
+					if($pPNodeToMove->nextSibling){
+						$lCitationElementsWrapper = $pPNodeToMove->parentNode->insertBefore($lCitationElementsWrapper, $pPNodeToMove->nextSibling);
+					}else{
+						$lCitationElementsWrapper = $pPNodeToMove->parentNode->appendChild($lCitationElementsWrapper);
+					}
+				}
+				if($lCitationElementsWrapper){
+					$lCitationElementsWrapper->appendChild($figurenode);
+				}
 
 			}
 		}
@@ -3179,14 +3208,14 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 	foreach ($lNodesList as $node) {
 
 		if ($node->hasAttribute($pObjectNum) && $node->getAttribute($pObjectNum) == $lNode || $lFlag == 1) {
-			$lCurNodeId = (int)$node->getAttribute($pObjectNum);
+			$lCurFigNum = (int)$node->getAttribute($pObjectNum);
 			$lCurNodeRef = $node;
 
 			// Тук се гледа дали цитацията е в Identification key
 			$lIdentKeyNode = upToParentNodeByNameAndAttribute($node, 'table', 'identification_key_table');
 
 			if($lFlag == 0) {
-				if(!in_array($lCurNodeId, $lVisitedFigures)) {
+				if(!in_array($lCurFigNum, $lVisitedFigures)) {
 					$lMinNodeId = (int)$node->getAttribute($pObjectNum);
 					$lMinNodeRef = $node;
 					if($lMinNodeId >= $lMinFigNum){
@@ -3199,18 +3228,18 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 				}
 
 			} else {
-				if(!in_array($lCurNodeId, $lVisitedFigures)) {
-					if($lCurNodeId > $lMinNodeId) {
+				if(!in_array($lCurFigNum, $lVisitedFigures)) {
+					if($lCurFigNum > $lMinNodeId) {
 						$lPTagNode = upToParentNodeByTag($lMinNodeRef, 'p');
-						for($i = $lMinNodeId; $i < $lCurNodeId;$i++) {
+						for($i = $lMinNodeId; $i < $lCurFigNum;$i++) {
 							moveObjectToCitationPos($pDomDoc, $i, $lPTagNode, $pPositionAttr, 0, $node);
 							$lVisitedFigures[] = $i;
 						}
 
 						$lPTagNode = upToParentNodeByTag($lCurNodeRef, 'p');
-						moveObjectToCitationPos($pDomDoc, $lCurNodeId, $lPTagNode, $pPositionAttr, $lIdentKeyNode, $node);
+						moveObjectToCitationPos($pDomDoc, $lCurFigNum, $lPTagNode, $pPositionAttr, $lIdentKeyNode, $node);
 
-						$lMinNodeId = $lCurNodeId;
+						$lMinNodeId = $lCurFigNum;
 						$lMinNodeRef = $lCurNodeRef;
 					} else {
 						$lPTagNode = upToParentNodeByTag($lMinNodeRef, 'p');
@@ -3229,6 +3258,17 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 			}
 			$lFlag = 1;
 		}
+    }
+    //Remove the citation wrapper nodes
+    $lCitationWrapperNodes = $lXpath->query('//' . CITATION_ELEMENT_CITATION_WRAPPER_NODE_NAME);
+    foreach ($lCitationWrapperNodes as $lCitationWrapperNode){
+//     	var_dump($lCitationWrapperNode->firstChild);
+    	$lParentNode = $lCitationWrapperNode->parentNode;    	
+    	while($lCitationWrapperNode->firstChild){
+//     		var_dump($lCitationWrapperNode->firstChild);
+    		$lParentNode->insertBefore($lCitationWrapperNode->firstChild, $lCitationWrapperNode);
+    	}
+    	$lParentNode->removeChild($lCitationWrapperNode);
     }
 
 	return $pDomDoc->saveHTML();
@@ -4957,7 +4997,7 @@ function array_empty($pArray) {
 function recursive_array_search($needle, $haystack) {
     foreach($haystack as $key => $value) {
         $current_key = $key;
-        if($needle === strtolower($value) OR (is_array($value) && recursive_array_search($needle, $value) !== false)) {
+        if((!is_array($value) && $needle === strtolower($value)) OR (is_array($value) && recursive_array_search($needle, $value) !== false)) {
             return $current_key;
         }
     }
@@ -4969,7 +5009,7 @@ function CheckCaptcha ($pCaptcha) {
 	}
 }
 
-function displayEditPreviewHeader($pDocumentId, $pRevisionId){
+function displayEditPreviewHeader($pDocumentId, $pRevisionId, $pTrackFigures = false){
 	$lCanEditPreview = checkIfPreviewCanBeEdited($pDocumentId, $pRevisionId);
 // 	$lCanEditPreview = true;
 	$lResult = '';
@@ -4998,6 +5038,7 @@ function displayEditPreviewHeader($pDocumentId, $pRevisionId){
 		),
 		'document_id' => $pDocumentId,
 		'revision_id' => $pRevisionId,
+		'track_figures' => $pTrackFigures,
 		'legend' => GetVersionUserLegend($pDocumentId, $pRevisionId),
 	));
 
@@ -5587,6 +5628,78 @@ function CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserId){
 		return true;
 	}
 	return false;
+}
+
+function EnableJSTracksFigures($pTrackFigures){
+	if(!(int)$pTrackFigures){
+		return;
+	}
+	return ' EnableFigureTracking(); ';
+}
+
+function SaveFigCaption($pDocumentId, $pFigId, $pIsPlate, $pPlateNum, $pContent){
+	if(!$pDocumentId){
+		throw new Exception(getstr('pwt.noDocumentSpecified'));
+	}
+	if(!$pFigId){
+		throw new Exception(getstr('pwt.noFigureSpecified'));		
+	}
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = '
+		UPDATE pwt.media SET
+			description = \'' . q($pContent) . '\',
+			title = \'' . q($pContent) . '\'
+		WHERE id = ' . (int)$pFigId . '	AND document_id = ' . (int)$pDocumentId . '
+	';
+	if($pIsPlate){
+		if((int)$pPlateNum){
+			$lSql = '
+				UPDATE pwt.media SET
+					description = \'' . q($pContent) . '\'
+				WHERE plate_id = ' . (int)$pFigId . '	AND document_id = ' . (int)$pDocumentId . ' AND position = ' . (int)$pPlateNum . '
+			';
+		}else{
+			$lSql = '
+				UPDATE pwt.plates SET
+					description = \'' . q($pContent) . '\'
+				WHERE id = ' . (int)$pFigId . '	AND document_id = ' . (int)$pDocumentId . '
+			';
+		}
+	}
+	if(!$lCon->Execute($lSql)){
+		throw new Exception($lCon->GetLastError());
+	}
+	//Mark the xml as modified so that the figure changes can be applied to the document xml
+	$lCon->Execute('SELECT * FROM pwt."XmlIsDirty"(1, ' . (int)$pDocumentId . ', null)');
+	
+}
+
+function SaveTableChange($pDocumentId, $pTableId, $pModifiedElementIsTitle, $pContent){
+	if(!$pDocumentId){
+		throw new Exception(getstr('pwt.noDocumentSpecified'));
+	}
+	if(!$pTableId){
+		throw new Exception(getstr('pwt.noTableSpecified'));
+	}
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lFieldColumnName = 'title';
+	if(!$pModifiedElementIsTitle){
+		$lFieldColumnName = 'description';
+	}
+	$lSql = '
+		UPDATE pwt.tables SET
+			' . $lFieldColumnName . ' = \'' . q($pContent) . '\'
+		WHERE id = ' . (int)$pTableId . '	AND document_id = ' . (int)$pDocumentId . '
+	';
+// 	var_dump($lSql);
+	if(!$lCon->Execute($lSql)){
+		throw new Exception($lCon->GetLastError());
+	}
+	//Mark the xml as modified so that the table changes can be applied to the document xml
+	$lCon->Execute('SELECT * FROM pwt."XmlIsDirty"(1, ' . (int)$pDocumentId . ', null)');
+
 }
 
 function checkIfPasswordIsSecure($pPassword){

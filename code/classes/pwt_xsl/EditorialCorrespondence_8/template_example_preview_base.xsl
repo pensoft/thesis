@@ -9,6 +9,7 @@
 	<xsl:param  name="pMarkContentEditableFields">0</xsl:param>
 	<xsl:param  name="pShowPreviewCommentTip">1</xsl:param>
 	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
+	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
 	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
 
 	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>

@@ -5,6 +5,7 @@ require_once(PATH_CLASSES . 'comments.php');
 
 
 $gDocumentId = (int)$_REQUEST['document_id'];
+$gTrackFigures = (int)$_REQUEST['track_figures'];
 $gXSLPath = $_REQUEST['template_xsl_path'];
 
 $gRevisionId = (int)$_REQUEST['revision_id'];
@@ -32,9 +33,9 @@ if($gDocumentId){
 	header("Content-type: text/html");
 // 	error_reporting(-1);
 	$lPutEditableJSAndCss = 1;
-	$lPreview = getDocumentPreview($gDocumentId, 1, $gXSLPath, $gRevisionXML, $lCanEditPreview, $lHideTip, $lPutEditableJSAndCss, true);
+	$lPreview = getDocumentPreview($gDocumentId, 1, $gXSLPath, $gRevisionXML, $lCanEditPreview, $lHideTip, $lPutEditableJSAndCss, true, $gTrackFigures);
 
-	$lPreviewHeader = displayEditPreviewHeader($gDocumentId, $gRevisionId);
+	$lPreviewHeader = displayEditPreviewHeader($gDocumentId, $gRevisionId, $gTrackFigures);
 	$lPreview = str_replace('<!--' . PREVIEW_EDITABLE_HEADER_REPLACEMENT_TEXT . '-->', $lPreviewHeader, $lPreview);
 
 	echo $lPreview;
