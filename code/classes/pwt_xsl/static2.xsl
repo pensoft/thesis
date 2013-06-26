@@ -389,7 +389,12 @@
 		</div>
 	</xsl:template>
 
-
+	<!--
+		!!!!!
+		If you edit the wrapper of the figure/table (i.e. <div class="figure">) 
+		you have to edit it in the ice.js in the method getElementContents 
+		!!!!!!!
+	-->
 	<!-- Single figure or plate -->
 	<xsl:template match="*" mode="figures">
 		<xsl:variable name="lFigId" select="php:function('getFigureId', string(./@id))"></xsl:variable>
@@ -534,7 +539,13 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-
+	
+	<!--
+		!!!!!
+		If you edit the wrapper of the figure/table (i.e. <div class="table">) 
+		you have to edit it in the ice.js in the method getElementContents 
+		!!!!!!!
+	-->
 	<!-- Single table -->
 	<xsl:template match="*" mode="tables">
 		<div class="table">
