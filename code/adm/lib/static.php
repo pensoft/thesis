@@ -3414,6 +3414,27 @@ function transformXmlWithXsl($pXML, $pXSL){
 function parseArticleDoi($pDoi){
 	return mb_substr($pDoi, 8);
 }
+
+/**
+ Тази функция се ползва в xsl-a на еол, за да може да вземем по 1 път цитираните фигури
+ */
+function GetTaxonDistinctFigsList($pFigs){	
+	$lProcessedFigs = array();
+	$lDom = new DOMDocument('1.0', 'utf-8');
+	$lRoot = $lDom->appendChild($lDom->createElement('root'));
+// 	var_dump($lFieldsArr);
+	foreach($pFigs as $lCurrentFig){
+		$lFigId = $lCurrentFig->GetAttribute('rid');
+		if(in_array($lFigId, $lProcessedFigs)){
+			continue;
+		}
+		$lProcessedFigs[] = $lFigId;
+		$lChild= $lRoot->appendChild($lDom->importNode($lCurrentFig, 1));
+	}
+// 	var_dump($lDom->saveXML());
+	return $lDom;
+}
+
 /**
 	Тази функция се ползва в xsl-a, понеже трябва да се взима само първата буква от дадено име
 		10.3897/zookeys.67.700 => zookeys.67.700
