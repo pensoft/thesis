@@ -1875,7 +1875,7 @@ $STRARRAY = array(
 	'pjs.no_submitted_files_found' => 'No supplementary files found',
 	'pjs.authorOriginalSubmissionVersionLabel' => "Author's original submission",
 	'pjs.authorRevisionVersionLabel' => "Author's revised version",
-	'pjs.layoutround_label' => 'Layout',
+	'pjs.layoutround_label' => 'Layout review',
 	'pjs.copyeditinground_label' => 'Linguistic review',
 	'pjs.author_proceed_to_layout_edit_text' => "Revise your manuscript and respond to editor's comments",
 	'pjs.authors_notes_to_editor' => "Author's notes to Editor",
@@ -1884,7 +1884,6 @@ $STRARRAY = array(
 	'pjs.journals.bdj' => 'Biodiversity Data Journal',
 
 	'pjs.date_submitted_doc' => 'Date submitted',
-	'pjs.round_copy_editing_label' => 'Copy editing',
 	'pjs.document_ready_for_layout_label_A_txt' => 'In layout',
 	'pjs.document_in_layout_label_A_txt' => 'First proof is being produced',
 	'pjs.create_new_reviewer' => 'Create new reviewer',
@@ -2050,5 +2049,12 @@ $STRARRAY = array(
 	'pwt.document_is_deleted' => 'This document is deleted',
 	
 	'regprof.pass_not_secure' => 'The password is not secure. Choose a password with a minimum length of 6 symbols',
+	
+	//'pjs.round_copy_editing_label' => 'Linguistic review',
+	'pjs.revise_author_version_for_ce_le_round' => 'Revise your manuscript and submit version to be used for copy editing or layout editing',
+	'pjs.copyeditinground_label_1' => 'Linguistic review 1',
+	'pjs.copy_editing_text' => 'In Copy editing',
+	'pjs.copy_editing_proof_text' => 'Proof is being produced by Copy Editor',
+	'pjs.copyeditinground_label_clear' => 'Linguistic review',
 );
 ?>

@@ -352,7 +352,6 @@ class mUser_Model extends emBase_Model {
 
 		// 		var_dump($lSql);
 		$this->m_con->Execute($lSql);
-		// 		var_dump($this->m_con->mRs);
 		return $this->m_con->mRs;
 	}
 	
