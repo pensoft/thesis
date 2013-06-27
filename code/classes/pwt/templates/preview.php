@@ -86,7 +86,7 @@ $gTemplArr = array(
 
 	'preview.content' => '
 		{*document.documentOnlyForm}
-		<iframe src="/preview_src.php?document_id={document_id}&template_xsl_path={template_xsl_path}" id="previewIframe" class="previewIframe" frameBorder="0" scrolling="no">
+		<iframe src="/preview_src.php?document_id={document_id}&template_xsl_path={template_xsl_path}&track_figures=1" id="previewIframe" class="previewIframe" frameBorder="0" scrolling="no">
 		</iframe>
 		<input type="hidden" value="{document_id}" name="document_id">
 		<script type="text/javascript">
