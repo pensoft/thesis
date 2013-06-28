@@ -28,7 +28,7 @@ body {
 }
 
 *[contenteditable="true"] {
-	overflow:hidden;	
+	/* overflow:visible; */
 }
 
 *[contenteditable="true"]:hover {
@@ -37,18 +37,15 @@ body {
 	background-color: #FFFFBE;
 	border-left: 4px solid #f1ca7f;
 	border-right: 4px solid #f1ca7f;
-	*/
 	padding:0px;
 	margin:0px;
+	*/
 	outline: #D4D5CE solid 2px;
 
 }
 
 *[contenteditable="true"]:focus {
 	outline: #f1ca7f solid 2px;
-	padding:0px;
-	margin:0px;
-	
 }
 
 .P-Article-Preview {

@@ -278,7 +278,7 @@
 	<xsl:template match="*" mode="identificationKeyCouplet" name="identificationKeyCouplet">
 		<xsl:param name="pNode"></xsl:param>
 		<xsl:param name="pNum"></xsl:param>
-		<tr>
+		<tr>		
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 			<td class="P-Article-Preview-Table-Row" align="center"><xsl:value-of select="$pNum"></xsl:value-of></td>
 			<td class="P-Article-Preview-Table-Row">
@@ -290,22 +290,22 @@
 				<xsl:apply-templates select="$pNode/fields/*[@id='34']" mode="formatting"/>
 			</td>
 			<td class="P-Article-Preview-Table-Row">
-				<span>
+				<xsl:if test="$pNode/fields/*[@id='35']!=''">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="$pNode/@object_id"></xsl:with-param>
 						<xsl:with-param name="pFieldId">35</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">35</xsl:attribute>
 					<xsl:apply-templates select="$pNode/fields/*[@id='35']" mode="formatting"/>
-				</span>
-				<span>
+				</xsl:if>
+				<xsl:if test="$pNode/fields/*[@id='36']!=''">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="$pNode/@object_id"></xsl:with-param>
 						<xsl:with-param name="pFieldId">36</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">36</xsl:attribute>
 					<xsl:apply-templates select="$pNode/fields/*[@id='36']" mode="formatting"/>
-				</span>
+				</xsl:if>
 			</td>
 		</tr>
 		<tr>
@@ -320,27 +320,27 @@
 				<xsl:apply-templates select="$pNode/fields/*[@id='37']" mode="formatting"/>
 			</td>
 			<td class="P-Article-Preview-Table-Row">
-				<span>
+				<xsl:if test="$pNode/fields/*[@id='38']!=''">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="$pNode/@object_id"></xsl:with-param>
 						<xsl:with-param name="pFieldId">38</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">38</xsl:attribute>
 					<xsl:apply-templates select="$pNode/fields/*[@id='38']" mode="formatting"/>
-				</span>
-				<span>
+				</xsl:if>
+				<xsl:if test="$pNode/fields/*[@id='39']!=''">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="$pNode/@object_id"></xsl:with-param>
 						<xsl:with-param name="pFieldId">39</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">39</xsl:attribute>
 					<xsl:apply-templates select="$pNode/fields/*[@id='39']" mode="formatting"/>
-				</span>
+				</xsl:if>
 			</td>
 		</tr>
 	</xsl:template>
 
-	<!-- singleIdentificationKeyCouplet -->
+	<!-- singleIdentificationKeyCouplet v malkoto preview -->
 	<xsl:template match="*" mode="singleIdentificationKeyCouplet" name="singleIdentificationKeyCouplet">
 		<xsl:variable name="lInstanceId" select="./@instance_id"></xsl:variable>
 		<xsl:variable name="lParentInstanceId" select="./ancestor::*[@object_id='23']/@instance_id"></xsl:variable>
@@ -363,27 +363,15 @@
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 			<td class="P-Article-Preview-Table-Row" align="center"><xsl:value-of select="$lPosition" /></td>
 			<td class="P-Article-Preview-Table-Row">
-				<xsl:call-template name="markContentEditableField">
-					<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-					<xsl:with-param name="pFieldId">34</xsl:with-param>
-				</xsl:call-template>
 				<xsl:attribute name="field_id">34</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='34']" mode="formatting"/>
 			</td>
 			<td class="P-Article-Preview-Table-Row">
 				<span>
-					<xsl:call-template name="markContentEditableField">
-						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-						<xsl:with-param name="pFieldId">35</xsl:with-param>
-					</xsl:call-template>
 					<xsl:attribute name="field_id">35</xsl:attribute>
 					<xsl:apply-templates select="./fields/*[@id='35']" mode="formatting"/>
 				</span>
 				<span>
-					<xsl:call-template name="markContentEditableField">
-						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-						<xsl:with-param name="pFieldId">36</xsl:with-param>
-					</xsl:call-template>
 					<xsl:attribute name="field_id">36</xsl:attribute>
 					<xsl:apply-templates select="./fields/*[@id='36']" mode="formatting"/>
 				</span>
@@ -393,27 +381,15 @@
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 			<td class="P-Article-Preview-Table-Row" align="center">–</td>
 			<td class="P-Article-Preview-Table-Row">
-				<xsl:call-template name="markContentEditableField">
-					<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-					<xsl:with-param name="pFieldId">37</xsl:with-param>
-				</xsl:call-template>
 				<xsl:attribute name="field_id">37</xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='37']" mode="formatting"/>
 			</td>
 			<td class="P-Article-Preview-Table-Row">
 				<span>
-					<xsl:call-template name="markContentEditableField">
-						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-						<xsl:with-param name="pFieldId">38</xsl:with-param>
-					</xsl:call-template>
 					<xsl:attribute name="field_id">38</xsl:attribute>
 					<xsl:apply-templates select="./fields/*[@id='38']" mode="formatting"/>
 				</span>
-				<span>
-					<xsl:call-template name="markContentEditableField">
-						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-						<xsl:with-param name="pFieldId">39</xsl:with-param>
-					</xsl:call-template>
+				<span>>
 					<xsl:attribute name="field_id">39</xsl:attribute>
 					<xsl:apply-templates select="./fields/*[@id='39']" mode="formatting"/>
 				</span>
