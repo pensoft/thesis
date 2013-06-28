@@ -1604,7 +1604,7 @@ function checkSERoundLabel($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateId)
 	}
 }
 
-function showSERoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateId, $pAcceptedRoundNum) {
+function showSERoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateId, $pAcceptedRoundNum, $pCERoundsCount = 0) {
 	if($pStateId == DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE){
 		return getstr('pjs.round_copy_editing_label');
 	}
@@ -1613,7 +1613,11 @@ function showSERoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStat
 		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_STATE,
 		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE
 	))){
-		return 'Review round ' . $pAcceptedRoundNum;
+		if((int)$pCERoundsCount > 0) {
+			return getstr('pjs.copyeditinground_label_clear') . ' ' . $pCERoundsCount;
+		} else {
+			return 'Review round ' . $pAcceptedRoundNum;	
+		}
 	}else{
 		return showRoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateId);
 	}
@@ -1633,7 +1637,8 @@ function showRoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateI
 	if(in_array((int) $pStateId, array(
 		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE,
 		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_STATE,
-		DOCUMENT_READY_FOR_LAYOUT_STATE
+		DOCUMENT_READY_FOR_LAYOUT_STATE,
+		DOCUMENT_IN_LAYOUT_EDITING_STATE
 	))){
 		return getstr('pjs.layoutround_label');
 	}
@@ -1803,7 +1808,57 @@ function checkAReviewRoundDateReminder($pRoundDueDate) {
 
 }
 
-function ShowRoundNameByDocumentState($pStateId) {
+function showAuthorCurrentRoundLabel($pStateId, $pCERoundsCount = 0) {
+	switch ($pStateId) {
+		case (int) DOCUMENT_READY_FOR_COPY_REVIEW_STATE :
+			if((int)$pCERoundsCount == 0) {
+				return '
+					<div class="document_author_review_round_top">
+						<div class="document_author_review_round_top_left">' . getstr('pjs.copyeditinground_label_1') . '</div>
+						<div class="P-Clear"></div>
+					</div>';
+			}
+			break;
+		case (int) DOCUMENT_IN_COPY_REVIEW_STATE:
+			return '
+				<div class="document_author_review_round_top">
+					<div class="document_author_review_round_top_left">' . getstr('pjs.copyeditinground_label_clear') . ' ' . ($pCERoundsCount + 1) . '</div>
+					<div class="P-Clear"></div>
+				</div>';
+		default:
+			return '';
+			break;
+	}
+}
+
+function showEditorCurrentRoundLabel($pStateId, $pCERoundsCount = 0) {
+	
+	switch ($pStateId) {
+		case DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE:
+		case DOCUMENT_READY_FOR_COPY_REVIEW_STATE:
+			if((int)$pCERoundsCount == 0) {
+				return '
+					<div class="document_author_review_round_top">
+						<div class="document_author_review_round_top_left">' . getstr('pjs.copyeditinground_label_1') . '</div>
+						<div class="P-Clear"></div>
+					</div>';
+			}
+			break;
+		case DOCUMENT_IN_COPY_REVIEW_STATE:
+			return '
+				<div class="document_author_review_round_top">
+					<div class="document_author_review_round_top_left">' . getstr('pjs.copyeditinground_label_clear') . ' ' . ($pCERoundsCount + 1) . '</div>
+					<div class="P-Clear"></div>
+				</div>';
+		default:
+			return '';
+			break;
+	}
+	
+	return '';
+}
+
+function ShowRoundNameByDocumentState($pStateId, $pCERoundsCount = 0) {
 	if(in_array($pStateId, array(
 		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE,
 		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_STATE
@@ -1814,7 +1869,7 @@ function ShowRoundNameByDocumentState($pStateId) {
 	if(in_array($pStateId, array(
 		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE
 	))){
-		return getstr('pjs.copyeditinground_label');
+		return getstr('pjs.copyeditinground_label');	
 	}
 
 	return '';
@@ -1975,11 +2030,15 @@ function getClearDiv($pRowNum) {
 				';
 }
 
-function showCopyEditingText($pStateId) {
+function showCopyEditingText($pStateId, $pCERoundsCount = 0) {
 	if($pStateId == DOCUMENT_READY_FOR_COPY_REVIEW_STATE){
-		return 'In Copy editing';
+		if($pCERoundsCount == 0) {
+			return getstr('pjs.copy_editing_text');	
+		} else {
+			return getstr('pjs.copy_layout_editing_text');
+		}
 	}else{
-		return 'Proof is being produced by Copy Editor';
+		return getstr('pjs.copy_editing_proof_text');
 	}
 }
 function displayFilterBox($pLegend) {

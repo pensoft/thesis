@@ -45,6 +45,23 @@ class pView_Document_CE extends pView_Document {
 			)
 		);
 
+		$this->m_objectsMetadata['history_section'] = array(
+			'templs' => array(
+				G_DEFAULT => 'view_document_ce.history_section',
+			)
+		);
+
+		// CE rounds
+		$this->m_objectsMetadata['document_ce_rounds'] = array(
+			'templs' => array(
+				G_HEADER => 'global.empty',
+				G_FOOTER => 'global.empty',
+				G_STARTRS => 'global.empty',
+				G_ROWTEMPL => 'view_document_ce.document_ce_round_row',
+				G_ENDRS => 'global.empty',
+			)
+		);
+
 	}
 }
 

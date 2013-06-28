@@ -115,6 +115,17 @@ class pView_Document_Author extends pView_Document {
 			)
 		);
 
+		// CE rounds
+		$this->m_objectsMetadata['document_ce_rounds'] = array(
+			'templs' => array(
+				G_HEADER => 'global.empty',
+				G_FOOTER => 'global.empty',
+				G_STARTRS => 'global.empty',
+				G_ROWTEMPL => 'view_document_author.document_ce_round_row',
+				G_ENDRS => 'global.empty',
+			)
+		);
+
 	}
 }
 

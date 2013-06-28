@@ -920,10 +920,7 @@ $gTemplArr = array(
 	
 	'view_document_editor.document_waiting_ce_obj' => '
 		<div class="submission_notes_main_wrapper">
-			<div class="document_author_review_round_top">
-				<div class="document_author_review_round_top_left">{_showRoundNumberInfo(round_type, round_name, round_number, state_id)}</div>
-				<div class="P-Clear"></div>
-			</div>
+			{_showEditorCurrentRoundLabel(state_id, ce_rounds_count)}
 			<div class="document_author_holder_rev">
 				{_showCurrentAuthorVersion(version_num, author_version_id, document_id)}
 				<div class="document_author_holder_content">
@@ -1028,10 +1025,7 @@ $gTemplArr = array(
 	
 	'view_document_editor.document_waiting_ce_assign_obj' => '
 		<div class="submission_notes_main_wrapper">
-			<div class="document_author_review_round_top">
-				<div class="document_author_review_round_top_left">{_showRoundNumberInfo(round_type, round_name, round_number, state_id)}</div>
-				<div class="P-Clear"></div>
-			</div>
+			{_showEditorCurrentRoundLabel(state_id, ce_rounds_count)}
 			<div class="document_author_holder_rev">
 				{_showCurrentAuthorVersion(version_num, author_version_id, document_id)}
 				<div class="document_author_holder_content">
@@ -1561,10 +1555,7 @@ $gTemplArr = array(
 	
 	'view_document_editor.document_editor_waiting_author_version_after_review_rounds_object' => '
 		<div class="document_author_holder_content_no_review_yet" style="margin:0px 20px 0px 20px">
-			<div class="document_author_review_round_top">
-				<div class="document_author_review_round_top_left">{_ShowRoundNameByDocumentState(state_id)}</div>
-				<div class="P-Clear"></div>
-			</div>
+			{_showEditorCurrentRoundLabel(state_id, ce_rounds_count)}
 			<div class="document_author_holder_rev">
 				{_showCurrentAuthorVersion(version_num, author_version_id, document_id)}
 				<div class="document_author_holder_content">
@@ -1681,7 +1672,7 @@ $gTemplArr = array(
 	',
 
 	'view_document_editor.document_ce_round_row' => '
-		<div class="submission_notes_main_wrapper submission_notes_main_wrapper_E_view" id="collapse_closed_ce">
+		<div class="submission_notes_main_wrapper submission_notes_main_wrapper_E_view" id="collapse_closed_ce_round_{rownum}">
 			<table width="100%" cellspacing="0" cellpadding="0">
 				<colgroup>
 					<col width="33%"></col>
@@ -1697,23 +1688,23 @@ $gTemplArr = array(
 							<a href="#" onclick="openPopUp(\'/view_version.php?version_id={copy_editor_version_id}&id={document_id}&view_role=' . (int)CE_ROLE . '\')">View copyedited version</a>
 						</td>
 						<td align="right">
-							<div><img src="../i/collapse_open.png"></img> <span class="collapse_text" onclick="Collapse(1, \'collapse_closed_ce\', \'collapse_opened_ce\')">Expand</span></div>
+							<div><img src="../i/collapse_open.png"></img> <span class="collapse_text" onclick="Collapse(1, \'collapse_closed_ce_round_{rownum}\', \'collapse_opened_ce_round_{rownum}\')">Expand</span></div>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<div class="submission_notes_main_wrapper" id="collapse_opened_ce" style="display:none;">
+		<div class="submission_notes_main_wrapper" id="collapse_opened_ce_round_{rownum}" style="display:none;">
 			<div class="document_author_review_round_top">
 				<div class="document_author_review_round_top_left">{_getstr(pjs.copyeditinground_label)} {rownum}</div>
 				<div class="document_author_review_round_top_right">
 					<img src="../i/collapse_close.png"></img>
-					<span class="collapse_text" onclick="Collapse(0, \'collapse_closed_ce\', \'collapse_opened_ce\')">Collapse</span>
+					<span class="collapse_text" onclick="Collapse(0, \'collapse_closed_ce_round_{rownum}\', \'collapse_opened_ce_round_{rownum}\')">Collapse</span>
 				</div>
 				<div class="P-Clear"></div>
 			</div>
 			<div class="document_author_holder_rev">
-				{_showCurrentAuthorVersion(version_num, author_version_id, document_id)}
+				{_showCurrentAuthorVersion(version_num, author_round_version_id, document_id)}
 				{_showCurrentAuthorVersionCERound(document_id, copy_editor_version_id)}
 			</div>
 		</div>

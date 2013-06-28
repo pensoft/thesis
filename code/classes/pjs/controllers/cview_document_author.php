@@ -82,13 +82,18 @@ class cView_Document_Author extends cView_Document {
 		// assigned SE
 		$lDocumentModel = new mDocuments_Model();
 		
+		$lCEDecisionData = $lDocumentModel->GetCEDataList($this->m_documentId);
+		$lCERoundsCount = count($lCEDecisionData);
+		
 		// SE Decision
 		if(in_array($this->m_documentData['state_id'], array(
 			DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE, 
 			DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_STATE, 
 			DOCUMENT_WAITING_AUTHOR_VERSION_AFTER_REVIEW_STATE
 			))
+			&& !(int)$lCERoundsCount
 		) {
+			
 			$lSEDecisionData = $lDocumentModel->GetSEDecision($this->m_documentId);
 			$lSEDecisionObj = new evSimple_Block_Display(array(
 				'controller_data' => $lSEDecisionData,
@@ -102,9 +107,13 @@ class cView_Document_Author extends cView_Document {
 			DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_STATE, 
 			))
 		) {
-			$lLastRoundDecisionData = $lDocumentModel->GetLastReviewRoundDecisionData($this->m_documentId);
+			if(!(int)$lCERoundsCount) {
+				$lLastRoundDecisionData = $lDocumentModel->GetLastReviewRoundDecisionData($this->m_documentId);	
+			} else {
+				$lViewObjectName = 'document_waiting_to_proceed_to_layout';	
+			}
 		}
-
+		
 		if((int)$this->m_documentData['copy_editor_version_id']){
 			$lCEObj = new evSimple_Block_Display(array(
 				'controller_data' => $this->m_documentData,
@@ -112,7 +121,7 @@ class cView_Document_Author extends cView_Document {
 				'document_id' => $this->m_documentId
 			));
 		}
-
+//var_dump($lViewObjectName);
 		$this->m_contentObject = new evSimple_Block_Display(array(
 			'controller_data' => $this->m_documentData,
 			'name_in_viewobject' => $lViewObjectName,
@@ -123,10 +132,13 @@ class cView_Document_Author extends cView_Document {
 			'se_decision' => $lSEDecisionObj,
 			'round_number_accept' => $lLastRoundDecisionData['round_number'],
 			'ce_obj' => $lCEObj,
+			'ce_rounds_count' => $lCERoundsCount,
 		));
 	}
 
 	function GetHistory(){
+
+		$lDocumentModel = new mDocuments_Model();
 
 		$lReviewRoundsData = $this->m_HistoryData;
 		$lReviewRoundOneObj = '';
@@ -163,6 +175,30 @@ class cView_Document_Author extends cView_Document {
 
 		}
 		
+		/* CE rounds object START*/
+		$lCEDecisionData = $lDocumentModel->GetCEDataList($this->m_documentId);
+		$lCERoundsCount = (int) count($lCEDecisionData);
+		$lHasCE = 0;
+		
+		// we have to remove the last CE round when document state is DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE (it's in the Current status tab)
+		if($this->m_documentData['state_id'] == DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE) {
+			if($lCERoundsCount){
+				unset($lCEDecisionData[$lCERoundsCount - 1]);	
+			}
+		}
+		$lCERoundsCount = (int) count($lCEDecisionData);
+		//var_dump($lCEDecisionData);
+		if($lCERoundsCount) {
+			$lHasCE = 1;
+			$lCEListObj = new evList_Display(array(
+				'controller_data' => $lCEDecisionData, 
+				'name_in_viewobject' => 'document_ce_rounds',
+				'document_id' => $this->m_documentId,
+			)); 
+		}
+		/* CE rounds object END*/
+		
+		/* Holder object */
 		$this->m_contentObject = new evSimple_Block_Display(array(
 			'controller_data' => $this->m_documentData,
 			'name_in_viewobject' => 'history_section',
@@ -173,11 +209,12 @@ class cView_Document_Author extends cView_Document {
 			'review_round_' . REVIEW_ROUND_ONE => $lReviewRoundOneObj,
 			'review_round_' . REVIEW_ROUND_TWO => $lReviewRoundTwoObj,
 			'review_round_' . REVIEW_ROUND_THREE => $lReviewRoundThreeObj,
-			'review_round_ce' => $lReviewRoundCEObj,
+			'review_round_ce' => $lCEListObj,
 			'review_round_le' => $lReviewRoundLEObj,
 			'has_round2' => $lHasRound2,
 			'has_round3' => $lHasRound3,
 			'has_se' => $lHasSE,
+			'has_ce' => $lHasCE,
 		));
 		
 	}

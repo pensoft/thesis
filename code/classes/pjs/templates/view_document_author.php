@@ -1,5 +1,5 @@
 <?php
-// @formatter->off
+// @formatter->offf
 $gTemplArr = array(
 	'view_document_author.document_waiting_se' => '
 		{*view_document.view_document_head}
@@ -178,10 +178,7 @@ $gTemplArr = array(
 		{*view_document.view_document_head}
 		<div class="document_info_row_border_line"></div>
 		<div class="document_author_review_round_holder" id="doc_tab_1">
-			<div class="document_author_review_round_top">
-				<div class="document_author_review_round_top_left">{_showRoundNumberInfo(round_type, round_name, round_number, state_id)}</div>
-				<div class="P-Clear"></div>
-			</div>
+			{_showAuthorCurrentRoundLabel(state_id, ce_rounds_count)}			
 			<div class="document_author_holder_rev">
 				{_showCurrentAuthorVersion(version_num, author_version_id, document_id)}
 				<div class="document_author_holder_content">
@@ -196,7 +193,7 @@ $gTemplArr = array(
 							</table>
 						</div>
 						<div class="document_author_holder_content_no_review_yet_middle">
-							<span class="yellow-green-txt">{_showCopyEditingText(state_id)}</span>
+							<span class="yellow-green-txt">{_showCopyEditingText(state_id, ce_rounds_count)}</span>
 						</div>
 						<div class="document_author_holder_content_no_review_yet_bottom">
 							<table width="100%" cellpadding="0" cellspacing="0">
@@ -324,7 +321,7 @@ $gTemplArr = array(
 		<div class="document_info_row_border_line"></div>
 		<div class="submission_notes_main_wrapper">
 			<div class="document_author_review_round_top">
-				<div class="document_author_review_round_top_left">{_showSERoundNumberInfo(round_type, round_name, round_number, state_id, round_number_accept)}</div>
+				<div class="document_author_review_round_top_left">{_showSERoundNumberInfo(round_type, round_name, round_number, state_id, round_number_accept, ce_rounds_count)}</div>
 				<div class="P-Clear"></div>
 			</div>
 			<div class="document_author_holder_rev">
@@ -348,7 +345,9 @@ $gTemplArr = array(
 								<table cellpadding="0" cellspacing="0" width=100%>
 									<tr>
 										<td align="center">
-											<span class="yellow-green-txt">Revise your manuscript and submit version to be used for layout editing</span>
+											<span class="yellow-green-txt">
+												{_getstr(pjs.revise_author_version_for_ce_le_round)}
+											</span>
 											<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first" onclick="window.location=\'' . PWT_URL . 'display_document.php?document_id={pwt_id}\'">
 												<div class="invite_reviewer_btn_left"></div>
 												<div class="invite_reviewer_btn_middle">Proceed</div>
@@ -562,6 +561,8 @@ $gTemplArr = array(
 			{review_round_2}
 			{_showBorderLine(has_round3)}
 			{review_round_3}
+			{_showBorderLine(has_ce)}
+			{review_round_ce}
 		{*view_document.view_document_foot}
 	',
 	
@@ -600,6 +601,22 @@ $gTemplArr = array(
 				</div>
 			</div>
 		</div>
+	',
+
+	'view_document_author.document_ce_round_row' => '
+		<div class="submission_notes_main_wrapper" id="collapse_opened_ce_round_{rownum}">
+			<div class="document_author_review_round_top">
+				<div class="document_author_review_round_top_left">{_getstr(pjs.copyeditinground_label)} {rownum}</div>
+				<div class="document_author_review_round_top_right">
+				</div>
+				<div class="P-Clear"></div>
+			</div>
+			<div class="document_author_holder_rev">
+				{_showCurrentAuthorVersion(version_num, author_round_version_id, document_id)}
+				{_showCurrentAuthorVersionCERound(document_id, copy_editor_version_id)}
+			</div>
+		</div>
+		<div class="document_info_row_border_line"></div>
 	',
 
 );
