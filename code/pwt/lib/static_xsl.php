@@ -83,6 +83,7 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		142 => array(401, 402),
 		165 => array(412),
 		153 => array(3),
+		212 => array(379, 134, 133, 132, 129, 126, 113, 112, 111, 110, 109, 446, 447, 448, 357, 118, 119, 120, 121, 122, 124, 114, 115, 116, 125, 117, 123),
 );
 
 	if(!array_key_exists($pObjectId, $lAllowed) || !in_array($pFieldId, $lAllowed[$pObjectId])){
