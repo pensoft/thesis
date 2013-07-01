@@ -474,7 +474,8 @@ class cView_Document_Editor extends cView_Document {
 					break;
 				case DOCUMENT_READY_FOR_COPY_REVIEW_STATE :
 					$lCEDecisionData = $lDocumentModel->GetCEDataList($this->m_documentId);
-					if(count($lCEDecisionData)) {
+					$lCERoundsCount = (int)count($lCEDecisionData);
+					if($lCERoundsCount) {
 						$lCEListObj = new evList_Display(array(
 							'controller_data' => $lCEDecisionData, 
 							'name_in_viewobject' => 'document_ce_rounds',
@@ -497,6 +498,7 @@ class cView_Document_Editor extends cView_Document {
 						'document_id' => $this->m_documentId,
 						'check_invited_users' => $this->m_documentData['check_invited_users'],
 						'merge_flag' => $this->m_documentData['merge_flag'],
+						'ce_rounds_count' => $lCERoundsCount,
 					)); 
 					
 					$this->m_contentObject = new evSimple_Block_Display(array(
@@ -512,7 +514,8 @@ class cView_Document_Editor extends cView_Document {
 				case DOCUMENT_IN_COPY_REVIEW_STATE :
 					
 					$lCEDecisionData = $lDocumentModel->GetCEDataList($this->m_documentId);
-					if(count($lCEDecisionData)) {
+					$lCERoundsCount = (int)count($lCEDecisionData);
+					if($lCERoundsCount) {
 						$lCEListObj = new evList_Display(array(
 							'controller_data' => $lCEDecisionData, 
 							'name_in_viewobject' => 'document_ce_rounds',
@@ -522,6 +525,7 @@ class cView_Document_Editor extends cView_Document {
 					}
 					
 					$lCurrentCERoundNumber = count($lCEDecisionData) + 1;
+					
 					
 					if(in_array($this->m_documentState, array(
 						DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_LAYOUT_EDITING_AFTER_COPY_EDITING_STATE,
@@ -537,6 +541,7 @@ class cView_Document_Editor extends cView_Document {
 							'current_round_id' => $this->m_documentData['current_round_id'],
 							'state_id' => $this->m_documentState,
 							'author_version_id' => $this->m_documentData['author_version_id'],
+							'ce_rounds_count' => $lCERoundsCount,
 						));	
 					}
 					if($this->m_documentState == DOCUMENT_IN_COPY_REVIEW_STATE) {
@@ -554,6 +559,7 @@ class cView_Document_Editor extends cView_Document {
 							'document_id' => $this->m_documentId,
 							'check_invited_users' => $this->m_documentData['check_invited_users'],
 							'merge_flag' => $this->m_documentData['merge_flag'],
+							'ce_rounds_count' => $lCERoundsCount,
 						)); 
 					}
 					if(in_array($this->m_documentState, array(
@@ -618,18 +624,6 @@ class cView_Document_Editor extends cView_Document {
 					)); 
 					break;
 				case DOCUMENT_IN_LAYOUT_EDITING_STATE :
-					//~ $lCEDecisionData = $lDocumentModel->GetCEData($this->m_documentId);
-					//~ if(count($lCEDecisionData)) {
-						//~ $lCEObj = new evSimple_Block_Display(array(
-							//~ 'controller_data' => $lCEDecisionData, 
-							//~ 'name_in_viewobject' => 'document_waiting_ce_decision',
-							//~ 'copy_editor_version_id' => $this->m_documentData['copy_editor_version_id'],
-							//~ 'document_id' => $this->m_documentId,
-							//~ 'version_num' => $this->m_documentData['version_num'],
-							//~ 'author_version_id' => $this->m_documentData['author_version_id'],
-						//~ )); 
-					//~ }
-					
 					$lCEDecisionData = $lDocumentModel->GetCEDataList($this->m_documentId);
 					if(count($lCEDecisionData)) {
 						$lCEListObj = new evList_Display(array(
@@ -853,58 +847,6 @@ class cView_Document_Editor extends cView_Document {
 						break;
 			}
 		}
-	}
-
-	/**
-	 * ReviewRoundReviewersCheck
-	 * 
-	 * Checks if SE can take round decision
-	 * @param $pRoundNumber int
-	 * @param $pDocumentReviewTypeId int
-	 * @param $pRoundDueDate int
-	 * @param $pReviewersCheck int
-	 * @param $pDocumentReviewDueDate int
-	 * 
-	 * @return bool (true/false)
-	 */
-	function ReviewRoundReviewersCheck($pRoundNumber, $pDocumentReviewTypeId, $pRoundDueDate, $pReviewersCheck, $pDocumentReviewDueDate, $pReviewerCount) {
-		
-		if((in_array($pRoundNumber, array(REVIEW_ROUND_ONE, REVIEW_ROUND_TWO))) && $pDocumentReviewTypeId == DOCUMENT_NON_PEER_REVIEW) {
-			return true;
-		}
-		
-		preg_match('/(\d+)[-�\/](\d+)[-�\/](\d+) (\d+):(\d+):(\d+)/', $pRoundDueDate, $lMatch);
-
-		$lNowDate = strtotime(date("Y-m-d H:i:s"));
-		$lRoundDate = strtotime($lMatch[3] . '-' . $lMatch[2] . '-' . $lMatch[1] . ' ' . $lMatch[4] . ':' . $lMatch[5] . ':' . $lMatch[6]);
-		$lMatch = array();
-	
-		if($pRoundNumber == REVIEW_ROUND_ONE) {
-			
-			$lReviewTypeChecks = true;
-			if(in_array($pDocumentReviewTypeId, array(DOCUMENT_COMMUNITY_PEER_REVIEW, DOCUMENT_PUBLIC_PEER_REVIEW))) {
-				preg_match('/(\d+)[-\/](\d+)[-\/](\d+) (\d+):(\d+):(\d+)/', $pDocumentReviewDueDate, $lMatch);
-				
-				$lDocRoundDate = strtotime($lMatch[3] . '-' . $lMatch[2] . '-' . $lMatch[1] . ' ' . $lMatch[4] . ':' . $lMatch[5] . ':' . $lMatch[6]);
-				
-				if($lNowDate < $lDocRoundDate) {
-					$lReviewTypeChecks = false;
-				}
-			}
-			
-			if(($lNowDate > $lRoundDate) || ($pReviewersCheck && $lReviewTypeChecks && $pReviewerCount > 0)) {
-				return true;
-			}
-			
-		} elseif ($pRoundNumber == REVIEW_ROUND_TWO) {
-			if(($lNowDate > $lRoundDate) || ($pReviewersCheck)) {
-				return true;
-			}
-		} elseif ($pRoundNumber == REVIEW_ROUND_THREE) {
-				return true;
-		}
-
-		return false;
 	}
 
 	function Display(){

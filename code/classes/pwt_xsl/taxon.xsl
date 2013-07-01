@@ -10,43 +10,7 @@
 			</ul>
 		</xsl:if>
 		<xsl:apply-templates select="*[@object_id='210']" mode="checklistTaxonFields"/>
-		
-		
-		
-		<xsl:if test="count(.//*[@object_id='37']) &gt; 0">
-			<div class="P-Article-Preview-Block-Content">
-				<h4 class="h-treatment-section">Materials</h4>				
-				<xsl:for-each select="//*[@object_id='37'][generate-id()=generate-id(key('materialType', .//*/fields/*[@id='209']/value/@value_id))]">
-					<xsl:variable name="lMaterialTypeId" select="./*/fields/*[@id='209']/value/@value_id"></xsl:variable>
-					<xsl:variable name="lMaterialTypeName" select="./*/fields/*[@id='209']/value"></xsl:variable>					
-					<!-- Ако имаме материали от този тип -->
-					<xsl:if test="count($lTreatmentNode//*[@object_id='37'][./*/fields/*[@id='209']/value[@value_id=$lMaterialTypeId]]) &gt; 0">
-						<div class="P-Article-Preview-Block-Content">
-							<div class="MaterialType">
-								<i>
-									<xsl:value-of select="$lMaterialTypeName"></xsl:value-of>
-									<xsl:if test="(count($lTreatmentNode//*[@object_id='37'][./*/fields/*[@id='209']/value[@value_id=$lMaterialTypeId]]) &gt; 1)"><xsl:text>s</xsl:text></xsl:if><xsl:text>: </xsl:text>
-									
-								</i>
-							</div>
-							
-							<ol class="materials">
-							<xsl:for-each select="$lTreatmentNode//*[@object_id='37'][./*/fields/*[@id='209']/value[@value_id=$lMaterialTypeId]]">
-								<li type="a">
-								<xsl:apply-templates select="." mode="treatmentMaterial"></xsl:apply-templates>
-								<xsl:if test="position() != last()"><xsl:text>;</xsl:text></xsl:if>
-								<xsl:if test="position() = last()"><xsl:text>.</xsl:text></xsl:if>
-								</li>
-							</xsl:for-each>
-							</ol>
-							
-						</div>
-					</xsl:if>
-				</xsl:for-each>
-			</div>
-		</xsl:if>
-		
-		
+		<xsl:apply-templates select=".//*[@object_id='38']" mode="ttMaterials"/>
 		<xsl:apply-templates select="*[@object_id='209']" mode="checklistTaxonFields"/>
 		<xsl:apply-templates select="*[@object_id='208']" mode="checklistTaxonFields"/>
 		<xsl:apply-templates select="*[@object_id='207']" mode="checklistTaxonFields"/>
@@ -54,6 +18,34 @@
 
 	</xsl:template>	
 	
+	
+	<xsl:template match="*[@object_id='38']" mode="ttMaterials">
+		<xsl:variable name="lGroupedMaterials" select="php:function('GroupTreatmentMaterials', ./*[@object_id=37])"></xsl:variable>
+		<xsl:if test="count($lGroupedMaterials/materials/material_group) &gt; 0">
+			<div class="myfieldHolder otstapLeft">
+				<div class="fieldLabel no-float otstapBottom materialsTitle">Materials</div>
+				<xsl:for-each select="$lGroupedMaterials/materials/material_group">
+					<div class="materialType">
+						<div class="MaterialType">
+							<i>
+								<xsl:value-of select="./value"/>
+								<xsl:if test="count(./*[@object_id='37']) &gt; 1"><xsl:text>s</xsl:text></xsl:if><xsl:text>: </xsl:text>
+							</i>
+						</div>
+						<ol class="materialsHolder">
+							<xsl:for-each select="./*[@object_id='37']">
+							<li type="a">
+								<xsl:apply-templates select="." mode="treatmentMaterial"/>
+								<xsl:if test="position() != last()"><xsl:text>;</xsl:text></xsl:if>
+								<xsl:if test="position()  = last()"><xsl:text>.</xsl:text></xsl:if>
+							</li>
+							</xsl:for-each>
+						</ol>
+					</div>
+				</xsl:for-each>
+			</div>
+		</xsl:if>
+	</xsl:template>
 
 
 	<!--  Taxon treatment external link -->
@@ -117,28 +109,36 @@
 	<xsl:template match="*" mode="treatmentMaterial">
 			<span>
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<xsl:for-each select=".//*[@object_id &gt; 24 and @object_id &lt; 32]/fields/*[value != '']">
-					<xsl:apply-templates select="." mode="treatmentMaterialField"></xsl:apply-templates>
-					<xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
+				<xsl:variable name="lSortedFields" select="php:function('GetSortedMaterialFields', .//fields/*[value != ''][@id != '209'])"></xsl:variable>
+				<xsl:for-each select="$lSortedFields/root/field">
+					<xsl:apply-templates select="." mode="treatmentMaterialFieldCustom"></xsl:apply-templates>
+					<xsl:if test="position() != last()"><xsl:text>; </xsl:text></xsl:if>
 				</xsl:for-each>
 			</span>
 	</xsl:template>
 
 	<!-- Treatment material field -->
 	<xsl:template match="*" mode="treatmentMaterialField">
-				<span class="dcLabel"><xsl:value-of select="./@field_name"></xsl:value-of><xsl:text>: </xsl:text></span>
+				<span class="dcLabel">
+					<xsl:value-of select="./@field_name"></xsl:value-of><xsl:text>: </xsl:text>
+				</span>
 				<span>
-					<xsl:attribute name="field_id"><xsl:value-of select="./@field_id" /></xsl:attribute>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="../../@object_id" />
+						<xsl:with-param name="pFieldId" select="./@id" />
+					</xsl:call-template>
+					<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
+					<xsl:attribute name="instance_id"><xsl:value-of select="../../@instance_id" /></xsl:attribute>
 					<xsl:apply-templates select="./value" mode="formatting_nospace"/>
 				</span>
 	</xsl:template>
 
 	<xsl:template match="*[@object_id='210']" mode="checklistTaxonFields">
 		<xsl:if test="./fields/*[@id='474']/value != ''">
-			<div class="P-Article-Preview-Block">
+			<div class="myfieldHolder otstapLeft">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<h4 class="h-treatment-section">Nomenclature</h4>
-				<div class="P-Article-Preview-Block-Content">
+				<div class="fieldLabel no-float otstapBottom">Nomenclature</div>
+				<div class="fieldValue">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
 						<xsl:with-param name="pFieldId">474</xsl:with-param>
@@ -149,16 +149,16 @@
 			</div>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<xsl:template match="*[@object_id='209']" mode="checklistTaxonFields">
-		<xsl:if test="./fields/*/value != ''">
+	<!--	<xsl:if test="./fields/*/value != ''">
 			<h4 class="h-treatment-section">Ecological interactions</h4>
-		</xsl:if>
+		</xsl:if> -->
 		<xsl:if test="./fields/*[@id='470']/value != ''">
-			<div class="myfieldHolder">
+			<div class="myfieldHolder otstapLeft">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<span class="fieldLabel">Feeds on:&#160;</span>
-				<div  class="fieldValue">
+				<div class="fieldValue">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
 						<xsl:with-param name="pFieldId">470</xsl:with-param>
@@ -168,9 +168,9 @@
 				</div>
 			</div>
 		</xsl:if>
-		
+
 		<xsl:if test="./fields/*[@id='469']/value != ''">
-			<div class="myfieldHolder">
+			<div class="myfieldHolder otstapLeft">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<span class="fieldLabel">Symbiotic with:&#160;</span>
 				<div  class="fieldValue">
@@ -183,12 +183,12 @@
 				</div>
 			</div>
 		</xsl:if>
-		
-		
-		
-		
+
+
+
+
 		<xsl:if test="./fields/*[@id='468']/value != ''">
-			<div class="myfieldHolder">
+			<div class="myfieldHolder otstapLeft">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<span class="fieldLabel">Parasite of:&#160;</span>
 				<div  class="fieldValue">
@@ -201,9 +201,9 @@
 				</div>
 			</div>
 		</xsl:if>
-		
+
 		<xsl:if test="./fields/*[@id='467']/value != ''">
-			<div class="myfieldHolder">
+			<div class="myfieldHolder otstapLeft">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<span class="fieldLabel">Host of:&#160;</span>
 				<div  class="fieldValue">
@@ -216,9 +216,9 @@
 				</div>
 			</div>
 		</xsl:if>
-		
+
 		<xsl:if test="./fields/*[@id='466']/value != ''">
-			<div class="myfieldHolder">
+			<div class="myfieldHolder otstapLeft">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<span class="fieldLabel">Native status:&#160;</span>
 				<div  class="fieldValue">
@@ -232,7 +232,7 @@
 			</div>
 		</xsl:if>
 		<xsl:if test="./fields/*[@id='465']/value != ''">
-			<div class="P-Article-Preview-Block">
+			<div class="myfieldHolder otstapLeft">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 					<span class="fieldLabel">Conservation status:&#160;</span>
 					<div class="fieldValue">
@@ -245,18 +245,14 @@
 					</div>
 			</div>
 		</xsl:if>
-		
-		
-		
-		
 	</xsl:template>
-	
+
 	<xsl:template match="*[@object_id='208']" mode="checklistTaxonFields">
 		<xsl:if test="./fields/*[@id='471']/value != ''">
-			<div class="P-Article-Preview-Block">
+			<div class="myfieldHolder otstapLeft">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<h4 class="h-treatment-section">Distribution</h4>
-				<div class="P-Article-Preview-Block-Content">
+				<span class="fieldLabel">Distribution:&#160;</span>
+				<div class="fieldValue">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
 						<xsl:with-param name="pFieldId">471</xsl:with-param>
@@ -267,13 +263,13 @@
 			</div>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<xsl:template match="*[@object_id='207']" mode="checklistTaxonFields">
 		<xsl:if test="./fields/*[@id='472']/value != ''">
-			<div class="P-Article-Preview-Block">
+			<div class="myfieldHolder otstapLeft">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<h4 class="h-treatment-section">Horizon</h4>
-				<div class="P-Article-Preview-Block-Content">
+				<span class="fieldLabel">Horizon:&#160;</span>
+				<div class="fieldValue">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
 						<xsl:with-param name="pFieldId">472</xsl:with-param>
@@ -284,13 +280,13 @@
 			</div>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<xsl:template match="*[@object_id='206']" mode="checklistTaxonFields">
 		<xsl:if test="./fields/*[@id='473']/value != ''">
-			<div class="P-Article-Preview-Block">
+			<div class="myfieldHolder otstapLeft">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<h4 class="h-treatment-section">Notes</h4>
-				<div class="P-Article-Preview-Block-Content">
+				<span class="fieldLabel">Notes:&#160;</span>
+				<div class="fieldValue">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
 						<xsl:with-param name="pFieldId">473</xsl:with-param>

@@ -3,6 +3,8 @@ $gDontRedirectToLogin = 1;
 $docroot = getenv('DOCUMENT_ROOT');
 require_once($docroot . '/lib/static.php');
 require_once($docroot . '/registration_flds.php');
+require_once(PATH_CLASSES . 'diff.php');
+
 ini_set('display_errors', 'off');
 
 $gAction = $_REQUEST['action'];
@@ -16,6 +18,12 @@ $lTableTitle = $_REQUEST['table_title'];
 $lTableDesc = $_REQUEST['table_desc'];
 $lPlateDesc = $_REQUEST['plate_desc'];
 $lEdit = (int)$_REQUEST['edit'];
+
+/* this is for the correct output of some html entities in the preview. */
+$lPhotoTitle = CustomHtmlEntitiesDecode($lPhotoTitle);
+$lTableTitle = CustomHtmlEntitiesDecode($lTableTitle);
+$lTableDesc = CustomHtmlEntitiesDecode($lTableDesc);
+$lPlateDesc = CustomHtmlEntitiesDecode($lPlateDesc);
 
 
 checkIfDocumentIsLockedByTheCurrentUserForAjax(0, $gDocId);

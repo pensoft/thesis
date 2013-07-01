@@ -6,13 +6,15 @@ body {
 }
 
 *[contenteditable="true"] {
-	background-color: white;
-	/*	background-image: url(img/icons/edit_icon.png); */
+	/* background-color: white;
+		background-image: url(img/icons/edit_icon.png);
 	background-repeat: no-repeat;
-	background-position: 0px 8px;
-	border: 2px solid #fff;
-	padding-left: 20px;
-	padding-right: 15px;
+	background-position: 0px 8px; 
+	border-left: 4px solid #fff;
+	border-right: 4px solid #fff;
+	padding: 0 4 0 4px;
+	* */
+ 	
 	/* white-space: pre-wrap; */
 	/* http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#best-practices-for-in-page-editors */
 }
@@ -25,14 +27,25 @@ body {
 	display: none;
 }
 
+*[contenteditable="true"] {
+	/* overflow:visible; */
+}
+
 *[contenteditable="true"]:hover {
-	background-image: url(../i/edit_icon.png);
-	background-position: 0 15px;
+	/* background-image: url(../i/edit_icon.png);
+	background-position: 0 15px; 
+	background-color: #FFFFBE;
+	border-left: 4px solid #f1ca7f;
+	border-right: 4px solid #f1ca7f;
+	padding:0px;
+	margin:0px;
+	*/
+	outline: #D4D5CE solid 2px;
+
 }
 
 *[contenteditable="true"]:focus {
-	border: 2px solid #f1ca7f;
-	border-radius: 2px;
+	outline: #f1ca7f solid 2px;
 }
 
 .P-Article-Preview {
@@ -46,7 +59,7 @@ body {
 }
 
 .P-Article-Preview-Title {
-	margin-top: 50px !important;
+	margin-top: 20px !important;
 }
 
 .P-Article-Preview-Picture-Desc {

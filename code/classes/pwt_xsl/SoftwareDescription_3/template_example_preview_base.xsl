@@ -118,23 +118,21 @@
 	
 	
 	<!-- Project Description -->
-	<xsl:template match="*[@object_id='190']" mode="bodySections">
+	<xsl:template match="*[@object_id='111']" mode="bodySections">
 		<xsl:variable name="lSecTitle" select="./@display_name" />
 		<xsl:variable name="lSecSubTitle" select="./fields/*[@id='289']/@field_name" />
-		<xsl:variable name="lPersonnel" select="./fields/*[@id='450']/@field_name" />
 		<xsl:variable name="lStudyArea" select="./fields/*[@id='290']/@field_name" />
 		<xsl:variable name="lDesignDescription" select="./fields/*[@id='291']/@field_name" />
 		<xsl:variable name="lFunding" select="./fields/*[@id='292']/@field_name" />
 
-		<xsl:if test="(./fields/*[@id='289']/value != '') or (./fields/*[@id='450']/value != '') or (./fields/*[@id='290']/value != '') or (./fields/*[@id='291']/value != '') or (./fields/*[@id='292']/value != '')">
+		<xsl:if test="(./fields/*[@id='289']/value != '') or (./fields/*[@id='290']/value != '') or (./fields/*[@id='291']/value != '') or (./fields/*[@id='292']/value != '')">
 			<div class="P-Article-Preview-Block">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<div class="P-Article-Preview-Block-Title"><xsl:value-of select="$lSecTitle" /></div>
 				<xsl:if test="./fields/*[@id='289']/value != ''">
 					<div class="myfieldHolder">
 						<span class="fieldLabel"><xsl:value-of select="$lSecSubTitle" />:&#160;</span>
-
-<div class="fieldValue">
+						<div class="fieldValue">
 							<xsl:attribute name="field_id">289</xsl:attribute>
 							<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
 							<xsl:call-template name="markContentEditableField">
@@ -142,20 +140,6 @@
 								<xsl:with-param name="pFieldId">289</xsl:with-param>
 							</xsl:call-template>
 							<xsl:apply-templates select="./fields/*[@id='289']/value" mode="formatting"/>
-						</div>
-					</div>
-				</xsl:if>
-				<xsl:if test="./fields/*[@id='450']/value != ''">
-					<div class="myfieldHolder">
-						<span class="fieldLabel">Personel:&#160;</span>
-						<div class="fieldValue">
-							<xsl:attribute name="field_id">450</xsl:attribute>
-							<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
-							<xsl:call-template name="markContentEditableField">
-								<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-								<xsl:with-param name="pFieldId">450</xsl:with-param>
-							</xsl:call-template>
-							<xsl:apply-templates select="./fields/*[@id='450']/value" mode="formatting"/>
 						</div>
 					</div>
 				</xsl:if>
@@ -223,23 +207,23 @@
 							<xsl:value-of select="$lCollectionName" />:&#160;</span>
 							<div class="fieldValue">
 							<xsl:attribute name="field_id">311</xsl:attribute>
-							<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
-							<xsl:call-template name="markContentEditableField">
-								<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-								<xsl:with-param name="pFieldId">311</xsl:with-param>
-							</xsl:call-template>
 							<xsl:apply-templates select="./fields/*[@id='311']/value" mode="formatting"/>
 						</div>
 					</div>
 				</xsl:if>
 				<xsl:if test="(./fields/*[@id='312']/value != '')">
 					<div class="myfieldHolder">
-						<span class="fieldLabel">
+						<span class="fieldLabel">							
 							<xsl:value-of select="$lCollectionIdentifier" />:&#160;</span>
 							<div class="fieldValue">
-							<xsl:attribute name="field_id">312</xsl:attribute>
-							<xsl:apply-templates select="./fields/*[@id='312']/value" mode="formatting"/>
-						</div>
+									<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
+								<xsl:call-template name="markContentEditableField">
+									<xsl:with-param name="pObjectId">115</xsl:with-param>
+									<xsl:with-param name="pFieldId">312</xsl:with-param>
+								</xsl:call-template>
+								<xsl:attribute name="field_id">312</xsl:attribute>
+								<xsl:apply-templates select="./fields/*[@id='312']/value" mode="formatting"/>
+							</div>
 					</div>
 				</xsl:if>
 			</div>
@@ -286,8 +270,18 @@
 							<span class="fieldLabel">
 								<xsl:value-of select="./@field_name"></xsl:value-of>:&#160;</span>
 								<div class="fieldValue">
+									<xsl:call-template name="markContentEditableField">
+										<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
+										<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
+									</xsl:call-template>
 									<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>
-									<xsl:apply-templates select="./value" mode="formatting"/>
+									<xsl:attribute name="instance_id"><xsl:value-of select="../../@instance_id"></xsl:value-of></xsl:attribute>
+									<a>
+										<xsl:attribute name="href"><xsl:value-of select="normalize-space(./value)"/></xsl:attribute>
+										<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
+										<xsl:value-of select="normalize-space(./value)"/>
+									</a>
+									<!-- <xsl:apply-templates select="./value" mode="formatting"/> -->
 								</div>
 						</div>
 					</xsl:if>
@@ -309,6 +303,10 @@
 							<span class="fieldLabel">
 								<xsl:value-of select="./@field_name"></xsl:value-of>:&#160;</span>
 								<div class="fieldValue">
+									<xsl:call-template name="markContentEditableField">
+										<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
+										<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
+									</xsl:call-template>
 									<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>
 									<xsl:apply-templates select="./value" mode="formatting"/>
 								</div>
@@ -332,8 +330,21 @@
 							<span class="fieldLabel">
 								<xsl:value-of select="./@field_name"></xsl:value-of>:&#160;</span>
 							<div class="fieldValue">
-								<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>
-								<xsl:apply-templates select="./value" mode="formatting"/>
+								<xsl:call-template name="markContentEditableField">
+										<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
+										<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
+								</xsl:call-template>
+							<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>	
+								<xsl:if test="./@id = '307'">
+									<a>
+										<xsl:attribute name="href"><xsl:value-of select="normalize-space(./value)"/></xsl:attribute>
+										<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
+										<xsl:value-of select="normalize-space(./value)"/>
+									</a>
+								</xsl:if>
+								<xsl:if test="./@id != '307'">
+									<xsl:apply-templates select="./value" mode="formatting"/>
+								</xsl:if>
 							</div>
 						</div>
 					</xsl:if>
@@ -359,17 +370,14 @@
 					<xsl:if test="./value !=''">
 						<div class="P-Article-Preview-Block-Content">
 							<h2 class="subsection" field_id="211">
-								<xsl:call-template name="markContentEditableField">
-									<xsl:with-param name="pObjectId" select="./@object_id" />
-									<xsl:with-param name="pFieldId" select="./@field_id" />
-								</xsl:call-template>
 								<xsl:value-of select="./@field_name"></xsl:value-of>
 							</h2>	
 							<div>
 								<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>
+								<xsl:attribute name="instance_id"><xsl:value-of select="../../@instance_id"></xsl:value-of></xsl:attribute>
 								<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
 								<xsl:call-template name="markContentEditableField">
-									<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+									<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
 									<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
 								</xsl:call-template>
 								<xsl:apply-templates select="./value" mode="formatting"/>

@@ -67,7 +67,7 @@
 	color: #727272;
 	font-family: Tahoma;
 	margin-left: 10px; margin-right: 10px;
-	float: left;
+	/* float: left; */
 }
 
 .P-Article-Preview-Block {

@@ -1342,14 +1342,24 @@ class mDocuments_Model extends emBase_Model {
 		return $lResult;
 	}
 
-	function GetCEDataList($pDocumentId) {
-		$lSql = 'SELECT u.first_name, u.last_name, dv.version_num, dv.id as copy_editor_version_id
+	function GetCEDataList($pDocumentId, $pUserId = 0) {
+		$lSql = '
+			SELECT 
+				u.first_name, 
+				u.last_name, 
+				dv.version_num, 
+				dv.id as copy_editor_version_id, 
+				dr.create_from_version_id as author_round_version_id 
 			FROM pjs.document_review_rounds dr
 			JOIN pjs.document_review_round_users drru ON drru.id = dr.decision_round_user_id
 			JOIN pjs.document_versions dv ON dv.id = drru.document_version_id
 			JOIN pjs.document_users du ON du.id = drru.document_user_id
 			JOIN usr u ON u.id = du.uid
-			WHERE dr.document_id = ' . (int)$pDocumentId . ' AND dr.round_type_id = ' . CE_ROUND_TYPE . ' AND dr.decision_id IS NOT NULL';
+			WHERE dr.document_id = ' . (int)$pDocumentId . ' 
+				AND dr.round_type_id = ' . CE_ROUND_TYPE . ' 
+				AND dr.decision_id IS NOT NULL
+				' . ((int)$pUserId ? ' AND u.id = ' . (int)$pUserId : '') . '
+			ORDER BY dr.id ASC';
 
 		$lResult = array();
 		$this->m_con->Execute($lSql);

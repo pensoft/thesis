@@ -317,6 +317,10 @@ class cView_Document extends cBase_Controller {
 				break;
 			case (int) CE_ROLE :
 				$lNameInViewObject = 'ce_tabs';
+				$this->m_HistoryData = $lDocumentModel->GetCEDataList($this->m_documentId, $this->GetUserId());
+				if(count($this->m_HistoryData) > 1) {
+					$this->m_HasHistory = 1;
+				}
 				break;
 			case (int) DEDICATED_REVIEWER_ROLE :
 				$this->m_HistoryData = $lDocumentModel->GetReviewerData($this->m_documentId, $user->id);
@@ -402,7 +406,8 @@ class cView_Document extends cBase_Controller {
 			case (int) CE_ROLE :
 				$lTabsArr = array(
 					GET_CURSTATE_MANUSCRIPT_SECTION,
-					GET_METADATA_SECTION
+					GET_METADATA_SECTION,
+					GET_HISTORY_SECTION
 				);
 				break;
 			case (int) DEDICATED_REVIEWER_ROLE :

@@ -63,6 +63,26 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		23 => array(32),
 		22 => array(34, 35, 36, 37, 38, 39),
 		55 => array(214, 215, 216, 217),
+		112 => array(294, 295, 296, 298, 299, 297, 300, 293),
+		113 => array(305, 304, 302, 301, 303),
+		114 => array(310, 309, 308, 306, 307),
+		115 => array(312),
+		116 => array(313, 314),
+		111 => array(289, 290, 291, 292),
+		170 => array(23),
+		171 => array(224),
+		190 => array(289, 290, 291, 292, 450),
+		123 => array(331, 332, 333, 334),
+		118 => array(320, 317, 319, 318, 321, 316),
+		119 => array(322),
+		191 => array(452, 451),
+		125 => array(338, 336, 337, 455, 456),
+		117 => array(315),
+		126 => array(404, 341, 339, 340),
+		141 => array(399, 397, 403, 457, 458, 459, 398),
+		142 => array(401, 402),
+		165 => array(412),
+		153 => array(3),
 );
 
 	if(!array_key_exists($pObjectId, $lAllowed) || !in_array($pFieldId, $lAllowed[$pObjectId])){
@@ -366,8 +386,8 @@ function getEditPreviewHead($pDocumentId){
 	);
 
 	$lCss = array(
-		// PJS_SITE_URL . '/lib/version_preview.css',
-		// '/lib/css/editable_preview.css',
+		 PJS_SITE_URL . '/lib/version_preview.css',
+		 '/lib/css/editable_preview.css',
 	);
 
 	$lLatestPjsRevisionChangeUids = getLatestPjsRevisionChangeUids($pDocumentId);
@@ -508,8 +528,9 @@ function GetSortedMaterialFields($pFields){
 		$lChild->SetAttribute('id', $lFieldId);
 		$lChild->SetAttribute('field_name', $lFieldName);
 		$lChild->SetAttribute('instance_id', $lInstanceIdValue);
-		$lChild->SetAttribute('object_id', $lObjectIdValue);
-		$lValueNode = $lChild->appendChild($lDom->createElement('value', $lFieldValue));
+		$lChild->SetAttribute('object_id', $lObjectIdValue);		
+		$lValueNode = $lChild->appendChild($lDom->createElement('value'));
+		$lValueNode->appendChild($lDom->createTextNode($lFieldValue));
 	}
 // 	var_dump($lDom->saveXML());
 	return $lDom;

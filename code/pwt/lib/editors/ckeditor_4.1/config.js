@@ -84,7 +84,6 @@ CKEDITOR.editorConfig = function( config )
 	config.fullPage = false;
 
 	config.enterMode = CKEDITOR.ENTER_P;
-	//config.shiftEnterMode = CKEDITOR.ENTER_P;
 
 };
 
