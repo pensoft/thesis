@@ -228,7 +228,7 @@
 				<div class="myfieldHolder">
 					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 					<span class="fieldLabel">Description:&#160;</span>
-					<span class="fieldValue">
+					<div class="fieldValue">
 						<xsl:call-template name="markContentEditableField">
 							<xsl:with-param name="pObjectId" select="./@object_id" />
 							<xsl:with-param name="pFieldId">379</xsl:with-param>
@@ -236,7 +236,7 @@
 						<xsl:attribute name="field_id">379</xsl:attribute>
 						<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 						<xsl:apply-templates select="./fields/*[@id='379']" mode="formatting"/>
-					</span>
+					</div>
 				</div>
 			</xsl:if>
 			<xsl:apply-templates select="./*[@object_id='205']" mode="checklistTaxon"/>

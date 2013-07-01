@@ -334,7 +334,7 @@
 										<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
 										<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
 								</xsl:call-template>
-							<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>	
+								<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>	
 								<xsl:if test="./@id = '307'">
 									<a>
 										<xsl:attribute name="href"><xsl:value-of select="normalize-space(./value)"/></xsl:attribute>
