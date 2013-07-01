@@ -1,7 +1,9 @@
 <?php
+$gDontRedirectToLogin = 1;
 $docroot = getenv('DOCUMENT_ROOT');
 require_once($docroot . '/lib/static.php');
 require_once(PATH_CLASSES . 'comments.php');
+session_write_close();
 
 
 $gDocumentId = (int)$_REQUEST['document_id'];

@@ -28,7 +28,7 @@ BEGIN
 		
 			SELECT INTO lPosition move_position FROM pwt.tables WHERE id = ptableid AND document_id = pDocId;
 		
-			DELETE FROM pwt.tables WHERE id = pTableId AND document_id = pDocId AND usr_id = pusrid;
+			DELETE FROM pwt.tables WHERE id = pTableId AND document_id = pDocId;
 			
 			<<lCitationsLoop>>
 			FOR lCitations IN

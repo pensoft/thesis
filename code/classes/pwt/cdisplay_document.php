@@ -45,9 +45,9 @@ class cdisplay_document extends csimple {
 		$this->initCommentsData();
 		$this->initCommentForm();
 
-		if((int)$this->m_inPreviewMode) {
-			saveDocumentXML((int)$this->m_documentId);
-		}
+// 		if((int)$this->m_inPreviewMode) {
+// 			saveDocumentXML((int)$this->m_documentId);
+// 		}
 		
 		if ($this->m_documentIsReadOnly && !(int)$this->m_inPreviewMode) {
 			header("Location: /preview.php?document_id=$this->m_documentId");
@@ -71,8 +71,10 @@ class cdisplay_document extends csimple {
 			header("Location: /preview.php?document_id=$this->m_documentId");
 			exit();
 		}
-
-		$this->m_documentTree = $this->getDocumentTree();
+		
+		if(!$pFieldTempl['skip_tree_initializing']){
+			$this->m_documentTree = $this->getDocumentTree();
+		}
 		$this->m_getFieldDataFromRequest = (int)$pFieldTempl['get_data_from_request'];
 		$this->m_getObjectModeFromRequest = ( int ) $pFieldTempl['get_object_mode_from_request'];
 		$this->m_fieldValidationInfo = $pFieldTempl['field_validation_info'];
@@ -257,7 +259,9 @@ class cdisplay_document extends csimple {
 
 	function  Display(){
 		$this->m_pubdata['document_structure'] = $this->m_documentTree->Display();
-		$this->m_pubdata['document_object_instance'] = $this->displayInstance($this->m_instanceId);
+		if(!$this->m_inPreviewMode){
+			$this->m_pubdata['document_object_instance'] = $this->displayInstance($this->m_instanceId);
+		}
 
 		return parent::Display();
 	}

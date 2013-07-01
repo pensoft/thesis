@@ -12,6 +12,7 @@ var gListFiguresAjaxSrv = gAjaxUrlsPrefix + 'list_figures_srv.php';
 var gListTablesAjaxSrv = gAjaxUrlsPrefix + 'list_tables_srv.php';
 var gListReferencesAjaxSrv = gAjaxUrlsPrefix + 'list_references_srv.php';
 var gListSupFilesAjaxSrv = gAjaxUrlsPrefix + 'list_sup_files_srv.php';
+var gDocumentTreeAjaxSrv = gAjaxUrlsPrefix + 'document_tree_srv.php';
 
 var gDocumentAuthorsSrv = gAjaxUrlsPrefix + 'get_document_authors.php';
 var gSendEmailSrv = gAjaxUrlsPrefix + 'send_email_srv.php';
@@ -3515,6 +3516,21 @@ function ShowDownloadMaterialsLink(pInstanceId) {
 function DownloadMaterialsAsCSV(pInstanceId) {
 	document.location.href = '/lib/ajax_srv/csv_export_srv.php?action=export_materials_as_csv&instance_id=' + pInstanceId;
 	return;
+}
+
+function LoadDocumentTree(pTreeHolderId, pDocumentId, pInstanceId){
+//	return;
+	$.ajax({
+		url : gDocumentTreeAjaxSrv,
+		dataType : 'json',
+		data : {
+			document_id : pDocumentId,
+			instance_id : pInstanceId
+		},
+		success : function(pAjaxResult){
+			$('#' + pTreeHolderId).html(pAjaxResult['html'])
+		}
+	});
 }
 
 function ScrollToSelectedTreeElement(){

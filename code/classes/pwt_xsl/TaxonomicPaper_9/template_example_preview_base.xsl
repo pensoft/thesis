@@ -7,7 +7,6 @@
 	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
 	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
 
-	<xsl:key name="materialType" match="*[@object_id='37']" use=".//*/fields/*[@id='209']/value/@value_id"></xsl:key>
 	<!-- Дали да генерира целия html или само фрагмент от него
 		т.е. дали да слага тагове htmk, head ...
 		или само да сложи всичко в 1 див

@@ -650,9 +650,13 @@ function getActionDefaultJsActionWithParams(){
 	return $lResult;
 }
 
-function getDocumentDefaultTempls(){
+function getDocumentDefaultTempls($pHideComments = false){
+	$lTemplate = 'document.wrapper';
+	if($pHideComments){
+		$lTemplate = 'document.wrapper_no_comments';
+	}
 	return array(
-		G_DEFAULT => 'document.wrapper'
+		G_DEFAULT => $lTemplate
 	);
 }
 
@@ -4422,12 +4426,12 @@ function saveDocumentXML( $pDocumentId ){
 		$lCon = new DBCn();
 		$lCon->Open();
 
-		$lSql = 'SELECT xml_is_dirty FROM pwt.documents WHERE id = ' . (int)$pDocumentId;
+		$lSql = 'SELECT xml_is_dirty::int as xml_is_dirty FROM pwt.documents WHERE id = ' . (int)$pDocumentId;
 
 		$lCon->Execute($lSql);
-		$lIsDirty = $lCon->mRs['xml_is_dirty'];
+		$lIsDirty = (int)$lCon->mRs['xml_is_dirty'];
 
-		if($lIsDirty == 'true' || $lIsDirty == 't') {
+		if($lIsDirty) {
 			 $lDocumentSerializer = new cdocument_serializer(array(
 					'document_id' => (int)$pDocumentId,
 					'mode' => (int)SERIALIZE_INTERNAL_MODE,

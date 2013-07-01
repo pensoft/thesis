@@ -402,6 +402,31 @@ $gTemplArr = array(
 						{_hideTreeIfDocumentIslocked(document_is_locked, P-Wrapper-Container-Left, document_lock_usr_id)}
 			{*global.htmlendcontent}
 	',
+		
+	'global.editdocument_page_ajax_tree' =>
+		'{*global.htmlstartcontent}
+						<div class="P-Wrapper-Container-Left {_getContainerHideClass(1)}">
+							{*document.tree_ajax_wrapper}
+							<div class="P-Container-Toggler-Btn-Left" onclick="toggleLeftContainer();"></div>
+							<script  type="text/javascript">
+								var articleStructure = new articleMenu(\'articleMenu\', \'P-Right-Arrow\' , \'P-Down-Arrow\');
+							</script>
+						</div><!-- End P-Wrapper-Container-Left -->
+						<div class="P-Wrapper-Container-Right {_getContainerHideClass(2)}">
+							{*document.rightcol}
+							<div class="P-Container-Toggler-Btn-Right" onclick="toggleRightContainer();"></div>
+						</div><!-- End P-Wrapper-Container-Right -->
+						<div class="P-Wrapper-Container-Middle {_getContainerHideClass(1)} {_getContainerHideClass(2)}">
+							{content}
+						</div><!-- End P-Wrapper-Container-Middle -->
+						<script type="text/javascript">
+							window.onbeforeunload = function(){
+								unlock_document();
+							};
+						</script>
+						{_hideTreeIfDocumentIslocked(document_is_locked, P-Wrapper-Container-Left, document_lock_usr_id)}
+			{*global.htmlendcontent}
+	',
 
 	'global.document_revisions_page' =>
 		   '{*global.htmlstartcontent}
