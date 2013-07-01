@@ -531,8 +531,9 @@ function GetSortedMaterialFields($pFields){
 		$lChild->SetAttribute('id', $lFieldId);
 		$lChild->SetAttribute('field_name', $lFieldName);
 		$lChild->SetAttribute('instance_id', $lInstanceIdValue);
-		$lChild->SetAttribute('object_id', $lObjectIdValue);
-		$lValueNode = $lChild->appendChild($lDom->createElement('value', $lFieldValue));
+		$lChild->SetAttribute('object_id', $lObjectIdValue);		
+		$lValueNode = $lChild->appendChild($lDom->createElement('value'));
+		$lValueNode->appendChild($lDom->createTextNode($lFieldValue));
 	}
 // 	var_dump($lDom->saveXML());
 	return $lDom;
