@@ -660,8 +660,8 @@ class cdocument_serializer extends csimple {
 		}
 
 		$lFigureCaption = $lFigureXmlNode->appendChild($this->m_documentXmlDom->createElement('caption'));
-		$lCaption = $this->xmlEscape($pFigData['plate_desc']);
-
+		//$lCaption = $this->xmlEscape($pFigData['plate_desc']);
+		$lCaption = $pFigData['plate_desc'];
 
 		$lFragment = $this->m_documentXmlDom->createDocumentFragment();
 		if(@$lFragment->appendXML($lCaption)){
@@ -699,7 +699,8 @@ class cdocument_serializer extends csimple {
 		$lFigureTitle = $lFigureXmlNode->appendChild($this->m_documentXmlDom->createElement('title'));
 		$lFigureCaption = $lFigureXmlNode->appendChild($this->m_documentXmlDom->createElement('description'));
 		$lTitle = prepareXmlValue($pFigData['table_title']);
-		$lCaption = $this->xmlEscape(prepareXmlValue($pFigData['table_desc']));
+		//$lCaption = $this->xmlEscape(prepareXmlValue($pFigData['table_desc']));
+		$lCaption = prepareXmlValue($pFigData['table_desc']);
 		$lFragment = $this->m_documentXmlDom->createDocumentFragment();
 		if(@$lFragment->appendXML($lTitle)){
 			$lFigureTitle->appendChild($lFragment);
