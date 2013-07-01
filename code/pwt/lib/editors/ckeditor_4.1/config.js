@@ -84,12 +84,6 @@ CKEDITOR.editorConfig = function( config )
 	config.fullPage = false;
 
 	config.enterMode = CKEDITOR.ENTER_P;
-	
-	// this is for the entities output (&#39; -> ')
-	config.entities = false;
-	config.basicEntities = false;
-	
-	//config.shiftEnterMode = CKEDITOR.ENTER_P;
 
 };
 
