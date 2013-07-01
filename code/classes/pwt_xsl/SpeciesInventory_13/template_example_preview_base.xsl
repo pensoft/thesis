@@ -140,7 +140,14 @@
 		<xsl:if test="count(./*[@object_id='212']) &gt; 0">
 			<div>
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<h1 id="checklist"><xsl:value-of select="./fields/*[@id='413']/value" /></h1>
+				<h1 id="checklist">
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">413</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">413</xsl:attribute>
+					<xsl:value-of select="./fields/*[@id='413']/value" />
+				</h1>
 					<xsl:for-each select="//*[@object_id='212']">
 						<xsl:apply-templates select="." mode="checklistLocality"/>
 					</xsl:for-each>
