@@ -1,13 +1,14 @@
 CREATE OR REPLACE FUNCTION spInstanceModifiedTrigger() RETURNS trigger AS 
 $BODY$
     BEGIN
-	    IF TG_OP = 'INSERT' OR TG_OP = 'DELETE' THEN
+	    IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
         	PERFORM pwt.spMarkInstanceAsModified(NEW.id, NEW.document_id);        
         	RETURN NEW;
         ELSIF TG_OP = 'DELETE' THEN
-        	PERFORM pwt.spMarkInstanceAsModified(OLD.id, OLD.document_id);  
+        	PERFORM pwt.spMarkInstanceAsModified(OLD.parent_id, OLD.document_id);  
         	RETURN OLD;
         END IF;
+        RETURN NEW;
     END;
 $BODY$ 
 LANGUAGE plpgsql;

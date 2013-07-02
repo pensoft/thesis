@@ -27,3 +27,9 @@ CREATE INDEX document_object_instances_tree_with_pos_idx ON pwt.document_object_
 
 CREATE INDEX document_object_instances_pos_idx ON pwt.document_object_instances(pos);
 */
+
+/* Modified SP-s
+code/sql/pwt/spInstanceFieldsModifiedTrigger.sql
+code/sql/pwt/spInstanceModifiedTrigger.sql
+code/sql/pwt/spMarkInstanceAsModified.sql
+code/sql/pwt/spStoreDocumentXml.sql
