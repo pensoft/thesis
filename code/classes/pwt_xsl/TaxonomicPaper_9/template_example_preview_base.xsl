@@ -452,6 +452,17 @@
 				</ul>
 			</xsl:if>
 
+		 	<!-- Synonyms -->
+
+			<xsl:if test="count(.//*[@object_id='200']) &gt; 0">
+				<xsl:apply-templates select=".//*[@object_id='200']" mode="taxonSynonymsSections"/>
+			</xsl:if>
+			
+			<xsl:if test="count(.//*[@object_id='210']) &gt; 0">
+				<xsl:apply-templates select=".//*[@object_id='210']" mode="taxonSynonymsSections2"/>
+			</xsl:if>
+
+
 			<xsl:if test="count(.//*[@object_id='195']) &gt; 0 or
 						  count(.//*[@object_id='186']) &gt; 0 or
 						  count(.//*[@object_id='215']) &gt; 0 or
@@ -462,12 +473,6 @@
 					<xsl:apply-templates select=".//*[@object_id='195' or @object_id='186']" mode="NewGenusTypeSpecies"/>
 					<xsl:apply-templates select=".//*[@object_id='215' or @object_id='217']" mode="GenusRedescriptionTypeSpecies"/>
 				</div>
-			</xsl:if>
-
-			 <!-- Synonyms -->
-
-			<xsl:if test="count(.//*[@object_id='200']) &gt; 0">
-				<xsl:apply-templates select=".//*[@object_id='200']" mode="taxonSynonymsSections"/>
 			</xsl:if>
 
 			<xsl:apply-templates select=".//*[@object_id='38']" mode="ttMaterials"/>
@@ -725,9 +730,7 @@
 			<!-- citations -->
 			<xsl:apply-templates mode="taxonCitations" select="." />
 			<!-- synonyms  -->
-			<xsl:if test="count(.//*[@object_id='200']) &gt; 0">
-				<xsl:apply-templates select=".//*[@object_id='200']" mode="taxonSynonymsSections"/>
-			</xsl:if>
+
 	</xsl:template>
 
 	<!-- Taxon species name  -->
@@ -749,18 +752,18 @@
 		</span>
 	</xsl:template>
 
-	<!-- Taxon Synonyms Section -->
+	<!-- Taxon Synonyms Specie Section -->
 	<xsl:template match="*" mode="taxonSynonymsSections">
 		<xsl:variable name="lSecTitle"/>
 		<xsl:if test="./fields/*[@id='460']/value != ''">
 			<div class="treatmentSection">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-		<!--		<div class="P-Article-Preview-Block-Subsection-Title"> -->
+		
 					<xsl:if test="count(./fields/*[@id='460']) &gt; 0">
 						<xsl:attribute name="field_id">200</xsl:attribute>
 					</xsl:if>
 					<h3 class="h-treatment-section">Nomenclature</h3>
-		<!--		</div> -->
+	
 				<div field_id="460" class="P-Inline">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
@@ -770,7 +773,31 @@
 				</div>
 			</div>
 		</xsl:if>
-	</xsl:template>
+	</xsl:template> 
+	
+	<!-- Taxon Nomenclature Genus Section -->
+	<xsl:template match="*" mode="taxonSynonymsSections2">
+		<xsl:variable name="lSecTitle"/>
+		<xsl:if test="./fields/*[@id='474']/value != ''">
+			<div class="treatmentSection">
+				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+
+					<xsl:if test="count(./fields/*[@id='474']) &gt; 0">
+						<xsl:attribute name="field_id">210</xsl:attribute>
+					</xsl:if>
+					<h3 class="h-treatment-section">Nomenclature</h3>
+
+				<div field_id="474" class="P-Inline">
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+						<xsl:with-param name="pFieldId">474</xsl:with-param>
+					</xsl:call-template>
+					<xsl:apply-templates select="./fields/*[@id='474']/value" mode="formatting"/>
+				</div>
+			</div>
+		</xsl:if>
+	</xsl:template> 
+
 
 	<!-- TaxonTreatmentSection -->
 	<xsl:template match="*" mode="taxonTreatmentSections">
