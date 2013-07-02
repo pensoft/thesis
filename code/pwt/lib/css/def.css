@@ -592,6 +592,10 @@ h1 {
 	margin-left: 8px;
 }
 
+.P-Wrapper-Container-Middle.P-Wrapper-Container-No-Right{
+	margin-right:0px;	
+}
+
 .P-Wrapper-Container-Right {
 	position: absolute;
 	top: 0px;
@@ -5196,4 +5200,10 @@ td #docDescr {
 .P-Taxon-Materials-DownLoadHolder {
 	margin-bottom:15px;
 	display:none;
+}
+
+.ajaxTreeLoadingHolder{
+	margin-top:200px;
+	text-align: center;
+	
 }

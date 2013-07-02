@@ -42,33 +42,48 @@ $gTemplArr = array(
 	'document.path_nodata' => '',
 
 	'document.path_row' => ' » {_getDocumentPathLink(instance_id, object_name, current_instance_id)}',
-
-	'document.wrapper' => '
+		
+	'document.wrapper_leftcol' => '
 						<div class="P-Wrapper-Container-Left {_getContainerHideClass(1)}">
-							{document_structure}
-							<script type="text/javascript">
-								var articleStructure = new articleMenu(\'articleMenu\', \'P-Right-Arrow\' , \'P-Down-Arrow\');
-							</script>
+							{document_structure}							
 							<div class="P-Container-Toggler-Btn-Left" onclick="toggleLeftContainer();"></div>
 						</div><!-- End P-Wrapper-Container-Left -->
+	',
+		
+	'document.wrapper_rightcol' => '
 						<div class="P-Wrapper-Container-Right {_getContainerHideClass(2)}">
 							{*document.rightcol}
 							<div class="P-Container-Toggler-Btn-Right" onclick="toggleRightContainer();"></div>
 						</div><!-- End P-Wrapper-Container-Right -->
+	',
+		
+	'document.wrapper_container_middle' => '
 						<div class="P-Wrapper-Container-Middle {_getContainerHideClass(1)} {_getContainerHideClass(2)}">
-							<div class="P-Document-Save-Message">{save_msg}</div>
-							<form name="document_form" method="post" id="document_form">
-								<input type="hidden" name="document_id" value="{document_id}"/>
-								<input type="hidden" name="instance_id" value="{instance_id}"/>
-								<input type="hidden" name="perform_save_action" value="1"/>
-								{document_object_instance}
-								<!-- <div class="P-Data-Resources-Save-Preview">
-									<span class="P-SaveBtn"><input class="save_btn" type="submit" value="" /></span>
-									<span class="P-PreviewBtn"><input onclick="window.location=\'/preview.php?document_id={document_id}\';return false" class="preview_btn" type="submit" value="" /></span>
-								</div>
-								-->
-							</form>
+							{*document.wrapper_container_middle_content}
 						</div><!-- End P-Wrapper-Container-Middle -->
+	',
+	'document.wrapper_container_middle_nocomments' => '
+						<div class="P-Wrapper-Container-Middle P-Wrapper-Container-No-Right {_getContainerHideClass(1)}">
+							{*document.wrapper_container_middle_content}
+						</div><!-- End P-Wrapper-Container-Middle -->
+	',
+		
+	'document.wrapper_container_middle_content' => '					
+						<div class="P-Document-Save-Message">{save_msg}</div>
+						<form name="document_form" method="post" id="document_form">
+							<input type="hidden" name="document_id" value="{document_id}"/>
+							<input type="hidden" name="instance_id" value="{instance_id}"/>
+							<input type="hidden" name="perform_save_action" value="1"/>
+							{document_object_instance}
+							<!-- <div class="P-Data-Resources-Save-Preview">
+								<span class="P-SaveBtn"><input class="save_btn" type="submit" value="" /></span>
+								<span class="P-PreviewBtn"><input onclick="window.location=\'/preview.php?document_id={document_id}\';return false" class="preview_btn" type="submit" value="" /></span>
+							</div>
+							-->
+						</form>					
+	',
+		
+	'document.wrapper_additional_items' => '
 						{*figures.figures_popup}
 						{*tables.tables_popup}
 						{*references.new_reference_popup}
@@ -80,6 +95,19 @@ $gTemplArr = array(
 
 							AutoSendDocumentLockSignal();
 						</script>
+	',
+
+	'document.wrapper' => '
+						{*document.wrapper_leftcol}
+						{*document.wrapper_rightcol}
+						{*document.wrapper_container_middle}
+						{*document.wrapper_additional_items}		
+	',
+		
+	'document.wrapper_no_comments' => '
+						{*document.wrapper_leftcol}
+						{*document.wrapper_container_middle_nocomments}
+						{*document.wrapper_additional_items}
 	',
 
 	'document.figures_wrapper' => '
@@ -137,6 +165,15 @@ $gTemplArr = array(
 
 						{*tables.tables_popup}
 	',
+		
+	'document.tree_ajax_wrapper' => '
+						<div id="document_tree_holder">
+							<script>LoadDocumentTree(\'document_tree_holder\', {document_id}, {instance_id});</script>
+							<div class="ajaxTreeLoadingHolder">					
+								<img src="/i/loading.gif" />
+							</div>
+						</div>
+	',
 
 	'document.tree_head' => '
 							<div class="P-Article-Structures">
@@ -177,6 +214,9 @@ $gTemplArr = array(
 								</div>
 								<!-- bottom buttons -->
 							</div>
+							<script type="text/javascript">
+								var articleStructure = new articleMenu(\'articleMenu\', \'P-Right-Arrow\' , \'P-Down-Arrow\');
+							</script>
 	',
 							/* 	<!-- bottom buttons -->
 								<div class="P-Article-Buttons P-Bottom">

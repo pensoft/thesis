@@ -5,6 +5,7 @@ require_once($docroot . '/lib/static.php');
 
 $gInstanceId = (int) $_REQUEST['instance_id'];
 $gDocumentId = (int) $_REQUEST['document_id'];
+session_write_close();
 
 $gDontRedirectAgain = 1;
 
@@ -53,6 +54,7 @@ $gDocument = new cdisplay_document(
 		'comments_in_preview_mode' => 1,
 		'comments_form_templ' => 'commentform',
 		'preview_mode' => 1,
+		'skip_tree_initializing' => 1,
 	)
 );
 
@@ -64,6 +66,14 @@ $gXSLPath = $gDocument->getDocumentXSLDirName();
 if($gInstanceId == getDocumentMetadataInstanceId($gDocumentId)){
 	header("Location: /create_document.php?tAction=edit&document_id=" . (int) $gDocumentId);
 	exit();
+}
+
+$gLoadTreeWithAjax = 1;
+$gTree = '';
+$gPageTemplate = 'global.editdocument_page_ajax_tree';
+if(!$gLoadTreeWithAjax){
+	$gTree = $gDocument->getDocumentTree();
+	$gPageTemplate = 'global.editdocument_page';
 }
 
 $lPageArray = array(
@@ -80,15 +90,16 @@ $lPageArray = array(
 	'commentform' => $gDocument->GetVal('commentform'),
 	'comments' => $gDocument->GetVal('comments'),
 	'path' => $gDocument->getDocumentPath(),
-	'tree' => $gDocument->getDocumentTree(),
+	'tree' => $gTree,
 	'document_id' => $gDocumentId,
+	'instance_id' => $gInstanceId,
 	'document_is_locked' => $gDocument->getDocumentIsLock(),
 	'document_lock_usr_id' => $gDocument->getDocumentLockUserId(),
 	'preview_mode' => 1,
 );
 
 $inst = new cpage(array_merge($lPageArray, DefObjTempl()), array(
-	G_MAINBODY => 'global.editdocument_page'
+	G_MAINBODY => $gPageTemplate
 ));
 $inst->Display();
 
