@@ -140,7 +140,14 @@
 		<xsl:if test="count(./*[@object_id='212']) &gt; 0">
 			<div>
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<h1 id="checklist"><xsl:value-of select="./fields/*[@id='413']/value" /></h1>
+				<h1 id="checklist">
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">413</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">413</xsl:attribute>
+					<xsl:value-of select="./fields/*[@id='413']/value" />
+				</h1>
 					<xsl:for-each select="//*[@object_id='212']">
 						<xsl:apply-templates select="." mode="checklistLocality"/>
 					</xsl:for-each>
@@ -153,7 +160,14 @@
 		<xsl:variable name="lChecklistLocalityTypeId" select=".//*[@id='445']/value/@value_id" />
 		<div class="P-Article-Preview-Block">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<h2><xsl:value-of select="./fields/*[@id='357']" /></h2>
+			<h2>
+				<xsl:call-template name="markContentEditableField">
+					<xsl:with-param name="pObjectId" select="./@object_id" />
+					<xsl:with-param name="pFieldId">357</xsl:with-param>
+				</xsl:call-template>
+				<xsl:attribute name="field_id">357</xsl:attribute>
+				<xsl:value-of select="./fields/*[@id='357']" />
+			</h2>
 			<xsl:choose>
 					<!-- Locality/Region -->
 					<xsl:when test="$lChecklistLocalityTypeId = 1"> 
@@ -171,10 +185,6 @@
 										<xsl:attribute name="href"><xsl:value-of select="concat('http://natura2000.eea.europa.eu/natura2000/SDFPublic.aspx?site=', ./fields/*[@id='448']/value)" /></xsl:attribute>
 										<xsl:apply-templates select="./fields/*[@id='448']" mode="formatting"/>
 									</a>
-									<xsl:call-template name="markContentEditableField">
-										<xsl:with-param name="pObjectId" select="./@object_id" />
-										<xsl:with-param name="pFieldId">448</xsl:with-param>
-									</xsl:call-template>
 								</span>
 							</div>
 						</xsl:if>
@@ -186,6 +196,10 @@
 								<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 								<span class="fieldLabel">Habitat code:&#160;</span>
 								<span class="fieldValue">
+									<xsl:call-template name="markContentEditableField">
+										<xsl:with-param name="pObjectId" select="./@object_id" />
+										<xsl:with-param name="pFieldId">446</xsl:with-param>
+									</xsl:call-template>
 									<xsl:attribute name="field_id">446</xsl:attribute>
 									<xsl:apply-templates select="./fields/*[@id='446']" mode="formatting"/>
 								</span>
@@ -196,6 +210,10 @@
 								<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 								<span class="fieldLabel">Habitat classification:&#160;</span>
 								<span class="fieldValue">
+									<xsl:call-template name="markContentEditableField">
+										<xsl:with-param name="pObjectId" select="./@object_id" />
+										<xsl:with-param name="pFieldId">447</xsl:with-param>
+									</xsl:call-template>
 									<xsl:attribute name="field_id">447</xsl:attribute>
 									<xsl:apply-templates select="./fields/*[@id='447']" mode="formatting"/>
 								</span>
@@ -207,10 +225,18 @@
 					</xsl:otherwise>
 			</xsl:choose>
 			<xsl:if test="./fields/*[@id='379']/value != ''">
-				<h3 class="h-treatment-section">Description</h3>
-				<div>
-					<xsl:attribute name="field_id">379</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='379']/value" mode="formatting_nospace"/>
+				<div class="myfieldHolder">
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<span class="fieldLabel">Description:&#160;</span>
+					<div class="fieldValue">
+						<xsl:call-template name="markContentEditableField">
+							<xsl:with-param name="pObjectId" select="./@object_id" />
+							<xsl:with-param name="pFieldId">379</xsl:with-param>
+						</xsl:call-template>
+						<xsl:attribute name="field_id">379</xsl:attribute>
+						<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+						<xsl:apply-templates select="./fields/*[@id='379']" mode="formatting"/>
+					</div>
 				</div>
 			</xsl:if>
 			<xsl:apply-templates select="./*[@object_id='205']" mode="checklistTaxon"/>
@@ -225,8 +251,10 @@
 			<span class="fieldValue">
 				<xsl:for-each select="./fields/*[(@id &gt; 108 and @id &lt; 127) or (@id &gt; 131 and @id &lt; 135)]">
 					<xsl:sort select="@id" order="ascending" />
-					<xsl:apply-templates select="." mode="treatmentMaterialField" />
-					<xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
+					<xsl:if test="./value != '' ">
+						<xsl:apply-templates select="." mode="treatmentMaterialField" />
+						<xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:if>
 				</xsl:for-each>
 			</span>
 		</div>

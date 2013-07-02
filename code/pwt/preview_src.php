@@ -9,6 +9,8 @@ session_write_close();
 //error_reporting(-1);
 //ini_set('display_errors', 'On');
 
+//error_reporting(-1);
+//ini_set('display_errors', 'On');
 
 
 $gDocumentId = (int)$_REQUEST['document_id'];
