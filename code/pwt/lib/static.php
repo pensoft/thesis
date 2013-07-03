@@ -650,9 +650,13 @@ function getActionDefaultJsActionWithParams(){
 	return $lResult;
 }
 
-function getDocumentDefaultTempls(){
+function getDocumentDefaultTempls($pHideComments = false){
+	$lTemplate = 'document.wrapper';
+	if($pHideComments){
+		$lTemplate = 'document.wrapper_no_comments';
+	}
 	return array(
-		G_DEFAULT => 'document.wrapper'
+		G_DEFAULT => $lTemplate
 	);
 }
 
@@ -3323,11 +3327,11 @@ function getDocumentXml($pDocumentId, $pMode = SERIALIZE_INTERNAL_MODE, $pExplic
 			$lDocumentSerializer->GetData();
 			$lDocumentXmls[(int)$pDocumentId][(int)$pMode] = $lDocumentSerializer->getXml();
 
-			$lSql = 'UPDATE pwt.documents SET doc_xml = \'' . q($lDocumentXmls[(int)$pDocumentId][(int)$pMode]) . '\'::xml WHERE id = ' . (int)$pDocumentId;
-			$lCon->Execute($lSql);
+// 			$lSql = 'UPDATE pwt.documents SET doc_xml = \'' . q($lDocumentXmls[(int)$pDocumentId][(int)$pMode]) . '\'::xml WHERE id = ' . (int)$pDocumentId;
+// 			$lCon->Execute($lSql);
 
-			$lSql = 'SELECT * FROM pwt."XmlIsDirty"(2, ' . (int)$pDocumentId . ', null)';
-			$lCon->Execute($lSql);
+// 			$lSql = 'SELECT * FROM pwt."XmlIsDirty"(2, ' . (int)$pDocumentId . ', null)';
+// 			$lCon->Execute($lSql);
 
 		} else {
 			$lXmlSel = 'SELECT doc_xml, xml_is_dirty::int as is_modified FROM pwt.documents WHERE id = ' . (int)$pDocumentId;
@@ -3342,11 +3346,11 @@ function getDocumentXml($pDocumentId, $pMode = SERIALIZE_INTERNAL_MODE, $pExplic
 				$lDocumentSerializer->GetData();
 				$lXML = $lDocumentSerializer->getXml();
 
-				$lSql = 'UPDATE pwt.documents SET doc_xml = \'' . q($lXML) . '\'::xml WHERE id = ' . (int)$pDocumentId;
-				$lCon->Execute($lSql);
+// 				$lSql = 'UPDATE pwt.documents SET doc_xml = \'' . q($lXML) . '\'::xml WHERE id = ' . (int)$pDocumentId;
+// 				$lCon->Execute($lSql);
 
-				$lSql = 'SELECT * FROM pwt."XmlIsDirty"(2, ' . (int)$pDocumentId . ', null)';
-				$lCon->Execute($lSql);
+// 				$lSql = 'SELECT * FROM pwt."XmlIsDirty"(2, ' . (int)$pDocumentId . ', null)';
+// 				$lCon->Execute($lSql);
 			}
 			$lDocumentXmls[(int)$pDocumentId][(int)$pMode] = $lXML;
 		}
@@ -4422,12 +4426,12 @@ function saveDocumentXML( $pDocumentId ){
 		$lCon = new DBCn();
 		$lCon->Open();
 
-		$lSql = 'SELECT xml_is_dirty FROM pwt.documents WHERE id = ' . (int)$pDocumentId;
+		$lSql = 'SELECT xml_is_dirty::int as xml_is_dirty FROM pwt.documents WHERE id = ' . (int)$pDocumentId;
 
 		$lCon->Execute($lSql);
-		$lIsDirty = $lCon->mRs['xml_is_dirty'];
+		$lIsDirty = (int)$lCon->mRs['xml_is_dirty'];
 
-		if($lIsDirty == 'true' || $lIsDirty == 't') {
+		if($lIsDirty) {
 			 $lDocumentSerializer = new cdocument_serializer(array(
 					'document_id' => (int)$pDocumentId,
 					'mode' => (int)SERIALIZE_INTERNAL_MODE,
@@ -4436,11 +4440,11 @@ function saveDocumentXML( $pDocumentId ){
 			$lDocumentXml = $lDocumentSerializer->getXml();
 
 
-			$lSql = 'UPDATE pwt.documents SET doc_xml = \'' . q($lDocumentXml) . '\'::xml WHERE id = ' . (int)$pDocumentId;
-			$lCon->Execute($lSql);
+// 			$lSql = 'UPDATE pwt.documents SET doc_xml = \'' . q($lDocumentXml) . '\'::xml WHERE id = ' . (int)$pDocumentId;
+// 			$lCon->Execute($lSql);
 
-			$lSql = 'SELECT * FROM pwt."XmlIsDirty"(2, ' . (int)$pDocumentId . ', null)';
-			$lCon->Execute($lSql);
+// 			$lSql = 'SELECT * FROM pwt."XmlIsDirty"(2, ' . (int)$pDocumentId . ', null)';
+// 			$lCon->Execute($lSql);
 		}
 	}
 }
@@ -5671,7 +5675,7 @@ function SaveFigCaption($pDocumentId, $pFigId, $pIsPlate, $pPlateNum, $pContent)
 		throw new Exception($lCon->GetLastError());
 	}
 	//Mark the xml as modified so that the figure changes can be applied to the document xml
-	$lCon->Execute('SELECT * FROM pwt."XmlIsDirty"(1, ' . (int)$pDocumentId . ', null)');
+// 	$lCon->Execute('SELECT * FROM pwt."XmlIsDirty"(1, ' . (int)$pDocumentId . ', null)');
 	
 }
 
@@ -5698,7 +5702,7 @@ function SaveTableChange($pDocumentId, $pTableId, $pModifiedElementIsTitle, $pCo
 		throw new Exception($lCon->GetLastError());
 	}
 	//Mark the xml as modified so that the table changes can be applied to the document xml
-	$lCon->Execute('SELECT * FROM pwt."XmlIsDirty"(1, ' . (int)$pDocumentId . ', null)');
+// 	$lCon->Execute('SELECT * FROM pwt."XmlIsDirty"(1, ' . (int)$pDocumentId . ', null)');
 
 }
 

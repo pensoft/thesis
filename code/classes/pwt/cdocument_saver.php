@@ -420,7 +420,7 @@ class cdocument_saver{
 			$this->PerformInstanceCustomChecks($lDocumentXml);
 			*/
 			//trigger_error('SQL: SELECT * FROM pwt."XmlIsDirty"(1, ' . (int)$this->m_documentId . ', ' . (int)$this->m_rootInstanceId . ');', E_USER_NOTICE);
-			$this->ExecuteSqlQuery('SELECT * FROM pwt."XmlIsDirty"(1, ' . (int)$this->m_documentId . ', ' . (int)$this->m_rootInstanceId . ');');
+// 			$this->ExecuteSqlQuery('SELECT * FROM pwt."XmlIsDirty"(1, ' . (int)$this->m_documentId . ', ' . (int)$this->m_rootInstanceId . ');');
 // 			$this->ExecuteSqlQuery('ASDasdsad assa');
 			if(!$this->m_autoSaveOn){
 				$lSqlActivity = 'INSERT INTO pwt.activity (usr_id, document_id, action_type) VALUES(' . (int)$user->id . ', ' . (int)$this->m_documentId . ', ' . (int)ACTION_SAVE_DOCUMENT . ')';

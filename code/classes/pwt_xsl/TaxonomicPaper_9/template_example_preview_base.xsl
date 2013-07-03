@@ -7,7 +7,6 @@
 	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
 	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
 
-	<xsl:key name="materialType" match="*[@object_id='37']" use=".//*/fields/*[@id='209']/value/@value_id"></xsl:key>
 	<!-- Дали да генерира целия html или само фрагмент от него
 		т.е. дали да слага тагове htmk, head ...
 		или само да сложи всичко в 1 див
@@ -453,6 +452,17 @@
 				</ul>
 			</xsl:if>
 
+		 	<!-- Synonyms -->
+
+			<xsl:if test="count(.//*[@object_id='200']) &gt; 0">
+				<xsl:apply-templates select=".//*[@object_id='200']" mode="taxonSynonymsSections"/>
+			</xsl:if>
+			
+			<xsl:if test="count(.//*[@object_id='210']) &gt; 0">
+				<xsl:apply-templates select=".//*[@object_id='210']" mode="taxonSynonymsSections2"/>
+			</xsl:if>
+
+
 			<xsl:if test="count(.//*[@object_id='195']) &gt; 0 or
 						  count(.//*[@object_id='186']) &gt; 0 or
 						  count(.//*[@object_id='215']) &gt; 0 or
@@ -465,25 +475,92 @@
 				</div>
 			</xsl:if>
 
-
-			 <!-- Synonyms -->
-
-			<xsl:if test="count(.//*[@object_id='200']) &gt; 0">
-				<xsl:apply-templates select=".//*[@object_id='200']" mode="taxonSynonymsSections"/>
-			</xsl:if>
-
 			<xsl:apply-templates select=".//*[@object_id='38']" mode="ttMaterials"/>
 
 			<xsl:apply-templates select=".//*[@object_id='51']/*[@object_id &gt; 0]/*[@object_id &gt; 0]" mode="taxonTreatmentSections"/>
 			<xsl:apply-templates select=".//*[@object_id='74']/*[@object_id &gt; 0]" mode="taxonTreatmentSections"/>
-			<xsl:apply-templates select=".//*[@object_id='109']/*[@object_id &gt; 0]" mode="taxonTreatmentSections"/>
-			<xsl:apply-templates select=".//*[@object_id='140']/*[@object_id &gt; 0]" mode="taxonTreatmentSections"/>
-			<xsl:apply-templates select=".//*[@object_id='185']/*[@object_id &gt; 0]" mode="taxonTreatmentSections"/>
-			<xsl:apply-templates select=".//*[@object_id='198']/*[@object_id &gt; 0]" mode="taxonTreatmentSections"/>
-			<xsl:apply-templates select=".//*[@object_id='193']/*[@object_id &gt; 0]" mode="taxonTreatmentSections"/>
-			<xsl:apply-templates select=".//*[@object_id='199']/*[@object_id &gt; 0]" mode="taxonTreatmentSections"/>
-			<!-- Redescription TT Genus IC(Z)N > Treatment sections -->
-			<xsl:apply-templates select=".//*[@object_id='214']/*[@object_id &gt; 0]" mode="taxonTreatmentSections"/>
+			
+			<!-- ICZN new species -->
+			<xsl:apply-templates select=".//*[@object_id='109']/*[@object_id=47]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='109']/*[@object_id=48]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='109']/*[@object_id=49]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='109']/*[@object_id=76]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='109']/*[@object_id=77]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='109']/*[@object_id=79]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='109']/*[@object_id=78]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='109']/*[@object_id=75]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='109']/*[@object_id=80]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='109']/*[@object_id=71]" mode="taxonTreatmentSections"/>
+			
+			<!-- ICZN new genus -->
+			<xsl:apply-templates select=".//*[@object_id='185']/*[@object_id=47]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='185']/*[@object_id=48]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='185']/*[@object_id=49]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='185']/*[@object_id=76]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='185']/*[@object_id=77]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='185']/*[@object_id=79]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='185']/*[@object_id=78]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='185']/*[@object_id=75]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='185']/*[@object_id=80]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='185']/*[@object_id=71]" mode="taxonTreatmentSections"/>
+			
+			<!-- ICZN redescription species -->
+			<xsl:apply-templates select=".//*[@object_id='198']/*[@object_id=47]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='198']/*[@object_id=48]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='198']/*[@object_id=76]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='198']/*[@object_id=77]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='198']/*[@object_id=79]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='198']/*[@object_id=78]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='198']/*[@object_id=75]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='198']/*[@object_id=80]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='198']/*[@object_id=71]" mode="taxonTreatmentSections"/>
+						
+			<!-- IC(Z)N redescription genus -->
+			<xsl:apply-templates select=".//*[@object_id='214']/*[@object_id=47]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='214']/*[@object_id=48]" mode="taxonTreatmentSections"/><!-- missing -->
+			<xsl:apply-templates select=".//*[@object_id='214']/*[@object_id=76]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='214']/*[@object_id=77]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='214']/*[@object_id=79]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='214']/*[@object_id=78]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='214']/*[@object_id=75]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='214']/*[@object_id=80]" mode="taxonTreatmentSections"/><!-- missing -->
+			<xsl:apply-templates select=".//*[@object_id='214']/*[@object_id=71]" mode="taxonTreatmentSections"/>
+			
+			<!-- ICN new species -->
+			<xsl:apply-templates select=".//*[@object_id='140']/*[@object_id=47]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='140']/*[@object_id=48]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='140']/*[@object_id=49]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='140']/*[@object_id=76]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='140']/*[@object_id=77]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='140']/*[@object_id=79]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='140']/*[@object_id=78]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='140']/*[@object_id=75]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='140']/*[@object_id=80]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='140']/*[@object_id=71]" mode="taxonTreatmentSections"/>
+			
+			<!-- ICN new genus -->
+			<xsl:apply-templates select=".//*[@object_id='193']/*[@object_id=47]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='193']/*[@object_id=48]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='193']/*[@object_id=49]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='193']/*[@object_id=76]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='193']/*[@object_id=77]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='193']/*[@object_id=79]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='193']/*[@object_id=78]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='193']/*[@object_id=75]" mode="taxonTreatmentSections"/><!-- missing -->
+			<xsl:apply-templates select=".//*[@object_id='193']/*[@object_id=80]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='193']/*[@object_id=71]" mode="taxonTreatmentSections"/>
+			
+			<!-- ICZN redescription species -->
+			<xsl:apply-templates select=".//*[@object_id='199']/*[@object_id=47]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='199']/*[@object_id=48]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='199']/*[@object_id=76]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='199']/*[@object_id=77]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='199']/*[@object_id=79]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='199']/*[@object_id=78]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='199']/*[@object_id=75]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='199']/*[@object_id=80]" mode="taxonTreatmentSections"/>
+			<xsl:apply-templates select=".//*[@object_id='199']/*[@object_id=71]" mode="taxonTreatmentSections"/>
+			
 		</div>
 	</xsl:template>
 
@@ -533,33 +610,70 @@
 
 	<!-- Taxon name species -->
 	<xsl:template match="*[@object_id='180']" mode="taxonTreatmentName">
-		<span>
-			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:attribute name="class">taxonTreatmentName</xsl:attribute>
-			<span field_id="48"><i><xsl:apply-templates select="./fields/*[@id='48']" mode="formatting_nospace"/></i></span>
+
+				<i><xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">48</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">48</xsl:attribute>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting_nospace"/></i>
+	
 			<xsl:if test="./fields/*[@id='417']/value != ''">
-			<span field_id="417">&#160;(<i><xsl:apply-templates select="./fields/*[@id='417']" mode="formatting_nospace"/></i>)</span>
+			<xsl:text>&#160;(</xsl:text>
+					<i><xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">417</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">417</xsl:attribute>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='417']" mode="formatting_nospace"/></i>
+					<xsl:text>)</xsl:text>
 			</xsl:if>
-			<span field_id="49">&#160;<i><xsl:apply-templates select="./fields/*[@id='49']" mode="formatting_nospace"/></i></span>
-		</span>
+			
+			<xsl:text>&#160;</xsl:text>
+				<i><xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">49</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">49</xsl:attribute>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='49']" mode="formatting_nospace"/></i>
+
 		<xsl:text>&#160;</xsl:text>
 		<span>
-			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span><xsl:attribute name="field_id">50</xsl:attribute><xsl:apply-templates select="./fields/*[@id='50']" mode="formatting_nospace"/></span>
+				<xsl:call-template name="markContentEditableField">
+					<xsl:with-param name="pObjectId" select="./@object_id" />
+					<xsl:with-param name="pFieldId">50</xsl:with-param>
+				</xsl:call-template>
+				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+				<xsl:attribute name="field_id">50</xsl:attribute>
+				<xsl:apply-templates select="./fields/*[@id='50']" mode="formatting_nospace"/>
 		</span>
 	</xsl:template>
 
 
 	<!-- Taxon name Genus -->
 	<xsl:template match="*[@object_id='181']" mode="taxonTreatmentName">
-		<span class="taxonTreatmentName">
-			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span field_id="48"><i><xsl:apply-templates select="./fields/*[@id='48']" mode="formatting"/></i></span>
-		</span><xsl:text>&#160;</xsl:text>
-		<span>
-			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span><xsl:attribute name="field_id">50</xsl:attribute><xsl:apply-templates select="./fields/*[@id='50']" mode="formatting"/></span>
-		</span>
+				<i>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">48</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">48</xsl:attribute>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting"/>
+				</i>
+		<xsl:text>&#160;</xsl:text>
+			<span>
+				<xsl:call-template name="markContentEditableField">
+					<xsl:with-param name="pObjectId" select="./@object_id" />
+					<xsl:with-param name="pFieldId">50</xsl:with-param>
+				</xsl:call-template>
+				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+				<xsl:attribute name="field_id">50</xsl:attribute>
+				<xsl:apply-templates select="./fields/*[@id='50']" mode="formatting_nospace"/>
+			</span>
 	</xsl:template>
 
 	<!-- Taxon new Genus Type species -->
@@ -616,9 +730,7 @@
 			<!-- citations -->
 			<xsl:apply-templates mode="taxonCitations" select="." />
 			<!-- synonyms  -->
-			<xsl:if test="count(.//*[@object_id='200']) &gt; 0">
-				<xsl:apply-templates select=".//*[@object_id='200']" mode="taxonSynonymsSections"/>
-			</xsl:if>
+
 	</xsl:template>
 
 	<!-- Taxon species name  -->
@@ -640,18 +752,18 @@
 		</span>
 	</xsl:template>
 
-	<!-- Taxon Synonyms Section -->
+	<!-- Taxon Synonyms Specie Section -->
 	<xsl:template match="*" mode="taxonSynonymsSections">
 		<xsl:variable name="lSecTitle"/>
 		<xsl:if test="./fields/*[@id='460']/value != ''">
 			<div class="treatmentSection">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-		<!--		<div class="P-Article-Preview-Block-Subsection-Title"> -->
+		
 					<xsl:if test="count(./fields/*[@id='460']) &gt; 0">
 						<xsl:attribute name="field_id">200</xsl:attribute>
 					</xsl:if>
 					<h3 class="h-treatment-section">Nomenclature</h3>
-		<!--		</div> -->
+	
 				<div field_id="460" class="P-Inline">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
@@ -661,7 +773,31 @@
 				</div>
 			</div>
 		</xsl:if>
-	</xsl:template>
+	</xsl:template> 
+	
+	<!-- Taxon Nomenclature Genus Section -->
+	<xsl:template match="*" mode="taxonSynonymsSections2">
+		<xsl:variable name="lSecTitle"/>
+		<xsl:if test="./fields/*[@id='474']/value != ''">
+			<div class="treatmentSection">
+				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+
+					<xsl:if test="count(./fields/*[@id='474']) &gt; 0">
+						<xsl:attribute name="field_id">210</xsl:attribute>
+					</xsl:if>
+					<h3 class="h-treatment-section">Nomenclature</h3>
+
+				<div field_id="474" class="P-Inline">
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+						<xsl:with-param name="pFieldId">474</xsl:with-param>
+					</xsl:call-template>
+					<xsl:apply-templates select="./fields/*[@id='474']/value" mode="formatting"/>
+				</div>
+			</div>
+		</xsl:if>
+	</xsl:template> 
+
 
 	<!-- TaxonTreatmentSection -->
 	<xsl:template match="*" mode="taxonTreatmentSections">

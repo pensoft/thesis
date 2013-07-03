@@ -1,7 +1,14 @@
 <?php
+$gDontRedirectToLogin = 1;
 $docroot = getenv('DOCUMENT_ROOT');
 require_once($docroot . '/lib/static.php');
 require_once(PATH_CLASSES . 'comments.php');
+
+session_write_close();
+
+//error_reporting(-1);
+//ini_set('display_errors', 'On');
+
 //error_reporting(-1);
 //ini_set('display_errors', 'On');
 
