@@ -654,7 +654,7 @@
 
 	<!-- Taxon name Genus -->
 	<xsl:template match="*[@object_id='181']" mode="taxonTreatmentName">
-<<<<<<< Updated upstream
+		<span class="taxonTreatmentName">
 			<i>
 				<xsl:call-template name="markContentEditableField">
 					<xsl:with-param name="pObjectId" select="./@object_id" />
@@ -664,14 +664,7 @@
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting"/>
 			</i>
-=======
-		<span class="taxonTreatmentName" field_id="48">
-			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<i>
-				<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting"/>
-			</i>
 		</span>
->>>>>>> Stashed changes			
 		<xsl:text>&#160;</xsl:text>
 		<span field_id="50">
 			<xsl:call-template name="markContentEditableField">
@@ -720,7 +713,7 @@
 		<xsl:if test=".//*[@object_id='178']/fields/*[@id='438']/value != ''">
 			<xsl:text> - </xsl:text>
 			<xsl:for-each select=".//*[@object_id='201']">
-				<xsl:apply-templates select=".//*[@object_id='178']/fields/*[@id='438']/value" mode="formatting_nospace"/> 
+				<xsl:apply-templates select="./*[@object_id='178']/fields/*[@id='438']/value" mode="formatting_nospace"/> 
 				<xsl:if test="./fields/*[@id='461']/value != ''">&#160;[<xsl:apply-templates select="./fields/*[@id='461']/value" mode="formatting_nospace"/>]</xsl:if>
 				<xsl:if test="./fields/*[@id='462']/value != ''">:&#160;<xsl:apply-templates  select="./fields/*[@id='462']/value" mode="formatting_nospace"/></xsl:if>			
 				<xsl:if test="position() != last()"><xsl:text>; </xsl:text></xsl:if>
@@ -732,17 +725,30 @@
 
 
 	<xsl:template match="*" mode="GenusRedescriptionTypeSpecies">
-			<xsl:if test="./fields/*[@id='441'] != '' and ./fields/*[@id='441'] != ''">
+			<xsl:if test="./*[@object_id='180' or @object_id='220']/fields/*[@id='48'] != '' and 
+						  ./*[@object_id='180' or @object_id='220']/fields/*[@id='49'] != ''">
 				<h3 class="h-treatment-section">Type species</h3>	
-				<!-- species name -->
+				<!-- species name ICZN --> 
 				<xsl:apply-templates mode="taxonTreatmentName" select="./taxon_name" />
-				<!-- with basyonym -->
+				<!-- species name ICN (with basyonym) --> 
 				<xsl:apply-templates mode="taxonTreatmentName" select="./tt_species_name_with_basionym" />			
 				<!-- citations -->
-				<xsl:apply-templates mode="taxonCitations" select="." />
-				<!-- synonyms  -->
-
+				<xsl:apply-templates mode="taxonCitations" select="*[@object_id='187']" />
+				<!-- synonymys  -->
+				<xsl:if test="count(./*[@object_id='219']/*[@object_id='218']) &gt; 0">
+					<h4>Synonymys</h4>
+					<ul>
+						<xsl:for-each select="./*[@object_id='219']/*[@object_id='218']">
+							<li><xsl:apply-templates select="." mode="Synonymy" /></li>
+						</xsl:for-each>
+					</ul>
+				</xsl:if>
 			</xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="*" mode="Synonymy">
+		<xsl:apply-templates select="./*[@object_id='180']" mode="taxonTreatmentName"/>
+		<xsl:apply-templates mode="taxonCitations" select="." />
 	</xsl:template>
 
 	<!-- Taxon species name  -->
