@@ -2104,6 +2104,18 @@ $STRARRAY = array(
 	'pjs.copy_editing_text' => 'In Copy editing',
 	'pjs.copy_editing_proof_text' => 'Proof is being produced by Copy Editor',
 	'pjs.copyeditinground_label_clear' => 'Linguistic review',
+	
+	'pjs.layout_approve_btn_text' => 'Approve',
+	'pjs.layout_save_btn_text' => 'Save',
+	'pjs.layout_html_preview_btn_text' => 'HTML preview',
+	'pjs.layout_pdf_preview_btn_text' => 'PDF preview',
+	'pjs.layout_revert_btn_text' => 'Revert',
+	
+	/* The XML is not valid */
+	'pjs.xmlIsNotValid_OnSaveInDataBase' => 'The XML is not valid',
+	'pjs.xmlIsNotValid' => 'The XML is not valid',
+	
+	'pjs.no_such_layout_for_this_document' => 'You\'re not Layout Editor for the current document!',
 
 );
 ?>

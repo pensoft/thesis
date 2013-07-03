@@ -6507,3 +6507,30 @@ table.no_bold_class td a {
 .document_btn_actions_editor_holder {
 	padding-bottom:20px;
 }
+
+.le_action_btn {
+	float: left;
+	width: 188px;
+}
+
+.le_action_btn .invite_reviewer_btn_middle {
+	width: 180px; 
+}
+
+.le_actions_holder .P-Green-Btn-Holder {
+	margin:10px 5px 0px 0px;
+}
+
+.le_actions_holder .P-Green-Btn-Middle {
+	width:180px;
+}
+
+#P-Ajax-Loading-Image-Main {
+	display:none;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	margin-left: -32px;
+	margin-top: -32px;
+	z-index: 100000;
+}

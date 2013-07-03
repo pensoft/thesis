@@ -113,40 +113,88 @@ $gTemplArr = array(
 				{_showCurrentAuthorVersion(version_num, author_version_id, document_id)}
 				<div class="document_author_holder_content">
 					<div class="document_author_holder_content_no_review_yet">
-						<div class="document_author_holder_content_no_review_yet_top">
-							<table width="100%" cellspacing="0" cellpadding="0">
-								<tbody><tr>
-									<td width="5"><div class="yellow-top-left"></div></td>
-									<td><div class="yellow-top-middle"></div></td>
-									<td width="5"><div class="yellow-top-right"></div></td>
-								</tr>
-							</tbody></table>
-						</div>
-						<div class="document_author_holder_content_no_review_yet_middle">
-							<span class="yellow-green-txt"></span>
-							<div class="document_btn_actions_editor_holder">
-								<table cellpadding="0" cellspacing="0" width=100%>
-									<tr>
-										<td align="center">
-											<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first" onclick="SaveLEDecision({round_user_id}, ' . (int)ROUND_LAYOUT_DECISION_ACCEPT . ')">
-												<div class="invite_reviewer_btn_left"></div>
-												<div class="invite_reviewer_btn_middle">Approve</div>
-												<div class="invite_reviewer_btn_right"></div>
-												<div class="P-Clear"></div>
+						<span class="yellow-green-txt"></span>
+						<div class="document_btn_actions_editor_holder">
+							<table cellpadding="0" cellspacing="0" width=100%>
+								<tr>
+									<td align="center">
+										<div class="le_version_xml_holder">
+											<div class="subm_textarea_holder_top">
+												<table cellpadding="0" cellspacing="0" width="100%">
+													<tbody><tr>
+														<td width="4">
+															<div class="subm_textarea_holder_top_left"></div>
+														</td>
+														<td>
+															<div class="subm_textarea_holder_top_middle"></div>
+														</td>
+														<td width="4">
+															<div class="subm_textarea_holder_top_right"></div>
+														</td>
+													</tr>
+												</tbody></table>
 											</div>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-						<div class="document_author_holder_content_no_review_yet_bottom">
-							<table width="100%" cellspacing="0" cellpadding="0">
-								<tbody><tr>
-									<td width="5"><div class="yellow-bottom-left"></div></td>
-									<td><div class="yellow-bottom-middle"></div></td>
-									<td width="5"><div class="yellow-bottom-right"></div></td>
+											<div class="subm_textarea_holder_view_source">
+												<textarea name="document_current_version_xml" id="document_current_version_xml">{document_le_xml}</textarea>
+											</div>
+											<div class="subm_textarea_holder">
+												<table cellpadding="0" cellspacing="0" width="100%">
+													<tbody><tr>
+														<td width="4">
+															<div class="subm_textarea_holder_top_left subm_textarea_holder_bottom_left"></div>
+														</td>
+														<td>
+															<div class="subm_textarea_holder_top_middle subm_textarea_holder_bottom_middle"></div>
+														</td>
+														<td width="4">
+															<div class="subm_textarea_holder_top_right subm_textarea_holder_bottom_right"></div>
+														</td>
+													</tr>
+												</tbody></table>
+											</div>
+										</div>
+									
+										<div class="le_actions_holder">
+											<div class="P-Green-Btn-Holder saveForm" onclick="SaveLEDecision({round_user_id}, ' . (int)ROUND_LAYOUT_DECISION_ACCEPT . ')">
+												<div class="P-Green-Btn-Left"></div>
+												<div class="P-Green-Btn-Middle">
+													{_getstr(pjs.layout_approve_btn_text)}
+												</div>
+												<div class="P-Green-Btn-Right"></div>
+											</div>
+											<div class="P-Green-Btn-Holder saveForm" onclick="SaveLEXMLVersion({document_id}, \'#document_current_version_xml\')">
+												<div class="P-Green-Btn-Left"></div>
+												<div class="P-Green-Btn-Middle">
+													{_getstr(admin.article_versions.save)}
+												</div>
+												<div class="P-Green-Btn-Right"></div>
+											</div>
+											<div class="P-Green-Btn-Holder saveForm">
+												<div class="P-Green-Btn-Left"></div>
+												<div class="P-Green-Btn-Middle">
+													{_getstr(pjs.layout_html_preview_btn_text)}
+												</div>
+												<div class="P-Green-Btn-Right"></div>
+											</div>
+											<div class="P-Green-Btn-Holder saveForm">
+												<div class="P-Green-Btn-Left"></div>
+												<div class="P-Green-Btn-Middle">
+													{_getstr(pjs.layout_pdf_preview_btn_text)}
+												</div>
+												<div class="P-Green-Btn-Right"></div>
+											</div>
+											<div class="P-Green-Btn-Holder saveForm" onclick="RevertLEXMLVersion({document_id}, \'#document_current_version_xml\')">
+												<div class="P-Green-Btn-Left"></div>
+												<div class="P-Green-Btn-Middle">
+													{_getstr(pjs.layout_revert_btn_text)}
+												</div>
+												<div class="P-Green-Btn-Right"></div>
+											</div>
+											<div class="P-Clear"></div>
+										</div>
+									</td>
 								</tr>
-							</tbody></table>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -287,16 +335,99 @@ $gTemplArr = array(
 				<div class="tabRowRight_Inactive"></div>
 				<div class="P-Clear"></div>	
 			</div>
-			<div class="tabRow {_showViewDocumentActiveSectionTab(active_tab, a' . GET_VIEW_SOURCE_SECTION . ')}" onclick="window.location=\'view_document.php?id={document_id}&view_role={view_role}&section=' . GET_VIEW_SOURCE_SECTION . '\'">
-				<div class="tabRowLeft_Inactive"></div>
-				<div class="tabRowMiddle_Inactive">
-					{_getstr(pjs.view_source_label_tab)}
-				</div>
-				<div class="tabRowRight_Inactive"></div>
-				<div class="P-Clear"></div>	
-			</div>
 			<div class="P-Clear"></div>
 		</div>
 	',
+	
+	'view_document_le.form' => '
+		<div class="document_author_holder_content">
+			<div class="document_author_holder_content_no_review_yet">
+				<span class="yellow-green-txt"></span>
+				<div class="document_btn_actions_editor_holder">
+					<table cellpadding="0" cellspacing="0" width=100%>
+						<tr>
+							<td align="center">
+								<div class="le_version_xml_holder">
+									<div class="subm_textarea_holder_top">
+										<table cellpadding="0" cellspacing="0" width="100%">
+											<tbody><tr>
+												<td width="4">
+													<div class="subm_textarea_holder_top_left"></div>
+												</td>
+												<td>
+													<div class="subm_textarea_holder_top_middle"></div>
+												</td>
+												<td width="4">
+													<div class="subm_textarea_holder_top_right"></div>
+												</td>
+											</tr>
+										</tbody></table>
+									</div>
+									<div class="subm_textarea_holder_view_source">
+										{document_current_version_xml}
+									</div>
+									<div class="subm_textarea_holder">
+										<table cellpadding="0" cellspacing="0" width="100%">
+											<tbody><tr>
+												<td width="4">
+													<div class="subm_textarea_holder_top_left subm_textarea_holder_bottom_left"></div>
+												</td>
+												<td>
+													<div class="subm_textarea_holder_top_middle subm_textarea_holder_bottom_middle"></div>
+												</td>
+												<td width="4">
+													<div class="subm_textarea_holder_top_right subm_textarea_holder_bottom_right"></div>
+												</td>
+											</tr>
+										</tbody></table>
+									</div>
+								</div>
+							
+								<div class="le_actions_holder">
+									<div class="P-Green-Btn-Holder saveForm" onclick="SaveLEDecision({round_user_id}, ' . (int)ROUND_LAYOUT_DECISION_ACCEPT . ')">
+										<div class="P-Green-Btn-Left"></div>
+										<div class="P-Green-Btn-Middle">
+											{_getstr(pjs.layout_approve_btn_text)}
+										</div>
+										<div class="P-Green-Btn-Right"></div>
+									</div>
+									<div class="P-Green-Btn-Holder saveForm">
+										<div class="P-Green-Btn-Left"></div>
+										<div class="P-Green-Btn-Middle">
+											{save}
+										</div>
+										<div class="P-Green-Btn-Right"></div>
+									</div>
+									<div class="P-Green-Btn-Holder saveForm">
+										<div class="P-Green-Btn-Left"></div>
+										<div class="P-Green-Btn-Middle">
+											{_getstr(pjs.layout_html_preview_btn_text)}
+										</div>
+										<div class="P-Green-Btn-Right"></div>
+									</div>
+									<div class="P-Green-Btn-Holder saveForm">
+										<div class="P-Green-Btn-Left"></div>
+										<div class="P-Green-Btn-Middle">
+											{_getstr(pjs.layout_pdf_preview_btn_text)}
+										</div>
+										<div class="P-Green-Btn-Right"></div>
+									</div>
+									<div class="P-Green-Btn-Holder saveForm">
+										<div class="P-Green-Btn-Left"></div>
+										<div class="P-Green-Btn-Middle">
+											{_getstr(pjs.layout_revert_btn_text)}
+										</div>
+										<div class="P-Green-Btn-Right"></div>
+									</div>
+									<div class="P-Clear"></div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	',
+	
 );
 ?>

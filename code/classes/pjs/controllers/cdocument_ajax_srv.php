@@ -102,6 +102,12 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 															$this->GetValueFromRequestWithoutChecks('invited_users_ids'),
 															$this->GetValueFromRequestWithoutChecks('non_submited_users_ids'));
 				break;
+			case 'save_le_xml_version' :
+				$this->SaveLEXMLVersion();
+				break;
+			case 'revert_le_xml_version' :
+				$this->RevertLEXMLVersion();
+				break;
 		}
 
 		$lResultArr = array_merge($this->m_action_result, array(
@@ -976,6 +982,82 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 				'err_msg' => $lException->getMessage()
 			);
 		}
+	}
+
+	function SaveLEXMLVersion(){
+		$lDocumentsModel = new mDocuments_Model();
+		$lJournalModel = new mJournal();
+		
+		$lDocumentId =  $this->GetValueFromRequestWithoutChecks('document_id');
+		$lXML =  $this->GetValueFromRequestWithoutChecks('doc_xml');
+		
+		$lLayoutData = $lJournalModel->GetDocumentLayoutData($lDocumentId);
+		if((int)$lLayoutData['uid'] == $this->GetUserId()) {
+			$lDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+			// check if xml is valid
+			if(!$lDom->loadXML($lXML)){
+				$this->m_errCnt ++;
+				$this->m_errMsgs[] = array(
+					'err_msg' => getstr('pjs.xmlIsNotValid'),
+				);
+			} else {
+				try{
+					$lResult = $lDocumentsModel->SaveLEXMLVersion($lLayoutData['le_version_id'], $lXML);
+					if((int)$lResult['err_cnt']) {
+						$this->m_errCnt = (int)$lResult['err_cnt'];
+						$this->m_errMsgs = $lResult['err_msgs'];
+					}
+				}catch(Exception $lException){
+					$this->m_errCnt ++;
+					$this->m_errMsgs[] = array(
+						'err_msg' => $lException->getMessage()
+					);
+				}	
+			}
+		} else {
+			$this->m_errCnt ++;
+			$this->m_errMsgs[] = array(
+				'err_msg' => getstr('pjs.no_such_layout_for_this_document'),
+			);
+		}
+		
+	}
+
+	function RevertLEXMLVersion(){
+		$lDocumentsModel = new mDocuments_Model();
+		$lJournalModel = new mJournal();
+		
+		$lDocumentId =  $this->GetValueFromRequestWithoutChecks('document_id');
+		
+		$lLayoutData = $lJournalModel->GetDocumentLayoutData($lDocumentId);
+		if((int)$lLayoutData['uid'] == $this->GetUserId()) {
+			try{
+				$lResult = $lDocumentsModel->RevertLEXMLVersion($lDocumentId);
+				if((int)$lResult['err_cnt']) {
+					$this->m_errCnt = (int)$lResult['err_cnt'];
+					$this->m_errMsgs = $lResult['err_msgs'];
+				} else {
+					
+					$lDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+					$lDom->formatOutput = true;
+					$lDom->loadXML($lResult['doc_xml']);
+					$lLEXMLVersion = $lDom->saveXML();
+					
+					$this->m_action_result['doc_xml'] = $lLEXMLVersion;
+				}
+			}catch(Exception $lException){
+				$this->m_errCnt ++;
+				$this->m_errMsgs[] = array(
+					'err_msg' => $lException->getMessage()
+				);
+			}	
+		} else {
+			$this->m_errCnt ++;
+			$this->m_errMsgs[] = array(
+				'err_msg' => getstr('pjs.no_such_layout_for_this_document'),
+			);
+		}
+		
 	}
 
 }
