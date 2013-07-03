@@ -1735,8 +1735,17 @@ function SyncCKEditors(){
 	}
 }
 
-function HandlePreviewModeDeleteInstance(){
-	window.location.reload();
+function HandlePreviewModeDeleteInstance(pAjaxResult){
+	var lQueryParams = getQueryParams(window.location.search);
+	var lDeletedInstanceId = pAjaxResult['deleted_instance_id'];
+	var lCurrentInstanceId = lQueryParams['instance_id'];
+	var lCurrentDocumentId = lQueryParams['document_id'];
+	if(lDeletedInstanceId == lCurrentInstanceId){
+		var lUrl = '/preview.php?document_id=' + lCurrentDocumentId;
+		window.location.href = lUrl;
+	}else{
+		window.location.reload();
+	}
 }
 
 function HandlePreviewModeCreateInstance(){
@@ -3531,6 +3540,20 @@ function LoadDocumentTree(pTreeHolderId, pDocumentId, pInstanceId){
 			$('#' + pTreeHolderId).html(pAjaxResult['html'])
 		}
 	});
+}
+
+function getQueryParams(qs) {
+    qs = qs.split("+").join(" ");
+
+    var params = {}, tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])]
+            = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
 }
 
 function ScrollToSelectedTreeElement(){
