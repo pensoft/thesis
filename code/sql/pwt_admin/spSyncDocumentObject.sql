@@ -1,12 +1,15 @@
 DROP TYPE ret_spSyncDocumentObject CASCADE;
 CREATE TYPE ret_spSyncDocumentObject AS (
-	result int
+	result int,
+	processed_objectids bigint[]
 );
 
 CREATE OR REPLACE FUNCTION spSyncDocumentObject(
 	pObjectId bigint,
 	pDocumentId bigint,
-	pUid int
+	pUid int,
+	pProcessedObjectIds bigint[] DEFAULT ARRAY[]::bigint[],
+	pCreateTables int DEFAULT 1
 )
   RETURNS ret_spSyncDocumentObject AS
 $BODY$
@@ -15,6 +18,7 @@ DECLARE
 	--lSid int;
 	lRecord record;
 	lRecord2 record;
+	lTempRecord record;
 	lInstanceRecord record;
 	lTemplateObjectId bigint;
 	lCount int;
@@ -27,9 +31,26 @@ DECLARE
 	lChildTemplateObjectId bigint;
 	lMinOccurrence int;
 	lIter int;
+	lChildPosLength int;
 BEGIN
 	-- First sync the fields 
 	PERFORM spSyncDocumentObjectFields(pObjectId, pDocumentId, pUid);
+	pProcessedObjectIds = pProcessedObjectIds || pObjectId;
+	
+	IF pCreateTables = 1 THEN
+		CREATE TEMP TABLE document_template_objects_ord(
+			document_template_object_id bigint,
+			pos varchar,
+			id serial
+		);
+		CREATE TEMP TABLE document_objects_instances_ord(
+			instance_id bigint,
+			pos varchar,
+			parent_pos varchar,
+			id serial
+		);
+		
+	END IF;
 	
 	<<ObjectsLoop>>
 	FOR lRecord IN
@@ -39,6 +60,7 @@ BEGIN
 		WHERE teo.document_id = pDocumentId AND teo.object_id = pObjectId
 	LOOP
 		lParentPos = lRecord.pos;
+		lChildPosLength = char_length(lParentPos) + 2;
 		lParentId = lRecord.id;
 		SELECT INTO lNextChildPos 
 			max(pos)
@@ -66,31 +88,31 @@ BEGIN
 		END IF;
 		
 		IF lTemplateObjectId IS NULL THEN
-			RAISE EXCEPTION 'pwt.noSuchElementInTemplateObjects';
+			RAISE EXCEPTION 'pwt.noSuchElementInTemplateObjects % % %', pObjectId, lRecord.parent_object_id, lRecord.parent_id;
 		END IF;
 		
 		UPDATE pwt.document_template_objects dto SET
-			display_in_tree = dto.display_in_tree,
-			is_fake = dto.is_fake,
-			allow_movement = dto.allow_movement,
-			allow_add = dto.allow_add,
-			allow_remove = dto.allow_remove,
-			display_title_and_top_actions = dto.display_title_and_top_actions,
-			display_name = dto.display_name,
-			default_mode_id = dto.default_mode_id,
-			default_new_mode_id = dto.default_new_mode_id,
-			allowed_modes = dto.allowed_modes,
-			display_default_actions = dto.display_default_actions,
-			title_display_style = dto.title_display_style,
-			xml_node_name = dto.xml_node_name,
-			display_object_in_xml = dto.display_object_in_xml,
-			generate_xml_id = dto.generate_xml_id,
-			default_actions_type = dto.default_actions_type,
-			displayed_actions_type = dto.displayed_actions_type,
-			limit_new_object_creation = dto.limit_new_object_creation,
-			view_xpath_sel = dto.view_xpath_sel,
-			view_xsl_templ_mode = dto.view_xsl_templ_mode,
-			create_in_popup = dto.create_in_popup
+			display_in_tree = teo.display_in_tree,
+			is_fake = teo.is_fake,
+			allow_movement = teo.allow_movement,
+			allow_add = teo.allow_add,
+			allow_remove = teo.allow_remove,
+			display_title_and_top_actions = teo.display_title_and_top_actions,
+			display_name = teo.display_name,
+			default_mode_id = teo.default_mode_id,
+			default_new_mode_id = teo.default_new_mode_id,
+			allowed_modes = teo.allowed_modes,
+			display_default_actions = teo.display_default_actions,
+			title_display_style = teo.title_display_style,
+			xml_node_name = teo.xml_node_name,
+			display_object_in_xml = teo.display_object_in_xml,
+			generate_xml_id = teo.generate_xml_id,
+			default_actions_type = teo.default_actions_type,
+			displayed_actions_type = teo.displayed_actions_type,
+			limit_new_object_creation = teo.limit_new_object_creation,
+			view_xpath_sel = teo.view_xpath_sel,
+			view_xsl_templ_mode = teo.view_xsl_templ_mode,
+			create_in_popup = teo.create_in_popup
 		FROM pwt.template_objects teo
 		WHERE teo.id = lTemplateObjectId AND dto.id = lParentId;
 		
@@ -114,8 +136,13 @@ BEGIN
 				lCount = 1;
 			END IF;
 			
-			-- Sync the child object
-			PERFORM spSyncDocumentObject(lChildObjectId, pDocumentId, pUid);
+			-- Sync the child object if it has not already been synced
+			IF NOT (pProcessedObjectIds @> ARRAY[lChildObjectId]::bigint[]) THEN
+				SELECT INTO lTempRecord 
+					*
+				FROM spSyncDocumentObject(lChildObjectId, pDocumentId, pUid, pProcessedObjectIds, 0);
+				pProcessedObjectIds = lTempRecord.processed_objectids;
+			END IF;
 			
 			SELECT INTO lCurrentCount
 				count(*)
@@ -153,17 +180,23 @@ BEGIN
 				INSERT INTO pwt.document_template_objects(document_id, template_id, object_id, pos, display_in_tree, is_fake, allow_movement, allow_add, allow_remove, 
 					display_title_and_top_actions, display_name, default_mode_id, default_new_mode_id, allowed_modes, display_default_actions, title_display_style,
 					xml_node_name, display_object_in_xml, generate_xml_id, default_actions_type, displayed_actions_type, limit_new_object_creation, view_xpath_sel, view_xsl_templ_mode,
-					template_object_id, create_in_popup, parent_id
+					template_object_id, create_in_popup
 				)
 				SELECT pDocumentId, t.template_id, t.object_id, overlay(t.pos placing lNextChildPos from 1 for char_length(lNextChildPos)), t.display_in_tree, t.is_fake, t.allow_movement, t.allow_add, t.allow_remove, 
 					t.display_title_and_top_actions, t.display_name, t.default_mode_id, t.default_new_mode_id, t.allowed_modes, t.display_default_actions, t.title_display_style,
 					t.xml_node_name, t.display_object_in_xml, t.generate_xml_id, t.default_actions_type, t.displayed_actions_type, t.limit_new_object_creation, t.view_xpath_sel, t.view_xsl_templ_mode,
-					t.id, t.create_in_popup, lParentId
+					t.id, t.create_in_popup
 				FROM pwt.template_objects t
 				JOIN pwt.template_objects c ON c.template_id = t.template_id AND c.pos = substring(t.pos, 1, char_length(c.pos)) AND char_length(c.pos) <= char_length(t.pos) 
 				JOIN pwt.template_objects p ON p.template_id = c.template_id AND p.pos = substring(c.pos, 1, char_length(p.pos)) AND char_length(p.pos) + 2 = char_length(c.pos) 
 				WHERE t.template_id = lRecord.template_id AND p.id = lTemplateObjectId AND c.id = lChildTemplateObjectId;
-								
+				
+				UPDATE 	pwt.document_template_objects o SET
+					parent_id = p.id
+				FROM pwt.document_template_objects p
+				WHERE o.document_id = pDocumentId AND p.document_id = o.document_id AND char_length(o.pos) = char_length(p.pos) + 2 AND o.parent_id IS NULL 
+					AND substring(o.pos, 1, char_length(p.pos)) = p.pos;
+				
 				lNextChildPos = lParentPos || ForumGetNextOrd(lNextChildPos);
 				lCurrentCount = lCurrentCount + 1;
 			END LOOP lOccurrenceLoop;
@@ -183,6 +216,7 @@ BEGIN
 				;
 								
 			END IF;
+			
 			
 			-- Create the required instances
 			<<InstancesLoop>>
@@ -236,12 +270,104 @@ BEGIN
 			FROM pwt.document_template_objects c
 			USING pwt.document_template_objects p 
 			WHERE p.id = lRecord2.id AND p.document_id = c.document_id AND p.pos = substring(c.pos, 1, char_length(p.pos)) AND char_length(p.pos) <= char_length(c.pos) ;
+			
 		END LOOP lRemovedSubobjects;
 		
+		-- Update the subobjects' pos
+		TRUNCATE document_template_objects_ord;
+		
+		-- Insert according to the pos in template_objects and the current pos
+		INSERT INTO document_template_objects_ord(document_template_object_id)
+			SELECT id FROM (
+				SELECT DISTINCT ON (dto.id) dto.id, i.pos as ipos, dto.pos as dpos
+				FROM pwt.document_template_objects dto
+				JOIN pwt.template_objects i ON i.object_id = dto.object_id
+				JOIN pwt.template_objects p ON p.template_id = i.template_id AND p.pos = substring(i.pos, 1, char_length(p.pos)) AND char_length(p.pos) + 2 = char_length(i.pos)
+				WHERE dto.parent_id = lParentId
+					AND i.template_id = lRecord.template_id AND p.id = lTemplateObjectId
+			 	ORDER BY dto.id, i.pos ASC, dto.pos ASC
+			 ) AS temp 
+			 ORDER BY ipos ASC, dpos ASC;
+		 
+		 -- Just in case - there shouldnt be any subobjects that are missing from template_objects
+		 INSERT INTO document_template_objects_ord(document_template_object_id)
+			SELECT id FROM (
+			 	SELECT DISTINCT dto.id, dto.pos
+				FROM pwt.document_template_objects dto			 
+				JOIN pwt.template_objects p ON p.template_id = lRecord.template_id 
+				LEFT JOIN pwt.template_objects i ON i.object_id = dto.object_id AND i.template_id = p.template_id
+					AND p.pos = substring(i.pos, 1, char_length(p.pos)) AND char_length(p.pos) + 2 = char_length(i.pos)
+				WHERE dto.parent_id = lParentId AND i.id IS NULL
+					AND p.id = lTemplateObjectId
+			 	ORDER BY dto.pos ASC
+			 	)AS temp 
+			 	ORDER BY pos;
+		 
+			
+		lNextChildPos = 'AA';
+		<<lSubobjectsOrder>>
+		FOR lRecord2 IN 
+			SELECT * 
+			FROM document_template_objects_ord 
+			ORDER BY id ASC
+		LOOP
+			UPDATE document_template_objects_ord SET 
+				pos = lParentPos || lNextChildPos 
+			WHERE id = lRecord2.id;
+			lNextChildPos = ForumGetNextOrd(lNextChildPos);
+		END LOOP lSubobjectsOrder;
+		
+		UPDATE pwt.document_template_objects t SET
+			pos = overlay(t.pos placing o.pos from 1 for lChildPosLength)
+		FROM pwt.document_template_objects p 	
+		JOIN document_template_objects_ord o ON o.document_template_object_id = p.id
+		WHERE substring(t.pos, 1, char_length(p.pos)) = p.pos AND p.document_id = pDocumentId AND t.document_id = pDocumentId;			
+		
+		-- Update the positions of the instances
+		FOR lTempRecord IN
+			SELECT *
+			FROM pwt.document_object_instances 
+			WHERE document_template_object_id = lParentId
+		LOOP 
+			TRUNCATE document_objects_instances_ord;
+		
+			INSERT INTO document_objects_instances_ord(instance_id, parent_pos)
+				SELECT i.id, lTempRecord.pos
+				FROM pwt.document_object_instances i				
+				JOIN pwt.document_template_objects dto ON dto.id = i.document_template_object_id
+				WHERE i.parent_id = lTempRecord.id
+					AND i.document_id = pDocumentId
+				ORDER BY dto.pos ASC, i.pos ASC;
+			 
+			 lNextChildPos = 'AA';
+			 <<lSubInstancesOrder>>
+			FOR lRecord2 IN 
+				SELECT * 
+				FROM document_objects_instances_ord 
+				ORDER BY id ASC
+			LOOP
+				UPDATE document_objects_instances_ord SET 
+					pos = parent_pos || lNextChildPos 
+				WHERE id = lRecord2.id;
+				lNextChildPos = ForumGetNextOrd(lNextChildPos);
+			END LOOP lSubInstancesOrder;
+			
+			UPDATE pwt.document_object_instances t SET
+				pos = overlay(t.pos placing o.pos from 1 for char_length(o.pos))
+			FROM pwt.document_object_instances p 	
+			JOIN document_objects_instances_ord o ON o.instance_id = p.id
+			WHERE substring(t.pos, 1, char_length(p.pos)) = p.pos AND p.document_id = pDocumentId AND t.document_id = pDocumentId;
+		END LOOP;
 		
 	END LOOP ObjectsLoop;
 	
+	IF pCreateTables = 1 THEN
+		DROP TABLE document_template_objects_ord;
+		DROP TABLE document_objects_instances_ord;		
+	END IF;
+	
 	lRes.result = 1;
+	lRes.processed_objectids = pProcessedObjectIds;
 	RETURN lRes;
 END
 $BODY$
@@ -250,5 +376,7 @@ $BODY$
 GRANT EXECUTE ON FUNCTION spSyncDocumentObject(
 	pObjectId bigint,
 	pDocumentId bigint,
-	pUid int
+	pUid int,
+	pProcessedObjectIds bigint[],
+	pCreateTables int
 ) TO iusrpmt;

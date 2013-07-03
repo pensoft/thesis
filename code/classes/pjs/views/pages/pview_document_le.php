@@ -67,7 +67,12 @@ class pView_Document_LE extends pView_Document {
 				G_ROWTEMPL => 'view_document_author.seAssignedListRow',
 			)
 		);
-		
+
+		// $this->m_objectsMetadata['le_form'] = array(
+			// 'templs' => array(
+				// G_FORM_TEMPLATE => 'view_document_le.form',
+			// )
+		// );
 	}
 }
 

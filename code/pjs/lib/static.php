@@ -702,5 +702,17 @@ function ipfilter($ip, $cidrs) {
 
 }
 
+function CustomHtmlEntitiesDoubleEncode($pXml){
+	//The order here is important. If amps are last there we will have tripple encode
+	$lHtmlEntities = array(
+		'&amp;' => '&amp;amp;',
+		'&lt;' => '&amp;lt;',
+		'&gt;' => '&amp;gt;',
+		'&quot;' => '&amp;quot;',
+	);
+
+	$pXml = str_replace(array_keys($lHtmlEntities), array_values($lHtmlEntities), $pXml);
+	return $pXml;
+}
 
 ?>
