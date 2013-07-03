@@ -231,7 +231,7 @@ function DestroyElementEditors(pJQElement){
 	
 	
 	pJQElement.find('script').each(function(pIdx, pElement){
-		pElement.remove();
+		$(pElement).remove();
 	});
 	return lResult;
 }
