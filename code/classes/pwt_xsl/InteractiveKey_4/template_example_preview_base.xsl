@@ -117,7 +117,7 @@
 
 	
 	<!-- Project Description -->
-	<xsl:template match="*[@object_id='190']" mode="bodySections">
+	<xsl:template match="*[@object_id='111']" mode="bodySections">
 		<xsl:variable name="lSecTitle" select="./@display_name" />
 		<xsl:variable name="lSecSubTitle" select="./fields/*[@id='289']/@field_name" />
 		<xsl:variable name="lPersonnel" select="./fields/*[@id='450']/@field_name" />
