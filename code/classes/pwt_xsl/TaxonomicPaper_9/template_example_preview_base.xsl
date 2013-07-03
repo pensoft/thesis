@@ -681,11 +681,41 @@
 		
 		<div class="typeSpeciesIndent">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span field_id="441"><i><xsl:apply-templates select="./fields/*[@id='441']" mode="formatting"/></i></span> <!-- Genus	 --> <xsl:text> </xsl:text>
-			<span field_id="442"><i><xsl:apply-templates select="./fields/*[@id='442']" mode="formatting"/></i></span> <!-- Species -->
-
+				<!-- Genus	 -->
+				<i>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+						<xsl:with-param name="pFieldId">441</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">441</xsl:attribute>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='441']" mode="formatting"/>
+				</i>
+			<xsl:text> </xsl:text>
+			
+			<!-- Species -->
+				<i>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+						<xsl:with-param name="pFieldId">442</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">442</xsl:attribute>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='442']" mode="formatting"/>
+				</i>
+			<xsl:text> </xsl:text>
+			
 			<!-- Taxon Author -->
-			<span field_id="443"><xsl:apply-templates select="./fields/*[@id='443']" mode="formatting"/></span>
+			<span field_id="443">
+				<xsl:call-template name="markContentEditableField">
+					<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+					<xsl:with-param name="pFieldId">443</xsl:with-param>
+				</xsl:call-template>
+				<xsl:attribute name="field_id">443</xsl:attribute>
+				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+				<xsl:apply-templates select="./fields/*[@id='443']" mode="formatting"/>
+			</span>
+			
 			<!-- new species described in this paper -->
 			<xsl:if test="./fields/*[@id='440']/value/@value_id = 1">
 				<xsl:choose>
@@ -693,9 +723,18 @@
 					<xsl:otherwise>, sp. n.</xsl:otherwise>
 				</xsl:choose>
 			</xsl:if>
+			
+			<!-- Basionym author -->
 			<xsl:if test="./fields/*[@id='454']/value != ''">
-				<xsl:text> (</xsl:text>
-				<span field_id="454"><xsl:apply-templates select="./fields/*[@id='454']" mode="formatting_nospace"/> <!-- Basionym author -->
+				<xsl:text> (</xsl:text>	
+				<span field_id="454">
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+						<xsl:with-param name="pFieldId">454</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">454</xsl:attribute>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='454']" mode="formatting_nospace"/> 
 				</span>
 				<xsl:text>)</xsl:text>
 			</xsl:if>
@@ -712,9 +751,36 @@
 				<xsl:text> - </xsl:text>
 			</xsl:if>	
 			<xsl:for-each select=".//*[@object_id='201']">
-				<xsl:apply-templates select=".//*[@object_id='178']/fields/*[@id='438']/value" mode="formatting_nospace"/> 
-				<xsl:if test="./fields/*[@id='461']/value != ''">&#160;[<xsl:apply-templates select="./fields/*[@id='461']/value" mode="formatting_nospace"/>]</xsl:if>
-				<xsl:if test="./fields/*[@id='462']/value != ''">:&#160;<xsl:apply-templates  select="./fields/*[@id='462']/value" mode="formatting_nospace"/></xsl:if>			
+				<span field_id="438">
+					<xsl:apply-templates select=".//*[@object_id='178']/fields/*[@id='438']/value" mode="formatting_nospace"/> 
+				</span>
+				
+				<xsl:if test="./fields/*[@id='461']/value != ''">
+					<xsl:text> [</xsl:text>
+					<span field_id="461">
+						<xsl:call-template name="markContentEditableField">
+							<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+							<xsl:with-param name="pFieldId">461</xsl:with-param>
+						</xsl:call-template>
+						<xsl:attribute name="field_id">461</xsl:attribute>
+						<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+						<xsl:apply-templates select="./fields/*[@id='461']/value" mode="formatting_nospace"/>
+					</span>
+					<xsl:text>]</xsl:text>
+				</xsl:if>
+						
+				<xsl:if test="./fields/*[@id='462']/value != ''">
+					<xsl:text>: </xsl:text>
+					<span field_id="462">
+						<xsl:call-template name="markContentEditableField">
+							<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+							<xsl:with-param name="pFieldId">462</xsl:with-param>
+						</xsl:call-template>
+						<xsl:attribute name="field_id">462</xsl:attribute>
+						<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+						<xsl:apply-templates  select="./fields/*[@id='462']/value" mode="formatting_nospace"/>
+					</span>
+				</xsl:if>		
 				<xsl:if test="position() != last()"><xsl:text>; </xsl:text></xsl:if>
 				<xsl:if test="position()  = last()"><xsl:text>. </xsl:text></xsl:if>
 			</xsl:for-each>
