@@ -371,9 +371,11 @@ function formatDate($pDate) {
 
 
 function getEditPreviewHead($pDocumentId){
-	if(!(int)$pDocumentId)
-		return '';
+	
 	$lDom = new DOMDocument('1.0', 'utf-8');
+	if(!(int)$pDocumentId)
+		return $lDom;
+	
 	$lRoot = $lDom->appendChild($lDom->createElement('root'));
 	$lScripts = array(
 		'/lib/js/jquery.js',
@@ -493,6 +495,10 @@ function getYouTubeId($pUrl) {
 
 function GetSortedMaterialFields($pFields){
 	$lFirstField = $pFields[0];
+	$lDom = new DOMDocument('1.0', 'utf-8');
+	if(!$lFirstField || !$lFirstField->ownerDocument){
+		return $lDom;
+	}
 	$lXPath = new DOMXPath($lFirstField->ownerDocument);
 
 	$lFieldsArr = array();
@@ -525,7 +531,7 @@ function GetSortedMaterialFields($pFields){
 // 	var_dump($lFieldsArr);
 	$lFieldsArr = SortMaterialFields($lFieldsArr);
 
-	$lDom = new DOMDocument('1.0', 'utf-8');
+	
 	$lRoot = $lDom->appendChild($lDom->createElement('root'));
 // 	var_dump($lFieldsArr);
 	foreach($lFieldsArr as $lFieldId => $lFieldData){
