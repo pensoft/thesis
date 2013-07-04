@@ -1,0 +1,1 @@
+UPDATE pjs.email_groups SET sql = 'SELECT uid, 9 as role_id FROM pjs.document_users WHERE document_id = {document_id} AND role_id = 9 ORDER BY id DESC LIMIT 1' WHERE id = 4;

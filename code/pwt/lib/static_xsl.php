@@ -59,6 +59,7 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		191 => array(452, 451),
 		201 => array(461, 462),
 		202 => array(464),
+		204 => array(413),
 		205 => array(236, 417, 434, 433, 432, 431, 430, 429, 428, 427, 426, 425, 424, 423, 422, 421, 420, 419, 48, 49, 435, 436, 418),
 		206 => array(473),
 		207 => array(472),
@@ -68,7 +69,7 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		211 => array(413),
 		212 => array(379, 134, 133, 132, 129, 126, 113, 112, 111, 110, 109, 446, 447, 448, 357, 118, 119, 120, 121, 122, 124, 114, 115, 116, 125, 117, 123),
 		22 => array(34, 35, 36, 37, 38, 39),
-		23 => array(32),
+		23 => array(31, 32),
 		25 => array(54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74),
 		26 => array(88, 89, 91, 101, 102, 93, 94, 103, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 90, 92, 95, 96, 97, 98, 99, 100, 104, 105, 106),
 		27 => array(115, 107, 108, 109, 110, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 144, 145, 146, 147, 148, 149, 143),
@@ -371,9 +372,11 @@ function formatDate($pDate) {
 
 
 function getEditPreviewHead($pDocumentId){
-	if(!(int)$pDocumentId)
-		return '';
+	
 	$lDom = new DOMDocument('1.0', 'utf-8');
+	if(!(int)$pDocumentId)
+		return $lDom;
+	
 	$lRoot = $lDom->appendChild($lDom->createElement('root'));
 	$lScripts = array(
 		'/lib/js/jquery.js',
@@ -493,6 +496,10 @@ function getYouTubeId($pUrl) {
 
 function GetSortedMaterialFields($pFields){
 	$lFirstField = $pFields[0];
+	$lDom = new DOMDocument('1.0', 'utf-8');
+	if(!$lFirstField || !$lFirstField->ownerDocument){
+		return $lDom;
+	}
 	$lXPath = new DOMXPath($lFirstField->ownerDocument);
 
 	$lFieldsArr = array();
@@ -525,7 +532,7 @@ function GetSortedMaterialFields($pFields){
 // 	var_dump($lFieldsArr);
 	$lFieldsArr = SortMaterialFields($lFieldsArr);
 
-	$lDom = new DOMDocument('1.0', 'utf-8');
+	
 	$lRoot = $lDom->appendChild($lDom->createElement('root'));
 // 	var_dump($lFieldsArr);
 	foreach($lFieldsArr as $lFieldId => $lFieldData){

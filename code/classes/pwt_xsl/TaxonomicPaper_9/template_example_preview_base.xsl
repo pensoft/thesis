@@ -230,7 +230,7 @@
 								<xsl:with-param name="pFieldId">31</xsl:with-param>
 							</xsl:call-template>
 							<xsl:attribute name="field_id">31</xsl:attribute>
-                                                        <xsl:value-of select="php:function('h_strip_tags', string(./fields/*[@id='31']/value))" />
+                            <xsl:value-of select="php:function('h_strip_tags', string(./fields/*[@id='31']/value))" />
 						</div>
 						<div class="KeyNotes">
 							<xsl:call-template name="markContentEditableField">
@@ -392,7 +392,14 @@
 			<div class="P-Article-Preview-Block">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<xsl:variable name="checklistTitle" select="./fields/*[@id='413']" /> 
-				<h1><xsl:value-of select="php:function('h_strip_tags', string($checklistTitle))" /></h1>
+				<h1>
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId">204</xsl:with-param>
+						<xsl:with-param name="pFieldId">413</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">413</xsl:attribute>
+					<xsl:value-of select="php:function('h_strip_tags', string($checklistTitle))" />
+				</h1>
 				<div class="Checklist">
 					<xsl:apply-templates select="./*[@object_id='205']" mode="checklistTaxon"/>
 				</div>
@@ -609,7 +616,6 @@
 
 	<!-- Taxon name species -->
 	<xsl:template match="*[@object_id='180']" mode="taxonTreatmentName">
-
 				<i><xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
 						<xsl:with-param name="pFieldId">48</xsl:with-param>
