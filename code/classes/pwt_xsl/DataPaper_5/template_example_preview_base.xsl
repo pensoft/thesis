@@ -941,8 +941,8 @@
 					<span class="fieldLabel">
 						<xsl:value-of select="$lDataFormat" />:&#160;</span>
 
-<div class="fieldValue">
-	<xsl:call-template name="markContentEditableField">
+					<div class="fieldValue">
+						<xsl:call-template name="markContentEditableField">
 							<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
 							<xsl:with-param name="pFieldId">398</xsl:with-param>
 						</xsl:call-template>
@@ -957,17 +957,16 @@
 				<div class="myfieldHolder">
 					<span class="fieldLabel">
 						<xsl:value-of select="$lDataFormatVersion" />:&#160;</span>
-
-<div class="fieldValue">
-	<xsl:call-template name="markContentEditableField">
-							<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-							<xsl:with-param name="pFieldId">459</xsl:with-param>
-						</xsl:call-template>
-						<xsl:attribute name="field_id">459</xsl:attribute>
-						<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-						<xsl:attribute name="class">P-Inline</xsl:attribute>
-						<xsl:apply-templates select="./fields/*[@id='459']/value" mode="formatting"/>
-					</div>
+						<div class="fieldValue">
+							<xsl:call-template name="markContentEditableField">
+								<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+								<xsl:with-param name="pFieldId">459</xsl:with-param>
+							</xsl:call-template>
+							<xsl:attribute name="field_id">459</xsl:attribute>
+							<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+							<xsl:attribute name="class">P-Inline</xsl:attribute>
+							<xsl:apply-templates select="./fields/*[@id='459']/value" mode="formatting"/>
+						</div>
 				</div>
 			</xsl:if>
 
@@ -989,25 +988,30 @@
 			</xsl:if>
 			<!-- Number of columns -->
 			<xsl:if test="./fields/*[@id='400']/value &gt; 0">
-				<xsl:apply-templates select="//*[@object_id='142']" mode="dataSetColumns"/>
+				<xsl:variable name="lColumnLabel" select="./column/fields/*[@id='401']/@field_name" />
+				<xsl:variable name="lColumnDescription" select="./column/fields/*[@id='402']/@field_name" />
+				<div class="Table-Body">
+					<table>
+						<tr>
+							<th style="color:#404040;">
+								<xsl:value-of select="$lColumnLabel" />
+							</th>
+							<th style="color:#404040;">
+								<xsl:value-of select="$lColumnDescription" />
+							</th>
+						</tr>
+							<xsl:apply-templates select="//*[@object_id='142']" mode="dataSetColumns"/>
+					</table>
+				</div>
 			</xsl:if>
-
-
 		</div>
 	</xsl:template>
-
-
+	
 	<!-- dataSetColumns -->
 	<xsl:template match="*" mode="dataSetColumns">
-		<xsl:variable name="lColumnLabel" select="./fields/*[@id='401']/@field_name" />
-		<xsl:variable name="lColumnDescription" select="./fields/*[@id='402']/@field_name" />
-		<div class="DataSetColumnsHolder">
-
-			<xsl:if test="./fields/*[@id='401']/value != ''">
-				<div class="myfieldHolder">
-					<span class="fieldLabel">
-						<xsl:value-of select="$lColumnLabel" />:&#160;</span>
-					<div class="myfieldValue">
+			<tr>		
+				<xsl:if test="./fields/*[@id='401']/value != ''">
+					<td>
 						<xsl:call-template name="markContentEditableField">
 							<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
 							<xsl:with-param name="pFieldId">401</xsl:with-param>
@@ -1016,14 +1020,10 @@
 						<xsl:attribute name="field_id">401</xsl:attribute>
 						<xsl:attribute name="class">P-Inline</xsl:attribute>
 						<xsl:apply-templates select="./fields/*[@id='401']/value" mode="formatting"/>
-					</div>
-				</div>
-			</xsl:if>
-			<xsl:if test="./fields/*[@id='402']/value != ''">
-				<div class="myfieldHolder">
-					<span class="fieldLabel">
-						<xsl:value-of select="$lColumnDescription" />:&#160;</span>
-					<div class="myfieldValue">
+					</td>
+				</xsl:if>	
+				<xsl:if test="./fields/*[@id='402']/value != ''">
+					<td>
 						<xsl:call-template name="markContentEditableField">
 							<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
 							<xsl:with-param name="pFieldId">402</xsl:with-param>
@@ -1032,10 +1032,9 @@
 						<xsl:attribute name="field_id">402</xsl:attribute>
 						<xsl:attribute name="class">P-Inline</xsl:attribute>
 						<xsl:apply-templates select="./fields/*[@id='402']/value" mode="formatting"/>
-					</div>
-				</div>
-			</xsl:if>
-		</div>
+					</td>
+				</xsl:if>
+			</tr>	
 	</xsl:template>
 
 	<!-- Additional Information -->
