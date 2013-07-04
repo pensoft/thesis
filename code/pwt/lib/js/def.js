@@ -913,6 +913,20 @@ function deleteComment( pCommentId ) {
 					$('#P-Root-Comment-Holder-' + pCommentId).hide('slow', function(){
 						$(this).remove();
 					});
+					
+					var lPreviewContents = GetPreviewContent();			
+					
+					lPreviewContents.find('.P-Preview-Comment[comment_id~="' + pCommentId + '"]').each(function(pIdx, pElement){
+						if($(pElement).attr('comment_id') == pCommentId){
+							if(pElement.nodeName.toLowerCase() == 'span'){
+								$(pElement).replaceWith($(pElement).contents());
+							}else{
+								$(pElement).removeClass('P-Preview-Comment');
+							}
+						}else{
+							removeAttributeValue($(pElement), 'comment_id', pCommentId, ' ')
+						}						
+					});
 				}else{
 
 				}
@@ -2247,6 +2261,12 @@ function compareNodesOrder(pNodeA, pNodeB){
 			}
 		}
 	}
+}
+
+function hideLockWarningElement(pElemClass){
+	hideElement(pElemClass);
+	$('.P-Wrapper').removeClass('P-Wrapper-With-Lock-Warning');
+	$('.P-Bread-Crumbs').removeClass('P-Bread-Crumbs-With-Lock-Warning');
 }
 
 function hideElement(pElemClass) {

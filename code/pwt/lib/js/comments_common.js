@@ -981,6 +981,7 @@ function ResolveComment(pCommentId) {
 				lLabelText = 'Resolved by ' + pAjaxResult['resolve_fullname'];
 			}
 			$(lLabel).html(lLabelText);
+			FilterComments();
 		}
 	});
 }

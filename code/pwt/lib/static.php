@@ -3933,12 +3933,35 @@ function showValidationErrorClassMain($pErrors, $pValidation = 0) {
 
 function showDocumentLockWarning($pIsLocked, $pLockedUser, $pWithoutWarning = 0) {
 	global $user;
-	if((int)$pIsLocked && (int)$user->id != (int)$pLockedUser && !(int)$pWithoutWarning) {
+	if(checkIfDocumentIsLockedByAnotherUser($pIsLocked, $pLockedUser, $pWithoutWarning)) {
 		$lDocLockedUserFullName = getUserNameById((int)$pLockedUser);
 		$lStr = str_replace('{full_username}', $lDocLockedUserFullName, getstr('pwt.document.locked'));
-		return '<div class="P-Document-Locked-Warning"><img src="/i/document_locked_warning_icon.png" alt="" />' . $lStr . '<div class="P-Document-Locked-Warning-Close" onclick="hideElement(\'P-Document-Locked-Warning\')"></div></div>';
+		return '<div class="P-Document-Locked-Warning">
+					<img src="/i/document_locked_warning_icon.png" alt="" />' . $lStr . '
+					<div class="P-Document-Locked-Warning-Close" onclick="hideLockWarningElement(\'P-Document-Locked-Warning\')"></div>
+				</div>';
 	}
 	return '';
+}
+
+function showLockedErrorClass($pIsLocked, $pLockedUser, $pWithoutWarning = 0){
+	if(checkIfDocumentIsLockedByAnotherUser($pIsLocked, $pLockedUser, $pWithoutWarning)) {		
+		return ' P-Bread-Crumbs-With-Lock-Warning ';
+	}
+}
+
+function showLockedErrorClassMain($pIsLocked, $pLockedUser, $pWithoutWarning = 0){
+	if(checkIfDocumentIsLockedByAnotherUser($pIsLocked, $pLockedUser, $pWithoutWarning)) {
+		return ' P-Wrapper-With-Lock-Warning ';
+	}
+}
+
+function checkIfDocumentIsLockedByAnotherUser($pIsLocked, $pLockedUser, $pWithoutWarning = 0){
+	global $user;
+	if((int)$pIsLocked && (int)$user->id != (int)$pLockedUser && !(int)$pWithoutWarning) {
+		return true;
+	}
+	return false;
 }
 
 function hideTreeIfDocumentIslocked($pIsLocked, $pTreeHolderToHide, $pLockedUser) {
