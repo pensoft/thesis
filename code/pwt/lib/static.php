@@ -2720,13 +2720,13 @@ function getFigurePhotoDescription($pPhotoId, $pPlateId) {
 	if($pPhotoId) {
 		global $user;
 		$lCn = Con();
-		$lCn->Execute('SELECT description FROM pwt.media WHERE id = ' . (int)$pPhotoId . ' AND usr_id = ' . (int)$user->id);
+		$lCn->Execute('SELECT description FROM pwt.media WHERE id = ' . (int)$pPhotoId);
 		$lCn->MoveFirst();
 		return $lCn->mRs['description'];
 	} elseif ($pPlateId) {
 		global $user;
 		$lCn = Con();
-		$lCn->Execute('SELECT description FROM pwt.plates WHERE id = ' . (int)$pPlateId . ' AND usr_id = ' . (int)$user->id);
+		$lCn->Execute('SELECT description FROM pwt.plates WHERE id = ' . (int)$pPlateId);
 		$lCn->MoveFirst();
 		return $lCn->mRs['description'];
 	}
