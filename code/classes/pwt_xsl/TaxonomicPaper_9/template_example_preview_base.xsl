@@ -614,7 +614,7 @@
 		</span>
 	</xsl:template>
 
-	<!-- Taxon name species -->
+	<!-- Type species ICZN Taxon name species -->
 	<xsl:template match="*[@object_id='180']" mode="taxonTreatmentName">
 				<i><xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
@@ -645,6 +645,56 @@
 					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 					<xsl:apply-templates select="./fields/*[@id='49']" mode="formatting_nospace"/></i>
 
+		<xsl:text>&#160;</xsl:text>
+		<xsl:apply-templates select="." mode="authors_and_year" />
+	</xsl:template>
+	
+	
+	<!-- Type species ICN Taxon name species -->
+	<xsl:template match="*[@object_id='220']" mode="taxonTreatmentName">
+				<i><xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">48</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">48</xsl:attribute>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting_nospace"/></i>
+	
+			<xsl:if test="./fields/*[@id='417']/value != ''">
+			<xsl:text>&#160;(</xsl:text>
+					<i><xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">417</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">417</xsl:attribute>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='417']" mode="formatting_nospace"/></i>
+					<xsl:text>)</xsl:text>
+			</xsl:if>
+			
+			<xsl:text>&#160;</xsl:text>
+				<i><xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">49</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="field_id">49</xsl:attribute>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='49']" mode="formatting_nospace"/></i>
+			
+			<!-- Basionym author -->
+			<xsl:if test="./fields/*[@id='478']/value != ''">
+				<xsl:text> (</xsl:text>	
+				<span field_id="478">
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+						<xsl:with-param name="pFieldId">478</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='478']" mode="formatting_nospace"/> 
+				</span>
+				<xsl:text>)</xsl:text>
+			</xsl:if>
+			
 		<xsl:text>&#160;</xsl:text>
 		<xsl:apply-templates select="." mode="authors_and_year" />
 	</xsl:template>
@@ -789,20 +839,22 @@
 			<xsl:if test="./*[@object_id='180' or @object_id='220']/fields/*[@id='48'] != '' and 
 						  ./*[@object_id='180' or @object_id='220']/fields/*[@id='49'] != ''">
 				<h3 class="h-treatment-section">Type species</h3>	
-				<!-- species name ICZN --> 
-				<xsl:apply-templates mode="taxonTreatmentName" select="./taxon_name" />
-				<!-- species name ICN (with basyonym) --> 
-				<xsl:apply-templates mode="taxonTreatmentName" select="./tt_species_name_with_basionym" />			
-				<!-- citations -->
-				<xsl:apply-templates mode="taxonCitations" select="*[@object_id='187']" />
+				<!-- species name ICZN -->
+				<div class="typeSpeciesIndent"> 
+					<xsl:apply-templates mode="taxonTreatmentName" select="./taxon_name" />
+					<!-- species name ICN (with basyonym) --> 
+					<xsl:apply-templates mode="taxonTreatmentName" select="./tt_species_name_with_basionym" />			
+					<!-- citations -->
+					<xsl:apply-templates mode="taxonCitations" select="*[@object_id='187']" />
+				</div>	
 				<!-- synonymys  -->
 				<xsl:if test="count(./*[@object_id='219']/*[@object_id='218']) &gt; 0">
-					<h4>Synonymys</h4>
-					<ul>
-						<xsl:for-each select="./*[@object_id='219']/*[@object_id='218']">
-							<li><xsl:apply-templates select="." mode="Synonymy" /></li>
-						</xsl:for-each>
-					</ul>
+					<div class="treatmentSection" style="color:#404040">
+						<h3 class="h-treatment-section"><i>Synonymys of the type species</i></h3>
+							<xsl:for-each select="./*[@object_id='219']/*[@object_id='218']">
+								<div class="typeSpeciesIndent"><xsl:apply-templates select="." mode="Synonymy" /></div>
+							</xsl:for-each>
+					</div>	
 				</xsl:if>
 			</xsl:if>
 	</xsl:template>
@@ -829,6 +881,8 @@
 			<xsl:apply-templates select="." mode="formatting_nospace"/>
 		</span>
 	</xsl:template>
+
+
 
 	<!-- Taxon Synonyms Specie Section -->
 	<xsl:template match="*" mode="taxonSynonymsSections">
