@@ -195,7 +195,6 @@ $BODY$
 			dr.enough_reviewers,
 			dr.review_lock,
 			dr.reviewers_assignment_duedate
-			
 		FROM pjs.document_review_rounds dr
 		JOIN pjs.document_review_round_types drt ON drt.id = dr.round_type_id
 		WHERE dr.document_id = pDocumentId AND round_type_id NOT IN (lEditorRoundType, lAuthorRoundType)

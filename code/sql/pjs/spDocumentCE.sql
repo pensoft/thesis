@@ -40,6 +40,8 @@ $BODY$
 		lCEChangeEventType int;
 		lOldCEUsrId bigint;
 		lRoundUsrId bigint;
+		lCEDocumentUserId bigint;
+		lCEVersionId bigint;
 	BEGIN		
 		lJournalEditorRoleId = 2;
 		lCERoleId = 9;
@@ -82,11 +84,13 @@ $BODY$
 		
 		IF pOper = 1 THEN -- Add CE
 			SELECT INTO lJournalId d.journal_id FROM pjs.documents d WHERE d.id = pDocumentId;
+			
 			IF NOT EXISTS (
-				SELECT * 
-				FROM pjs.document_users du
-				JOIN pjs.document_review_round_users drrus ON drrus.document_user_id = du.id AND drrus.round_id = pRoundId
-				WHERE document_id = pDocumentId AND role_id = lCERoleId 
+				SELECT du.* 
+				FROM pjs.documents d
+				JOIN pjs.document_review_round_users drrus ON drrus.round_id = d.current_round_id
+				JOIN pjs.document_users du ON du.id = drrus.document_user_id AND du.role_id = lCERoleId
+				WHERE d.id = pDocumentId
 			) THEN
 				
 				-- >>> closing editor round
@@ -111,7 +115,7 @@ $BODY$
 					FROM pjs.documents
 					WHERE id = pDocumentId AND state_id = lReadyForCopyEditingState
 				) THEN
-					
+
 					-- This would be the first layot review round
 					SELECT INTO lRoundId id FROM spCreateDocumentRound(pDocumentId, lCopyReviewRoundTypeId);
 					UPDATE pjs.document_review_rounds SET create_from_version_id = lCurrentAuthorVersionId WHERE id = lRoundId;
@@ -121,8 +125,13 @@ $BODY$
 						state_id = lInCopyEditState,
 						current_round_id = lRoundId
 					WHERE id = pDocumentId AND state_id = lReadyForCopyEditingState;
+				
+					SELECT INTO lVersionId id FROM spCreateDocumentVersion(pDocumentId, pCEId, lCEVersionTypeId, lCurrentAuthorVersionId);
+					INSERT INTO pjs.document_review_round_users(round_id, document_user_id, document_version_id) VALUES (lRoundId, lDocumentUserId, lVersionId);
+					lCERoundUsrId = currval('pjs.document_review_round_reviewers_id_seq');
+					UPDATE pjs.document_review_rounds SET decision_round_user_id = lCERoundUsrId WHERE id = lRoundId;
 					
-					-- Create the document revisions for all the CE-s -- should be 0 but just in case
+					/*
 					FOR lRecord IN
 						SELECT uid, du.id
 						FROM pjs.document_users du
@@ -134,6 +143,7 @@ $BODY$
 						
 						UPDATE pjs.document_review_rounds SET decision_round_user_id = lCERoundUsrId, round_due_date = now() + INTERVAL '1 week' WHERE id = lRoundId;
 					END LOOP;
+					*/
 				ELSE 
 					-- Create a revision for the document -if the document is in a review state
 					IF EXISTS (
@@ -155,10 +165,15 @@ $BODY$
 				SELECT INTO lRes.event_id event_id FROM spCreateEvent(lCEAssignEventType, pDocumentId, pUid, lJournalId, null, null);
 				
 			ELSE
-			
-				SELECT INTO lOldCEUsrId uid FROM pjs.document_users WHERE role_id = lCERoleId AND document_id = pDocumentId;
+				SELECT INTO lOldCEUsrId, lCEDocumentUserId, lCEVersionId du.uid, du.id, drrus.document_version_id
+				FROM pjs.documents d
+				JOIN pjs.document_review_round_users drrus ON drrus.round_id = d.current_round_id
+				JOIN pjs.document_users du ON du.id = drrus.document_user_id AND du.role_id = lCERoleId
+				WHERE d.id = pDocumentId;
+				
 				SELECT INTO lRes.event_id_sec event_id FROM spCreateEvent(lCEChangeEventType, pDocumentId, pUid, lJournalId, lOldCEUsrId, lCERoleId);
-				UPDATE pjs.document_users SET uid = pCEId WHERE document_id = pDocumentId AND role_id = lCERoleId;
+				UPDATE pjs.document_users SET uid = pCEId WHERE document_id = pDocumentId AND role_id = lCERoleId AND id = lCEDocumentUserId;
+				UPDATE pjs.document_versions SET uid = pCEId WHERE id = lCEVersionId;
 				SELECT INTO lRes.event_id event_id FROM spCreateEvent(lCEAssignEventType, pDocumentId, pUid, lJournalId, null, null);
 			END IF;
 		END IF;
