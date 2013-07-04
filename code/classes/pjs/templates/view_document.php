@@ -126,6 +126,9 @@ $gTemplArr = array(
 				<div class="bottomLeftCorner"></div>
 				<div class="bottomRightCorner"></div>
 			</div>
+			<div id="P-Ajax-Loading-Image-Main">
+				<img src="./i/loading.gif" alt="" />
+			</div>
 	',
 	
 	'view_document.metadata_section' => '

@@ -15,7 +15,6 @@
 		<xsl:apply-templates select="*[@object_id='208']" mode="checklistTaxonFields"/>
 		<xsl:apply-templates select="*[@object_id='207']" mode="checklistTaxonFields"/>
 		<xsl:apply-templates select="*[@object_id='206']" mode="checklistTaxonFields"/>
-
 	</xsl:template>	
 	
 	
@@ -23,14 +22,24 @@
 		<xsl:variable name="lGroupedMaterials" select="php:function('GroupTreatmentMaterials', ./*[@object_id=37])"></xsl:variable>
 		<xsl:if test="count($lGroupedMaterials/materials/material_group) &gt; 0">
 			<div class="myfieldHolder otstapLeft">
-				<div class="fieldLabel no-float otstapBottom materialsTitle">Materials</div>
+				<div class="fieldLabel no-float otstapBottom materialsTitle">Material<xsl:if test="count(./*[@object_id='37']) &gt; 1"><xsl:text>s</xsl:text></xsl:if>&#160;&#160;
+					<span style="font-weight:normal; font-size: 11px;">
+						<a href="javascript:void(0);">
+							<xsl:attribute name="onclick">
+								<xsl:text>DownloadMaterialsAsCSV(</xsl:text><xsl:value-of select="./@instance_id" /><xsl:text>)</xsl:text>
+							</xsl:attribute>
+							<xsl:text>Download as CSV&#160;</xsl:text>
+							<img src="/i/download_materials_icon.png" width="22px"/>
+						</a>
+					</span>
+				</div>
 				<xsl:for-each select="$lGroupedMaterials/materials/material_group">
 					<div class="materialType">
 						<div class="MaterialType">
 							<i>
 								<xsl:value-of select="./value"/>
 								<xsl:if test="count(./*[@object_id='37']) &gt; 1"><xsl:text>s</xsl:text></xsl:if><xsl:text>: </xsl:text>
-							</i>
+							</i>	
 						</div>
 						<ol class="materialsHolder">
 							<xsl:for-each select="./*[@object_id='37']">

@@ -1627,20 +1627,17 @@ class mDocuments_Model extends emBase_Model {
 		return $lResult;
 	}
 
-	function GetDocumenXmlByVersion($pDocumentId) {
+	function GetDocumenXmlByVersion($pDocumentId, $pVersionType = DOCUMENT_VERSION_AUTHOR_SUBMITTED_TYPE) {
 		$lSql = '
-			SELECT pdv.xml as document_current_version_xml
+			SELECT pdv.xml as document_current_version_xml, dv.id as doc_version_id
 			FROM pjs.document_versions dv
 			JOIN pjs.pwt_document_versions pdv ON pdv.version_id = dv.id
-			WHERE dv.document_id = ' . (int)$pDocumentId . ' AND dv.version_type_id = ' . (int)DOCUMENT_VERSION_AUTHOR_SUBMITTED_TYPE . '
+			WHERE dv.document_id = ' . (int)$pDocumentId . ' AND dv.version_type_id = ' . (int)$pVersionType . '
 			ORDER BY dv.id DESC
 			LIMIT 1;
 		';
 		$this->m_con->Execute($lSql);
 		return $this->m_con->mRs;
-		//$lXml['document_current_version_xml'] = $this->m_con->mRs['document_current_version_xml'];
-
-		//return h($lXml);
 	}
 
 	function CheckDocumentUserForSpecificRole($pUid, $pCheckRole, $pJournalId, $pDocumentId) {
@@ -1666,10 +1663,41 @@ class mDocuments_Model extends emBase_Model {
 			}
 
 		}
-
-
 	}
-
+	
+	function SaveLEXMLVersion($pVersionId, $pXML){
+		$lResult = array(
+			'err_cnt' => 0,
+			'err_msgs' => array(),
+		);
+		
+		$lSql = 'UPDATE pjs.pwt_document_versions SET xml = \'' . q($pXML) . '\'::xml WHERE version_id = ' . (int)$pVersionId;
+		if(!$this->m_con->Execute($lSql)){
+			$lResult['err_cnt']++;
+			//$lResult['err_msgs'][] = array('err_msg' => $this->m_con->GetLastError());
+			$lResult['err_msgs'][] = array('err_msg' => getstr('pjs.xmlIsNotValid_OnSaveInDataBase'));
+		}
+		
+		return $lResult;
+	}
+	
+	function RevertLEXMLVersion($pDocumentId){
+		$lResult = array(
+			'err_cnt' => 0,
+			'err_msgs' => array(),
+		);
+		
+		$lSql = 'SELECT doc_xml FROM pjs."spRevertLEVersion"(' . (int)$pDocumentId . ')';
+		if(!$this->m_con->Execute($lSql)){
+			$lResult['err_cnt']++;
+			$lResult['err_msgs'][] = array('err_msg' => $this->m_con->GetLastError());
+		} else {
+			$lResult['doc_xml'] = $this->m_con->mRs['doc_xml'];
+		}
+		
+		return $lResult;
+	}
+	
 }
 
 ?>

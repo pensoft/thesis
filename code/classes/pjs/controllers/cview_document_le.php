@@ -25,9 +25,6 @@ class cView_Document_LE extends cView_Document {
 			case GET_SCHEDULING_SECTION:
 				$this->GetScheduling();
 				break;
-			case GET_VIEW_SOURCE_SECTION:
-				$this->GetViewSourceSection();
-				break;
 			default:
 				$this->GetCurState();
 				break;
@@ -64,21 +61,6 @@ class cView_Document_LE extends cView_Document {
 		));
 	}
 	
-	function GetViewSourceSection() {
-		$lDocumentModel = new mDocuments_Model();
-		$lCurrentVersionDocumentXML = $lDocumentModel->GetDocumenXmlByVersion($this->m_documentId);
-		
-		$this->m_contentObject = new evSimple_Block_Display(array(
-			'controller_data' => $this->m_documentData,
-			'name_in_viewobject' => 'document_view_source',
-			'document_id' => $this->m_documentId,
-			'document_info' => $this->m_documentInfoObject,
-			'tabs' => $this->m_tabsObject,
-			'has_tabs' => 1,
-			'document_current_version_xml' => $lCurrentVersionDocumentXML['document_current_version_xml'],
-		));
-	}
-	
 	function GetCurState() {
 		$this->InitUserModel();
 		$lDocumentModel = new mDocuments_Model();
@@ -108,6 +90,15 @@ class cView_Document_LE extends cView_Document {
 				));
 				break;
 			case (int) DOCUMENT_IN_LAYOUT_EDITING_STATE :
+				$lCurrentVersionDocumentXML = $lDocumentModel->GetDocumenXmlByVersion($this->m_documentId, (int)DOCUMENT_VERSION_LE_TYPE);
+				
+				$lDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+				$lDom->formatOutput = true;
+				$lDom->loadXML($lCurrentVersionDocumentXML['document_current_version_xml']);
+				$lLEXMLVersion = $lDom->saveXML();
+				$lLEXMLVersion = CustomHtmlEntitiesDoubleEncode($lLEXMLVersion);
+				
+				//trigger_error('$error_msg', E_USER_NOTICE);
 				$lSubmissionNotesObject = new evSimple_Block_Display(array(
 					'controller_data' => $this->m_documentData,
 					'name_in_viewobject' => 'submission_notes',
@@ -126,6 +117,8 @@ class cView_Document_LE extends cView_Document {
 					'tabs' => $this->m_tabsObject,
 					'document_info' => $this->m_documentInfoObject,
 					'has_tabs' => 1,
+					'document_le_xml' => $lLEXMLVersion,
+					// 'form' => $lForm,
 				));
 				break;
 			case (int) DOCUMENT_WAITING_AUTHOR_VERSION_AFTER_LAYOUT_STATE :

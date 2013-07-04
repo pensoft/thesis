@@ -1508,6 +1508,7 @@ function removeInstance($pInstanceId){
 		$lResult['parent_instance_id'] = $lCon->mRs['parent_instance_id'];
 		$lResult['display_in_tree'] = (int)$lCon->mRs['display_in_tree'];
 		$lResult['container_id'] = (int)$lCon->mRs['container_id'];
+		$lResult['deleted_instance_id'] = (int)$pInstanceId;
 	}else{
 		$lResult['err_cnt']++;
 		$lResult['err_msg'] = getstr($lCon->GetLastError());

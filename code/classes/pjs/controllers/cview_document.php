@@ -400,7 +400,6 @@ class cView_Document extends cBase_Controller {
 					GET_SUBMITTED_FILES_SECTION,
 					GET_DISCOUNTS_SECTION,
 					GET_SCHEDULING_SECTION,
-					GET_VIEW_SOURCE_SECTION
 				);
 				break;
 			case (int) CE_ROLE :

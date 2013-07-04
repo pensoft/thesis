@@ -382,6 +382,57 @@ function SaveLEDecision(pRoundUserId, pDecisionId){
 	});
 }
 
+function SaveLEXMLVersion(pDocumentId, pXmlVersionHolder){
+	$('#P-Ajax-Loading-Image-Main').show();
+	
+	$.ajax({
+		url : lDocumentsAjaxSrv,
+		async : true,
+		dataType : 'json',
+		data : {
+			document_id : pDocumentId,
+			doc_xml : $(pXmlVersionHolder).val(),
+			action : 'save_le_xml_version'
+		},
+		type : 'POST',
+		success : function(pAjaxResult) {
+			$('#P-Ajax-Loading-Image-Main').hide();
+			if(pAjaxResult['err_cnt']){
+				for (var i=0; i < pAjaxResult['err_cnt']; i++) {
+				  alert(pAjaxResult['err_msgs'][i]['err_msg']);
+				};
+			}
+		}
+	});
+	
+}
+
+function RevertLEXMLVersion(pDocumentId, pXmlVersionHolder){
+	$('#P-Ajax-Loading-Image-Main').show();
+	
+	$.ajax({
+		url : lDocumentsAjaxSrv,
+		async : true,
+		dataType : 'json',
+		data : {
+			document_id : pDocumentId,
+			action : 'revert_le_xml_version'
+		},
+		type : 'POST',
+		success : function(pAjaxResult) {
+			$('#P-Ajax-Loading-Image-Main').hide();
+			if(pAjaxResult['err_cnt']){
+				for (var i=0; i < pAjaxResult['err_cnt']; i++) {
+				  alert(pAjaxResult['err_msgs'][i]['err_msg']);
+				};
+			}else{
+				$(pXmlVersionHolder).val(pAjaxResult['doc_xml']);
+			}
+		}
+	});
+	
+}
+
 function SaveCEDecision(pRoundUserId, pDecisionId){
 	return ExecuteSimpleDocumentAjaxRequest({
 		round_user_id : pRoundUserId,
@@ -678,23 +729,28 @@ function initPwtDocumentStep2Permissions(pFormName) {
 	}
 }
 var lDocumentsAjaxSrv = '/lib/ajax_srv/document_srv.php';
-function ExecuteSimpleDocumentAjaxRequest(pDataToPass, pAsync){
+function ExecuteSimpleDocumentAjaxRequest(pDataToPass, pAsync, pType){
 	$.ajax({
 		url : lDocumentsAjaxSrv,
 		async : pAsync ? pAsync : false,
 		dataType : 'json',
 		data : pDataToPass,
+		type : pType ? pType : 'GET',
 		success : function(pAjaxResult) {
 			if(pAjaxResult['err_cnt']){
 				for (var i=0; i < pAjaxResult['err_cnt']; i++) {
 				  alert(pAjaxResult['err_msgs'][i]['err_msg']);
 				};
 			}else{
-				if(pAjaxResult['url_params']) {
-					var lUrl = document.URL;
-					window.location = lUrl + (lUrl.split('?')[1] ? '&':'?') + pAjaxResult['url_params'];
+				if(pAjaxResult['dont_redirect']) {
+					
 				} else {
-					window.location.reload();
+					if(pAjaxResult['url_params']) {
+						var lUrl = document.URL;
+						window.location = lUrl + (lUrl.split('?')[1] ? '&':'?') + pAjaxResult['url_params'];
+					} else {
+						window.location.reload();
+					}
 				}
 			}
 		}

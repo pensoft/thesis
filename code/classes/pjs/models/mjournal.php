@@ -324,5 +324,24 @@ class mJournal extends emBase_Model {
 		}
 		return $lResult;
 	}
+
+	function GetDocumentLayoutData($pDocumentId) {
+		$lResult = array();
+		$lCon = $this->m_con;
+		$lSql = '
+			SELECT 
+				du.*,
+				drrus.document_version_id as le_version_id
+			FROM pjs.document_users du 
+			JOIN pjs.document_review_round_users drrus ON drrus.document_user_id = du.id
+			WHERE du.document_id = ' . (int)$pDocumentId . ' 
+				AND du.role_id = ' . (int)LE_ROLE . ' 
+			ORDER BY du.id DESC 
+			LIMIT 1
+		';
+		
+		$lCon->Execute($lSql);
+		return $lCon->mRs;
+	}
 }
 ?>
