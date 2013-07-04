@@ -993,10 +993,10 @@
 				<div class="Table-Body">
 					<table>
 						<tr>
-							<th>
+							<th style="color:#404040;">
 								<xsl:value-of select="$lColumnLabel" />
 							</th>
-							<th>
+							<th style="color:#404040;">
 								<xsl:value-of select="$lColumnDescription" />
 							</th>
 						</tr>
