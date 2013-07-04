@@ -6,7 +6,7 @@ $gTemplArr = array(
 			<table cellspacing="0" cellpadding="0" border="0" width="100%">
 				<tr>
 					<td class="P-PopUp-Checkbox-Holder" align="left" valign="top">
-						<input type="checkbox" name="ref-{id}" position="{rownum}" value="{id}"></input>
+						<input type="checkbox" name="ref-{id}" id="ref-{id}" position="{rownum}" value="{id}"></input>
 					</td>
 					<td valign="top">
 						<div class="P-Reference-Desc" id="Ref-Preview-{id}">{preview}</div>
