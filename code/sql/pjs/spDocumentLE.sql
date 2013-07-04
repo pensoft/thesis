@@ -38,6 +38,9 @@ $BODY$
 		lLEChangeEventType int;
 		lLEUid bigint;
 		lRoundUsrId bigint;
+		cReadyForCopyEditing CONSTANT int := 15;
+		cLEVersionTypeId CONSTANT int := 5;
+		lVersionId bigint;
 	BEGIN		
 		lJournalEditorRoleId = 3;
 		lLERoleId = 8;
@@ -106,9 +109,8 @@ $BODY$
 				IF EXISTS (
 					SELECT *
 					FROM pjs.documents
-					WHERE id = pDocumentId AND state_id = lReadyForLayoutState
+					WHERE id = pDocumentId AND state_id IN (lReadyForLayoutState, cReadyForCopyEditing)
 				) THEN
-					
 					
 					-- This would be the first layot review round
 					SELECT INTO lRoundId id FROM spCreateDocumentRound(pDocumentId, lLayoutReviewRoundTypeId);
@@ -117,19 +119,15 @@ $BODY$
 					UPDATE pjs.documents SET
 						state_id = lInLayoutState,
 						current_round_id = lRoundId
-					WHERE id = pDocumentId AND state_id = lReadyForLayoutState;
+					WHERE id = pDocumentId AND state_id IN (lReadyForLayoutState, cReadyForCopyEditing);
 					
-					-- Create the document revisions for all the LE-s -- should be 0 but just in case
-					FOR lRecord IN
-						SELECT uid, du.id
-						FROM pjs.document_users du
-						WHERE document_id = pDocumentId AND role_id = lLERoleId
-					LOOP
-						INSERT INTO pjs.document_review_round_users(round_id, document_user_id, document_version_id) VALUES (lRoundId, lRecord.id, lCurrentAuthorVersionId);
-						lLERoundUsrId = currval('pjs.document_review_round_reviewers_id_seq');
+					-- Create the document revisions for the LE
+					SELECT INTO lVersionId id FROM spCreateDocumentVersion(pDocumentId, pLEId, cLEVersionTypeId, lCurrentAuthorVersionId);
+					
+					INSERT INTO pjs.document_review_round_users(round_id, document_user_id, document_version_id) VALUES (lRoundId, lDocumentUserId, lVersionId);
+					lLERoundUsrId = currval('pjs.document_review_round_reviewers_id_seq');
 						
-						UPDATE pjs.document_review_rounds SET decision_round_user_id = lLERoundUsrId, round_due_date = now() + INTERVAL '1 week' WHERE id = lRoundId;
-					END LOOP;
+					UPDATE pjs.document_review_rounds SET decision_round_user_id = lLERoundUsrId WHERE id = lRoundId;
 				ELSE 
 					-- Create a revision for the document -if the document is in a review state
 					IF EXISTS (
@@ -149,10 +147,15 @@ $BODY$
 				
 				SELECT INTO lRes.event_id event_id FROM spCreateEvent(lLEAssignEventType, pDocumentId, pUid, lJournalId, null, null);
 			ELSE
-			
-				SELECT INTO lLEUid uid FROM pjs.document_users WHERE role_id = lLERoleId AND document_id = pDocumentId;
-			
+				SELECT INTO lLEUid, lDocumentUserId uid, id FROM pjs.document_users WHERE role_id = lLERoleId AND document_id = pDocumentId;
+				
+				SELECT INTO lVersionId document_version_id 
+				FROM pjs.document_review_round_users drrus
+				JOIN pjs.documents d ON d.current_round_id = drrus.round_id AND d.id = pDocumentId
+				WHERE drrus.document_user_id = lDocumentUserId;
+				
 				UPDATE pjs.document_users SET uid = pLEId WHERE document_id = pDocumentId AND role_id = lLERoleId;
+				UPDATE pjs.document_versions SET uid = pLEId WHERE id = lVersionId;
 				SELECT INTO lRes.event_id event_id FROM spCreateEvent(lLEChangeEventType, pDocumentId, pUid, lJournalId, lLEUid, lLERoleId);
 				SELECT INTO lRes.event_id_sec event_id FROM spCreateEvent(lLEAssignEventType, pDocumentId, pUid, lJournalId, null, null);
 			END IF;
