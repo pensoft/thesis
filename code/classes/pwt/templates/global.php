@@ -183,10 +183,10 @@ $gTemplArr = array(
 
 	'global.htmlstartcontent' =>
 		   '{*global.htmlonlyheader}
-				<div class="P-Wrapper {_showValidationErrorClassMain(xml_errors, xml_validation)}">
-					{*global.header}
-					{_showDocumentLockWarning(document_is_locked, document_lock_usr_id, without_warning)}
-					<div class="P-Bread-Crumbs {_showValidationErrorClass(xml_errors, xml_validation)}">
+				<div class="P-Wrapper {_showLockedErrorClassMain(document_is_locked, document_lock_usr_id, without_warning)} {_showValidationErrorClassMain(xml_errors, xml_validation)}">
+					{*global.header}					
+					<div class="P-Bread-Crumbs {_showLockedErrorClass(document_is_locked, document_lock_usr_id, without_warning)} {_showValidationErrorClass(xml_errors, xml_validation)}">
+						{_showDocumentLockWarning(document_is_locked, document_lock_usr_id, without_warning)}						
 						{_showValidationErrorDiv(xml_errors, xml_validation)}
 						<div class="P-Path"><a href="/index.php"><img class="pathHomeImg" src="./i/home_path.png" alt="My manuscripts"/></a>{path}</div>
 						<div class="P-SavePreview-Btns">

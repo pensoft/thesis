@@ -4434,6 +4434,7 @@ td.P-PopUp-Checkbox-Holder {
 	font-size: 11px;
 	width: 100%;
 	height: 30px;
+	margin-bottom:10px;
 }
 
 .P-Document-Locked-Warning img {
@@ -5161,31 +5162,38 @@ td #docDescr {
 	margin-left: -2px;
 	margin-right: 4px;
 }
-.P-Bread-Crumbs-Validation {
+.P-Bread-Crumbs-Validation,
+.P-Bread-Crumbs-With-Lock-Warning {
 	height:70px;
 	padding-left:0px;
 	padding-top:0px;
 }
 
 .P-Bread-Crumbs-Validation .P-Document-Validation-Err-Notification,
-.P-Bread-Crumbs-Validation .P-Document-Validation-Valid-Notification{
+.P-Bread-Crumbs-Validation .P-Document-Validation-Valid-Notification,
+.P-Bread-Crumbs-With-Lock-Warning .P-Document-Validation-Err-Notification,
+.P-Bread-Crumbs-With-Lock-Warning .P-Document-Validation-Valid-Notification{
 	margin-bottom:10px;
 	height:30px;
 }
 
-.P-Wrapper-With-Validation {
+.P-Wrapper-With-Validation, 
+.P-Wrapper-With-Lock-Warning {
 	margin-top:130px;
 }
 
-.P-Wrapper-With-Validation .P-Article-Structures {
+.P-Wrapper-With-Validation .P-Article-Structures, 
+.P-Wrapper-With-Lock-Warning .P-Article-Structures  {
 	top:130px;
 }
 
-.P-Wrapper-With-Validation .P-Container-Toggler-Btn-Left, .P-Wrapper-With-Validation .P-Container-Toggler-Btn-Right {
+.P-Wrapper-With-Validation .P-Container-Toggler-Btn-Left, .P-Wrapper-With-Validation .P-Container-Toggler-Btn-Right,
+.P-Wrapper-With-Lock-Warning .P-Container-Toggler-Btn-Left, .P-Wrapper-With-Lock-Warning .P-Container-Toggler-Btn-Right {
 	top:150px;
 }
 
-.P-Wrapper-With-Validation #CommentsFreeze {
+.P-Wrapper-With-Validation #CommentsFreeze,
+.P-Wrapper-With-Lock-Warning #CommentsFreeze {
 	top:130px;
 }
 

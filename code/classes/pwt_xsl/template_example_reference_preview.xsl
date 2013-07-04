@@ -24,7 +24,13 @@
 					<xsl:text>Reference-Preview-Wrapper</xsl:text>
 					<xsl:value-of select="$lReferenceId"></xsl:value-of>
 				</xsl:attribute>
+				<label>
+					<xsl:attribute name="for">
+						<xsl:text>ref-</xsl:text>
+						<xsl:value-of select="$lReferenceId"></xsl:value-of>
+					</xsl:attribute>
 				<xsl:apply-templates select="." mode="previewBaseMode"></xsl:apply-templates>
+				</label>
 				<div class="hiddenElement">
 					<xsl:attribute name="id">
 						<xsl:text>Ref-Preview-</xsl:text>
