@@ -311,6 +311,20 @@ function DeleteComment(pCommentId) {
 
 			// Remove the tree with the comments
 			$('#P-Root-Comment-Holder-' + pCommentId).remove();
+			
+			var lPreviewContents = GetPreviewContent();			
+			
+			lPreviewContents.find('.P-Preview-Comment[comment_id~="' + pCommentId + '"]').each(function(pIdx, pElement){
+				if($(pElement).attr('comment_id') == pCommentId){
+					if(pElement.nodeName.toLowerCase() == 'span'){
+						$(pElement).replaceWith($(pElement).contents());
+					}else{
+						$(pElement).removeClass('P-Preview-Comment');
+					}
+				}else{
+					removeAttributeValue($(pElement), 'comment_id', pCommentId, ' ')
+				}						
+			});
 		}
 	});
 }

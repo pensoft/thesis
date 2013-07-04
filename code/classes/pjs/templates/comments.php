@@ -45,7 +45,7 @@ $gTemplArr = array(
 					<div class="commentdate">Comment / {_showFormatedPubDate(lastmoddate)}</div>
 				</div>
 				<script type="text/javascript">
-					initComment({id}, {start_instance_id}, {start_field_id}, {start_offset}, {end_instance_id}, {end_field_id}, {end_offset}, {_json_encode(fullname)}, {_showFormatedPubDateInJSON(lastmoddate)});
+					initComment({id}, {start_instance_id}, {start_field_id}, {start_offset}, {end_instance_id}, {end_field_id}, {end_offset}, \'{_DisplayCommentUserName(is_disclosed, usr_id, has_editor_permissions, current_user_id, fullname, undisclosed_user_fullname)}\', {_showFormatedPubDateInJSON(lastmoddate)});
 				</script>
 			</div>
 			<div class="P-Comments-Revisions-Item-Content">
