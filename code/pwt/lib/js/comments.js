@@ -155,7 +155,7 @@ function submitPreviewNewComment(){
 					var lStartPositionDetails = calculateCommentPositionAccordingToInternalPosition(lStartInstanceId, lStartFieldId, lStartOffset, true);
 					InsertCommentStartEndTag(lStartPositionDetails.node, lStartPositionDetails.offset, lCommentId, true);
 
-					var lEndPositionDetails = calculateCommentPositionAccordingToInternalPosition(lEndInstanceId, lEndFieldId, lEndOffset, true);
+					var lEndPositionDetails = calculateCommentPositionAccordingToInternalPosition(lEndInstanceId, lEndFieldId, lEndOffset);
 					InsertCommentStartEndTag(lEndPositionDetails.node, lEndPositionDetails.offset, lCommentId, false);
 
 

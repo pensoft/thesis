@@ -229,6 +229,9 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 	var lOffset = 0;
 	var lOffsetFound = false;
 	var lLookAhead = false;
+	if(pOffset == 0){
+		lOffsetFound = true;
+	}
 	lNodeLoop:
 	while(getPlainText(lTreeCopyRoot).length < pOffset){
 		if(lRootNode.nodeType == 1){//Element
@@ -251,7 +254,7 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 					if(pIncludeNode){
 						lLookAhead = true;
 					}
-					lOffset = i;
+					lOffset = i + 1;
 					lOffsetFound = true;
 					break lNodeLoop;
 				}
@@ -264,6 +267,9 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 			if(getPlainText(lTreeCopyRoot).length == pOffset){
 				lOffset = lRootNode.nodeValue.length;
 				lOffsetFound = true;
+				if(pIncludeNode){
+					lLookAhead = true;
+				}
 			}
 			//Ако по някаква причина сме стигнали до случай, когато възела е по къс от търсенето - край
 			if(getPlainText(lTreeCopyRoot).length <= pOffset){
@@ -280,6 +286,9 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 				if(getPlainText(lTreeCopyRoot).length == pOffset){
 					lOffset = i;
 					lOffsetFound = true;
+					if(pIncludeNode){
+						lLookAhead = true;
+					}
 					break lNodeLoop;
 				}
 				//Ако не сме намерили дължината - продължаваме като махаме елемента, който добавихме
@@ -297,7 +306,7 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 		lResult.node = lRootNode;
 		lResult.offset = lOffset;
 
-		if(lLookAhead){
+		if(lLookAhead && false){
 			if( (lRootNode.nodeType == 1 && lRootNode.childNodes.length == pOffset)|| ( lRootNode.nodeType == 3 && lRootNode.nodeValue.length == lOffset)){
 				var lNextNode = getNextNode(lRootNode);
 				if(lNextNode){
@@ -310,15 +319,20 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 		}
 	}else{
 		var lNextNode = getNextNode(lFieldNode);
-		if(!lLookAhead || !lNextNode){
+		if(!lNextNode){
 			lResult.node = lFieldNode;
-			lResult.offset = lFieldNode.childNodes.length;
+			if(lFieldNode.childNodes){
+				lResult.offset = lFieldNode.childNodes.length;
+			}else{
+				lResult.offset = 0;
+			}
 		}else{
 			lResult.offset = 0;
 			lResult.node = lNextNode;
 		}
 
 	}
+	console.log(pInstanceId, pFieldId, pOffset, lResult)
 	return lResult;
 }
 
@@ -330,19 +344,63 @@ function GetSelectedTextPos(){
 		return;
 	}
 //	var lSelection = rangy.getSelection();
-
-	var lStartNodeDetails = getCommentPositionDetails(lSelection.anchorNode, lSelection.anchorOffset);
-	var lEndNodeDetails = getCommentPositionDetails(lSelection.focusNode, lSelection.focusOffset);
-
-	if(lSelection.isBackwards()){//Ако селекцията е наобратно - обръщаме я
-		var lTemp = lStartNodeDetails;
-		lStartNodeDetails = lEndNodeDetails;
-		lEndNodeDetails = lTemp;
+	
+	var lStartNode, lEndNode, lStartOffset, lEndOffset;
+	if(lSelection.isBackwards()){
+		lEndNode = lSelection.anchorNode;
+		lEndOffset = lSelection.anchorOffset;
+		lStartNode = lSelection.focusNode;
+		lStartOffset = lSelection.focusOffset;
+	}else{
+		lStartNode = lSelection.anchorNode;
+		lStartOffset = lSelection.anchorOffset;
+		lEndNode = lSelection.focusNode;
+		lEndOffset = lSelection.focusOffset;
 	}
+	
+	var lStart = MoveSelectionNodeToTextNode(lStartNode, lStartOffset);
+	var lEnd = MoveSelectionNodeToTextNode(lEndNode, lEndOffset, true);
+	
+	console.log(lSelection, lStartNode, lStartOffset, lEndNode, lEndOffset);
+	
+	
+	
+	var lStartNodeDetails = getCommentPositionDetails(lStartNode, lStartOffset);
+	var lEndNodeDetails = getCommentPositionDetails(lEndNode, lEndOffset);
+
+//	if(lSelection.isBackwards()){//Ако селекцията е наобратно - обръщаме я
+//		var lTemp = lStartNodeDetails;
+//		lStartNodeDetails = lEndNodeDetails;
+//		lEndNodeDetails = lTemp;
+//	}
 	var lResult = {
 			'start_pos' : lStartNodeDetails,
 			'end_pos' : lEndNodeDetails
 	}
+	return lResult;
+}
+
+function MoveSelectionNodeToTextNode(pNode, pOffset, pMoveToPrevious){
+	var lResult = {
+		'node' : pNode,
+		'offset' : pOffset,
+	}
+	if(pNode.nodeType == 3){
+		return lResult;
+	}
+	var lTextNode = GetNextTextNode(pNode);
+	var lOffset = 0;
+	if(!pMoveToPrevious){
+		lTextNode = GetPreviousTextNode(pNode);
+		if(lTextNode != false){
+			lOffset = lTextNode.nodeValue.length;
+		}		
+	}
+	if(lTextNode == false){
+		return lResult;
+	}
+	lResult['node'] = lTextNode;
+	lResult['offset'] = lOffset;
 	return lResult;
 }
 
