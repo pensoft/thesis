@@ -9,6 +9,7 @@ var gEditGroupUrl = '/edit_journal_group.php';
 var gJournalUsersPageUrl = '/manage_journal_users.php';
 var gCreateUserPageUrl = '/create_user.php';
 var gGetStoryChildrensPageUrl = gAjaxUrlsPrefix + 'get_story_childrens_srv.php';
+var gGeneratePDFAjaxSrv = gAjaxUrlsPrefix + 'generate_pdf.php';
 var gLeftContainerClass = "P-Wrapper-Container-Left";
 var gLeftContainerClassHide = "P-Wrapper-Container-Left-Hide";
 var gRightContainerClass = "P-Wrapper-Container-Right";
@@ -1955,4 +1956,11 @@ function getNextNode(pNode){
 	if(pNode)
 		return pNode.nextSibling;
 	return null;
+}
+
+function GeneratePDFPreview(pVersionId) {
+	$('#P-Ajax-Loading-Image-Main').show();
+	document.location.href = gGeneratePDFAjaxSrv + '?version_id=' + pVersionId + '&readonly_preview=1';
+	$('#P-Ajax-Loading-Image-Main').hide();
+	return;
 }

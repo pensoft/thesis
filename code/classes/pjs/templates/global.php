@@ -1028,5 +1028,10 @@ $gTemplArr = array(
 	'global.reviewtypepopup' => '
 		{contents}
 	',
+	
+	'global.generate_pdf' =>
+	'{*global.htmlonlyheader}
+		{contents}
+	{*global.htmlonlyfooter}',
 );
 ?>
