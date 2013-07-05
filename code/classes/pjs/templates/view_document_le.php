@@ -176,7 +176,7 @@ $gTemplArr = array(
 												</div>
 												<div class="P-Green-Btn-Right"></div>
 											</div>
-											<div class="P-Green-Btn-Holder saveForm">
+											<div class="P-Green-Btn-Holder saveForm" onclick="GeneratePDFPreview({le_version_id})">
 												<div class="P-Green-Btn-Left"></div>
 												<div class="P-Green-Btn-Middle">
 													{_getstr(pjs.layout_pdf_preview_btn_text)}

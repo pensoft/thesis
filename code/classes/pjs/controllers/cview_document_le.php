@@ -118,6 +118,7 @@ class cView_Document_LE extends cView_Document {
 					'document_info' => $this->m_documentInfoObject,
 					'has_tabs' => 1,
 					'document_le_xml' => $lLEXMLVersion,
+					'le_version_id' => $lCurrentVersionDocumentXML['doc_version_id'],
 					// 'form' => $lForm,
 				));
 				break;
