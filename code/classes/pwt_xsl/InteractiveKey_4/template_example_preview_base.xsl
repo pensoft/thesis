@@ -395,22 +395,24 @@
 
 	<!-- Additional Information -->
 	<xsl:template match="*[@object_id='117']" mode="bodySections">
-		<xsl:if test="./fields/*[@id='315']/value !=''">
-			<xsl:variable name="lSecTitle" select="./@display_name"></xsl:variable>
+		<xsl:variable name="lSecTitle" select="./@display_name" />
+		<xsl:if test="(./fields/*[@id='315']/value != '') or ./subsection/@object_id != ''">
 			<div class="P-Article-Preview-Block">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<div class="P-Article-Preview-Block-Title"><xsl:value-of select="$lSecTitle"></xsl:value-of></div>
-				<div class="P-Article-Preview-Block-Content">
-					<div class="P-Inline">
+				<h1><xsl:value-of select="$lSecTitle" /></h1>
+				<xsl:if test="./fields/*[@id='315']/value != '' ">
+					<div class="P-Article-Preview-Block-Content">
 						<xsl:attribute name="field_id">315</xsl:attribute>
 						<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
 						<xsl:call-template name="markContentEditableField">
 							<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
 							<xsl:with-param name="pFieldId">315</xsl:with-param>
 						</xsl:call-template>
+						<xsl:attribute name="class">P-Inline</xsl:attribute>
 						<xsl:apply-templates select="./fields/*[@id='315']/value" mode="formatting"/>
 					</div>
-				</div>
+				</xsl:if>
+				<xsl:apply-templates mode="bodySubsection" select="./subsection"/>
 			</div>
 		</xsl:if>
 	</xsl:template>

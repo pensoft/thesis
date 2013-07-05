@@ -130,7 +130,8 @@
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<!--anchor-->
 				<span class="anchor" id="discussions"></span>
-				<div class="P-Article-Preview-Block-Title"><xsl:value-of select="$lSecTitle"></xsl:value-of></div>
+				<h1><xsl:value-of select="$lSecTitle"></xsl:value-of></h1>
+				<xsl:if test="./fields/*[@id='224']/value != ''" >
 				<div class="P-Article-Preview-Block-Content">
 					<xsl:attribute name="field_id">224</xsl:attribute>
 					<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
@@ -140,6 +141,7 @@
 					</xsl:call-template>
 					<xsl:apply-templates select="./fields/*[@id='224']" mode="formatting"/>
 				</div>
+				</xsl:if>
 				<xsl:apply-templates mode="bodySubsection" select="./subsection"/>
 			</div>
 		</xsl:if>
@@ -153,7 +155,8 @@
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<!--anchor-->
 				<span class="anchor" id="material_and_methods"></span>
-				<div class="P-Article-Preview-Block-Title"><xsl:value-of select="$lSecTitle"></xsl:value-of></div>
+				<h1><xsl:value-of select="$lSecTitle"></xsl:value-of></h1>
+				<xsl:if test="./fields/*[@id='22']/value != '' ">
 				<div class="P-Article-Preview-Block-Content">
 					<xsl:attribute name="field_id">22</xsl:attribute>
 					<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
@@ -163,6 +166,7 @@
 					</xsl:call-template>
 					<xsl:apply-templates select="./fields/*[@id='22']" mode="formatting"/>
 				</div>
+				</xsl:if>
 				<xsl:apply-templates mode="bodySubsection" select="./subsection"/>
 			</div>
 		</xsl:if>
@@ -176,7 +180,8 @@
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<!--anchor-->
 				<span class="anchor" id="data_resources"></span>
-				<div class="P-Article-Preview-Block-Title"><xsl:value-of select="$lSecTitle"></xsl:value-of></div>
+				<h1><xsl:value-of select="$lSecTitle"></xsl:value-of></h1>
+				<xsl:if test="./fields/*[@id='21']/value != ''">
 				<div class="P-Article-Preview-Block-Content">
 					<xsl:attribute name="field_id">21</xsl:attribute>
 					<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
@@ -186,6 +191,7 @@
 					</xsl:call-template>
 					<xsl:apply-templates select="./fields/*[@id='21']" mode="formatting"/>
 				</div>
+				</xsl:if>
 				<xsl:apply-templates mode="bodySubsection" select="./subsection"/>
 			</div>
 		</xsl:if>
@@ -199,7 +205,8 @@
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<!--anchor-->
 				<span class="anchor" id="results"></span>
-				<div class="P-Article-Preview-Block-Title"><xsl:value-of select="$lSecTitle"></xsl:value-of></div>
+				<h1><xsl:value-of select="$lSecTitle"></xsl:value-of></h1>
+				<xsl:if test="./fields/*[@id='23']/value != ''">
 				<div class="P-Article-Preview-Block-Content">
 					<xsl:attribute name="field_id">23</xsl:attribute>
 					<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
@@ -209,6 +216,7 @@
 					</xsl:call-template>
 					<xsl:apply-templates select="./fields/*[@id='23']" mode="formatting"/>
 				</div>
+				</xsl:if>
 				<xsl:apply-templates mode="bodySubsection" select="./subsection"/>
 			</div>
 		</xsl:if>

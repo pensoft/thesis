@@ -1043,9 +1043,9 @@
 		<xsl:if test="(./fields/*[@id='315']/value != '') or ./subsection/@object_id != ''">
 			<div class="P-Article-Preview-Block">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<div class="P-Article-Preview-Block-Title"><xsl:value-of select="$lSecTitle" /></div>
-				<div class="P-Article-Preview-Block-Content">
-					<div>
+				<h1><xsl:value-of select="$lSecTitle" /></h1>
+				<xsl:if test="./fields/*[@id='315']/value != '' ">
+					<div class="P-Article-Preview-Block-Content">
 						<xsl:attribute name="field_id">315</xsl:attribute>
 						<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
 						<xsl:call-template name="markContentEditableField">
@@ -1055,7 +1055,7 @@
 						<xsl:attribute name="class">P-Inline</xsl:attribute>
 						<xsl:apply-templates select="./fields/*[@id='315']/value" mode="formatting"/>
 					</div>
-				</div>
+				</xsl:if>
 				<xsl:apply-templates mode="bodySubsection" select="./subsection"/>
 			</div>
 		</xsl:if>

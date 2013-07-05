@@ -123,6 +123,7 @@
 				<!--anchor-->
 				<span class="anchor" id="material_and_methods"></span>
 				<h1>Material and methods</h1>
+				<xsl:if test="./fields/*[@id='22']/value  != '' " >
 				<div class="Section">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
@@ -131,6 +132,7 @@
 					<xsl:attribute name="field_id">22</xsl:attribute>
 					<xsl:apply-templates select="./fields/*[@id='22']" mode="formatting"/>
 				</div>
+				</xsl:if>
 				<xsl:apply-templates mode="bodySubsection" select="./subsection"/>
 			</div>
 		</xsl:if>
@@ -144,6 +146,7 @@
 				<!--anchor-->
 				<span class="anchor" id="data_resources"></span>
 				<h1>Data resources</h1>
+				<xsl:if test="./fields/*[@id='21']/value != ''" >
 				<div class="Section">
 					<xsl:attribute name="field_id">21</xsl:attribute>
 					<xsl:call-template name="markContentEditableField">
@@ -152,6 +155,7 @@
 					</xsl:call-template>
 					<xsl:apply-templates select="./fields/*[@id='21']" mode="formatting"/>
 				</div>
+				</xsl:if>
 				<xsl:apply-templates mode="bodySubsection" select="./subsection"/>
 			</div>
 		</xsl:if>
@@ -165,6 +169,7 @@
 				<!--anchor-->
 				<span class="anchor" id="results"></span>
 				<h1>Analysis</h1>
+				<xsl:if test="./fields/*[@id='23']/value != ''" >
 				<div class="Section">
 					<xsl:attribute name="field_id">23</xsl:attribute>
 					<xsl:call-template name="markContentEditableField">
@@ -173,6 +178,7 @@
 					</xsl:call-template>
 					<xsl:apply-templates select="./fields/*[@id='23']" mode="formatting"/>
 				</div>
+				</xsl:if>
 				<xsl:apply-templates mode="bodySubsection" select="./subsection"/>
 			</div>
 		</xsl:if>
@@ -186,6 +192,7 @@
 				<!--anchor-->
 				<span class="anchor" id="discussions"></span>
 				<h1>Discussion</h1>
+				<xsl:if test="./fields/*[@id='224']/value != ''">
 				<div class="Section">
 					<xsl:attribute name="field_id">224</xsl:attribute>
 					<xsl:call-template name="markContentEditableField">
@@ -194,6 +201,7 @@
 					</xsl:call-template>
 					<xsl:apply-templates select="./fields/*[@id='224']" mode="formatting"/>
 				</div>
+				</xsl:if>
 				<xsl:apply-templates mode="bodySubsection" select="./subsection"/>
 			</div>
 		</xsl:if>
