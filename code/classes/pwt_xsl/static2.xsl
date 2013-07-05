@@ -594,6 +594,7 @@
 	<!-- Single table -->
 	<xsl:template match="*" mode="tables">
 		<div class="table">
+			<xsl:attribute name="contenteditable">false</xsl:attribute>
 			<xsl:attribute name="table_id"><xsl:value-of select="./@id"/></xsl:attribute>
 			<xsl:attribute name="table_position"><xsl:value-of select="./@position"/></xsl:attribute>
 			<div class="description">

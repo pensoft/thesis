@@ -40,6 +40,7 @@ DECLARE
 	lChecklistNomenclaturalCodeICZN int = 1;
 	lChecklistNomenclaturalCodeICN int = 2;
 	lDataSrcId int;
+	lTreatmentCustomDataSrcRuleId int = 1;
 BEGIN 
 	lTreatmentObjectId = 41;
 	lRankFieldId = 42;
@@ -82,17 +83,25 @@ BEGIN
 		SELECT INTO lNomenclatureRootFieldValue value_int
 		FROM pwt.instance_field_values 
 		WHERE instance_id = lTreatmentInstanceId AND field_id = lNomenclatureRootFieldId;
-
-
-		/**
-		Ще сменим възможните стойности на полето за тип на материал
-		в зависимост от това какъв тип е триитмънта
-		*/
-		IF lNomenclatureRootFieldValue = ANY(lPhytokeysNomenclatureRoots) THEN
-			UPDATE pwt.instance_field_values  SET
-			data_src_id = lPhytoKeysMaterialTypeSrcId
-			WHERE instance_id = pMaterialInstanceId AND field_id = lMaterialTypeFieldId;
-		END IF;
+		
+		SELECT INTO lChecklistNomenclaturalCode
+			"nomenclaturalCode" 
+		FROM public.taxon_categories c
+		WHERE c.id = lNomenclatureRootFieldValue;
+		
+		SELECT INTO lRankFieldValue
+			value_int
+		FROM pwt.instance_field_values 
+		WHERE instance_id = lTreatmentInstanceId AND field_id = lRankFieldId; 
+		
+		SELECT INTO lTreatmentTypeFieldValue
+			value_int
+		FROM pwt.instance_field_values 
+		WHERE instance_id = lTreatmentInstanceId AND field_id = lTreatmentTypeFieldId;
+		
+		SELECT INTO lDataSrcId
+			result
+		FROM spPerformCustomDataSrcRule(lTreatmentCustomDataSrcRuleId, ARRAY[lChecklistNomenclaturalCode, lTreatmentTypeFieldValue, lRankFieldValue]::int[])	;
 	ELSE -- Checklist taxon case
 		SELECT INTO lChecklistNomenclaturalCode
 		"nomenclaturalCode" 
@@ -104,12 +113,12 @@ BEGIN
 			lDataSrcId = lICZNMaterialTypeSrcId;
 		ELSEIF lChecklistNomenclaturalCode = lChecklistNomenclaturalCodeICN THEN
 			lDataSrcId = lICNMaterialTypeSrcId;
-		END IF;
-		IF lDataSrcId IS NOT NULL THEN
-			UPDATE pwt.instance_field_values  SET
-				data_src_id = lDataSrcId
-			WHERE instance_id = pMaterialInstanceId AND field_id = lMaterialTypeFieldId;
-		END IF;
+		END IF;		
+	END IF;
+	IF lDataSrcId IS NOT NULL THEN
+		UPDATE pwt.instance_field_values  SET
+			data_src_id = lDataSrcId
+		WHERE instance_id = pMaterialInstanceId AND field_id = lMaterialTypeFieldId;
 	END IF;
 
 	lRes.result = 1;
