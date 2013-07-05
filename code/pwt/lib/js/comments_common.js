@@ -122,7 +122,7 @@ function setCommentPos(pCommentId, pStartInstanceId, pStartFieldId, pStartOffset
 	}
 	var lPreviewContent = GetPreviewContent();
 	var lTemp = lPreviewContent.find(gCommentStartPosNodeName + '[' + gCommentIdAttributeName + '="' + pCommentId + '"]');
-
+	
 
 //	var lStartNode = $(gCommentStartPosNodeName + '[' + gCommentIdAttributeName + '="' + pCommentId + '"]')[0];
 	var lStartNode = lTemp.length ? lTemp[0] : null;
@@ -173,15 +173,15 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 	if(!pInstanceId){
 		return lResult;
 	}
-	var lNode = GetPreviewContent();
-	lNode = lNode.find('*[instance_id="' + pInstanceId + '"]');
-	lNode = lNode.first();
+	var lPreviewContent = GetPreviewContent();
+	var lNode = lPreviewContent.find('*[instance_id="' + pInstanceId + '"]');	
 
 	if(!lNode){
 		return lResult;
 	}
 
 	if(!pFieldId){//Ако нямаме field-id сме или в началото или в края на instance-a
+		lNode = lNode.first();
 		lNode = lNode[0];
 		lResult.node = lNode;
 		if(pOffset == 0){
@@ -189,6 +189,7 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 			return lResult;
 		}
 		if(pOffset == -1){
+			lNode = lNode.last();
 			if(!pLookAhead){
 				lResult.offset = lNode.childNodes.length ;//+ 1;
 			}else{
@@ -202,15 +203,19 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 		}
 		return lResult;
 	}
-
-	var lFieldNodes = lNode.find('*[field_id="' + pFieldId + '"]');
-	var lFieldNode = null;
-	for(var i = 0; i < lFieldNodes.length; ++ i){
-		var lField = $(lFieldNodes.get(i));
-		if(lField.closest('*[instance_id]')[0] === lNode[0]){//Този field е дете на някой подобект
-			lFieldNode = lField[0];
-			break;
+	var lFieldNode = lPreviewContent.find('*[instance_id="' + pInstanceId + '"][field_id="' + pFieldId + '"]');	
+	if(lFieldNode.length == 0){
+		var lFieldNodes = lPreviewContent.find('*[instance_id="' + pInstanceId + '"] *[field_id="' + pFieldId + '"]');
+		for(var i = 0; i < lFieldNodes.length; ++ i){
+			var lField = $(lFieldNodes.get(i));
+			var lFieldInstance = lField.closest('*[instance_id]')[0];
+			if($(lFieldInstance).attr('instance_id') === pInstanceId){//Този field е дете на някой подобект
+				lFieldNode = lField[0];
+				break;
+			}
 		}
+	}else{
+		lFieldNode = lFieldNode[0];
 	}
 
 	if(lFieldNode == null){//Някаква грешка е станала щом не може да намерим field-а
@@ -372,7 +377,7 @@ function getCommentPositionDetails(pNode, pOffset){
 
 	lResult.instance_id = lInstanceHolder.attr('instance_id');
 	var lFieldHolderParents = lFieldHolder.parents();
-	if(lFieldHolder.length && (jQuery.inArray(lInstanceHolder[0], lFieldHolderParents) > -1)){//Field-a е от instance-a
+	if(lFieldHolder.length && (jQuery.inArray(lInstanceHolder[0], lFieldHolderParents) > -1 || lInstanceHolder[0] === lFieldHolder[0])){//Field-a е от instance-a
 		lResult.field_id = lFieldHolder.attr('field_id');
 		//Трябва да пресметнем offset-а
 		var lRootNode = lFieldHolder[0];
