@@ -223,10 +223,11 @@
 
 	<!-- Introduction -->
 	<xsl:template match="*[@object_id='16' or @object_id='166']" mode="bodySections">
-		<xsl:if test="./fields/*[@id='20']/value != ''">
+		<xsl:if test="./fields/*[@id='20']/value != '' or ./subsection/@object_id != '' ">
 			<div class="P-Article-Preview-Block">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<h1 id="introduction"><xsl:value-of select="./@display_name" /></h1>
+				<xsl:if test="./fields/*[@id='20']/value != ''" >
 				<div class="P-Article-Preview-Block-Content" field_id="20">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
@@ -234,6 +235,7 @@
 					</xsl:call-template>
 					<xsl:apply-templates select="./fields/*[@id='20']" mode="formatting"/>
 				</div>
+				</xsl:if>
 				<xsl:apply-templates mode="bodySubsection" select="./subsection"/>
 			</div>
 		</xsl:if>

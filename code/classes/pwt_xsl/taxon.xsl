@@ -45,8 +45,8 @@
 							<xsl:for-each select="./*[@object_id='37']">
 							<li type="a">
 								<xsl:apply-templates select="." mode="treatmentMaterial"/>
-								<xsl:if test="position() != last()"><xsl:text>;</xsl:text></xsl:if>
-								<xsl:if test="position()  = last()"><xsl:text>.</xsl:text></xsl:if>
+								<!-- <xsl:if test="position() != last()"><xsl:text>;</xsl:text></xsl:if>
+								<xsl:if test="position()  = last()"><xsl:text>.</xsl:text></xsl:if> -->
 							</li>
 							</xsl:for-each>
 						</ol>

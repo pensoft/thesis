@@ -127,6 +127,9 @@ h2 + .Section > .Section > h3 {
 h1 + .taxonTreatment > h2 {
   margin-top: 0em;
 }
+h1 + .P-Article-Preview-Block-Content > h2.subsection {
+  margin-top: 0em;
+}
 h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment {
   margin-top: 0em;
 }
