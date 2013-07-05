@@ -2055,7 +2055,7 @@ $STRARRAY = array(
 	'pjs.non_peer_review_take_decision_round_1' => "You can edit/comment on author's original submission and take your editorial decision.",
 	'pjs.non_peer_review_take_decision_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
 	
-	'pjs.take_decision_round_3' => "pjs.take_decision_round_3",
+	'pjs.take_decision_round_3' => "You can edit/comment on author's revised version and take your editorial decision.",
 	
 	
 	/* CONVENTIONAL PEER keys */
@@ -2073,15 +2073,21 @@ $STRARRAY = array(
 	
 	/* COMMUNITY PEER keys */
 	
-	'pjs.community_peer_review_to_proceed_round_1' => "pjs.community_peer_review_to_proceed_round_1",
+	'pjs.community_peer_review_to_proceed_round_1' => "
+		To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.<br /><br />
+		You can proceed with your decision after the due date for panel review has passed,<br /> at least 1 nominated reviewer has submitted a review and<br /> there are no pending reviews/requests.<br /><br />
+		If a nominated reviewer fails to complete a task on time, you may cancel it.<br /><br />",
 	'pjs.community_peer_review_take_decision_round_1' => "pjs.community_peer_review_take_decision_round_1",
 	'pjs.community_peer_review_speedup_round_1' => "pjs.community_peer_review_speedup_round_1",
 	'pjs.community_peer_review_take_decision_without_reviewers_round_1' => "pjs.community_peer_review_take_decision_without_reviewers_round_1",
 	
-	'pjs.community_peer_review_to_proceed_round_2' => "pjs.community_peer_review_to_proceed_round_2",
-	'pjs.community_peer_review_take_decision_round_2' => "pjs.community_peer_review_take_decision_round_2",
+	'pjs.community_peer_review_to_proceed_round_2' => "
+		To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.<br /><br />
+		You can proceed with your decision after the at least 1 nominated reviewer has submitted a review and there are no pending reviews/requests.<br /><br />
+		If a nominated reviewer fails to complete a task on time, you may cancel it.<br /><br />",
+	'pjs.community_peer_review_take_decision_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
 	'pjs.community_peer_review_speedup_round_2' => "pjs.community_peer_review_speedup_round_2",
-	'pjs.community_peer_review_take_decision_without_reviewers_round_2' => "pjs.community_peer_review_take_decision_without_reviewers_round_2",
+	'pjs.community_peer_review_take_decision_without_reviewers_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
 	
 	
 	
@@ -2099,7 +2105,7 @@ $STRARRAY = array(
 
 
 	//'pjs.round_copy_editing_label' => 'Linguistic review',
-	'pjs.revise_author_version_for_ce_le_round' => 'Revise your manuscript and submit version to be used for copy editing or layout editing',
+	'pjs.revise_author_version_for_ce_le_round' => "Revise your manuscript and respond to copy editor's comments",
 	'pjs.copyeditinground_label_1' => 'Linguistic review 1',
 	'pjs.copy_editing_text' => 'In Copy editing',
 	'pjs.copy_editing_proof_text' => 'Proof is being produced by Copy Editor',
@@ -2110,6 +2116,9 @@ $STRARRAY = array(
 	'pjs.layout_html_preview_btn_text' => 'HTML preview',
 	'pjs.layout_pdf_preview_btn_text' => 'PDF preview',
 	'pjs.layout_revert_btn_text' => 'Revert',
+	'pjs.view_ce_version_btn' => "See copy edited version",
+	'pjs.copy_layout_editing_text' => "Waiting editorial office to assign ... ",
+	
 	
 	/* The XML is not valid */
 	'pjs.xmlIsNotValid_OnSaveInDataBase' => 'The XML is not valid',
