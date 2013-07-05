@@ -6163,7 +6163,7 @@ table.no_bold_class td a {
 	line-height: 20px;
 }
 
-#previewHolder .P-Article-Preview-Base-Info-Block {
+/*#previewHolder .P-Article-Preview-Base-Info-Block {
 	margin-left: 10px;
 	margin-right: 10px;
 }
@@ -6174,7 +6174,7 @@ table.no_bold_class td a {
 
 #previewHolder .P-Article-Preview-Block-Content {
 	padding: 0px 20px;
-}
+}*/
 
 .P-Article-Content .previewform {
 	padding: 0px 20px 0px 10px;

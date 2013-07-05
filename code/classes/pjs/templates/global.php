@@ -33,7 +33,7 @@ $gTemplArr = array(
 			<link type="text/css" rel="stylesheet" href="/lib/def.css" media="all" title="default" />
 			<link type="text/css" rel="stylesheet" href="/lib/version_preview.css" media="all" title="default" />
 			<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css" media="all" title="default" />
-			<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview.css" media="all" title="default"/>
+			<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css" media="all" title="default"/>
 			<link type="text/css" rel="stylesheet" href="/lib/editor.css" media="all" />
 			<style type="text/css">
 				{_IncludeVersionCss(users_with_changes)}

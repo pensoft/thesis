@@ -6,9 +6,10 @@ $gTemplArr = array(
 							<div id="P-Wrapper-Right-Content">
 								<div class="content">
 									<div class="P-Article-StructureHead" id="CommentsFreeze">
-										Comments:
+										Comments
 										{*comments.new_form_wrapper}
 										{*comments.filter}
+										<hr style="border-bottom: 1px solid rgb(226, 226, 220); border-top: 1px solid rgb(226, 226, 220); margin: 5px -18px 0px -15px; border-style: solid; padding-top: 1px; border-color: rgb(226, 226, 220);" />
 									</div>
 									{*comments.wrapper}
 								</div>
