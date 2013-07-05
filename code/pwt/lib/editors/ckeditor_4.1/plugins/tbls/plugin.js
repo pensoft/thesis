@@ -163,13 +163,17 @@ CKEDITOR.plugins.add('tbls', {
 			});
 			// Code creating context menu items goes here.
 			editor.contextMenu.addListener(function(pElement) {
-				if (pElement)
-					pElement = pElement.getAscendant('tbls-citation', true);
-				if (pElement && !pElement.data('cke-realelement'))
-					return {
-						editTableCitation : CKEDITOR.TRISTATE_OFF,
-						deleteTblsCitationItem : CKEDITOR.TRISTATE_OFF
-					};
+				// we remove the context menu for Chrome because there is bug with contenteditable attribute in refs, tbls, figs
+				var isChrome = /chrome/i.test(navigator.userAgent);
+				if(!isChrome) {
+					if (pElement)
+						pElement = pElement.getAscendant('tbls-citation', true);
+					if (pElement && !pElement.data('cke-realelement'))
+						return {
+							editTableCitation : CKEDITOR.TRISTATE_OFF,
+							deleteTblsCitationItem : CKEDITOR.TRISTATE_OFF
+						};
+				}
 				return null;
 			});
 		}
