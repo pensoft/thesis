@@ -2116,6 +2116,7 @@ $STRARRAY = array(
 	'pjs.xmlIsNotValid' => 'The XML is not valid',
 	
 	'pjs.no_such_layout_for_this_document' => 'You\'re not Layout Editor for the current document!',
+	'pjs.copy_editing_proceed_btn_text' => 'Proceed',
 
 );
 ?>

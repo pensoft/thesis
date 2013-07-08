@@ -1295,7 +1295,7 @@ function openPopUp(pUrl, pWidth, pHeight){
 		//~ $('#loading-image').hide();
 		//~ console.log('loaded');
 	});
-
+	lOpenWindow.focus();
 }
 function openFilterPopUp(){
 	var lPopUp = $('#docEditHeader .box .popup');
