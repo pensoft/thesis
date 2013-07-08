@@ -21,6 +21,7 @@ $gTemplArr = array(
 						{*comments.new_form_wrapper}
 						{*comments.filter}
 						<div class="P-Container-Toggler-Btn-Right" onclick="toggleRightContainer();"></div>
+						<hr style="border-bottom: 1px solid #96968A; border-top: 1px solid #96968A; margin: 5px -18px 0px -15px; border-style: solid; padding-top: 1px;" />
 					</div>
 					{comments}
 					<div class="P-Clear"></div>

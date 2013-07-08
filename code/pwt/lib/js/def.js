@@ -2263,12 +2263,6 @@ function compareNodesOrder(pNodeA, pNodeB){
 	}
 }
 
-function hideLockWarningElement(pElemClass){
-	hideElement(pElemClass);
-	$('.P-Wrapper').removeClass('P-Wrapper-With-Lock-Warning');
-	$('.P-Bread-Crumbs').removeClass('P-Bread-Crumbs-With-Lock-Warning');
-}
-
 function hideElement(pElemClass) {
 	$('.' + pElemClass).hide();
 }
@@ -3617,4 +3611,109 @@ function ScrollToSelectedTreeElement(){
 	$('.P-Article-Structures').animate({
 	    scrollTop: lTopOffset
 	}, 2000);
+}
+
+
+/**
+ * Returns the first text node which is following the specified node or false if
+ * there is no such node
+ *
+ * @param $pNode DomNode
+ */
+function GetNextTextNode(pNode) {
+	var lNextSibling = false;
+	var lParent = pNode;
+	while(lParent){
+		lNextSibling = lParent.nextSibling;
+		while(lNextSibling){
+			if(lNextSibling.nodeType == 3)
+				return lNextSibling;
+			if(lNextSibling.nodeType == 1){
+				var lTextNode = GetFirstTextNodeDescendant(lNextSibling);
+				if(lTextNode)
+					return lTextNode;
+			}
+			lNextSibling = lNextSibling.nextSibling;
+		}
+		lParent = lParent.parentNode;
+	}
+	return false;
+}
+
+/**
+ * Returns the first text node which is a child of the passed node or false if
+ * there is no such node
+ * If the node is a text node itself - it will be returned
+ *
+ * @param $pNode DomNode
+ */
+function GetFirstTextNodeDescendant(pNode) {
+	if(pNode.nodeType == 3){
+		return pNode;
+	}
+	for(var i = 0; i < pNode.childNodes.length; ++i){
+		var lChild = pNode.childNodes[i];
+		if(lChild.nodeType == 3){
+			return lChild;
+		}
+		if(lChild.nodeType == 1){
+			var lChildFirstTextNode = GetFirstTextNodeDescendant(lChild);
+			if(lChildFirstTextNode !== false){
+				return lChildFirstTextNode;
+			}
+		}
+	}
+	return false;
+}
+
+/**
+ * Returns the first text node which is preceding the specified node or false if
+ * there is no such node
+ *
+ * @param $pNode DomNode
+ */
+function GetPreviousTextNode(pNode) {
+	var lPreviuosSibling = false;
+	var lParent = pNode;
+	while(lParent){
+		lPreviuosSibling = lParent.previousSibling;
+		while(lPreviuosSibling){
+			if(lPreviuosSibling.nodeType == 3)
+				return lPreviuosSibling;
+			if(lPreviuosSibling.nodeType == 1){
+				var lTextNode = GetLastTextNodeDescendant(lPreviuosSibling);
+				if(lTextNode)
+					return lTextNode;
+			}
+			lPreviuosSibling = lPreviuosSibling.previousSibling;
+		}
+		lParent = lParent.parentNode;
+	}
+	return false;
+}
+
+/**
+ * Returns the last text node which is a descendent of the passed node or false if
+ * there is no such node
+ * If the node is a text node itself - it will be returned
+ *
+ * @param $pNode DomNode
+ */
+function GetLastTextNodeDescendant(pNode) {
+	if(pNode.nodeType == 3){
+		return pNode;
+	}
+	for(var i = pNode.childNodes.length - 1; i >= 0; --i){
+		var lChild = pNode.childNodes[i];
+		if(lChild.nodeType == 3){
+			return lChild;
+		}
+		if(lChild.nodeType == 1){
+			var lChildLastTextNode = GetLastTextNodeDescendant(lChild);
+			if(lChildLastTextNode !== false){
+				return lChildLastTextNode;
+			}
+		}
+	}
+	return false;
 }

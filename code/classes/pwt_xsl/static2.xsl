@@ -208,9 +208,7 @@
 								<xsl:with-param name="pObjectId" select="./@object_id" />
 								<xsl:with-param name="pFieldId">19</xsl:with-param>
 							</xsl:call-template>
-							<p>
-								<xsl:apply-templates select="./fields/*[@id=19]" mode="formatting"/>
-							</p>
+							<xsl:apply-templates select="./fields/*[@id=19]" mode="formatting"/>	
 						</div>
 					</div>
 				</xsl:if>

@@ -4412,18 +4412,6 @@ td.P-PopUp-Checkbox-Holder {
 	vertical-align: middle;
 }
 
-.P-Document-Validation-Err-Notification-Close {
-	background: url('/i/close_ico.png') no-repeat scroll center center
-		transparent;
-	display: inline-block;
-	float: right;
-	height: 9px;
-	padding-right: 20px;
-	padding-top: 15px;
-	width: 9px;
-	cursor: pointer;
-}
-
 .P-Document-Locked-Warning {
 	background: url('/i/document_locked_warning_bg.png') repeat-x scroll
 		center center transparent;
@@ -4442,18 +4430,6 @@ td.P-PopUp-Checkbox-Holder {
 	height: 19px;
 	width: 21px;
 	vertical-align: middle;
-}
-
-.P-Document-Locked-Warning-Close {
-	background: url('/i/document_locked_warning_close.png') no-repeat scroll
-		center center transparent;
-	display: inline-block;
-	float: right;
-	height: 9px;
-	padding-right: 20px;
-	padding-top: 20px;
-	width: 9px;
-	cursor: pointer;
 }
 
 .P-Document-Validation-Path-Err {
