@@ -3907,14 +3907,12 @@ function displayBottomTreeButtons( $pIsLocked = 0, $pPreviewMode = 0, $pDocument
 
 function showValidationErrorDiv($pErrors, $pValidation = 0) {
 	if((int)$pErrors) {
-		return '<div class="P-Document-Validation-Err-Notification"><img src="/i/excl_ico.png" alt="" />' . getstr('pwt.xmlvalidation.errnotification') . '<div class="P-Document-Validation-Err-Notification-Close" onclick="hideElement(\'P-Document-Validation-Err-Notification\')"></div></div>';
+		return '<div class="P-Document-Validation-Err-Notification"><img src="/i/excl_ico.png" alt="" />' . getstr('pwt.xmlvalidation.errnotification') . '</div>';
 	}
 	if((int)$pValidation && !(int)$pErrors) {
 		return '
 			<div class="P-Document-Validation-Err-Notification P-Document-Validation-Valid-Notification">
 				<img src="/i/valid_icon.png" alt="" />' . getstr('pwt.xmlvalidation.validnotification') . '
-				<div class="P-Document-Validation-Err-Notification-Close" onclick="hideElement(\'P-Document-Validation-Err-Notification\')">
-				</div>
 			</div>';
 	}
 }
@@ -3938,7 +3936,6 @@ function showDocumentLockWarning($pIsLocked, $pLockedUser, $pWithoutWarning = 0)
 		$lStr = str_replace('{full_username}', $lDocLockedUserFullName, getstr('pwt.document.locked'));
 		return '<div class="P-Document-Locked-Warning">
 					<img src="/i/document_locked_warning_icon.png" alt="" />' . $lStr . '
-					<div class="P-Document-Locked-Warning-Close" onclick="hideLockWarningElement(\'P-Document-Locked-Warning\')"></div>
 				</div>';
 	}
 	return '';
