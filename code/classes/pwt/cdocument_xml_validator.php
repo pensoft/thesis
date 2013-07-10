@@ -100,6 +100,7 @@ class cdocument_xml_validator extends csimple {
 				'citation_type' => $lCon->mRs['citation_type'],
 				'citation_objects' => $lElements,
 				'is_plate' => $lCon->mRs['is_plate'],
+				'plate_id' => $lCon->mRs['plate_id'],
 			);
 			$lCon->MoveNext();
 		}
@@ -117,6 +118,7 @@ class cdocument_xml_validator extends csimple {
 				'object_type' => $lCon->mRs['object_type'],
 				'is_plate' => $lCon->mRs['is_plate'],
 				'position' => $lCon->mRs['position'],
+				'plate_id' => $lCon->mRs['plate_id'],
 			);
 			$lCon->MoveNext();
 		}
@@ -137,33 +139,41 @@ class cdocument_xml_validator extends csimple {
 		
 		if(count($lCitations)){ // Всички цитирани обекти
 			foreach($lCitations as $lCitation) {
+				
 				if($lCitation['citation_type'] == (int)CITATION_TABLE_TYPE_ID) {
 					$lCittTablesArr[] = $lCitation['citation_objects'];
 				} elseif($lCitation['citation_type'] == (int)CITATION_REFERENCE_TYPE_ID) {
 					$lCittReferencesArr[] = $lCitation['citation_objects'];
 				} elseif($lCitation['citation_type'] == (int)CITATION_FIGURE_PLATE_TYPE_ID) {
 					$lCittFiguresArr[] = $lCitation['citation_objects'];
+					$lCittPlateIds[] = $lCitation['plate_id'];
 				}
 			}
 		}
 		
 		if(count($lFigsTables)){ // Фигури и таблици на едно място
+			$lPlateIds = array();
 			foreach($lFigsTables as $key => $val) {
 				if($val['object_type'] == (int)CITATION_TABLE_TYPE_ID) {
 					$lTablesArr[] = $key;
 				} elseif($val['object_type'] == (int)CITATION_FIGURE_PLATE_TYPE_ID) {
 					$lFiguresArr[] = $key;
+					$lPlateIds[$key] = $val['plate_id'];
 				}
 			}
+			
 			foreach($lFiguresArr as $lFigure) {
-				if(!$this->in_array_r($lFigure, $lCittFiguresArr)) {
-					$this->m_GroupedErrArr[XML_UNCITED_FIGURES_ERROR][] = array (
-						'node_instance_name' => 'figures',
-						'cited_error_type' => (int)CITATION_FIGURE_PLATE_TYPE_ID,
-						'document_id' => (int)$this->m_document_id,
-						'node_attribute_field_name' => 'Fig ' . $lFigsTables[$lFigure]['position'] . ' is not cited',
-					);
-					$this->m_errorsCounter++;
+				if(!in_array($lPlateIds[$lFigure], $lCittPlateIds)) {
+					if(!in_array($lPlateIds[$lFigure], $lErrsArr)) {
+						$lErrsArr[] = $lPlateIds[$lFigure];
+						$this->m_GroupedErrArr[XML_UNCITED_FIGURES_ERROR][] = array (
+							'node_instance_name' => 'figures',
+							'cited_error_type' => (int)CITATION_FIGURE_PLATE_TYPE_ID,
+							'document_id' => (int)$this->m_document_id,
+							'node_attribute_field_name' => 'Fig ' . $lFigsTables[$lFigure]['position'] . ' is not cited',
+						);
+						$this->m_errorsCounter++;
+					}
 				}
 			}
 			foreach($lTablesArr as $lTable) {
@@ -233,6 +243,7 @@ class cdocument_xml_validator extends csimple {
 			$this->m_documentXmlDom->load(SITE_URL . '/'. $this->m_documentGeneratedXML);
 			$this->m_documentXmlDom->formatOutput = true;
 			$this->m_documentXmlDom->loadXML($this->m_documentXmlDom->saveXML());
+			//file_put_contents('/tmp/generated_xml.xml', $this->m_documentXmlDom->saveXML());
 		}
 	}
 
@@ -250,6 +261,7 @@ class cdocument_xml_validator extends csimple {
 				//~ echo $lErrType .':' . $node->getLineNo() ."\n";
 				if($lErrType) {
 					if($node->parentNode) {
+
 						if ($node->parentNode->hasAttributes()) { 
 							
 							if($node->parentNode->getAttribute('id') && $node->parentNode->getAttribute('field_name')) {
@@ -273,8 +285,10 @@ class cdocument_xml_validator extends csimple {
 										'node_attribute_field_name' => $node->parentNode->getAttribute('field_name'),
 										'node_error_type' => $lErrType,
 								);
+								
 								$this->m_errorsCounter++;
 							} else {
+								
 							/*
 								if($node->hasAttributes() && $node->getAttribute('instance_id') && $node->getAttribute('display_name')){
 									$lInstance_id = (int)$node->getAttribute('instance_id');
@@ -291,6 +305,7 @@ class cdocument_xml_validator extends csimple {
 							//~ echo $node->parentNode->getAttribute('id') . '-' . $node->parentNode->getAttribute('field_name') . '- Type:'. $in_array . "\n";
 							
 						} else {
+							
 							if($node->hasAttributes() && $node->getAttribute('instance_id') && $node->getAttribute('display_name')){
 								$lInstance_id = (int)$node->getAttribute('instance_id');
 								$lInstance_name = $node->getAttribute('display_name');
@@ -319,6 +334,7 @@ class cdocument_xml_validator extends csimple {
 	 */
 
 	function GroupXMLErrors() {
+		//var_dump($this->m_all_errors);
 		if(is_array($this->m_all_errors)) {
 			foreach($this->m_all_errors as $err) {
 				global $gXMLErrors;
@@ -367,7 +383,7 @@ class cdocument_xml_validator extends csimple {
 	function GetXmlSchemaValidation() {
 		if (!$this->m_documentXmlDom->schemaValidate(SITE_URL . '/'. $this->m_documentGeneratedXSD)) {
 			$this->LibXMLGetAllErrors();
-			//~ print_r($this->m_error_lines);
+			// print_r($this->m_error_lines);
 			//~ $this->m_Xml_data = $this->LibXMLGetAllErrors();
 		} else {
 			$this->m_Xml_data = "validated";
@@ -421,6 +437,7 @@ class cdocument_xml_validator extends csimple {
 		$this->m_libxml_errors = libxml_get_errors();
 		//~ print_r($this->m_libxml_errors);
 		//~ exit;
+		//var_dump($this->m_libxml_errors);
 		foreach ($this->m_libxml_errors as $error) {
 			//~ $this->m_XML_errors .= $this->LibXMLGetError($error);
 			$this->LibXMLGetError($error);

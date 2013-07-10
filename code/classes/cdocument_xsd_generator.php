@@ -9,6 +9,7 @@ class cdocument_xsd_generator extends csimple {
 	var $m_documentXmlDom;
 	var $m_schemaXmlNode;
 	var $m_mode;
+	var $m_dataSrcIds;
 
 	/*
 	 * Тук ще пазим цялата информация за инстанциите на обектите. За всеки
@@ -27,7 +28,7 @@ class cdocument_xsd_generator extends csimple {
 		$this->m_templateObjectDetails = array();
 		$this->m_documentXmlDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
 		$this->m_generatedObjectIds = array();
-
+		$this->m_dataSrcIds = array();
 
 		$this->m_mode = $pFieldTempl['mode'];
 		if(!in_array($this->m_mode, array((int)SERIALIZE_INTERNAL_MODE, (int)SERIALIZE_INPUT_MODE))){
@@ -45,6 +46,10 @@ class cdocument_xsd_generator extends csimple {
 	function getXml() {
 		$this->m_documentXmlDom->formatOutput = TRUE;
 		return $this->m_documentXmlDom->saveXML();
+	}
+
+	function xsdElem($elem)	{
+		return $this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:'.$elem);
 	}
 
 	/*
@@ -77,7 +82,9 @@ class cdocument_xsd_generator extends csimple {
 		$lFiguresXmlNode->setAttribute('name', 'figures');
 		$lFiguresXmlNode->setAttribute('type', 'figuresType');
 
-
+		$lTablesXmlNode = $lDocumentSeqNode->appendChild($this->xsdElem('element'));
+		$lTablesXmlNode->setAttribute('name', 'tables');
+		$lTablesXmlNode->setAttribute('type', 'tablesType');
 
 
 		$lCon = new DBCn();
@@ -101,7 +108,7 @@ class cdocument_xsd_generator extends csimple {
 				AND (o.parent_id IS NULL OR rp.id IS NOT NULL)
 			ORDER BY o.pos ASC';
 		}
-
+		file_put_contents('/tmp/test.sql', $lObjectsSql);
 		// Взимаме всичките обекти с една заявка.
 		$lCon->Execute($lObjectsSql);
 		$lCon->MoveFirst();
@@ -120,6 +127,7 @@ class cdocument_xsd_generator extends csimple {
 			if((int) $lCon->mRs['real_parent_id']){
 				$this->m_templateObjectDetails[(int) $lCon->mRs['real_parent_id']]['children'][] = $lTemplateObjectId;
 			}
+
 			$lCon->MoveNext();
 		}
 
@@ -154,7 +162,7 @@ class cdocument_xsd_generator extends csimple {
 			ORDER BY o.pos ASC, of.id
 			';
 		}
-
+		file_put_contents('/tmp/test1.sql', $lFieldsSql);
 		$lCon->Execute($lFieldsSql);
 		$lCon->MoveFirst();
 		while(! $lCon->Eof()){
@@ -170,10 +178,32 @@ class cdocument_xsd_generator extends csimple {
 				}
 			}
 
-
+			$lDataSrcId = (int) $lCon->mRs['data_src_id'];
+			if($lDataSrcId && !in_array($lDataSrcId, $this->m_dataSrcIds)){
+				$this->m_dataSrcIds[$lDataSrcId] = $lDataSrcId;
+			}
 
 			$this->m_templateObjectDetails[$lTempObjectId]['fields'][$lCon->mRs['field_id']] = $lCon->mRs;
 			$lCon->MoveNext();
+		}
+
+		foreach ($this->m_dataSrcIds as $lDataSrcId => $lData){
+			$lSql = 'SELECT name, query, xml_node_name
+				FROM pwt.data_src
+				WHERE id = ' . $lDataSrcId;
+			$lCon->Execute($lSql);
+			$this->m_dataSrcIds[$lDataSrcId] = $lCon->mRs;
+			$lQuery = $lCon->mRs['query'];
+			$lValues = array();
+			if($lQuery){
+				$lCon->Execute($lQuery);
+				while(!$lCon->Eof()){
+					$lValues[$lCon->mRs['id']] = $lCon->mRs['name'];
+					$lCon->MoveNext();
+				}
+			}
+			$this->m_dataSrcIds[$lDataSrcId]['values'] = $lValues;
+
 		}
 
 		// Слагаме главните елементи в objects
@@ -206,7 +236,9 @@ class cdocument_xsd_generator extends csimple {
 		}
 
 		$this->generateFiguresDefinition();
+		$this->generateTablesDefinition();
 		$this->generateFieldTypesDefinition();
+		$this->generateDataSrcs();
 	}
 
 	/**
@@ -428,6 +460,44 @@ class cdocument_xsd_generator extends csimple {
 		$lPlateTypeAttributeNode->setAttribute('type', 'xsd:integer');
 	}
 
+	function generateTablesDefinition(){
+		//Дефиниция на всички фигури
+		$lSchemaXmlNode = $this->m_schemaXmlNode;
+		$lTablesTypeNode = $lSchemaXmlNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:complexType'));
+		$lTablesTypeNode->setAttribute('name', 'tablesType');
+
+		$lTablesSeqNode = $lTablesTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:sequence'));
+
+		$lTableXmlNode = $lTablesSeqNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:element'));
+		$lTableXmlNode->setAttribute('name', 'table');
+		$lTableXmlNode->setAttribute('type', 'tableType');
+		$lTableXmlNode->setAttribute('minOccurs', '0');
+		$lTableXmlNode->setAttribute('maxOccurs', 'unbounded');
+
+		//Дефиниция на една таблица
+		$lTableTypeNode = $lSchemaXmlNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:complexType'));
+		$lTableTypeNode->setAttribute('name', 'tableType');
+
+		$lTableSeqNode = $lTableTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:sequence'));
+		//Caption
+		$lCaptionXmlNode = $lTableSeqNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:element'));
+		$lCaptionXmlNode->setAttribute('name', 'caption');
+		$lCaptionXmlNode->setAttribute('minOccurs', '0');
+		$lCaptionXmlNode->setAttribute('maxOccurs', '1');
+		
+		//Content
+		$lContentXmlNode = $lTableSeqNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:element'));
+		$lContentXmlNode->setAttribute('name', 'content');
+		$lContentXmlNode->setAttribute('type', 'fieldNotEmpty');
+
+		//Table node attributes
+		$lIdAttributeNode = $lTableTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:attribute'));
+		$lIdAttributeNode->setAttribute('name', 'id');
+		$lIdAttributeNode->setAttribute('type', 'xsd:integer');
+		$lIdAttributeNode->setAttribute('use', 'required');
+	
+	}
+
 	/**
 	 * Генерираме типовете на полетата
 	 */
@@ -603,6 +673,74 @@ class cdocument_xsd_generator extends csimple {
 		$lFragment = $this->m_documentXmlDom->createDocumentFragment();
 		$lFragment->appendXML($lBaseTypesXml);
 		$this->m_schemaXmlNode->appendChild($lFragment);
+	}
+
+	/**
+	 * Here we will generate the field types of the fields which have data src (a.k.a enums) - we
+	 * will limit the possible values for the fields to the one available in the data src
+	 */
+	function generateDataSrcs(){
+		unlink('/tmp/srcname.txt');
+		foreach ($this->m_dataSrcIds as $lSrcId => $lSrcData){
+			//First generate the base type with the enums
+			$lSrcName = $lSrcData['xml_node_name'];
+			file_put_contents('/tmp/srcname.txt', $lSrcName . "\n", FILE_APPEND);
+			$lSimpleTypeNode = $this->m_schemaXmlNode->appendChild($this->xsdElem('simpleType'));
+			$lSimpleTypeNode->setAttribute('name', $lSrcName);
+			$lRestriction = $lSimpleTypeNode->appendChild($this->xsdElem('restriction'));
+			$lRestriction->setAttribute('base', 'xsd:string');
+			foreach ($lSrcData['values'] as $lId => $lName) {
+				$lEnumerationNode = $lRestriction->appendChild($this->xsdElem('enumeration'));;
+				$lEnumerationNode->setAttribute('value', $lName);
+			}
+			//Create a type which allows nulls
+			$lAllowNullSimpleTypeNode = $this->m_schemaXmlNode->appendChild($this->xsdElem('simpleType'));
+			$lAllowNullSimpleTypeNode->setAttribute('name', $lSrcName . 'Empty');
+			$lAllowNullUnionNode = $lAllowNullSimpleTypeNode->appendChild($this->xsdElem('union'));
+			$lAllowNullUnionNode->setAttribute('memberTypes', 'empty_str ' . $lSrcData['xml_node_name']);
+
+			//Create the field types for this src id
+			//The field which is not array and doesnt allow nulls
+			$lFieldTypeComplexTypeNode = $this->m_schemaXmlNode->appendChild($this->xsdElem('complexType'));
+			$lFieldTypeComplexTypeNode->setAttribute('name', 'field' . $lSrcName);
+			$lFieldTypeSeq = $lFieldTypeComplexTypeNode->appendChild($this->xsdElem('sequence'));
+			$lValueElementNode = $lFieldTypeSeq->appendChild($this->xsdElem('element'));
+			$lValueElementNode->setAttribute('name', value);
+			$lValueElementNode->setAttribute('minOccurs', 1);
+			$lValueElementNode->setAttribute('maxOccurs', 1);
+			$lValueElementNode->setAttribute('type', $lSrcName);
+
+			//The field which is not array and allows nulls
+			$lFieldTypeComplexTypeNode = $this->m_schemaXmlNode->appendChild($this->xsdElem('complexType'));
+			$lFieldTypeComplexTypeNode->setAttribute('name', 'field' . $lSrcName . 'Empty');
+			$lFieldTypeSeq = $lFieldTypeComplexTypeNode->appendChild($this->xsdElem('sequence'));
+			$lValueElementNode = $lFieldTypeSeq->appendChild($this->xsdElem('element'));
+			$lValueElementNode->setAttribute('name', value);
+			$lValueElementNode->setAttribute('minOccurs', 1);
+			$lValueElementNode->setAttribute('maxOccurs', 1);
+			$lValueElementNode->setAttribute('type', $lSrcName . 'Empty');
+
+			//The field which is array and doesnt allow nulls
+			$lFieldTypeComplexTypeNode = $this->m_schemaXmlNode->appendChild($this->xsdElem('complexType'));
+			$lFieldTypeComplexTypeNode->setAttribute('name', 'field' . $lSrcName . 'Arr');
+			$lFieldTypeSeq = $lFieldTypeComplexTypeNode->appendChild($this->xsdElem('sequence'));
+			$lValueElementNode = $lFieldTypeSeq->appendChild($this->xsdElem('element'));
+			$lValueElementNode->setAttribute('name', value);
+			$lValueElementNode->setAttribute('minOccurs', 1);
+			$lValueElementNode->setAttribute('maxOccurs', 'unbounded');
+			$lValueElementNode->setAttribute('type', $lSrcName);
+
+			//The field which is array and allows nulls
+			$lFieldTypeComplexTypeNode = $this->m_schemaXmlNode->appendChild($this->xsdElem('complexType'));
+			$lFieldTypeComplexTypeNode->setAttribute('name', 'field' . $lSrcName . 'ArrEmpty');
+			$lFieldTypeSeq = $lFieldTypeComplexTypeNode->appendChild($this->xsdElem('sequence'));
+			$lValueElementNode = $lFieldTypeSeq->appendChild($this->xsdElem('element'));
+			$lValueElementNode->setAttribute('name', value);
+			$lValueElementNode->setAttribute('minOccurs', 1);
+			$lValueElementNode->setAttribute('maxOccurs', 'unbounded');
+			$lValueElementNode->setAttribute('type', $lSrcName . 'Empty');
+
+		}
 	}
 
 	function getFieldTypeName($pFieldType, $pDataSrc, $pAllowNull, $pControlType){

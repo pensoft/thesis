@@ -4,7 +4,8 @@ CREATE TYPE ret_spGetDocumentFiguresAndTables AS (
 	object_id bigint,
 	object_type int,
 	position int,
-	is_plate int
+	is_plate int,
+	plate_id int
 );
 
 CREATE OR REPLACE FUNCTION spGetDocumentFiguresAndTables(
@@ -24,7 +25,8 @@ $BODY$
 			lRes.object_id = lRecord.id;
 			lRes.object_type = 1;
 			lRes.position = lRecord.move_position;
-			IF (lRecord.plate_id IS NOT NULL) THEN
+			lRes.plate_id = lRecord.plate_id;
+			IF (lRes.plate_id IS NOT NULL) THEN
 				lRes.is_plate = 1;
 			ELSE
 				lRes.is_plate = 0;

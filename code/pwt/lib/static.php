@@ -3802,7 +3802,8 @@ function prepareXMLErrors($pXMLArr) {
 				} elseif($v['node_instance_name'] == 'reference') {
 					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
 				} else {
-					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					$lInstanceIdDisplayInTree = getInstanceDisplayInTree($v['node_instance_id']);
+					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $lInstanceIdDisplayInTree . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
 				}
 			}
 			$lStr .= '</ul></div>';
@@ -3810,6 +3811,17 @@ function prepareXMLErrors($pXMLArr) {
 		return $lStr;
 	}
 	return '';
+}
+
+function getInstanceDisplayInTree($pInstanceId){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = 'SELECT instance_id FROM pwt."spGetInstanceDisplayInTree"(' . (int)$pInstanceId . ')';
+	$lCon->Execute($lSql);
+	$lCon->MoveFirst();
+	$lInstanceIdDisplayInTree = $lCon->mRs['instance_id'];
+	$lCon->Close();
+	return $lInstanceIdDisplayInTree;
 }
 
 function displayEditedByRow( $pIsLocked, $pEditedByUser, $pEditedByUserId){
