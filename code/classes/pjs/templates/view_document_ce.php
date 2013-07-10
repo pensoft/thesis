@@ -94,7 +94,9 @@ $gTemplArr = array(
 											<!-- <div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first" onclick="SaveCEDecision({round_user_id}, ' . (int)ROUND_COPY_EDITING_DECISION_ACCEPT . ')"> -->
 											<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
 												<div class="invite_reviewer_btn_left"></div>
-												<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id={user_version_id}\');">Approve</div>
+												<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id={user_version_id}\');">
+													{_getstr(pjs.copy_editing_proceed_btn_text)}
+												</div>
 												<div class="invite_reviewer_btn_right"></div>
 												<div class="P-Clear"></div>
 											</div>

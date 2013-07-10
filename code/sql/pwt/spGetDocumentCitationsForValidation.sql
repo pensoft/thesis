@@ -7,7 +7,8 @@ CREATE TYPE ret_spGetDocumentCitationsForValidation AS (
 	field_id bigint,
 	instance_id bigint,
 	citation_objects bigint[],
-	is_plate int
+	is_plate int,
+	plate_id int
 );
 
 CREATE OR REPLACE FUNCTION spGetDocumentCitationsForValidation(
@@ -31,7 +32,8 @@ $BODY$
 			lRes.citation_objects = lRecord.object_ids;
 			lRes.field_id = lRecord.field_id;
 			lRes.instance_id = lRecord.instance_id;
-			IF(array_length(lRecord.object_ids, 1) > 1) THEN
+			SELECT INTO lRes.plate_id plate_id FROM pwt.media WHERE id = lRecord.object_ids[1];
+			IF(lRes.plate_id IS NOT NULL) THEN
 				lRes.is_plate = 1;
 			ELSE
 				lRes.is_plate = 0;

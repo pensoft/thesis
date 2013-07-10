@@ -2280,12 +2280,6 @@ function compareNodesOrder(pNodeA, pNodeB){
 	}
 }
 
-function hideLockWarningElement(pElemClass){
-	hideElement(pElemClass);
-	$('.P-Wrapper').removeClass('P-Wrapper-With-Lock-Warning');
-	$('.P-Bread-Crumbs').removeClass('P-Bread-Crumbs-With-Lock-Warning');
-}
-
 function hideElement(pElemClass) {
 	$('.' + pElemClass).hide();
 }

@@ -3828,7 +3828,8 @@ function prepareXMLErrors($pXMLArr) {
 				} elseif($v['node_instance_name'] == 'reference') {
 					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
 				} else {
-					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					$lInstanceIdDisplayInTree = getInstanceDisplayInTree($v['node_instance_id']);
+					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $lInstanceIdDisplayInTree . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
 				}
 			}
 			$lStr .= '</ul></div>';
@@ -3836,6 +3837,17 @@ function prepareXMLErrors($pXMLArr) {
 		return $lStr;
 	}
 	return '';
+}
+
+function getInstanceDisplayInTree($pInstanceId){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = 'SELECT instance_id FROM pwt."spGetInstanceDisplayInTree"(' . (int)$pInstanceId . ')';
+	$lCon->Execute($lSql);
+	$lCon->MoveFirst();
+	$lInstanceIdDisplayInTree = $lCon->mRs['instance_id'];
+	$lCon->Close();
+	return $lInstanceIdDisplayInTree;
 }
 
 function displayEditedByRow( $pIsLocked, $pEditedByUser, $pEditedByUserId){
@@ -3933,14 +3945,12 @@ function displayBottomTreeButtons( $pIsLocked = 0, $pPreviewMode = 0, $pDocument
 
 function showValidationErrorDiv($pErrors, $pValidation = 0) {
 	if((int)$pErrors) {
-		return '<div class="P-Document-Validation-Err-Notification"><img src="/i/excl_ico.png" alt="" />' . getstr('pwt.xmlvalidation.errnotification') . '<div class="P-Document-Validation-Err-Notification-Close" onclick="hideElement(\'P-Document-Validation-Err-Notification\')"></div></div>';
+		return '<div class="P-Document-Validation-Err-Notification"><img src="/i/excl_ico.png" alt="" />' . getstr('pwt.xmlvalidation.errnotification') . '</div>';
 	}
 	if((int)$pValidation && !(int)$pErrors) {
 		return '
 			<div class="P-Document-Validation-Err-Notification P-Document-Validation-Valid-Notification">
 				<img src="/i/valid_icon.png" alt="" />' . getstr('pwt.xmlvalidation.validnotification') . '
-				<div class="P-Document-Validation-Err-Notification-Close" onclick="hideElement(\'P-Document-Validation-Err-Notification\')">
-				</div>
 			</div>';
 	}
 }
@@ -3964,7 +3974,6 @@ function showDocumentLockWarning($pIsLocked, $pLockedUser, $pWithoutWarning = 0)
 		$lStr = str_replace('{full_username}', $lDocLockedUserFullName, getstr('pwt.document.locked'));
 		return '<div class="P-Document-Locked-Warning">
 					<img src="/i/document_locked_warning_icon.png" alt="" />' . $lStr . '
-					<div class="P-Document-Locked-Warning-Close" onclick="hideLockWarningElement(\'P-Document-Locked-Warning\')"></div>
 				</div>';
 	}
 	return '';
