@@ -1,7 +1,7 @@
 <?php
 $docroot = getenv('DOCUMENT_ROOT');
 require_once ($docroot . '/lib/static.php');
-session_write_close();
+// session_write_close();
 ini_set('display_errors', 'off');
 
 $gInstanceId = ( int ) $_REQUEST ['instance_id'];

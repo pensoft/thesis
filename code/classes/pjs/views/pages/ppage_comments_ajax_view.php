@@ -18,10 +18,22 @@ class pPage_Comments_Ajax_View extends epPage_Json_View {
 				G_FORM_TEMPLATE => 'comments.reply_form',
 			)
 		);
+		
+		$this->m_objectsMetadata['edit_comment_form'] = array(
+			'templs' => array(
+				G_FORM_TEMPLATE => 'comments.editform',
+			)
+		);
 
 		$this->m_objectsMetadata['first_comment_preview'] = array(
 			'templs' => array(
 				G_DEFAULT => 'comments.newCommentRowFirst'
+			)
+		);
+		
+		$this->m_objectsMetadata['comment_edit_preview'] = array(
+			'templs' => array(
+					G_DEFAULT => 'comments.viewRow'
 			)
 		);
 

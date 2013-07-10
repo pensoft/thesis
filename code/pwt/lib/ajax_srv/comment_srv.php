@@ -26,6 +26,9 @@ switch ($gAction) {
 	case 'get_filtered_ids_list':
 		GetDocumentFilteredRootIdsList();
 		break;
+	case 'edit_comment':
+		EditComment();
+		break;
 }
 
 displayAjaxResponse($gResult);
@@ -112,5 +115,41 @@ function GetDocumentFilteredRootIdsList(){
 		$lCon->MoveNext();
 	}
 	$gResult['visible_rootids'] = $lResult;
+}
+
+function EditComment(){
+	global $gResult;
+	try{
+		$gCommentId = (int)$_REQUEST['comment_id'];
+		$gDocumentId = (int)$_REQUEST['document_id'];
+		if(!$gCommentId){
+			throw new Exception(getstr('pwt.youHaveToSpecifyCommentId'));
+		}
+		$lComment = new ccomments( array (
+				'ctype' => 'ccomments',
+				'showtype' => 4,
+				'comment_id' => $gCommentId,
+				'document_id' => $gDocumentId,
+				'use_as_ajax_srv' => 1,
+				'formaction' => $_SERVER ['REQUEST_URI'],				
+		) );
+		$lForm = $lComment->form; 
+		$lForm->GetData();
+		if($lForm->KforErrCnt()){
+			throw new Exception($lForm->GetErrStr());
+		}		
+		unset($_REQUEST['tAction']);
+		unset($_REQUEST['kfor_name']);
+		$lComment = new ccomments( array (
+				'ctype' => 'ccomments',
+				'showtype' => 5,
+				'comment_id' => $gCommentId,
+				'document_id' => $gDocumentId,				
+		) );		
+		$gResult['html'] = $lComment->GetVal('single_comment');
+	}catch(Exception $pException){
+		$gResult['err_cnt'] ++;
+		$gResult['err_msg']=  strip_tags($pException->getMessage());
+	}
 }
 ?>

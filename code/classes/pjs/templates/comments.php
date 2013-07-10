@@ -54,16 +54,22 @@ $gTemplArr = array(
 	',
 	'comments.browseRow' => '
 					<div class="P-Inline-Line"></div>
+					{*comments.viewRow}
+	',
+	'comments.viewRow' => '
 					<div id="P-Comment-{id}" class="P-Comments-Revisions-History">
 						<a href="#">{_DisplayCommentUserName(is_disclosed, usr_id, has_editor_permissions, current_user_id, fullname, undisclosed_user_fullname)}</a>&nbsp;commented: <span class="P-Comments-Reviosions-History-Date">{_showFormatedPubDate(lastmoddate, 1)}</span>
-						<div class="P-Comment-Msg">{msg}</div>
+						<div class="P-Comment-Msg" {_putCommentOnClickEvent(id, usr_id, current_user_id)}>{msg}</div>
+						<div id="P-Comment-Edit-Form_{id}" style="display:none" >
+							{_DisplayCommentEditForm(comment_edit_forms, id, usr_id, current_user_id)}							
+						</div>
 					</div>
 	',
 	'comments.browseSplitFoot' => '
 					<div class="P-Inline-Line"></div>
 				</div>
 
-				<div onclick="showCommentForm({rootid});" class="comment_btn" id="P-Comment-Btn-{rootid}"></div>
+				<div onclick="showCommentForm({rootid});" class="reply_btn" id="P-Comment-Btn-{rootid}"></div>
 				<div id="P-Comment-Form_{rootid}" style="display: none;">
 					{_DisplayCommentAnswerForm(comment_reply_forms, rootid)}
 					<div class="P-Grey-Btn-Holder">
@@ -71,7 +77,7 @@ $gTemplArr = array(
 						<div class="P-Grey-Btn-Middle">
 							<div class="P-Comment">
 								<div class="P-Btn-Icon"></div>
-								<div class="P-Grey-Btn-Middle" onclick="SubmitCommentReplyForm({rootid});">Comment</div>
+								<div class="P-Grey-Btn-Middle" onclick="SubmitCommentReplyForm({rootid});">Reply</div>
 							</div>
 						</div>
 						<div class="P-Grey-Btn-Right"></div>
@@ -108,16 +114,24 @@ $gTemplArr = array(
 	',
 
 	'comments.reply_form' => '
-	{rootid}
-	{msg}
+		{rootid}
+		{msg}
+	',
+	
+	'comments.editform' => '
+		{comment_id}{document_id}
+		{msg}
 	',
 
 	'comments.new_form_wrapper' => '
 						<div class="P-Clear"></div>
-						<div class="comment_btn floatLeft" onclick="showCommentForm2();"></div>
+						<div class="comment_btn floatLeft " id="P-Comment-Main-Btn-Wrapper" onclick="submitPreviewNewComment(); return false;"></div>
 						<div class="Comment-Prev floatLeft"><a onclick="SelectPreviousComment()">Prev</a></div>
 						<div class="Comment-Next floatLeft"><a onclick="SelectNextComment()">Next</a></div>
 						<div class="P-Clear"></div>
+						<div id="P-Comment-Unavailable-Text" style="display:none">
+							' . getstr('comments.currentSelectionCommentIsUnavailable') . '
+						</div>
 						{new_comment_form}
 						<div class="P-Clear"></div>
 	',
@@ -164,7 +178,10 @@ $gTemplArr = array(
 	'comments.replyCommentRow' => '
 			<div class="P-Comments-Revisions-History" id="P-Comment-{id}">
 				<a href="#">{fullname}</a>&nbsp;commented: <span class="P-Comments-Reviosions-History-Date">{_showFormatedPubDate(lastmoddate, 1)}</span>
-				<div class="P-Comment-Msg">{msg}</div>
+				<div class="P-Comment-Msg" {_putCommentOnClickEvent(id, usr_id, current_user_id)}>{msg}</div>
+				<div id="P-Comment-Edit-Form_{id}" style="display:none" >
+					{_DisplayCommentEditForm(comment_edit_forms, id, usr_id, current_user_id)}							
+				</div>
 			</div>
 			<div class="P-Inline-Line"></div>
 	',

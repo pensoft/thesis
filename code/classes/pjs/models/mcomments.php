@@ -60,7 +60,7 @@ class mComments extends emBase_Model {
 	function GetCommentDetails($pCommentId){
 		$lResult = array();
 		$lSql = '
-			SELECT m2.id as id, m2.rootid,
+			SELECT m2.id as id, m2.rootid, m2.version_id,
 					m2.document_id as document_id,
 					m2.author as author,
 					m2.msg as msg,

@@ -167,7 +167,10 @@ function SaveNewElementPopup(pInstanceId, pParentInstanceId, pContainerId, pDisp
 			gCurrentDialog.show();
 		}
 		if(gPreviewMode){
-			HandlePreviewModeCreateInstance();
+			var lAjaxResult = {};
+			lAjaxResult['new_instance_id'] = pInstanceId;
+			lAjaxResult['parent_instance_id'] = pParentInstanceId;
+			HandlePreviewModeCreateInstance(lAjaxResult);
 		}
 	};
 	gStopAutoSaveInstance = 1;

@@ -2223,6 +2223,32 @@ function showCommentAnswerForm($pInstanceId, $pDocumentId, $pRootMsg) {
 	return $lComment->Display();
 }
 
+function putCommentOnClickEvent($pCommentId, $pCommentUsrId){
+	global $user;
+	if((int)$user->id != $pCommentUsrId){
+		return;
+	}
+	return ' onclick="displayCommentEditForm(' . (int)$pCommentId . ')"';
+}
+
+function showCommentEditForm($pCommentId, $pCommentUsrId, $pDocumentId){
+	global $user;
+	if((int)$user->id != $pCommentUsrId){
+		return;
+	}
+	$lComment = new ccomments( array (
+		'ctype' => 'ccomments',
+		'showtype' => 4,
+		'comment_id' => $pCommentId,
+		'document_id' => $pDocumentId,
+		'formaction' => $_SERVER ['REQUEST_URI'],
+		'templs' => array (
+			G_DEFAULT => 'comments.editform_wrapper' 
+		) 
+	) );
+	return $lComment->Display();
+}
+
 function showCommentPic($pPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserId) {
 	$lUserIsDisclosed = CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserId);
 	if($pPhotoId && $lUserIsDisclosed)

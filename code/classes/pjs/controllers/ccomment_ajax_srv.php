@@ -27,6 +27,9 @@ class cComment_Ajax_Srv extends cBase_Controller {
 			case 'new_comment' :
 				$this->CreateNewComment();
 				break;
+			case 'edit_comment' :
+				$this->EditComment();
+				break;
 			case 'new_reply' :
 				$this->CreateNewReply();
 				break;
@@ -80,7 +83,7 @@ class cComment_Ajax_Srv extends cBase_Controller {
 		$lCommentId = $lForm->GetFieldValue('comment_id');
 
 		if($lForm->GetErrorCount() || $lForm->GetCurrentAction() != 'save' || ! $lCommentId){
-			if($lForm->GetErrorCount()){
+			if($lForm->GetErrorCount()){				
 				$lErrMsg = 'pjs.couldNotCreateComment';
 			}elseif($lForm->GetCurrentAction() != 'save'){
 				$lErrMsg = 'pjs.wrongFormAction';
@@ -111,6 +114,56 @@ class cComment_Ajax_Srv extends cBase_Controller {
 		}
 		$this->m_action_result['comment_preview'] = $this->GetCommentPreview($lCommentId, $lNameInViewObject, true);
 
+	}
+	
+	function EditComment() {
+		global $user;
+		$lDocumentId = (int) $this->GetValueFromRequestWithoutChecks('document_id');
+		$lCommentId = (int) $this->GetValueFromRequestWithoutChecks('comment_id');
+		if(! $lDocumentId || !$lCommentId){
+			$lErrMsg = 'pjs.mustSpecifyDocumentIdAndCommentId';
+			$this->m_errCnt ++;
+			$this->m_errMsgs[] = array(
+					'err_msg' => getstr($lErrMsg)
+			);
+			return;
+		}
+		$lVersionCommentsNum = $this->m_commentsModel->GetVersionCommentsNum($lVersionId);
+		$lForm = new Comment_Edit_Form_Wrapper(array(
+				'page_controller_instance' => $this,
+				'name_in_viewobject' => 'edit_comment_form',
+				'view_object' => $this->m_pageView,
+				'use_captcha' => 0,
+				'm_debug' => false,
+				'uid' => $user->id,
+				'user_fullname' => $user->fullname,
+				'document_id' => $lDocumentId,
+				'form_method' => 'POST',
+				'comment_id' => $lCommentId,
+				'form_name' => 'comment_edit_' . $lCommentId
+		));
+		$lCommentId = $lForm->GetFieldValue('comment_id');
+	
+		if($lForm->GetErrorCount() || $lForm->GetCurrentAction() != 'save' || ! $lCommentId){
+			if($lForm->GetErrorCount()){
+				$lErrMsg = $lForm->GetErrorMsg();
+			}elseif($lForm->GetCurrentAction() != 'save'){
+				$lErrMsg = 'pjs.wrongFormAction';
+			}elseif(! $lCommentId){
+				$lErrMsg = 'pjs.couldNotGetCommentId';
+			}
+			$this->m_errCnt ++;
+			$this->m_errMsgs[] = array(
+					'err_msg' => getstr($lErrMsg)
+			);
+			return;
+		}
+		$this->m_action_result['comment_id'] = $lCommentId;
+		unset($_REQUEST['tAction']);
+		unset($_REQUEST['kfor_name']);
+		$this->m_action_result['comment_preview'] = $this->GetCommentPreview($lCommentId, 'comment_edit_preview', true);
+		$this->m_action_result['html'] = $this->m_action_result['comment_preview'];
+	
 	}
 
 	function CreateNewReply() {
@@ -156,28 +209,31 @@ class cComment_Ajax_Srv extends cBase_Controller {
 	}
 
 	function GetCommentPreview($pCommentId, $pNameInViewObject, $pPlaceReplyForm = false) {
+		global $user;
 		$lCommentData = $this->m_commentsModel->GetCommentDetails($pCommentId);
 		$lDocumentId = (int)$lCommentData['document_id'];
+		$lVersionId = (int)$lCommentData['version_id'];		
 		$lVersionsModel = new mVersions();
 		// var_dump($lCommentData);
 		$lCommentReplyForm = array();
+		$lCommentEditForm = array();
 		$lCommentObject = new evSimple_Block_Display(array(
 			'controller_data' => $lCommentData,
 			'name_in_viewobject' => $pNameInViewObject,
 			'comment_reply_forms' => &$lCommentReplyForm,
-			'view_object' => $this->m_tempPageView,
+			'comment_edit_forms' => &$lCommentEditForm,
+			'view_object' => $this->m_tempPageView,			
 			'has_editor_permissions' => $lVersionsModel->CheckUserSpecificRole($this->GetUserId(), $lDocumentId) ? true : false,
 			'current_user_id' => $this->GetUserId(),
 		));
 		if($pPlaceReplyForm){
-			global $user;
 			$lForm = new Comment_Reply_Form_Wrapper(array(
 				'page_controller_instance' => $this,
 				'name_in_viewobject' => 'comment_reply_form',
 				'view_object' => $this->m_tempPageView,
 				'use_captcha' => 0,
 				'm_debug' => false,
-				'uid' => $user->id,
+				'uid' => $this->GetUserId(),
 				'user_fullname' => $user->fullname,
 				'rootid' => $pCommentId,
 				'form_method' => 'POST',
@@ -185,6 +241,24 @@ class cComment_Ajax_Srv extends cBase_Controller {
 			));
 			$lCommentReplyForm[$pCommentId] = $lForm->Display();
 		}
+		$lEditForm = new Comment_Edit_Form_Wrapper(array(
+				'page_controller_instance' => $this,
+				'name_in_viewobject' => 'edit_comment_form',
+				'view_object' => $this->m_tempPageView,
+				'use_captcha' => 0,
+				'm_debug' => false,
+				'uid' => $this->GetUserId(),
+				'user_fullname' => $user->fullname,
+				'version_id' => $lVersionId,
+				'document_id' => $lDocumentId,
+				'form_method' => 'POST',
+				'comment_id' => $pCommentId,
+				'form_name' => 'comment_edit_' . $pCommentId
+		));
+		
+		
+		$lCommentEditForm[$pCommentId] = $lEditForm->Display();
+// 		var_dump($lEditForm->Display());
 
 		return $lCommentObject->Display();
 	}

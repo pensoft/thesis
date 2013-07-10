@@ -2803,6 +2803,22 @@ function DisplayCommentAnswerForm($pAnswerForms, $pRootId){
 	return $pAnswerForms[$pRootId];
 }
 
+function DisplayCommentEditForm($pEditForms, $pCommentId, $pCommentUsrId, $pCurrentUsrId){
+// 	var_dump($pEditForms);
+	if((int)$pCommentUsrId == (int)$pCurrentUsrId){
+		return $pEditForms[$pCommentId];
+	}
+}
+
+function putCommentOnClickEvent($pCommentId, $pCommentUsrId, $pCurrentUsrId){	
+	if($pCurrentUsrId != $pCommentUsrId){
+		return;
+	}
+	return ' onclick="displayCommentEditForm(' . (int)$pCommentId . ')"';
+}
+
+
+
 function showArticlePriceIfExist($pState){
 	if ((int)$pState == 1){
 		return;

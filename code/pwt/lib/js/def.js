@@ -1762,7 +1762,21 @@ function HandlePreviewModeDeleteInstance(pAjaxResult){
 	}
 }
 
-function HandlePreviewModeCreateInstance(){
+function HandlePreviewModeCreateInstance(pAjaxResult){
+	if(pAjaxResult){
+		var lNewInstanceId = pAjaxResult['new_instance_id'];
+		var lParentInstanceId = pAjaxResult['parent_instance_id'];
+		if(lNewInstanceId){
+			if(lParentInstanceId){
+				setMenuTabAsActive(1, lParentInstanceId);
+			}
+			var lQueryParams = getQueryParams(window.location.search);
+			var lCurrentDocumentId = lQueryParams['document_id'];
+			var lUrl = '/preview.php?document_id=' + lCurrentDocumentId + '&instance_id=' + lNewInstanceId;
+			window.location.href = lUrl;
+			return;
+		}	
+	}
 	window.location.reload();
 }
 
@@ -2200,6 +2214,9 @@ function scrollToField(pInstanceId, pFieldId){
  * @param pNodeB
  */
 function getFirstCommonParent(pNodeA, pNodeB){
+	if(!pNodeA || !pNodeB){
+		return false;
+	}
 	if (checkIfNodesAreParentAndDescendent(pNodeA, pNodeB))// pNodeB е подвъзел на pNodeA
 		return pNodeA;
 

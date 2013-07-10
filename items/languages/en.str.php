@@ -2116,6 +2116,9 @@ $STRARRAY = array(
 	'pjs.xmlIsNotValid' => 'The XML is not valid',
 	
 	'pjs.no_such_layout_for_this_document' => 'You\'re not Layout Editor for the current document!',
+		
+	'comments.currentSelectionCommentIsUnavailable' => 'You cannot comment on the current selection. <br/> Please change your selection and try again!',
+	
 
 );
 ?>
