@@ -5743,4 +5743,180 @@ function checkIfPasswordIsSecure($pPassword){
 	return mb_strlen($pPassword) >= (int)MIN_ALLOWED_PASSWORD_LENGTH;
 }
 
+function getDocumentCreatorData($pDocumentId) {
+	$lRes = array();
+	
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = '
+		SELECT u.*, d.has_unprocessed_changes::int as has_unprocessed_changes
+		FROM pwt.documents d
+		JOIN usr u ON u.id = d.createuid
+		WHERE d.id = ' . (int)$pDocumentId;
+	$lCon->Execute($lSql);
+	$lCon->MoveFirst();
+	$lRes = $lCon->mRs;
+	$lCon->Close();
+	
+	return $lRes; 
+}
+
+function showPJSSubmitButton($pDocumentId, $pDocumentState){
+	global $user;
+	$lRes = '';
+	$lCreatorData = getDocumentCreatorData($pDocumentId);
+	$lCheckIfPreviewCanBeEdited = checkIfPreviewCanBeEdited($pDocumentId);
+	if($lCheckIfPreviewCanBeEdited) {
+		if($pDocumentState == NEW_DOCUMENT_STATE){
+			if($user->staff == 1){
+				$lRes = '
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); window.location=\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\';"' : '') . '>
+					<div class="P-Green-Btn-Left"></div>
+						<div class="P-Green-Btn-Middle">' . getstr('pwt.approve_documentfor_submission_btn') . '</div>
+						<div class="P-Green-Btn-Right"></div>
+					</div>
+					<div class="P-Clear"></div>
+				';
+			} else {
+				$lRes = '
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); window.location=\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . AUTHOR_READY_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\';"' : '') . '>
+					<div class="P-Green-Btn-Left"></div>
+						<div class="P-Green-Btn-Middle P-Green-Btn-Middle-Big_One">' . getstr('pwt.ready_to_submit_documentfor_submission_btn') . '</div>
+						<div class="P-Green-Btn-Right"></div>
+					</div>
+					<div class="P-Clear"></div>
+				';
+			}
+		} elseif ($pDocumentState == IN_PRE_SUBMIT_REVIEW_DOCUMENT_STATE) {
+			if($user->staff == 1){
+				$lRes = '
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); window.location=\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\';"' : '') . '>
+					<div class="P-Green-Btn-Left"></div>
+						<div class="P-Green-Btn-Middle">' . getstr('pwt.approve_documentfor_submission_btn') . '</div>
+						<div class="P-Green-Btn-Right"></div>
+					</div>
+					<div class="P-Clear"></div>
+				';
+			} else {
+				if((int)$lCreatorData['id'] == (int)$user->id){
+					$lRes = '
+						<div class="P-Green-Btn-Holder P-Inactive-Button">
+						<div class="P-Green-Btn-Left"></div>
+							<div class="P-Green-Btn-Middle P-Green-Btn-Middle-Big_One">' . getstr('pwt.submit_document_btn') . '</div>
+							<div class="P-Green-Btn-Right"></div>
+						</div>
+						<div class="P-Clear"></div>
+					';	
+				}
+				
+			}
+		} elseif ($pDocumentState == READY_TO_SUBMIT_DOCUMENT_STATE || $pDocumentState == RETURNED_FROM_PJS_DOCUMENT_STATE) {
+			if((int)$lCreatorData['id'] == (int)$user->id){
+				$lRes = '
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); window.location=\'/pjs_submit_document.php?document_id=' . (int)$pDocumentId . '&action_type=' . SUBMIT_DOCUMENT_ACTION_TYPE . '\';"' : '') . '>
+					<div class="P-Green-Btn-Left"></div>
+						<div class="P-Green-Btn-Middle P-Green-Btn-Middle-Big_One">' . getstr('pwt.submit_document_btn') . '</div>
+						<div class="P-Green-Btn-Right"></div>
+					</div>
+					<div class="P-Clear"></div>
+				';	
+			}
+		}
+	}
+
+	return $lRes;
+	
+}
+
+function ExecActionType($pDocumentId, $pActionType) {
+	global $user;
+	$lCreatorData = getDocumentCreatorData($pDocumentId);
+	$lCheckIfPreviewCanBeEdited = checkIfPreviewCanBeEdited($pDocumentId);
+	$lDocumentState = getDocumentState($pDocumentId);
+	
+	$lActionResult = false;
+
+	$lCon = new DBCn();
+	$lCon->Open();
+
+	switch ($pActionType) {
+		case AUTHOR_READY_TO_SUBMIT_DOCUMENT_ACTION_TYPE:
+	
+			if($lCheckIfPreviewCanBeEdited && $lDocumentState == NEW_DOCUMENT_STATE) {
+				$lSql = 'UPDATE pwt.documents SET state = ' . IN_PRE_SUBMIT_REVIEW_DOCUMENT_STATE . ' WHERE id = ' . (int)$pDocumentId;
+				$lCon->Execute($lSql);
+				$lActionResult = true;
+				
+				// send a message to 
+				$lMessageData = array(
+					'siteurl' => SITE_URL,
+					'mailsubject' => getstr('pwt.document_ready_for_review_mail_subject'),
+					'mailto' => PENSOFT_MAIL_ADDR_DOCUMENT_SUBMISSION,
+					'charset' => 'UTF-8',
+					'boundary' => '--_separator==_',
+					'document_id' => $pDocumentId,
+					'from' => array(
+						'display' => PENSOFT_MAIL_DISPLAY,
+						'email' => PENSOFT_MAIL_ADDR,
+					),
+					'templs' => array(
+						G_DEFAULT => 'document.email_message_ready_to_submit',
+					),
+				);
+				$msg = new cmessaging($lMessageData);
+				$msg->Display();
+				
+				header('Location: /preview.php?document_id=' . $pDocumentId);
+				exit;
+				
+			}
+			break;
+		case APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE:
+			if($user->staff == 1 && in_array($lDocumentState, array(IN_PRE_SUBMIT_REVIEW_DOCUMENT_STATE, NEW_DOCUMENT_STATE))) {
+				$lSql = 'UPDATE pwt.documents SET state = ' . READY_TO_SUBMIT_DOCUMENT_STATE . ' WHERE id = ' . (int)$pDocumentId;
+				$lCon->Execute($lSql);
+				$lActionResult = true;
+				
+				// send a message to 
+				$lMessageData = array(
+					'siteurl' => SITE_URL,
+					'mailsubject' => getstr('pwt.document_ready_for_submit_mail_subject'),
+					'mailto' => $lCreatorData['uname'],
+					//'mailto' => 'vic.penchev@gmail.com',
+					'charset' => 'UTF-8',
+					'boundary' => '--_separator==_',
+					'document_id' => $pDocumentId,
+					'from' => array(
+						'display' => PENSOFT_MAIL_DISPLAY,
+						'email' => PENSOFT_MAIL_ADDR,
+					),
+					'templs' => array(
+						G_DEFAULT => 'document.email_message_ready_to_submit',
+					),
+				);
+				$msg = new cmessaging($lMessageData);
+				$msg->Display();
+				
+				header('Location: /preview.php?document_id=' . $pDocumentId);
+				exit;
+			}
+			break;
+		case SUBMIT_DOCUMENT_ACTION_TYPE:
+			if(
+				$user->id == $lCreatorData['id'] 
+				&& !$lCreatorData['has_unprocessed_changes'] 
+				&& in_array($lDocumentState, array(READY_TO_SUBMIT_DOCUMENT_STATE, RETURNED_FROM_PJS_DOCUMENT_STATE))
+			) {
+				header('Location: /pjs_submit_document.php?document_id=' . $pDocumentId);
+				exit;
+			}
+			break;
+		default:
+			break;
+	}
+	$lCon->Close();
+	
+	return $lActionResult;
+}
+
 ?>

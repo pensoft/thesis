@@ -4,6 +4,7 @@ require_once ($docroot . '/lib/static.php');
 
 $gInstanceId = (int) $_REQUEST['instance_id'];
 $gDocumentId = (int) $_REQUEST['document_id'];
+$lActionType = (int) $_REQUEST['action_type'];
 
 if(! $gInstanceId && $gDocumentId){
 	$gInstanceId = getDocumentFirstInstanceId($gDocumentId);
@@ -83,6 +84,12 @@ $gDocumentName = $gDocument->getDocumentName();
 $lPathTempl = 'validation.document_path';
 if(!(int)$lXmlErrCount) {
 	$lPathTempl = 'validation.document_path_valid';
+	
+	// tova smenq status-a na documenta (ready to submit/ approve / submit)
+	
+	if($gDocumentId) {
+		ExecActionType($gDocumentId, $lActionType);	
+	}
 }
 
 $lPath = new csimple (
@@ -103,6 +110,7 @@ $lPageArray = array(
 	'document_id' => $gDocumentId,
 	'xml_errors' => (int)$lXmlErrCount,
 	'xml_validation' => 1,
+	'action_type' => (int)$lActionType,
 );
 
 // Samo sym smenil templeita. Stariq e 'global.document_page'

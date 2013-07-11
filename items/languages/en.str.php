@@ -2127,5 +2127,9 @@ $STRARRAY = array(
 	'pjs.no_such_layout_for_this_document' => 'You\'re not Layout Editor for the current document!',
 	'pjs.copy_editing_proceed_btn_text' => 'Proceed',
 
+	'pwt.approve_documentfor_submission_btn' => 'Approve',
+	'pwt.ready_to_submit_documentfor_submission_btn' => 'Ready to submit',
+	'pwt.submit_document_btn' => 'Submit',
+	'pwt.document_ready_for_review_mail_subject' => 'Document is ready for review',
 );
 ?>
