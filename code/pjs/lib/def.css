@@ -877,6 +877,34 @@ a {
 		transparent;
 }
 
+.reply_btn {
+	background: url("/i/replybtn.png") no-repeat scroll left center
+		transparent;
+	border: none;
+	height: 34px;
+	width: 92px;
+}
+
+.reply_btn:hover {
+	background: url("/i/replybtn_hover.png") no-repeat scroll left center
+		transparent;
+}
+
+.reply_btn.comment_btn_inactive{
+	background: url("/i/replybtn_inactive.png") no-repeat scroll left center
+		transparent;
+}
+
+.P-Comment-Inline-Main-Btn{
+	background: url("/i/commentbtn_inline.png") no-repeat scroll left center
+		transparent;
+}
+
+.P-Comment-Inline-Main-Btn:hover{
+	background: url("/i/commentbtn_hover_inline.png") no-repeat scroll left center
+		transparent;
+}
+
 .comment_btn_inactive {
 	background: url("/i/commentbtn_inactive.png") no-repeat scroll left
 		center transparent;
@@ -6533,4 +6561,16 @@ table.no_bold_class td a {
 	margin-left: -32px;
 	margin-top: -32px;
 	z-index: 100000;
+}
+
+#P-Comment-Unavailable-Text{
+	font-size: 11px;
+	font-weight: normal;
+	margin-bottom: 15px;
+	color: red;
+}
+
+.P-Main-Comment-Btn-Disabled{
+	opacity:0.5;
+	filter: alpha(opacity = 50);			
 }

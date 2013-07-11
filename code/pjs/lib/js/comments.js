@@ -2,6 +2,7 @@ var gPreviewCommentFormName = 'newCommentForm';
 var gReplyCommentFormPrefix = 'comment_reply_form';
 var gCommentStartPos;
 var gCommentEndPos;
+var gSelectionIsEmpty = true;
 var gPreviewHolderId = 'previewHolder';
 var gPreviewCommentAjaxUrl = '/lib/ajax_srv/comment_srv.php';
 var gCommentAjaxSrvUrl = '/lib/ajax_srv/comment_srv.php';
@@ -60,6 +61,7 @@ function cancelPreviewNewComment() {
 	$('form[name="' + gPreviewCommentFormName + '"]').resetForm();
 	gCommentStartPos = null;
 	gCommentEndPos = null;
+	gSelectionIsEmpty = true;
 }
 
 function clearNewReplyCommentForm(pRootId) {
@@ -102,15 +104,18 @@ function initPreviewSelectCommentEvent() {
 		}
 		gCommentStartPos = lCommentPos['start_pos'];
 		gCommentEndPos = lCommentPos['end_pos'];
+		gSelectionIsEmpty = lCommentPos['selection_is_empty'];
+		fillCommentPos();
 	});
 	$('#' + gPreviewHolderId).contents().bind('keyup', function(pEvent) {
 		gPreviousPreviewSelection = GetCommentSelection();
 		gPreviousPreviewSelectionStartNode = false;
 		CheckSelectedTextForActiveComment();
 	});
-}
-
-function clearCommentPos(){
+	$('#' + gPreviewHolderId).bind('select', function(pEvent) {
+		cancelPreviewNewComment();
+		fillCommentPos();
+	});
 }
 
 /**
@@ -119,28 +124,63 @@ function clearCommentPos(){
 function fillCommentPos() {
 	var lStartNodeDetails = gCommentStartPos;
 	var lEndNodeDetails = gCommentEndPos;
-
-	if(lStartNodeDetails){
-		var lStartInstanceId = lStartNodeDetails['instance_id'], lStartFieldId = lStartNodeDetails['field_id'], lStartOffset = lStartNodeDetails['offset'];
-
-		$('#previewNewCommentStartInstanceId').val(lStartInstanceId);
-		$('#previewNewCommentStartFieldId').val(lStartFieldId);
-		$('#previewNewCommentStartOffset').val(lStartOffset);
+	var lSelectionIsEmpty = gSelectionIsEmpty;
+	
+	if(!lSelectionIsEmpty){
+		var lStartInstanceId , lStartFieldId, lStartOffset;
+		var lEndInstanceId, lEndFieldId, lEndOffset;
+		if(lStartNodeDetails){
+			lStartInstanceId = lStartNodeDetails['instance_id'];
+			lStartFieldId = lStartNodeDetails['field_id'];
+			lStartOffset = lStartNodeDetails['offset'];
+	
+			
+		}
+	
+		if(lEndNodeDetails){
+			lEndInstanceId = lEndNodeDetails['instance_id'];
+			lEndFieldId = lEndNodeDetails['field_id'];
+			lEndOffset = lEndNodeDetails['offset'];			
+		}
+		if(lStartInstanceId && lStartFieldId && lEndInstanceId && lEndFieldId){
+			$('#previewNewCommentEndInstanceId').val(lEndInstanceId);
+			$('#previewNewCommentEndFieldId').val(lEndFieldId);
+			$('#previewNewCommentEndOffset').val(lEndOffset);
+			$('#previewNewCommentStartInstanceId').val(lStartInstanceId);
+			$('#previewNewCommentStartFieldId').val(lStartFieldId);
+			$('#previewNewCommentStartOffset').val(lStartOffset);
+			MarkCurrentCommentAsInline();
+		}else{
+			MarkCurrentCommentAsUnavailable();
+			clearCommentPos();
+			return false;
+		}
+	}else{
+		clearCommentPos();
+		MarkCurrentCommentAsGeneral();		
 	}
-
-	if(lEndNodeDetails){
-		var lEndInstanceId = lEndNodeDetails['instance_id'], lEndFieldId = lEndNodeDetails['field_id'], lEndOffset = lEndNodeDetails['offset'];
-
-		$('#previewNewCommentEndInstanceId').val(lEndInstanceId);
-		$('#previewNewCommentEndFieldId').val(lEndFieldId);
-		$('#previewNewCommentEndOffset').val(lEndOffset);
-	}
+	return true;
 }
+
+function clearCommentPos(){
+	$('#previewNewCommentEndInstanceId').val('');
+	$('#previewNewCommentEndFieldId').val('');
+	$('#previewNewCommentEndOffset').val('');
+
+	$('#previewNewCommentStartInstanceId').val('');
+	$('#previewNewCommentStartFieldId').val('');
+	$('#previewNewCommentStartOffset').val('');
+}
+
 var gCommentN = 0;
 function submitPreviewNewComment() {
 	if(!gCommentN){
 		gCommentN = 1;
-		fillCommentPos();
+		var lCommentPosIsFound = fillCommentPos();
+		if(!lCommentPosIsFound){
+			gCommentN = 0;
+			return;
+		}
 		var lFormData = $('form[name="' + gPreviewCommentFormName + '"]').formSerialize();
 		lFormData += '&tAction=save&action=new_comment';
 		$.ajax({
@@ -265,6 +305,10 @@ function submitPreviewNewComment() {
 				}
 				setCommentsWrapEvents();
 				positionCommentsBase();
+				MakeCommentActive(lCommentId);	
+				ExpandSingleComment(lCommentId);
+				displayCommentEditForm(lCommentId);
+				scrollToComment(lCommentId);
 				gCommentN = 0;
 			}
 		});

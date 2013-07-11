@@ -42,28 +42,43 @@ function getCommentNodeVerticalPosition(pNode){
  * спрямо instance/field-а в който е направен
  */
 function fillCommentPos(){
-	var lCommentPos = GetSelectedTextPos();
-	if(!lCommentPos){
-		return;
+	var lCommentPos = GetSelectedTextPos();	
+	if(lCommentPos && !lCommentPos.selection_is_empty){
+		
+	
+		var lStartNodeDetails = lCommentPos['start_pos'];
+		var lEndNodeDetails = lCommentPos['end_pos'];
+	
+		var lStartInstanceId = lStartNodeDetails['instance_id'],
+			lStartFieldId = lStartNodeDetails['field_id'],
+			lStartOffset = lStartNodeDetails['offset'];
+	
+		var lEndInstanceId = lEndNodeDetails['instance_id'],
+			lEndFieldId = lEndNodeDetails['field_id'],
+			lEndOffset = lEndNodeDetails['offset'];
+		
+		if(lStartInstanceId > 0 && lStartFieldId > 0 && lEndInstanceId > 0 && lEndFieldId > 0){
+			//If we know start instance & field and end instance and field -> inline comment
+			$('#comments_start_instance_id').val(lStartInstanceId);
+			$('#comments_start_field_id').val(lStartFieldId);
+			$('#comments_start_offset').val(lStartOffset);
+		
+			$('#comments_end_instance_id').val(lEndInstanceId);
+			$('#comments_end_field_id').val(lEndFieldId);
+			$('#comments_end_offset').val(lEndOffset);
+			MarkCurrentCommentAsInline();
+		}else{
+			//Unable to comment
+			MarkCurrentCommentAsUnavailable();
+			clearCommentPos();
+			return false;
+		}
+	}else{
+		//General comment
+		MarkCurrentCommentAsGeneral();
+		clearCommentPos();
 	}
-	var lStartNodeDetails = lCommentPos['start_pos'];
-	var lEndNodeDetails = lCommentPos['end_pos'];
-
-	var lStartInstanceId = lStartNodeDetails['instance_id'],
-		lStartFieldId = lStartNodeDetails['field_id'],
-		lStartOffset = lStartNodeDetails['offset'];
-
-	var lEndInstanceId = lEndNodeDetails['instance_id'],
-		lEndFieldId = lEndNodeDetails['field_id'],
-		lEndOffset = lEndNodeDetails['offset'];
-
-	$('#comments_start_instance_id').val(lStartInstanceId);
-	$('#comments_start_field_id').val(lStartFieldId);
-	$('#comments_start_offset').val(lStartOffset);
-
-	$('#comments_end_instance_id').val(lEndInstanceId);
-	$('#comments_end_field_id').val(lEndFieldId);
-	$('#comments_end_offset').val(lEndOffset);
+	return true;
 }
 
 function clearCommentPos(){
@@ -100,6 +115,10 @@ function initPreviewSelectCommentEvent(){
 		gPreviousPreviewSelectionStartNode = false
 		CheckSelectedTextForActiveComment();
 	});
+	$('#' + gPreviewIframeId).contents().bind('selectionchange', function(pEvent) {
+		cancelPreviewNewComment();
+		fillCommentPos();
+	});
 }
 
 function displayNewCommentPopup(pEvent){
@@ -128,6 +147,11 @@ var gCommentN = 0;
 function submitPreviewNewComment(){
 	if(!gCommentN){
 		gCommentN = 1;
+		var lCommentPosIsFound = fillCommentPos();
+		if(!lCommentPosIsFound){
+			gCommentN = 0;
+			return;
+		}
 		var lFormData = $('form[name="' + gPreviewCommentFormName + '"]').formSerialize();
 		lFormData += '&tAction=save';
 		$.ajax({
@@ -137,6 +161,8 @@ function submitPreviewNewComment(){
 			success : function(pAjaxResult){
 				if(pAjaxResult['err_cnt']){
 					alert(pAjaxResult['err_msg']);
+					gCommentN = 0;
+					return;
 					return;
 				}
 				var lStartInstanceId = pAjaxResult['start_instance_id'];
@@ -248,6 +274,10 @@ function submitPreviewNewComment(){
 				}
 				setCommentsWrapEvents();
 				positionCommentsBase();
+				MakeCommentActive(lCommentId);	
+				ExpandSingleComment(lCommentId);
+				displayCommentEditForm(lCommentId);
+				scrollToComment(lCommentId);
 				gCommentN = 0;
 			}
 		});

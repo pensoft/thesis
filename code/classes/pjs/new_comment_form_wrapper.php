@@ -86,6 +86,7 @@ class New_Comment_Form_Wrapper extends eForm_Wrapper {
 				'VType' => 'string',
 				'CType' => 'textarea',
 				'Checks' => array(),
+				'AllowNulls' => true,
 				// ~ CKMAXSTRLEN('{msg}', 4096),
 				'AddTags' => array(
 					'onfocus' => 'changeFocus(1, this)',

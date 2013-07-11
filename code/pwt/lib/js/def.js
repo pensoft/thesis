@@ -1762,12 +1762,31 @@ function HandlePreviewModeDeleteInstance(pAjaxResult){
 	}
 }
 
-function HandlePreviewModeCreateInstance(){
+function HandlePreviewModeCreateInstance(pAjaxResult){
+	if(pAjaxResult){
+		var lNewInstanceId = pAjaxResult['new_instance_id'];
+		if(lNewInstanceId){
+			var lQueryParams = getQueryParams(window.location.search);
+			var lCurrentDocumentId = lQueryParams['document_id'];
+			var lUrl = '/preview.php?document_id=' + lCurrentDocumentId + '&instance_id=' + lNewInstanceId;
+			window.location.href = lUrl;
+			return;
+		}	
+	}
 	window.location.reload();
 }
 
 function HandlePreviewModeMoveInstance(){
 	window.location.reload();
+}
+
+function HandleActiveMenuAfterInstanceCreation(pAjaxResult){
+	if(pAjaxResult){
+		var lParentInstanceId = pAjaxResult['parent_instance_id'];
+		if(lParentInstanceId){
+			setMenuTabAsActive(1, lParentInstanceId);
+		}
+	}
 }
 
 /* Save table title */
@@ -2200,6 +2219,9 @@ function scrollToField(pInstanceId, pFieldId){
  * @param pNodeB
  */
 function getFirstCommonParent(pNodeA, pNodeB){
+	if(!pNodeA || !pNodeB){
+		return false;
+	}
 	if (checkIfNodesAreParentAndDescendent(pNodeA, pNodeB))// pNodeB е подвъзел на pNodeA
 		return pNodeA;
 
@@ -3613,6 +3635,9 @@ function ScrollToSelectedTreeElement(){
 	}, 2000);
 }
 
+function checkIfFunctionExists(pPossibleFunctionName) {
+  return (typeof(pPossibleFunctionName) == typeof(Function));
+}
 
 /**
  * Returns the first text node which is following the specified node or false if

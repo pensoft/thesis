@@ -232,6 +232,29 @@ class cView_Version_Pwt extends cView_Version {
 			}
 		}
 		$lComments['comment_reply_forms'] = $lCommentReplyForms;
+		$lCommentEditForms = array();
+		foreach ($lCommentsData as $lCurrentComment) {
+			$lCommentId = $lCurrentComment['id'];
+			if(!array_key_exists($lCommentId, $lCommentEditForms)){
+				$lForm = new Comment_Edit_Form_Wrapper(array(
+					'page_controller_instance' => $this,
+					'name_in_viewobject' => 'edit_comment_form',
+					'view_object' => $this->m_pageView,
+					'use_captcha' => 0,
+					'm_debug' => false,
+					'uid' => $this->GetUserId(),
+					'user_fullname' => $user->fullname,
+					'version_id' => $this->m_versionId,
+					'document_id' => $this->m_documentId,
+					'form_method' => 'POST',
+					'comment_id' => $lCommentId,
+					'form_name' => 'comment_edit_' . $lCommentId
+				));
+		
+				$lCommentEditForms[$lCommentId] = $lForm->Display();
+			}
+		}
+		$lComments['comment_edit_forms'] = $lCommentEditForms;
 	}
 
 	/**

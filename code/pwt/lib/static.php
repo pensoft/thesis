@@ -346,14 +346,16 @@ function displayDocumentTreeDivClass($pIsActive, $pHasWarning, $pLevel, $pHasChi
 	}
 	if((int)$pIsActive){
 		$lResult .= ' P-Article-Active ';
-		$_SESSION['activemenutabids'][$pInsanceId] = $pInsanceId;
+		MarkActiveTab($pInsanceId);
 	}
 
 	return $lResult;
 }
 
 function checkDocumentMenuAndColumnsState($pDocumentId){
+	
 	if(isset($_SESSION['documentid']) && (int)$_SESSION['documentid'] != (int)$pDocumentId){
+// 		trigger_error('SESSION RESET static ' . $_SESSION['documentid'] . '  ' . (int)$pDocumentId, E_USER_NOTICE);
 		unset($_SESSION['activemenutabids']);
 		unset($_SESSION['columnsstate']);
 	}
@@ -2220,6 +2222,32 @@ function showCommentAnswerForm($pInstanceId, $pDocumentId, $pRootMsg) {
 			),
 		)
 	);
+	return $lComment->Display();
+}
+
+function putCommentOnClickEvent($pCommentId, $pCommentUsrId){
+	global $user;
+	if((int)$user->id != $pCommentUsrId){
+		return;
+	}
+	return ' onclick="displayCommentEditForm(' . (int)$pCommentId . ')"';
+}
+
+function showCommentEditForm($pCommentId, $pCommentUsrId, $pDocumentId){
+	global $user;
+	if((int)$user->id != $pCommentUsrId){
+		return;
+	}
+	$lComment = new ccomments( array (
+		'ctype' => 'ccomments',
+		'showtype' => 4,
+		'comment_id' => $pCommentId,
+		'document_id' => $pDocumentId,
+		'formaction' => $_SERVER ['REQUEST_URI'],
+		'templs' => array (
+			G_DEFAULT => 'comments.editform_wrapper' 
+		) 
+	) );
 	return $lComment->Display();
 }
 
@@ -5737,6 +5765,45 @@ function SaveTableChange($pDocumentId, $pTableId, $pModifiedElementIsTitle, $pCo
 	//Mark the xml as modified so that the table changes can be applied to the document xml
 // 	$lCon->Execute('SELECT * FROM pwt."XmlIsDirty"(1, ' . (int)$pDocumentId . ', null)');
 
+}
+
+function InitActiveTabs(){
+// 	var_dump($_SESSION['activemenutabids']);
+// 	$_SESSION['activemenutabids'] = array();
+// 	trigger_error('SESSION ' . var_export($_SESSION['activemenutabids'], 1), E_USER_NOTICE);
+	if(!isset($_SESSION['activemenutabids'])){
+		$_SESSION['activemenutabids'] = array();
+	}
+}
+
+function MarkActiveTab($pTabId){
+	InitActiveTabs();
+// 	var_dump(2);
+	$lInstanceId = $pTabId;
+	$lSql = '
+		SELECT p.id
+		FROM pwt.document_object_instances i
+		JOIN pwt.document_object_instances p ON p.document_id = i.document_id AND i.pos ILIKE p.pos || \'%\' AND p.id <> i.id
+		WHERE i.id = ' . (int)$lInstanceId;
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lCon->Execute($lSql);
+// 	var_dump($lSql);
+	while(!$lCon->Eof()){
+		$lParentId = (int)$lCon->mRs['id'];
+		$_SESSION['activemenutabids'][$lParentId] = $lParentId;
+		$lCon->MoveNext();
+	}
+	
+	
+	$_SESSION['activemenutabids'][$pTabId] = $pTabId;
+}
+
+function MarkInactiveTab($pTabId){
+	InitActiveTabs();
+	if(array_key_exists($pTabId, $_SESSION['activemenutabids'])){
+		unset($_SESSION['activemenutabids'][$pTabId]);
+	}
 }
 
 function checkIfPasswordIsSecure($pPassword){

@@ -8,8 +8,8 @@ var gCommentsVerticalPosition = {};
 var gCommentPreviewElementClass = 'P-Preview-Comment';
 var gActiveCommentTextClass = 'Active-Comment-Text';
 var gActiveCommentHolderClass = 'Active-Comment-Holder';
-
-
+var gUnavailableCommentLabelId = 'P-Comment-Unavailable-Text';
+var gMainCommentBtnWrapperId = 'P-Comment-Main-Btn-Wrapper'
 var gCommentsInPreviewMode = 0;
 var gFilterRootComments = false;
 var gVisibleRootCommentIds = [];
@@ -27,7 +27,10 @@ var gPreviousPreviewSelectionStartNode = false;
 getPlainText = function(node){
 	// used for testing:
 	//return node.innerText || node.textContent;
-
+	var gFigureCitationHolderTagName = 'fig-citation';
+	var gTableCitationHolderTagName = 'tbls-citation';
+	var gSupFileCitationHolderTagName = 'sup-files-citation';
+	var gReferenceCitationHolderTagName = 'reference-citation';
 
 	var normalize = function(a){
 		// clean up double line breaks and spaces
@@ -65,6 +68,42 @@ getPlainText = function(node){
 		}
 
 	};
+	
+	var checkIfNodeIsFigureOrTableNode = function(pNode){
+		if($(pNode).hasClass('figure')){//Direct figure/plate
+			if($(pNode).attr('figure_id') || $(pNode).attr('plate_id')){
+				return true;
+			}			
+		}
+		if($(pNode).hasClass('table')){//Table
+			if($(pNode).attr('table_id')){
+				return true;
+			}
+		}
+		if($(pNode).parents('*[class="figure"][figure_id]').length){//Child of figure
+			return true;
+		}
+		if($(pNode).parents('*[class="figure"][plate_id]').length){//Child of plate
+			return true;
+		}
+		if($(pNode).parents('*[class="table"][table_id]').length){//Child of table
+			return true;
+		}
+		return false;
+	}
+	
+	var checkIfNodeIsCitationNode = function(pNode){
+		if(pNode.nodeType == 1){
+			var lNodeName = pNode.nodeName.toLowerCase();
+			if(lNodeName == gFigureCitationHolderTagName || lNodeName == gTableCitationHolderTagName || lNodeName == gReferenceCitationHolderTagName || lNodeName == gSupFileCitationHolderTagName){//A citation
+				return true;
+			}				
+		}
+		if($(pNode).parents(gFigureCitationHolderTagName + ',' + gTableCitationHolderTagName + ',' + gReferenceCitationHolderTagName + ',' + gSupFileCitationHolderTagName).length > 0){//Child of citation
+			return true;
+		}
+		return false;
+	}
 
 	var recurse = function(pNode){
 		// Loop through all the child nodes
@@ -77,9 +116,12 @@ getPlainText = function(node){
 			return "";
 		}
 		var s = getDomNodeStyleProperty(pNode, "display");
-		if(s == "none"){
+		var lNodeIsFigureNode = checkIfNodeIsFigureOrTableNode(pNode);
+		var lNodeIsCitationNode = checkIfNodeIsCitationNode(pNode);
+		if(s == "none" || lNodeIsFigureNode || lNodeIsCitationNode){
 			return "";
 		}
+		
 		var gap = checkIfDomNodeHasBlockDisplay(pNode) ? "\n" : " ";
 		t += gap;
 		for(var i=0; i<pNode.childNodes.length;i++){
@@ -332,16 +374,21 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 		}
 
 	}
-	console.log(pInstanceId, pFieldId, pOffset, lResult)
+//	console.log(pInstanceId, pFieldId, pOffset, lResult)
 	return lResult;
 }
 
 
 
 function GetSelectedTextPos(){
-	var lSelection = GetCommentSelection();
+	var lSelection = GetCommentSelection();	
+	var lResult = {
+			'start_pos' : null,
+			'end_pos' : null,
+			'selection_is_empty' : 1
+	}
 	if(!lSelection){
-		return;
+		return lResult;
 	}
 //	var lSelection = rangy.getSelection();
 	
@@ -358,11 +405,12 @@ function GetSelectedTextPos(){
 		lEndOffset = lSelection.focusOffset;
 	}
 	
+	/*
 	var lStart = MoveSelectionNodeToTextNode(lStartNode, lStartOffset);
 	var lEnd = MoveSelectionNodeToTextNode(lEndNode, lEndOffset, true);
 	
 	console.log(lSelection, lStartNode, lStartOffset, lEndNode, lEndOffset);
-	
+	*/
 	
 	
 	var lStartNodeDetails = getCommentPositionDetails(lStartNode, lStartOffset);
@@ -373,10 +421,10 @@ function GetSelectedTextPos(){
 //		lStartNodeDetails = lEndNodeDetails;
 //		lEndNodeDetails = lTemp;
 //	}
-	var lResult = {
-			'start_pos' : lStartNodeDetails,
-			'end_pos' : lEndNodeDetails
-	}
+	lResult['start_pos'] = lStartNodeDetails;
+	lResult['end_pos'] = lEndNodeDetails;
+	lResult['selection_is_empty'] = lSelection.isCollapsed;
+	
 	return lResult;
 }
 
@@ -385,7 +433,7 @@ function MoveSelectionNodeToTextNode(pNode, pOffset, pMoveToPrevious){
 		'node' : pNode,
 		'offset' : pOffset,
 	}
-	if(pNode.nodeType == 3){
+	if(!pNode || pNode.nodeType == 3){
 		return lResult;
 	}
 	var lTextNode = GetNextTextNode(pNode);
@@ -883,6 +931,17 @@ function ExpandCollapseSingleComment(pCommentId){
 	setTimeout("positionCommentsBase();", 201);
 }
 
+function ExpandSingleComment(pCommentId){
+	var lRootHolder = $('#P-Root-Comment-Holder-' + pCommentId);
+	var lRootComment = $('#P-Root-Comment-' + pCommentId);
+	var lTreeHolder = lRootHolder.find('.P-Comments-Revisions-Item-Content');
+	if(lTreeHolder.is(":visible")){
+		return;
+	}
+	lTreeHolder.slideToggle(200);
+	setTimeout("positionCommentsBase();", 201);
+}
+
 function showCommentForm(pId) {
 	if(!pId){
 		pId = '';
@@ -893,7 +952,10 @@ function showCommentForm(pId) {
 		if(lFormIsVisible){
 			clearCommentPos();
 		}else{
-			fillCommentPos();
+			var lCommentIsAvailable = fillCommentPos();
+			if(!lCommentIsAvailable){
+				return;
+			}
 		}
 	}
 
@@ -1182,4 +1244,75 @@ function SelectPreviousComment() {
 
 function SelectNextComment() {
 	SelectPreviousNextComment(false);
+}
+
+function MarkCurrentCommentAsInline(){
+	$('#' + gUnavailableCommentLabelId).hide();
+	EnableDisableMainCommentBtn(1);
+	var lMainCommentBtnWrapper = $('#' + gMainCommentBtnWrapperId);
+	lMainCommentBtnWrapper.removeClass('P-Comment-General-Main-Btn');
+	lMainCommentBtnWrapper.addClass('P-Comment-Inline-Main-Btn');
+	
+}
+
+function MarkCurrentCommentAsGeneral(){
+	$('#' + gUnavailableCommentLabelId).hide();
+	var lMainCommentBtnWrapper = $('#' + gMainCommentBtnWrapperId);
+	lMainCommentBtnWrapper.removeClass('P-Comment-Inline-Main-Btn');
+	lMainCommentBtnWrapper.addClass('P-Comment-General-Main-Btn');	
+	EnableDisableMainCommentBtn(1);	
+}
+
+function MarkCurrentCommentAsUnavailable(){
+	$('#' + gUnavailableCommentLabelId).show();
+	var lMainCommentBtnWrapper = $('#' + gMainCommentBtnWrapperId);
+	lMainCommentBtnWrapper.removeClass('P-Comment-Inline-Main-Btn');
+	lMainCommentBtnWrapper.removeClass('P-Comment-General-Main-Btn');	
+	EnableDisableMainCommentBtn();
+}
+
+function EnableDisableMainCommentBtn(pEnable){
+	var lMainCommentBtnWrapper = $('#' + gMainCommentBtnWrapperId);
+	var lSubmits = lMainCommentBtnWrapper.find('input[type="submit"]');
+	if(!pEnable){
+		lMainCommentBtnWrapper.attr('disabled', 'disabled');
+		lSubmits.attr('disabled', 'disabled');
+		lMainCommentBtnWrapper.addClass('P-Main-Comment-Btn-Disabled');
+	}else{
+		lMainCommentBtnWrapper.removeAttr('disabled');
+		lSubmits.removeAttr('disabled');
+		lMainCommentBtnWrapper.removeClass('P-Main-Comment-Btn-Disabled');
+	}
+}
+
+function displayCommentEditForm(pCommentId){
+	$('#P-Comment-Edit-Form_' + pCommentId).show();
+	$('#P-Comment-Edit-Form_' + pCommentId).find('textarea').first().focus();
+	positionCommentsBase();
+}
+
+function submitCommentEdit(pCommentId){
+	var lFormData = $('form[name="comment_edit_' + pCommentId + '"]').formSerialize();
+	lFormData += '&tAction=save&action=edit_comment';
+	$.ajax({
+		url : gCommentAjaxSrvUrl,
+		dataType : 'json',
+		data : lFormData,
+		success : function(pAjaxResult){
+			if(pAjaxResult['err_cnt']){
+				var lErrorMsg = 'Could not edit comment';
+				if(pAjaxResult['err_msg']){
+					lErrorMsg = pAjaxResult['err_msg'];
+				}else{
+					if(pAjaxResult['err_msgs'] && pAjaxResult['err_msgs'][0] && pAjaxResult['err_msgs'][0]['err_msg']){
+						lErrorMsg = pAjaxResult['err_msgs'][0]['err_msg'];
+					}
+				}
+				alert(lErrorMsg);
+				return;
+			}
+			$('#P-Comment-' + pCommentId).replaceWith(pAjaxResult['html']);
+			positionCommentsBase();
+		}
+	});
 }

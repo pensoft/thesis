@@ -88,6 +88,12 @@ class pView_Version_Pwt extends pView_Version {
 				G_FORM_TEMPLATE => 'comments.new_comment_form',
 			)
 		);
+		
+		$this->m_objectsMetadata['edit_comment_form'] = array(
+				'templs' => array(
+						G_FORM_TEMPLATE => 'comments.editform',
+				)
+		);
 
 		$this->m_objectsMetadata['comments'] = array(
 			'templs' => array(

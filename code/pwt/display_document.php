@@ -83,7 +83,8 @@ $gDocumentId = $gDocument->getDocumentId();
 $gInstanceId = $gDocument->getInstanceId();
 
 if($gInstanceId == getDocumentMetadataInstanceId($gDocumentId)){
-	header("Location: /create_document.php?tAction=edit&kfor_name=createdocumentform&document_id=" . (int) $gDocumentId);
+	$lInstanceId = getDocumentFirstInstanceId($gDocumentId);
+	header("Location: /display_document.php?document_id=" . (int) $gDocumentId . '&instance_id=' . $lInstanceId);
 	exit();
 }
 
