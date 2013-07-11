@@ -5,7 +5,7 @@ require_once($docroot . '/lib/static.php');
 
 $gInstanceId = (int) $_REQUEST['instance_id'];
 $gDocumentId = (int) $_REQUEST['document_id'];
-session_write_close();
+// session_write_close();
 
 $gDontRedirectAgain = 1;
 
@@ -30,7 +30,7 @@ if( (int)$lDocumentIdByInstanceId != $gDocumentId ){
 }
 
 if(! $gInstanceId && $gDocumentId){
-	$gInstanceId = getDocumentFirstInstanceId($gDocumentId);
+	$gInstanceId = getDocumentFirstInstanceId($gDocumentId);	
 }
 
 $gDocument = new cdisplay_document(
@@ -61,6 +61,12 @@ $gDocument = new cdisplay_document(
 
 $gDocumentId = $gDocument->getDocumentId();
 $gInstanceId = $gDocument->getInstanceId();
+// var_dump($gInstanceId);
+checkDocumentMenuAndColumnsState($gDocumentId);
+MarkActiveTab($gInstanceId);
+// $_SESSION['asd'] = 1;
+session_write_close();
+// exit;
 $gXSLPath = $gDocument->getDocumentXSLDirName();
 
 if($gInstanceId == getDocumentMetadataInstanceId($gDocumentId)){

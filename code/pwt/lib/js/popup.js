@@ -151,6 +151,11 @@ function SaveNewElementPopup(pInstanceId, pParentInstanceId, pContainerId, pDisp
 		lShowEditorDialog = 1;
 	}
 	var lCallback = function(){
+		var lAjaxResult = {};
+		lAjaxResult['new_instance_id'] = pInstanceId;
+		lAjaxResult['parent_instance_id'] = pParentInstanceId;
+		HandleActiveMenuAfterInstanceCreation(lAjaxResult);
+		
 		if(!lShowEditorDialog && !gPreviewMode){
 			if(pDisplayInTree > 0){
 				window.location.href = '/display_document.php?instance_id=' + pInstanceId;
@@ -166,10 +171,7 @@ function SaveNewElementPopup(pInstanceId, pParentInstanceId, pContainerId, pDisp
 		if(lShowEditorDialog){
 			gCurrentDialog.show();
 		}
-		if(gPreviewMode){
-			var lAjaxResult = {};
-			lAjaxResult['new_instance_id'] = pInstanceId;
-			lAjaxResult['parent_instance_id'] = pParentInstanceId;
+		if(gPreviewMode){			
 			HandlePreviewModeCreateInstance(lAjaxResult);
 		}
 	};

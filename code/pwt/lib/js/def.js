@@ -1765,11 +1765,7 @@ function HandlePreviewModeDeleteInstance(pAjaxResult){
 function HandlePreviewModeCreateInstance(pAjaxResult){
 	if(pAjaxResult){
 		var lNewInstanceId = pAjaxResult['new_instance_id'];
-		var lParentInstanceId = pAjaxResult['parent_instance_id'];
 		if(lNewInstanceId){
-			if(lParentInstanceId){
-				setMenuTabAsActive(1, lParentInstanceId);
-			}
 			var lQueryParams = getQueryParams(window.location.search);
 			var lCurrentDocumentId = lQueryParams['document_id'];
 			var lUrl = '/preview.php?document_id=' + lCurrentDocumentId + '&instance_id=' + lNewInstanceId;
@@ -1782,6 +1778,15 @@ function HandlePreviewModeCreateInstance(pAjaxResult){
 
 function HandlePreviewModeMoveInstance(){
 	window.location.reload();
+}
+
+function HandleActiveMenuAfterInstanceCreation(pAjaxResult){
+	if(pAjaxResult){
+		var lParentInstanceId = pAjaxResult['parent_instance_id'];
+		if(lParentInstanceId){
+			setMenuTabAsActive(1, lParentInstanceId);
+		}
+	}
 }
 
 /* Save table title */
@@ -3630,6 +3635,9 @@ function ScrollToSelectedTreeElement(){
 	}, 2000);
 }
 
+function checkIfFunctionExists(pPossibleFunctionName) {
+  return (typeof(pPossibleFunctionName) == typeof(Function));
+}
 
 /**
  * Returns the first text node which is following the specified node or false if
