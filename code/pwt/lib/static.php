@@ -5837,7 +5837,7 @@ function showPJSSubmitButton($pDocumentId, $pDocumentState){
 		if($pDocumentState == NEW_DOCUMENT_STATE){
 			if($user->staff == 1){
 				$lRes = '
-					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); window.location=\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\';"' : '') . '>
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\');"' : '') . '>
 					<div class="P-Green-Btn-Left"></div>
 						<div class="P-Green-Btn-Middle">' . getstr('pwt.approve_documentfor_submission_btn') . '</div>
 						<div class="P-Green-Btn-Right"></div>
@@ -5846,7 +5846,7 @@ function showPJSSubmitButton($pDocumentId, $pDocumentState){
 				';
 			} else {
 				$lRes = '
-					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); window.location=\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . AUTHOR_READY_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\';"' : '') . '>
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . AUTHOR_READY_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\');"' : '') . '>
 					<div class="P-Green-Btn-Left"></div>
 						<div class="P-Green-Btn-Middle P-Green-Btn-Middle-Big_One">' . getstr('pwt.ready_to_submit_documentfor_submission_btn') . '</div>
 						<div class="P-Green-Btn-Right"></div>
@@ -5857,7 +5857,7 @@ function showPJSSubmitButton($pDocumentId, $pDocumentState){
 		} elseif ($pDocumentState == IN_PRE_SUBMIT_REVIEW_DOCUMENT_STATE) {
 			if($user->staff == 1){
 				$lRes = '
-					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); window.location=\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\';"' : '') . '>
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\');"' : '') . '>
 					<div class="P-Green-Btn-Left"></div>
 						<div class="P-Green-Btn-Middle">' . getstr('pwt.approve_documentfor_submission_btn') . '</div>
 						<div class="P-Green-Btn-Right"></div>
@@ -5880,7 +5880,7 @@ function showPJSSubmitButton($pDocumentId, $pDocumentState){
 		} elseif ($pDocumentState == READY_TO_SUBMIT_DOCUMENT_STATE || $pDocumentState == RETURNED_FROM_PJS_DOCUMENT_STATE) {
 			if((int)$lCreatorData['id'] == (int)$user->id){
 				$lRes = '
-					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); window.location=\'/pjs_submit_document.php?document_id=' . (int)$pDocumentId . '&action_type=' . SUBMIT_DOCUMENT_ACTION_TYPE . '\';"' : '') . '>
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/pjs_submit_document.php?document_id=' . (int)$pDocumentId . '&action_type=' . SUBMIT_DOCUMENT_ACTION_TYPE . '\');"' : '') . '>
 					<div class="P-Green-Btn-Left"></div>
 						<div class="P-Green-Btn-Middle P-Green-Btn-Middle-Big_One">' . getstr('pwt.submit_document_btn') . '</div>
 						<div class="P-Green-Btn-Right"></div>

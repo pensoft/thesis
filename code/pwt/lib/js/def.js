@@ -94,6 +94,8 @@ var gCitationFlag = 0;
 
 var gCKEditorConfigs = {};
 
+var gAutoSaveFlag = 0;
+
 function SaveCKEditorConfig(pTextareaId, pConfig){
 	gCKEditorConfigs[pTextareaId] = pConfig;
 }
@@ -3741,4 +3743,16 @@ function GetLastTextNodeDescendant(pNode) {
 		}
 	}
 	return false;
+}
+
+var gIntervalVariable;
+function SubmitDocumentAction(pUrl) {
+	gIntervalVariable = setInterval(function(){checkAutosaveAndRedirect(pUrl)},300);
+}
+
+function checkAutosaveAndRedirect(pUrl) {
+	if(!gAutoSaveFlag) {
+		clearTimeout(gIntervalVariable);
+		window.location = pUrl;
+	}
 }
