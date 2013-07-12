@@ -764,7 +764,7 @@ function CustomCheckSubjectClassification($pClassificationNode, $pCheckMode = CU
 	$lResult = array();
 	
 	$lXPath = new DOMXPath($pClassificationNode->ownerDocument);
-	$lSubjectClassificationNode = $lXPath->query('./fields/*[@id=' . (int) TAXON_CLASSIFICATION_FIELD_ID . ']/value', $pClassificationNode);
+	$lSubjectClassificationNode = $lXPath->query('./fields/*[@id=' . (int) SUBJECT_CLASSIFICATION_FIELD_ID . ']/value', $pClassificationNode);
 	
 	$lContent = trim($lSubjectClassificationNode->item(0)->nodeValue);
 	if($lContent == '') {
