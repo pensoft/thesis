@@ -6,6 +6,12 @@ global $COOKIE_DOMAIN;
 
 $gFormFields =  array(
 	'logins_templ_fields' => array(
+		'back_uri' => array(
+			'CType' => 'hidden',
+			'VType' => 'string',
+			'DisplayName' => 'back_uri',
+			'AllowNulls' => true,
+		),
 		'username' => array(
 			'CType' => 'text',
 			'VType' => 'string',
@@ -52,7 +58,7 @@ $gFormFields =  array(
 		'login' => array(
 			'CType' => 'action',
 			'DisplayName' => getstr('loginform.loginbut'),
-			'SQL' => '{username}, {password}',
+			'SQL' => '{username}, {password}, {back_uri}',
 			'AddTags' => array(
 				'tabindex'  => '3',
 			),
