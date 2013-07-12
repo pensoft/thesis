@@ -2,7 +2,7 @@
 
 $gTemplArr = array(
 
-	'loginform.form' => '
+	'loginform.form' => '{back_uri}
 			<div class="loginFormLeftCol">
 				<div class="loginFormLogo">
 					<a href="/"><img src="' . PENSOFT_LOGO_IMG . '" alt="" /></a>
