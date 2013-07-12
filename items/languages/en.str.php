@@ -2133,5 +2133,12 @@ $STRARRAY = array(
 	'pwt.ready_to_submit_documentfor_submission_btn' => 'Ready to submit',
 	'pwt.submit_document_btn' => 'Submit',
 	'pwt.document_ready_for_review_mail_subject' => 'Document is ready for review',
+	
+	'pwt.validation.missingSubjectClassification' => 'Subject classification is required for this type of document',
+	'pwt.validation.ChecklistTaxonRequired1' => 'pwt.validation.ChecklistTaxonRequired1',
+	'pwt.validation.identificationKeyKeyCoupletRequired' => 'pwt.validation.identificationKeyKeyCoupletRequired',
+	'pwt.validation.atLeastOneFieldRequiredInWebLocations' => 'pwt.validation.atLeastOneFieldRequiredInWebLocations',
+	'pwt.validation.usageRightsNotesisRequired' => 'pwt.validation.usageRightsNotesisRequired',
+	'pwt.validation.projectDescriptionAtLeasOneFieldRequired' => 'pwt.validation.projectDescriptionAtLeasOneFieldRequired',
 );
 ?>

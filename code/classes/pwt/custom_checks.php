@@ -730,17 +730,17 @@ function CustomCheckChecklistTaxonFields($pChecklistNode, $pCheckMode = CUSTOM_C
 }
 
 /**
- * Ще гледаме при save/validate на Classifications в Taxonomic paper-a за Taxonomic classification дали е празно
- * @param unknown_type $pMaterialAndMethodNode - възела на материала
+ * Ще гледаме при save/validate на Classifications за Taxon classification дали е празно
+ * @param unknown_type $pClassificationNode - възела classifications
  */
 function CustomCheckTaxonPaperTaxonomicClassification($pClassificationNode, $pCheckMode = CUSTOM_CHECK_VALIDATION_MODE){
 	define('TAXON_CLASSIFICATION_FIELD_ID', 244);
 	$lResult = array();
 	
 	$lXPath = new DOMXPath($pClassificationNode->ownerDocument);
-	$lMaterialFieldNode = $lXPath->query('./fields/*[@id=' . (int) TAXON_CLASSIFICATION_FIELD_ID . ']/value', $pClassificationNode);
+	$lTaxonClassificationNode = $lXPath->query('./fields/*[@id=' . (int) TAXON_CLASSIFICATION_FIELD_ID . ']/value', $pClassificationNode);
 	
-	$lContent = trim($lMaterialFieldNode->item(0)->nodeValue);
+	$lContent = trim($lTaxonClassificationNode->item(0)->nodeValue);
 	if($lContent == '') {
 	
 		$lResult[] = array(
@@ -748,6 +748,32 @@ function CustomCheckTaxonPaperTaxonomicClassification($pClassificationNode, $pCh
 				'field_id' => (int)TAXON_CLASSIFICATION_FIELD_ID,
 				'instance_name' => $pClassificationNode->getAttribute('display_name'),
 				'msg' => getstr('pwt.validation.missingTaxonClassification') ,
+				'error_type' => CUSTOM_CHECK_NORMAL_ERROR_TYPE,
+			);
+		return $lResult;
+	}
+	return $lResult;
+}
+
+/**
+ * Ще гледаме при save/validate на Classifications в Taxonomic paper-a за Subject classification дали е празно
+ * @param unknown_type $pClassificationNode - възела classifications
+ */
+function CustomCheckSubjectClassification($pClassificationNode, $pCheckMode = CUSTOM_CHECK_VALIDATION_MODE){
+	define('SUBJECT_CLASSIFICATION_FIELD_ID', 245);
+	$lResult = array();
+	
+	$lXPath = new DOMXPath($pClassificationNode->ownerDocument);
+	$lSubjectClassificationNode = $lXPath->query('./fields/*[@id=' . (int) TAXON_CLASSIFICATION_FIELD_ID . ']/value', $pClassificationNode);
+	
+	$lContent = trim($lSubjectClassificationNode->item(0)->nodeValue);
+	if($lContent == '') {
+	
+		$lResult[] = array(
+				'instance_id' => $pClassificationNode->getAttribute('instance_id'),
+				'field_id' => (int)SUBJECT_CLASSIFICATION_FIELD_ID,
+				'instance_name' => $pClassificationNode->getAttribute('display_name'),
+				'msg' => getstr('pwt.validation.missingSubjectClassification') ,
 				'error_type' => CUSTOM_CHECK_NORMAL_ERROR_TYPE,
 			);
 		return $lResult;
@@ -829,6 +855,31 @@ function CustomCheckForTreatment($pTreatmentNode, $pCheckMode = CUSTOM_CHECK_VAL
 				'instance_id' => $pTreatmentNode->getAttribute('instance_id'),
 				'instance_name' => $pTreatmentNode->getAttribute('display_name'),
 				'msg' => getstr('pwt.validation.treatmentRequired1') ,
+				'error_type' => CUSTOM_CHECK_NORMAL_ERROR_TYPE,
+			);
+		return $lResult;
+	}
+	return $lResult;
+}
+
+/**
+ * Ще гледаме при save/validate дали има добавен поне един Taxon в Checklist-а
+ * @param unknown_type $pChecklistNode
+ */
+function CustomCheckForChecklistTaxonAtLeastOne($pChecklistNode, $pCheckMode = CUSTOM_CHECK_VALIDATION_MODE){
+	define('SINGLE_CHECKLIST_TAXON_OBJECT_ID', 205);
+	
+	$lResult = array();
+	
+	$lXPath = new DOMXPath($pChecklistNode->ownerDocument);
+	$lTaxonCount = $lXPath->evaluate('count(.//*[@object_id=' . (int) SINGLE_CHECKLIST_TAXON_OBJECT_ID . '])', $pChecklistNode);
+
+	if(!(int)$lTaxonCount) {
+	
+		$lResult[] = array(
+				'instance_id' => $pChecklistNode->getAttribute('instance_id'),
+				'instance_name' => $pChecklistNode->getAttribute('display_name'),
+				'msg' => getstr('pwt.validation.ChecklistTaxonRequired1') ,
 				'error_type' => CUSTOM_CHECK_NORMAL_ERROR_TYPE,
 			);
 		return $lResult;
@@ -1116,6 +1167,105 @@ function CustomCheckLocalityFieldsByType($pLocalityNode, $pCheckMode = CUSTOM_CH
 		
 	}
 
+	return $lResult;
+}
+
+/**
+ * Ще гледаме при save/validate на Web Location трябва да е попълнено поне едно от полетата Homepage, Wiki, Download page
+ * @param unknown_type $pWebLocationNode - възела Web location
+ */
+function CustomCheckWebLocationFieldsNotEmpty($pWebLocationNode, $pCheckMode = CUSTOM_CHECK_VALIDATION_MODE){
+	define('WEB_LOCATION_HOMEPAGE_FIELD_ID', 293);
+	define('WEB_LOCATION_WIKI_FIELD_ID', 294);
+	define('WEB_LOCATION_DOWNLOAD_PAGE_FIELD_ID', 295);
+	$lResult = array();
+	
+	$lXPath = new DOMXPath($pWebLocationNode->ownerDocument);
+	$lHomepageNode = $lXPath->query('./fields/*[@id=' . (int) WEB_LOCATION_HOMEPAGE_FIELD_ID . ']/value', $pWebLocationNode);
+	$lWikiNode = $lXPath->query('./fields/*[@id=' . (int) WEB_LOCATION_WIKI_FIELD_ID . ']/value', $pWebLocationNode);
+	$lDownloadpageNode = $lXPath->query('./fields/*[@id=' . (int) WEB_LOCATION_DOWNLOAD_PAGE_FIELD_ID . ']/value', $pWebLocationNode);
+	
+	$lHomepageContent = trim($lHomepageNode->item(0)->nodeValue);
+	$lWikiContent = trim($lWikiNode->item(0)->nodeValue);
+	$lDownloadpageContent = trim($lDownloadpageNode->item(0)->nodeValue);
+	if($lHomepageContent == '' && $lWikiContent == '' && $lDownloadpageContent == '') {
+	
+		$lResult[] = array(
+				'instance_id' => $pWebLocationNode->getAttribute('instance_id'),
+				'field_id' => '',
+				'instance_name' => $pWebLocationNode->getAttribute('display_name'),
+				'msg' => getstr('pwt.validation.atLeastOneFieldRequiredInWebLocations') ,
+				'error_type' => CUSTOM_CHECK_NORMAL_ERROR_TYPE,
+			);
+		return $lResult;
+	}
+	return $lResult;
+}
+
+/**
+ * Ще гледаме при save/validate на Usage rights ако за Use license е избрано 'Other' то IP rights notes трябва да е попълнено
+ * @param unknown_type $pUsageRightsNode - възела Usage rights
+ */
+function CustomCheckUsageRightsIPRightsNotesFieldsNotEmpty($pUsageRightsNode, $pCheckMode = CUSTOM_CHECK_VALIDATION_MODE){
+	define('USAGE_RIGHTS_USE_LICENSE_FIELD_ID', 311);
+	define('USAGE_RIGHTS_IP_RIGHTS_NOTES_FIELD_ID', 312);
+	define('USAGE_RIGHTS_USE_LICENSE_OTHER_VALUE', 'other');
+	$lResult = array();
+	
+	$lXPath = new DOMXPath($pUsageRightsNode->ownerDocument);
+	$lUsageRightsNode = $lXPath->query('./fields/*[@id=' . (int) USAGE_RIGHTS_USE_LICENSE_FIELD_ID . ']/value', $pUsageRightsNode);
+	
+	$lUsageRightsContent = trim($lUsageRightsNode->item(0)->nodeValue);
+	
+	if(strtolower($lUsageRightsContent) == USAGE_RIGHTS_USE_LICENSE_OTHER_VALUE){
+		$lIPRightsNotesNode = $lXPath->query('./fields/*[@id=' . (int) USAGE_RIGHTS_IP_RIGHTS_NOTES_FIELD_ID . ']/value', $pUsageRightsNode);
+		
+		$lIPRightsNotesContent = trim($lIPRightsNotesNode->item(0)->nodeValue);
+		
+		if($lIPRightsNotesContent == '') {
+	
+			$lResult[] = array(
+					'instance_id' => $pUsageRightsNode->getAttribute('instance_id'),
+					'field_id' => (int)USAGE_RIGHTS_IP_RIGHTS_NOTES_FIELD_ID,
+					'instance_name' => $pUsageRightsNode->getAttribute('display_name'),
+					'msg' => getstr('pwt.validation.usageRightsNotesisRequired') ,
+					'error_type' => CUSTOM_CHECK_NORMAL_ERROR_TYPE,
+				);
+			return $lResult;
+		}
+	}
+	
+	return $lResult;
+}
+
+/**
+ * Ще гледаме при save/validate на Project description - трябва поне 1 от полетата да е попълнено - Study area description или design description
+ * @param unknown_type $pUsageRightsNode - възела Usage rights
+ */
+function CustomCheckProjectDescriptionFieldsNotEmpty($pProjectDescriptionNode, $pCheckMode = CUSTOM_CHECK_VALIDATION_MODE){
+	define('PROJECT_DESCRIPTION_STUDY_AREA_DESCRIPTION_FIELD_ID', 290);
+	define('PROJECT_DESCRIPTION_DESIGN_DESCRIPTION_FIELD_ID', 291);
+	$lResult = array();
+	
+	$lXPath = new DOMXPath($pProjectDescriptionNode->ownerDocument);
+	$lStudyAreaDescriptionNode = $lXPath->query('./fields/*[@id=' . (int) PROJECT_DESCRIPTION_STUDY_AREA_DESCRIPTION_FIELD_ID . ']/value', $pProjectDescriptionNode);
+	$lDesignDescriptionNode = $lXPath->query('./fields/*[@id=' . (int) PROJECT_DESCRIPTION_DESIGN_DESCRIPTION_FIELD_ID . ']/value', $pProjectDescriptionNode);
+	
+	$lStudyAreaDescriptionContent = trim($lStudyAreaDescriptionNode->item(0)->nodeValue);
+	$lDesignDescriptionContent = trim($lDesignDescriptionNode->item(0)->nodeValue);
+	
+	if($lStudyAreaDescriptionContent == '' && $lDesignDescriptionContent == '') {
+
+		$lResult[] = array(
+				'instance_id' => $pProjectDescriptionNode->getAttribute('instance_id'),
+				'field_id' => '',
+				'instance_name' => $pProjectDescriptionNode->getAttribute('display_name'),
+				'msg' => getstr('pwt.validation.projectDescriptionAtLeasOneFieldRequired') ,
+				'error_type' => CUSTOM_CHECK_NORMAL_ERROR_TYPE,
+			);
+		return $lResult;
+	}
+	
 	return $lResult;
 }
 
