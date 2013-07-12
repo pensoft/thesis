@@ -2129,5 +2129,9 @@ $STRARRAY = array(
 	'comments.currentSelectionCommentIsUnavailable' => 'You cannot comment on the current selection. <br/> Please change your selection and try again!',
 	'pjs.copy_editing_proceed_btn_text' => 'Proceed',
 
+	'pwt.approve_documentfor_submission_btn' => 'Approve',
+	'pwt.ready_to_submit_documentfor_submission_btn' => 'Ready to submit',
+	'pwt.submit_document_btn' => 'Submit',
+	'pwt.document_ready_for_review_mail_subject' => 'Document is ready for review',
 );
 ?>

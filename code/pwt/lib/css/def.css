@@ -5222,6 +5222,10 @@ td #docDescr {
 	
 }
 
+.P-Article-Buttons .P-Green-Btn-Middle-Big_One {
+	width:120px;	
+}
+
 #P-Comment-Unavailable-Text{
 	font-size: 11px;
 	font-weight: normal;

@@ -206,12 +206,7 @@ $gTemplArr = array(
 										<div class="P-Grey-Btn-Right"></div>
 									</div>
 									<div class="P-Clear"></div>
-									<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentToPjs({document_id}, \'/pjs_submit_document.php?document_id={document_id}\');"' : '') . '>
-									<div class="P-Green-Btn-Left"></div>
-										<div class="P-Green-Btn-Middle">Submit</div>
-										<div class="P-Green-Btn-Right"></div>
-									</div>
-									<div class="P-Clear"></div>
+									{_showPJSSubmitButton(document_id, documentstate)}
 								</div>
 								<!-- bottom buttons -->
 							</div>
@@ -623,6 +618,15 @@ $gTemplArr = array(
 		<form name="document_form" method="post" id="document_form">
 			<input type="hidden" name="document_id" value="{document_id}"/>
 		</form>
+	',
+
+
+	'document.email_message_ready_to_submit' => '
+		Document {document_id} is ready for review. Please review it <a href="' . SITE_URL . '/preview.php?document_id={document_id}">here</a>
+	',
+
+	'document.email_message_submit' => '
+		Document {document_id} is ready to be submitted. You can submit it <a href="' . SITE_URL . '/preview.php?document_id={document_id}">here</a>
 	',
 
 

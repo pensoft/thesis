@@ -16,6 +16,8 @@ CKEDITOR.plugins.add('autosave', {
 			
 			if(lMatch !== null && gStopAutoSaveInstance == 0){
 				// submitting the form
+				gAutoSaveFlag = 1;
+				
 				lForm.ajaxSubmit({
 					'dataType' : 'json',
 					'url' : gSaveInstanceSrv,
@@ -30,6 +32,8 @@ CKEDITOR.plugins.add('autosave', {
 						'auto_save_on' : 1
 					},
 					'success' : function(pAjaxResult){
+						gAutoSaveFlag = 0;
+						
 						if(pAjaxResult['err_cnt']){
 							
 						}else{

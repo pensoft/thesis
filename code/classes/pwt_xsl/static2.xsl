@@ -48,13 +48,13 @@
 	<xsl:template name="authors">
 		<xsl:param name="pDocumentNode" />
 		<div class="P-Article-Preview-Names">
-			<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14']/*[@object_id='9' or @object_id='153']/*[@object_id='8']">
+			<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']">
 				<xsl:apply-templates select="." mode="singleAuthor" />
 				<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
 			</xsl:for-each>
 		</div>
 		<div class="P-Article-Preview-Addresses">
-			<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14']/*[@object_id='9' or @object_id='153']/*[@object_id='8']/*[@object_id='5']">
+			<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']/*[@object_id='5']">
 				<xsl:apply-templates select="." mode="singleAuthorAddress" />
 			</xsl:for-each>
 		</div>
@@ -66,7 +66,7 @@
 						<td>
 							<div class="P-Article-Info-Block-Row">
 								<xsl:text>Corresponding Author: </xsl:text>
-								<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14']/*[@object_id='9' or @object_id='153']/*[@object_id='8'][fields/*[@id='15']/value[@value_id='1']]">
+								<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8'][fields/*[@id='15']/value[@value_id='1']]">
 									<xsl:apply-templates select="." mode="singleCorrespondingAuthor" />
 									<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
 								</xsl:for-each>
@@ -79,7 +79,7 @@
 							</div>
 							<div class="P-Article-Info-Block-Row">
 								<xsl:text>© </xsl:text><xsl:value-of select="php:function('getYear')"/><xsl:text> </xsl:text>
-								<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14']/*[@object_id='9' or @object_id='153']/*[@object_id='8']">
+								<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']">
 									<xsl:apply-templates select="." mode="singleCorrespondingAuthorInLicense" />
 									<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
 								</xsl:for-each>
