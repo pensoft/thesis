@@ -723,6 +723,7 @@ function getDocumentFieldDefaultTempls($pInPopup = false){
 		G_FILE_UPLOAD_TEMPL => 'fields.file_upload',
 		G_FILE_UPLOAD_MATERIAL_TEMPL => 'fields.file_upload_material',
 		G_FILE_UPLOAD_CHECKLIST_TAXON_TEMPL => 'fields.file_upload_checklist_taxon',
+		G_FILE_UPLOAD_COVERAGE_TAXA_TEMPL => 'fields.file_upload_taxon_coverage_taxa',
 
 		G_INPUT_LABEL_TEMPL => 'fields.label',
 		G_TEXTAREA_LABEL_TEMPL => 'fields.label_editor',
@@ -5004,6 +5005,10 @@ function CreateNewTTMaterialFromSpreadSheet($pName, $pDir, $pDocumentId) {
 
 function CreateNewChecklistTaxonFromSpreadSheet($pName, $pDir, $pDocumentId) {
 	return CreateTempUploadedFile($pName, $pDir, $pDocumentId, '_checklist_taxon_');
+}
+
+function CreateNewTaxonomicCoverageTaxaFromSpreadSheet($pName, $pDir, $pDocumentId) {
+	return CreateTempUploadedFile($pName, $pDir, $pDocumentId, '_taxonomic_coverage_taxa_');
 }
 
 function CreateTempUploadedFile($pName, $pDir, $pDocumentId, $pPrefix = ''){

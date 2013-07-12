@@ -54,6 +54,7 @@ class cfield_factorycreator {
 			case (int)FIELD_HTML_FILE_UPLOAD_TYPE:
 			case (int)FIELD_HTML_FILE_UPLOAD_MATERIAL_TYPE:
 			case (int)FIELD_HTML_FILE_UPLOAD_CHECKLIST_TAXON_TYPE:
+			case (int)FIELD_HTML_FILE_UPLOAD_TAXONOMIC_COVERAGE_TAXA_TYPE:
 				return new cfield_file_upload($pFieldDetails);
 
 		}

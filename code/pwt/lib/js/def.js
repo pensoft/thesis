@@ -21,6 +21,7 @@ var gCitationsSrv = gAjaxUrlsPrefix + 'citations_srv.php';
 var gFileUploadSrv = gAjaxUrlsPrefix + 'file_upload_srv.php';
 var gFileUploadMaterialSrv = gAjaxUrlsPrefix + 'file_upload_material_srv.php';
 var gFileUploadChecklistTaxonSrv = gAjaxUrlsPrefix + 'file_upload_checklist_taxon_srv.php';
+var gFileUploadTaxonomicCoverageTaxaSrv = gAjaxUrlsPrefix + 'file_upload_taxonomic_coverage_taxa_srv.php';
 var gInstancesSrv = gAjaxUrlsPrefix + 'instance_ajax_srv.php';
 var gInstanceFieldAutosaveSrv = gAjaxUrlsPrefix + 'instance_field_save_srv.php';
 var gActiveMenuTabSrv = gAjaxUrlsPrefix + 'active_menu_tabs_srv.php';
@@ -3357,6 +3358,10 @@ function UploadMaterialFile(pBtnId, pDocId, pInstanceId) {
 
 function UploadChecklistTaxonFile(pBtnId, pDocId, pInstanceId) {
 	UploadImportFile(pBtnId, pDocId, pInstanceId, gFileUploadChecklistTaxonSrv);
+}
+
+function UploadTaxonomicCoverageTaxaFile(pBtnId, pDocId, pInstanceId) {
+	UploadImportFile(pBtnId, pDocId, pInstanceId, gFileUploadTaxonomicCoverageTaxaSrv);
 }
 
 function UploadImportFile(pBtnId, pDocId, pInstanceId, pAjaxUrl){
