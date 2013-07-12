@@ -59,7 +59,7 @@ $gTemplArr = array(
 	'comments.viewRow' => '
 					<div id="P-Comment-{id}" class="P-Comments-Revisions-History">
 						<a href="#">{_DisplayCommentUserName(is_disclosed, usr_id, has_editor_permissions, current_user_id, fullname, undisclosed_user_fullname)}</a>&nbsp;commented: <span class="P-Comments-Reviosions-History-Date">{_showFormatedPubDate(lastmoddate, 1)}</span>
-						<div class="P-Comment-Msg" {_putCommentOnClickEvent(id, usr_id, current_user_id)}>{msg}</div>
+						<div class="P-Comment-Msg" id="P-Comment-Msg-Holder_{id}" {_putCommentOnClickEvent(id, usr_id, current_user_id)}>{_nl2br(msg)}</div>
 						<div id="P-Comment-Edit-Form_{id}" style="display:none" >
 							{_DisplayCommentEditForm(comment_edit_forms, id, usr_id, current_user_id)}							
 						</div>
@@ -178,7 +178,7 @@ $gTemplArr = array(
 	'comments.replyCommentRow' => '
 			<div class="P-Comments-Revisions-History" id="P-Comment-{id}">
 				<a href="#">{fullname}</a>&nbsp;commented: <span class="P-Comments-Reviosions-History-Date">{_showFormatedPubDate(lastmoddate, 1)}</span>
-				<div class="P-Comment-Msg" {_putCommentOnClickEvent(id, usr_id, current_user_id)}>{msg}</div>
+				<div class="P-Comment-Msg" id="P-Comment-Msg-Holder_{id}" {_putCommentOnClickEvent(id, usr_id, current_user_id)}>{_nl2br(msg)}</div>
 				<div id="P-Comment-Edit-Form_{id}" style="display:none" >
 					{_DisplayCommentEditForm(comment_edit_forms, id, usr_id, current_user_id)}							
 				</div>

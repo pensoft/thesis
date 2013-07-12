@@ -100,15 +100,7 @@ function initPreviewSelectCommentEvent(){
 	$('#' + gPreviewIframeId).contents().on('mouseup', function(pEvent){
 		CheckSelectedTextForActiveComment();
 		gPreviousPreviewSelectionStartNode = false;
-		var lIframeSelection = getIframeSelection(gPreviewIframeId);
-		if(!lIframeSelection)
-			return;
-		//Ако селекцията е празна - крием формата за всеки случай
-		if(lIframeSelection.isCollapsed){
-//			cancelPreviewNewComment();
-			return;
-		}
-//		displayNewCommentPopup(pEvent);
+		fillCommentPos();	
 	});
 
 	$('#' + gPreviewIframeId).contents().bind('keyup', function(pEvent) {

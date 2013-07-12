@@ -1286,6 +1286,7 @@ function EnableDisableMainCommentBtn(pEnable){
 }
 
 function displayCommentEditForm(pCommentId){
+	$('#P-Comment-Msg-Holder_' + pCommentId).hide();
 	$('#P-Comment-Edit-Form_' + pCommentId).show();
 	$('#P-Comment-Edit-Form_' + pCommentId).find('textarea').first().focus();
 	positionCommentsBase();
