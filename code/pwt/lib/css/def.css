@@ -2880,8 +2880,7 @@ a.P-Grey-Btn-Middle {
 	background: url('/i/valid_icon.png') no-repeat;
 	width: 19px;
 	height: 16px;
-	margin-right: 7px;
-	margin-top: 8px;
+	margin: 11px -24px 0 24px;
 	float: left;
 }
 

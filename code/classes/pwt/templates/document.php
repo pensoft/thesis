@@ -202,7 +202,7 @@ $gTemplArr = array(
 								<div class="P-Article-Buttons">
 									<div class="P-Grey-Btn-Holder P-Validation ' . ((int)ENABLE_FEATURES ? '' : 'P-Inactive-Button') .'" onclick="">
 										<div class="P-Grey-Btn-Left"></div>
-										<div class="P-Grey-Btn-Middle" ' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); window.location=\'/xml_validate.php?document_id={document_id}\';return false;"' : 'onclick="window.location=\'/under_construction.php\';return false;"') . '><div class="P-Btn-Icon"></div>Validation</div>
+										<div class="P-Grey-Btn-Middle P-Green-Btn-Middle-Big_One" ' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); window.location=\'/xml_validate.php?document_id={document_id}\';return false;"' : 'onclick="window.location=\'/under_construction.php\';return false;"') . '><div class="P-Btn-Icon"></div>Validate</div>
 										<div class="P-Grey-Btn-Right"></div>
 									</div>
 									<div class="P-Clear"></div>
