@@ -87,6 +87,8 @@ if($gInstanceId == getDocumentMetadataInstanceId($gDocumentId)){
 	header("Location: /display_document.php?document_id=" . (int) $gDocumentId . '&instance_id=' . $lInstanceId);
 	exit();
 }
+MarkActiveTab($gInstanceId); 
+session_write_close();
 
 $lPageArray = array(
 	'title' => strip_tags($gDocument->getDocumentName()) . ' - ',
