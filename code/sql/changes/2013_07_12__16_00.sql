@@ -1,6 +1,6 @@
 UPDATE pwt.template_objects SET 
 	xml_file_name = 'taxonomic_coverage_taxa.xml' 
-WHERE template_id = 5 AND object_id = 191;
+WHERE template_id IN (4, 5) AND object_id = 191;
 
 INSERT INTO pwt.html_control_types(name) VALUES ('File Upload Taxonomic Coverage Taxa');
 
