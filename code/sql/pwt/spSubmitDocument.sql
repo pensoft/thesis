@@ -14,7 +14,7 @@ $BODY$
 		lRes pwt.ret_spSubmitDocument;		
 		lDocumentId bigint;
 		
-		lNewDocumentState int = 1;
+		lReadyToSubmitDocumentState int = 6;
 		lSubmittedDocumentState int = 2;
 		lReturnedFromPjsDocumentState int = 3;
 	BEGIN
@@ -27,7 +27,7 @@ $BODY$
 		
 		IF NOT EXISTS (
 			SELECT * FROM pwt.documents 
-			WHERE id = pDocumentId AND state IN (lNewDocumentState, lReturnedFromPjsDocumentState)
+			WHERE id = pDocumentId AND state IN (lReadyToSubmitDocumentState, lReturnedFromPjsDocumentState)
 		) THEN
 			RAISE EXCEPTION 'pwt.submitTheDocumentIsNotInStateWhichAllowsSubmitting';
 		END IF;
