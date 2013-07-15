@@ -371,6 +371,36 @@ $gTemplArr = array(
 
 												</div>
 	',
+		
+	'fields.file_upload_taxon_coverage_taxa' => '
+												<div class="P-Data-Resources-Subsection-Title">
+													{field_label}
+													<div id="field_ajax_input_{field_id}__{instance_id}" class="P-Input-Full-Width P-File {_getInputWrapperClass(has_help_label, has_validation_error, help_label_display_style)}">
+														<div class="P-Input-Inner-Wrapper">
+															<div class="P-Input-Holder">
+																<div class="P-Input-Left"></div>
+																<div class="P-Input-Middle">
+																	<div class="P-File-Name">{file_name}</div><!-- Zadyljitelno!!! -->
+																		{field}
+																		{actions_content}
+																</div>
+																<div class="P-Input-Right"></div>
+																<div class="P-Clear"></div>
+															</div>
+															{_displayFieldExampleLabel(has_example_label, example_label)}
+														</div>
+														<div class="P-Browse-Btn-Holder" id="field_ajax_{field_id}__{instance_id}" onclick="triggerClick(\'input_file_name123\');">
+															<div class="P-Browse-Btn-Left"></div>
+															<div class="P-Browse-Btn-Middle">Browse</div>
+															<div class="P-Browse-Btn-Right"></div>
+															{_displayFieldHelpLabel(has_help_label, help_label, help_label_display_style)}
+														</div>
+														<script type="text/javascript">UploadTaxonomicCoverageTaxaFile(\'field_ajax_{field_id}__{instance_id}\', {document_id}, {instance_id});</script>
+														<script type="text/javascript">UploadTaxonomicCoverageTaxaFile(\'field_ajax_input_{field_id}__{instance_id}\', {document_id}, {instance_id});</script>
+													</div>
+
+												</div>
+	',
 
 );
 

@@ -29,6 +29,9 @@ class cfield_file_upload extends cfield_base {
 			case FIELD_HTML_FILE_UPLOAD_CHECKLIST_TAXON_TYPE :
 				$lTempl = G_FILE_UPLOAD_CHECKLIST_TAXON_TEMPL;
 				break;
+			case FIELD_HTML_FILE_UPLOAD_TAXONOMIC_COVERAGE_TAXA_TYPE :
+				$lTempl = G_FILE_UPLOAD_COVERAGE_TAXA_TEMPL;
+				break;
 		}
 
 		return $this->ReplaceHtmlFields($this->getObjTemplate($lTempl));
