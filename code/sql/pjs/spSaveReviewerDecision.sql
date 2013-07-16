@@ -70,9 +70,10 @@ $BODY$
 			FROM pjs.documents d
 			JOIN pjs.document_review_rounds drr ON drr.id = d.current_round_id
 			JOIN pjs.document_review_round_users drru ON drru.round_id = drr.id AND drru.state_id = 1
+			JOIN pjs.document_users du ON du.id = drru.document_user_id AND role_id = lDedicatedReviewerRoleId
 			WHERE d.id = pDocumentId AND drru.decision_id IS NULL;
 		
-		SELECT INTO lNotConfirmedInvitation id FROM pjs.document_user_invitations WHERE document_id = pDocumentId AND state_id = 1;
+		SELECT INTO lNotConfirmedInvitation id FROM pjs.document_user_invitations WHERE document_id = pDocumentId AND state_id = 1 AND role_id = lDedicatedReviewerRoleId;
 		
 		IF (lUsrWithoutDecision IS NULL AND lNotConfirmedInvitation IS NULL) THEN
 			SELECT INTO lRes.event_id_sec event_id FROM spCreateEvent(lAllReviewsSubmittedEventType, pDocumentId, pUid, lJournalId, null, null);
