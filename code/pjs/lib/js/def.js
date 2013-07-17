@@ -287,9 +287,11 @@ function DocumentInviteReviewers(pDocumentId, pRole){
 	}
 }
 
-function SEConfirmReviewerInvitation(pInvitationId){
+function SEConfirmReviewerInvitation(pDocumentId, pInvitationId, pReviewerId){
 	return ExecuteSimpleDocumentAjaxRequest({
 		invitation_id : pInvitationId,
+		reviewer_id : pReviewerId,
+		document_id : pDocumentId,
 		action : 'se_confirm_reviewer_invitation'
 	});
 }

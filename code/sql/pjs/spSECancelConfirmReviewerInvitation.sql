@@ -1,7 +1,8 @@
 DROP TYPE ret_spSECancelConfirmReviewerInvitation CASCADE;
 CREATE TYPE ret_spSECancelConfirmReviewerInvitation AS (
 	result int,
-	event_id bigint
+	event_id bigint,
+	event_id_sec bigint
 );
 
 CREATE OR REPLACE FUNCTION spSECancelConfirmReviewerInvitation(
@@ -37,6 +38,11 @@ $BODY$
 		lCanProceedFlag boolean;
 		cSERoleId int := 3;
 		lSEUsrId bigint;
+		lConfirmedStateId int;
+		lReviewerUsrId bigint;
+		cESEAcceptREventTypeId CONSTANT int := 104;
+		cNominatedReviewerRoleId CONSTANT int := 5;
+		cAllReviewDeclinedEventType CONSTANT int := 9;
 	BEGIN		
 		
 		lSERoleId = 3;		
@@ -46,6 +52,7 @@ $BODY$
 		lNewInvitationStateId = 1;
 		lRemovedReviewerStateId = 2;
 		lConfirmedInvitationStateId = 2;
+		lConfirmedStateId = 2;
 		--lReviewerCanceledEventType = 7;
 		
 		-- Check that the passed user is SE for the document of the invitation
@@ -64,13 +71,16 @@ $BODY$
 		SELECT INTO lJournalId, lCurrentRoundId d.journal_id, d.current_round_id FROM pjs.documents d WHERE d.id = pDocumentId;
 		
 		IF pOper = 1 THEN -- Confirm
-			/*UPDATE pjs.document_user_invitations SET 
-				state_id = lConfirmedBySEStateId,
+			UPDATE pjs.document_user_invitations SET 
+				state_id = lConfirmedStateId,
 				date_confirmed = now()
 			WHERE id = pInvitationId AND state_id = lNewInvitationStateId;
-			PERFORM spProcessReviewerInvitationConfirmation(pInvitationId);
-			*/
 			
+			PERFORM spProcessReviewerInvitationConfirmation(pInvitationId);
+			
+			-- SE Reviewer accept event
+			SELECT INTO lReviewerUsrId uid FROM pjs.document_user_invitations WHERE id = pInvitationId;
+			SELECT INTO lRes.event_id event_id FROM spCreateEvent(cESEAcceptREventTypeId, pDocumentId, pSEId, lJournalId, lReviewerUsrId, cNominatedReviewerRoleId);
 		ELSE -- Cancel
 			
 			IF EXISTS(SELECT * FROM pjs.document_review_round_users WHERE id = pDocumentReviewerId AND state_id <> lRemovedReviewerStateId) THEN
@@ -87,6 +97,20 @@ $BODY$
 			UPDATE pjs.document_review_round_users SET 
 				state_id = lRemovedReviewerStateId 
 			WHERE id = pDocumentReviewerId;
+			
+			-- checking if all reviewers decline to take the reveiw (event)
+			IF NOT EXISTS(
+				SELECT * FROM pjs.document_user_invitations dui
+				LEFT JOIN (
+					SELECT d.id as document_id FROM pjs.documents d
+					JOIN pjs.document_review_rounds drr ON drr.document_id = d.id
+					JOIN pjs.document_review_round_users drru ON drru.round_id = drr.id AND drru.state_id = 1
+					WHERE drru.decision_id IS NOT NULL
+				) a ON a.document_id = dui.document_id
+				WHERE dui.state_id IN (1,2,5) AND role_id = 5 AND dui.document_id = pDocumentId
+			) THEN
+				SELECT INTO lRes.event_id_sec event_id FROM spCreateEvent(cAllReviewDeclinedEventType, pDocumentId, pSEId, lJournalId, null, null);
+			END IF;
 			
 			SELECT INTO lReviewerId uid FROM pjs.document_user_invitations WHERE id = pInvitationId;
 			SELECT INTO lRes.event_id event_id FROM spCreateEvent(lReviewerCanceledEventType, pDocumentId, pSEId, lJournalId, lReviewerId, lReviewerRoleId);

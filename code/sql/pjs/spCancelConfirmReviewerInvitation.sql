@@ -39,6 +39,7 @@ $BODY$
 		lCanProceedFlag boolean;
 		lRoleId int;
 		cPanelReviewerRoleId CONSTANT int := 7;
+		cNominatedReviewerRoleId CONSTANT int := 5;
 	BEGIN		
 				
 		lInReviewState = 3;
@@ -82,7 +83,8 @@ $BODY$
 			-- There is no accept invitation event for panel reviewers
 			IF(lRoleId <> cPanelReviewerRoleId) THEN
 				-- Reviewer accept event
-				SELECT INTO lRes.event_id event_id FROM spCreateEvent(lReviewAcceptedEventType, pDocumentId, lReviewerUsrId, lJournalId, null, null);
+				--SELECT INTO lRes.event_id event_id FROM spCreateEvent(lReviewAcceptedEventType, pDocumentId, lReviewerUsrId, lJournalId, null, null);
+				SELECT INTO lRes.event_id event_id FROM spCreateEvent(lReviewAcceptedEventType, pDocumentId, lReviewerUsrId, lJournalId, lReviewerUsrId, cNominatedReviewerRoleId);
 			END IF;
 			
 		ELSE -- Cancel
