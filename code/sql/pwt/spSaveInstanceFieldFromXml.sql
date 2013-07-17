@@ -39,6 +39,7 @@ DECLARE
 	lTempIntArray int[];
 	lTempTextArray text[];
 	lTempText text;
+	lTempText2 text;
 	
 	lDataSrcCursor refcursor;
 	
@@ -70,9 +71,10 @@ BEGIN
 	
 	IF lRecord.type = lFieldIntType THEN
 		IF lRecord.data_src_id IS NOT NULL THEN
-			lTempText = lower(translate(lTemp[1]::text, ' ,.-*', ''));
+			lTempText2 = HtmlSpecialCharsDecode(lTemp[1]::text);
+			lTempText = lower(translate(lTempText2, ' ,.-*', ''));
 			IF coalesce(lTempText, '') <> '' THEN
-				lSql = replace(lRecord.query, '{value}', quote_literal(lTemp[1]::text));
+				lSql = replace(lRecord.query, '{value}', quote_literal(lTempText2));
 				lSql = 'SELECT a.*, 1 as is_equal  
 					FROM (' || lSql || ')a 
 					WHERE lower(translate(a.name::text, '' ,.-*'', '''')) = ' ||quote_literal(lTempText) || '
@@ -136,7 +138,8 @@ BEGIN
 					lSql = lSql || ' UNION ';
 				END IF;
 				
-				lTmpQuery = replace(lRecord.query, '{value}', lTemp[lIter2]::text);
+				lTempText2 = HtmlSpecialCharsDecode(lTemp[lIter2]::text);
+				lTmpQuery = replace(lRecord.query, '{value}', lTempText2);
 				lSql = lSql || '(' || lTmpQuery || ')';
 			END LOOP;
 			
@@ -149,8 +152,9 @@ BEGIN
 				IF lIter > 1 THEN
 					lSql = lSql || ', ';
 				END IF;
+				lTempText2 = HtmlSpecialCharsDecode(lTemp[lIter]::text);
 				
-				lSql = lSql || quote_literal(coalesce(lower(translate(lTemp[lIter]::text, ' ,.-*', '')), ''));
+				lSql = lSql || quote_literal(coalesce(lower(translate(lTempText2, ' ,.-*', '')), ''));
 				--lTempTextArray = array_append(lTempTextArray, lower(translate(lTemp[lIter]::text, ' ,.-*', '')));
 			END LOOP;
 			lSql = lSql || ']);';
@@ -215,11 +219,7 @@ BEGIN
 	-- RAISE NOTICE 'SetValTo %, InstanceId %, field_id %', lValueInt, pInstanceId, pFieldId;
 	-- RAISE NOTICE 'ValInt %, ValStr %', lValueInt, lValueStr;
 	
-	lValueStr = replace(lValueStr, '&amp;', '&');
-	lValueStr = replace(lValueStr, '&quot;', '"');
-	lValueStr = replace(lValueStr, '&#039;', '\''');
-	lValueStr = replace(lValueStr, '&lt;', '<');
-	lValueStr = replace(lValueStr, '&gt;', '>');
+	lValueStr = HtmlSpecialCharsDecode(lValueStr);
 	
 	UPDATE pwt.instance_field_values SET
 		value_int = lValueInt,
