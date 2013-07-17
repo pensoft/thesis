@@ -1,8 +1,8 @@
 <taxa object_id="191" display_name="Taxa">
 	<fields>
-		<specific_name id="451" field_name="Specific Name">
+		<scientific_name id="451" field_name="Scientific Name">
 			<value/>
-		</specific_name>
+		</scientific_name>
 		<common_name id="452" field_name="Common Name">
 			<value/>
 		</common_name>

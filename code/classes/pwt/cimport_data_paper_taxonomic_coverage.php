@@ -82,7 +82,7 @@ class cimport_data_paper_taxonomic_coverage extends csimple {
 		$this->m_userId = $user->id;		
 
 		$this->m_taxonFieldsMapping = array(
-			$this->parseFieldName(DATA_PAPER_TAXONOMIC_COVERAGE_TAXA_SPECIFIC_NAME_FIELD_NAME) => $this->parseFieldName('scientific_name'),
+// 			$this->parseFieldName(DATA_PAPER_TAXONOMIC_COVERAGE_TAXA_SPECIFIC_NAME_FIELD_NAME) => $this->parseFieldName('scientific_name'),
 		);
 		$this->LoadDocumentData();
 	}
@@ -389,7 +389,8 @@ class cimport_data_paper_taxonomic_coverage extends csimple {
 					' . (int) $this->m_instanceId . ',
 					' . (int) $this->m_userId . ')';
 
-			// var_dump($lSql);
+// 			var_dump($lSql);
+// 			exit;
 			if(! $this->m_con->Execute($lSql)){
 				$this->m_con->Execute('ROLLBACK;');
 				$this->SetError(getstr('pwt.couldNotImportData'));
