@@ -153,11 +153,19 @@ class mTask_Model extends emBase_Model {
 	 * 
 	 * @return array()
 	 */
-	function GetTemplateValuesForReplace($pUid, $pDocumentId, $pEventTypeId) {
+	function GetTemplateValuesForReplace($pUid, $pDocumentId, $pEventTypeId, $pUsrIdEventTo, $pUsrRoleEventTo) {
 		$lCon = $this->m_con;
 		$lResult = array();
 		
-		$lSql = 'SELECT * FROM pjs."spGetTemplateValuesForReplace"(' . (int)$pUid . ', ' . (int)$pDocumentId . ', ' . (int)$pEventTypeId . ')';
+		$lSql = '
+			SELECT * 
+			FROM pjs."spGetTemplateValuesForReplace"(
+				' . (int)$pUid . ', 
+				' . (int)$pDocumentId . ', 
+				' . (int)$pEventTypeId . ', 
+				' . (int)$pUsrIdEventTo . ', 
+				' . (int)$pUsrRoleEventTo . ')
+		';
 		
 		$lCon->Execute($lSql);
 		$lResult = $lCon->mRs;

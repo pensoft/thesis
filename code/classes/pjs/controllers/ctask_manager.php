@@ -105,7 +105,7 @@ class cTask_Manager extends cBase_Controller {
 			$lSubject = $value['subject'];
 			
 			foreach ($lRecipientsData as $key1 => $value1) {
-				$lDataValuesToReplace = $this->m_taskModel->GetTemplateValuesForReplace((int)$value1['uid'], (int)$value['document_id'], $value['event_type_id']);
+				$lDataValuesToReplace = $this->m_taskModel->GetTemplateValuesForReplace((int)$value1['uid'], (int)$value['document_id'], $value['event_type_id'], $this->m_eventDataArr['ueventtoid'], $this->m_eventDataArr['role_id']);
 				$lDataValuesToReplace['user_role'] = (int)$value1['role_id'];
 				
 				$lTempl = $this->ReplaceEmailTaskTemplate($lTemplate, $lDataValuesToReplace);
@@ -219,6 +219,15 @@ class cTask_Manager extends cBase_Controller {
 			'{journal_signature}' 	=> $pDataToFromReplace['journal_signature'],
 			'{user_role}' 			=> $pDataToFromReplace['user_role'],
 			'{journal_id}' 			=> $pDataToFromReplace['journal_id'],
+			'{SE_first_name}' 		=> $pDataToFromReplace['se_first_name'],
+			'{SE_last_name}' 		=> $pDataToFromReplace['se_last_name'],
+			'{SE_usr_title}' 		=> $pDataToFromReplace['se_usr_title'],
+			'{R_first_name}' 		=> $pDataToFromReplace['r_first_name'],
+			'{R_last_name}' 		=> $pDataToFromReplace['r_last_name'],
+			'{R_usr_title}' 		=> $pDataToFromReplace['r_usr_title'],
+			'{SE_tax_expertize}' 	=> $pDataToFromReplace['se_tax_expertize'],
+			'{SE_geo_expertize}' 	=> $pDataToFromReplace['se_geo_expertize'],
+			'{SE_sub_expertize}' 	=> $pDataToFromReplace['se_sub_expertize'],
 			'{site_href}' 			=> $a . '">'. $u .'</a>',
 			'{tasks_href}' 			=> $a . 'dashboard">Your tasks</a>',
 			'{document_editor_href}'=> $a . 'view_document.php?id=' . $doc_id . '&view_role=' . (int)JOURNAL_EDITOR_ROLE . '">' . $pDataToFromReplace['document_title'] . '</a>',
