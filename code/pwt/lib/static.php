@@ -708,6 +708,8 @@ function getDocumentFieldDefaultTempls($pInPopup = false){
 		G_SELECT_TEMPL => 'fields.select',
 		G_RADIO_TEMPL => 'fields.radio',
 		G_RADIO_ROW_TEMPL => 'fields.radio_row',
+		G_RADIO_PLATE_APPEARANCE_TEMPL => 'fields.radio_plate_appearance',
+		G_RADIO_PLATE_APPEARANCE_ROW_TEMPL => 'fields.radio_plate_appearance_row',
 		G_CHECKBOX_TEMPL => 'fields.checkbox',
 		G_CHECKBOX_ROW_TEMPL => 'fields.checkbox_row',
 		G_EDITOR_TEMPL => 'fields.editor',
@@ -724,6 +726,8 @@ function getDocumentFieldDefaultTempls($pInPopup = false){
 		G_FILE_UPLOAD_MATERIAL_TEMPL => 'fields.file_upload_material',
 		G_FILE_UPLOAD_CHECKLIST_TAXON_TEMPL => 'fields.file_upload_checklist_taxon',
 		G_FILE_UPLOAD_COVERAGE_TAXA_TEMPL => 'fields.file_upload_taxon_coverage_taxa',
+		G_FILE_UPLOAD_FIGURE_IMAGE_TEMPL => 'fields.file_upload_figure_image',
+		G_FILE_UPLOAD_FIGURE_PLATE_IMAGE_TEMPL => 'fields.file_upload_figure_plate_image',
 
 		G_INPUT_LABEL_TEMPL => 'fields.label',
 		G_TEXTAREA_LABEL_TEMPL => 'fields.label_editor',
@@ -731,6 +735,7 @@ function getDocumentFieldDefaultTempls($pInPopup = false){
 		G_TEXTAREA_SIMPLE_ROUNDED_LABEL_TEMPL => 'fields.texarea_simple_rounded_label',
 		G_SELECT_LABEL_TEMPL => 'fields.label',
 		G_RADIO_LABEL_TEMPL => 'fields.label_radio',
+		G_RADIO_PLATE_APPEARANCE_LABEL_TEMPL => 'fields.label_radio_plate_appearance',
 		G_CHECKBOX_LABEL_TEMPL => 'fields.label_checkbox',
 		G_EDITOR_LABEL_TEMPL => 'fields.label_editor',
 		G_AUTOCOMPLETE_LABEL_TEMPL => 'fields.label',
@@ -2347,6 +2352,70 @@ function UploadFigurePic($pName, $pDir, $pPicId, $pDocumentId, $pPlateVal, $pPla
 		$lData['error_msg'] = $pError;
 		return $lData;
 	}
+}
+
+function UploadFigurePhoto($pName, $pDir, $pDocumentId) {
+	global $user;
+	$gMaxSize = MAX_FIGURE_PIC_FILE_SIZE; // 100 MB
+	//~ $gMaxSize = 500 // Za testove;
+	$extarray = array(".jpeg", ".jpg", ".gif", ".png");
+	$typearr = array("image/pjpeg", "image/jpeg", "image/gif", "image/png");
+	$imgUploadErr = 1;
+	$lPicId = 0;
+	$lData = array();
+	$lCn = Con() ;
+
+	if ($_FILES[$pName]['name']) {
+		$pFnUpl = $_FILES[$pName]['name'];
+		$gFileExt = substr($_FILES[$pName]['name'], strrpos($_FILES[$pName]['name'], '.'));
+		$isImageExtension = in_array(strtolower($gFileExt), $extarray);
+		$isImageMime = in_array(strtolower($_FILES[$pName]['type']), $typearr);
+		$lResult = array (
+				'file_id' => '',
+				'file_name' => '',
+		);
+		/*
+		 $isImageExtension = in_array(strtolower($gFileExt), $extarray);
+		$isImageMime = in_array(strtolower($_FILES[$name]['type']), $typearr);
+		if ($isImageExtension && $isImageMime) {
+		*/
+		if ($isImageExtension && $isImageMime) {
+			if ($_FILES[$pName]['size'] > $gMaxSize) {
+				$pError = getstr('admin.articles.error_picTooBigMaxSize')  . ($gMaxSize / (1024 * 1024)). ' MB';
+			} elseif (!$_FILES[$pName]["size"]) {
+				$pError = getstr('admin.articles.error_wrongFile');
+			} elseif ($_FILES[$pName]['error'] == UPLOAD_ERR_OK) {
+				$lCn = Con() ;
+				$lCn->Execute('SELECT spFileUpload(1, null, ' . (int)$user->id. ',' . (int)$pDocumentId . ', \'' . q($pFnUpl) . '\', \'' . q($pFnUpl) . '\', \'' . q(strtolower($_FILES[$pName]['type'])) . '\') as file_id');
+				$lCn->MoveFirst();				
+				$lResult['file_id'] = (int)$lCn->mRs['file_id'];
+				$lPicId = $lResult['file_id'];
+				$lResult['file_name'] = $pFnUpl;
+				$lPref = 'oo_';
+				if ($lResult['file_id']) {
+					if (!move_uploaded_file($_FILES[$pName]['tmp_name'], $pDir . $lPref . $lResult['file_id'] . $gFileExt)) {
+						$pError = getstr('admin.articles.error_error') . $_FILES[$pName]['error'];
+					} else {
+						exec("convert -colorspace rgb -flatten -quality 80 -thumbnail " . escapeshellarg('1024x1024>') . " " . $pDir . $lPref . $lPicId . $gFileExt . " " . $pDir . 'big_' . $lPicId . '.jpg' );						
+						// Vsichko e ok...
+						$imgUploadErr = 0;
+					}
+				} else {
+					$pError = getstr('admin.articles.error_dbError');
+				}				
+			} else {
+				$pError = getstr('admin.articles.error_errorWhileSavingFile');
+			}
+		} else {
+			$pError = getstr('admin.articles.error_wrongFileFormatAllowedFormatsAre') . implode(' ', $extarray);
+		}
+	} else {
+		$pError = getstr('admin.articles.error_noFileUploaded');
+	}
+
+	$lResult['err_msg'] = $pError;
+	//~ if ($picid) $lCn->Execute('SELECT AttUpload(3, ' . (int)$picid . ', null, null, null, null, null);');
+	return $lResult;
 }
 
 
@@ -5433,8 +5502,7 @@ function checkIfDocumentHasUnprocessedChanges($pDocumentId, $pDocumentHasUnproce
 	}
 	$lXPath = new DOMXPath($lDom);
 	$lChangeNodesQuery = '//' . VERSION_DELETE_CHANGE_NODE_NAME . '|//' . VERSION_INSERT_CHANGE_NODE_NAME . '';
-	$lChangeNodes = $lXPath->query($lChangeNodesQuery);
-// 	var_dump($lChangeNodesQuery);
+	$lChangeNodes = $lXPath->query($lChangeNodesQuery);	
 	if($lChangeNodes->length){
 		return true;
 	}
@@ -5445,6 +5513,7 @@ function checkIfDocumentHasUnprocessedChanges($pDocumentId, $pDocumentHasUnproce
 			has_unprocessed_changes = false
 		WHERE id = ' . $pDocumentId . '
 	';
+	$lCon->Execute($lSql);
 	return false;
 }
 
@@ -5698,6 +5767,15 @@ function CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserId){
 		return true;
 	}
 	return false;
+}
+
+function GetPlateDesc($pPlateType){
+	$lResult = new csimple(array (
+		'templs' => array (
+			G_DEFAULT => 'figures.plate_appearance_' . $pPlateType 
+		) 
+	));
+	return $lResult->Display();
 }
 
 function EnableJSTracksFigures($pTrackFigures){
