@@ -835,7 +835,7 @@ function CustomCheckForReference($pReferenceNode, $pCheckMode = CUSTOM_CHECK_VAL
  */
 function CustomCheckForTreatment($pTreatmentNode, $pCheckMode = CUSTOM_CHECK_VALIDATION_MODE){
 	define('TREATMENT_OBJECT_ID', 41);
-	define('CHECKLIST_SINGLE_OBJECT_ID', 174);
+	define('CHECKLIST_SINGLE_OBJECT_ID', 204);
 	define('ID_KEYS_OBJECT_ID', 23);
 	
 	$lResult = array();
