@@ -1,7 +1,8 @@
 DROP TYPE IF EXISTS ret_spCancelConfirmReviewerInvitation CASCADE;
 CREATE TYPE ret_spCancelConfirmReviewerInvitation AS (
 	result int,
-	event_id bigint
+	event_id bigint,
+	event_id_sec bigint
 );
 
 CREATE OR REPLACE FUNCTION spCancelConfirmReviewerInvitation(
@@ -101,7 +102,7 @@ $BODY$
 				) a ON a.document_id = dui.document_id
 				WHERE dui.state_id IN (1,2,5) AND role_id = 5 AND dui.document_id = pDocumentId
 			) THEN
-				SELECT INTO lRes.event_id event_id FROM spCreateEvent(lAllReviewDeclinedEventType, pDocumentId, pUid, lJournalId, null, null);
+				SELECT INTO lRes.event_id_sec event_id FROM spCreateEvent(lAllReviewDeclinedEventType, pDocumentId, pUid, lJournalId, null, null);
 			END IF;
 			
 			-- Reviewer decline event

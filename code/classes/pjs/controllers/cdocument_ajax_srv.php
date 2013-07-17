@@ -421,6 +421,14 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 					'event_id' => (int)$this->m_action_result['event_id'],
 				));
 				$lTaskObj->Display();
+			
+				if((int)$this->m_action_result['event_id_sec']) {
+					$lTaskObj = new cTask_Manager(array(
+						'event_id' => (int)$this->m_action_result['event_id_sec'],
+					));
+					$lTaskObj->Display();	
+				}
+			
 			}
 
 		}catch(Exception $lException){

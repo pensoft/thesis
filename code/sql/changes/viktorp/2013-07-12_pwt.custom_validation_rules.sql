@@ -27,3 +27,6 @@ INSERT INTO pwt.custom_validation_rules(name, function_name, ord, template_objec
 
 -- CustomCheckProjectDescriptionFieldsNotEmpty (Interactive key)
 INSERT INTO pwt.custom_validation_rules(name, function_name, ord, template_object_id, perform_in_modes) VALUES('Project description - Study area description or Design description is required', 'CustomCheckProjectDescriptionFieldsNotEmpty', 1, 1851, ARRAY[1,2]);
+
+-- CustomCheckForTreatment (Taxonomic paper)
+INSERT INTO pwt.custom_validation_rules(name, function_name, ord, template_object_id, perform_in_modes) VALUES('At least One treatment or id key or checklist custom check', 'CustomCheckForTreatment', 1, 14021, ARRAY[1,2]);

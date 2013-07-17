@@ -455,6 +455,7 @@ class mDocuments_Model extends emBase_Model {
 				throw new Exception($lCon->GetLastError());
 			} else {
 				$lResult['event_id'] = $lCon->mRs['event_id'];
+				$lResult['event_id_sec'] = $lCon->mRs['event_id_sec'];
 			}
 			$lResult['success_msg'] = getstr('pjs.actionSuccessfullyPerformed');
 		}catch(Exception $pException){

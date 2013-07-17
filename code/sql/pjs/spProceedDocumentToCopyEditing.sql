@@ -30,7 +30,10 @@ $BODY$
 		lDocumentUserId bigint;
 		lAuthorRoleId int;
 		lAuthorSubmitReadyForCopyEditingEventType int;
+		cAuthorSubmitReadyForCopyEditingEventType2 CONSTANT int:= 103;
 		lJournalId int;
+		cCERoundType CONSTANT int := 2;
+		lCERoundsCount int;
 	BEGIN		
 				
 		lReadyForCopyEditingDocumentState = 15;
@@ -95,7 +98,13 @@ $BODY$
 		WHERE id = pDocumentId;
 	
 		SELECT INTO lJournalId d.journal_id FROM pjs.documents d WHERE d.id = pDocumentId;
-		SELECT INTO lRes.event_id event_id FROM spCreateEvent(lAuthorSubmitReadyForCopyEditingEventType, pDocumentId, pUid, lJournalId, null, null);
+		SELECT INTO lCERoundsCount count(id) FROM pjs.document_review_rounds dr WHERE dr.document_id = pDocumentId AND dr.round_type_id = cCERoundType AND dr.decision_id IS NOT NULL;
+		
+		IF(lCERoundsCount > 0) THEN
+			SELECT INTO lRes.event_id event_id FROM spCreateEvent(cAuthorSubmitReadyForCopyEditingEventType2, pDocumentId, pUid, lJournalId, null, null);
+		ELSE
+			SELECT INTO lRes.event_id event_id FROM spCreateEvent(lAuthorSubmitReadyForCopyEditingEventType, pDocumentId, pUid, lJournalId, null, null);
+		END IF;
 		
 		-- manage due dates
 		PERFORM pjs.spUpdateDueDates(1, pDocumentId, lAuthorSubmitReadyForCopyEditingEventType, lRoundId, lERoundUsrId);

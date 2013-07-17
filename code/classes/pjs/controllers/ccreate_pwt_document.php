@@ -27,6 +27,10 @@ class cCreate_Pwt_Document extends cBase_Controller {
 			if($this->m_documentState == DOCUMENT_INCOMPLETE_STATE){
 				$this->Redirect('/document_pwt_submission.php?document_id=' . (int)$this->m_documentId);
 			}else{
+				$lTaskObj = new cTask_Manager(array(
+					'event_id' => (int)(int)$this->m_eventId,
+				));
+				$lTaskObj->Display();
 				$lUrl = '/view_document.php?id=' . (int)$this->m_documentId . '&view_role=' . (int)AUTHOR_ROLE . ((int)$this->m_eventId ? '&event_id[]=' . (int)$this->m_eventId : '');
 // 				var_dump($lUrl);
 // 				exit;
@@ -169,6 +173,7 @@ class cCreate_Pwt_Document extends cBase_Controller {
 
 		$this->m_documentState = $lModelResponse['document_state'];
 		$this->m_documentId = (int) $lModelResponse['document_id'];
+		$this->m_eventId = (int) $lModelResponse['event_id'];
 	}
 }
 
