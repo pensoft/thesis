@@ -10,3 +10,6 @@ VALUES('SE -> Reviewer Accept -> SE',104,TRUE,'Reviewer Accepted Invitation','De
 ('SE -> Review Acceptance Acknowledgement -> NR',104,FALSE,'SE accept your invitation','Dear {first_name} {last_name}, SE accepted your invitation<br><br> {site_url}',ARRAY[7]);
 
 UPDATE pjs.email_task_definitions SET recipients = ARRAY[5] WHERE id = 27;
+
+INSERT INTO pjs.email_task_definitions(name, event_type_id, is_automated, subject, content_template, recipients) 
+VALUES('NR/PR -> Review Completed Acknowledgement -> NR/PR ',12,TRUE,'Review Completed Acknowledgement','Dear {first_name} {last_name}, thank you for submitting review...<br><br> {site_url}',ARRAY[7]);

@@ -46,7 +46,11 @@ class cmessaging extends cbase {
 		$lHeaders .= ($this->m_pubdata['replyto'] != '' ? "Reply-To: " . $this->m_pubdata['replyto'] . "\n" : '');
 		$lHeaders .= $lEncodedSubject . "\n";
 		if ($this->m_pubdata['bcc'])
-		$lHeaders .= "bcc: " . $this->m_pubdata['bcc'] . "\n";
+		$lHeaders .= "Bcc: " . $this->m_pubdata['bcc'] . "\n";
+		
+		if ($this->m_pubdata['cc']){
+			$lHeaders .= "Cc: " . $this->m_pubdata['cc'] . "\n";	
+		}
 		$lHeaders .= "MIME-Version: 1.0\n";
 				
 		if (is_array($this->m_pubdata['attachment'])) {

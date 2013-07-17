@@ -1,0 +1,1 @@
+ALTER TABLE pjs.email_task_definitions ADD COLUMN cc varchar;

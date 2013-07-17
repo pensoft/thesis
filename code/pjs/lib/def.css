@@ -6455,12 +6455,13 @@ table.no_bold_class td a {
 .suggestRevExpertise{color: #666; font-size: 11px}
 
 #tasksPopUpFormContent .Tasks-PopUp-Content-Area textarea {
-	height:100px;
+	height:100px !important;
+	resize:none;
 }
 
 .Tasks-PopUp-Content-Template-View {
 	margin-top:10px;
-	height:90px;
+	height:123px !important;
 	overflow-y:auto;
 	margin-left: 0 !important;
     width: 616px !important;
@@ -6475,7 +6476,7 @@ table.no_bold_class td a {
 }
 
 .taskpopup-list-row-content-right-main-role_right .red_txt_due_date {
-	font-size: 11px
+	font-size: 11px;
 }
 
 .commentsSingleFilter{
@@ -6574,3 +6575,17 @@ table.no_bold_class td a {
 	opacity:0.5;
 	filter: alpha(opacity = 50);			
 }
+
+.with-label {
+	position:relative;
+	z-index: 1;
+}
+
+#content_label {
+	position:absolute;
+	z-index: 2;
+	top:13px;
+	left:3px;
+	color:#666666;
+}
+

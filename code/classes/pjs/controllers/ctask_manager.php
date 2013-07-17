@@ -91,10 +91,10 @@ class cTask_Manager extends cBase_Controller {
 	 */
 	private function CreateTask($pTaskDefinitions) {
 		$lTaskData = array();
-		//trigger_error('CreateTask() INNER DEBUG POINT', E_USER_NOTICE);
+		// trigger_error('CreateTask() INNER DEBUG POINT', E_USER_NOTICE);
 		foreach ($pTaskDefinitions as $key => $value) {
-			//trigger_error('RECIPIENTS: ' . $value['recipients'], E_USER_NOTICE);
-			//trigger_error('document_id: ' . $value['document_id'], E_USER_NOTICE);
+			// trigger_error('RECIPIENTS: ' . $value['recipients'], E_USER_NOTICE);
+			// trigger_error('document_id: ' . $value['document_id'], E_USER_NOTICE);
 			//trigger_error('document_journal_id: ' . $value['document_journal_id'], E_USER_NOTICE);
 			$lRecipientsData = $this->GetTaskRecipientsData($value['recipients'], $value['document_id'], $value['document_journal_id']);
 			$lUsersArr = array();
@@ -125,9 +125,10 @@ class cTask_Manager extends cBase_Controller {
 			$lUserTemplArrString = 'ARRAY[' . implode(",", $lUserTemplArr) . ']';
 			$lUserSubjArrString = 'ARRAY[' . implode(",", $lUserSubjArr) . ']';
 			
-			//trigger_error('$lUsersArrString: ' . $lUsersArrString, E_USER_NOTICE);
-			//trigger_error('$lUsersRoleArrString: ' . $lUsersRoleArrString, E_USER_NOTICE);
-			//trigger_error('$lUserTemplArrString: ' . $lUserTemplArrString, E_USER_NOTICE);
+			// trigger_error('$lUsersArrString: ' . $lUsersArrString, E_USER_NOTICE);
+			// trigger_error('$lUsersRoleArrString: ' . $lUsersRoleArrString, E_USER_NOTICE);
+			// trigger_error('$lUserTemplArrString: ' . $lUserTemplArrString, E_USER_NOTICE);
+			// trigger_error('cc: ' . $value['cc'], E_USER_NOTICE);
 			
 			$lTaskData = $this->m_taskModel->CreateTask(
 				(int)$this->m_eventId, 
@@ -136,7 +137,8 @@ class cTask_Manager extends cBase_Controller {
 				$lUserTemplArrString, 
 				$lUsersRoleArrString, 
 				$value['is_automated'], 
-				$lUserSubjArrString
+				$lUserSubjArrString,
+				$value['cc']
 			);
 		}
 	} 

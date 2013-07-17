@@ -237,7 +237,8 @@ class cTasksPopUp_Controller extends cBase_Controller {
 				'DisplayName' => 'Content',
 				'AddTags' => array(
 					'id' => 'content',
-					'onblur' => 'saveFld(\'#task_detail_id\', this)',
+					'onblur' => 'ShowHideLabel(this, \'#content_label\'); saveFld(\'#task_detail_id\', this);',
+					'onfocus' => 'HideLabel(this, \'#content_label\')',
 				),
 			),
 			

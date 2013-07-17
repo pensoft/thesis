@@ -1966,3 +1966,16 @@ function GeneratePDFPreview(pVersionId) {
 	$('#P-Ajax-Loading-Image-Main').hide();
 	return;
 }
+
+function ShowHideLabel(pElem, pLabel) {
+	var lElemVal = $(pElem).val();
+	if(lElemVal == '') {
+		$(pLabel).show();
+	} else {
+		$(pLabel).hide();
+	}
+}
+
+function HideLabel(pElem, pLabel) {
+	$(pLabel).hide();
+}

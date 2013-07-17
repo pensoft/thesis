@@ -2140,5 +2140,7 @@ $STRARRAY = array(
 	'pwt.validation.atLeastOneFieldRequiredInWebLocations' => 'pwt.validation.atLeastOneFieldRequiredInWebLocations',
 	'pwt.validation.usageRightsNotesisRequired' => 'pwt.validation.usageRightsNotesisRequired',
 	'pwt.validation.projectDescriptionAtLeasOneFieldRequired' => 'pwt.validation.projectDescriptionAtLeasOneFieldRequired',
+	
+	'pjs.template_notes_label' => 'You may enter a personal message to the recipient here.',
 );
 ?>
