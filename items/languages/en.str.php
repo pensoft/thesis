@@ -2142,5 +2142,6 @@ $STRARRAY = array(
 	'pwt.validation.projectDescriptionAtLeasOneFieldRequired' => 'pwt.validation.projectDescriptionAtLeasOneFieldRequired',
 	
 	'pjs.template_notes_label' => 'You may enter a personal message to the recipient here.',
+	'pjs.login_warning_text' => 'If you continue you will lost your unsaved data. Please be sure to save your data...',
 );
 ?>

@@ -1979,3 +1979,9 @@ function ShowHideLabel(pElem, pLabel) {
 function HideLabel(pElem, pLabel) {
 	$(pLabel).hide();
 }
+
+function showLoginWarningMessage(pRedirUrl, pWarning) {
+	if(confirm(pWarning)){
+		window.location = pRedirUrl;
+	}
+}

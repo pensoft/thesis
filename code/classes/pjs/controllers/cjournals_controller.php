@@ -6,19 +6,31 @@ class cJournals_Controller extends cBase_Controller {
 		parent::__construct();
 		$lJournalId = (int)$this->GetValueFromRequestWithoutChecks('journal_id');
 		//~ var_dump(unserialize($_SESSION['suser']));
+		
+		$lShowLoginWarning = (int)$this->GetValueFromRequestWithoutChecks('show_login_warning');
+		$lRedirUrl = $this->GetValueFromRequestWithoutChecks('redirurl');
+		$lDocumentId = (int)$this->GetValueFromRequestWithoutChecks('document_id');
+		$lViewRole = (int)$this->GetValueFromRequestWithoutChecks('view_role');
+		$lAutologinHash = $this->GetValueFromRequestWithoutChecks('u_autolog_hash');
+		
 		if($lJournalId){
+			// echo '/login.php?redirurl=' . urlencode($lRedirUrl) . '&force_logout=1&u_autolog_hash=' . $lAutologinHash;
+		// exit;
 			$this->m_models['mJournal_Documents_Model'] = new mJournal_Documents_Model();
 			$lViewPageObjectsDataArray['contents'] = array(
 				'ctype' => 'evList_Display',
 				'name_in_viewobject' => 'journal_page',
 				'controller_data' => $this->m_models['mJournal_Documents_Model']->GetJournalHomeArticles($lJournalId),
+				'show_login_warning' => (int)$lShowLoginWarning,
+				'login_warning_text' => q(getstr('pjs.login_warning_text')),
+				'redirurl' => '/login.php?redirurl=' . urlencode($lRedirUrl) . '&force_logout=1&u_autolog_hash=' . $lAutologinHash . '&document_id=' . $lDocumentId . '&view_role=' . $lViewRole,
 			);
 			
 			$lViewPageObjectsDataArray['journal_features'] = array(
 				'ctype' => 'evList_Display',
 				'name_in_viewobject' => 'journal_features_templates',
 				'controller_data' => $this->m_models['mBrowse_Model']->GetJournalFeatures($lJournalId),
-				'journal_id' => $lJournalId
+				'journal_id' => $lJournalId,
 			);
 			$lViewPageObjectsDataArray['pagetitle'] = 'Biodiversity Data Journal';
 			$lViewPageObjectsDataArray['journal_id'] = $lJournalId;
