@@ -2134,6 +2134,8 @@ $STRARRAY = array(
 	'pwt.submit_document_btn' => 'Submit',
 	'pwt.document_ready_for_review_mail_subject' => 'Document is ready for review',
 	
+	'pwt.document_ready_for_submit_mail_subject' => 'pwt.document_ready_for_submit_mail_subject',
+	
 	'pwt.validation.missingSubjectClassification' => 'Subject classification is required for this type of document',
 	'pwt.validation.ChecklistTaxonRequired1' => 'pwt.validation.ChecklistTaxonRequired1',
 	'pwt.validation.identificationKeyKeyCoupletRequired' => 'pwt.validation.identificationKeyKeyCoupletRequired',
