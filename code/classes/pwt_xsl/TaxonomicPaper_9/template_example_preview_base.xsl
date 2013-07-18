@@ -6,6 +6,7 @@
 	<xsl:param  name="pShowPreviewCommentTip">1</xsl:param>
 	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
 	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
+	<xsl:param  name="pSiteUrl"></xsl:param>
 
 	<!-- Дали да генерира целия html или само фрагмент от него
 		т.е. дали да слага тагове htmk, head ...

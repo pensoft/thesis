@@ -304,8 +304,7 @@ function parseReferenceItemTitle($pTitle){
 }
 
 function customDateFormat($pDate){
-	preg_match('/(.*)-(.*)-(.*)T(.*)/', $pDate, $lMatch);
-	return $lMatch[3] . '-' . $lMatch[2] . '-' . $lMatch[1];
+	return str_replace('/', '-', $pDate);
 }
 
 function getFileNameById($pFileId) {

@@ -1062,6 +1062,11 @@ function transformXmlWithXsl($pXML, $pXSL, $pParameters = array(), $pFileLoad = 
 			return;
 		}
 	}
+	$pParameters[] = array(
+		'namespace' => null,
+		'name' => 'pSiteUrl',
+		'value' => SITE_URL,
+	);
 // 	var_dump($pXML, $pXSL);
 
 	$lXML->resolveExternals = true;
