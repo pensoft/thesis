@@ -3,8 +3,8 @@
  * A controller used to manage Tasks 
  * Tasks are created based on events
  * 
- * @author viktorp
- * @version 1.2
+ * @author victorp
+ * @version 1.2.1
  * 
  */
 class cTask_Manager extends cBase_Controller {
@@ -105,7 +105,14 @@ class cTask_Manager extends cBase_Controller {
 			$lSubject = $value['subject'];
 			
 			foreach ($lRecipientsData as $key1 => $value1) {
-				$lDataValuesToReplace = $this->m_taskModel->GetTemplateValuesForReplace((int)$value1['uid'], (int)$value['document_id'], $value['event_type_id'], $this->m_eventDataArr['ueventtoid'], $this->m_eventDataArr['role_id']);
+				$lDataValuesToReplace = $this->m_taskModel->GetTemplateValuesForReplace(
+					(int)$value1['uid'], 
+					(int)$value['document_id'], 
+					$value['event_type_id'], 
+					$this->m_eventDataArr['ueventtoid'], 
+					$this->m_eventDataArr['role_id'],
+					((int)$this->m_JournalId ? (int)$this->m_JournalId : $value['document_journal_id'])
+				);
 				$lDataValuesToReplace['user_role'] = (int)$value1['role_id'];
 				
 				$lTempl = $this->ReplaceEmailTaskTemplate($lTemplate, $lDataValuesToReplace);
@@ -202,6 +209,7 @@ class cTask_Manager extends cBase_Controller {
 		$role   = (int)$pDataToFromReplace['user_role'];
 		$u 		= SITE_URL; //JOURNAL_URL; OK until there is only 1 journal.
 		$a 		= '<a target="_blank" href="' . $u;
+		
 		$lDict = array(
 			'{site_url}' 			=> $u,
 			'{upass}'				=> $this->m_uPass,
@@ -228,6 +236,11 @@ class cTask_Manager extends cBase_Controller {
 			'{SE_tax_expertize}' 	=> $pDataToFromReplace['se_tax_expertize'],
 			'{SE_geo_expertize}' 	=> $pDataToFromReplace['se_geo_expertize'],
 			'{SE_sub_expertize}' 	=> $pDataToFromReplace['se_sub_expertize'],
+			'{SE_createusr_tax_expertize}' 	=> $pDataToFromReplace['se_createusr_tax_expertize'],
+			'{SE_createusr_geo_expertize}' 	=> $pDataToFromReplace['se_createusr_geo_expertize'],
+			'{SE_createusr_sub_expertize}' 	=> $pDataToFromReplace['se_createusr_sub_expertize'],
+			'{NomReview_due_days}'	=> $pDataToFromReplace['nomreview_due_days'],
+			'{PanReview_due_days}'	=> $pDataToFromReplace['panreview_due_days'],
 			'{site_href}' 			=> $a . '">'. $u .'</a>',
 			'{tasks_href}' 			=> $a . 'dashboard">Your tasks</a>',
 			'{document_editor_href}'=> $a . 'view_document.php?id=' . $doc_id . '&view_role=' . (int)JOURNAL_EDITOR_ROLE . '">' . $pDataToFromReplace['document_title'] . '</a>',
