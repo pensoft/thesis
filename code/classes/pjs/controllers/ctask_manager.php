@@ -91,10 +91,10 @@ class cTask_Manager extends cBase_Controller {
 	 */
 	private function CreateTask($pTaskDefinitions) {
 		$lTaskData = array();
-		//trigger_error('CreateTask() INNER DEBUG POINT', E_USER_NOTICE);
+		// trigger_error('CreateTask() INNER DEBUG POINT', E_USER_NOTICE);
 		foreach ($pTaskDefinitions as $key => $value) {
-			//trigger_error('RECIPIENTS: ' . $value['recipients'], E_USER_NOTICE);
-			//trigger_error('document_id: ' . $value['document_id'], E_USER_NOTICE);
+			// trigger_error('RECIPIENTS: ' . $value['recipients'], E_USER_NOTICE);
+			// trigger_error('document_id: ' . $value['document_id'], E_USER_NOTICE);
 			//trigger_error('document_journal_id: ' . $value['document_journal_id'], E_USER_NOTICE);
 			$lRecipientsData = $this->GetTaskRecipientsData($value['recipients'], $value['document_id'], $value['document_journal_id']);
 			$lUsersArr = array();
@@ -105,7 +105,7 @@ class cTask_Manager extends cBase_Controller {
 			$lSubject = $value['subject'];
 			
 			foreach ($lRecipientsData as $key1 => $value1) {
-				$lDataValuesToReplace = $this->m_taskModel->GetTemplateValuesForReplace((int)$value1['uid'], (int)$value['document_id'], $value['event_type_id']);
+				$lDataValuesToReplace = $this->m_taskModel->GetTemplateValuesForReplace((int)$value1['uid'], (int)$value['document_id'], $value['event_type_id'], $this->m_eventDataArr['ueventtoid'], $this->m_eventDataArr['role_id']);
 				$lDataValuesToReplace['user_role'] = (int)$value1['role_id'];
 				
 				$lTempl = $this->ReplaceEmailTaskTemplate($lTemplate, $lDataValuesToReplace);
@@ -125,9 +125,10 @@ class cTask_Manager extends cBase_Controller {
 			$lUserTemplArrString = 'ARRAY[' . implode(",", $lUserTemplArr) . ']';
 			$lUserSubjArrString = 'ARRAY[' . implode(",", $lUserSubjArr) . ']';
 			
-			//trigger_error('$lUsersArrString: ' . $lUsersArrString, E_USER_NOTICE);
-			//trigger_error('$lUsersRoleArrString: ' . $lUsersRoleArrString, E_USER_NOTICE);
-			//trigger_error('$lUserTemplArrString: ' . $lUserTemplArrString, E_USER_NOTICE);
+			// trigger_error('$lUsersArrString: ' . $lUsersArrString, E_USER_NOTICE);
+			// trigger_error('$lUsersRoleArrString: ' . $lUsersRoleArrString, E_USER_NOTICE);
+			// trigger_error('$lUserTemplArrString: ' . $lUserTemplArrString, E_USER_NOTICE);
+			// trigger_error('cc: ' . $value['cc'], E_USER_NOTICE);
 			
 			$lTaskData = $this->m_taskModel->CreateTask(
 				(int)$this->m_eventId, 
@@ -136,7 +137,8 @@ class cTask_Manager extends cBase_Controller {
 				$lUserTemplArrString, 
 				$lUsersRoleArrString, 
 				$value['is_automated'], 
-				$lUserSubjArrString
+				$lUserSubjArrString,
+				$value['cc']
 			);
 		}
 	} 
@@ -217,6 +219,15 @@ class cTask_Manager extends cBase_Controller {
 			'{journal_signature}' 	=> $pDataToFromReplace['journal_signature'],
 			'{user_role}' 			=> $pDataToFromReplace['user_role'],
 			'{journal_id}' 			=> $pDataToFromReplace['journal_id'],
+			'{SE_first_name}' 		=> $pDataToFromReplace['se_first_name'],
+			'{SE_last_name}' 		=> $pDataToFromReplace['se_last_name'],
+			'{SE_usr_title}' 		=> $pDataToFromReplace['se_usr_title'],
+			'{R_first_name}' 		=> $pDataToFromReplace['r_first_name'],
+			'{R_last_name}' 		=> $pDataToFromReplace['r_last_name'],
+			'{R_usr_title}' 		=> $pDataToFromReplace['r_usr_title'],
+			'{SE_tax_expertize}' 	=> $pDataToFromReplace['se_tax_expertize'],
+			'{SE_geo_expertize}' 	=> $pDataToFromReplace['se_geo_expertize'],
+			'{SE_sub_expertize}' 	=> $pDataToFromReplace['se_sub_expertize'],
 			'{site_href}' 			=> $a . '">'. $u .'</a>',
 			'{tasks_href}' 			=> $a . 'dashboard">Your tasks</a>',
 			'{document_editor_href}'=> $a . 'view_document.php?id=' . $doc_id . '&view_role=' . (int)JOURNAL_EDITOR_ROLE . '">' . $pDataToFromReplace['document_title'] . '</a>',

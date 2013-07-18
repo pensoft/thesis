@@ -71,6 +71,7 @@ $gTemplArr = array(
   </tbody>
 </table>
 			<!--	<h1 class="dashboard-title withoutBorder">Recent publications</h1>
+			
 	',
 	'journals.journal_documents_row' => '
 					
@@ -107,6 +108,13 @@ $gTemplArr = array(
 	',
 	'journals.journal_documents_foot' => '-->
 				</div>
+				<script>
+					$(document).ready(function() {
+					  if({show_login_warning} == 1) {
+					  	showLoginWarningMessage(\'{redirurl}\', \'{login_warning_text}\');
+					  }
+					});
+				</script>
 	',
 	'journals.journal_documents_empty' => 'No Documents.',
 );

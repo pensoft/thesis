@@ -219,6 +219,18 @@ class mLogin_Model extends emBase_Model {
 		return $lResult;
 	}
 
+	function CheckUserAutologinHash($pUserId, $pHash) {
+		$lIsUserHash = 0;
+		$lCon = $this->m_con;
+		$lSql = 'SELECT id FROM usr WHERE autolog_hash = \'' . $pHash . '\'';
+		
+		$lCon->Execute($lSql);
+		if($lCon->mRs['id'] == (int)$pUserId) {
+			$lIsUserHash = 1;	
+		}
+		return $lIsUserHash;
+	}
+
 }
 
 ?>

@@ -287,9 +287,11 @@ function DocumentInviteReviewers(pDocumentId, pRole){
 	}
 }
 
-function SEConfirmReviewerInvitation(pInvitationId){
+function SEConfirmReviewerInvitation(pDocumentId, pInvitationId, pReviewerId){
 	return ExecuteSimpleDocumentAjaxRequest({
 		invitation_id : pInvitationId,
+		reviewer_id : pReviewerId,
+		document_id : pDocumentId,
 		action : 'se_confirm_reviewer_invitation'
 	});
 }
@@ -1963,4 +1965,23 @@ function GeneratePDFPreview(pVersionId) {
 	document.location.href = gGeneratePDFAjaxSrv + '?version_id=' + pVersionId + '&readonly_preview=1';
 	$('#P-Ajax-Loading-Image-Main').hide();
 	return;
+}
+
+function ShowHideLabel(pElem, pLabel) {
+	var lElemVal = $(pElem).val();
+	if(lElemVal == '') {
+		$(pLabel).show();
+	} else {
+		$(pLabel).hide();
+	}
+}
+
+function HideLabel(pElem, pLabel) {
+	$(pLabel).hide();
+}
+
+function showLoginWarningMessage(pRedirUrl, pWarning) {
+	if(confirm(pWarning)){
+		window.location = pRedirUrl;
+	}
 }

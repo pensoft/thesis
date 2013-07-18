@@ -378,6 +378,8 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 				$this->m_errCnt = $this->m_action_result['err_cnt'];
 				$this->m_errMsgs = $this->m_action_result['err_msgs'];
 			} else {
+				$lArrEvents = array();
+				
 				/**
 				 * Manage event task (submitting new document)
 				 */
@@ -385,7 +387,18 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 					'event_id' => (int)$this->m_action_result['event_id'],
 				));
 				$lTaskObj->Display();
-				$this->m_eventsParamString = 'event_id[]=' . (int)$this->m_action_result['event_id'];
+				
+				$lArrEvents[] = (int)$this->m_action_result['event_id'];
+			
+				if((int)$this->m_action_result['event_id_sec']) {
+					$lTaskObj = new cTask_Manager(array(
+						'event_id' => (int)$this->m_action_result['event_id_sec'],
+					));
+					$lTaskObj->Display();	
+					$lArrEvents[] = (int)$this->m_action_result['event_id_sec'];
+				}
+				 
+				$this->m_eventsParamString = 'event_id[]=' . implode("&event_id[]=", $lArrEvents);
 			}
 
 		}catch(Exception $lException){
@@ -422,13 +435,17 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 				));
 				$lTaskObj->Display();
 			
+				$lArrEvents[] = (int)$this->m_action_result['event_id'];
+			
 				if((int)$this->m_action_result['event_id_sec']) {
 					$lTaskObj = new cTask_Manager(array(
 						'event_id' => (int)$this->m_action_result['event_id_sec'],
 					));
 					$lTaskObj->Display();	
+					$lArrEvents[] = (int)$this->m_action_result['event_id_sec'];
 				}
-			
+				 
+				$this->m_eventsParamString = 'event_id[]=' . implode("&event_id[]=", $lArrEvents);
 			}
 
 		}catch(Exception $lException){

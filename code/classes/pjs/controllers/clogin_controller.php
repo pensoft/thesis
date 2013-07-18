@@ -4,6 +4,7 @@ class cLogin_Controller extends cBase_Controller {
 
 	function __construct() {
 		global $rewrite;
+		global $user;
 		parent::__construct();
 
 		$pViewPageObjectsDataArray = array();
@@ -17,13 +18,24 @@ class cLogin_Controller extends cBase_Controller {
 
 		$lDocumentId = $this->GetValueFromRequestWithoutChecks('document_id');
 		$lRoleId = $this->GetValueFromRequestWithoutChecks('view_role');
+		$lForceLogout = (int)$this->GetValueFromRequestWithoutChecks('force_logout');
+		
+		if(!$lForceLogout && $lAutologinHash && $user->id) {
+			$lLoginModel = new mLogin_Model();
+			$lCheckUserAutologinHash = $lLoginModel->CheckUserAutologinHash($user->id, $lAutologinHash); 
+			
+			if(!$lCheckUserAutologinHash) {
+				header('Location: /journals.php?journal_id=1&show_login_warning=1&u_autolog_hash=' . $lAutologinHash . '&redirurl=' . $lRedirUrl . '&document_id=' . $lDocumentId . '&view_role=' . $lRoleId);
+				exit;
+			}
+		}
 
 		if(!$lRedirUrl){
 			$lRedirUrl = '/index.php';
 		}
 
 		//If the user has requested to be logged out - perform logout
-		if((int)$lLogout){
+		if((int)$lLogout || $lForceLogout){
 			global $COOKIE_DOMAIN;
 
 			if(isset($_SESSION['regstep']))  unset($_SESSION['regstep']);
@@ -32,7 +44,12 @@ class cLogin_Controller extends cBase_Controller {
 			if(isset($_SESSION['confhash'])) unset($_SESSION['confhash']);
 			if(isset($_COOKIE['h_cookie'])) setcookie('h_cookie', '', time() - 3600, '/', $COOKIE_DOMAIN);
 
-			$lAutologinCookieUrl = '/set_pwt_cookie.php?logout=1&redirurl=' . $lRedirUrl;
+			if($lForceLogout) {
+				$lRedirUrl = '/login.php?u_autolog_hash=' . $lAutologinHash . '&document_id=' . $lDocumentId . '&view_role=' . $lRoleId;
+			}
+
+			$lAutologinCookieUrl = '/set_pwt_cookie.php?logout=1&redirurl=' . urlencode($lRedirUrl);
+			
 			$this->UnlogUser($lAutologinCookieUrl);
 		}
 

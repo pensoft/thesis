@@ -836,7 +836,7 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 		switch ((int) $pReviewerState) {
 			case REVIEWER_INVITATION_NEW_STATE :
 				$lRes .= '
-					<span class="reviewer_act"><a href="javascript:void(0)" onclick="ConfirmReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ')"><img src="../i/review_accepted.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SEConfirmReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ')"><img src="../i/review_accepted.png"></img></a></span>
 					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ')"><img src="../i/remove_reviewer.png"></img></a></span>
 				';
 				break;

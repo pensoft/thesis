@@ -9,7 +9,8 @@ CREATE TYPE ret_spGetTaskDefinition AS (
 	content_template varchar,
 	recipients int[],
 	document_journal_id int,
-	document_id bigint
+	document_id bigint,
+	cc varchar
 );
 
 CREATE OR REPLACE FUNCTION spgettaskdefinition(pJournalId int, pdocumentid bigint, peventid bigint)
@@ -40,13 +41,15 @@ $BODY$
 				lRes.subject, 
 				lRes.content_template, 
 				lRes.recipients,
-				lRes.is_automated
+				lRes.is_automated,
+				lRes.cc
 				
 				id, 
 				subject, 
 				content_template, 
 				coalesce(recipients, NULL),
-				is_automated
+				is_automated,
+				cc
 			FROM pjs.email_task_definitions 
 			WHERE parent_id = lRecord.id
 				AND event_type_id = lEventType
@@ -54,6 +57,7 @@ $BODY$
 			
 			IF(lRes.id IS NULL) THEN
 				lRes.id  := lRecord.id;
+				lRes.cc := lRecord.cc;
 			END IF;
 			
 			IF(lRes.subject IS NULL) THEN
