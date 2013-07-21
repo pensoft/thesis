@@ -10,19 +10,13 @@ $gTemplArr = array(
 				{to}
 			</div>
 			<div class="P-Clear"></div>
-			
-			<div class="input-reg-title">{*cc} <span class="txtred">*</span></div>
-			<div class="P-Input-Full-Width P-W100 fieldHolder">
-				{cc}
-			</div>
-			<div class="P-Clear"></div>
-			
 			<div class="input-reg-title">{*subject} <span class="txtred">*</span></div>
 			<div class="P-Input-Full-Width P-W100 fieldHolder">
 				{subject}
 			</div>
 			<div class="P-Clear"></div>
-			<div class="P-Input-Full-Width P-W100 fieldHolder Tasks-PopUp-Content-Area">
+			<div class="P-Input-Full-Width P-W100 fieldHolder Tasks-PopUp-Content-Area with-label">
+				<label id="content_label" for="content">{_getstr(pjs.template_notes_label)}</label>
 				{template_notes}
 			</div>
 			<div class="P-Clear"></div>
@@ -34,6 +28,7 @@ $gTemplArr = array(
 		{_showEditTaskActionButtons(state_id, recipients_count)}
 		<script>
 			$(\'.' . HIDDEN_EMAIL_ELEMENT . '\').remove();
+			ShowHideLabel($(\'#content\'), \'#content_label\');
 		</script>
 	',
 	
@@ -46,13 +41,6 @@ $gTemplArr = array(
 				{to}
 			</div>
 			<div class="P-Clear"></div>
-			
-			<div class="input-reg-title">{*cc} <span class="txtred">*</span></div>
-			<div class="P-Input-Full-Width P-W100 fieldHolder">
-				{cc}
-			</div>
-			<div class="P-Clear"></div>
-			
 			<div class="input-reg-title">{*subject} <span class="txtred">*</span></div>
 			<div class="P-Input-Full-Width P-W100 fieldHolder">
 				{subject}

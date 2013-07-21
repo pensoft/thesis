@@ -1997,14 +1997,15 @@ $STRARRAY = array(
 	'pjs.showproceedbtnround2_text' => "You can edit/comment on author's revised version and take your editorial decision.",
 	
 	'pjs.decision_button_text_closed_peer_in_due_date_round_1' => '
-		To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.<br />
+		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />
 		You can do this after at least %s nominated reviewer has submitted a review and there are no pending reviews/requests.<br />
 		If a nominated reviewer fails to complete a task on time, you may cancel it.',	
 	'pjs.decision_button_text_closed_peer_not_in_due_date_round_1' => 'To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.',
 	
 	'pjs.decision_button_text_community_public_peer_in_due_date_round_1' => '
-		To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.<br />
-		You can proceed with your decision after the due date for panel review has passedd, at least 1 nominated reviewer has submitted a review and there are no pending reviews/requests.<br />
+		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />
+		You may add your own corrections/comments on the merged reviewer’s version.<br />
+		You can proceed with your decision after the due date for panel review has passed, at least 1 nominated reviewer has submitted a review and there are no pending reviews/requests.<br />
 		If a nominated reviewer fails to complete a task on time, you may cancel it.',
 	'pjs.decision_button_text_community_public_peer_not_in_due_date_round_1' => 'To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.',
 	
@@ -2074,17 +2075,17 @@ $STRARRAY = array(
 	/* COMMUNITY PEER keys */
 	
 	'pjs.community_peer_review_to_proceed_round_1' => "
-		To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.<br /><br />
-		You can proceed with your decision after the due date for panel review has passed,<br /> at least 1 nominated reviewer has submitted a review and<br /> there are no pending reviews/requests.<br /><br />
-		If a nominated reviewer fails to complete a task on time, you may cancel it.<br /><br />",
+		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />You may add your own corrections/comments on the merged reviewer’s version.<br /><br />
+		You can proceed with your decision after the deadline for panel reviewers,<br /> at least 1 nominated reviewer has submitted a review and<br /> there are no pending reviews/requests.<br /><br />
+		If a nominated reviewer fails to complete a task on time, you may cancel the review request.<br /><br />",
 	'pjs.community_peer_review_take_decision_round_1' => "pjs.community_peer_review_take_decision_round_1",
 	'pjs.community_peer_review_speedup_round_1' => "pjs.community_peer_review_speedup_round_1",
 	'pjs.community_peer_review_take_decision_without_reviewers_round_1' => "pjs.community_peer_review_take_decision_without_reviewers_round_1",
 	
 	'pjs.community_peer_review_to_proceed_round_2' => "
-		To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.<br /><br />
-		You can proceed with your decision after the at least 1 nominated reviewer has submitted a review and there are no pending reviews/requests.<br /><br />
-		If a nominated reviewer fails to complete a task on time, you may cancel it.<br /><br />",
+		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />You may add your own corrections/comments on the merged reviewer’s version.<br /><br />
+		You can proceed with your decision after at least 1 nominated reviewer has submitted a review and there are no pending reviews/requests.<br /><br />
+		If a nominated reviewer fails to complete a task on time, you may cancel the review request.<br /><br />",
 	'pjs.community_peer_review_take_decision_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
 	'pjs.community_peer_review_speedup_round_2' => "pjs.community_peer_review_speedup_round_2",
 	'pjs.community_peer_review_take_decision_without_reviewers_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
@@ -2134,11 +2135,16 @@ $STRARRAY = array(
 	'pwt.submit_document_btn' => 'Submit',
 	'pwt.document_ready_for_review_mail_subject' => 'Document is ready for review',
 	
+	'pwt.document_ready_for_submit_mail_subject' => 'pwt.document_ready_for_submit_mail_subject',
+	
 	'pwt.validation.missingSubjectClassification' => 'Subject classification is required for this type of document',
 	'pwt.validation.ChecklistTaxonRequired1' => 'pwt.validation.ChecklistTaxonRequired1',
 	'pwt.validation.identificationKeyKeyCoupletRequired' => 'pwt.validation.identificationKeyKeyCoupletRequired',
 	'pwt.validation.atLeastOneFieldRequiredInWebLocations' => 'pwt.validation.atLeastOneFieldRequiredInWebLocations',
 	'pwt.validation.usageRightsNotesisRequired' => 'pwt.validation.usageRightsNotesisRequired',
 	'pwt.validation.projectDescriptionAtLeasOneFieldRequired' => 'pwt.validation.projectDescriptionAtLeasOneFieldRequired',
+	
+	'pjs.template_notes_label' => 'You may enter a personal message to the recipient here.',
+	'pjs.login_warning_text' => 'If you continue you will lost your unsaved data. Please be sure to save your data...',
 );
 ?>

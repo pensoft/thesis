@@ -189,16 +189,16 @@ class cTasksPopUp_Controller extends cBase_Controller {
 					'id' => 'to',
 				),
 			),
-			'cc' => array(
-				'CType' => 'text',
-				'VType' => 'string',
-				'AllowNulls' => true,
-				'DisplayName' => 'CC',
-				'AddTags' => array(
-					'id' => 'cc',
-					'onblur' => 'saveFld(\'#task_detail_id\', this)',
-				),
-			),
+			//~ 'cc' => array(
+				//~ 'CType' => 'text',
+				//~ 'VType' => 'string',
+				//~ 'AllowNulls' => true,
+				//~ 'DisplayName' => 'CC',
+				//~ 'AddTags' => array(
+					//~ 'id' => 'cc',
+					//~ 'onblur' => 'saveFld(\'#task_detail_id\', this)',
+				//~ ),
+			//~ ),
 			'bcc' => array(
 				'CType' => 'text',
 				'VType' => 'string',
@@ -237,7 +237,8 @@ class cTasksPopUp_Controller extends cBase_Controller {
 				'DisplayName' => 'Content',
 				'AddTags' => array(
 					'id' => 'content',
-					'onblur' => 'saveFld(\'#task_detail_id\', this)',
+					'onblur' => 'ShowHideLabel(this, \'#content_label\'); saveFld(\'#task_detail_id\', this);',
+					'onfocus' => 'HideLabel(this, \'#content_label\')',
 				),
 			),
 			
@@ -247,7 +248,6 @@ class cTasksPopUp_Controller extends cBase_Controller {
 					etd.id as task_detail_id, 
 					etd.template as template,
 					etd.template_notes as template_notes,
-					etd.cc,
 					etd.bcc,
 					etd.subject,
 					etd.state_id,
@@ -262,7 +262,7 @@ class cTasksPopUp_Controller extends cBase_Controller {
 				'CType' => 'action',
 				'Hidden' => true,
 				'DisplayName' => 'Send and Next',
-				'SQL' => 'UPDATE pjs.email_task_details SET state_id = ' . (int)TASK_DETAIL_READY_STATE_ID . ', cc = {cc}, template_notes = {template_notes} WHERE id = {task_detail_id} /*{reviewers_email_flag}{document_id}{role_redirect}*/',
+				'SQL' => 'UPDATE pjs.email_task_details SET state_id = ' . (int)TASK_DETAIL_READY_STATE_ID . ', template_notes = {template_notes} WHERE id = {task_detail_id} /*{reviewers_email_flag}{document_id}{role_redirect}*/',
 				'ActionMask' => ACTION_CHECK | ACTION_CCHECK | ACTION_EXEC | ACTION_FETCH,
 			),
 			

@@ -13,7 +13,8 @@ CREATE OR REPLACE FUNCTION spCreateTaskDetail(
 	pURoles int[],
 	pTaskId bigint,
 	pManual boolean,
-	pSubject varchar[]
+	pSubject varchar[],
+	pCC varchar
 )
   RETURNS int AS
 $BODY$
@@ -32,14 +33,14 @@ $BODY$
 				lURole = pURoles[i];
 			END IF;
 			
-			INSERT INTO pjs.email_task_details(email_task_id, uid, state_id, template, role_id, subject) VALUES(pTaskId, pUids[i], lTaskDetailStateId, pTemplates[i], lURole, pSubject[i]);
+			INSERT INTO pjs.email_task_details(email_task_id, uid, state_id, template, role_id, subject, cc) VALUES(pTaskId, pUids[i], lTaskDetailStateId, pTemplates[i], lURole, pSubject[i], pCC);
 		END LOOP; 
 		
 		RETURN 1;
 	END
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE SECURITY DEFINER;
-ALTER FUNCTION spCreateTaskDetail(varchar[], int[], int[], bigint, boolean, varchar[]) OWNER TO postgres;
-GRANT EXECUTE ON FUNCTION spCreateTaskDetail(varchar[], int[], int[], bigint, boolean, varchar[]) TO postgres;
-GRANT EXECUTE ON FUNCTION spCreateTaskDetail(varchar[], int[], int[], bigint, boolean, varchar[]) TO iusrpmt;
-GRANT EXECUTE ON FUNCTION spCreateTaskDetail(varchar[], int[], int[], bigint, boolean, varchar[]) TO pensoft;
+ALTER FUNCTION spCreateTaskDetail(varchar[], int[], int[], bigint, boolean, varchar[], varchar) OWNER TO postgres;
+GRANT EXECUTE ON FUNCTION spCreateTaskDetail(varchar[], int[], int[], bigint, boolean, varchar[], varchar) TO postgres;
+GRANT EXECUTE ON FUNCTION spCreateTaskDetail(varchar[], int[], int[], bigint, boolean, varchar[], varchar) TO iusrpmt;
+GRANT EXECUTE ON FUNCTION spCreateTaskDetail(varchar[], int[], int[], bigint, boolean, varchar[], varchar) TO pensoft;

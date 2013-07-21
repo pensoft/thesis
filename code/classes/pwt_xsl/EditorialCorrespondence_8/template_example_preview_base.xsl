@@ -11,6 +11,7 @@
 	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
 	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
 	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
+	<xsl:param  name="pSiteUrl"></xsl:param>
 
 	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
 	

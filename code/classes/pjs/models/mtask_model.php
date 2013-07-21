@@ -7,7 +7,7 @@
  */
 class mTask_Model extends emBase_Model {
 
-	function CreateTask($pEventId, $pTaskDefinitionId, $pArrStringUsers, $pArrStringTemplates, $pArrStringUsersRole, $pIsAutomate, $pArrStringSubjects){
+	function CreateTask($pEventId, $pTaskDefinitionId, $pArrStringUsers, $pArrStringTemplates, $pArrStringUsersRole, $pIsAutomate, $pArrStringSubjects, $pCC){
 		$lCon = $this->m_con;
 		$lResult = array(
 			'err_cnt' => 0,
@@ -21,7 +21,7 @@ class mTask_Model extends emBase_Model {
 		$lSql = '
 			BEGIN;
 				INSERT INTO pjs.email_tasks(task_definition_id, event_id, state_id, createdate) VALUES(' . $pTaskDefinitionId . ', ' . $pEventId . ', 1, now());
-				SELECT * FROM spCreateTaskDetail(' . $pArrStringTemplates . ', ' . $pArrStringUsers . ', ' . $pArrStringUsersRole . ', currval(\'pjs.email_tasks_id_seq\'), ' . $pIsAutomate . ', ' . $pArrStringSubjects . ');
+				SELECT * FROM spCreateTaskDetail(' . $pArrStringTemplates . ', ' . $pArrStringUsers . ', ' . $pArrStringUsersRole . ', currval(\'pjs.email_tasks_id_seq\'), ' . $pIsAutomate . ', ' . $pArrStringSubjects . ', \'' . q($pCC) . '\');
 			COMMIT;
 		';
 
@@ -153,12 +153,21 @@ class mTask_Model extends emBase_Model {
 	 * 
 	 * @return array()
 	 */
-	function GetTemplateValuesForReplace($pUid, $pDocumentId, $pEventTypeId) {
+	function GetTemplateValuesForReplace($pUid, $pDocumentId, $pEventTypeId, $pUsrIdEventTo, $pUsrRoleEventTo, $pJournalID) {
 		$lCon = $this->m_con;
 		$lResult = array();
 		
-		$lSql = 'SELECT * FROM pjs."spGetTemplateValuesForReplace"(' . (int)$pUid . ', ' . (int)$pDocumentId . ', ' . (int)$pEventTypeId . ')';
-		
+		$lSql = '
+			SELECT * 
+			FROM pjs."spGetTemplateValuesForReplace"(
+				' . (int)$pUid . ', 
+				' . (int)$pDocumentId . ', 
+				' . (int)$pEventTypeId . ', 
+				' . (int)$pUsrIdEventTo . ', 
+				' . (int)$pUsrRoleEventTo . ',
+				' . (int)$pJournalID . '
+			)
+		';
 		$lCon->Execute($lSql);
 		$lResult = $lCon->mRs;
 		

@@ -32,6 +32,7 @@ $BODY$
 		lSEUsrId bigint;
 		cCanProceedEventType CONSTANT int := 38;
 		cSERoleId CONSTANT int := 3;
+		lReviewerUId int;
 	BEGIN		
 		
 		lDedicatedReviewerRoleId = 5;		
@@ -54,7 +55,6 @@ $BODY$
 		) THEN
 			RAISE EXCEPTION 'pjs.youCantPerformThisAction';
 		END IF;
-				
 		
 		UPDATE pjs.document_review_round_users SET 
 			decision_id = pDecisionId,
@@ -79,8 +79,13 @@ $BODY$
 			SELECT INTO lRes.event_id_sec event_id FROM spCreateEvent(lAllReviewsSubmittedEventType, pDocumentId, pUid, lJournalId, null, null);
 		END IF;
 
+		SELECT INTO lReviewerUId du.uid
+		FROM pjs.document_review_round_users drru 
+		JOIN pjs.document_users du ON du.id = drru.document_user_id
+		WHERE drru.id = pRoundUserId;
+		
 		-- submitted review event
-		SELECT INTO lRes.event_id event_id FROM spCreateEvent(lReviewerSubmittedReviewEventType, pDocumentId, pUid, lJournalId, null, null);
+		SELECT INTO lRes.event_id event_id FROM spCreateEvent(lReviewerSubmittedReviewEventType, pDocumentId, pUid, lJournalId, lReviewerUId, lDedicatedReviewerRoleId);
 		SELECT INTO lCanProceedFlag can_proceed FROM pjs.document_review_rounds WHERE id = lCurrentRoundId;
 	
 		-- check SE can take decision and enough reviewers assigned

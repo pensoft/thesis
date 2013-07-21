@@ -5,6 +5,7 @@
 	<xsl:param  name="pMarkContentEditableFields">0</xsl:param>
 	<xsl:param  name="pShowPreviewCommentTip">1</xsl:param>
 	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
+	<xsl:param  name="pSiteUrl"></xsl:param>
 
 	<xsl:key name="materialType" match="*[@object_id='37']" use="./*/fields/*[@id='209']/value/@value_id"></xsl:key>
 	<!-- Дали да генерира целия html или само фрагмент от него
