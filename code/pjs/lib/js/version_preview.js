@@ -61,7 +61,7 @@ function DisableChangeTracking(){
 }
 
 function EnableFigureTracking(){
-	gTrackFigures = 1;
+	gTrackFigures = 0;
 }
 
 

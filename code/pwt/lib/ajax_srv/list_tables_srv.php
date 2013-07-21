@@ -10,21 +10,23 @@ $lResult = array(
 );
 
 if($gDocumentId){
-	$lTables = new crs(
-		array(
-			'ctype'=>'crs',
-			'document_id' => $gDocumentId,
-			'templs'=>array(
-				G_HEADER=>'global.empty',
-				G_ROWTEMPL=>'tables.document_tables_row_baloon',
-				G_FOOTER =>'global.empty',
-				G_NODATA =>'tables.empty_row',
-			),
-			'sqlstr'=> 'SELECT * FROM pwt.tables WHERE document_id = ' . $gDocumentId . ' ORDER BY move_position',
-		)
-	);
-	$lTables->GetData();
-	$lResult['html'] = $lTables->Display();
+	$gObjects = new cdocument_tables(array(
+		'ctype' => 'cdocument_tables',
+		'document_id' => $gDocumentId,
+		'templs' => array(
+			G_HEADER => 'global.empty',
+			G_ROWTEMPL => 'tables.single_table_preview',
+			G_FOOTER => 'global.empty',
+			G_NODATA => 'tables.empty_row'
+		),
+		'sqlstr' => '
+				SELECT *, instance_id as id
+				FROM spGetDocumentTables(' . (int) $gDocumentId . ')
+				ORDER BY pos ASC
+			'
+	));
+	$gObjects->GetData();
+	$lResult['html'] = $gObjects->Display();
 	displayAjaxResponse($lResult);
 }
 ?>

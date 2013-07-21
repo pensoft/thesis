@@ -27,17 +27,29 @@ DECLARE
 	lTemp xml[];
 	
 	lPJSActionImportMode int = 3;
+	lFieldsQuery text = './fields/*[@id > 0]';
+	lInstanceQuery text = './*[@instance_id > 0]';
 BEGIN
+	lRes.result = 1;
+	
 	
 	--Update all the fields of the current object
 	lTemp = xpath('@instance_id', pInstanceXml);
-	lInstanceId = lTemp[1]::text::int;		
+	lInstanceId = lTemp[1]::text::bigint;		
 	
-	lFields = xpath('./fields/*[@id > 0]', pInstanceXml);
+	IF NOT EXISTS(SELECT * 
+		FROM pwt.document_object_instances 
+		WHERE id = lInstanceId AND document_id = pDocumentId
+	) THEN
+		RETURN lRes;
+	END IF;
+	
+	lFields = xpath(lFieldsQuery, pInstanceXml);
 	FOR lIterFields IN 
 		1 .. coalesce(array_upper(lFields, 1), 0) 
 	LOOP
-		lCurrentField = lFields[lIterFields];	
+		--lCurrentField = lFields[lIterFields];
+		lCurrentField = xpath_nodeset(pInstanceXml::text, lFieldsQuery || '[' || lIterFields || ']');
 		lTemp = xpath('@id', lCurrentField);
 		lFieldId = lTemp[1]::text::int;	
 		--RAISE NOTICE 'Instance % Field % Value %', lInstanceId, lFieldId, lCurrentField;
@@ -48,11 +60,12 @@ BEGIN
 	PERFORM spPerformInstancesSqlSaveActions(pUid, ARRAY[lInstanceId]::int[], lPJSActionImportMode);
 	
 	--Update all the Sub instances
-	lSubInstances = xpath('./*[@instance_id > 0]', pInstanceXml);	
+	lSubInstances = xpath(lInstanceQuery, pInstanceXml);	
 	FOR lIterInstances IN 
 		1 .. coalesce(array_upper(lSubInstances, 1), 0) 
-	LOOP
-		lCurrentInstance = lSubInstances[lIterInstances];	
+	LOOP		
+		-- lCurrentInstance = lSubInstances[lIterInstances];
+		lCurrentInstance = xpath_nodeset(pInstanceXml::text, lInstanceQuery || '[' || lIterInstances || ']');
 		PERFORM spImportPjsDocumentInstance(pDocumentId, lCurrentInstance, pUid);
 	END LOOP;
 	
@@ -60,7 +73,7 @@ BEGIN
 	PERFORM spPerformInstancesSqlSaveActionsAfterSubobjWithProp(pUid, ARRAY[lInstanceId]::int[], lPJSActionImportMode);
 	PERFORM spPerformInstancesSqlSaveActionsAfterSubobjWithoutProp(pUid, ARRAY[lInstanceId]::int[], lPJSActionImportMode);
 	
-	lRes.result = 1;
+	
 	RETURN lRes;
 	
 END

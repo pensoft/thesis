@@ -278,9 +278,9 @@ CKEDITOR.plugins.add('figs', {
 					$('#' + editor.m_figuresHolderId).find('.P-PopUp-Checkbox-Holder, .P-Figure-InsertOnly').each(function() {
 						var lCheck = $(this).find(':checkbox');
 						lCheck.change(function() {
-							if ($(this).is(':checked') && $(this).attr('figtype') != 1) {
+							if ($(this).is(':checked')) {
 								lFiguresObject.addFigure($(this).val());
-							} else if ($(this).attr('figtype') != 1) {
+							} else{
 								lFiguresObject.removeFigure($(this).val());
 							}
 						});
@@ -298,9 +298,9 @@ CKEDITOR.plugins.add('figs', {
 										if ($(this).val() == lChild.getAttribute('rid')) {
 											$(this).attr('checked', 'checked');
 										}
-										if ($(this).is(':checked') && $(this).attr('figtype') != 1) {
+										if ($(this).is(':checked')) {
 											lFiguresObject.addFigure($(this).val());
-										} else if ($(this).attr('figtype') != 1) {
+										} else {
 											lFiguresObject.removeFigure($(this).val());
 										}
 									});
@@ -354,8 +354,7 @@ CKEDITOR.plugins.add('figs', {
 					onClick : function() {
 						gCurrentDialog = CKEDITOR.dialog.getCurrent();
 						gCurrentDialog.hide();
-						ChangeFiguresForm('image', GetDocumentId(), 'P-PopUp-Content-Inner', 0, 2, 0, 0, 1);
-						popUp(POPUP_OPERS.open, 'add-figure-popup', 'add-figure-popup');
+						CreateNewFigurePopup(1, 1);						
 					}
 				}, {
 					id : 'closeDialog',

@@ -316,7 +316,7 @@ CKEDITOR.plugins.add('tbls', {
 					onClick : function() {
 						gCurrentDialog = CKEDITOR.dialog.getCurrent();
 						gCurrentDialog.hide();
-						ShowAddTablePopup(GetDocumentId(), 'add-table-popup', 1);
+						CreateNewTablePopup(1);	
 						// popUp(POPUP_OPERS.open, 'add-table-popup',
 						// 'add-table-popup');
 					}
