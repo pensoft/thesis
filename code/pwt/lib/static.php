@@ -1062,6 +1062,11 @@ function transformXmlWithXsl($pXML, $pXSL, $pParameters = array(), $pFileLoad = 
 			return;
 		}
 	}
+	$pParameters[] = array(
+		'namespace' => null,
+		'name' => 'pSiteUrl',
+		'value' => SITE_URL,
+	);
 // 	var_dump($pXML, $pXSL);
 
 	$lXML->resolveExternals = true;
@@ -3965,7 +3970,7 @@ function displayTopRightButtons( $pIsLocked = 0, $pPreviewMode = 0, $pDocumentId
 	}
 	if( (int)$pPreviewMode ){
 		if( !(int)$pIsLocked ){
-			$lRet = '<div class="P-Grey-Btn-Holder P-Edit" onclick="window.location=\'' . $lRetLink . '\';return false;"><div class="P-Grey-Btn-Left"></div><div class="P-Grey-Btn-Middle" style="width: 60px;"><div class="P-Btn-Icon"></div>Edit</div><div class="P-Grey-Btn-Right"></div></div>';
+			$lRet = '<div class="P-Grey-Btn-Holder P-Edit" onclick="window.location=\'' . $lRetLink . '\';return false;"><div class="P-Grey-Btn-Left"></div><div class="P-Grey-Btn-Middle" style="width: 110px;"><div class="P-Btn-Icon"></div>Advanced edit</div><div class="P-Grey-Btn-Right"></div></div>';
 		}
 	}else{
 		$lRet = '<span class="P-SaveBtn"><input class="save_btn" type="submit" value="" onclick="showLoading();$(\'form#document_form\').submit();" /></span>

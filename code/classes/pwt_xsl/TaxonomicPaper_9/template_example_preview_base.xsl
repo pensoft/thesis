@@ -6,6 +6,7 @@
 	<xsl:param  name="pShowPreviewCommentTip">1</xsl:param>
 	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
 	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
+	<xsl:param  name="pSiteUrl"></xsl:param>
 
 	<!-- Дали да генерира целия html или само фрагмент от него
 		т.е. дали да слага тагове htmk, head ...
@@ -847,9 +848,10 @@
 			<xsl:if test="./*[@object_id='180' or @object_id='220']/fields/*[@id='48'] != '' and 
 						  ./*[@object_id='180' or @object_id='220']/fields/*[@id='49'] != ''">
 				<h3 class="h-treatment-section">Type species</h3>	
-				<!-- species name ICZN -->
-				<div class="typeSpeciesIndent"> 
-					<xsl:apply-templates mode="taxonTreatmentName" select="./taxon_name" />
+				
+				<div class="typeSpeciesIndent">
+					<!-- species name ICZN --> 
+					<xsl:apply-templates mode="taxonTreatmentName" select="./species_name" />
 					<!-- species name ICN (with basyonym) --> 
 					<xsl:apply-templates mode="taxonTreatmentName" select="./tt_species_name_with_basionym" />			
 					<!-- citations -->

@@ -2492,7 +2492,7 @@ function showReviewerRoundStateObjs($pDecisionId, $pInvitationState, $pUsrRoleNa
 						<td align="center">
 							<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
 								<div class="invite_reviewer_btn_left"></div>
-								<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id=' . $pUsrVersionId . '&view_role=' . $pUsrRoleId . '&round=' . $pRoundNumber . '&round_user_id=' . $pRoundUsrId . '&id=' . $pDocumentId . '\')">See Review</div>
+								<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id=' . $pUsrVersionId . '&view_role=' . $pUsrRoleId . '&round=' . $pRoundNumber . '&round_user_id=' . $pRoundUsrId . '&id=' . $pDocumentId . '\')">See review</div>
 								<div class="invite_reviewer_btn_right"></div>
 								<div class="P-Clear"></div>
 							</div>

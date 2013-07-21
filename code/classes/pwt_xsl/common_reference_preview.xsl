@@ -188,10 +188,11 @@
 				</span>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='256']/value) != '' or $lVolume != ''">
-				<xsl:text>. </xsl:text>
+				<xsl:text>.</xsl:text>
 			</xsl:if>
 
 			<!-- Publisher -->
+			<xsl:text> </xsl:text>
 			<span>
 				<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
@@ -511,6 +512,7 @@
 						<xsl:with-param name="pFieldId">276</xsl:with-param>
 					</xsl:call-template>
 				<xsl:attribute name="field_id">276</xsl:attribute>
+				<!--xsl:apply-templates select="./fields/*[@id='276']/value" mode="formatting"/-->
 				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='276']/value))"/>
 			</span>
 

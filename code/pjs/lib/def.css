@@ -4589,7 +4589,7 @@ table.reviewer_tbl td {
 	color: #1F1F1F;
 	font-size: 13px;
 	border-bottom: 1px dashed #D1CDBB;
-	cursor: pointer;
+	/* cursor: pointer; */
 	padding: 10px;
 }
 
@@ -5891,7 +5891,7 @@ td.categories {
 
 .taskspopup-listheadmain-content-section {
 	float: left;
-	width: 234px;
+	width: 250px;
 }
 
 .taskspopup-header {
