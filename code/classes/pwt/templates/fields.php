@@ -260,6 +260,7 @@ $gTemplArr = array(
 												<div class="P-PopUp-Content-Desc">You can COPY & PASTE a table from a text processor, or as Coma Separated Value text.
 															You can construct a new table or edit an inserted one with our integrated Table editor below
 												</div>
+												<br/>
 												<div class="P-Data-Resources-Control">
 													<div class="P-Data-Resources-Control-Txt">
 														{field_label}

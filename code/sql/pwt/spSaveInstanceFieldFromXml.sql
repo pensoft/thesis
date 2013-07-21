@@ -57,7 +57,7 @@ DECLARE
 	
 BEGIN
 	
-	--RAISE NOTICE 'UPDATE FIELD InstanceId %, FieldId %, Xml %', pInstanceId, pFieldId, pFieldXml;
+	RAISE NOTICE 'UPDATE FIELD InstanceId %, FieldId %, Xml %', pInstanceId, pFieldId, pFieldXml;
 	
 	SELECT INTO lRecord f.type, ofi.control_type, ofi.data_src_id, s.query
 	FROM pwt.document_object_instances i
@@ -187,10 +187,10 @@ BEGIN
 		/*Here we avoid the previous approach because
 		if the value contained direct html entities (e.g. &gt;) it decoded them automatically to their respective symbols
 		*/
-		SELECT INTO lTemp xpath('/*/value', pFieldXml);
+		SELECT INTO lTempText xpath_nodeset(pFieldXml::text, '/*/value');
 		
-		IF(lTemp[1]::text <> '<value/>') THEN
-			lValueStr = regexp_replace(lTemp[1]::text, '^<value(\s[^>]*)?>(.*)</value>', '\2');
+		IF(lTempText <> '<value/>') THEN
+			lValueStr = regexp_replace(lTempText, '^<value(\s[^>]*)?>(.*)</value>', '\2');
 		END IF;
 	ELSEIF lRecord.type = lFieldStrArrType THEN
 		lValueStrArr = lTemp::text[];

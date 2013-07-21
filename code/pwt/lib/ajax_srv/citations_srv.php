@@ -51,7 +51,7 @@ switch ($gAction) {
 		}
 		$lSql = 'SELECT * FROM spSaveCitation(' . (int) $_REQUEST['citation_id'] . ', ' . (int) $_REQUEST['instance_id'] . ', ' . (int) $_REQUEST['field_id'] . ', ' . (int) $_REQUEST['citation_type'] . ', ' . (int) $_REQUEST['citation_mode'] . ', ARRAY[' . implode(', ', $lCitationObjects) . ']::int[], ' . (int) $user->id . ');';
 		$lCon->Execute($lSql);
-		//var_dump($lSql);
+// 		var_dump($lSql);
 
 		//var_dump($lCon->GetLastError());
 		$lResult = array(
