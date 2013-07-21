@@ -20,12 +20,12 @@ $BODY$
 		
 		lWholeFigures int[];
 		lPartPlates int[];
-		lCurrentPlateCitatedPics int[];
+		lCurrentPlateCitatedPics  bigint[];
 		
 		lTempBigIntArr bigint[];
 		
 		lCurrentFigNum int;
-		lCurrentFigIsPlage boolean;	
+		lCurrentFigIsPlate boolean;	
 		
 		lStartPos int;
 		lEndPos int;
@@ -33,7 +33,14 @@ $BODY$
 		lPlateId bigint;
 		lFigId bigint;
 		lFigPlateId bigint;
-		lCurrentCitatedFig int;
+		lCurrentCitatedFigNumber int;
+		
+		lFigObjectId bigint = 221;
+		lFigTypeFieldId bigint = 488;
+		lFigNumberFieldId bigint = 489;
+		lFigPlateTypeId int = 2;
+		lPlatePartObjectIds bigint[] = ARRAY[225, 226, 227, 228, 229, 230]::bigint[];
+		lFigIsPlate int;
 	BEGIN		
 		
 		lXrefTemp = '';
@@ -56,25 +63,29 @@ $BODY$
 		
 		<<lCitatedPicsLoop>>
 		FOR lRecord2 IN
-			SELECT * 
-			FROM pwt.media
-			WHERE id = ANY(lRecord.object_ids)
-			ORDER BY move_position ASC, position ASC
+			SELECT i.*, CASE WHEN f.value_int = lFigPlateTypeId THEN 1 ELSE 0 END as is_plate, f2.value_int as fignumber
+			FROM pwt.document_object_instances i
+			JOIN pwt.instance_field_values f ON f.instance_id = i.id AND f.field_id = lFigTypeFieldId
+			JOIN pwt.instance_field_values f2 ON f2.instance_id = i.id AND f2.field_id = lFigNumberFieldId
+			WHERE i.id = ANY(lRecord.object_ids) AND i.object_id = lFigObjectId AND i.is_confirmed = true
+			ORDER BY i.pos
 		LOOP			
-			IF lRecord2.plate_id IS NULL THEN
-				lWholeFigures = array_append(lWholeFigures, lRecord2.move_position);
+			IF lRecord2.is_plate = 0 THEN
+				lWholeFigures = array_append(lWholeFigures, lRecord2.fignumber);
 			ELSE
 				-- Гледаме дали целия плейт е вътре
 				
-				IF coalesce(in_array(lRecord2.move_position, lWholeFigures), false) = false AND coalesce(in_array(lRecord2.move_position, lPartPlates), false) = false THEN
-					SELECT INTO lTempBigIntArr array_agg(id) 
-					FROM pwt.media 
-					WHERE document_id = lRecord.document_id AND plate_id = lRecord2.plate_id;
+				IF coalesce(in_array(lRecord2.fignumber, lWholeFigures), false) = false AND coalesce(in_array(lRecord2.fignumber, lPartPlates), false) = false THEN
+					SELECT INTO lTempBigIntArr array_agg(i.id) 
+					FROM pwt.document_object_instances i
+					JOIN pwt.document_object_instances p ON  p.document_id = i.document_id AND p.pos = substring(i.pos, 1, char_length(p.pos))
+					WHERE i.document_id = lRecord.document_id AND p.id = lRecord2.id AND i.object_id = ANY (lPlatePartObjectIds);
 					
+					RAISE NOTICE 'Fig %, subplates %', lRecord2.id, lTempBigIntArr;
 					IF lRecord.object_ids @> lTempBigIntArr THEN -- Цитиран е целия плейт
-						lWholeFigures = array_append(lWholeFigures, lRecord2.move_position);
+						lWholeFigures = array_append(lWholeFigures, lRecord2.fignumber);
 					ELSE -- Цитирана е само част от плейта
-						lPartPlates = array_append(lPartPlates, lRecord2.move_position);
+						lPartPlates = array_append(lPartPlates, lRecord2.fignumber);
 					END IF;
 				END IF;
 			END IF;			
@@ -97,45 +108,46 @@ $BODY$
 			IF coalesce(array_upper(lWholeFigures, 1), 0) > 0 AND coalesce(array_upper(lPartPlates, 1), 0) > 0 THEN
 				IF lWholeFigures[1] < lPartPlates[1] THEN
 					lCurrentFigNum = lWholeFigures[1];
-					lCurrentFigIsPlage = false;
+					lCurrentFigIsPlate = false;
 				ELSE 
 					lCurrentFigNum = lPartPlates[1];
-					lCurrentFigIsPlage = true;
+					lCurrentFigIsPlate = true;
 				END IF;
 			ELSEIF coalesce(array_upper(lWholeFigures, 1), 0) > 0 THEN --Избираме 1вата останала фигура
 				lCurrentFigNum = lWholeFigures[1];
-				lCurrentFigIsPlage = false;
+				lCurrentFigIsPlate = false;
 			ELSE -- Избираме 1я останал плейт
 				lCurrentFigNum = lPartPlates[1];
-				lCurrentFigIsPlage = true;
+				lCurrentFigIsPlate = true;
 			END IF;
 			
 			-- Махаме текущия елемент от масивите
 			lWholeFigures = array_pop(lWholeFigures, lCurrentFigNum);
 			lPartPlates = array_pop(lPartPlates, lCurrentFigNum);
 			
-			IF lCurrentFigIsPlage = true THEN				
+			IF lCurrentFigIsPlate = true THEN				
 				lTemp = lTemp || lCurrentFigNum; -- № на плейта
 				-- Работим с плейт - трябва да видим кои фигури от него са цитирани				
 				SELECT INTO lPlateId 
-					plate_id 
-				FROM pwt.media
-				WHERE id = ANY(lRecord.object_ids)
-				AND move_position = lCurrentFigNum LIMIT 1;
+					i.id
+				FROM pwt.document_object_instances i
+				JOIN pwt.instance_field_values f2 ON f2.instance_id = i.id AND f2.field_id = lFigNumberFieldId
+				WHERE i.id = ANY(lRecord.object_ids) AND i.object_id = lFigObjectId AND i.is_confirmed = true AND f2.value_int = lCurrentFigNum
+				LIMIT 1;
 				
 				lXrefTemp = lXrefTemp || '<xref class="hide" isplate="1" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '" rid="' || coalesce(lPlateId::varchar, '') || '"></xref>';
 				
 				
-				lCurrentPlateCitatedPics = ARRAY[]::int[];
+				lCurrentPlateCitatedPics = ARRAY[]::bigint[];
 				<<lPlateFiguresLoop>>
 				FOR lRecord2 IN
-					SELECT * 
-					FROM pwt.media
-					WHERE id = ANY(lRecord.object_ids)
-					AND move_position = lCurrentFigNum
-					ORDER BY position ASC
+					SELECT i.*, spGetPlatePartNumber(i.id) as plate_num
+					FROM pwt.document_object_instances i
+					JOIN pwt.document_object_instances p ON  p.document_id = i.document_id AND p.pos = substring(i.pos, 1, char_length(p.pos))
+					WHERE i.document_id = lRecord.document_id AND p.id = lPlateId AND i.object_id = ANY (lPlatePartObjectIds) AND i.id = ANY(lRecord.object_ids) 
+					ORDER BY plate_num ASC
 				LOOP
-					lCurrentPlateCitatedPics = array_append(lCurrentPlateCitatedPics, lRecord2.position);
+					lCurrentPlateCitatedPics = array_append(lCurrentPlateCitatedPics, lRecord2.id);
 				END LOOP lPlateFiguresLoop;
 				
 				lIter = 1;
@@ -146,32 +158,20 @@ $BODY$
 						lTemp = lTemp || ', ';
 					END IF;
 					
-					
-					lCurrentCitatedFig = lCurrentPlateCitatedPics[1];
+					lFigId = lCurrentPlateCitatedPics[1];	
+					lCurrentCitatedFigNumber = spGetPlatePartNumber(lCurrentPlateCitatedPics[1]);
 					lCurrentPlateCitatedPics = array_pop(lCurrentPlateCitatedPics, lCurrentPlateCitatedPics[1]);
-					lStartPos = lCurrentCitatedFig;
-					lEndPos = lCurrentCitatedFig;
-					
-					SELECT INTO lFigId
-						id 
-					FROM pwt.media
-					WHERE id = ANY(lRecord.object_ids)
-					AND move_position = lCurrentFigNum AND position = lCurrentCitatedFig
-					LIMIT 1;
+					lStartPos = lCurrentCitatedFigNumber;
+					lEndPos = lCurrentCitatedFigNumber;
+								
 					
 					lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || coalesce(lFigId::varchar, '') || '" parentfig="' || coalesce(lPlateId::varchar, '') || '"></xref>';
-					WHILE coalesce(array_upper(lCurrentPlateCitatedPics, 1), 0) > 0  AND lCurrentPlateCitatedPics[1] = lCurrentCitatedFig + 1
+					WHILE coalesce(array_upper(lCurrentPlateCitatedPics, 1), 0) > 0  AND spGetPlatePartNumber(lCurrentPlateCitatedPics[1]) = lCurrentCitatedFigNumber + 1
 					LOOP
-						lCurrentCitatedFig = lCurrentPlateCitatedPics[1];
+						lFigId = lCurrentPlateCitatedPics[1];	
+						lCurrentCitatedFigNumber = spGetPlatePartNumber(lCurrentPlateCitatedPics[1]);
 						lCurrentPlateCitatedPics = array_pop(lCurrentPlateCitatedPics, lCurrentPlateCitatedPics[1]);
-						lEndPos = lCurrentCitatedFig;
-						
-						SELECT INTO lFigId
-							id 
-						FROM pwt.media
-						WHERE id = ANY(lRecord.object_ids)
-						AND move_position = lCurrentFigNum AND position = lCurrentCitatedFig
-						LIMIT 1;
+						lEndPos = lCurrentCitatedFigNumber;
 						
 						lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || coalesce(lFigId::varchar, '') || '" parentfig="' || coalesce(lPlateId::varchar, '') || '"></xref>';
 					END LOOP;
@@ -195,22 +195,26 @@ $BODY$
 				lStartPos = lCurrentFigNum;
 				lEndPos = lCurrentFigNum;
 				
-				SELECT INTO lFigId, lFigPlateId 
-					id, plate_id
-				FROM pwt.media
-				WHERE id = ANY(lRecord.object_ids)
-				AND move_position = lCurrentFigNum LIMIT 1;
+				SELECT INTO lFigId, lFigIsPlate 
+					i.id, CASE WHEN f.value_int = lFigPlateTypeId THEN 1 ELSE 0 END as is_plate
+				FROM pwt.document_object_instances i
+				JOIN pwt.instance_field_values f ON f.instance_id = i.id AND f.field_id = lFigTypeFieldId
+				JOIN pwt.instance_field_values f2 ON f2.instance_id = i.id AND f2.field_id = lFigNumberFieldId
+				WHERE f2.value_int =  lCurrentFigNum AND i.object_id = lFigObjectId AND i.is_confirmed = true
+				LIMIT 1;
 				
-				IF lFigPlateId IS NULL THEN
+				IF lFigIsPlate = 0 THEN
 					lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || coalesce(lFigId::varchar, '') || '" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '"></xref>';
 				ELSE
-					lXrefTemp = lXrefTemp || '<xref class="hide" isplate="1" rid="' || coalesce(lFigPlateId::varchar, '') || '" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '"></xref>';
+					lXrefTemp = lXrefTemp || '<xref class="hide" isplate="1" rid="' || coalesce(lFigId::varchar, '') || '" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '"></xref>';
 					FOR lRecord3 IN 
-						SELECT id, plate_id
-						FROM pwt.media
-						WHERE document_id = lRecord.document_id AND move_position = lCurrentFigNum
+						SELECT i.*, spGetPlatePartNumber(i.id) as plate_num
+						FROM pwt.document_object_instances i
+						JOIN pwt.document_object_instances p ON  p.document_id = i.document_id AND p.pos = substring(i.pos, 1, char_length(p.pos))
+						WHERE i.document_id = lRecord.document_id AND p.id = lFigId
+						ORDER BY plate_num ASC
 					LOOP
-						lXrefTemp = lXrefTemp || '<xref class="hide" parentfig="' || coalesce(lFigPlateId::varchar, '') || '" rid="' || coalesce(lRecord3.id::varchar, '') || '"></xref>';
+						lXrefTemp = lXrefTemp || '<xref class="hide" parentfig="' || coalesce(lFigId::varchar, '') || '" rid="' || coalesce(lRecord3.id::varchar, '') || '"></xref>';
 					END LOOP;
 				END IF;
 				
@@ -220,22 +224,26 @@ $BODY$
 					lWholeFigures = array_pop(lWholeFigures, lWholeFigures[1]);
 					lEndPos = lCurrentFigNum;
 					
-					SELECT INTO lFigId, lFigPlateId 
-						id , plate_id
-					FROM pwt.media
-					WHERE id = ANY(lRecord.object_ids)
-					AND move_position = lCurrentFigNum LIMIT 1;
+					SELECT INTO lFigId, lFigIsPlate 
+						i.id, CASE WHEN f.value_int = lFigPlateTypeId THEN 1 ELSE 0 END as is_plate
+					FROM pwt.document_object_instances i
+					JOIN pwt.instance_field_values f ON f.instance_id = i.id AND f.field_id = lFigTypeFieldId
+					JOIN pwt.instance_field_values f2 ON f2.instance_id = i.id AND f2.field_id = lFigNumberFieldId
+					WHERE f2.value_int =  lCurrentFigNum AND i.object_id = lFigObjectId AND i.is_confirmed = true
+					LIMIT 1;
 					
-					IF lFigPlateId IS NULL THEN
+					IF lFigIsPlate = 0 THEN
 						lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || coalesce(lFigId::varchar, '') || '" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '"></xref>';
 					ELSE
-						lXrefTemp = lXrefTemp || '<xref class="hide" isplate="1" rid="' || coalesce(lFigPlateId::varchar, '') || '" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '"></xref>';
+						lXrefTemp = lXrefTemp || '<xref class="hide" isplate="1" rid="' || coalesce(lFigId::varchar, '') || '" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '"></xref>';
 						FOR lRecord3 IN 
-							SELECT id, plate_id
-							FROM pwt.media
-							WHERE document_id = lRecord.document_id AND move_position = lCurrentFigNum
+							SELECT i.*, spGetPlatePartNumber(i.id) as plate_num
+							FROM pwt.document_object_instances i
+							JOIN pwt.document_object_instances p ON  p.document_id = i.document_id AND p.pos = substring(i.pos, 1, char_length(p.pos))
+							WHERE i.document_id = lRecord.document_id AND p.id = lFigId
+							ORDER BY plate_num ASC
 						LOOP
-							lXrefTemp = lXrefTemp || '<xref class="hide" parentfig="' || coalesce(lFigPlateId::varchar, '') || '" rid="' || coalesce(lRecord3.id::varchar, '') || '"></xref>';
+							lXrefTemp = lXrefTemp || '<xref class="hide" parentfig="' || coalesce(lFigId::varchar, '') || '" rid="' || coalesce(lRecord3.id::varchar, '') || '"></xref>';
 						END LOOP;
 					END IF;
 				END LOOP;
