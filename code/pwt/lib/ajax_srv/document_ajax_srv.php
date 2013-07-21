@@ -108,6 +108,27 @@ if($gAction == 'move_up_in_tree' || $gAction == 'move_down_in_tree'){
 	$lCon->Execute($lSql);
 // 	var_dump($lSql);
 	$lResult['instance_id'] = (int)$lCon->mRs['id'];
+}elseif($gAction == 'get_figures_parent_instance_id'){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = 'SELECT i.id
+		FROM pwt.document_object_instances i
+		JOIN pwt.document_template_objects dto ON dto.parent_id = i.document_template_object_id AND dto.object_id = ' . (int)FIGURE_OBJECT_ID . '
+		WHERE i.document_id = ' . (int)$_REQUEST['document_id'];
+	$lCon->Execute($lSql);
+// 	var_dump($lSql);
+	$lResult['instance_id'] = (int)$lCon->mRs['id'];
+}elseif($gAction == 'get_tables_parent_instance_id'){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = 'SELECT i.id
+		FROM pwt.document_object_instances i
+		JOIN pwt.document_template_objects dto ON dto.parent_id = i.document_template_object_id AND dto.object_id = ' . (int)TABLE_OBJECT_ID . '
+		WHERE i.document_id = ' . (int)$_REQUEST['document_id'];
+	$lCon->Execute($lSql);
+// 	var_dump($lSql);
+	$lResult['instance_id'] = (int)$lCon->mRs['id'];
 }
+
 displayAjaxResponse($lResult);
 ?>

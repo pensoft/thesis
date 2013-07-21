@@ -84,6 +84,10 @@ class cinstance_preview_generator extends csimple {
 			$lReferencesXsl = $lDomDoc->createElement("xsl:import");
 			$lReferencesXsl->setAttribute("href", PATH_XSL  .  "common_reference_preview.xsl");
 			$lStylesheet->appendChild($lReferencesXsl);
+			
+			$lReferencesXsl = $lDomDoc->createElement("xsl:import");
+			$lReferencesXsl->setAttribute("href", PATH_XSL  .  "static2.xsl");
+			$lStylesheet->appendChild($lReferencesXsl);
 
 			// XSL matching root node
 			$lRootMatch = $lDomDoc->createElement("xsl:template");
@@ -113,12 +117,14 @@ class cinstance_preview_generator extends csimple {
 			$lOutput->setAttribute("indent", "yes");
 			$lStylesheet->appendChild($lOutput);
 
-			$this->m_xslContent = $lDomDoc->saveXML();
+			$this->m_xslContent = $lDomDoc->saveXML();			
 		}
 	}
 
 	protected function ProcessXsl(){
 		global $gInstancePreviews;
+// 		error_reporting(-1);
+// 		ini_set('display_errors', 'on');
 		if($this->m_documentXml && $this->m_xslContent){
 // 			var_dump($this->m_xslContent);
 // 			var_dump($this->m_documentXml);
@@ -133,6 +139,8 @@ class cinstance_preview_generator extends csimple {
 // 			var_dump($gInstancePreviews);
 // 			exit;
 		}
+// 		var_dump($this->m_documentXml, $this->m_xslContent);
+// 		var_dump($gInstancePreviews);
 		$this->m_instancePreviews = $gInstancePreviews;
 	}
 

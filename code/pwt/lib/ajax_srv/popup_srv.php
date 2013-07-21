@@ -13,7 +13,7 @@ switch($gAction){
 	case 'create_new_popup':
 		$lCon = new DBCn();
 		$lCon->Open();
-		$lSql = 'SELECT i.id, p.popup_template, i.document_id, dto.display_name
+		$lSql = 'SELECT i.id, p.popup_template, i.document_id, dto.display_name, p.eval_code
 			FROM pwt.document_object_instances i
 			JOIN pwt.document_template_objects dto ON dto.parent_id = i.document_template_object_id AND dto.object_id = ' . (int)$gObjectId . '
 			LEFT JOIN pwt.template_object_custom_creation_popup p ON p.template_object_id = dto.template_object_id
@@ -30,16 +30,18 @@ switch($gAction){
 		$lTemplateName = $lCon->mRs['popup_template'];
 		$lDocumentId = (int)$lCon->mRs['document_id'];
 		$lDisplayName = $lCon->mRs['display_name'];
+		$lEvalCode = $lCon->mRs['eval_code'];
 
 		$lResult = array(
 			'err_cnt' => 0,
 			'err_msg' => '',
 		);
 		if(!$lTemplateName){
-			if($gObjectId == AUTHOR_OBJECT_ID || $gObjectId == CONTRIBUTOR_OBJECT_ID)
+			if($gObjectId == AUTHOR_OBJECT_ID || $gObjectId == CONTRIBUTOR_OBJECT_ID){
 				$lTemplateName = 'popup.default_popup_with_margin';
-			else
+			}else{
 				$lTemplateName = 'popup.default_popup';
+			}
 			//За стандартните попъпи създаваме обекта и после го показваме
 			if(!$lCon->Execute('BEGIN TRANSACTION')){
 				$lResult = array(
@@ -108,17 +110,22 @@ switch($gAction){
 			}else{
 				$lResult['err_cnt']++;
 				$lResult['err_msg'] = getstr($lCon->GetLastError());
+				displayAjaxResponse($lResult);
 			}
 		}else{
-			//При нестандартните попъпи - директно показваме темплейта. Там ще трябва да се избират някои полета
-			//Преди да се създаде обекта
-			$lResultHtml = new csimple(array(
+			$lParametersArray = array(
 				'document_id' => $lDocumentId,
 				'popup_title' => $lDisplayName,
 				'templs' => array(
-					G_DEFAULT => $lTemplateName,
+						G_DEFAULT => $lTemplateName,
 				),
-			));
+			);
+			if($lEvalCode != ''){
+				eval($lEvalCode);
+			}
+			//При нестандартните попъпи - директно показваме темплейта. Там ще трябва да се избират някои полета
+			//Преди да се създаде обекта
+			$lResultHtml = new csimple($lParametersArray);
 			$lResult['html'] = $lResultHtml->Display();
 		}
 		displayAjaxResponse($lResult);
@@ -126,7 +133,7 @@ switch($gAction){
 	case 'open_edit_popup':
 		$lCon = new DBCn();
 		$lCon->Open();
-		$lSql = 'SELECT i.id, p.popup_template, i.document_id, i.display_name
+		$lSql = 'SELECT i.id, p.popup_template, i.document_id, i.display_name, p.eval_code
 			FROM pwt.document_object_instances i
 			JOIN pwt.document_template_objects dto ON dto.id = i.document_template_object_id
 			LEFT JOIN pwt.template_object_custom_edit_popup p ON p.template_object_id = dto.template_object_id
@@ -144,6 +151,7 @@ switch($gAction){
 		$lTemplateName = $lCon->mRs['popup_template'];
 		$lDocumentId = (int)$lCon->mRs['document_id'];
 		$lDisplayName = $lCon->mRs['display_name'];
+		$lEvalCode = $lCon->mRs['eval_code'];
 
 		if(!$lTemplateName){
 			$lTemplateName = 'popup.default_edit_popup';
@@ -176,7 +184,8 @@ switch($gAction){
 		));
 		$lInstance->m_displayTitleAndTopActions = 0;
 		$lInstance->m_displayDefaultActions = 0;
-		$lResultHtml = new csimple(array(
+		
+		$lParametersArray = array(
 			'popup_content' => $lInstance->Display(),
 			'document_id' => $lDocumentId,
 			'instance_id' => $lResult['new_instance_id'],
@@ -188,8 +197,14 @@ switch($gAction){
 			'templs' => array(
 				G_DEFAULT => $lTemplateName,
 			),
-		));
+		);			
+		if($lEvalCode != ''){
+			eval($lEvalCode);
+		}
+		
+		$lResultHtml = new csimple($lParametersArray);
 		$lResult['html'] = $lResultHtml->Display();
+		
 
 		displayAjaxResponse($lResult);
 		break;

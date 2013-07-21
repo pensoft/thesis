@@ -40,6 +40,7 @@ $gTemplArr = array(
 				<script src="/lib/js/comments_common.js" type="text/javascript"></script>
 				<script src="/lib/js/comments.js" type="text/javascript"></script>
 				<script src="/lib/js/popup.js" type="text/javascript"></script>
+				<script src="/lib/js/figures.js" type="text/javascript"></script>
 				<script src="/lib/js/rangy-core.js" type="text/javascript"></script>
 
 				<script type="text/javascript" src="/lib/editors/ckeditor_4.1/ckeditor.js"></script>

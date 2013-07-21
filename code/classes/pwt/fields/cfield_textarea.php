@@ -12,6 +12,8 @@ class cfield_textarea extends cfield_base {
 		$this->m_pubdata['use_common_toolbar'] = 0;
 		$this->m_pubdata['common_toolbar_holder_id'] = '';
 		$this->m_pubdata['toolbar_name'] = EDITOR_SMALL_TOOLBAR_NAME;
+		$lTemplate = G_TEXTAREA_TEMPL;
+		$lTemplateLabel = G_TEXTAREA_LABEL_TEMPL;
 		switch($this->m_htmlControlType ){
 			case (int)FIELD_HTML_TEXTAREA_THESIS_TYPE:
 				$this->m_pubdata['create_common_toolbar_holder'] = 1;
@@ -22,7 +24,12 @@ class cfield_textarea extends cfield_base {
 				$this->m_pubdata['common_toolbar_holder_id'] = $this->m_pubdata['instance_id'] . '_toolbar';
 				$this->m_pubdata['height'] = EDITOR_NEXT_COUPLET_HEIGHT;
 				$this->m_pubdata['toolbar_name'] = EDITOR_FULL_TOOLBAR_NAME_NO_MAXIMIZE;
+				break;
 			}
+			case FIELD_HTML_TEXTAREA_TABLE:
+				$this->m_pubdata['toolbar_name'] = EDITOR_MODERATE_TABLE_TOOLBAR_NAME;
+				$lTemplate = G_TEXTAREA_TABLE_TEMPL;
+				$lTemplateLabel = G_TEXTAREA_TABLE_LABEL_TEMPL;
 		}
 		
 		switch($this->m_htmlControlType ){
@@ -36,13 +43,13 @@ class cfield_textarea extends cfield_base {
 		
 		
 		if((int)$this->m_pubdata['display_label']){
-			$this->m_pubdata['field_label'] = $this->ReplaceHtmlFields($this->getObjTemplate(G_TEXTAREA_LABEL_TEMPL));
+			$this->m_pubdata['field_label'] = $this->ReplaceHtmlFields($this->getObjTemplate($lTemplateLabel));
 		}else{
 			$this->m_pubdata['field_label'] = '';
 		}
 		$lInput = '<textarea id="' . $this->m_fieldHtmlIdentifier . '_textarea" ' . ($this->m_isReadOnly ? ' disabled="disabled" ' : '') . ' name="' . $this->m_fieldHtmlIdentifier . '" >' . h($this->m_parsedFieldValue) . '</textarea>';
 		$this->m_pubdata['field'] = $lInput;
-		return $this->ReplaceHtmlFields($this->getObjTemplate(G_TEXTAREA_TEMPL));		
+		return $this->ReplaceHtmlFields($this->getObjTemplate($lTemplate));		
 	}
 
 }

@@ -285,9 +285,9 @@ function ChangeInstanceMode(pDocumentId, pInstanceId, pRootInstanceId, pLevel, p
 				alert(pAjaxResult['err_msg']);
 				return;
 			}
-			var $lInstanceWrapper = $('#instance_wrapper_' + pInstanceId);
-			$lInstanceWrapper.before(pAjaxResult['html']);
-			$lInstanceWrapper.remove();
+			var lInstanceWrapper = $('#instance_wrapper_' + pInstanceId);
+			lInstanceWrapper.before(pAjaxResult['html']);
+			lInstanceWrapper.remove();
 
 		}
 	});
@@ -2977,6 +2977,10 @@ function UpdateInstanceFieldValue(pInstanceId, pFieldId, pFieldValue, pFieldType
 }
 
 function toggleRadioCheck(pHolderId) {
+	var lRadioIsDisabled = $('#' + pHolderId).is(':disabled');
+	if(lRadioIsDisabled){
+		return;
+	}
 	var radioChecked = $('#' + pHolderId).is(':checked');
 	if(radioChecked){
 		$('#' + pHolderId).attr('checked', 'false');
@@ -3011,6 +3015,40 @@ function getSupFilesParentInstanceId(){
 		async: false,
 		data :{
 			action : 'get_sup_files_parent_instance_id',
+			document_id : GetDocumentId(),
+		},
+		success : function(pAjaxResult){
+			lResult = pAjaxResult['instance_id'];
+		}
+	});
+	return lResult;
+}
+
+function getFiguresParentInstanceId(){
+	var lResult = 0;
+	$.ajax({
+		url : gDocumentAjaxSrv,
+		dataType: 'json',
+		async: false,
+		data :{
+			action : 'get_figures_parent_instance_id',
+			document_id : GetDocumentId(),
+		},
+		success : function(pAjaxResult){
+			lResult = pAjaxResult['instance_id'];
+		}
+	});
+	return lResult;
+}
+
+function getTablesParentInstanceId(){
+	var lResult = 0;
+	$.ajax({
+		url : gDocumentAjaxSrv,
+		dataType: 'json',
+		async: false,
+		data :{
+			action : 'get_tables_parent_instance_id',
 			document_id : GetDocumentId(),
 		},
 		success : function(pAjaxResult){
