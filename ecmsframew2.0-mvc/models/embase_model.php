@@ -64,7 +64,11 @@ class emBase_Model{
 		return $lResult;
 	}
 	
-	function Events($SQL){
+	function Events($SQL, $debug = 0){
+		// debug levels: 0 - nothing, 1 - print the SQL, 2 - print the result, 3 - print both
+		if ($debug % 2 == 1)
+			var_dump($SQL);
+				
 		$lResult = array(
 			'err_cnt' => 0,
 			'err_msgs' => array()
@@ -83,6 +87,10 @@ class emBase_Model{
 			$lResult['err_cnt']++;
 			$lResult['err_msgs'][] = array('err_msg' => $pException->getMessage());
 		}
+		
+		if($debug > 1)
+			var_dump($lResult);
+		
 		return $lResult;
 	}
 }
