@@ -511,6 +511,7 @@
 						<xsl:with-param name="pFieldId">276</xsl:with-param>
 					</xsl:call-template>
 				<xsl:attribute name="field_id">276</xsl:attribute>
+				<!--xsl:apply-templates select="./fields/*[@id='276']/value" mode="formatting"/-->
 				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='276']/value))"/>
 			</span>
 
