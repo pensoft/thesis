@@ -848,9 +848,10 @@
 			<xsl:if test="./*[@object_id='180' or @object_id='220']/fields/*[@id='48'] != '' and 
 						  ./*[@object_id='180' or @object_id='220']/fields/*[@id='49'] != ''">
 				<h3 class="h-treatment-section">Type species</h3>	
-				<!-- species name ICZN -->
-				<div class="typeSpeciesIndent"> 
-					<xsl:apply-templates mode="taxonTreatmentName" select="./taxon_name" />
+				
+				<div class="typeSpeciesIndent">
+					<!-- species name ICZN --> 
+					<xsl:apply-templates mode="taxonTreatmentName" select="./species_name" />
 					<!-- species name ICN (with basyonym) --> 
 					<xsl:apply-templates mode="taxonTreatmentName" select="./tt_species_name_with_basionym" />			
 					<!-- citations -->
