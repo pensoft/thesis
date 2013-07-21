@@ -1892,7 +1892,7 @@ $STRARRAY = array(
 	'pjs.taskspopup.formtitle' => 'Compose message',
 	'pjs.taskspopup.listtitle' => 'Recipients',
 	'pjs.taskspopup.skip_section_title' => 'Skip',
-	'pjs.taskspopup.content_section_title' => 'Click on recipient to modify message',
+	'pjs.taskspopup.content_section_title' => 'Click on a recipient to add a personal message',
 
 	'pjs.journal_authors' => 'Authors',
 
