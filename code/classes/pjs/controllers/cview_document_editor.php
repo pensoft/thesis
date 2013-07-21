@@ -223,7 +223,7 @@ class cView_Document_Editor extends cView_Document {
 			$lReviewedPanelPublicData = array();
 			$lInvitedReviewers = '';
 			$lReviewersReviewedDocObj = '';
-			$lInvitedReviewedPublicPanelReviewersObj = '';
+			$lInvitedReviewedPublicPanelReviewersObj1 = '';
 			$lAssignedDedicatedReviewers = '';
 			$lRoundData = $lDocumentModel->GetAssignedDedicatedReviewersListByRound((int)$this->m_documentId, (int)$value['id']);
 			$lInvitedPanelData = $lDocumentModel->GetInvitedPanelReviewersList($this->m_documentId, (int)$value['id']);
@@ -242,9 +242,16 @@ class cView_Document_Editor extends cView_Document {
 			));
 			
 			if(count($lInvitedPanelData) || count($lReviewedPanelPublicData)) {
-				$lInvitedReviewedPublicPanelReviewersObj = new evSimple_Block_Display(array(
+				
+				if((int)$value['round_number'] == $this->m_documentData['round_number']) {
+					$lNamePublicPanelInViewObj = 'public_panel_reviewers_holder';
+				} else {
+					$lNamePublicPanelInViewObj = 'public_panel_reviewers_holder_view';
+				}
+				
+				$lInvitedReviewedPublicPanelReviewersObj1 = new evSimple_Block_Display(array(
 					'controller_data' => $this->m_documentData,
-					'name_in_viewobject' => 'public_panel_reviewers_holder',
+					'name_in_viewobject' => $lNamePublicPanelInViewObj,
 					'invited_reviewers' => $lInvitedReviewers,
 					'reviewed_reviewers' => $lReviewersReviewedDocObj,
 				));	
@@ -266,7 +273,7 @@ class cView_Document_Editor extends cView_Document {
 				'controller_data' => '',
 				'name_in_viewobject' => 'assigned_invited_reviewers_veiw',
 				'dedicated_reviewers' => $lAssignedDedicatedReviewers,
-				'panel_public_reviewers' => $lInvitedReviewedPublicPanelReviewersObj,
+				'panel_public_reviewers' => $lInvitedReviewedPublicPanelReviewersObj1,
 				'round_number' => $value['round_number'],
 				'version_num' => $value['version_num'],
 				'author_version_id' => $value['author_version_id'],

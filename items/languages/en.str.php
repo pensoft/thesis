@@ -2143,5 +2143,7 @@ $STRARRAY = array(
 	
 	'pjs.template_notes_label' => 'You may enter a personal message to the recipient here.',
 	'pjs.login_warning_text' => 'If you continue you will lost your unsaved data. Please be sure to save your data...',
+	
+	'pjs.invite_at_least_one_nom_pan_reviewer' => 'You have to select at least 1 nominated and 1 panel reviewer',
 );
 ?>

@@ -836,15 +836,15 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 		switch ((int) $pReviewerState) {
 			case REVIEWER_INVITATION_NEW_STATE :
 				$lRes .= '
-					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SEConfirmReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ')"><img src="../i/review_accepted.png"></img></a></span>
-					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ')"><img src="../i/remove_reviewer.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SEConfirmReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_accept_reviewer_invitation_confirmation') . '\')"><img src="../i/review_accepted.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_cancel_reviewer_invitation_confirmation') . '\')"><img src="../i/remove_reviewer.png"></img></a></span>
 				';
 				break;
 			case REVIEWER_CONFIRMED_STATE : // /view_version.php?version_id=1003&id=335&view_role=3&round=2&round_user_id=695!!!!!!!!!!!!!!!!!!!!!!!!!?version_id=1003&id='
 			                               // . $pDocumentId . '
 				$lRes .= '
 					<span class="reviewer_act"><a href="javascript:openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')"><img src="../i/reviewing.png"></img></a></span>
-					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ')"><img src="../i/remove_reviewer.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_cancel_reviewer_review_confirmation') . '\')"><img src="../i/remove_reviewer.png"></img></a></span>
 				';
 
 				$lToday = strtotime(date("d/m/Y"));
@@ -860,7 +860,7 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 			case REVIEWER_TIMEDOUT_STATE :
 				$lRes .= '
 				 	<span class="reviewer_act">
-					 	<a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ')">
+					 	<a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ', \'' . getstr('pjs.SE_reinvite_reviewer_confirmation') . '\')">
 							<img src="../i/in_review.png"></img>
 						</a>
 					</span>
@@ -869,7 +869,7 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 			case REVIEWER_CANCELLED_BY_SE_STATE :
 				$lRes .= '
 					<span class="reviewer_act">
-						<a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ')">
+						<a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ', \'' . getstr('pjs.SE_reinvite_reviewer_confirmation') . '\')">
 							<img src="../i/in_review.png"></img>
 						</a>
 					</span>
@@ -880,7 +880,7 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 		}
 
 	}else{
-		$lRes .= '<span class="reviewer_act"><a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ')"><img src="../i/in_review.png"></img></a></span>';
+		$lRes .= '<span class="reviewer_act"><a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ', \'' . getstr('pjs.SE_reinvite_reviewer_confirmation') . '\')"><img src="../i/in_review.png"></img></a></span>';
 	}
 	return $lRes;
 }

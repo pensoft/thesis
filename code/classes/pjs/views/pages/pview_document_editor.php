@@ -352,6 +352,12 @@ class pView_Document_Editor extends pView_Document {
 			)
 		);
 		
+		$this->m_objectsMetadata['public_panel_reviewers_holder_view'] = array(
+			'templs' => array(
+				G_DEFAULT => 'view_document_se.public_panel_reviewers_holder_view'
+			)
+		);
+		
 		$this->m_objectsMetadata['assigned_invited_reviewers'] = array(
 			'templs' => array(
 				G_DEFAULT => 'view_document_se.AssignedInvitedReviewersHolder'
