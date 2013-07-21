@@ -649,7 +649,7 @@ $gTemplArr = array(
 													"<td class=\"center\">" + 
 														(row.role_id == 3 
 															? "<a href=\"javascript:DocumentAddSe({document_id}, " + row.id + ", {journal_id});\"><b>Assign</b></a>"
-															: "<a href=\"javascript:LayerUserExpertisesFrm(\'P-Registration-Content\', {journal_id}, {document_id}, " + row.id + ");\">Make SE</a>"
+															: "<a href=\"javascript:LayerUserExpertisesFrm(\'P-Registration-Content\', {journal_id}, {document_id}, " + row.id + ");\">Grant SE rights</a>"
 														) +  "</td>"
 													)
 											.appendTo( table );

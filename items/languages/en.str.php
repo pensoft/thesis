@@ -1667,10 +1667,10 @@ $STRARRAY = array(
 	'pjs.Invite_Reviewers' => 'Invite reviewers',
 	'pjs.reviewers_name_label' => 'Name',
 	'pjs.reviewers_email_label' => 'E-mail',
-	'pjs.reviewers_added_label' => 'Added',
+	'pjs.reviewers_added_label' => 'Suggested',
 	'pjs.reviewers_action_label' => 'Actions',
-	'pjs.reviewers_nominated_label' => 'Nominated',
-	'pjs.reviewers_panel_label' => 'Panel',
+	'pjs.reviewers_nominated_label' => '<span style="cursor:pointer;" title="Nominated reviewers are expected to provide a formal review by a deadline">Nominated</span>',
+	'pjs.reviewers_panel_label' => '<span style="cursor:pointer;" title="Panel reviewers are invited but not required to evaluate the manuscript within a deadline">Panel</span>',
 	'pjs.reviewers_empty' => 'There are no added reviewers to list.',
 	'pjs.addreviewerstolist' => 'Add reviewers to the list by:',
 	'pjs.searchreviewers' => "Search in Pensoft's database:",
@@ -1984,15 +1984,19 @@ $STRARRAY = array(
 	 * Submission pages Green texts START
 	 */
 	'pjs.submission_review_assignment' => 'Reviewer assignments are due in %s days',
-	'pjs.submission_peer_review_proces_not_invited_reviewers_closed_peer' => 'You can assign this manuscript for a %s peer-review round by selecting at least %s nominated reviewer',
-	'pjs.submission_peer_review_proces_not_invited_reviewers_community_public_peer' => 'You can assign this manuscript for a %s peer-review round by selecting at least %s nominated and %s panel reviewer',
+	'pjs.submission_peer_review_proces_not_invited_reviewers_closed_peer' => 'You can assign this manuscript for peer-review round %s by selecting at least %s nominated reviewer',
+	'pjs.submission_peer_review_proces_not_invited_reviewers_community_public_peer' => 'You can assign this manuscript for peer-review round %s by selecting at least %s nominated and %s panel reviewer',
 	'pjs.submission_se_reject_text_buttons' => 'You can reject this manuscript prior to peer-review. Please explain your reasons below:',
 	'pjs.invite_reviewers_page_closed_peer_text_round1' => '
-		You have to select at least %s nominated from the list.<br />
-		If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer.<br /> 
+		You have to select at least %s nominated (ideally 2 or 3) reviewer from the list.<br />
+		If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page.<br /> 
 		Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.',
-	'pjs.invite_reviewers_page_community_public_peer_text_round1' => 'You have to select at least %s nominated and %s panel reviewer from the list. If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer. Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.',
-	'pjs.invite_reviewers_page__peer_process_text_round2' => 'You have to select at least %s nominated from the list. If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer. Invitations become efficient after clicking on the button “Invite reviewers” at the bottom of the page.',
+	'pjs.invite_reviewers_page_community_public_peer_text_round1' => '
+		You have to select at least %s nominated (ideally 2 or 3) and %s panel (ideally up to 5-10) reviewers from the list. If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page. Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.',
+	'pjs.invite_reviewers_page__peer_process_text_round2' => '
+	You have to select at least %s nominated (ideally 2 or 3) reviewer from the list.<br />
+		If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page.<br /> 
+		Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.',
 	'pjs.showproceedbtnround1_text' => 'You can proceed with your decision after the due date for public review has passed and all dedicated reviewers have completed their reviews.<br> If dedicated reviewers fail to complete their tasks on time, you may remove them from the process.',
 	'pjs.showproceedbtnround2_text' => "You can edit/comment on author's revised version and take your editorial decision.",
 	
@@ -2145,6 +2149,6 @@ $STRARRAY = array(
 	'pwt.validation.projectDescriptionAtLeasOneFieldRequired' => 'pwt.validation.projectDescriptionAtLeasOneFieldRequired',
 	
 	'pjs.template_notes_label' => 'You may enter a personal message to the recipient here.',
-	'pjs.login_warning_text' => 'If you continue you will lost your unsaved data. Please be sure to save your data...',
+	'pjs.login_warning_text' => 'Another user (might be you with your other account) is logged in from this computer and in this browser. If you continue the other user will be automatically logged out.',
 );
 ?>
