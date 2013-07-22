@@ -1875,8 +1875,8 @@ $STRARRAY = array(
 	'pjs.no_submitted_files_found' => 'No supplementary files found',
 	'pjs.authorOriginalSubmissionVersionLabel' => "Author's original submission",
 	'pjs.authorRevisionVersionLabel' => "Author's revised version",
-	'pjs.layoutround_label' => 'Layout review',
-	'pjs.copyeditinground_label' => 'Linguistic review',
+	'pjs.layoutround_label' => 'Layout',
+	'pjs.copyeditinground_label' => 'Copy editing',
 	'pjs.author_proceed_to_layout_edit_text' => "Revise your manuscript and respond to editor's comments",
 	'pjs.authors_notes_to_editor' => "Author's notes to Editor",
 	'pjs.thereIsNoSuchDocumentOrTheSpecifiedUserCannotOpenItInTheSpecifiedRole' => 'There is no such document or the specific user cannot open it in this role',
@@ -2114,12 +2114,12 @@ $STRARRAY = array(
 	'pjs.public_peer_review_take_decision_without_reviewers_round_2' => "pjs.public_peer_review_take_decision_without_reviewers_round_2",
 
 
-	//'pjs.round_copy_editing_label' => 'Linguistic review',
+	//'pjs.round_copy_editing_label' => 'Copy editing',
 	'pjs.revise_author_version_for_ce_le_round' => "Revise your manuscript and respond to copy editor's comments",
-	'pjs.copyeditinground_label_1' => 'Linguistic review 1',
+	'pjs.copyeditinground_label_1' => 'Copy editing 1',
 	'pjs.copy_editing_text' => 'In Copy editing',
 	'pjs.copy_editing_proof_text' => 'Proof is being produced by Copy Editor',
-	'pjs.copyeditinground_label_clear' => 'Linguistic review',
+	'pjs.copyeditinground_label_clear' => 'Copy editing',
 	
 	'pjs.layout_approve_btn_text' => 'Approve',
 	'pjs.layout_save_btn_text' => 'Save',
@@ -2127,7 +2127,7 @@ $STRARRAY = array(
 	'pjs.layout_pdf_preview_btn_text' => 'PDF preview',
 	'pjs.layout_revert_btn_text' => 'Revert',
 	'pjs.view_ce_version_btn' => "See copy edited version",
-	'pjs.copy_layout_editing_text' => "Waiting editorial office to assign ... ",
+	'pjs.copy_layout_editing_text' => "Manuscript in production",
 	
 	
 	/* The XML is not valid */

@@ -733,7 +733,7 @@ $gTemplArr = array(
 		<tr>
 			<th align="left">Nominated reviewers</td>
 			<th align="left">Status</td>
-			<th align="center" style="text-align:center">Actions</td>
+			<th align="left">Actions</td>
 		</tr>
 	',
 
@@ -743,10 +743,10 @@ $gTemplArr = array(
 			<td align="left">
 				{_DisplaySETextAboutDedicatedReviewer(invitation_state, usr_state, decision_id, due_date, decision_name, review_usr_due_date, round_id, id, reviwer_id)}
 			</td>
-			<td align="center">
+			<td align="left">
 				{_DisplaySEActionsAboutDedicatedReviewer(invitation_id, invitation_state, usr_state, decision_id, due_date, reviwer_id, round_id, document_id, id, round_number, reviwer_document_version_id)}
 			</td>
-			<!--<td align="center"><a href="#" class="history_link">View</a></td>-->
+			<!--<td align="left"><a href="#" class="history_link">View</a></td>-->
 		</tr>
 		<!--<div class="">{first_name} {last_name} State:{invitation_state_name} {_DisplaySEActionsAboutDedicatedReviewer(invitation_id, invitation_state)} Decision:{decision_name}</div>-->
 	',
@@ -1283,7 +1283,7 @@ $gTemplArr = array(
 			<tr>
 				<th align="left">{_getstr(pjs.nominated_reviewer_txt)}</td>
 				<th align="left">{_getstr(pjs.nominated_reviewer_status_txt)}</td>
-				<th align="left" style="text-align:center">{_getstr(pjs.nominated_reviewer_action_txt)}</td>
+				<th align="left">{_getstr(pjs.nominated_reviewer_action_txt)}</td>
 				<!--<th align="center">{_getstr(pjs.nominated_reviewer_history_txt)}</td>-->
 			</tr>
 	',
@@ -1294,7 +1294,7 @@ $gTemplArr = array(
 			<td align="left">
 				{_DisplaySETextAboutDedicatedReviewer(invitation_state, usr_state, decision_id, due_date, decision_name, review_usr_due_date)}
 			</td>
-			<td align="center">
+			<td align="left">
 				{_DisplayReviewIcon(invitation_id, decision_id, reviwer_id, round_id, document_id, id, round_number, reviwer_document_version_id)}
 			</td>
 			<!--<td align="center"><a href="#" class="history_link">{_getstr(pjs.row_view_text)}</a></td>-->
