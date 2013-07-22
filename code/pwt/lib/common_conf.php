@@ -216,6 +216,8 @@ define('REFERENCE_OBJECT_ID', 95);
 define('SUP_FILE_OBJECT_ID', 55);
 define('FIGURE_OBJECT_ID', 221);
 define('TABLE_OBJECT_ID', 238);
+define('FIGURE_HOLDER_OBJECT_ID', 236);
+define('TABLE_HOLDER_OBJECT_ID', 237);
 define('TAXON_EXTERNAL_LINK_OBJECT_ID', 39);
 define('REFERENCE_HOLDER_OBJECT_ID', 21);
 // Auto Save interval in milliseconds
