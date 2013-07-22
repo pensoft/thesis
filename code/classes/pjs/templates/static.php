@@ -2564,6 +2564,13 @@ function showRejectStatus($pStateId) {
 	}
 }
 
+function showFormLabelByRole($pRole) {
+	if($pRole == SE_ROLE) {
+		return getstr('admin.article_versions.SEviewForm');
+	}
+	return getstr('admin.article_versions.previewForm');
+}
+
 function showRejectNotes($pRejectRoundDecisionNotes) {
 	if($pRejectRoundDecisionNotes){
 		return '

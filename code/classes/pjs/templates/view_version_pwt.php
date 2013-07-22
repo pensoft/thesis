@@ -60,7 +60,7 @@ $gTemplArr = array(
 			<div class="brownBorder" {_showHideByRole(role)}></div>
 			<div class="headlineContainer" id="pollhead" {_showHideByRole(role)}>
 				<div class="headline">
-					<h3>' . getstr('admin.article_versions.previewForm') . '</h3>
+					<h3>{_showFormLabelByRole(role)}</h3>
 				</div>
 				<div class="date">
 					<!-- Editorial decision is due in {round_due_date_main} days -->

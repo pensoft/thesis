@@ -180,7 +180,6 @@ class cView_Version_Pwt extends cView_Version {
 				'preview' => array(
 					'ctype' => 'evSimple_Block_Display',
 					'name_in_viewobject' => 'preview',
-					//~ 'preview' => $this->m_xmlPreview,
 					'author_name' => $lAuthorName,
 					'author_version_num' => $lAuthorVersionNumber,
 					'version_id' => $this->m_versionId,
@@ -194,7 +193,6 @@ class cView_Version_Pwt extends cView_Version {
 					'previewmode' => $this->m_viewMode,
 					'structure' => $lDocumentVersionLeftCol,
 					'readonly' => (int)$this->m_viewMode,
-					// tva neznam za6to e taka, nqmam vreme da go debugvam - kato mu predam nula i e prazno...
 					'read_only' => ($this->m_viewMode ? $this->m_viewMode : 2),
 					'is_se' => $lESECheckUserRole,
 					'name' => ($lSEName ? $lSEName : $this->m_roundData['name']),
