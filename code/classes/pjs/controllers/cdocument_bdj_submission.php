@@ -369,6 +369,11 @@ class cDocument_BDJ_Submission extends cBase_Controller {
 						'VType' => 'int',
 						'DefValue' => $this->m_documentId
 					),
+					'journal_section' => array(
+						'CType' => 'text',
+						'VType' => 'string',
+						'DefValue' => $lResult['journal_section'],
+					),
 					'event_id' => array(
 						'CType' => 'hidden',
 						'VType' => 'int',
