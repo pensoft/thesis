@@ -1669,8 +1669,8 @@ $STRARRAY = array(
 	'pjs.reviewers_email_label' => 'E-mail',
 	'pjs.reviewers_added_label' => 'Suggested',
 	'pjs.reviewers_action_label' => 'Actions',
-	'pjs.reviewers_nominated_label' => '<span style="cursor:pointer;" title="Nominated reviewers are expected to provide a formal review by a deadline">Nominated</span>',
-	'pjs.reviewers_panel_label' => '<span style="cursor:pointer;" title="Panel reviewers are invited but not required to evaluate the manuscript within a deadline">Panel</span>',
+	'pjs.reviewers_nominated_label' => '<span style="color:#006666; cursor:pointer;" title="Nominated reviewers are expected to provide a formal review by a deadline, after they have accepted the review request.">Nominated</span>',
+	'pjs.reviewers_panel_label' => '<span style="color:#006666; cursor:pointer;" title="Panel reviewers are invited but not required to evaluate the manuscript within a deadline. They can do this at any time, before the review process expires.">Panel</span>',
 	'pjs.reviewers_empty' => 'There are no added reviewers to list.',
 	'pjs.addreviewerstolist' => 'Add reviewers to the list by:',
 	'pjs.searchreviewers' => "Search in Pensoft's database:",
@@ -1988,11 +1988,16 @@ $STRARRAY = array(
 	'pjs.submission_peer_review_proces_not_invited_reviewers_community_public_peer' => 'You can assign this manuscript for peer-review round %s by selecting at least %s nominated and %s panel reviewer',
 	'pjs.submission_se_reject_text_buttons' => 'You can reject this manuscript prior to peer-review. Please explain your reasons below:',
 	'pjs.invite_reviewers_page_closed_peer_text_round1' => '
-		You have to select at least %s nominated (ideally 2 or 3) reviewer from the list.<br />
-		If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page.<br /> 
-		Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.',
+	<span>
+		<img width="24" height="24" style="float: left; margin: 2px 0px 22px; border-right-width: 20px; border-bottom-width: 32px; padding-right: 5px;" alt="Note:" src="/i/lightbulb.png">
+			You have to select at least %s nominated (ideally 2 or 3) reviewer from the list.<br />
+			If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page.<br /> 
+			Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.
+		</span>',
 	'pjs.invite_reviewers_page_community_public_peer_text_round1' => '
-		You have to select at least %s nominated (ideally 2 or 3) and %s panel (ideally up to 5-10) reviewers from the list. If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page. Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.',
+	<span>
+		<img width="24" height="24" style="float: left; margin: 2px 0px 22px; border-right-width: 20px; border-bottom-width: 32px; padding-right: 5px;" alt="Note:" src="/i/lightbulb.png">
+			You have to select at least %s nominated (ideally 2 or 3) and %s panel (ideally up to 5-10) reviewers from the list. If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page. Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.</span>',
 	'pjs.invite_reviewers_page__peer_process_text_round2' => '
 	You have to select at least %s nominated (ideally 2 or 3) reviewer from the list.<br />
 		If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page.<br /> 
