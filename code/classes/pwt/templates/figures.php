@@ -20,6 +20,36 @@ $gTemplArr = array(
 				<colgroup width="265"></colgroup>
 				<tbody>
 	',
+	'figures.plate_appearance_1' => '
+		<div class="P-Plate-Appearance-Box">A</div>
+		<div class="P-Clear"></div>
+		<div class="P-Plate-Appearance-Box">B</div>
+	',
+		
+	'figures.plate_appearance_2' => '
+		<div class="P-Plate-Appearance-Box-Big">A</div>
+		<div class="P-Plate-Appearance-Box-Big">B</div>
+	',
+	
+	'figures.plate_appearance_3' => '
+		<div class="P-Plate-Appearance-Box">A</div>
+		<div class="P-Plate-Appearance-Box">B</div>
+		<div class="P-Clear"></div>
+		<div class="P-Plate-Appearance-Box">C</div>
+		<div class="P-Plate-Appearance-Box">D</div>
+	',
+		
+	'figures.plate_appearance_4' => '
+		<div class="P-Plate-Appearance-Box-Small">A</div>
+		<div class="P-Plate-Appearance-Box-Small">B</div>
+		<div class="P-Clear"></div>
+		<div class="P-Plate-Appearance-Box-Small">C</div>
+		<div class="P-Plate-Appearance-Box-Small">D</div>
+		<div class="P-Clear"></div>
+		<div class="P-Plate-Appearance-Box-Small">E</div>
+		<div class="P-Plate-Appearance-Box-Small">F</div>
+	',
+	
 
 	'figures.document_figures_foot' => '
 				</tbody>
@@ -1217,6 +1247,28 @@ $gTemplArr = array(
 		</div>
 	',
 
+	'figures.empty_row' => '
+		<div class="P-Empty-Content">' . getstr('pwt.figures.nodata') . '</div>
+	',
+		
+		
+		
+	//For figures preview list
+	'figures.single_figure_preview' => '
+		<div id="P-Figures-Row-{id}" class="P-PopUp-Data-Table-Row">
+			<table cellspacing="0" cellpadding="0" border="0" width="100%">
+				<tr>
+					<td class="P-PopUp-Checkbox-Holder" align="left" valign="top">
+						<input type="checkbox" name="fig-{id}" id="fig-{id}" figurenum="{fignum}" value="{id}" figtype="{is_plate}" onclick="checkAllSubPhotos(this)"></input>
+					</td>
+					{preview}					
+				</tr>
+			</table>
+			<div class="P-Clear"></div>
+		</div>
+		<div class="P-Clear"></div>
+	',
+		
 	'figures.empty_row' => '
 		<div class="P-Empty-Content">' . getstr('pwt.figures.nodata') . '</div>
 	',

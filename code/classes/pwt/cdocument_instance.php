@@ -734,12 +734,13 @@ class cdocument_instance extends csimple {
 		if($this->m_xslPreviewIsCalculated && !$pForceful){
 			return $this->m_xslPreview;
 		}
-		$this->m_xslPreviewIsCalculated = true;
+		$this->m_xslPreviewIsCalculated = true;		
 		if(!$pForceful && $this->m_usePreviewGenerator){
 			$this->m_xslPreview = '{%' . $this->m_instanceId . '%}';
 			return $this->m_xslPreview;
 		}
-		if(file_exists(PATH_XSL  . $this->m_templ_xsl_dir_name . "/template_example_preview_base.xsl") && file_exists(PATH_XSL  . $this->m_templ_xsl_dir_name . "/template_example_preview_custom.xsl") && $this->m_view_xpath && $this->m_view_mode) {
+		
+		if(file_exists(PATH_XSL  . $this->m_templ_xsl_dir_name . "/template_example_preview_base.xsl") && file_exists(PATH_XSL  . $this->m_templ_xsl_dir_name . "/template_example_preview_custom.xsl") && $this->m_view_xpath && $this->m_view_mode) {			
 			$this->GetDocumentXml();
 			$docroot = getenv('DOCUMENT_ROOT');
 			require_once($docroot . '/lib/static_xsl.php');
@@ -772,6 +773,14 @@ class cdocument_instance extends csimple {
 			$lReferencesXsl = $lDomDoc->createElement("xsl:import");
 			$lReferencesXsl->setAttribute("href", PATH_XSL  .  "common_reference_preview.xsl");
 			$lStylesheet->appendChild($lReferencesXsl);
+			
+			$lStaticXsl = $lDomDoc->createElement("xsl:import");
+			$lStaticXsl->setAttribute("href", PATH_XSL  .  "static2.xsl");
+			$lStylesheet->appendChild($lStaticXsl);
+			
+			$lTaxonXsl = $lDomDoc->createElement("xsl:import");
+			$lTaxonXsl->setAttribute("href", PATH_XSL  .  "taxon.xsl");
+			$lStylesheet->appendChild($lTaxonXsl);
 
 			// XSL matching root node
 			$lRootMatch = $lDomDoc->createElement("xsl:template");
@@ -779,19 +788,15 @@ class cdocument_instance extends csimple {
 			$lStylesheet->appendChild($lRootMatch);
 
 			// Applying template with xpath selection and view mode
-			for($i = 0; $i <40; $i++){
-// 				var_dump($this->m_view_xpath, $this->m_view_mode);
-				$lVariable = $lDomDoc->createElement("xsl:variable");
-				$lVariable->setAttribute('name', 'instance_id' . $i);
-				$lTemplate = $lVariable->appendChild($lDomDoc->createElement("xsl:apply-templates"));
-				$lTemplate->setAttribute("select", replaceInstancePreviewField($this->m_view_xpath, $this->m_instanceId));
-				$lTemplate->setAttribute("mode", $this->m_view_mode);
-				$lFunctionCall = $lDomDoc->createElement("xsl:value-of");
-				$lFunctionCall->setAttribute('select', 'php:function(\'SaveInstancePreview\', ' . $i . ', exslt:node-set($instance_id' . $i  . '))');
-				$lRootMatch->appendChild($lVariable);
-				$lRootMatch->appendChild($lFunctionCall);
-
-			}
+			$lVariable = $lDomDoc->createElement("xsl:variable");
+			$lVariable->setAttribute('name', 'instance_id0');
+			$lTemplate = $lVariable->appendChild($lDomDoc->createElement("xsl:apply-templates"));
+			$lTemplate->setAttribute("select", replaceInstancePreviewField($this->m_view_xpath, $this->m_instanceId));
+			$lTemplate->setAttribute("mode", $this->m_view_mode);
+			$lFunctionCall = $lDomDoc->createElement("xsl:value-of");
+			$lFunctionCall->setAttribute('select', 'php:function(\'SaveInstancePreview\', 0, exslt:node-set($instance_id0))');
+			$lRootMatch->appendChild($lVariable);
+			$lRootMatch->appendChild($lFunctionCall);
 
 
 
@@ -819,6 +824,8 @@ class cdocument_instance extends csimple {
 			//~ echo $lDomDoc->saveXML();
 			// 			 var_dump($lHtml);
 			//~ exit;
+// 			var_dump(GetInstancePreview(0));
+// 			var_dump($lDomDoc->saveXML());
 
 			$lHtml = GetInstancePreview(0);
 

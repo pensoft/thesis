@@ -2059,7 +2059,12 @@ if(! function_exists('nl2br_custom')){
 	}
 }
 
-function GetPatch($pOriginalTxt, $pModifiedTxt, $pUid, $pProcessStripped = true, $pDiffType = DIFF_TYPE, $pAddNewLineSymbolsForBr = false) {
+function GetPatch($pOriginalTxt, $pModifiedTxt, $pUid, $pProcessStripped = true, $pDiffType = DIFF_TYPE, $pAddNewLineSymbolsForBr = false, $pInsertBrBeforeParagraphEnd = true) {
+	if($pInsertBrBeforeParagraphEnd){
+		$pOriginalTxt = preg_replace('/<\/p>/', '<br/></p>', $pOriginalTxt);
+		$pModifiedTxt = preg_replace('/<\/p>/', '<br/></p>', $pModifiedTxt);
+	}
+	
 	/**
 	 * In html new lines are just whitespace - they are not real new lines
 	 * @var unknown_type

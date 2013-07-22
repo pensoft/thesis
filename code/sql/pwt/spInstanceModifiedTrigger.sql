@@ -20,7 +20,8 @@ CREATE TRIGGER instance_update_trigger
     AFTER UPDATE ON pwt.document_object_instances
     FOR EACH ROW
     WHEN ((NEW.pos IS DISTINCT FROM OLD.pos OR
-        	NEW.display_name IS DISTINCT FROM OLD.display_name) AND NEW.is_confirmed = true)
+        	NEW.display_name IS DISTINCT FROM OLD.display_name OR
+        	NEW.is_confirmed IS DISTINCT FROM OLD.is_confirmed) AND NEW.is_confirmed = true)
     EXECUTE PROCEDURE spInstanceModifiedTrigger();
     
 CREATE TRIGGER instance_create_trigger

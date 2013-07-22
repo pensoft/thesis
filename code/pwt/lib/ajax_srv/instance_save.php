@@ -41,6 +41,11 @@ if($gInstanceId && $gDocumentId){
 	));
 	$lSaveDocument->GetData();
 	$gGetDataFromRequest = true;
+	$lPreviewGenerator = new cinstance_preview_generator(array(
+		'template_xsl_dirname' => GetDocumentXslDirName($gDocumentId),
+		'document_id' => $gDocumentId,
+		'document_xml' => getDocumentXml($gDocumentId, SERIALIZE_INTERNAL_MODE, false, false, $gRootInstanceId),
+	));
 	if((int) $lSaveDocument->hasErrors()){
 		$lResult['err_cnt'] = 1;
 		$lResult['validation_err_cnt'] = 1;
@@ -70,6 +75,8 @@ if($gInstanceId && $gDocumentId){
 			'get_data_from_request' => true,
 			'get_object_mode_from_request' => true,
 			'field_validation_info' => $lFieldValidationInfo,
+			'use_preview_generator' => true,
+			'preview_generator' => $lPreviewGenerator,
 		));
 		$lResult['instance_html'] = $lInstance->Display();
 	}else{
@@ -92,12 +99,16 @@ if($gInstanceId && $gDocumentId){
 				'root_instance_id' => $gRootInstanceId,
 				'level' => $gLevel,
 				'field_validation_info' => $lFieldValidationInfo,
+				'use_preview_generator' => true,
+				'preview_generator' => $lPreviewGenerator,
 			));
 			$lResult['instance_html'] = $lInstance->Display();
 		}
 		$lResult['container_id'] = GetInstanceContainerId($gInstanceId);
 		$lResult['parent_instance_id'] = GetInstanceParentInstanceId($gInstanceId);
 	}
+	$lPreviewGenerator->SetTemplate($lResult['instance_html']);
+	$lResult['instance_html'] = $lPreviewGenerator->Display();
 }else{
 	$lResult = array(
 		'err_cnt' => 1,

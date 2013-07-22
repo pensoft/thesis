@@ -75,15 +75,14 @@
 			</xsl:choose>
 		</xsl:variable>
 		<li>
-			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:attribute name="field_id">53</xsl:attribute>
+			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>			
 			<xsl:variable name="label_field_id">
 				<xsl:choose>
 					<xsl:when test="$lTreatmentURLType ='4'">479</xsl:when>
 					<xsl:otherwise>52</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<xsl:apply-templates select="./fields/*[@id='53']" mode="formatting_treatment_link">
+			<xsl:apply-templates select="./fields/*[@id='53']/value" mode="formatting_treatment_link">
 				<xsl:with-param name="lLinkPrefix" select="$lTreatmentURLPrefix"/>
 				<xsl:with-param name="lTextPrefix" select="./fields/*[@id=$label_field_id]/value" />
 			</xsl:apply-templates>
@@ -101,7 +100,11 @@
 				<xsl:when test="contains($lCurrentVal, 'urn:lsid:indexfungorum.org:names:')">
 					<xsl:value-of select="substring($lCurrentVal, 34)" />	
 				</xsl:when>
-				<xsl:otherwise><xsl:value-of select="$lCurrentVal" /></xsl:otherwise>
+				<xsl:otherwise>
+					<span>
+						<xsl:apply-templates select="$lCurrentVal" mode="formatting"/>						
+					</span>					
+				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 		
@@ -109,7 +112,8 @@
 		<xsl:text> </xsl:text>
 		<a target="_blank">
 			<xsl:attribute name="href"><xsl:value-of select="translate(normalize-space(concat($lLinkPrefix, $lURLsuffix)) , ' ', '')"/></xsl:attribute>
-			<xsl:value-of select="normalize-space($lCurrentVal)"/>
+			<xsl:attribute name="field_id">53</xsl:attribute>			
+			<xsl:apply-templates select="$lCurrentVal" mode="formatting"/>		
 		</a>
 	</xsl:template>
 
