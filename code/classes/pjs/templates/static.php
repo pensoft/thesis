@@ -836,15 +836,15 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 		switch ((int) $pReviewerState) {
 			case REVIEWER_INVITATION_NEW_STATE :
 				$lRes .= '
-					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SEConfirmReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ')"><img src="../i/review_accepted.png"></img></a></span>
-					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ')"><img src="../i/remove_reviewer.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SEConfirmReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_accept_reviewer_invitation_confirmation') . '\')"><img src="../i/review_accepted.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_cancel_reviewer_invitation_confirmation') . '\')"><img src="../i/remove_reviewer.png"></img></a></span>
 				';
 				break;
 			case REVIEWER_CONFIRMED_STATE : // /view_version.php?version_id=1003&id=335&view_role=3&round=2&round_user_id=695!!!!!!!!!!!!!!!!!!!!!!!!!?version_id=1003&id='
 			                               // . $pDocumentId . '
 				$lRes .= '
 					<span class="reviewer_act"><a href="javascript:openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')"><img src="../i/reviewing.png"></img></a></span>
-					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ')"><img src="../i/remove_reviewer.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_cancel_reviewer_review_confirmation') . '\')"><img src="../i/remove_reviewer.png"></img></a></span>
 				';
 
 				$lToday = strtotime(date("d/m/Y"));
@@ -860,7 +860,7 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 			case REVIEWER_TIMEDOUT_STATE :
 				$lRes .= '
 				 	<span class="reviewer_act">
-					 	<a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ')">
+					 	<a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ', \'' . getstr('pjs.SE_reinvite_reviewer_confirmation') . '\')">
 							<img src="../i/in_review.png"></img>
 						</a>
 					</span>
@@ -869,7 +869,7 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 			case REVIEWER_CANCELLED_BY_SE_STATE :
 				$lRes .= '
 					<span class="reviewer_act">
-						<a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ')">
+						<a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ', \'' . getstr('pjs.SE_reinvite_reviewer_confirmation') . '\')">
 							<img src="../i/in_review.png"></img>
 						</a>
 					</span>
@@ -880,7 +880,7 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 		}
 
 	}else{
-		$lRes .= '<span class="reviewer_act"><a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ')"><img src="../i/in_review.png"></img></a></span>';
+		$lRes .= '<span class="reviewer_act"><a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ', \'' . getstr('pjs.SE_reinvite_reviewer_confirmation') . '\')"><img src="../i/in_review.png"></img></a></span>';
 	}
 	return $lRes;
 }
@@ -1762,7 +1762,7 @@ function showCurrentVersion($pVersionNumber, $pVersionLink) {
 	if((int) $pVersionNumber == 1){
 		return ($pVersionLink ? $pVersionLink . getstr('pjs.authorOriginalSubmissionVersionLabel') . '</a>' : getstr('pjs.authorOriginalSubmissionVersionLabel')) . ' (Version ' . $pVersionNumber . ')';
 	}else{
-		return getstr('pjs.authorRevisionVersionLabel') . ' (Version ' . $pVersionNumber . ')';
+		return ($pVersionLink ? $pVersionLink . getstr('pjs.authorRevisionVersionLabel') . '</a>' : getstr('pjs.authorRevisionVersionLabel')) . ' (Version ' . $pVersionNumber . ')';
 	}
 }
 function displayErrorIfExist($pError) {
@@ -2492,7 +2492,7 @@ function showReviewerRoundStateObjs($pDecisionId, $pInvitationState, $pUsrRoleNa
 						<td align="center">
 							<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
 								<div class="invite_reviewer_btn_left"></div>
-								<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id=' . $pUsrVersionId . '&view_role=' . $pUsrRoleId . '&round=' . $pRoundNumber . '&round_user_id=' . $pRoundUsrId . '&id=' . $pDocumentId . '\')">See Review</div>
+								<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id=' . $pUsrVersionId . '&view_role=' . $pUsrRoleId . '&round=' . $pRoundNumber . '&round_user_id=' . $pRoundUsrId . '&id=' . $pDocumentId . '\')">See review</div>
 								<div class="invite_reviewer_btn_right"></div>
 								<div class="P-Clear"></div>
 							</div>
@@ -2515,7 +2515,7 @@ function changeHeaderSize($pReadOnly) {
 		return 'height: 59px;';
 }
 function returnQuestion($pQuestionNum){
-	return getstr('admin.article_versions.quest' . $pQuestionNum);
+	return getstr('admin.article_versions.quest' . ($pQuestionNum + 1));
 }
 function seoUrl($pString) {
 	$lString = strtolower($pString);
@@ -2562,6 +2562,20 @@ function showRejectStatus($pStateId) {
 	}elseif($pStateId == DOCUMENT_REJECTED_BUT_RESUBMISSION){
 		return getstr('pjs.document_rejected_but_alabala_text');
 	}
+}
+
+function showFormLabelByRole($pRole) {
+	if($pRole == SE_ROLE || $pRole == E_ROLE) {
+		return getstr('admin.article_versions.SEviewForm');
+	}
+	return getstr('admin.article_versions.previewForm');
+}
+
+function showPollHeaderByRole($pRole) {
+	if($pRole == SE_ROLE || $pRole == E_ROLE) {
+		return getstr('admin.article_versions.quest1_SE');
+	}
+	return getstr('admin.article_versions.quest1');
 }
 
 function showRejectNotes($pRejectRoundDecisionNotes) {
@@ -2651,9 +2665,9 @@ function SetVersionMode($pRole) {
 function showInviteReviewersButton($pCanInviteReviewers, $pDocumentId, $pRoundNumber = 1, $pReviewType, $pShowInRound) {
 	if($pCanInviteReviewers != 'true' && $pCanInviteReviewers != 't'){
 		if($pRoundNumber == 1){
-			$lRoundText = '1st';
+			$lRoundText = '1';
 		}else if($pRoundNumber == 2){
-			$lRoundText = '2nd';
+			$lRoundText = '2';
 		}
 
 		$lMessage = '';

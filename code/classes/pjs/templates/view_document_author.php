@@ -441,14 +441,14 @@ $gTemplArr = array(
 				<div class="tabRowRight_Inactive"></div>
 				<div class="P-Clear"></div>	
 			</div>
-			<div class="tabRow {_showViewDocumentActiveSectionTab(active_tab, a' . GET_SUBMITTED_FILES_SECTION . ')}" onclick="window.location=\'view_document.php?id={document_id}&view_role={view_role}&section=' . GET_SUBMITTED_FILES_SECTION . '\'">
+			<!--<div class="tabRow {_showViewDocumentActiveSectionTab(active_tab, a' . GET_SUBMITTED_FILES_SECTION . ')}" onclick="window.location=\'view_document.php?id={document_id}&view_role={view_role}&section=' . GET_SUBMITTED_FILES_SECTION . '\'">
 				<div class="tabRowLeft_Inactive"></div>
 				<div class="tabRowMiddle_Inactive">
 					{_getstr(pjs.sybm_files_label_tab)}
 				</div>
 				<div class="tabRowRight_Inactive"></div>
 				<div class="P-Clear"></div>	
-			</div>
+			</div>-->
 			{_showHistoryTab(active_tab, document_id, view_role, has_history)}
 			<div class="P-Clear"></div>
 		</div>

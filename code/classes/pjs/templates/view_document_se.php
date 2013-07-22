@@ -474,28 +474,28 @@ $gTemplArr = array(
 			<colgroup>
 				<col width="35%">
 				<col width="35%">
-				<col width="20%">
-				<col width="10%">
+				<col width="30%">
+				<!--<col width="10%">-->
 			</colgroup>
 			<tr>
 				<th align="left">Panel reviewers</th>
-				<th align="left">Review submitted by</th>
 				<th align="left">Status</th>
-				<th align="center">Action</th>
+				<th align="left">Review submitted by</th>
+				<!--<th align="center">Action</th>-->
 			</tr>
 			<tr>
 				<td align="left">
 					{invited_reviewers}
 				</td>
 				<td align="left">
-					{reviewed_reviewers}
-				</td>
-				<td align="left">
 					{_checkCommunityPublicDueDate(document_review_type_id, panel_duedate, public_duedate)}
 				</td>
-				<td align="center">
-					{_showViewVersionIconPanelR(has_panel_reviews)}
+				<td align="left">
+					{reviewed_reviewers}
 				</td>
+				<!--<td align="center">
+					{_showViewVersionIconPanelR(has_panel_reviews)}
+				</td>-->
 			</tr>
 		</table>
 	',
@@ -533,16 +533,14 @@ $gTemplArr = array(
 	'view_document_se.dedicatedReviewerAssignedListStart' => '
 		<table cellpadding="0" cellspacing="0" width="100%" class="reviewer_list_tbl">
 		<colgroup>
+			<col width="35%"></col>
+			<col width="35%"></col>
 			<col width="30%"></col>
-			<col width="30%"></col>
-			<col width="30%"></col>
-			<col width="10%"></col>
 		</colgroup>
 		<tr>
 			<th align="left">Nominated reviewers</td>
 			<th align="left">Status</td>
 			<th align="left">Actions</td>
-			<th align="center">History</td>
 		</tr>
 	',
 
@@ -555,7 +553,7 @@ $gTemplArr = array(
 			<td align="left">
 				{_DisplaySEActionsAboutDedicatedReviewer(invitation_id, invitation_state, usr_state, decision_id, due_date, reviwer_id, round_id, document_id, id, round_number, reviwer_document_version_id)}
 			</td>
-			<td align="center"><a href="#" class="history_link">View</a></td>
+			<!--<td align="center"><a href="#" class="history_link">View</a></td>-->
 		</tr>
 	',
 
@@ -635,7 +633,7 @@ $gTemplArr = array(
 			</div>
 		</div>
 		<div class="under_footer">
-			<div class="invite_reviewer_btn" onclick="DocumentInviteReviewers({document_id}, {view_role})">
+			<div class="invite_reviewer_btn" onclick="DocumentInviteReviewers({document_id}, {view_role}, \'{_getstr(pjs.invite_at_least_one_nom_pan_reviewer)}\')">
 				<div class="invite_reviewer_btn_left"></div>
 				<div class="invite_reviewer_btn_middle">{_getstr(pjs.invite_reviewers_btn_txt)}</div>
 				<div class="invite_reviewer_btn_right"></div>
@@ -732,14 +730,14 @@ $gTemplArr = array(
 				<div class="tabRowRight_Inactive"></div>
 				<div class="P-Clear"></div>	
 			</div>
-			<div class="tabRow {_showViewDocumentActiveSectionTab(active_tab, a' . GET_SUBMITTED_FILES_SECTION . ')}" onclick="window.location=\'view_document.php?id={document_id}&view_role={view_role}&section=' . GET_SUBMITTED_FILES_SECTION . '\'">
+			<!--<div class="tabRow {_showViewDocumentActiveSectionTab(active_tab, a' . GET_SUBMITTED_FILES_SECTION . ')}" onclick="window.location=\'view_document.php?id={document_id}&view_role={view_role}&section=' . GET_SUBMITTED_FILES_SECTION . '\'">
 				<div class="tabRowLeft_Inactive"></div>
 				<div class="tabRowMiddle_Inactive">
 					{_getstr(pjs.sybm_files_label_tab)}
 				</div>
 				<div class="tabRowRight_Inactive"></div>
 				<div class="P-Clear"></div>	
-			</div>
+			</div>-->
 			{_showHistoryTab(active_tab, document_id, view_role, has_history)}
 			<div class="P-Clear"></div>
 		</div>
@@ -805,16 +803,16 @@ $gTemplArr = array(
 	'view_document_se.dedicatedReviewerAssignedOldListStart' => '
 			<table cellpadding="0" cellspacing="0" width="100%" class="reviewer_list_tbl">
 			<colgroup>
+				<col width="35%"></col>
+				<col width="35%"></col>
 				<col width="30%"></col>
-				<col width="30%"></col>
-				<col width="30%"></col>
-				<col width="10%"></col>
+				<!--<col width="10%"></col>-->
 			</colgroup>
 			<tr>
 				<th align="left">{_getstr(pjs.nominated_reviewer_txt)}</td>
 				<th align="left">{_getstr(pjs.nominated_reviewer_status_txt)}</td>
-				<th align="left">{_getstr(pjs.nominated_reviewer_action_txt)}</td>
-				<th align="center">{_getstr(pjs.nominated_reviewer_history_txt)}</td>
+				<th align="left" style="text-align:center">{_getstr(pjs.nominated_reviewer_action_txt)}</td>
+				<!--<th align="center">{_getstr(pjs.nominated_reviewer_history_txt)}</td>-->
 			</tr>
 	',
 
@@ -827,7 +825,7 @@ $gTemplArr = array(
 			<td align="left">
 				{_DisplayReviewIcon(invitation_id, decision_id, reviwer_id, round_id, document_id, id, round_number, reviwer_document_version_id)}
 			</td>
-			<td align="center"><a href="#" class="history_link">{_getstr(pjs.row_view_text)}</a></td>
+			<!--<td align="center"><a href="#" class="history_link">{_getstr(pjs.row_view_text)}</a></td>-->
 		</tr>
 	',
 	
@@ -836,28 +834,28 @@ $gTemplArr = array(
 			<colgroup>
 				<col width="35%">
 				<col width="35%">
-				<col width="20%">
-				<col width="10%">
+				<col width="30%">
+				<!--<col width="10%">-->
 			</colgroup>
 			<tr>
 				<th align="left">Panel reviewers</th>
-				<th align="left">Review submitted by</th>
 				<th align="left">Status</th>
-				<th align="center">Action</th>
+				<th align="left">Review submitted by</th>
+				<!--<th align="center">Action</th>-->
 			</tr>
 			<tr>
 				<td align="left">
 					{invited_reviewers}
 				</td>
 				<td align="left">
-					{reviewed_reviewers}
+					{_getstr(pjs.panel_public_review_ended)}
 				</td>
 				<td align="left">
-					&nbsp;
+					{reviewed_reviewers}
 				</td>
-				<td align="center">
+				<!--<td align="center">
 					{_showViewVersionIconPanelR(has_panel_reviews)}
-				</td>
+				</td>-->
 			</tr>
 		</table>
 	',
