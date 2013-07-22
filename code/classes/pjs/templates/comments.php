@@ -125,7 +125,8 @@ $gTemplArr = array(
 
 	'comments.new_form_wrapper' => '
 						<div class="P-Clear"></div>
-						<div class="comment_btn floatLeft " id="P-Comment-Main-Btn-Wrapper" onclick="submitPreviewNewComment(); return false;"></div>
+						<div class="comment_btn floatLeft " id="P-Comment-Main-Btn-Wrapper" onmousedown="submitPreviewNewComment(); return false;"></div>
+						<!--<div class="comment_btn floatLeft " id="P-Comment-Main-Btn-Wrapper" onclick="submitPreviewNewComment(); return false;"></div>-->
 						<div class="Comment-Prev floatLeft"><a onclick="SelectPreviousComment()">Prev</a></div>
 						<div class="Comment-Next floatLeft"><a onclick="SelectNextComment()">Next</a></div>
 						<div class="P-Clear"></div>
