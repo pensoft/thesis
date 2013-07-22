@@ -1635,8 +1635,12 @@ function updateDocumentAutoPrice(pObj, pOper){
 }
 function scrollToForm(){
 	var lHeaderHeight = $('.documentHeader').height();
+	
+	var lFormEl = $('#P-Version-PopUp-Form');
+	var lElemToScroll = $(lFormEl).find('.errstr:visible:first');
+
 	$('html, body').animate( {
-		scrollTop : ( $('#pollhead').offset().top - lHeaderHeight )
+		scrollTop : ( $(lElemToScroll).offset().top - lHeaderHeight )
 	},
 	{
 		duration : 800
