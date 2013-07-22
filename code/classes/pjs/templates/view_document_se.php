@@ -480,7 +480,7 @@ $gTemplArr = array(
 			<tr>
 				<th align="left">Panel reviewers</th>
 				<th align="left">Status</th>
-				<th align="left" style="text-align:center">Review submitted by</th>
+				<th align="left">Review submitted by</th>
 				<!--<th align="center">Action</th>-->
 			</tr>
 			<tr>
@@ -490,7 +490,7 @@ $gTemplArr = array(
 				<td align="left">
 					{_checkCommunityPublicDueDate(document_review_type_id, panel_duedate, public_duedate)}
 				</td>
-				<td align="center">
+				<td align="left">
 					{reviewed_reviewers}
 				</td>
 				<!--<td align="center">
@@ -540,7 +540,7 @@ $gTemplArr = array(
 		<tr>
 			<th align="left">Nominated reviewers</td>
 			<th align="left">Status</td>
-			<th align="center" style="text-align:center">Actions</td>
+			<th align="left">Actions</td>
 		</tr>
 	',
 
@@ -550,7 +550,7 @@ $gTemplArr = array(
 			<td align="left">
 				{_DisplaySETextAboutDedicatedReviewer(invitation_state, usr_state, decision_id, due_date, decision_name, review_usr_due_date, round_id, id, reviwer_id)}
 			</td>
-			<td align="center">
+			<td align="left">
 				{_DisplaySEActionsAboutDedicatedReviewer(invitation_id, invitation_state, usr_state, decision_id, due_date, reviwer_id, round_id, document_id, id, round_number, reviwer_document_version_id)}
 			</td>
 			<!--<td align="center"><a href="#" class="history_link">View</a></td>-->
@@ -822,7 +822,7 @@ $gTemplArr = array(
 			<td align="left">
 				{_DisplaySETextAboutDedicatedReviewer(invitation_state, usr_state, decision_id, due_date, decision_name, review_usr_due_date)}
 			</td>
-			<td align="center">
+			<td align="left">
 				{_DisplayReviewIcon(invitation_id, decision_id, reviwer_id, round_id, document_id, id, round_number, reviwer_document_version_id)}
 			</td>
 			<!--<td align="center"><a href="#" class="history_link">{_getstr(pjs.row_view_text)}</a></td>-->
@@ -840,7 +840,7 @@ $gTemplArr = array(
 			<tr>
 				<th align="left">Panel reviewers</th>
 				<th align="left">Status</th>
-				<th align="left" style="text-align:center">Review submitted by</th>
+				<th align="left">Review submitted by</th>
 				<!--<th align="center">Action</th>-->
 			</tr>
 			<tr>
@@ -850,7 +850,7 @@ $gTemplArr = array(
 				<td align="left">
 					{_getstr(pjs.panel_public_review_ended)}
 				</td>
-				<td align="center">
+				<td align="left">
 					{reviewed_reviewers}
 				</td>
 				<!--<td align="center">

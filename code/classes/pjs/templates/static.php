@@ -2658,9 +2658,9 @@ function SetVersionMode($pRole) {
 function showInviteReviewersButton($pCanInviteReviewers, $pDocumentId, $pRoundNumber = 1, $pReviewType, $pShowInRound) {
 	if($pCanInviteReviewers != 'true' && $pCanInviteReviewers != 't'){
 		if($pRoundNumber == 1){
-			$lRoundText = '1st';
+			$lRoundText = '1';
 		}else if($pRoundNumber == 2){
-			$lRoundText = '2nd';
+			$lRoundText = '2';
 		}
 
 		$lMessage = '';
