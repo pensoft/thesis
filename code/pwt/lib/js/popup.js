@@ -3,19 +3,27 @@ var gPopupFormName = "newPopupForm";
 var gPopupId = 'newElementPopup';
 var gReferenceObjectId = 95;
 var gSupFileObjectId = 55;
+var gFigureObjectId = 221;
+var gTableObjectId = 238;
 
-function CreatePopup(pParentInstanceId, pObjectId){
+function CreatePopup(pParentInstanceId, pObjectId, pAdditionalData){
 	showLoading();
 	gActiveInstanceFormName = gPopupFormName;
+	var lData = {
+		action : 'create_new_popup',
+		parent_instance_id : pParentInstanceId,
+		object_id : pObjectId
+	};
+	if(pAdditionalData){
+		for(var i in pAdditionalData){
+			lData[i] = pAdditionalData[i];
+		}
+	}
 	$.ajax({
 		url : gPopupAjaxSrv,
 		dataType : 'json',
 		async : false,
-		data :{
-			action : 'create_new_popup',
-			parent_instance_id : pParentInstanceId,
-			object_id : pObjectId
-		},
+		data : lData,
 		error: function(){
 			gActiveInstanceFormName = gDocumentFormName;
 		},
@@ -121,8 +129,29 @@ function CreateNewSupFilePopup(pPopupInEditor){
 	CreateNewElementPopupInEditor(gSupFilesParentInstanceId, gSupFileObjectId, pPopupInEditor);
 }
 
-function CreateNewElementPopupInEditor(pParentInstanceId, pElementObjectId, pPopupInEditor){
-	CreatePopup(pParentInstanceId, pElementObjectId);
+function CreateNewFigurePopup(pPopupInEditor, pFigureType){
+	var gFiguresParentInstanceId = getFiguresParentInstanceId();
+	if(!gFiguresParentInstanceId){
+		alert('Could not locate figures parent!');
+		return;
+	}
+	var lAdditionalData = {
+		'figure_type' : pFigureType
+	};
+	CreateNewElementPopupInEditor(gFiguresParentInstanceId, gFigureObjectId, pPopupInEditor, lAdditionalData);
+}
+
+function CreateNewTablePopup(pPopupInEditor){
+	var gTablesParentInstanceId = getTablesParentInstanceId();
+	if(!gTablesParentInstanceId){
+		alert('Could not locate figures parent!');
+		return;
+	}
+	CreateNewElementPopupInEditor(gTablesParentInstanceId, gTableObjectId, pPopupInEditor);
+}
+
+function CreateNewElementPopupInEditor(pParentInstanceId, pElementObjectId, pPopupInEditor, pAdditionalData){
+	CreatePopup(pParentInstanceId, pElementObjectId, pAdditionalData);
 	if(pPopupInEditor){
 		$('#' + gPopupId).attr('in_editor', 1);
 	}else{

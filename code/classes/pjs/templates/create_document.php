@@ -80,7 +80,7 @@ $gTemplArr = array(
 		{~}{~~}
 		<b>Select the appropriate peer review option for this submission.</b>
 		<br/><br/>
-		Section: Research Article
+		Section: {@journal_section}
 		<br/><br/>
 		<fieldset>
 			<legend>{*review_process_type}</legend>

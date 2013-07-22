@@ -583,6 +583,402 @@
 		</xsl:choose>
 	</xsl:template>
 	
+	<xsl:template match="*[@object_id='236']" mode="figuresPreview">
+		<xsl:apply-templates select="./*[@object_id='221']" mode="singleFigNormalPreview"/>	
+	</xsl:template>
+	
+	<!-- Figure normal previews -->
+	<xsl:template match="*[@object_id='221']" mode="singleFigNormalPreview">
+		<xsl:apply-templates select="./*[@object_id &gt; 0]" mode="singleFigNormalPreview"/>	
+	</xsl:template>
+	
+	<xsl:template name="imagePicPreview">
+		<xsl:param name="pInstanceId" />
+		<xsl:param name="pPicId" />
+		<xsl:param name="pImageType" >1</xsl:param>
+		<xsl:param name="pPlateNum" />
+		
+		<xsl:variable name="pImageLink">/showfigure.php?filename=big_<xsl:value-of select="$pPicId"/>.jpg</xsl:variable>
+		<xsl:variable name="lContent">
+				<a target="_blank">
+					<xsl:attribute name="href">
+						<xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
+						<xsl:value-of select="$pInstanceId"/>
+					</xsl:attribute>
+					<img>
+						<xsl:attribute name="src">
+							<xsl:value-of select="$pImageLink"/>
+						</xsl:attribute>
+						<xsl:attribute name="alt" />
+					</img>
+				</a>
+				<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
+					<xsl:attribute name="href">
+						<xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
+						<xsl:value-of select="$pInstanceId"/>
+					</xsl:attribute>				
+				</a>
+				<xsl:if test="$pImageType &gt; 1">
+					<div class="Plate-part-letter"><xsl:value-of select="$pPlateNum"/></div>
+				</xsl:if>
+		</xsl:variable>
+		<div >
+			<xsl:choose>
+				<!-- Image pic -->
+				<xsl:when test="$pImageType = 1" >
+					<xsl:attribute name="class">holder</xsl:attribute>
+				</xsl:when>
+				<!-- Plate Type 2/3/4 pic-->
+				<xsl:when test="$pImageType = 2" >
+					<xsl:attribute name="class">plate2column</xsl:attribute>
+				</xsl:when>
+			</xsl:choose>
+			<xsl:choose>
+				<!-- Image pic -->
+				<xsl:when test="$pImageType = 1" >
+					<xsl:copy-of select="$lContent"/>
+				</xsl:when>
+				<!-- Plate-->
+				<xsl:otherwise >
+					<div class="singlePlatePhoto">
+						<xsl:copy-of select="$lContent"/>
+					</div>
+				</xsl:otherwise>
+			</xsl:choose>
+			
+		</div>		
+	</xsl:template>
+	
+	<!-- Image figure -->
+	<xsl:template match="*[@object_id='222']" mode="singleFigNormalPreview">
+		<xsl:variable name="lFigNumber"><xsl:value-of select="../fields/*[@id='489']/value"/></xsl:variable>
+		<div class="figure">
+			<xsl:attribute name="contenteditable">false</xsl:attribute>
+			<xsl:attribute name="figure_position"><xsl:value-of select="$lFigNumber"/></xsl:attribute>
+			<xsl:call-template name="imagePicPreview">
+				<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
+				<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='483']/value"/></xsl:with-param>
+			</xsl:call-template>
+			<div class="description">
+				<div class="name">
+					<xsl:text>Figure </xsl:text><xsl:value-of select="$lFigNumber"/><xsl:text>. </xsl:text>
+				</div>
+				<div class="figureCaption">
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="@object_id"></xsl:with-param>
+						<xsl:with-param name="pFieldId" select="482"></xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="instance_id"><xsl:value-of select="@instance_id" /></xsl:attribute>
+					<xsl:attribute name="field_id"><xsl:value-of select="482" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='482']/value" mode="formatting"/>
+				</div>						
+			</div>
+			<div class="P-Clear"></div>
+		</div>
+	</xsl:template>
+	
+	<!-- Video figure -->
+	<xsl:template match="*[@object_id='223']" mode="singleFigNormalPreview">
+		<xsl:variable name="lFigNumber"><xsl:value-of select="../fields/*[@id='489']/value"/></xsl:variable>
+		<div class="figure">
+			<xsl:attribute name="contenteditable">false</xsl:attribute>
+			<xsl:attribute name="figure_position">
+				<xsl:value-of select="$lFigNumber"/>
+			</xsl:attribute>
+			<div class="holder">
+				<iframe width="696" height="522" frameborder="0">
+					<xsl:attribute name="src">
+						<xsl:text>http://www.youtube.com/embed/</xsl:text>
+						<xsl:value-of select="php:function('getYouTubeId', string(./fields/*[@id='486']/value))"/>
+					</xsl:attribute>
+				</iframe>
+			</div>
+			<div class="description">
+				<div class="name">
+					<xsl:text>Figure </xsl:text><xsl:value-of select="$lFigNumber"/><xsl:text>. </xsl:text>
+				</div>
+				<div class="figureCaption">
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="@object_id"></xsl:with-param>
+						<xsl:with-param name="pFieldId" select="482"></xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="instance_id"><xsl:value-of select="@instance_id" /></xsl:attribute>
+					<xsl:attribute name="field_id"><xsl:value-of select="482" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='482']/value" mode="formatting"/>
+				</div>						
+			</div>
+			<div class="P-Clear"></div>
+		</div>
+	</xsl:template>
+	
+	<!-- Plate figure -->
+	<xsl:template match="*[@object_id='224']" mode="singleFigNormalPreview">
+		<xsl:variable name="lFigNumber"><xsl:value-of select="../fields/*[@id='489']/value"/></xsl:variable>
+		<xsl:variable name="lPlateType"><xsl:value-of select="./fields/*[@id='485']/value"/></xsl:variable>
+		<xsl:variable name="lImageType">
+			<xsl:choose>
+				<xsl:when test="$lPlateType = 1">3</xsl:when>
+				<xsl:otherwise>2</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<div class="figure">
+			<xsl:attribute name="contenteditable">false</xsl:attribute>
+			<xsl:attribute name="figure_position">
+				<xsl:value-of select="$lFigNumber"/>
+			</xsl:attribute>
+			<xsl:choose>
+				<xsl:when test="$lPlateType = 3"><!-- 2 rows 1 columns -->
+					<xsl:for-each select=".//*[@object_id='225' or @object_id='226' or @object_id='227' or @object_id='228' or @object_id='229' or @object_id='230']">
+						<xsl:call-template name="imagePicPreview">
+							<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
+							<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
+							<xsl:with-param name="pImageType"><xsl:value-of select="$lImageType"/></xsl:with-param>
+							<xsl:with-param name="pPlateNum">
+								<xsl:choose>
+									<xsl:when test="@object_id='225'">a</xsl:when>
+									<xsl:when test="@object_id='226'">b</xsl:when>
+									<xsl:when test="@object_id='227'">c</xsl:when>
+									<xsl:when test="@object_id='228'">d</xsl:when>
+									<xsl:when test="@object_id='229'">e</xsl:when>
+									<xsl:when test="@object_id='230'">f</xsl:when>
+								</xsl:choose>
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:for-each>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:for-each select=".//*[@object_id='225' or @object_id='226' or @object_id='227' or @object_id='228' or @object_id='229' or @object_id='230']">
+						<div>
+							<xsl:attribute name="class"><xsl:text>P-Article-Preview-Picture-Row</xsl:text></xsl:attribute>
+							<xsl:call-template name="imagePicPreview">
+								<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
+								<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
+								<xsl:with-param name="pImageType"><xsl:value-of select="$lImageType"/></xsl:with-param>
+								<xsl:with-param name="pPlateNum">
+									<xsl:choose>
+										<xsl:when test="@object_id='225'">a</xsl:when>
+										<xsl:when test="@object_id='226'">b</xsl:when>
+										<xsl:when test="@object_id='227'">c</xsl:when>
+										<xsl:when test="@object_id='228'">d</xsl:when>
+										<xsl:when test="@object_id='229'">e</xsl:when>
+										<xsl:when test="@object_id='230'">f</xsl:when>
+									</xsl:choose>
+								</xsl:with-param>
+							</xsl:call-template>
+						</div>
+					</xsl:for-each>
+				</xsl:otherwise>				
+			</xsl:choose>
+			<div style="clear: both"></div>
+			<div class="description">
+				<div class="name">
+					<xsl:text>Figure </xsl:text><xsl:value-of select="$lFigNumber"/><xsl:text>. </xsl:text>
+				</div>
+				<div class="figureCaption">
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="@object_id"></xsl:with-param>
+						<xsl:with-param name="pFieldId" select="482"></xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="instance_id"><xsl:value-of select="@instance_id" /></xsl:attribute>
+					<xsl:attribute name="field_id"><xsl:value-of select="482" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='482']/value" mode="formatting"/>
+				</div>	
+				<xsl:for-each select=".//*[@object_id='225' or @object_id='226' or @object_id='227' or @object_id='228' or @object_id='229' or @object_id='230']">							
+					<b>
+						<xsl:choose>
+							<xsl:when test="@object_id='225'">a</xsl:when>
+							<xsl:when test="@object_id='226'">b</xsl:when>
+							<xsl:when test="@object_id='227'">c</xsl:when>
+							<xsl:when test="@object_id='228'">d</xsl:when>
+							<xsl:when test="@object_id='229'">e</xsl:when>
+							<xsl:when test="@object_id='230'">f</xsl:when>
+						</xsl:choose>
+					</b><xsl:text>:&#160;</xsl:text>	
+					<span class="figureCaption plateCaption">
+						<xsl:call-template name="markContentEditableField">
+							<xsl:with-param name="pObjectId" select="@object_id"></xsl:with-param>
+							<xsl:with-param name="pFieldId" select="487"></xsl:with-param>
+						</xsl:call-template>
+						<xsl:attribute name="instance_id"><xsl:value-of select="@instance_id" /></xsl:attribute>
+						<xsl:attribute name="field_id"><xsl:value-of select="487" /></xsl:attribute>
+						<xsl:apply-templates select="./fields/*[@id='487']/value" mode="formatting"/>
+					</span>								
+					<br/>
+				</xsl:for-each>					
+			</div>			
+			<div class="P-Clear"></div>
+		</div>
+	</xsl:template>
+	
+	
+	
+	<!-- Figure small previews -->
+	<xsl:template match="*[@object_id='221']" mode="singleFigSmallPreview">
+		<xsl:apply-templates select="./*[@object_id &gt; 0]" mode="singleFigSmallPreview"/>	
+	</xsl:template>
+	
+	<!-- Image figure -->
+	<xsl:template match="*[@object_id='222']" mode="singleFigSmallPreview">
+		<div class="P-Picture-Holder" style="float:left">
+				<div class="pointerLink">
+				<img style="float: left;"  alt="">
+					<xsl:attribute name="src">/showfigure.php?filename=c45x82y_<xsl:value-of select="./fields/*[@id='483']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+				</img>
+				<div class="P-Clear"></div>
+			</div>
+		</div>	
+		<div class="P-Block-Title-Holder" style="float:left">
+			<div class="P-Figure-Num">Figure <xsl:value-of select="../fields/*[@id='489']/value"/></div>
+			<div class="P-Figure-Desc"><xsl:value-of select="./fields/*[@id='482']/value"/></div>			
+		</div>
+		<div class="P-Clear"></div>
+	</xsl:template>
+	
+	<!-- Video figure -->
+	<xsl:template match="*[@object_id='223']" mode="singleFigSmallPreview">
+		<xsl:variable name="lVideoId" select="php:function('getYouTubeIdFromURL', string(./fields/*[@id='486']))"></xsl:variable>
+		<div class="P-Picture-Holder" style="float:left">
+			<div class="pointerLink">
+				<img style="float: left;"   title="YouTube Thumbnail Test"  width="90px" height="82px" alt="">
+					<xsl:attribute name="src">http://img.youtube.com/vi/<xsl:value-of select="$lVideoId"></xsl:value-of>/1.jpg</xsl:attribute>
+					<xsl:attribute name="id"><xsl:value-of select="$lVideoId"></xsl:value-of></xsl:attribute>
+					<xsl:attribute name="class">youtube_<xsl:value-of select="$lVideoId"></xsl:value-of> youtubeVideoThumbnail</xsl:attribute>						
+				</img>				
+				<div class="P-Clear"></div>
+			</div>
+		</div>	
+		<div class="P-Block-Title-Holder" style="float:left">
+			<div class="P-Figure-Num">Figure <xsl:value-of select="../fields/*[@id='489']/value"/></div>
+			<div class="P-Figure-Desc"><xsl:value-of select="./fields/*[@id='482']/value"/></div>			
+		</div>
+		<div class="P-Clear"></div>
+	</xsl:template>
+	
+	<!-- Plate figure -->
+	<xsl:template match="*[@object_id='224']" mode="singleFigSmallPreview">
+		<div class="P-Picture-Holder" style="float:left">
+				<div class="pointerLink">
+					<xsl:apply-templates select=".//*[@object_id='231' or @object_id='232' or @object_id='233' or @object_id='234']" mode="singleFigSmallPreview"/>	
+				<div class="P-Clear"></div>
+			</div>
+		</div>	
+		<div class="P-Block-Title-Holder" style="float:left">
+			<div class="P-Figure-Num">Figure <xsl:value-of select="../fields/*[@id='489']/value"/></div>
+			<div class="P-Figure-Desc"><xsl:value-of select="./fields/*[@id='482']/value"/></div>			
+		</div>
+		<div class="P-Clear"></div>
+	</xsl:template>
+	
+	<!-- Plate type 1 image preview -->
+	<xsl:template match="*[@object_id='231']" mode="singleFigSmallPreview">
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+	</xsl:template>
+	
+	<!-- Plate type 2 image preview -->
+	<xsl:template match="*[@object_id='232']" mode="singleFigSmallPreview">
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c45x82y_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c45x82y_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+	</xsl:template>
+	
+	<!-- Plate type 3 image preview -->
+	<xsl:template match="*[@object_id='233']" mode="singleFigSmallPreview">
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c45x41y_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c45x41y_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c45x41y_<xsl:value-of select="./*[@object_id='227']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c45x41y_<xsl:value-of select="./*[@object_id='228']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+	</xsl:template>
+	
+	<!-- Plate type 4 image preview -->
+	<xsl:template match="*[@object_id='234']" mode="singleFigSmallPreview">
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='227']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='228']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='229']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+		<img style="float: left;"  alt="">
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='230']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+		</img>
+	</xsl:template>
+	
+	<!-- Table small preview -->
+	<xsl:template match="*[@object_id='238']" mode="singleTableSmallPreview">
+			<div class="P-Picture-Holder" style="float:left">
+				<img src="/i/table_pic.png"/>
+			</div>
+			<div class="P-Block-Title-Holder" style="float:left">
+				<div class="P-Block-Title"><xsl:value-of select="./fields/*[@id='482']/value"/></div>
+				<div class="P-Clear"></div>
+				<div class="P-Figure-Num">Table <xsl:value-of select="./fields/*[@id='489']/value"/></div>
+			</div>	
+			<div class="P-Clear"></div>
+	</xsl:template>
+	
+	<xsl:template match="*[@object_id='237']" mode="tablesPreview">
+		<xsl:apply-templates select="./*[@object_id='238']" mode="singleTableNormalPreview"/>	
+	</xsl:template>
+	
+	<!-- Table regular preview -->
+	<xsl:template match="*[@object_id='238']" mode="singleTableNormalPreview">
+			<xsl:variable name="lFigNumber"><xsl:value-of select="./fields/*[@id='489']/value"/></xsl:variable>		
+			<div class="table">
+				<xsl:attribute name="contenteditable">false</xsl:attribute>
+				<xsl:attribute name="table_position"><xsl:value-of select="$lFigNumber"/></xsl:attribute>
+				<div class="description">
+					<div class="name">Table <xsl:value-of select="$lFigNumber" />.</div>
+					<div class="P-Inline">
+						<div class="tableCaption">
+							<xsl:call-template name="markContentEditableField">
+								<xsl:with-param name="pObjectId" select="@object_id"></xsl:with-param>
+								<xsl:with-param name="pFieldId" select="482"></xsl:with-param>
+							</xsl:call-template>
+							<xsl:attribute name="instance_id"><xsl:value-of select="@instance_id" /></xsl:attribute>
+							<xsl:attribute name="field_id"><xsl:value-of select="482" /></xsl:attribute>
+							<xsl:apply-templates select="./fields/*[@id='482']/value" mode="formatting"/>
+						</div>				
+					</div>
+				</div>
+				<div class="P-Clear"></div>
+				<div class="Table-Body">
+					<div class="tableCaption">
+						<xsl:call-template name="markContentEditableField">
+							<xsl:with-param name="pObjectId" select="@object_id"></xsl:with-param>
+							<xsl:with-param name="pFieldId" select="490"></xsl:with-param>
+						</xsl:call-template>
+						<xsl:attribute name="instance_id"><xsl:value-of select="@instance_id" /></xsl:attribute>
+						<xsl:attribute name="field_id"><xsl:value-of select="490" /></xsl:attribute>
+						<xsl:apply-templates select="./fields/*[@id='490']/value" mode="table_formatting"/>
+					</div>			
+				</div>
+			</div>
+	</xsl:template>
+	
 	<!--
 		!!!!!
 		If you edit the wrapper of the figure/table (i.e. <div class="table">) 

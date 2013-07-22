@@ -3,7 +3,7 @@
 $gTemplArr = array(
 	'popup.default_popup' => '
 		<div class="P-PopUp New-Element-Popup" id="newElementPopup" tabindex="-1" class="hiddenElement">
-		<div id="simplemodal-container" onclick="CancelNewElementPopup({instance_id});HideNewPopup();"><a title="Close" class="modalCloseImg simplemodal-close"></a></div>
+			<div id="simplemodal-container" onclick="CancelNewElementPopup({instance_id});HideNewPopup();"><a title="Close" class="modalCloseImg simplemodal-close"></a></div>
 			<div class="P-PopUp-Main-Holder">
 				<div class="P-PopUp-Content">
 					<div class="P-PopUp-Title">New {_strtolower(popup_title)}</div>
@@ -217,6 +217,85 @@ $gTemplArr = array(
 						<div class="P-Clear"></div>
 						<div class="P-Clear"></div>
 					</div>
+				</div>
+				<div class="P-PopUp-Footer-Holder">
+					<div class="P-Green-Btn-Holder P-90" id="popupEditSaveBtn"
+						onclick="SaveEditPopup();">
+						<div class="P-Green-Btn-Left"></div>
+						<div class="P-Green-Btn-Middle">Save</div>
+						<div class="P-Green-Btn-Right"></div>
+					</div>
+					<div class="P-HSpace-10"></div>
+					<div class="P-Grey-Btn-Holder" onclick="HideEditPopup();">
+						<div class="P-Grey-Btn-Left"></div>
+						<div class="P-Grey-Btn-Middle">
+							<div class="P-Btn-Icon"></div>
+							Cancel
+						</div>
+						<div class="P-Grey-Btn-Right"></div>
+					</div>
+					<div class="P-Clear"></div>
+				</div>
+			</div>
+		</div>
+	',
+		
+		
+	'popup.figure_popup' => '
+		<div class="P-PopUp New-Element-Popup" id="newElementPopup" tabindex="-1" class="hiddenElement">
+			<div id="simplemodal-container" onclick="CancelNewElementPopup({instance_id});HideNewPopup();"><a title="Close" class="modalCloseImg simplemodal-close"></a></div>
+			<div class="P-PopUp-Main-Holder">
+				<div class="P-PopUp-Content">
+					<div class="P-PopUp-Title" id="P-PopUp-Figures-Title">New {_strtolower(popup_title)}</div>					
+					<div class="P-PopUp-Content-Inner-Tables" id="newElementPopupContent">
+							<form name="newPopupForm" method="post">
+								<input type="hidden" name="document_id" value="{document_id}"/>
+								<input type="hidden" name="instance_id" value="{instance_id}"/>
+								<input type="hidden" name="perform_save_action" value="1"/>
+								{popup_content}
+							</form>
+						<div class="P-Clear"></div>
+					</div>					
+				</div>
+				<div class="P-PopUp-Footer-Holder">
+					<div class="P-Green-Btn-Holder P-90" id="newElementPopupSave"
+						onclick="SaveNewElementPopup({instance_id}, {parent_instance_id}, {container_id}, {display_in_tree});">
+						<div class="P-Green-Btn-Left"></div>
+						<div class="P-Green-Btn-Middle">Save</div>
+						<div class="P-Green-Btn-Right"></div>
+					</div>
+					<div class="P-HSpace-10"></div>
+					<div class="P-Grey-Btn-Holder"
+						onclick="CancelNewElementPopup({instance_id});" id="newElementPopupCancel">
+						<div class="P-Grey-Btn-Left"></div>
+						<div class="P-Grey-Btn-Middle">
+							<div class="P-Btn-Icon"></div>
+							Cancel
+						</div>
+						<div class="P-Grey-Btn-Right"></div>
+					</div>
+					<div class="P-Clear"></div>
+				</div>
+			</div>
+		</div>
+	',
+		
+	'popup.figure_edit_popup' => '
+		<div class="P-PopUp New-Element-Popup" id="newElementPopup" tabindex="-1" class="hiddenElement">
+			<div id="simplemodal-container" onclick="HideEditPopup();"><a title="Close" class="modalCloseImg simplemodal-close"></a></div>
+			<div class="P-PopUp-Main-Holder">
+				<div class="P-PopUp-Content">
+					<div class="P-PopUp-Title" id="P-PopUp-Figures-Title">Edit {_strtolower(popup_title)}</div>					
+					<div class="P-PopUp-Content-Inner-Tables" id="newElementPopupContent">
+							<form name="newPopupForm" method="post">
+								<input type="hidden" name="document_id" value="{document_id}"/>
+								<input type="hidden" name="instance_id" value="{instance_id}"/>
+								<input type="hidden" name="perform_save_action" value="1"/>
+								<input type="hidden" name="in_popup" value="1"/>
+								{popup_content}
+							</form>
+						<div class="P-Clear"></div>
+					</div>					
 				</div>
 				<div class="P-PopUp-Footer-Holder">
 					<div class="P-Green-Btn-Holder P-90" id="popupEditSaveBtn"

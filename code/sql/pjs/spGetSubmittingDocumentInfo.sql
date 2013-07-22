@@ -15,7 +15,8 @@ CREATE TYPE pjs."ret_spGetSubmittingDocumentInfo" AS (
 	chronological_categories text,
 	supporting_agencies text,
 	supporting_agencies_txts varchar,
-	pwt_paper_type_id int
+	pwt_paper_type_id int,
+	journal_section varchar
 );
 
 CREATE OR REPLACE FUNCTION pjs."spGetSubmittingDocumentInfo"(
@@ -56,8 +57,10 @@ $BODY$
 			(SELECT string_agg("name", ', ') FROM public.chronological_categories   WHERE id = ANY(d.chronological_categories)) AS chronological_categories,
 			(SELECT string_agg(title, '<br />')  FROM public.supporting_agencies 		WHERE id = ANY(d.supporting_agencies_ids)) 	AS supporting_agencies,
 			d.supporting_agencies_texts as supporting_agencies_txts,
-			d.pwt_paper_type_id as pwt_paper_type_id
+			d.pwt_paper_type_id as pwt_paper_type_id,
+			js.title as journal_section
 		FROM pjs.documents d
+		LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id AND js.journal_id = d.journal_id
 		WHERE  d.id = pDocumentId;	
 		RETURN lRes;
 	END

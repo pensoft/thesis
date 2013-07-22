@@ -705,6 +705,7 @@ function getDocumentPathDefaultTempls(){
 function getDocumentFieldDefaultTempls($pInPopup = false){
 	return array(
 		G_INPUT_TEMPL => 'fields.input',
+		G_INPUT_VIDEO_YOUTUBE_LINK_TEMPL => 'fields.input_youtube_link',
 		G_SELECT_TEMPL => 'fields.select',
 		G_RADIO_TEMPL => 'fields.radio',
 		G_RADIO_ROW_TEMPL => 'fields.radio_row',
@@ -716,8 +717,10 @@ function getDocumentFieldDefaultTempls($pInPopup = false){
 		G_EDITOR_REFERENCE_CITATIONS_TEMPL => 'fields.editor_reference_citations',
 		G_EDITOR_NO_CITATION_TEMPL => 'fields.editor_no_citation',
 		G_TEXTAREA_TEMPL => 'fields.textarea',
+		G_TEXTAREA_TABLE_TEMPL => 'fields.textarea_table_editor',
 		G_TEXTAREA_SIMPLE_TEMPL => 'fields.textarea_simple',
 		G_TEXTAREA_SIMPLE_ROUNDED_TEMPL => 'fields.textarea_rounded_simple',
+		G_TEXTAREA_PLATE_DESCRIPTION_TEMPL => 'fields.textarea_plate_description',
 		G_AUTOCOMPLETE_TEMPL => 'fields.input',
 		G_AUTOCOMPLETE_TEMPL => 'fields.input',
 		G_FACEBOOK_AUTOCOMPLETE_TEMPL => 'fields.fbautocomplete',
@@ -730,9 +733,12 @@ function getDocumentFieldDefaultTempls($pInPopup = false){
 		G_FILE_UPLOAD_FIGURE_PLATE_IMAGE_TEMPL => 'fields.file_upload_figure_plate_image',
 
 		G_INPUT_LABEL_TEMPL => 'fields.label',
+		G_INPUT_VIDEO_YOUTUBE_LINK_LABEL_TEMPL => 'fields.label',
 		G_TEXTAREA_LABEL_TEMPL => 'fields.label_editor',
+		G_TEXTAREA_TABLE_LABEL_TEMPL => 'fields.label_editor',
 		G_TEXTAREA_SIMPLE_LABEL_TEMPL => 'fields.label_editor',
 		G_TEXTAREA_SIMPLE_ROUNDED_LABEL_TEMPL => 'fields.texarea_simple_rounded_label',
+		G_TEXTAREA_PLATE_DESCRIPTION_LABEL_TEMPL => 'fields.label_editor',
 		G_SELECT_LABEL_TEMPL => 'fields.label',
 		G_RADIO_LABEL_TEMPL => 'fields.label_radio',
 		G_RADIO_PLATE_APPEARANCE_LABEL_TEMPL => 'fields.label_radio_plate_appearance',
@@ -1369,6 +1375,18 @@ function MoveInstanceInDocumentTree($pInstanceId, $pOper){
 		$lResult['err_msg'] = getstr($lCon->GetLastError());
 	}
 	return $lResult;
+}
+
+function GetDocumentXslDirName($pDocumentId){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = 'SELECT t.xsl_dir_name
+	
+	FROM pwt.documents d
+	JOIN pwt.templates t ON t.id = d.template_id
+	WHERE d.id = ' . $pDocumentId;
+	$lCon->Execute($lSql);
+	return $lCon->mRs['xsl_dir_name'];
 }
 
 /**
@@ -3048,7 +3066,7 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 // 	$lStart = mktime(). substr((string)microtime(), 1, 6);
 
 // 	trigger_error('Start prev ' .  date("Y/m/d H:i:s"). substr((string)microtime(), 1, 6), E_USER_NOTICE);
-
+	
 	if($lDocumentXml == ''){
 // 		$pExplicitGeneration = false, $pPrepareCitations = false, $pInstanceId = 0, $pInsertDocumentComments = false, $pInsertCommentPositions = false
 		$lDocumentXml = getDocumentXml($pDocumentId, SERIALIZE_INTERNAL_MODE, 1, 1, 0, false, $pInsertCommentPositionNodes);
@@ -3474,7 +3492,7 @@ function getDocumentXml($pDocumentId, $pMode = SERIALIZE_INTERNAL_MODE, $pExplic
 		$lXml = prepareDocumentCitations($pDocumentId, $lXml, null, $pInstanceId);
 	}
 
-
+// 	var_dump($lXml);
 
 	return $lXml;
 }
@@ -4467,6 +4485,26 @@ function getDocumentSupFilesPreview($pDocumentId){
 	$lDocumentXml = getDocumentXml($pDocumentId);
 
 	$lXslPath = PATH_XSL . '/sup_files_preview.xsl';
+
+	$lXslParameters = array();
+	$lXml = trim(transformXmlWithXsl($lDocumentXml, $lXslPath, $lXslParameters));
+	return $lXml;
+}
+
+function getDocumentFiguresPreview($pDocumentId){
+	$lDocumentXml = getDocumentXml($pDocumentId);
+
+	$lXslPath = PATH_XSL . '/figures_preview.xsl';
+
+	$lXslParameters = array();
+	$lXml = trim(transformXmlWithXsl($lDocumentXml, $lXslPath, $lXslParameters));
+	return $lXml;
+}
+
+function getDocumentTablesPreview($pDocumentId){
+	$lDocumentXml = getDocumentXml($pDocumentId);
+
+	$lXslPath = PATH_XSL . '/tables_preview.xsl';
 
 	$lXslParameters = array();
 	$lXml = trim(transformXmlWithXsl($lDocumentXml, $lXslPath, $lXslParameters));
@@ -5790,6 +5828,42 @@ function EnableJSTracksFigures($pTrackFigures){
 	return ' EnableFigureTracking(); ';
 }
 
+function displayPlateManagementBtns($pPlateInstanceId){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = '
+			SELECT i.id
+			FROM pwt.document_object_instances i
+			JOIN pwt.document_object_instances p ON p.id = i.parent_id AND p.parent_id = ' . (int)$pPlateInstanceId . ' AND p.object_id = ' 
+					. (int)PLATE_WRAPPER_OBJECT_ID . '
+	';
+// 	var_dump($lSql);
+	$lCon->Execute($lSql);
+	$lPlateExists = false;
+	if($lCon->mRs['id']){
+		$lPlateExists = true;
+	}
+	$lCreateBtnStyle = '';
+	$lDeleteBtnStyle = 'display:none';
+	if($lPlateExists){
+		$lCreateBtnStyle = 'display:none';
+		$lDeleteBtnStyle = '';
+	}
+	$lResult = '
+		<div onclick="CreatePlateDetails(' . $pPlateInstanceId . ')" class="P-Grey-Btn-Holder" style="' . $lCreateBtnStyle . '" id="P-Create-Plate-Details-Btn-' . $pPlateInstanceId . '">
+			<div class="P-Grey-Btn-Left"></div>
+			<div class="P-Grey-Btn-Middle"><div class="P-Btn-Icon"></div>Create plate details</div>
+			<div class="P-Grey-Btn-Right"></div>
+		</div>
+		<div onclick="DeletePlateDetails(' . $pPlateInstanceId . ')" class="P-Grey-Btn-Holder" style="' . $lDeleteBtnStyle . '" id="P-Delete-Plate-Details-Btn-' . $pPlateInstanceId . '">
+			<div class="P-Grey-Btn-Left"></div>
+			<div class="P-Grey-Btn-Middle"><div class="P-Btn-Icon"></div>Delete plate details</div>
+			<div class="P-Grey-Btn-Right"></div>
+		</div>
+	';
+	return $lResult;
+}
+
 function SaveFigCaption($pDocumentId, $pFigId, $pIsPlate, $pPlateNum, $pContent){
 	if(!$pDocumentId){
 		throw new Exception(getstr('pwt.noDocumentSpecified'));
@@ -5896,6 +5970,25 @@ function MarkInactiveTab($pTabId){
 
 function checkIfPasswordIsSecure($pPassword){
 	return mb_strlen($pPassword) >= (int)MIN_ALLOWED_PASSWORD_LENGTH;
+}
+
+function displayPlateImageTempl($pDocumentId, $pInstanceId, $pFieldId, $pPicId, $pLabel){
+	$lTemplate = 'fields.file_upload_figure_plate_image_without_pic';
+	if((int)$pPicId){
+		$lTemplate = 'fields.file_upload_figure_plate_image_with_pic';
+	}
+	$lResult = new csimple(array (
+		'templs' => array (
+			G_DEFAULT => $lTemplate
+		),
+		'instance_id' => $pInstanceId,
+		'field_id' => $pFieldId, 
+		'photo_id' => $pPicId,
+		'label' => $pLabel,
+		'document_id' => $pDocumentId,
+		'pref' => 'c288x206y',
+	));
+	return $lResult->Display();
 }
 
 function getDocumentCreatorData($pDocumentId) {
