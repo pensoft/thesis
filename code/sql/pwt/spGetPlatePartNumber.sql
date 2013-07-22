@@ -25,7 +25,7 @@ $BODY$
 		ELSEIF lObjectId = 229 THEN
 			lRes = 5;
 		ELSEIF lObjectId = 230 THEN
-			lRes = 5;
+			lRes = 6;
 		END IF;		
 		RETURN lRes;		
 	END

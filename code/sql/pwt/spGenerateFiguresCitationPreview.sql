@@ -163,6 +163,8 @@ $BODY$
 					lCurrentPlateCitatedPics = array_pop(lCurrentPlateCitatedPics, lCurrentPlateCitatedPics[1]);
 					lStartPos = lCurrentCitatedFigNumber;
 					lEndPos = lCurrentCitatedFigNumber;
+					
+					--RAISE NOTICE 'PlateId %, Plate %, lCurrentNum %', lPlateId, lFigId, lCurrentCitatedFigNumber;
 								
 					
 					lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || coalesce(lFigId::varchar, '') || '" parentfig="' || coalesce(lPlateId::varchar, '') || '"></xref>';
@@ -200,7 +202,7 @@ $BODY$
 				FROM pwt.document_object_instances i
 				JOIN pwt.instance_field_values f ON f.instance_id = i.id AND f.field_id = lFigTypeFieldId
 				JOIN pwt.instance_field_values f2 ON f2.instance_id = i.id AND f2.field_id = lFigNumberFieldId
-				WHERE f2.value_int =  lCurrentFigNum AND i.object_id = lFigObjectId AND i.is_confirmed = true
+				WHERE f2.value_int =  lCurrentFigNum AND i.object_id = lFigObjectId AND i.is_confirmed = true AND i.id = ANY(lRecord.object_ids) AND i.document_id = lRecord.document_id
 				LIMIT 1;
 				
 				IF lFigIsPlate = 0 THEN
@@ -211,7 +213,7 @@ $BODY$
 						SELECT i.*, spGetPlatePartNumber(i.id) as plate_num
 						FROM pwt.document_object_instances i
 						JOIN pwt.document_object_instances p ON  p.document_id = i.document_id AND p.pos = substring(i.pos, 1, char_length(p.pos))
-						WHERE i.document_id = lRecord.document_id AND p.id = lFigId
+						WHERE i.document_id = lRecord.document_id AND p.id = lFigId AND p.id = lFigId AND i.object_id = ANY (lPlatePartObjectIds)
 						ORDER BY plate_num ASC
 					LOOP
 						lXrefTemp = lXrefTemp || '<xref class="hide" parentfig="' || coalesce(lFigId::varchar, '') || '" rid="' || coalesce(lRecord3.id::varchar, '') || '"></xref>';
@@ -229,7 +231,7 @@ $BODY$
 					FROM pwt.document_object_instances i
 					JOIN pwt.instance_field_values f ON f.instance_id = i.id AND f.field_id = lFigTypeFieldId
 					JOIN pwt.instance_field_values f2 ON f2.instance_id = i.id AND f2.field_id = lFigNumberFieldId
-					WHERE f2.value_int =  lCurrentFigNum AND i.object_id = lFigObjectId AND i.is_confirmed = true
+					WHERE f2.value_int =  lCurrentFigNum AND i.object_id = lFigObjectId AND i.is_confirmed = true AND i.id = ANY(lRecord.object_ids) AND i.document_id = lRecord.document_id
 					LIMIT 1;
 					
 					IF lFigIsPlate = 0 THEN
@@ -240,7 +242,7 @@ $BODY$
 							SELECT i.*, spGetPlatePartNumber(i.id) as plate_num
 							FROM pwt.document_object_instances i
 							JOIN pwt.document_object_instances p ON  p.document_id = i.document_id AND p.pos = substring(i.pos, 1, char_length(p.pos))
-							WHERE i.document_id = lRecord.document_id AND p.id = lFigId
+							WHERE i.document_id = lRecord.document_id AND p.id = lFigId AND i.object_id = ANY (lPlatePartObjectIds)
 							ORDER BY plate_num ASC
 						LOOP
 							lXrefTemp = lXrefTemp || '<xref class="hide" parentfig="' || coalesce(lFigId::varchar, '') || '" rid="' || coalesce(lRecord3.id::varchar, '') || '"></xref>';
