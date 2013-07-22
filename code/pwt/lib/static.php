@@ -3157,7 +3157,7 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 		'value' => $pDocumentId,
 	);
 // 	error_reporting(-1);
-	//~ echo  $lDocumentXml;
+// 	 echo  $lDocumentXml;
 	//~ exit;
 // 	$lEnd = mktime(). substr((string)microtime(), 1, 6);
 // 	trigger_error('Before xsl Time ' .  ($lEnd - $lStart), E_USER_NOTICE);

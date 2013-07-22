@@ -99,17 +99,17 @@
 
 	<xsl:template match="*" mode="singleAuthor">
 		<span field_id="6">
-			<xsl:value-of select="./fields/*[@id=6]" />
+			<xsl:apply-templates select="./fields/*[@id=6]" mode="formatting"/>			
 		</span>
 		<xsl:text> </xsl:text>
 		<xsl:if test="count(./fields/*[@id=7]) &gt; 0">
 			<span field_id="7">
-				<xsl:value-of select="./fields/*[@id=7]" />
+				<xsl:apply-templates select="./fields/*[@id=7]" mode="formatting"/>				
 			</span>
 			<xsl:text> </xsl:text>
 		</xsl:if>
 		<span field_id="8">
-			<xsl:value-of select="./fields/*[@id=8]" />
+			<xsl:apply-templates select="./fields/*[@id=8]" mode="formatting"/>
 		</span>
 		<sup class="P-Current-Author-Addresses">
 			<xsl:for-each select="./*[@object_id='5']" >
@@ -143,18 +143,18 @@
 	<xsl:template match="*" mode="singleCorrespondingAuthor">
 		<span>
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span field_id="6">
-				<xsl:value-of select="./fields/*[@id=6]" />
+			<span field_id="6">				
+				<xsl:apply-templates select="./fields/*[@id=6]" mode="formatting"/>
 			</span>
 			<xsl:text> </xsl:text>
 			<xsl:if test="count(./fields/*[@id=7]) &gt; 0">
 				<span field_id="7">
-					<xsl:value-of select="./fields/*[@id=7]" />
+					<xsl:apply-templates select="./fields/*[@id=7]" mode="formatting"/>
 				</span>
 				<xsl:text> </xsl:text>
 			</xsl:if>
 			<span field_id="8">
-				<xsl:value-of select="./fields/*[@id=8]" />
+				<xsl:apply-templates select="./fields/*[@id=8]" mode="formatting"/>
 			</span>
 			<xsl:text> (</xsl:text>
 			<a field_id="4">
@@ -272,7 +272,7 @@
 					<xsl:with-param name="pObjectId" select="./@object_id" />
 					<xsl:with-param name="pFieldId">211</xsl:with-param>
 				</xsl:call-template>
-				<xsl:value-of select="$lSecTitle" />
+				<xsl:copy-of select="$lSecTitle" />
 			</h2>
 			<div field_id="212">
 				<xsl:call-template name="markContentEditableField">
