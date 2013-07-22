@@ -222,6 +222,18 @@ CKEDITOR.plugins.add('tbls', {
 					} ]
 				} ],
 				onShow : function() {
+					var lNewElementBtnIds = ['addNewTable'];
+					for(var i = 0; i < lNewElementBtnIds.length; ++i){
+						var lNewElementBtn = CKEDITOR.dialog.getCurrent().getButton(lNewElementBtnIds[i]);
+						if(gPopupIsOpened){						
+							lNewElementBtn.disable();
+							$('#' + lNewElementBtn.domId).hide();						
+						}else{
+							lNewElementBtn.enable();
+							$('#' + lNewElementBtn.domId).show();		
+						}
+					}
+					
 					CKEDITOR.dialog.getCurrent().resize($(window).width() - 200, $(window).height() - 200);
 					CKEDITOR.dialog.getCurrent().move(75, 40);
 					$(CKEDITOR.dialog.getCurrent().getElement().$).find('div[name="tablesDialog"]').height('100%');

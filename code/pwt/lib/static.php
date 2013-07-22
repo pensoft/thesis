@@ -488,6 +488,16 @@ function displayDocumentTreeAdd($pAddClass, $pObjectId, $pInstanceId, $pNumChild
 			$lOnClickJs = 'CreateNewReferencePopup(0)';
 			$lToolTip = getstr('pwt.tooltip.addnewreference');
 			break;
+		case (int)FIGURE_HOLDER_OBJECT_ID:
+			$lUseDefaultJs = 0;
+			$lOnClickJs = 'CreateNewFigurePopup(0, 1)';
+			$lToolTip = getstr('pwt.tooltip.addnewfigure');
+			break;
+		case (int)TABLE_HOLDER_OBJECT_ID:
+			$lUseDefaultJs = 0;
+			$lOnClickJs = 'CreateNewTablePopup(0)';
+			$lToolTip = getstr('pwt.tooltip.addnewtable');
+			break;
 		case (int)CHECKLIST_OBJECT_ID:
 			$lAction = (int)ADD_CHECKLIST_TAXON_OBJECT_ID;
 			$lToolTip = getstr('pwt.tooltip.addnewchecklisttaxon');
@@ -1365,11 +1375,17 @@ function MoveInstanceInDocumentTree($pInstanceId, $pOper){
 		'err_msg' => '',
 	);
 	if ($lCon->Execute($lSql)) {
+		$lSql = 'SELECT parent_id
+			FROM pwt.document_object_instances
+			WHERE id = ' . (int)$pInstanceId . ' 
+		';
+		$lCon->Execute($lSql);
 		$lResult['swap_id'] = $lCon->mRs['swap_instance_id'];
 		$lResult['original_available_move_up'] = (int)$lCon->mRs['original_available_move_up'];
 		$lResult['original_available_move_down'] = (int)$lCon->mRs['original_available_move_down'];
 		$lResult['swap_available_move_up'] = (int)$lCon->mRs['swap_available_move_up'];
 		$lResult['swap_available_move_down'] = (int)$lCon->mRs['swap_available_move_down'];
+		$lResult['parent_id'] = (int)$lCon->mRs['parent_id'];
 	}else{
 		$lResult['err_cnt']++;
 		$lResult['err_msg'] = getstr($lCon->GetLastError());
@@ -3148,7 +3164,7 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 	$lHtml = transformXmlWithXsl($lDocumentXml, $lXslPath, $lXslParameters);
 // 	$lEnd = mktime(). substr((string)microtime(), 1, 6);
 // 	trigger_error('After xsl Time ' .  ($lEnd - $lStart), E_USER_NOTICE);
-
+// 	return $lHtml;
 // 	error_reporting(0)
 // 	var_dump($lHtml);
 	$lDomHtml = new DOMDocument;
@@ -3309,7 +3325,7 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 	}
 
 	// Ако няма цитирани фигури си връщаме генерирания html с обектите в края
-	if (!$lNodesList->length){
+	if (!$lNodesList->length || !count($lAllFiguresArr)){
 		return $pHtml;
 	}
 
@@ -3321,15 +3337,17 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 
 	// Намираме най-малката цитирана фигура и най-голямата от всичките фигури
 	$lMinCittFigNum = min($lFigNum);
-	$lMaxFigNum = max($lAllFiguresArr);
-	$lMinFigNum = min($lAllFiguresArr);
+	$lMaxFigNum = (int)max($lAllFiguresArr);
+	$lMinFigNum = (int)min($lAllFiguresArr);
 
 	$lNode = $lMinCittFigNum;
 	$lFlag = 0;
 
 	// Масив с всички вече обработени фигури/таблици
 	$lVisitedFigures = array();
-
+	
+// 	var_dump($lCittFiguresQuery, $lAllFiguresArr);
+// 	exit;
 	// Обхождане на цитираните фигури и започване на подреждането им при срещане на най-малката цитирана фигура/таблица
 	foreach ($lNodesList as $node) {
 
@@ -3385,6 +3403,7 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 			$lFlag = 1;
 		}
     }
+    
     //Remove the citation wrapper nodes
     $lCitationWrapperNodes = $lXpath->query('//' . CITATION_ELEMENT_CITATION_WRAPPER_NODE_NAME);
     foreach ($lCitationWrapperNodes as $lCitationWrapperNode){
@@ -5567,6 +5586,10 @@ function objHasIcon($obj_id)
 			return 'nav-references';
 		case 56:
 			return 'nav-supplementary';
+		case (int)FIGURE_HOLDER_OBJECT_ID:
+			return 'P-Article-Figures';
+		case (int)TABLE_HOLDER_OBJECT_ID:
+			return 'P-Article-Tables';
 		default:
 			return '';
 	}

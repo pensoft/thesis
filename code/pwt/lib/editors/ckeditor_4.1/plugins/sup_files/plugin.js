@@ -209,6 +209,18 @@ CKEDITOR.plugins.add('sup_files', {
 					} ]
 				} ],
 				onShow : function() {
+					var lNewElementBtnIds = ['addNewSupFile'];
+					for(var i = 0; i < lNewElementBtnIds.length; ++i){
+						var lNewElementBtn = CKEDITOR.dialog.getCurrent().getButton(lNewElementBtnIds[i]);
+						if(gPopupIsOpened){						
+							lNewElementBtn.disable();
+							$('#' + lNewElementBtn.domId).hide();						
+						}else{
+							lNewElementBtn.enable();
+							$('#' + lNewElementBtn.domId).show();		
+						}
+					}
+					
 					CKEDITOR.dialog.getCurrent().resize($(window).width() - 200, $(window).height() - 200);
 					CKEDITOR.dialog.getCurrent().move(75, 40);
 					$(CKEDITOR.dialog.getCurrent().getElement().$).find('div[name="supFilesDialog"]').height('100%');
@@ -295,7 +307,7 @@ CKEDITOR.plugins.add('sup_files', {
 						$('#' + editor.m_supFilesHolderId).html('');
 					}
 				}, {
-					id : '',
+					id : 'addNewSupFile',
 					type : 'button',
 					label : 'Add new file',
 					className : 'P-Dialog-Button-AddNewFigure',

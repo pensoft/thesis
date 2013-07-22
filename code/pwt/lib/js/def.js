@@ -143,6 +143,14 @@ function CheckLoginForm(frm, uname, upass) {
 
 }
 
+function MoveInstanceInTreeCallbackWithParentRefresh(pInstanceId, pAjaxResult){
+	if(pAjaxResult['err_cnt']){
+		alert(pAjaxResult['err_msg']);
+		return;
+	}
+	var lParentInstanceId = pAjaxResult['parent_id'];
+	ChangeInstanceMode(GetDocumentId(), lParentInstanceId, null, null, gInstanceEditMode);
+}
 
 function MoveInstanceInTreeCallback(pInstanceId, pAjaxResult){
 	if(pAjaxResult['err_cnt']){
