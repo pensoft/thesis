@@ -2158,5 +2158,7 @@ $STRARRAY = array(
 	'pjs.invite_at_least_one_nom_pan_reviewer' => 'You have to select at least 1 nominated and 1 panel reviewer',
 	'pjs.login_warning_text' => 'Another user (might be you with your other account) is logged in from this computer and in this browser. If you continue the other user will be automatically logged out.',
 	'admin.article_versions.SEviewForm' => 'Consolidated review form',
+	'pjs.se_form_notes_to_author' => 'Enter or paste your editorial evaluation',
+	'admin.article_versions.quest1_SE' => 'Questions \ Answers',
 );
 ?>

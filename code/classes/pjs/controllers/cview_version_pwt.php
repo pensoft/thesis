@@ -101,6 +101,7 @@ class cView_Version_Pwt extends cView_Version {
 					$lReviewerPoll = array(
 						'ctype' => 'evList_Display',
 						'name_in_viewobject' => 'reviewerpoll',
+						'role' => (int)$this->m_viewingRole,
 						'controller_data' => $this->m_versionModel->GetReviewersAnswers((int)$this->m_documentId, $this->m_versionUserRoundId),
 					);
 				} else {

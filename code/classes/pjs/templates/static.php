@@ -2515,7 +2515,7 @@ function changeHeaderSize($pReadOnly) {
 		return 'height: 59px;';
 }
 function returnQuestion($pQuestionNum){
-	return getstr('admin.article_versions.quest' . $pQuestionNum);
+	return getstr('admin.article_versions.quest' . ($pQuestionNum + 1));
 }
 function seoUrl($pString) {
 	$lString = strtolower($pString);
@@ -2565,10 +2565,17 @@ function showRejectStatus($pStateId) {
 }
 
 function showFormLabelByRole($pRole) {
-	if($pRole == SE_ROLE) {
+	if($pRole == SE_ROLE || $pRole == E_ROLE) {
 		return getstr('admin.article_versions.SEviewForm');
 	}
 	return getstr('admin.article_versions.previewForm');
+}
+
+function showPollHeaderByRole($pRole) {
+	if($pRole == SE_ROLE || $pRole == E_ROLE) {
+		return getstr('admin.article_versions.quest1_SE');
+	}
+	return getstr('admin.article_versions.quest1');
 }
 
 function showRejectNotes($pRejectRoundDecisionNotes) {
