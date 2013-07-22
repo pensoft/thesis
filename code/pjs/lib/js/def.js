@@ -271,7 +271,7 @@ function DocumentRemoveCE(pDocumentId, pCeId){
 	});
 }
 
-function DocumentInviteReviewers(pDocumentId, pRole){
+function DocumentInviteReviewers(pDocumentId, pRole, pErrText){
 	var f = function(val, i){ return parseInt(val['name']); };
 	var n = $.map(  $('.reviewer_tbl').find('input[value=n]').serializeArray(), f );
 	var p = $.map(  $('.reviewer_tbl').find('input[value=p]').serializeArray(), f );
@@ -284,25 +284,31 @@ function DocumentInviteReviewers(pDocumentId, pRole){
 			role: pRole,
 			action : 'inviteReviewers'
 		})
+	} else {
+		alert(pErrText);
 	}
 }
 
-function SEConfirmReviewerInvitation(pDocumentId, pInvitationId, pReviewerId){
-	return ExecuteSimpleDocumentAjaxRequest({
-		invitation_id : pInvitationId,
-		reviewer_id : pReviewerId,
-		document_id : pDocumentId,
-		action : 'se_confirm_reviewer_invitation'
-	});
+function SEConfirmReviewerInvitation(pDocumentId, pInvitationId, pReviewerId, pConfirmationText){
+	if(confirm(pConfirmationText)){
+		return ExecuteSimpleDocumentAjaxRequest({
+			invitation_id : pInvitationId,
+			reviewer_id : pReviewerId,
+			document_id : pDocumentId,
+			action : 'se_confirm_reviewer_invitation'
+		});
+	}
 }
 
-function SECancelReviewerInvitation(pDocumentId, pInvitationId, pReviewerId){
-	return ExecuteSimpleDocumentAjaxRequest({
-		invitation_id : pInvitationId,
-		reviewer_id : pReviewerId,
-		document_id : pDocumentId,
-		action : 'se_cancel_reviewer_invitation'
-	});
+function SECancelReviewerInvitation(pDocumentId, pInvitationId, pReviewerId, pConfirmationText){
+	if(confirm(pConfirmationText)){
+		return ExecuteSimpleDocumentAjaxRequest({
+			invitation_id : pInvitationId,
+			reviewer_id : pReviewerId,
+			document_id : pDocumentId,
+			action : 'se_cancel_reviewer_invitation'
+		});
+	}
 }
 
 function ConfirmReviewerInvitation(pDocumentId, pInvitationId){
@@ -488,13 +494,15 @@ function RemoveDocumentReviewer(pReviewUsrId){
 	});
 }
 
-function ReInviteDocumentReviewer(pDocumentId, pReviewUsrId, pRoundId){
-	return ExecuteSimpleDocumentAjaxRequest({
-		reviewer_id : pReviewUsrId,
-		round_id : pRoundId,
-		document_id : pDocumentId,
-		action : 'reinvite_reviewer'
-	});
+function ReInviteDocumentReviewer(pDocumentId, pReviewUsrId, pRoundId, pConfirmationText){
+	if(confirm(pConfirmationText)){
+		return ExecuteSimpleDocumentAjaxRequest({
+			reviewer_id : pReviewUsrId,
+			round_id : pRoundId,
+			document_id : pDocumentId,
+			action : 'reinvite_reviewer'
+		});	
+	}
 }
 
 /* Показване на формата за регистрация */

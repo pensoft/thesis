@@ -409,6 +409,7 @@ class cView_Version_Pwt extends cView_Version {
 							'DisplayName' => $lSubmitReviewText,
 							'AddTags' => array(
 								'class' => 'inputBtn',
+								'onclick' => 'if(confirm(\'' . getstr('pjs.SE_E_CE_submit_review_confirmation') . '\')){return true;} else {return false;}',
 							)
 						),
 					);
@@ -679,6 +680,7 @@ class cView_Version_Pwt extends cView_Version {
 						'DisplayName' => getstr('admin.article_versions.review'),
 						'AddTags' => array(
 							'class' => 'inputBtn',
+							'onclick' => 'if(confirm(\'' . getstr('pjs.R_submit_review_confirmation') . '\')){return true;} else {return false;}',
 							//'onclick' => $lSubmitOrClose,
 						),
 					),
