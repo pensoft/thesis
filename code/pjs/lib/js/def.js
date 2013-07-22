@@ -1363,7 +1363,7 @@ function checkReviewersState(pRoundId, pUrl, pDocumentId, pMergeFlag, pReviewers
 
 	var lConfirm;
 	if(pReviewersLock != 'true' && pReviewersLock != 't') {
-		lConfirm = confirm("If you proceed, you'll not be able to invite more reviewers!");
+		lConfirm = confirm("If you proceed, you'll not be able to invite more reviewers in this review round!");
 	} else {
 		lConfirm = true;
 	}

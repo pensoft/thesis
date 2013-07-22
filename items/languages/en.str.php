@@ -2087,8 +2087,8 @@ $STRARRAY = array(
 		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />You may add your own corrections/comments on the merged reviewer’s version.<br /><br />
 		You can proceed with your decision after the deadline for panel reviewers,<br /> at least 1 nominated reviewer has submitted a review and<br /> there are no pending reviews/requests.<br /><br />
 		If a nominated reviewer fails to complete a task on time, you may cancel the review request.<br /><br />",
-	'pjs.community_peer_review_take_decision_round_1' => "pjs.community_peer_review_take_decision_round_1",
-	'pjs.community_peer_review_speedup_round_1' => "pjs.community_peer_review_speedup_round_1",
+	'pjs.community_peer_review_take_decision_round_1' => "You can edit/comment on author's original submission and take your editorial decision.",
+	'pjs.community_peer_review_speedup_round_1' => "In order to speed up the editorial process you can take your editorial decision without waiting for reviews.",
 	'pjs.community_peer_review_take_decision_without_reviewers_round_1' => "pjs.community_peer_review_take_decision_without_reviewers_round_1",
 	
 	'pjs.community_peer_review_to_proceed_round_2' => "
@@ -2160,5 +2160,11 @@ $STRARRAY = array(
 	'admin.article_versions.SEviewForm' => 'Consolidated review form',
 	'pjs.se_form_notes_to_author' => 'Enter or paste your editorial evaluation',
 	'admin.article_versions.quest1_SE' => 'Questions \ Answers',
+	'pjs.SE_reinvite_reviewer_confirmation' => 'Are you sure you would like to invite this reviewer again?',
+	'pjs.SE_accept_reviewer_invitation_confirmation' => 'Are you sure you want to accept this review request on behalf of this reviewer?',
+	'pjs.SE_cancel_reviewer_invitation_confirmation' => 'Are you sure you want to decline this review request on behalf of this reviewer?',
+	'pjs.SE_cancel_reviewer_review_confirmation' => 'Are you sure that you want to cancel this review process?',
+	'pjs.R_submit_review_confirmation' => 'Are you sure that you have completed the review? Once submitted you will not be able to make any further changes!',
+	'pjs.SE_E_CE_submit_review_confirmation' => 'Are you sure that you have completed your editorial decision? Once submitted you will not be able to make any further changes!',
 );
 ?>
