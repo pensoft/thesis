@@ -58,7 +58,7 @@ DECLARE
 	
 BEGIN
 	
-	--RAISE NOTICE 'UPDATE FIELD InstanceId %, FieldId %, Xml %', pInstanceId, pFieldId, pFieldXml;
+	RAISE NOTICE 'UPDATE FIELD InstanceId %, FieldId %, Xml %', pInstanceId, pFieldId, pFieldXml;
 	
 	SELECT INTO lRecord f.type, ofi.control_type, ofi.data_src_id, s.query, ct.is_html
 	FROM pwt.document_object_instances i
