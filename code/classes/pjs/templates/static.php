@@ -1762,7 +1762,7 @@ function showCurrentVersion($pVersionNumber, $pVersionLink) {
 	if((int) $pVersionNumber == 1){
 		return ($pVersionLink ? $pVersionLink . getstr('pjs.authorOriginalSubmissionVersionLabel') . '</a>' : getstr('pjs.authorOriginalSubmissionVersionLabel')) . ' (Version ' . $pVersionNumber . ')';
 	}else{
-		return getstr('pjs.authorRevisionVersionLabel') . ' (Version ' . $pVersionNumber . ')';
+		return ($pVersionLink ? $pVersionLink . getstr('pjs.authorRevisionVersionLabel') . '</a>' : getstr('pjs.authorRevisionVersionLabel')) . ' (Version ' . $pVersionNumber . ')';
 	}
 }
 function displayErrorIfExist($pError) {
