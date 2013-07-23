@@ -3076,8 +3076,7 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 	require_once($docroot . '/lib/static_xsl.php');
 	require_once(PATH_CLASSES . 'comments.php');
 	// ini_set('display_errors', 'Off');
-	//Първо получаваме нашия xml
-
+	//Първо получаваме нашия xml	
 	$lDocumentXml = $pXml;
 // 	$lStart = mktime(). substr((string)microtime(), 1, 6);
 
@@ -3108,15 +3107,15 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 		$pTemplateXSLPath .=  '/';
 	}
 	$lXslPath = PATH_XSL . '' . $pTemplateXSLPath . 'template_example_preview_full.xsl';
-	if(!(int)$pGenerateFullHtml){
-		$lXslParameters[] = array(
-			'namespace' => null,
-			'name' => 'gGenerateFullHtml',
-			'value' => 0,
-		);
+// 	if(!(int)$pGenerateFullHtml){
+// 		$lXslParameters[] = array(
+// 			'namespace' => null,
+// 			'name' => 'gGenerateFullHtml',
+// 			'value' => 0,
+// 		);
 
-		$lXslPath = PATH_XSL . '' . $pTemplateXSLPath . '/template_example_preview_fragment.xsl';
-	}
+// 		$lXslPath = PATH_XSL . '' . $pTemplateXSLPath . '/template_example_preview_fragment.xsl';
+// 	}
 
 	if((int)$pMarkContentEditableFields){
 		$lXslParameters[] = array(
@@ -3167,7 +3166,8 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 // 	return $lHtml;
 // 	error_reporting(0)
 // 	var_dump($lHtml);
-	$lDomHtml = new DOMDocument;
+	
+	$lDomHtml = new DOMDocument('1.0', DEFAULT_XML_ENCODING);	
 	$lDomHtml->loadHTML($lHtml);
 	$lDomHtml->normalizeDocument();
 	$lDomHtml->preserveWhiteSpace = false;
@@ -3185,7 +3185,13 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 // 	$lEnd = mktime(). substr((string)microtime(), 1, 6);
 // 	trigger_error('After tbl cit Time ' .  ($lEnd - $lStart), E_USER_NOTICE);
 
-
+	if(!$pGenerateFullHtml){
+		$lXPath = new DOMXPath($lDomHtml);
+		$lNode = $lXPath->query('//div[@class="P-Article-Preview"]');
+		if($lNode->length){
+			return $lDomHtml->saveHTML($lNode->item(0));
+		}
+	}	
 	return $lHtml;
 }
 
@@ -3302,8 +3308,7 @@ function moveObjectToCitationPos($pDomDoc, $pFigNum, $pPNodeToMove, $pDivObjectA
 	Позиционира фигурите и таблиците на мястото, където са цитирани според алгоритъма
 */
 function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_position', $pObjectCitt = 'fig-citation', $pObjectNum = 'fignumber') {
-
-    $lXpath = new DOMXPath($pDomDoc);
+	$lXpath = new DOMXPath($pDomDoc);
 
 	// Xpath за взизмане на всички цитирани фигури/таблици в документа
 	$lCittFiguresQuery = '//' . $pObjectCitt . '/xref[@' . $pObjectNum . ']';
@@ -3415,7 +3420,8 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
     	}
     	$lParentNode->removeChild($lCitationWrapperNode);
     }
-
+    $pDomDoc->encoding = DEFAULT_XML_ENCODING;
+//     return $pHtml;
 	return $pDomDoc->saveHTML();
 }
 
