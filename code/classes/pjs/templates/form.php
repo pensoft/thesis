@@ -7,6 +7,12 @@ $gTemplArr = array(
 			{form_name}{selfurl}{backurl}
 	',
 
+	'form.default_header_version_popup' => '
+		<div class="formWrapper" id="P-Version-PopUp-Form">
+		<form enctype="multipart/form-data" action="{^form_action}" method="{^form_method}" name="{@form_name}" {_htmlformid(htmlformid)}>
+			{form_name}{selfurl}{backurl}
+	',
+
 	'form.default_footer' => '
 		</form>
 		</div>

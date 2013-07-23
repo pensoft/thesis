@@ -2943,4 +2943,11 @@ function CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserIsEdit
 	}
 	return false;
 }
+
+function scrollFormIfErrors($pErrs){
+	if($pErrs) {
+		return 'scrollToForm()';
+	}
+}
+
 ?>
