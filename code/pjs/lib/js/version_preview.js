@@ -413,10 +413,10 @@ function InitTrackerChangesEvents(pTrackerNode, pTracker){
 		var lClosestParentFieldId = $(pNode).closest('*[field_id]').attr('field_id');
 		
 		if(lTrackerNodeInstanceId == lClosestParentInstanceId && lTrackerNodeFieldId == lClosestParentFieldId){			
-			console.log(lTrackerNodeFieldId, lClosestParentFieldId, lTrackerNodeInstanceId, lClosestParentInstanceId);
+//			console.log(lTrackerNodeFieldId, lClosestParentFieldId, lTrackerNodeInstanceId, lClosestParentInstanceId);
 			$(pNode).bind('contextmenu',
 				function(pEvent){
-					console.log(pTrackerNode);
+//					console.log(pTrackerNode);
 					var lChangeNode = this;
 					var lContextMenu = $('#' + gContextMenuHolderId);
 					lContextMenu.offset($(lChangeNode).offset());
