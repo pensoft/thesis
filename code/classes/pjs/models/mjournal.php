@@ -205,18 +205,12 @@ class mJournal extends emBase_Model {
 				) AS aouoeuoeuoe
 				WHERE rating >= $limit
 				OR position <= 2
-							)
+				limit 20)
 							
 			
 			ORDER BY added, date_invited
 			";
-		$lResult = array();
-		$this->m_con->Execute($lSql);
-		while(!$this->m_con->Eof()){
-			$lResult[] = $this->m_con->mRs;
-			$this->m_con->MoveNext();
-		}
-		return $lResult;
+		return $this->ArrayOfRows($lSql);
 	}
 
 	/**
