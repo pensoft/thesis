@@ -758,6 +758,10 @@ class cdocument_instance extends csimple {
 			$lStylesheet->setAttribute("exclude-result-prefixes", "php tp xlink xsl");
 			$lStylesheet->setAttribute('version', '1.0');
 			$lDomDoc->appendChild($lStylesheet);
+			
+			$lStaticXsl = $lDomDoc->createElement("xsl:import");
+			$lStaticXsl->setAttribute("href", PATH_XSL  .  "static2.xsl");
+			$lStylesheet->appendChild($lStaticXsl);
 
 			// Import base xsl file
 			$lBaseXsl = $lDomDoc->createElement("xsl:import");
@@ -774,9 +778,7 @@ class cdocument_instance extends csimple {
 			$lReferencesXsl->setAttribute("href", PATH_XSL  .  "common_reference_preview.xsl");
 			$lStylesheet->appendChild($lReferencesXsl);
 			
-			$lStaticXsl = $lDomDoc->createElement("xsl:import");
-			$lStaticXsl->setAttribute("href", PATH_XSL  .  "static2.xsl");
-			$lStylesheet->appendChild($lStaticXsl);
+		
 			
 			$lTaxonXsl = $lDomDoc->createElement("xsl:import");
 			$lTaxonXsl->setAttribute("href", PATH_XSL  .  "taxon.xsl");
