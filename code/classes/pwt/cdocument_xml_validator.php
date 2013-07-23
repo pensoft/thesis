@@ -297,16 +297,18 @@ class cdocument_xml_validator extends csimple {
 	 */
 	 
 	function GetNextNode($pNode){
-		// var_dump($pNode->nodeName);
+		//var_dump($pNode->nodeName);
+		
 		while(!$pNode->nextSibling && $pNode){
 			$pNode = $pNode->parentNode;
 		}
 		if($pNode){
 			return $pNode->nextSibling;
 		}
-		//var_dump($pNode);
-		//var_dump('TUKA NQMA NODE!!');
-		//exit;
+		//var_dump($pNode->getLineNo());
+		/*var_dump($pNode);
+		var_dump('TUKA NQMA NODE!!');
+		exit;*/
 		return false;
 	}
 
@@ -326,31 +328,10 @@ class cdocument_xml_validator extends csimple {
 		$lNextNode = $this->GetNextNode($lCurrentNode);
 		
 		// ako po nqkakva pri4ina neuspeem da vzemem 
-		/*if(!$lNextNode) {
-			// var_dump('Do Tuka Da!!!');
-			// exit;	
-			
-			$lErrType = $this->GetErrType($this->m_errline, $this->m_error_lines);
-			
-			var_dump($this->m_errline);
-			var_dump($this->m_flippedErrors);
-			exit;
-			
-			$this->m_all_errors[] = array (
-					'node_name' => $this->m_err_nodeName,
-					'node_instance_id' => $this->m_err_InstanceId,
-					'node_instance_name' => $this->m_err_InstanceName,
-					'node_attribute_id' => (int)$lCurrentNode->parentNode->getAttribute('id'),
-					'node_attribute_field_name' => $lCurrentNode->parentNode->getAttribute('field_name'),
-					'node_error_type' => $lErrType,
-			);
-			
-			$lKey = array_search($this->m_errline, $this->m_flippedErrors);
-			unset($this->m_flippedErrors[$lKey]);
-			$this->m_errline = reset($this->m_flippedErrors);
-			
-			return $this->GetNodeErrors($lCurrentNode->parentNode);
-		}*/
+		//var_dump('-----START------');
+		//var_dump($lCurrentNode);
+		//var_dump($lNextNode);
+		//var_dump('-----END------');
 		
 		if ($lCurrentNode->hasAttributes()) {
 			if($lCurrentNode->getAttribute('display_name') && $lCurrentNode->getAttribute('instance_id')) {
@@ -383,7 +364,33 @@ class cdocument_xml_validator extends csimple {
 		if($lNextNode->getLineNo() < $this->m_errline){
 			return $this->GetNodeErrors($lNextNode);
 		}
-		return $this->GetNodeErrors($lCurrentNode->firstChild); 
+		
+		if($lCurrentNode->nodeType == 1) {
+			return $this->GetNodeErrors($lCurrentNode->firstChild);
+		} else {
+			//var_dump('TUKA nqma deca!!!');
+			//var_dump($lCurrentNode->getLineNo());
+			$lErrType = $this->GetErrType($this->m_errline, $this->m_error_lines);
+			/*var_dump($this->m_errline);
+			var_dump($this->m_error_lines);
+			var_dump('------------------------------------');*/
+			$this->m_all_errors[] = array (
+					'node_name' => $this->m_err_nodeName,
+					'node_instance_id' => $this->m_err_InstanceId,
+					'node_instance_name' => $this->m_err_InstanceName,
+					'node_attribute_id' => (int)$lCurrentNode->parentNode->getAttribute('id'),
+					'node_attribute_field_name' => $lCurrentNode->parentNode->getAttribute('field_name'),
+					'node_error_type' => $lErrType,
+			);
+			
+			$lKey = array_search($this->m_errline, $this->m_flippedErrors);
+			unset($this->m_flippedErrors[$lKey]);
+			$this->m_errline = reset($this->m_flippedErrors);
+			
+			return $this->GetNodeErrors($lCurrentNode->parentNode);
+		}
+		
+		 
 	}
 	
 	function CheckLineInNode($pArr, $pStart, $pEnd) {
@@ -505,8 +512,8 @@ class cdocument_xml_validator extends csimple {
 
 	function LibXMLGetAllErrors() {
 		$this->m_libxml_errors = libxml_get_errors();
-		// print_r($this->m_libxml_errors);
-		// exit;
+		 // print_r($this->m_libxml_errors);
+		 // exit;
 		//var_dump($this->m_libxml_errors);
 		foreach ($this->m_libxml_errors as $error) {
 			//~ $this->m_XML_errors .= $this->LibXMLGetError($error);

@@ -65,6 +65,8 @@ class cdocument_xsd_generator extends csimple {
 		$lDocumentXmlNode = $lSchemaXmlNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:element'));
 		$lDocumentXmlNode->setAttribute('name', 'document');
 		$lDocumentXmlNode->setAttribute('type', 'documentType');
+		// $lDocumentXmlNode->setAttribute('name', 'object_id');
+		// $lDocumentXmlNode->setAttribute('type', 'xsd:integer');
 
 		$lDocumentTypeNode = $lSchemaXmlNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:complexType'));
 		$lDocumentTypeNode->setAttribute('name', 'documentType');
@@ -85,6 +87,14 @@ class cdocument_xsd_generator extends csimple {
 		$lTablesXmlNode = $lDocumentSeqNode->appendChild($this->xsdElem('element'));
 		$lTablesXmlNode->setAttribute('name', 'tables');
 		$lTablesXmlNode->setAttribute('type', 'tablesType');
+
+		$lDocumentAttribNode = $lDocumentTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:attribute'));
+		$lDocumentAttribNode->setAttribute('name', 'id');
+		$lDocumentAttribNode->setAttribute('type', 'xsd:integer');
+		
+		$lDocumentAttribNode = $lDocumentTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:attribute'));
+		$lDocumentAttribNode->setAttribute('name', 'journal_id');
+		$lDocumentAttribNode->setAttribute('type', 'xsd:integer');
 
 
 		$lCon = new DBCn();
@@ -162,7 +172,7 @@ class cdocument_xsd_generator extends csimple {
 			ORDER BY o.pos ASC, of.id
 			';
 		}
-		file_put_contents('/tmp/test1.sql', $lFieldsSql);
+		file_put_contents('/tmp/test123.sql', $lFieldsSql);
 		$lCon->Execute($lFieldsSql);
 		$lCon->MoveFirst();
 		while(! $lCon->Eof()){
@@ -473,7 +483,7 @@ class cdocument_xsd_generator extends csimple {
 		$lTableXmlNode->setAttribute('type', 'tableType');
 		$lTableXmlNode->setAttribute('minOccurs', '0');
 		$lTableXmlNode->setAttribute('maxOccurs', 'unbounded');
-
+		
 		//Дефиниция на една таблица
 		$lTableTypeNode = $lSchemaXmlNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:complexType'));
 		$lTableTypeNode->setAttribute('name', 'tableType');
@@ -481,13 +491,13 @@ class cdocument_xsd_generator extends csimple {
 		$lTableSeqNode = $lTableTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:sequence'));
 		//Caption
 		$lCaptionXmlNode = $lTableSeqNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:element'));
-		$lCaptionXmlNode->setAttribute('name', 'caption');
+		$lCaptionXmlNode->setAttribute('name', 'title');
 		$lCaptionXmlNode->setAttribute('minOccurs', '0');
 		$lCaptionXmlNode->setAttribute('maxOccurs', '1');
 		
 		//Content
 		$lContentXmlNode = $lTableSeqNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:element'));
-		$lContentXmlNode->setAttribute('name', 'content');
+		$lContentXmlNode->setAttribute('name', 'description');
 		$lContentXmlNode->setAttribute('type', 'fieldNotEmpty');
 
 		//Table node attributes
@@ -495,6 +505,10 @@ class cdocument_xsd_generator extends csimple {
 		$lIdAttributeNode->setAttribute('name', 'id');
 		$lIdAttributeNode->setAttribute('type', 'xsd:integer');
 		$lIdAttributeNode->setAttribute('use', 'required');
+		
+		$lTableAttribNode = $lTableTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:attribute'));
+		$lTableAttribNode->setAttribute('name', 'position');
+		$lTableAttribNode->setAttribute('type', 'xsd:integer');
 	
 	}
 
@@ -519,7 +533,7 @@ class cdocument_xsd_generator extends csimple {
 			</xsd:simpleType>
 
 			<xsd:simpleType xmlns:xsd="' . XSD_SCHEMA_LOCATION . '" name="tstamp_not_empty">
-				<xsd:restriction base="xsd:dateTime" />
+				<xsd:restriction base="xsd:date" />
 			</xsd:simpleType>
 			<xsd:simpleType xmlns:xsd="' . XSD_SCHEMA_LOCATION . '" name="tstamp_empty">
 				<xsd:union memberTypes="empty_str tstamp_not_empty" />
