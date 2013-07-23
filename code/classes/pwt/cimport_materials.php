@@ -195,17 +195,17 @@ class cimport_materials extends csimple {
 					
 					for($i = 0; $i < $lEmptyMaterialNodes->length; ++$i){
 						if(strtolower($key) == $lEmptyMaterialNodes->item($i)->nodeName || $match_val == $lEmptyMaterialNodes->item($i)->nodeName) {
-							//file_put_contents('/tmp/materials.log', 'Value before: ' .  $val . "\n", FILE_APPEND);	
+							//file_put_contents('/tmp/materials.log', 'DEBUG - Value before: ' .  $val . "\n", FILE_APPEND);	
 							$lEmptyMaterialNodeValue = $this->m_Xpath->query('./value', $lEmptyMaterialNodes->item($i)); // Kade da replace-nem
 							$lNode = $lEmptyMaterialNodeValue->item(0);
-							//$lValue = mb_convert_encoding($val, "HTML-ENTITIES", "UTF-8");
 							$lValue = $val;
-							$lValueEncoding = mb_detect_encoding( $lValue, "auto" );
+							$lValueEncoding = mb_detect_encoding( $lValue, "auto", TRUE);
+							//file_put_contents('/tmp/materials.log', 'DEBUG - Encoding: ' . $lValueEncoding . "\n", FILE_APPEND);
 							$lValue = mb_convert_encoding($val, "UTF-8", $lValueEncoding);
-							//file_put_contents('/tmp/materials.log', 'Value converted to UTF-8: ' . $lValue . "\n", FILE_APPEND);
+							//file_put_contents('/tmp/materials.log', 'DEBUG - Value converted to UTF-8: ' . $lValue . "\n", FILE_APPEND);
 							$lNode->nodeValue = '';
 							$lNode->appendChild($lNode->ownerDocument->createTextNode($lValue));
-							//file_put_contents('/tmp/materials.log', 'Value after: ' . $lNode->nodeValue . "\n\n", FILE_APPEND);
+							//file_put_contents('/tmp/materials.log', 'DEBUG - Value after: ' . $lNode->nodeValue . "\n\n", FILE_APPEND);
 						}
 					}
 				}
