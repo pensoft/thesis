@@ -188,7 +188,7 @@ $gTemplArr = array(
 	',
 
 	'fields.radio_row' => '
-							<div class="P-Plate-Appearance-Holder">
+							<div class="P-Check-Row P-Radio-Row">
 								<div class="P-CheckBox-Holder">
 									{input}
 								</div>
