@@ -135,7 +135,6 @@ class cTask_Manager extends cBase_Controller {
 			// trigger_error('$lUsersArrString: ' . $lUsersArrString, E_USER_NOTICE);
 			// trigger_error('$lUsersRoleArrString: ' . $lUsersRoleArrString, E_USER_NOTICE);
 			// trigger_error('$lUserTemplArrString: ' . $lUserTemplArrString, E_USER_NOTICE);
-			// trigger_error('cc: ' . $value['cc'], E_USER_NOTICE);
 			
 			$lTaskData = $this->m_taskModel->CreateTask(
 				(int)$this->m_eventId, 
