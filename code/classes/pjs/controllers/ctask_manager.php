@@ -241,6 +241,8 @@ class cTask_Manager extends cBase_Controller {
 			'{SE_createusr_sub_expertize}' 	=> $pDataToFromReplace['se_createusr_sub_expertize'],
 			'{NomReview_due_days}'	=> $pDataToFromReplace['nomreview_due_days'],
 			'{PanReview_due_days}'	=> $pDataToFromReplace['panreview_due_days'],
+			'{SE_invite_reviewers_days}'	=> $pDataToFromReplace['se_invite_reviewers_days'],
+			'{SE_can_take_decision_days}'	=> $pDataToFromReplace['se_can_take_decision_days'],
 			'{site_href}' 			=> $a . '">'. $u .'</a>',
 			'{tasks_href}' 			=> $a . 'dashboard">Your tasks</a>',
 			'{document_editor_href}'=> $a . 'view_document.php?id=' . $doc_id . '&view_role=' . (int)JOURNAL_EDITOR_ROLE . '">' . $pDataToFromReplace['document_title'] . '</a>',

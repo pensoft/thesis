@@ -28,7 +28,9 @@ CREATE type pjs.ret_spGetTemplateValuesForReplace AS (
 	panreview_due_days int,
 	se_createusr_tax_expertize varchar,
 	se_createusr_geo_expertize varchar,
-	se_createusr_sub_expertize varchar
+	se_createusr_sub_expertize varchar,
+	se_invite_reviewers_days int,
+	se_can_take_decision_days int
 );
 -- Function: spGetReviewerAnswer(integer)
 
@@ -41,7 +43,9 @@ DECLARE
 	lRes pjs.ret_spGetTemplateValuesForReplace;
 	
 	cAuthorRoleId CONSTANT int := 11;
-	
+	cNotEnoughReviewersEventType CONSTANT int := 39;
+	cCanProceedEventType CONSTANT int := 38;
+		
 	lJournalSectionId int;
 	lJournalId int;
 	lSectionId int;
@@ -137,6 +141,9 @@ BEGIN
 	SELECT INTO lRes.due_date_days "offset" FROM pjs.getEventOffset(pEventTypeId, lRes.journal_id, lSectionId);
 	lRes.due_date = (now() + (lRes.due_date_days*INTERVAL '1 day'))::date;	
 	/* Get due date and due date days END*/
+
+	SELECT INTO lRes.se_invite_reviewers_days "offset" FROM pjs.getEventOffset(cNotEnoughReviewersEventType, lRes.journal_id, lSectionId);
+	SELECT INTO lRes.se_can_take_decision_days "offset" FROM pjs.getEventOffset(cCanProceedEventType, lRes.journal_id, lSectionId);
 
 	/* Get SE expertises (for the current document) START */
 	SELECT INTO lJournalUserId ju.id FROM pjs.journal_users ju WHERE ju.uid = lSEUID AND ju.journal_id = lRes.journal_id AND role_id = cSERoleId;
