@@ -44,7 +44,8 @@ class mJournal extends emBase_Model {
 				$joinFiltering = "on u.id = SeCategories.se_id";
 				$tail = "
 					GROUP BY u.id, jue.taxon_categories, jue.subject_categories
-					ORDER BY max(length(SeCategories.pos)) desc";
+					ORDER BY max(length(SeCategories.pos)) desc
+					limit 20";
 				$duFiltering = 'max';
 			}
 			else
@@ -69,15 +70,7 @@ class mJournal extends emBase_Model {
 			";
 			;
 		}
- 		//echo $lSql;
-		$lResult = array();
-		$this->m_con->Execute($lSql);
-		while(!$this->m_con->Eof()){
-			$lResult[] = $this->m_con->mRs;
-			$this->m_con->MoveNext();
-		}
-// 		var_dump($lResult);
-		return $lResult;
+ 		return $this->ArrayOfRows($lSql, 0);
 	}
 
 	/**
