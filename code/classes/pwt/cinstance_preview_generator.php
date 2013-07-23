@@ -71,6 +71,12 @@ class cinstance_preview_generator extends csimple {
 			$lDomDoc->appendChild($lStylesheet);
 
 			// Import base xsl file
+			
+			$lReferencesXsl = $lDomDoc->createElement("xsl:import");
+			$lReferencesXsl->setAttribute("href", PATH_XSL  .  "static2.xsl");
+			$lStylesheet->appendChild($lReferencesXsl);
+			
+			
 			$lBaseXsl = $lDomDoc->createElement("xsl:import");
 			$lBaseXsl->setAttribute("href", PATH_XSL  . $this->m_templateXslDirName . "/template_example_preview_base.xsl");
 			$lStylesheet->appendChild($lBaseXsl);
@@ -79,15 +85,14 @@ class cinstance_preview_generator extends csimple {
 			$lCustomXsl = $lDomDoc->createElement("xsl:import");
 			$lCustomXsl->setAttribute("href", PATH_XSL  . $this->m_templateXslDirName . "/template_example_preview_custom.xsl");
 			$lStylesheet->appendChild($lCustomXsl);
+			
+			
 
 			// Import references xsl file
 			$lReferencesXsl = $lDomDoc->createElement("xsl:import");
 			$lReferencesXsl->setAttribute("href", PATH_XSL  .  "common_reference_preview.xsl");
 			$lStylesheet->appendChild($lReferencesXsl);
 			
-			$lReferencesXsl = $lDomDoc->createElement("xsl:import");
-			$lReferencesXsl->setAttribute("href", PATH_XSL  .  "static2.xsl");
-			$lStylesheet->appendChild($lReferencesXsl);
 
 			// XSL matching root node
 			$lRootMatch = $lDomDoc->createElement("xsl:template");
@@ -139,9 +144,9 @@ class cinstance_preview_generator extends csimple {
 // 			var_dump($gInstancePreviews);
 // 			exit;
 		}
-// 		var_dump($this->m_documentXml, $this->m_xslContent);
+		
 // 		var_dump($gInstancePreviews);
-		$this->m_instancePreviews = $gInstancePreviews;
+		$this->m_instancePreviews = $gInstancePreviews;		
 	}
 
 	function GetInstancePreview($pInstanceId){
