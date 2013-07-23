@@ -17,6 +17,12 @@ class cdocument_xml_validator extends csimple {
 	var $m_all_errors;
 	var $m_instances_arr;
 	var $m_GroupedErrArr;
+	var $m_firstIter = 1;
+	var $m_flippedErrors = array();
+	var $m_errline;
+	var $m_err_InstanceId;
+	var $m_err_InstanceName;
+	var $m_err_nodeName;
 
 	function __construct($pFieldTempl) {
 		parent::__construct($pFieldTempl);
@@ -49,11 +55,23 @@ class cdocument_xml_validator extends csimple {
 	}
 
 	function GetXmlErrors() {
+		unlink('/tmp/validation.log');
+		file_put_contents('/tmp/validation.log', 'GetXmlSchemaValidation() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		$this->GetXmlSchemaValidation();
+		file_put_contents('/tmp/validation.log', 'GetXmlSchemaValidation() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		file_put_contents('/tmp/validation.log', 'GetAllNodesErrsByLineNum() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		$this->GetAllNodesErrsByLineNum();
+		file_put_contents('/tmp/validation.log', 'GetAllNodesErrsByLineNum() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		file_put_contents('/tmp/validation.log', 'GroupXMLErrors() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		$this->GroupXMLErrors();
+		file_put_contents('/tmp/validation.log', 'GroupXMLErrors() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		file_put_contents('/tmp/validation.log', 'GetCitationErrors() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		$this->GetCitationErrors();
+		file_put_contents('/tmp/validation.log', 'GetCitationErrors() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		file_put_contents('/tmp/validation.log', 'GetCustomCheckErrors() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		$this->GetCustomCheckErrors();
+		file_put_contents('/tmp/validation.log', 'GetCustomCheckErrors() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		
 		return (int)$this->m_errorsCounter;
 	}
 
@@ -248,81 +266,148 @@ class cdocument_xml_validator extends csimple {
 	}
 
 	/**
-	 * Gets all errors info in $this->m_all_errors array
+	 * Gets errtype by line number
 	 */
 
-	function GetAllNodesErrsByLineNum() {
+	function GetErrType($val, $arr) {
 		
-		$lAllNodeLineNumbers = $this->m_documentXmlDom->getElementsByTagName('*');
-		if($lAllNodeLineNumbers->length) {
-			foreach ($lAllNodeLineNumbers as $node) {
-				//~ echo $node->getLineNo() ."\n";
-				$lErrType = $this->GetErrType($node->getLineNo(), $this->m_error_lines);
-				//~ echo $lErrType .':' . $node->getLineNo() ."\n";
-				if($lErrType) {
-					if($node->parentNode) {
-
-						if ($node->parentNode->hasAttributes()) { 
-							
-							if($node->parentNode->getAttribute('id') && $node->parentNode->getAttribute('field_name')) {
-								if($node->parentNode->parentNode && $node->parentNode->parentNode->hasAttributes()){
-									if($node->parentNode->parentNode->getAttribute('instance_id') && $node->parentNode->parentNode->getAttribute('display_name')){
-										$lInstance_id = (int)$node->parentNode->parentNode->getAttribute('instance_id');
-										$lInstance_name = $node->parentNode->parentNode->getAttribute('display_name');
-									}
-								} elseif($node->parentNode->parentNode->parentNode && $node->parentNode->parentNode->parentNode->hasAttributes()) {
-									if($node->parentNode->parentNode->parentNode->getAttribute('instance_id') && $node->parentNode->parentNode->parentNode->getAttribute('display_name')){
-										$lInstance_id = (int)$node->parentNode->parentNode->parentNode->getAttribute('instance_id');
-										$lInstance_name = $node->parentNode->parentNode->parentNode->getAttribute('display_name');
-									}
-								}
-
-								$this->m_all_errors[] = array (
-										'node_name' => $node->parentNode->nodeName,
-										'node_instance_id' => $lInstance_id,
-										'node_instance_name' => $lInstance_name,
-										'node_attribute_id' => (int)$node->parentNode->getAttribute('id'),
-										'node_attribute_field_name' => $node->parentNode->getAttribute('field_name'),
-										'node_error_type' => $lErrType,
-								);
-								
-								$this->m_errorsCounter++;
-							} else {
-								
-							/*
-								if($node->hasAttributes() && $node->getAttribute('instance_id') && $node->getAttribute('display_name')){
-									$lInstance_id = (int)$node->getAttribute('instance_id');
-									$lInstance_name = $node->getAttribute('display_name');
-								}
-								$this->m_all_errors[] = array (
-										'node_name' => $node->parentNode->nodeName,
-										'node_instance_id' => $lInstance_id,
-										'node_instance_name' => $lInstance_name,
-										'node_error_type' => XML_OTHER_UNDEFINED_ERROR,
-								);
-							*/
-							}
-							//~ echo $node->parentNode->getAttribute('id') . '-' . $node->parentNode->getAttribute('field_name') . '- Type:'. $in_array . "\n";
-							
-						} else {
-							
-							if($node->hasAttributes() && $node->getAttribute('instance_id') && $node->getAttribute('display_name')){
-								$lInstance_id = (int)$node->getAttribute('instance_id');
-								$lInstance_name = $node->getAttribute('display_name');
-								$this->m_all_errors[] = array (
-										'node_name' => $node->parentNode->nodeName,
-										'node_instance_id' => $lInstance_id,
-										'node_instance_name' => $lInstance_name,
-										'node_error_type' => $lErrType,
-								);
-								$this->m_errorsCounter++;
-							}
-							
-						}
-					}
+		foreach ($arr as $key){
+			if(array_key_exists($val, $key)) {
+				foreach ($key as $val){
+					return $val;
 				}
 			}
 		}
+	}
+
+	function FlipArr() {
+		$lArr = array();
+		foreach ($this->m_error_lines as $key){
+			foreach ($key as $key1 => $val1) {
+				if(!in_array($key1, $lArr) && $key1 != 2){
+					$lArr[] = $key1;	
+				}
+			}
+		}
+		return $lArr;
+	}
+
+	/**
+	 * Gets all errors info in $this->m_all_errors array
+	 */
+	 
+	function GetNextNode($pNode){
+		// var_dump($pNode->nodeName);
+		while(!$pNode->nextSibling && $pNode){
+			$pNode = $pNode->parentNode;
+		}
+		if($pNode){
+			return $pNode->nextSibling;
+		}
+		//var_dump($pNode);
+		//var_dump('TUKA NQMA NODE!!');
+		//exit;
+		return false;
+	}
+
+	function GetNodeErrors($pNode){
+		if(!count($this->m_flippedErrors)){
+			//var_dump('TUKA NQMA ERRS');
+			//exit;
+			return false;
+		}
+		if($this->m_firstIter == 1) {
+			$this->m_firstIter = 0;
+			$this->m_errline = reset($this->m_flippedErrors);
+			return $this->GetNodeErrors($pNode->firstChild);
+		}
+				
+		$lCurrentNode = $pNode;
+		$lNextNode = $this->GetNextNode($lCurrentNode);
+		
+		// ako po nqkakva pri4ina neuspeem da vzemem 
+		/*if(!$lNextNode) {
+			// var_dump('Do Tuka Da!!!');
+			// exit;	
+			
+			$lErrType = $this->GetErrType($this->m_errline, $this->m_error_lines);
+			
+			var_dump($this->m_errline);
+			var_dump($this->m_flippedErrors);
+			exit;
+			
+			$this->m_all_errors[] = array (
+					'node_name' => $this->m_err_nodeName,
+					'node_instance_id' => $this->m_err_InstanceId,
+					'node_instance_name' => $this->m_err_InstanceName,
+					'node_attribute_id' => (int)$lCurrentNode->parentNode->getAttribute('id'),
+					'node_attribute_field_name' => $lCurrentNode->parentNode->getAttribute('field_name'),
+					'node_error_type' => $lErrType,
+			);
+			
+			$lKey = array_search($this->m_errline, $this->m_flippedErrors);
+			unset($this->m_flippedErrors[$lKey]);
+			$this->m_errline = reset($this->m_flippedErrors);
+			
+			return $this->GetNodeErrors($lCurrentNode->parentNode);
+		}*/
+		
+		if ($lCurrentNode->hasAttributes()) {
+			if($lCurrentNode->getAttribute('display_name') && $lCurrentNode->getAttribute('instance_id')) {
+				$this->m_err_InstanceId = $lCurrentNode->getAttribute('instance_id');
+				$this->m_err_InstanceName = $lCurrentNode->getAttribute('display_name');
+				$this->m_err_nodeName = $lCurrentNode->nodeName;
+			}
+		}
+		
+		if($lCurrentNode->getLineNo() == $this->m_errline){
+			
+			$lErrType = $this->GetErrType($this->m_errline, $this->m_error_lines);
+			
+			$this->m_all_errors[] = array (
+					'node_name' => $this->m_err_nodeName,
+					'node_instance_id' => $this->m_err_InstanceId,
+					'node_instance_name' => $this->m_err_InstanceName,
+					'node_attribute_id' => (int)$lCurrentNode->parentNode->getAttribute('id'),
+					'node_attribute_field_name' => $lCurrentNode->parentNode->getAttribute('field_name'),
+					'node_error_type' => $lErrType,
+			);
+			
+			$lKey = array_search($this->m_errline, $this->m_flippedErrors);
+			unset($this->m_flippedErrors[$lKey]);
+			$this->m_errline = reset($this->m_flippedErrors);
+			
+			return $this->GetNodeErrors($lCurrentNode->parentNode);
+		}
+
+		if($lNextNode->getLineNo() < $this->m_errline){
+			return $this->GetNodeErrors($lNextNode);
+		}
+		return $this->GetNodeErrors($lCurrentNode->firstChild); 
+	}
+	
+	function CheckLineInNode($pArr, $pStart, $pEnd) {
+		$lRes = array(
+			'errcnt' => 0,
+			'errline' => 0
+		);
+		
+		foreach ($pArr as $key => $value) {
+			if($value >= $pStart && $value < $pEnd) {
+				$lRes['errcnt'] = $lRes['errcnt'] + 1;
+				if($value == $pStart) {
+					$lRes['errline'] = $value;
+				}
+			}
+		}
+		return $lRes;
+	}
+	
+	function GetAllNodesErrsByLineNum() {
+		$lRootNode = $this->m_documentXmlDom->documentElement;
+		$lArrLinesErrs = array();
+		$this->m_flippedErrors = $this->FlipArr();
+		$this->GetNodeErrors($lRootNode);	
 	}
 
 	function GetAllXMLErrors() {
@@ -359,21 +444,6 @@ class cdocument_xml_validator extends csimple {
 			//~ return $this->m_GroupedErrArr;
 		}
 
-	}
-
-	/**
-	 * Gets errtype by line number
-	 */
-
-	function GetErrType($val, $arr) {
-		
-		foreach ($arr as $key){
-			if(array_key_exists($val, $key)) {
-				foreach ($key as $val){
-					return $val;
-				}
-			}
-		}
 	}
 
 	/**
@@ -435,8 +505,8 @@ class cdocument_xml_validator extends csimple {
 
 	function LibXMLGetAllErrors() {
 		$this->m_libxml_errors = libxml_get_errors();
-		//~ print_r($this->m_libxml_errors);
-		//~ exit;
+		// print_r($this->m_libxml_errors);
+		// exit;
 		//var_dump($this->m_libxml_errors);
 		foreach ($this->m_libxml_errors as $error) {
 			//~ $this->m_XML_errors .= $this->LibXMLGetError($error);
