@@ -598,11 +598,11 @@
 		<xsl:param name="pImageType" >1</xsl:param>
 		<xsl:param name="pPlateNum" />
 		
-		<xsl:variable name="pImageLink">/showfigure.php?filename=big_<xsl:value-of select="$pPicId"/>.jpg</xsl:variable>
+		<xsl:variable name="pImageLink"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=big_<xsl:value-of select="$pPicId"/>.jpg</xsl:variable>
 		<xsl:variable name="lContent">
 				<a target="_blank">
 					<xsl:attribute name="href">
-						<xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
+						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
 						<xsl:value-of select="$pInstanceId"/>
 					</xsl:attribute>
 					<img>
@@ -614,7 +614,7 @@
 				</a>
 				<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
 					<xsl:attribute name="href">
-						<xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
+						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
 						<xsl:value-of select="$pInstanceId"/>
 					</xsl:attribute>				
 				</a>

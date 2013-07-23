@@ -81,7 +81,7 @@ $BODY$
 					JOIN pwt.document_object_instances p ON  p.document_id = i.document_id AND p.pos = substring(i.pos, 1, char_length(p.pos))
 					WHERE i.document_id = lRecord.document_id AND p.id = lRecord2.id AND i.object_id = ANY (lPlatePartObjectIds);
 					
-					RAISE NOTICE 'Fig %, subplates %', lRecord2.id, lTempBigIntArr;
+					--RAISE NOTICE 'Fig %, subplates %', lRecord2.id, lTempBigIntArr;
 					IF lRecord.object_ids @> lTempBigIntArr THEN -- Цитиран е целия плейт
 						lWholeFigures = array_append(lWholeFigures, lRecord2.fignumber);
 					ELSE -- Цитирана е само част от плейта
