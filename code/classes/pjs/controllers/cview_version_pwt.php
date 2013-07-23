@@ -101,6 +101,7 @@ class cView_Version_Pwt extends cView_Version {
 					$lReviewerPoll = array(
 						'ctype' => 'evList_Display',
 						'name_in_viewobject' => 'reviewerpoll',
+						'role' => (int)$this->m_viewingRole,
 						'controller_data' => $this->m_versionModel->GetReviewersAnswers((int)$this->m_documentId, $this->m_versionUserRoundId),
 					);
 				} else {
@@ -180,7 +181,6 @@ class cView_Version_Pwt extends cView_Version {
 				'preview' => array(
 					'ctype' => 'evSimple_Block_Display',
 					'name_in_viewobject' => 'preview',
-					//~ 'preview' => $this->m_xmlPreview,
 					'author_name' => $lAuthorName,
 					'author_version_num' => $lAuthorVersionNumber,
 					'version_id' => $this->m_versionId,
@@ -194,7 +194,6 @@ class cView_Version_Pwt extends cView_Version {
 					'previewmode' => $this->m_viewMode,
 					'structure' => $lDocumentVersionLeftCol,
 					'readonly' => (int)$this->m_viewMode,
-					// tva neznam za6to e taka, nqmam vreme da go debugvam - kato mu predam nula i e prazno...
 					'read_only' => ($this->m_viewMode ? $this->m_viewMode : 2),
 					'is_se' => $lESECheckUserRole,
 					'name' => ($lSEName ? $lSEName : $this->m_roundData['name']),
@@ -409,6 +408,7 @@ class cView_Version_Pwt extends cView_Version {
 							'DisplayName' => $lSubmitReviewText,
 							'AddTags' => array(
 								'class' => 'inputBtn',
+								'onclick' => 'if(confirm(\'' . getstr('pjs.SE_E_CE_submit_review_confirmation') . '\')){return true;} else {return false;}',
 							)
 						),
 					);
@@ -679,6 +679,7 @@ class cView_Version_Pwt extends cView_Version {
 						'DisplayName' => getstr('admin.article_versions.review'),
 						'AddTags' => array(
 							'class' => 'inputBtn',
+							'onclick' => 'if(confirm(\'' . getstr('pjs.R_submit_review_confirmation') . '\')){return true;} else {return false;}',
 							//'onclick' => $lSubmitOrClose,
 						),
 					),

@@ -431,7 +431,7 @@ h1 {
 		transparent;
 	border: none;
 	height: 34px;
-	width: 103px;
+	width: 155px;
 }
 
 .preview_btn:hover {
@@ -3809,7 +3809,7 @@ div.token-input-dropdown-facebook:after {
 .P-Picture-Holder {
 	padding-bottom: 40px;
 	width: 90px;
-	height: 82px;
+	min-height: 82px;
 }
 
 .P-Picture-Holder>div {
@@ -4213,6 +4213,10 @@ td.P-PopUp-Checkbox-Holder {
 	margin-bottom:10px;
 }
 
+.verticalContainer>.container_item_wrapper.P-Plate-Part-Holder{
+	float:left;
+}
+
 .P-Plate-Part {
 	width: 310px;
 	height: 227px;
@@ -4233,7 +4237,7 @@ td.P-PopUp-Checkbox-Holder {
 	position: relative;
 }
 
-.P-Plate-Part-Big {
+.P-Plate-Part-Big, .P-Plate-Part-Big-Plate .P-Plate-Part, .P-Plate-Part-Big-Plate .P-Plate-Part-WithPic {
 	/*height: 454px;*/
 	height:430px;
 }

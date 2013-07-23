@@ -259,6 +259,35 @@ $gTemplArr = array(
 			<div class="P-Clear"></div>
 		</div>
 	',
+		
+	'tables.single_table_preview' => '
+		<div id="P-Tables-Row-{id}" class="P-PopUp-Data-Table-Row">
+			<table cellspacing="0" cellpadding="0" border="0" width="100%">
+				<tr>
+					<td class="P-PopUp-Checkbox-Holder" align="left" valign="top">
+						<input id="tbl-{id}" type="checkbox" name="tbl-{id}" figurenum="{fignum}" value="{id}">
+					</td>
+					<td class="P-PopUp-Picture-Holder" valign="top">
+						<label for="tbl-{id}">
+							<div>
+								<img src="i/table_pic.png" alt="">
+								<div class="P-Clear"></div>
+							</div>
+						</label>
+					</td>
+					<td valign="top">
+						<label for="tbl-{id}">
+							<div class="P-Block-Title">{caption}</div>
+							<div class="P-Figure-Num">Table {fignum}</div>
+						</label>						
+						<div class="P-Clear"></div>
+					</td>
+				</tr>
+			</table>
+			<div class="P-Clear"></div>
+		</div>
+		<div class="P-Clear"></div>
+	',
 
 	'tables.empty_row' => '
 		<div class="P-Empty-Content">' . getstr('pwt.tables.nodata') . '</div>

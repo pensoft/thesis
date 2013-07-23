@@ -21,6 +21,17 @@ class cfield_radio extends cfield_base{
 				$this->m_holderTempl = G_RADIO_TEMPL;
 				break;
 			}
+			case FIELD_HTML_RADIO_PLATE_APPEARANCE_TYPE:{
+				$this->m_isMultiple = false;
+				$this->m_selectedValues = array($this->m_parsedFieldValue);
+				$this->m_inputType = 'radio';
+			
+				$this->m_rowTempl = G_RADIO_PLATE_APPEARANCE_ROW_TEMPL;
+				$this->m_labelTempl = G_RADIO_PLATE_APPEARANCE_LABEL_TEMPL;
+				$this->m_holderTempl = G_RADIO_PLATE_APPEARANCE_TEMPL;
+				break;
+			}
+			
 			case FIELD_HTML_CHECKBOX_TYPE:{
 				$this->m_isMultiple = true;
 				if(is_array($this->m_parsedFieldValue)){
@@ -57,8 +68,10 @@ class cfield_radio extends cfield_base{
 
 	
 	function Display() {
-		if((int)$this->m_pubdata['display_label']){
+		if((int)$this->m_pubdata['display_label']){		
+			
 			$this->m_pubdata['field_label'] = $this->ReplaceHtmlFields($this->getObjTemplate($this->m_labelTempl));
+// 			var_dump($this->m_pubdata['field_label']);
 		}else{
 			$this->m_pubdata['field_label'] = '';
 		}
@@ -71,10 +84,14 @@ class cfield_radio extends cfield_base{
 		foreach ($lSrcValues as $lId => $lDisplayName) {
 			$this->m_pubdata['input'] = '<input ' . ($this->m_isReadOnly ? ' disabled="disabled" ' : '') . ' id="' . $this->m_fieldHtmlIdentifier . '_' . $lId . '" name="' . $this->m_fieldHtmlIdentifier . ($this->m_isMultiple ? '[]' : '') . '" type=' . $this->m_inputType . ' value="' . $lId . '"' . (in_array($lId, $lSelectedValuesArr)  ? ' checked="checked"' : '') . '/>';
 			$this->m_pubdata['label'] = $lDisplayName;
+			$this->m_pubdata['input_identifier'] = $this->m_fieldHtmlIdentifier . '_' . $lId;
 			$this->m_pubdata['label_for'] = $this->m_fieldHtmlIdentifier . '_' . $lId;
+			$this->m_pubdata['value_id'] = $lId;
 			$lField .= $this->ReplaceHtmlFields($this->getObjTemplate($this->m_rowTempl));
+// 			var_dump($lField);
 		}		
 		$this->m_pubdata['field'] = $lField;
+		
 		return $this->ReplaceHtmlFields($this->getObjTemplate($this->m_holderTempl));
 		
 	}

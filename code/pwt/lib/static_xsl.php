@@ -58,6 +58,7 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		186 => array(441, 442, 443),
 		190 => array(289, 290, 291, 292, 450),
 		191 => array(452, 451),
+		200 => array(460),
 		201 => array(461, 462),
 		202 => array(464),
 		204 => array(413),
@@ -96,7 +97,16 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		9 => array(3),
 		98 => array(259, 260, 257, 255, 256, 258, 264, 261, 262),
 		99 => array(255, 256, 258, 259, 260, 264, 271, 261, 262),
-		
+		222 => array(482),//Fig caption
+		224 => array(482),//Plate caption
+		223 => array(482),//Video caption
+		225 => array(487),//Plate part caption		
+		226 => array(487),
+		227 => array(487),
+		228 => array(487),
+		229 => array(487),
+		230 => array(487),
+		238 => array(482, 490),//Table
 );
 
 	if(!array_key_exists($pObjectId, $lAllowed) || !in_array($pFieldId, $lAllowed[$pObjectId])){
@@ -640,7 +650,7 @@ function GroupTreatmentMaterials($pTreatmentMaterials){
  * @param unknown_type $pInstanceId
  * @param array $pPreview
  */
-function SaveInstancePreview($pInstanceId, $pPreview){
+function SaveInstancePreview($pInstanceId, $pPreview){	
 // 	var_dump($pInstanceId, $pPreview, $pPreview[0] instanceof DOMDocument);
 	if(count($pPreview) && $pPreview[0] instanceof DOMDocument){
 		global $gInstancePreviews;

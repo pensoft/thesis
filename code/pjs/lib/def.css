@@ -4393,6 +4393,10 @@ div.token-input-dropdown-facebook:after {
 	height: 8px;
 }
 
+.reviewer_tbl input{
+	cursor: pointer;
+}
+
 .reviewer_tbl .goup img {
 	width: 15px;
 	height: 8px;
@@ -4589,8 +4593,8 @@ table.reviewer_tbl td {
 	color: #1F1F1F;
 	font-size: 13px;
 	border-bottom: 1px dashed #D1CDBB;
-	cursor: pointer;
-	padding: 10px;
+	/* cursor: pointer; 
+	padding: 10px; */
 }
 
 .sm_font {
@@ -5371,7 +5375,7 @@ table.tbl_editors td a {
 	border-bottom: 1px dashed #D1CDBB;
 	color: #1F1F1F;
 	font-size: 12px;
-	cursor: pointer;
+	/* cursor: pointer; */
 }
 
 .reviewer_list_tbl {
@@ -5399,6 +5403,7 @@ table.tbl_editors td a {
 
 .reviewer_act {
 	padding: 0px 5px 0px 5px;
+	cursor: pointer;
 }
 
 #inputBox input#go_to_issue_input {
@@ -5891,7 +5896,7 @@ td.categories {
 
 .taskspopup-listheadmain-content-section {
 	float: left;
-	width: 234px;
+	width: 250px;
 }
 
 .taskspopup-header {
@@ -6451,7 +6456,7 @@ table.no_bold_class td a {
 }
 
 /* COMMENTS IN VERSION END */
-.suggestRevName{padding-bottom: 4px;}
+.suggestRevName{padding-bottom: 4px; font-weight: bold}
 .suggestRevExpertise{color: #666; font-size: 11px}
 
 #tasksPopUpFormContent .Tasks-PopUp-Content-Area textarea {

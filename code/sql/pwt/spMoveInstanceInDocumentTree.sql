@@ -80,12 +80,12 @@ $BODY$
 			RAISE EXCEPTION 'pwt.tree_instance_swap.no_instance_to_swap_with';
 		END IF;
 		
-		IF pOper = 1 THEN -- Up
+		IF pOper = 1 THEN -- Move pInstanceId Down
+			lUpInstanceId = lSwapInstanceId;					
+			lDownInstanceId = pInstanceId;			
+		ELSEIF pOper = 2 THEN --Move pInstanceId Up
 			lUpInstanceId = pInstanceId;					
-			lDownInstanceId = lSwapInstanceId;
-		ELSEIF pOper = 2 THEN --Down
-			lUpInstanceId = lSwapInstanceId;
-			lDownInstanceId = pInstanceId;								
+			lDownInstanceId = lSwapInstanceId;	
 		END IF;
 		
 		PERFORM spPerformInstanceBeforeSqlMoveUpActions(pUid, lUpInstanceId);

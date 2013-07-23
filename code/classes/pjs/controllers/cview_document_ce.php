@@ -63,6 +63,7 @@ class cView_Document_CE extends cView_Document {
 					'round_number' => $lCERoundsCount,
 					'author_version_id' => $lCEDecisionData['author_round_version_id'],
 					'user_version_id' => $lCEDecisionData['copy_editor_version_id'],
+					'author_verson_link' => $lAuthorVersionLinkStart = '<a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id=' . (int) $lCEDecisionData['author_round_version_id'] . '&id=' . (int) $this->m_documentId . '&view_role=' . (int) AUTHOR_ROLE . '\')">',
 				));
 				break;
 			case (int) DOCUMENT_IN_COPY_REVIEW_STATE :

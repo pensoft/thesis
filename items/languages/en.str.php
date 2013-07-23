@@ -1667,10 +1667,10 @@ $STRARRAY = array(
 	'pjs.Invite_Reviewers' => 'Invite reviewers',
 	'pjs.reviewers_name_label' => 'Name',
 	'pjs.reviewers_email_label' => 'E-mail',
-	'pjs.reviewers_added_label' => 'Added',
+	'pjs.reviewers_added_label' => 'Suggested',
 	'pjs.reviewers_action_label' => 'Actions',
-	'pjs.reviewers_nominated_label' => 'Nominated',
-	'pjs.reviewers_panel_label' => 'Panel',
+	'pjs.reviewers_nominated_label' => '<span style="color:#006666; cursor:pointer;" title="Nominated reviewers are expected to provide a formal review by a deadline, after they have accepted the review request.">Nominated</span>',
+	'pjs.reviewers_panel_label' => '<span style="color:#006666; cursor:pointer;" title="Panel reviewers are invited but not required to evaluate the manuscript within a deadline. They can do this at any time, before the review process expires.">Panel</span>',
 	'pjs.reviewers_empty' => 'There are no added reviewers to list.',
 	'pjs.addreviewerstolist' => 'Add reviewers to the list by:',
 	'pjs.searchreviewers' => "Search in Pensoft's database:",
@@ -1875,8 +1875,8 @@ $STRARRAY = array(
 	'pjs.no_submitted_files_found' => 'No supplementary files found',
 	'pjs.authorOriginalSubmissionVersionLabel' => "Author's original submission",
 	'pjs.authorRevisionVersionLabel' => "Author's revised version",
-	'pjs.layoutround_label' => 'Layout review',
-	'pjs.copyeditinground_label' => 'Linguistic review',
+	'pjs.layoutround_label' => 'Layout',
+	'pjs.copyeditinground_label' => 'Copy editing',
 	'pjs.author_proceed_to_layout_edit_text' => "Revise your manuscript and respond to editor's comments",
 	'pjs.authors_notes_to_editor' => "Author's notes to Editor",
 	'pjs.thereIsNoSuchDocumentOrTheSpecifiedUserCannotOpenItInTheSpecifiedRole' => 'There is no such document or the specific user cannot open it in this role',
@@ -1892,7 +1892,7 @@ $STRARRAY = array(
 	'pjs.taskspopup.formtitle' => 'Compose message',
 	'pjs.taskspopup.listtitle' => 'Recipients',
 	'pjs.taskspopup.skip_section_title' => 'Skip',
-	'pjs.taskspopup.content_section_title' => 'Click on recipient to modify message',
+	'pjs.taskspopup.content_section_title' => 'Click on a recipient to add a personal message',
 
 	'pjs.journal_authors' => 'Authors',
 
@@ -1984,27 +1984,37 @@ $STRARRAY = array(
 	 * Submission pages Green texts START
 	 */
 	'pjs.submission_review_assignment' => 'Reviewer assignments are due in %s days',
-	'pjs.submission_peer_review_proces_not_invited_reviewers_closed_peer' => 'You can assign this manuscript for a %s peer-review round by selecting at least %s nominated reviewer',
-	'pjs.submission_peer_review_proces_not_invited_reviewers_community_public_peer' => 'You can assign this manuscript for a %s peer-review round by selecting at least %s nominated and %s panel reviewer',
+	'pjs.submission_peer_review_proces_not_invited_reviewers_closed_peer' => 'You can assign this manuscript for peer-review round %s by selecting at least %s nominated reviewer',
+	'pjs.submission_peer_review_proces_not_invited_reviewers_community_public_peer' => 'You can assign this manuscript for peer-review round %s by selecting at least %s nominated and %s panel reviewer',
 	'pjs.submission_se_reject_text_buttons' => 'You can reject this manuscript prior to peer-review. Please explain your reasons below:',
 	'pjs.invite_reviewers_page_closed_peer_text_round1' => '
-		You have to select at least %s nominated from the list.<br />
-		If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer.<br /> 
+	<span>
+		<img width="24" height="24" style="float: left; margin: 2px 0px 22px; border-right-width: 20px; border-bottom-width: 32px; padding-right: 5px;" alt="Note:" src="/i/lightbulb.png">
+			You have to select at least %s nominated (ideally 2 or 3) reviewer from the list.<br />
+			If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page.<br /> 
+			Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.
+		</span>',
+	'pjs.invite_reviewers_page_community_public_peer_text_round1' => '
+	<span>
+		<img width="24" height="24" style="float: left; margin: 2px 0px 22px; border-right-width: 20px; border-bottom-width: 32px; padding-right: 5px;" alt="Note:" src="/i/lightbulb.png">
+			You have to select at least %s nominated (ideally 2 or 3) and %s panel (ideally up to 5-10) reviewers from the list. If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page. Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.</span>',
+	'pjs.invite_reviewers_page__peer_process_text_round2' => '
+	You have to select at least %s nominated (ideally 2 or 3) reviewer from the list.<br />
+		If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page.<br /> 
 		Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.',
-	'pjs.invite_reviewers_page_community_public_peer_text_round1' => 'You have to select at least %s nominated and %s panel reviewer from the list. If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer. Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.',
-	'pjs.invite_reviewers_page__peer_process_text_round2' => 'You have to select at least %s nominated from the list. If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer. Invitations become efficient after clicking on the button “Invite reviewers” at the bottom of the page.',
 	'pjs.showproceedbtnround1_text' => 'You can proceed with your decision after the due date for public review has passed and all dedicated reviewers have completed their reviews.<br> If dedicated reviewers fail to complete their tasks on time, you may remove them from the process.',
 	'pjs.showproceedbtnround2_text' => "You can edit/comment on author's revised version and take your editorial decision.",
 	
 	'pjs.decision_button_text_closed_peer_in_due_date_round_1' => '
-		To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.<br />
+		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />
 		You can do this after at least %s nominated reviewer has submitted a review and there are no pending reviews/requests.<br />
 		If a nominated reviewer fails to complete a task on time, you may cancel it.',	
 	'pjs.decision_button_text_closed_peer_not_in_due_date_round_1' => 'To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.',
 	
 	'pjs.decision_button_text_community_public_peer_in_due_date_round_1' => '
-		To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.<br />
-		You can proceed with your decision after the due date for panel review has passedd, at least 1 nominated reviewer has submitted a review and there are no pending reviews/requests.<br />
+		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />
+		You may add your own corrections/comments on the merged reviewer’s version.<br />
+		You can proceed with your decision after the due date for panel review has passed, at least 1 nominated reviewer has submitted a review and there are no pending reviews/requests.<br />
 		If a nominated reviewer fails to complete a task on time, you may cancel it.',
 	'pjs.decision_button_text_community_public_peer_not_in_due_date_round_1' => 'To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.',
 	
@@ -2074,17 +2084,17 @@ $STRARRAY = array(
 	/* COMMUNITY PEER keys */
 	
 	'pjs.community_peer_review_to_proceed_round_1' => "
-		To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.<br /><br />
-		You can proceed with your decision after the due date for panel review has passed,<br /> at least 1 nominated reviewer has submitted a review and<br /> there are no pending reviews/requests.<br /><br />
-		If a nominated reviewer fails to complete a task on time, you may cancel it.<br /><br />",
-	'pjs.community_peer_review_take_decision_round_1' => "pjs.community_peer_review_take_decision_round_1",
-	'pjs.community_peer_review_speedup_round_1' => "pjs.community_peer_review_speedup_round_1",
+		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />You may add your own corrections/comments on the merged reviewer’s version.<br /><br />
+		You can proceed with your decision after the deadline for panel reviewers,<br /> at least 1 nominated reviewer has submitted a review and<br /> there are no pending reviews/requests.<br /><br />
+		If a nominated reviewer fails to complete a task on time, you may cancel the review request.<br /><br />",
+	'pjs.community_peer_review_take_decision_round_1' => "You can edit/comment on author's original submission and take your editorial decision.",
+	'pjs.community_peer_review_speedup_round_1' => "In order to speed up the editorial process you can take your editorial decision without waiting for reviews.",
 	'pjs.community_peer_review_take_decision_without_reviewers_round_1' => "pjs.community_peer_review_take_decision_without_reviewers_round_1",
 	
 	'pjs.community_peer_review_to_proceed_round_2' => "
-		To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.<br /><br />
-		You can proceed with your decision after the at least 1 nominated reviewer has submitted a review and there are no pending reviews/requests.<br /><br />
-		If a nominated reviewer fails to complete a task on time, you may cancel it.<br /><br />",
+		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />You may add your own corrections/comments on the merged reviewer’s version.<br /><br />
+		You can proceed with your decision after at least 1 nominated reviewer has submitted a review and there are no pending reviews/requests.<br /><br />
+		If a nominated reviewer fails to complete a task on time, you may cancel the review request.<br /><br />",
 	'pjs.community_peer_review_take_decision_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
 	'pjs.community_peer_review_speedup_round_2' => "pjs.community_peer_review_speedup_round_2",
 	'pjs.community_peer_review_take_decision_without_reviewers_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
@@ -2104,12 +2114,12 @@ $STRARRAY = array(
 	'pjs.public_peer_review_take_decision_without_reviewers_round_2' => "pjs.public_peer_review_take_decision_without_reviewers_round_2",
 
 
-	//'pjs.round_copy_editing_label' => 'Linguistic review',
+	//'pjs.round_copy_editing_label' => 'Copy editing',
 	'pjs.revise_author_version_for_ce_le_round' => "Revise your manuscript and respond to copy editor's comments",
-	'pjs.copyeditinground_label_1' => 'Linguistic review 1',
+	'pjs.copyeditinground_label_1' => 'Copy editing 1',
 	'pjs.copy_editing_text' => 'In Copy editing',
 	'pjs.copy_editing_proof_text' => 'Proof is being produced by Copy Editor',
-	'pjs.copyeditinground_label_clear' => 'Linguistic review',
+	'pjs.copyeditinground_label_clear' => 'Copy editing',
 	
 	'pjs.layout_approve_btn_text' => 'Approve',
 	'pjs.layout_save_btn_text' => 'Save',
@@ -2117,7 +2127,7 @@ $STRARRAY = array(
 	'pjs.layout_pdf_preview_btn_text' => 'PDF preview',
 	'pjs.layout_revert_btn_text' => 'Revert',
 	'pjs.view_ce_version_btn' => "See copy edited version",
-	'pjs.copy_layout_editing_text' => "Waiting editorial office to assign ... ",
+	'pjs.copy_layout_editing_text' => "Manuscript in production",
 	
 	
 	/* The XML is not valid */
@@ -2144,6 +2154,17 @@ $STRARRAY = array(
 	'pwt.validation.projectDescriptionAtLeasOneFieldRequired' => 'pwt.validation.projectDescriptionAtLeasOneFieldRequired',
 	
 	'pjs.template_notes_label' => 'You may enter a personal message to the recipient here.',
-	'pjs.login_warning_text' => 'If you continue you will lost your unsaved data. Please be sure to save your data...',
+
+	'pjs.invite_at_least_one_nom_pan_reviewer' => 'You have to select at least 1 nominated and 1 panel reviewer',
+	'pjs.login_warning_text' => 'Another user (might be you with your other account) is logged in from this computer and in this browser. If you continue the other user will be automatically logged out.',
+	'admin.article_versions.SEviewForm' => 'Consolidated review form',
+	'pjs.se_form_notes_to_author' => '<b>Enter or paste your editorial evaluation</b>',
+	'admin.article_versions.quest1_SE' => 'Questions \ Answers',
+	'pjs.SE_reinvite_reviewer_confirmation' => 'Are you sure you would like to invite this reviewer again?',
+	'pjs.SE_accept_reviewer_invitation_confirmation' => 'Are you sure you want to accept this review request on behalf of this reviewer?',
+	'pjs.SE_cancel_reviewer_invitation_confirmation' => 'Are you sure you want to decline this review request on behalf of this reviewer?',
+	'pjs.SE_cancel_reviewer_review_confirmation' => 'Are you sure that you want to cancel this review process?',
+	'pjs.R_submit_review_confirmation' => 'Are you sure that you have completed the review? Once submitted you will not be able to make any further changes!',
+	'pjs.SE_E_CE_submit_review_confirmation' => 'Are you sure that you have completed your editorial decision? Once submitted you will not be able to make any further changes!',
 );
 ?>

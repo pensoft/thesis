@@ -45,6 +45,7 @@ class pView_Version_Pwt extends pView_Version {
 
 		$this->m_objectsMetadata['semode'] = array(
 			'templs' => array(
+				G_FORM_HEADER => 'form.default_header_version_popup',
 				G_FORM_TEMPLATE => 'view_version_pwt.form_se',
 				G_FORM_RADIO_ROW => 'form.radio_input_row_td',
 				G_FORM_CHECKBOX_ROW => 'form.checkbox_input_row_no_br'
@@ -53,6 +54,7 @@ class pView_Version_Pwt extends pView_Version {
 
 		$this->m_objectsMetadata['cemode'] = array(
 			'templs' => array(
+				G_FORM_HEADER => 'form.default_header_version_popup',
 				G_FORM_TEMPLATE => 'view_version_pwt.form_ce',
 				G_FORM_RADIO_ROW => 'form.radio_input_row_td',
 				G_FORM_CHECKBOX_ROW => 'form.checkbox_input_row_no_br'
@@ -61,6 +63,7 @@ class pView_Version_Pwt extends pView_Version {
 
 		$this->m_objectsMetadata['reviewermode'] = array(
 			'templs' => array(
+				G_FORM_HEADER => 'form.default_header_version_popup',
 				G_FORM_TEMPLATE => 'view_version_pwt.form_reviewer',
 				G_FORM_RADIO_ROW => 'form.radio_input_row_td',
 				G_FORM_CHECKBOX_ROW => 'form.checkbox_input_row_no_br'

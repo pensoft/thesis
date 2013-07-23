@@ -60,7 +60,7 @@ $gTemplArr = array(
 			<div class="brownBorder" {_showHideByRole(role)}></div>
 			<div class="headlineContainer" id="pollhead" {_showHideByRole(role)}>
 				<div class="headline">
-					<h3>' . getstr('admin.article_versions.previewForm') . '</h3>
+					<h3>{_showFormLabelByRole(role)}</h3>
 				</div>
 				<div class="date">
 					<!-- Editorial decision is due in {round_due_date_main} days -->
@@ -97,7 +97,7 @@ $gTemplArr = array(
 	'view_version_pwt.poll_startrs' => '
 				<table class="previewform">
 				<tr class="bold">
-					<td class="no-Border withSmallPadding">' . getstr('admin.article_versions.quest1') . '<span class="txtred">*</span></td>
+					<td class="no-Border withSmallPadding">{_showPollHeaderByRole(role)}<span class="txtred">*</span></td>
 					<td class="center no-Border withSmallPadding">' . getstr('admin.article_versions.option1') . '</td><td class="center no-Border withSmallPadding">' . getstr('admin.article_versions.option2') . '</td><td class="center no-Border withSmallPadding">' . getstr('admin.article_versions.option3') . '</td><td class="center no-Border withSmallPadding">' . getstr('admin.article_versions.option4') . '</td>
 				</tr>',
 	'view_version_pwt.poll_row' => '
@@ -134,11 +134,8 @@ $gTemplArr = array(
 
 	'view_version_pwt.form_se' => '
 					<div class="P-Article-Editing">
-					<div class="bold">
-						' . getstr('admin.article_versions.yourpreview') . '
-					</div>
 					<div class="br"></div>
-					{*notes_to_author}<span class="txtred">*</span>:
+					{_getstr(pjs.se_form_notes_to_author)}<span class="txtred">*</span>:
 					<div class="br"></div>
 					{!notes_to_author}
 					{notes_to_author}
@@ -187,7 +184,7 @@ $gTemplArr = array(
 					$(\'#submit-view-version-form\').click(function(){
 						SubmitFormByName(\'document_review_form\');
 					});
-
+					{_scrollFormIfErrors(err_cnt)}
 				});
 				CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
 				CKEDITOR.config.language = \'en\';
@@ -249,7 +246,7 @@ $gTemplArr = array(
 					$(\'#submit-view-version-form\').click(function(){
 						SubmitFormByName(\'document_review_form\');
 					});
-
+					{_scrollFormIfErrors(err_cnt)}
 				});
 				CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
 				CKEDITOR.config.language = \'en\';
@@ -410,7 +407,7 @@ $gTemplArr = array(
 				$(\'#submit-view-version-form\').click(function(){
 					SubmitFormByName(\'document_review_form\');
 				});
-
+				{_scrollFormIfErrors(err_cnt)}
 			});
 			CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
 			CKEDITOR.config.language = \'en\';

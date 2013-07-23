@@ -12,7 +12,7 @@ $gTemplArr = array(
 			<div class="document_author_holder_rev">
 				<div class="document_author_holder_rev_info_top">
 					<div class="document_author_holder_rev_info_top_left">
-						{_showCurrentVersion(version_num)}
+						{_showCurrentVersion(version_num, author_verson_link)}
 					</div>
 					<div class="document_author_holder_rev_info_top_right">
 						<img src="../i/eye.png">

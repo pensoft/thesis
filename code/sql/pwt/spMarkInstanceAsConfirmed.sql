@@ -18,6 +18,7 @@ $BODY$
 			lObjectId bigint;
 			lIsConfirmed boolean;
 			lParentIsConfirmed boolean;
+			lInstanceIds bigint[];
 		BEGIN	
 			SELECT INTO lParentInstanceId, lObjectId, lParentObjectId, lIsConfirmed, lParentIsConfirmed
 				i.parent_id, i.object_id, p.object_id, i.is_confirmed, p.is_confirmed
@@ -51,6 +52,13 @@ $BODY$
 			FROM pwt.document_object_instances p
 			WHERE p.document_id = i.document_id AND p.id = pInstanceId AND substring(i.pos, 1, char_length(p.pos)) = p.pos;
 			
+			SELECT INTO lInstanceIds
+				array_agg(i.id)
+			FROM pwt.document_object_instances i
+			JOIN pwt.document_object_instances p ON  p.document_id = i.document_id  AND substring(i.pos, 1, char_length(p.pos)) = p.pos 
+			WHERE p.id = pInstanceId ;
+			
+			PERFORM spPerformInstancesAfterSqlConfirmActions(pUid, lInstanceIds);
 			RETURN 1;
 		END
 	$BODY$
