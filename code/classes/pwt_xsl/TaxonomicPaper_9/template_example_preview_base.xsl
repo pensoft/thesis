@@ -82,7 +82,7 @@
 		</xsl:choose>
 	</xsl:template>
 
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end" mode="formatting">
+	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation" mode="formatting">
 
 		<xsl:copy-of select="."/>
 		<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))"></xsl:variable> -->
@@ -94,13 +94,22 @@
 		<xsl:value-of select="." disable-output-escaping="yes"/>
 	</xsl:template>
 
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|ol|li|comment-start|comment-end|table|tr|td|tbody|th" mode="table_formatting">
+	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|ol|li|comment-start|comment-end|table|tr|td|tbody|th|reference-citation" mode="table_formatting">
 		<xsl:copy-of select="."/>
 		<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))"></xsl:variable> -->
 		<!-- 		<xsl:element name="{$lNodeName}"> -->
 		<!-- 			<xsl:apply-templates mode="formatting"></xsl:apply-templates> -->
 		<!-- 		</xsl:element> -->
 	</xsl:template>
+	
+	<xsl:template match="b|i|u|strong|em|sup|sub|insert|delete|comment-start|comment-end|reference-citation" mode="title">
+		<xsl:copy-of select="."/>
+<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))"></xsl:variable> -->
+<!-- 		<xsl:element name="{$lNodeName}"> -->
+<!-- 			<xsl:apply-templates mode="formatting"></xsl:apply-templates> -->
+<!-- 		</xsl:element> -->
+	</xsl:template>
+	
 	<!-- Removes spaces -->
 	<xsl:template match="*" mode="formatting_nospace">
 		<xsl:param name="lTreatmentUrl"/>
@@ -386,10 +395,10 @@
 					</xsl:call-template>
 					<xsl:attribute name="field_id">413</xsl:attribute>
 					<!-- <xsl:value-of select="php:function('h_strip_tags', string($checklistTitle))" /> -->
-					<xsl:apply-templates select="./fields/*[@id='413']" mode="formatting"/>
+					<xsl:apply-templates select="./fields/*[@id='413']" mode="title"/>
 				</h1>
 				<div class="Checklist">
-					<xsl:apply-templates select="$checklistTitle" mode="checklistTaxon"/>
+					<xsl:apply-templates select="./*[@object_id='205']" mode="checklistTaxon"/>
 				</div>
 			</div>
 		</xsl:if>
@@ -786,7 +795,7 @@
 			<xsl:text> - </xsl:text>
 			<xsl:for-each select=".//*[@object_id='201']">
 				<span field_id="438">
-					<xsl:apply-templates select=".//*[@object_id='178']/fields/*[@id='438']/value" mode="formatting_nospace"/>
+					<xsl:apply-templates select=".//*[@object_id='178']/fields/*[@id='438']/value" mode="title"/>
 				</span>
 				<xsl:if test="./fields/*[@id='461']/value != ''">
 					<xsl:text> [</xsl:text>
