@@ -375,7 +375,7 @@
 					<xsl:attribute name="field_id">38</xsl:attribute>
 					<xsl:apply-templates select="./fields/*[@id='38']" mode="formatting"/>
 				</span>
-				<span>>
+				<span>
 					<xsl:attribute name="field_id">39</xsl:attribute>
 					<xsl:apply-templates select="./fields/*[@id='39']" mode="formatting"/>
 				</span>
