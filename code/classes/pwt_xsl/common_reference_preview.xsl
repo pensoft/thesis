@@ -91,7 +91,7 @@
 		</xsl:variable>
 		<span>
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:apply-templates select="$lAuthorParsedName" mode="formatting_nospace"/>			
+			<xsl:apply-templates select="./fields/*[@id='250']/value" mode="formatting_nospace"/>			
 		</span>
 	</xsl:template>
 

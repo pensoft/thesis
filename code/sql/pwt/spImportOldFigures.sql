@@ -237,7 +237,10 @@ BEGIN
 	FROM citations_import t
 	WHERE t.citation_id = c.id;
 	
-	
+	UPDATE pwt.document_object_instances i SET
+		is_new = false
+	FROM pwt.document_object_instances p
+	WHERE p.id = lWrapperInstanceId AND p.document_id = i.document_id AND p.pos = substring(i.pos, 1, char_length(p.pos));  
 	
 	DROP TABLE figures_import;
 	DROP TABLE citations_import;

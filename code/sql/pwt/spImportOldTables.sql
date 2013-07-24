@@ -71,6 +71,8 @@ BEGIN
 		
 		PERFORM pwt.spMarkInstanceAsUnconfirmed(lTableId, lUid);
 		PERFORM pwt.spMarkInstanceAsConfirmed(lTableId, lUid);
+
+			
 		
 		INSERT INTO tables_import(old_id, new_id) 
 			VALUES (lTableRecord.id, lTableId);
@@ -108,10 +110,16 @@ BEGIN
 	FROM citations_import t
 	WHERE t.citation_id = c.id;
 	
-	
+
 	
 	DROP TABLE tables_import;
 	DROP TABLE citations_import;
+	
+			
+	UPDATE pwt.document_object_instances i SET
+		is_new = false
+	FROM pwt.document_object_instances p
+	WHERE p.id = lWrapperInstanceId AND p.document_id = i.document_id AND p.pos = substring(i.pos, 1, char_length(p.pos));  
 	
 	lRes.result = 1;
 	RETURN lRes;
