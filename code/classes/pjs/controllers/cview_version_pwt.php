@@ -646,17 +646,17 @@ class cView_Version_Pwt extends cView_Version {
 						),
 						'AddTags' => array()
 					),
-					'publish_review' => array(
-						'VType' => 'int',
-						'CType' => 'checkbox',
-						'DisplayName' => getstr('admin.article_versions.recomend.option7'),
-						'AllowNulls' => true,
-						'TransType' => MANY_TO_BIT,
-						'SrcValues' => array(
-							1 => '',
-						),
-						'AddTags' => array()
-					),
+					// 'publish_review' => array(
+						// 'VType' => 'int',
+						// 'CType' => 'checkbox',
+						// 'DisplayName' => getstr('admin.article_versions.recomend.option7'),
+						// 'AllowNulls' => true,
+						// 'TransType' => MANY_TO_BIT,
+						// 'SrcValues' => array(
+							// 1 => '',
+						// ),
+						// 'AddTags' => array()
+					// ),
 					'new' => array(
 						'CType' => 'action',
 						'ActionMask' => ACTION_CHECK | ACTION_EXEC | ACTION_SHOW | ACTION_FETCH,
