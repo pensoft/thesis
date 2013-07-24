@@ -182,22 +182,7 @@ $gTemplArr = array(
 								<ul id="articleMenu">
 	',
 
-	'document.tree_foot' => '
-									<!--<li class="spacer"></li>-->
-									<li class="P-Figures">
-										<div class="P-Article-Holder P-Article-Figures {_displayFiguresTablesActiveClass(/figures.php)}">
-											<!--<a class="P-Article-Add" onclick="ChangeFiguresForm( \'image\', {document_id}, \'P-PopUp-Content-Inner\', 0, 2);popUp(POPUP_OPERS.open, \'add-figure-popup\', \'add-figure-popup\');" title="Add figure" href="javascript:void(0)"></a>-->
-											{_displayDocumentTreeAdd_Tables_Figures(document_id, _1, is_locked, lock_usr_id, xml_validation_flag, documentstate)}
-											<a href="/figures.php?document_id={document_id}">Figures</a>
-										</div>
-									</li>
-									<li class="P-Tables">
-										<div class="P-Article-Holder P-Article-Tables {_displayFiguresTablesActiveClass(/tables.php)}">
-											<!--<a class="P-Article-Add" onclick="ShowAddTablePopup({document_id}, \'add-table-popup\')" title="Add table" href="javascript:void(0)"></a>-->
-											{_displayDocumentTreeAdd_Tables_Figures(document_id, _2, is_locked, lock_usr_id, xml_validation_flag, documentstate)}
-											<a href="/tables.php?document_id={document_id}">Tables</a>
-										</div>
-									</li>
+	'document.tree_foot' => '									
 								</ul>
 								<div class="P-Article-Buttons">
 									<div class="P-Grey-Btn-Holder P-Validation ' . ((int)ENABLE_FEATURES ? '' : 'P-Inactive-Button') .'" onclick="">
