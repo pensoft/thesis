@@ -116,13 +116,13 @@
 			</feeds_on>
 		</fields>
 	</eco-interactions>
-	<distribution object_id="208" display_name="Distribution">
+	<taxon_distribution object_id="208" display_name="Distribution">
 		<fields>
 			<distribution id="471" field_name="Distribution">
 				<value />
 			</distribution>
 		</fields>
-	</distribution>
+	</taxon_distribution>
 	<horizon object_id="207" display_name="Horizon">
 		<fields>
 			<horizon id="472" field_name="Horizon">
@@ -130,11 +130,11 @@
 			</horizon>
 		</fields>
 	</horizon>
-	<notes instance_id="116844" display_name="Notes">
+	<taxon_notes object_id="206" display_name="Notes">
 		<fields>
 			<notes id="473" field_name="Notes">
 				<value />
 			</notes>
 		</fields>
-	</notes>
+	</taxon_notes>
 </checklist_taxon>
