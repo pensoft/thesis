@@ -22,7 +22,7 @@ BEGIN
 	FROM pwt.document_object_instances i
 	JOIN pwt.document_object_instances f ON f.parent_id = i.parent_id AND f.object_id = i.object_id AND f.id <> i.id
 	WHERE f.id = pInstanceId AND i.is_confirmed = true;
-	
+	-- RAISE NOTICE 'Tbl %, cnt %', pInstanceId, lCount;
 	UPDATE pwt.instance_field_values SET
 		value_int = coalesce(lCount, 0) + 1
 	WHERE instance_id = pInstanceId AND field_id = lFigureNumFieldId;
