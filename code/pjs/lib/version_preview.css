@@ -102,10 +102,12 @@ body {
 
 #changeContextMenu {
 	position: absolute;
-	z-index: 2;
+	z-index: 20;
 	background: white;
 	display: none;
 	border: 1px solid black;
+	padding:5px;
+	font-size:15px;
 }
 
 #changeContextMenu a {

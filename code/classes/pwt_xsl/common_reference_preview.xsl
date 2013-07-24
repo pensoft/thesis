@@ -7,7 +7,7 @@
 			<xsl:variable name="lSecTitle">Supplementary materials</xsl:variable>
 			<div class="P-Article-Preview-Block">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<h1 id="supplementary_materials"><xsl:value-of select="$lSecTitle"></xsl:value-of></h1>
+				<h1 id="supplementary_files"><xsl:value-of select="$lSecTitle"></xsl:value-of></h1>
 				<xsl:for-each select="./*[@object_id='55']/fields/*[@id != '']">
 					<xsl:apply-templates select="." mode="singleSupplementaryMaterial"/>
 				</xsl:for-each>
@@ -91,7 +91,7 @@
 		</xsl:variable>
 		<span>
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:value-of select="normalize-space($lAuthorParsedName)"></xsl:value-of>
+			<xsl:apply-templates select="$lAuthorParsedName" mode="formatting_nospace"/>			
 		</span>
 	</xsl:template>
 
@@ -146,7 +146,8 @@
 					<xsl:with-param name="pFieldId">255</xsl:with-param>
 				</xsl:call-template>
 				<xsl:attribute name="field_id">255</xsl:attribute>
-				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/>
+				<!--  <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/>-->
+				<xsl:apply-templates select="./fields/*[@id='255']/value" mode="formatting_nospace"/>
 			</span>
 			<xsl:text> </xsl:text>
 			<xsl:if test="normalize-space(./fields/*[@id='257']/value) != ''">
@@ -158,7 +159,8 @@
 						<xsl:with-param name="pFieldId">257</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">257</xsl:attribute>
-					<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='257']/value))"/>
+					<!-- <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='257']/value))"/> -->
+					<xsl:apply-templates select="./fields/*[@id='257']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text>]</xsl:text>
 			</xsl:if>
@@ -172,7 +174,7 @@
 						<xsl:with-param name="pFieldId">256</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">256</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='256']/value"/>
+					<xsl:apply-templates select="./fields/*[@id='256']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
 			<!-- Volume -->
@@ -184,7 +186,7 @@
 						<xsl:with-param name="pFieldId">258</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">258</xsl:attribute>
-					<xsl:value-of select="$lVolume" />
+					<xsl:apply-templates select="$lVolume" mode="formatting"/>					
 				</span>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='256']/value) != '' or $lVolume != ''">
@@ -231,7 +233,7 @@
 						<xsl:with-param name="pFieldId">262</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='262']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting"/>					
 				</span>
 				<xsl:text>]</xsl:text>
 			</xsl:if>
@@ -244,7 +246,7 @@
 						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
 					</xsl:attribute>
 					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:value-of select="normalize-space(./fields/*[@id='263']/value)"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>
 				</a>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
@@ -256,7 +258,7 @@
 						<xsl:with-param name="pFieldId">264</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">264</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='264']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='264']/value" mode="formatting"/>
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
@@ -267,7 +269,7 @@
 					<xsl:attribute name="field_id">30</xsl:attribute>
 					<xsl:attribute name="href"><xsl:text>http://dx.doi.org/</xsl:text><xsl:value-of select="./fields/*[@id='30']/value"></xsl:value-of></xsl:attribute>
 					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='30']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='30']/value" mode="formatting"/>
 				</a>
 			</xsl:if>
 		</li>
@@ -321,7 +323,8 @@
 						<xsl:with-param name="pFieldId">271</xsl:with-param>
 					</xsl:call-template>
 				<xsl:attribute name="field_id">271</xsl:attribute>
-				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='271']/value))"/>
+				<!--  <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='271']/value))"/>-->
+				<xsl:apply-templates select="./fields/*[@id='271']/value" mode="formatting_nospace"/>
 			</span>
 
 			<xsl:if test="count(./*[@object_id='93']/*[@object_id='91']) &gt; 0">
@@ -360,7 +363,8 @@
 						<xsl:with-param name="pFieldId">255</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">255</xsl:attribute>
-					<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/>
+					<!--  <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/>-->
+					<xsl:apply-templates select="./fields/*[@id='255']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text> </xsl:text>
 			</xsl:if>
@@ -372,7 +376,7 @@
 						<xsl:with-param name="pFieldId">256</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">256</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='256']/value"/>
+					<xsl:apply-templates select="./fields/*[@id='256']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text> </xsl:text>
 			</xsl:if>
@@ -385,7 +389,7 @@
 						<xsl:with-param name="pFieldId">258</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">258</xsl:attribute>
-					<xsl:value-of select="$lVolume" />
+					<xsl:apply-templates select="$lVolume" mode="formatting"/>
 				</span>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='256']/value) != '' or $lVolume != ''">
@@ -433,7 +437,7 @@
 						<xsl:with-param name="pFieldId">262</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='262']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting_nospace"/>					
 				</span>
 				<xsl:text>]</xsl:text>
 			</xsl:if>
@@ -446,7 +450,7 @@
 						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
 					</xsl:attribute>
 					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:value-of select="normalize-space(./fields/*[@id='263']/value)"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>					
 				</a>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
@@ -458,7 +462,7 @@
 						<xsl:with-param name="pFieldId">264</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">264</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='264']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='264']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
@@ -467,7 +471,7 @@
 				<xsl:text> DOI: </xsl:text>
 				<span>
 					<xsl:attribute name="field_id">30</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='30']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='30']/value" mode="formatting_nospace"/>
 				</span>
 			</xsl:if>
 		</li>
@@ -513,7 +517,8 @@
 					</xsl:call-template>
 				<xsl:attribute name="field_id">276</xsl:attribute>
 				<!--xsl:apply-templates select="./fields/*[@id='276']/value" mode="formatting"/-->
-				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='276']/value))"/>
+				<!--  <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='276']/value))"/>-->
+				<xsl:apply-templates select="./fields/*[@id='276']/value" mode="formatting_nospace"/>
 			</span>
 
 			<xsl:if test="normalize-space(./fields/*[@id='243']/value) != ''">
@@ -525,7 +530,7 @@
 						<xsl:with-param name="pFieldId">243</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">243</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='243']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='243']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='258']/value) != ''">
@@ -537,7 +542,7 @@
 						<xsl:with-param name="pFieldId">258</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">258</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='258']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='258']/value" mode="formatting_nospace"/>					
 				</span>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='27']/value) != ''">
@@ -549,7 +554,7 @@
 						<xsl:with-param name="pFieldId">27</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">27</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='27']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='27']/value" mode="formatting"/>
 				</span>
 				<xsl:text>)</xsl:text>
 			</xsl:if>
@@ -563,7 +568,7 @@
 						<xsl:with-param name="pFieldId">28</xsl:with-param>
 					</xsl:call-template>
 				<xsl:attribute name="field_id">28</xsl:attribute>
-				<xsl:value-of select="./fields/*[@id='28']/value"></xsl:value-of>
+				<xsl:apply-templates select="./fields/*[@id='28']/value" mode="formatting_nospace"/>				
 			</span>
 			<!-- Last Page -->
 			<xsl:if test="normalize-space(./fields/*[@id='29']/value) != ''">
@@ -574,7 +579,7 @@
 						<xsl:with-param name="pFieldId">29</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">29</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='29']/value" />
+					<xsl:apply-templates select="./fields/*[@id='29']/value" mode="formatting_nospace"/>
 				</span>
 			</xsl:if>
 			<xsl:text>. </xsl:text>
@@ -587,7 +592,7 @@
 						<xsl:with-param name="pFieldId">262</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='262']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text>]</xsl:text>
 			</xsl:if>
@@ -600,7 +605,7 @@
 						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
 					</xsl:attribute>
 					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:value-of select="normalize-space(./fields/*[@id='263']/value)"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>
 				</a>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
@@ -612,7 +617,7 @@
 						<xsl:with-param name="pFieldId">264</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">264</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='264']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='264']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
@@ -623,7 +628,7 @@
 					<xsl:attribute name="href"><xsl:text>http://dx.doi.org/</xsl:text><xsl:value-of select="./fields/*[@id='30']/value"></xsl:value-of></xsl:attribute>
 					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
 					<xsl:attribute name="field_id">30</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='30']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='30']/value" mode="formatting_nospace"/>
 				</a>
 			</xsl:if>
 		</li>
@@ -716,7 +721,8 @@
 						<xsl:with-param name="pFieldId">255</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">255</xsl:attribute>
-					<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/>
+					<!-- <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/> -->
+					<xsl:apply-templates select="./fields/*[@id='255']/value" mode="formatting_nospace"/>
 				</span>
 			</xsl:if>
 			<!-- Volume -->
@@ -727,7 +733,7 @@
 						<xsl:with-param name="pFieldId">258</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">258</xsl:attribute>
-					<xsl:value-of select="$lVolume" />
+					<xsl:apply-templates select="$lVolume" mode="formatting_nospace"/>
 				</span>
 				<xsl:text>. </xsl:text>
 			</xsl:if>
@@ -740,7 +746,7 @@
 						<xsl:with-param name="pFieldId">272</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">272</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='272']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='272']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='273']/value) != ''">
@@ -754,7 +760,7 @@
 						<xsl:with-param name="pFieldId">273</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">273</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='273']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='273']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='274']/value) != ''">
@@ -768,7 +774,7 @@
 						<xsl:with-param name="pFieldId">274</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">274</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='274']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='274']/value" mode="formatting_nospace"/>
 				</span>
 			</xsl:if>
 			<!-- Ако има поне 1 от горните - трябва да сложим точка накрая -->
@@ -821,7 +827,7 @@
 						<xsl:with-param name="pFieldId">262</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='262']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting_nospace"/>					
 				</span>
 				<xsl:text>]</xsl:text>
 			</xsl:if>
@@ -834,7 +840,7 @@
 						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
 					</xsl:attribute>
 					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:value-of select="normalize-space(./fields/*[@id='263']/value)"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>
 				</a>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
@@ -846,7 +852,7 @@
 						<xsl:with-param name="pFieldId">264</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">264</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='264']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='264']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
@@ -855,7 +861,7 @@
 				<xsl:text> DOI: </xsl:text>
 				<span>
 					<xsl:attribute name="field_id">30</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='30']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='30']/value" mode="formatting_nospace"/>
 				</span>
 			</xsl:if>
 		</li>
@@ -915,7 +921,8 @@
 						<xsl:with-param name="pFieldId">255</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">255</xsl:attribute>
-					<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/>
+					<!-- <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/> -->
+					<xsl:apply-templates select="./fields/*[@id='255']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text> </xsl:text>
 			</xsl:if>
@@ -927,7 +934,7 @@
 						<xsl:with-param name="pFieldId">258</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">258</xsl:attribute>
-					<xsl:value-of select="$lVolume" />
+					<xsl:apply-templates select="$lVolume" mode="formatting"/>
 				</span>
 				<xsl:text>. </xsl:text>
 			</xsl:if>
@@ -940,7 +947,7 @@
 						<xsl:with-param name="pFieldId">272</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">272</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='272']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='272']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='273']/value) != ''">
@@ -954,7 +961,7 @@
 						<xsl:with-param name="pFieldId">273</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">273</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='273']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='273']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='274']/value) != ''">
@@ -968,7 +975,7 @@
 						<xsl:with-param name="pFieldId">274</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">274</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='274']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='274']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
 			<!-- Ако има поне 1 от горните - трябва да сложим точка накрая -->
@@ -1006,7 +1013,7 @@
 					</xsl:call-template>
 					<xsl:attribute name="instance_id"><xsl:value-of select="./*[@object_id=104]/@instance_id" /></xsl:attribute>
 					<xsl:attribute name="field_id">243</xsl:attribute>
-					<xsl:value-of select="./*[@object_id=104]/fields/*[@id='243']/value"></xsl:value-of>
+					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='243']/value" mode="formatting"/>										
 				</span>
 				<xsl:text> </xsl:text>
 			</xsl:if>
@@ -1019,7 +1026,7 @@
 					</xsl:call-template>
 					<xsl:attribute name="instance_id"><xsl:value-of select="./*[@object_id=104]/@instance_id" /></xsl:attribute>
 					<xsl:attribute name="field_id">284</xsl:attribute>
-					<xsl:value-of select="./*[@object_id=104]/fields/*[@id='284']/value"></xsl:value-of>
+					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='284']/value" mode="formatting"/>						
 				</span>
 				<xsl:text>. </xsl:text>
 			</xsl:if>
@@ -1044,7 +1051,7 @@
 						<xsl:with-param name="pFieldId">262</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='262']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text>]</xsl:text>
 			</xsl:if>
@@ -1057,7 +1064,7 @@
 						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
 					</xsl:attribute>
 					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:value-of select="normalize-space(./fields/*[@id='263']/value)"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>
 				</a>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
@@ -1069,7 +1076,7 @@
 						<xsl:with-param name="pFieldId">264</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">264</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='264']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='264']/value" mode="formatting"/>
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
@@ -1078,7 +1085,7 @@
 				<xsl:text> DOI: </xsl:text>
 				<span>
 					<xsl:attribute name="field_id">30</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='30']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='30']/value" mode="formatting_nospace"/>
 				</span>
 			</xsl:if>
 		</li>
@@ -1125,7 +1132,8 @@
 						<xsl:with-param name="pFieldId">255</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">255</xsl:attribute>
-					<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/>
+					<!-- <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='255']/value))"/> -->
+					<xsl:apply-templates select="./fields/*[@id='255']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text> </xsl:text>
 			</xsl:if>
@@ -1138,7 +1146,8 @@
 						<xsl:with-param name="pFieldId">257</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">257</xsl:attribute>
-					<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='257']/value))"/>
+					<!-- <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='257']/value))"/> -->
+					<xsl:apply-templates select="./fields/*[@id='257']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text>] </xsl:text>
 			</xsl:if>
@@ -1183,7 +1192,7 @@
 						<xsl:with-param name="pFieldId">262</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='262']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting"/>					
 				</span>
 				<xsl:text>]</xsl:text>
 			</xsl:if>
@@ -1196,7 +1205,7 @@
 						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
 					</xsl:attribute>
 					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:value-of select="normalize-space(./fields/*[@id='263']/value)"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>					
 				</a>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
@@ -1208,7 +1217,7 @@
 						<xsl:with-param name="pFieldId">264</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">264</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='264']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='264']/value" mode="formatting"/>
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
@@ -1217,7 +1226,7 @@
 				<xsl:text> DOI: </xsl:text>
 				<span>
 					<xsl:attribute name="field_id">30</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='30']/value"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='30']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
 		</li>
@@ -1262,7 +1271,8 @@
 						<xsl:with-param name="pFieldId">26</xsl:with-param>
 					</xsl:call-template>
 				<xsl:attribute name="field_id">26</xsl:attribute>
-				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='26']/value))"/>
+				<!-- <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='26']/value))"/> -->
+				<xsl:apply-templates select="./fields/*[@id='26']/value" mode="formatting_nospace"/>
 			</span>
 			<xsl:text> </xsl:text>
 			<xsl:if test="normalize-space(./fields/*[@id='279']/value) != ''">
@@ -1273,7 +1283,7 @@
 						<xsl:with-param name="pFieldId">279</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">279</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='279']/value"/>
+					<xsl:apply-templates select="./fields/*[@id='279']/value" mode="formatting"/>					
 				</span>
 				<xsl:text>. </xsl:text>
 			</xsl:if>
@@ -1304,7 +1314,7 @@
 						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
 					</xsl:attribute>
 					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:value-of select="normalize-space(./fields/*[@id='263']/value)"></xsl:value-of>
+					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>					
 				</a>
 			</xsl:if>
 		</li>
@@ -1322,7 +1332,8 @@
 						<xsl:with-param name="pFieldId">26</xsl:with-param>
 					</xsl:call-template>
 				<xsl:attribute name="field_id">26</xsl:attribute>
-				<xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='26']/value))"/>
+				<!-- <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='26']/value))"/> -->
+				<xsl:apply-templates select="./fields/*[@id='26']/value" mode="formatting_nospace"/>
 			</span>
 			<xsl:text> </xsl:text>
 			<xsl:if test="normalize-space(./fields/*[@id='263']/value) != ''">
@@ -1333,8 +1344,8 @@
 					<xsl:attribute name="href">
 						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
 					</xsl:attribute>
-					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:value-of select="normalize-space(./fields/*[@id='263']/value)"></xsl:value-of>
+					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>					
+					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>
 				</a>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='280']/value) != ''">

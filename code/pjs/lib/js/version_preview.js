@@ -61,7 +61,7 @@ function DisableChangeTracking(){
 }
 
 function EnableFigureTracking(){
-	gTrackFigures = 1;
+	gTrackFigures = 0;
 }
 
 
@@ -275,7 +275,7 @@ function InitSingleNodeTracker(pNode) {
 	}
 	if(!gInstanceFieldTrackerNodes[lInstanceId][lFieldId]){
 		gInstanceFieldTrackerNodes[lInstanceId][lFieldId] = pNode;
-	}
+	}	
 
 	if(gTrackers['keys'].indexOf(pNode) == -1){
 		gTrackers['keys'].push(pNode);
@@ -405,32 +405,43 @@ function toggleChangesDisplay(){
 	}
 }
 
-function InitTrackerChangesEvents(pTrackerNode, pTracker){
-	$(pTrackerNode).find('insert, delete').bind('contextmenu',
-		function(pEvent){
-			var lChangeNode = this;
-			var lContextMenu = $('#' + gContextMenuHolderId);
-			lContextMenu.offset($(lChangeNode).offset());
-//			console.log($(lChangeNode).offset().top)
-//			console.log(lContextMenu.offset().top)
-			lContextMenu.show();
-			lContextMenu.offset($(lChangeNode).offset());
-			pEvent.preventDefault();
-
-			var lApproveLink = $('#' + gApproveChangeContextMenuLinkId);
-			var lRejectLink = $('#' + gRejectChangeContextMenuLinkId);
-			lApproveLink.unbind('click');
-			lRejectLink.unbind('click');
-			lApproveLink.click(function(){
-				pTracker.acceptChange(lChangeNode);
-				SaveNodeTrackerContents(pTrackerNode);
-			});
-			lRejectLink.click(function(){
-				pTracker.rejectChange(lChangeNode);
-				SaveNodeTrackerContents(pTrackerNode);
-			});
+function InitTrackerChangesEvents(pTrackerNode, pTracker){	
+	var lTrackerNodeInstanceId = $(pTrackerNode).closest('*[instance_id]').attr('instance_id');
+	var lTrackerNodeFieldId = $(pTrackerNode).attr('field_id');
+	$(pTrackerNode).find('insert, delete').each(function(pIdx, pNode){
+		var lClosestParentInstanceId = $(pNode).closest('*[instance_id]').attr('instance_id');
+		var lClosestParentFieldId = $(pNode).closest('*[field_id]').attr('field_id');
+		
+		if(lTrackerNodeInstanceId == lClosestParentInstanceId && lTrackerNodeFieldId == lClosestParentFieldId){			
+//			console.log(lTrackerNodeFieldId, lClosestParentFieldId, lTrackerNodeInstanceId, lClosestParentInstanceId);
+			$(pNode).bind('contextmenu',
+				function(pEvent){
+//					console.log(pTrackerNode);
+					var lChangeNode = this;
+					var lContextMenu = $('#' + gContextMenuHolderId);
+					lContextMenu.offset($(lChangeNode).offset());
+	//				console.log($(lChangeNode).offset().top)
+	//				console.log(lContextMenu.offset().top)
+					lContextMenu.show();
+					lContextMenu.offset($(lChangeNode).offset());
+					pEvent.preventDefault();
+	
+					var lApproveLink = $('#' + gApproveChangeContextMenuLinkId);
+					var lRejectLink = $('#' + gRejectChangeContextMenuLinkId);
+					lApproveLink.unbind('click');
+					lRejectLink.unbind('click');
+					lApproveLink.click(function(){
+						pTracker.acceptChange(lChangeNode);
+						SaveNodeTrackerContents(pTrackerNode);
+					});
+					lRejectLink.click(function(){
+						pTracker.rejectChange(lChangeNode);
+						SaveNodeTrackerContents(pTrackerNode);
+					});
+				}
+			);
 		}
-	);
+	});	
 	if(!gChangeContextMenuHideEventIsBinded){
 		gChangeContextMenuHideEventIsBinded = true;
 		$('body').bind('click', function(){

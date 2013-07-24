@@ -488,6 +488,16 @@ function displayDocumentTreeAdd($pAddClass, $pObjectId, $pInstanceId, $pNumChild
 			$lOnClickJs = 'CreateNewReferencePopup(0)';
 			$lToolTip = getstr('pwt.tooltip.addnewreference');
 			break;
+		case (int)FIGURE_HOLDER_OBJECT_ID:
+			$lUseDefaultJs = 0;
+			$lOnClickJs = 'CreateNewFigurePopup(0, 1)';
+			$lToolTip = getstr('pwt.tooltip.addnewfigure');
+			break;
+		case (int)TABLE_HOLDER_OBJECT_ID:
+			$lUseDefaultJs = 0;
+			$lOnClickJs = 'CreateNewTablePopup(0)';
+			$lToolTip = getstr('pwt.tooltip.addnewtable');
+			break;
 		case (int)CHECKLIST_OBJECT_ID:
 			$lAction = (int)ADD_CHECKLIST_TAXON_OBJECT_ID;
 			$lToolTip = getstr('pwt.tooltip.addnewchecklisttaxon');
@@ -1365,11 +1375,17 @@ function MoveInstanceInDocumentTree($pInstanceId, $pOper){
 		'err_msg' => '',
 	);
 	if ($lCon->Execute($lSql)) {
+		$lSql = 'SELECT parent_id
+			FROM pwt.document_object_instances
+			WHERE id = ' . (int)$pInstanceId . ' 
+		';
+		$lCon->Execute($lSql);
 		$lResult['swap_id'] = $lCon->mRs['swap_instance_id'];
 		$lResult['original_available_move_up'] = (int)$lCon->mRs['original_available_move_up'];
 		$lResult['original_available_move_down'] = (int)$lCon->mRs['original_available_move_down'];
 		$lResult['swap_available_move_up'] = (int)$lCon->mRs['swap_available_move_up'];
 		$lResult['swap_available_move_down'] = (int)$lCon->mRs['swap_available_move_down'];
+		$lResult['parent_id'] = (int)$lCon->mRs['parent_id'];
 	}else{
 		$lResult['err_cnt']++;
 		$lResult['err_msg'] = getstr($lCon->GetLastError());
@@ -3060,8 +3076,7 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 	require_once($docroot . '/lib/static_xsl.php');
 	require_once(PATH_CLASSES . 'comments.php');
 	// ini_set('display_errors', 'Off');
-	//Първо получаваме нашия xml
-
+	//Първо получаваме нашия xml	
 	$lDocumentXml = $pXml;
 // 	$lStart = mktime(). substr((string)microtime(), 1, 6);
 
@@ -3092,15 +3107,15 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 		$pTemplateXSLPath .=  '/';
 	}
 	$lXslPath = PATH_XSL . '' . $pTemplateXSLPath . 'template_example_preview_full.xsl';
-	if(!(int)$pGenerateFullHtml){
-		$lXslParameters[] = array(
-			'namespace' => null,
-			'name' => 'gGenerateFullHtml',
-			'value' => 0,
-		);
+// 	if(!(int)$pGenerateFullHtml){
+// 		$lXslParameters[] = array(
+// 			'namespace' => null,
+// 			'name' => 'gGenerateFullHtml',
+// 			'value' => 0,
+// 		);
 
-		$lXslPath = PATH_XSL . '' . $pTemplateXSLPath . '/template_example_preview_fragment.xsl';
-	}
+// 		$lXslPath = PATH_XSL . '' . $pTemplateXSLPath . '/template_example_preview_fragment.xsl';
+// 	}
 
 	if((int)$pMarkContentEditableFields){
 		$lXslParameters[] = array(
@@ -3141,17 +3156,18 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 		'value' => $pDocumentId,
 	);
 // 	error_reporting(-1);
-	//~ echo  $lDocumentXml;
+// 	 echo  $lDocumentXml;
 	//~ exit;
 // 	$lEnd = mktime(). substr((string)microtime(), 1, 6);
 // 	trigger_error('Before xsl Time ' .  ($lEnd - $lStart), E_USER_NOTICE);
 	$lHtml = transformXmlWithXsl($lDocumentXml, $lXslPath, $lXslParameters);
 // 	$lEnd = mktime(). substr((string)microtime(), 1, 6);
 // 	trigger_error('After xsl Time ' .  ($lEnd - $lStart), E_USER_NOTICE);
-
+// 	return $lHtml;
 // 	error_reporting(0)
 // 	var_dump($lHtml);
-	$lDomHtml = new DOMDocument;
+	
+	$lDomHtml = new DOMDocument('1.0', DEFAULT_XML_ENCODING);	
 	$lDomHtml->loadHTML($lHtml);
 	$lDomHtml->normalizeDocument();
 	$lDomHtml->preserveWhiteSpace = false;
@@ -3169,7 +3185,13 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 // 	$lEnd = mktime(). substr((string)microtime(), 1, 6);
 // 	trigger_error('After tbl cit Time ' .  ($lEnd - $lStart), E_USER_NOTICE);
 
-
+	if(!$pGenerateFullHtml){
+		$lXPath = new DOMXPath($lDomHtml);
+		$lNode = $lXPath->query('//div[@class="P-Article-Preview"]');
+		if($lNode->length){
+			return $lDomHtml->saveHTML($lNode->item(0));
+		}
+	}	
 	return $lHtml;
 }
 
@@ -3286,8 +3308,7 @@ function moveObjectToCitationPos($pDomDoc, $pFigNum, $pPNodeToMove, $pDivObjectA
 	Позиционира фигурите и таблиците на мястото, където са цитирани според алгоритъма
 */
 function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_position', $pObjectCitt = 'fig-citation', $pObjectNum = 'fignumber') {
-
-    $lXpath = new DOMXPath($pDomDoc);
+	$lXpath = new DOMXPath($pDomDoc);
 
 	// Xpath за взизмане на всички цитирани фигури/таблици в документа
 	$lCittFiguresQuery = '//' . $pObjectCitt . '/xref[@' . $pObjectNum . ']';
@@ -3309,7 +3330,7 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 	}
 
 	// Ако няма цитирани фигури си връщаме генерирания html с обектите в края
-	if (!$lNodesList->length){
+	if (!$lNodesList->length || !count($lAllFiguresArr)){
 		return $pHtml;
 	}
 
@@ -3321,15 +3342,17 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 
 	// Намираме най-малката цитирана фигура и най-голямата от всичките фигури
 	$lMinCittFigNum = min($lFigNum);
-	$lMaxFigNum = max($lAllFiguresArr);
-	$lMinFigNum = min($lAllFiguresArr);
+	$lMaxFigNum = (int)max($lAllFiguresArr);
+	$lMinFigNum = (int)min($lAllFiguresArr);
 
 	$lNode = $lMinCittFigNum;
 	$lFlag = 0;
 
 	// Масив с всички вече обработени фигури/таблици
 	$lVisitedFigures = array();
-
+	
+// 	var_dump($lCittFiguresQuery, $lAllFiguresArr);
+// 	exit;
 	// Обхождане на цитираните фигури и започване на подреждането им при срещане на най-малката цитирана фигура/таблица
 	foreach ($lNodesList as $node) {
 
@@ -3385,6 +3408,7 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 			$lFlag = 1;
 		}
     }
+    
     //Remove the citation wrapper nodes
     $lCitationWrapperNodes = $lXpath->query('//' . CITATION_ELEMENT_CITATION_WRAPPER_NODE_NAME);
     foreach ($lCitationWrapperNodes as $lCitationWrapperNode){
@@ -3396,7 +3420,8 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
     	}
     	$lParentNode->removeChild($lCitationWrapperNode);
     }
-
+    $pDomDoc->encoding = DEFAULT_XML_ENCODING;
+//     return $pHtml;
 	return $pDomDoc->saveHTML();
 }
 
@@ -5567,6 +5592,10 @@ function objHasIcon($obj_id)
 			return 'nav-references';
 		case 56:
 			return 'nav-supplementary';
+		case (int)FIGURE_HOLDER_OBJECT_ID:
+			return 'P-Article-Figures';
+		case (int)TABLE_HOLDER_OBJECT_ID:
+			return 'P-Article-Tables';
 		default:
 			return '';
 	}

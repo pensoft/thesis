@@ -1648,6 +1648,14 @@ function scrollToForm(){
 		duration : 800
 	});
 }
+
+function scrollTo(anchor){
+	$('html, body').animate( 
+		{ scrollTop: ( $(anchor).offset().top - $('.documentHeader').height() )}, 
+		{ duration: 800}
+	);
+}
+
 var gPreviewAjaxSrv = gAjaxUrlsPrefix + 'preview_srv.php';
 function getDocumentPreview(pVersionId, pReadOnlyFlag, pPreviewHolderId, pArticleHolderId){
 	$('#P-Ajax-Loading-Image').show();
