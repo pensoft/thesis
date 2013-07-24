@@ -98,6 +98,7 @@ class cdocument_xml_validator extends csimple {
 	}
 	
 	function GetCitationErrors() {
+		return;
 		$this->PrepareDocumentCitations();
 		
 		$lQuery = 'SELECT * FROM spGetDocumentCitationsForValidation(
