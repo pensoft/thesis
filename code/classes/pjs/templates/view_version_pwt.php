@@ -88,7 +88,7 @@ $gTemplArr = array(
 	'view_version_pwt.structure_row' => '
 		<li>
 			<div class="P-Article-Holder">
-				<a href="#{_seoUrl(object_name)}">{object_name}</a>
+				<a href="javascript:scrollTo(\'#{_seoUrl(object_name)}\')">{object_name}</a>
 			</div>
 		</li>
 	',

@@ -7,7 +7,7 @@
 			<xsl:variable name="lSecTitle">Supplementary materials</xsl:variable>
 			<div class="P-Article-Preview-Block">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<h1 id="supplementary_materials"><xsl:value-of select="$lSecTitle"></xsl:value-of></h1>
+				<h1 id="supplementary_files"><xsl:value-of select="$lSecTitle"></xsl:value-of></h1>
 				<xsl:for-each select="./*[@object_id='55']/fields/*[@id != '']">
 					<xsl:apply-templates select="." mode="singleSupplementaryMaterial"/>
 				</xsl:for-each>
