@@ -2166,5 +2166,6 @@ $STRARRAY = array(
 	'pjs.SE_cancel_reviewer_review_confirmation' => 'Are you sure that you want to cancel this review process?',
 	'pjs.R_submit_review_confirmation' => 'Are you sure that you have completed the review? Once submitted you will not be able to make any further changes!',
 	'pjs.SE_E_CE_submit_review_confirmation' => 'Are you sure that you have completed your editorial decision? Once submitted you will not be able to make any further changes!',
+	'pjs.panel_public_review_ended' => 'This manuscript is no longer available to panel reviewers',
 );
 ?>
