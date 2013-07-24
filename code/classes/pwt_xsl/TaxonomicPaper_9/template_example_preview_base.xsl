@@ -42,8 +42,12 @@
 				</div>
 				<xsl:apply-templates select="/document/objects/*[@object_id='14']/*[@object_id='15']" mode="abstractAndKeywords"/>
 				<xsl:apply-templates select="/document/objects/*[@object_id &gt; 0]" mode="bodySections"/>
-				<xsl:apply-templates select="/document/figures/figure" mode="figures"/>
-				<xsl:apply-templates select="/document/tables/table" mode="tables"/>
+<!-- 				<xsl:apply-templates select="/document/figures/figure" mode="figures"/> -->
+<!-- 				<xsl:apply-templates select="/document/tables/table" mode="tables"/> -->
+				
+				<xsl:apply-templates select="/document/objects/*[@object_id='236']" mode="figuresPreview"/>
+				<xsl:apply-templates select="/document/objects/*[@object_id='237']" mode="tablesPreview"/>
+				
 				<xsl:apply-templates select="/document/objects/*[@object_id &gt; 0]" mode="articleBack"/>
 			</div>
 		</xsl:variable>
@@ -77,7 +81,9 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete" mode="formatting">
+
+	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end" mode="formatting">
+
 		<xsl:copy-of select="."/>
 		<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))"></xsl:variable> -->
 		<!-- 		<xsl:element name="{$lNodeName}"> -->
@@ -87,7 +93,8 @@
 	<xsl:template match="*" mode="formatting_output_escape">
 		<xsl:value-of select="." disable-output-escaping="yes"/>
 	</xsl:template>
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|ol|li|table|tr|td|tbody|th" mode="table_formatting">
+
+	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|ol|li|comment-start|comment-end|table|tr|td|tbody|th" mode="table_formatting">
 		<xsl:copy-of select="."/>
 		<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))"></xsl:variable> -->
 		<!-- 		<xsl:element name="{$lNodeName}"> -->
@@ -97,7 +104,7 @@
 	<!-- Removes spaces -->
 	<xsl:template match="*" mode="formatting_nospace">
 		<xsl:param name="lTreatmentUrl"/>
-		<xsl:value-of select="normalize-space()"/>
+		<xsl:apply-templates select="." mode="formatting"/>
 	</xsl:template>
 	<!--
 	this is called in ../static2.xsl
@@ -209,7 +216,8 @@
 								<xsl:with-param name="pFieldId">31</xsl:with-param>
 							</xsl:call-template>
 							<xsl:attribute name="field_id">31</xsl:attribute>
-							<xsl:value-of select="php:function('h_strip_tags', string(./fields/*[@id='31']/value))"/>
+                            <!-- <xsl:value-of select="php:function('h_strip_tags', string(./fields/*[@id='31']/value))" /> -->
+                            <xsl:apply-templates select="./fields/*[@id='31']" mode="formatting"/>
 						</div>
 						<div class="KeyNotes">
 							<xsl:call-template name="markContentEditableField">
@@ -377,10 +385,11 @@
 						<xsl:with-param name="pFieldId">413</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">413</xsl:attribute>
-					<xsl:value-of select="php:function('h_strip_tags', string($checklistTitle))"/>
+					<!-- <xsl:value-of select="php:function('h_strip_tags', string($checklistTitle))" /> -->
+					<xsl:apply-templates select="./fields/*[@id='413']" mode="formatting"/>
 				</h1>
 				<div class="Checklist">
-					<xsl:apply-templates select="./*[@object_id='205']" mode="checklistTaxon"/>
+					<xsl:apply-templates select="$checklistTitle" mode="checklistTaxon"/>
 				</div>
 			</div>
 		</xsl:if>

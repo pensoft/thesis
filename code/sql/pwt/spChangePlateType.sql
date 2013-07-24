@@ -52,7 +52,7 @@ BEGIN
 	SELECT INTO lPlateObjectId  
 		result 
 	FROM spGetCustomCreateObject(lPlateCreationRuleId, ARRAY[pPlateType]);
-	RAISE NOTICE 'PlateObj %', lPlateCreationRuleId;
+	--RAISE NOTICE 'PlateObj %', lPlateCreationRuleId;
 	IF EXISTS (SELECT * 
 		FROM pwt.document_object_instances
 		WHERE parent_id = lPlateWrapperInstanceId AND object_id = lPlateObjectId

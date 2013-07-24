@@ -70,7 +70,8 @@ BEGIN
 	FOR lIterObjects IN 
 		1 .. coalesce(array_upper(lInstances, 1), 0) 
 	LOOP
-		lCurrentInstance = lInstances[lIterObjects];	
+		--lCurrentInstance = lInstances[lIterObjects];	
+		lCurrentInstance = xpath_nodeset(pXml::text, '//objects/*[@instance_id > 0]' || '[' || lIterObjects || ']');
 		PERFORM spImportPjsDocumentInstance(pDocumentId, lCurrentInstance, pUid);
 	END LOOP;
 	
