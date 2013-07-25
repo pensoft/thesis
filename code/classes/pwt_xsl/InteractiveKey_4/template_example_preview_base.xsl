@@ -265,6 +265,7 @@
 				<xsl:if test="./fields/*[@id='453']/value != ''">
 						<xsl:attribute name="field_id">453</xsl:attribute>
 						<xsl:apply-templates select="$lRankType" mode="format_taxa_rank"/>						
+				</xsl:if>
 			</td>
 			<td>
 				<xsl:if test="./fields/*[@id='451']/value != ''">
