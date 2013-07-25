@@ -44,8 +44,8 @@ class RegisterForm_Wrapper extends eForm_Wrapper{
 			/*
 				CHECK IF USER ALREADY EXISTS IN OLD DB
 				END
-			*/
-			if (!$this->checkIfPasswordIsSecure($this->m_formController->GetFieldValue('password'))) {
+			*/						
+			if ((int)$_SESSION['regstep'] != 2 && (int)$_SESSION['regstep'] != 3 && !$this->m_formController->GetFieldValue('my_expertise') && !$this->checkIfPasswordIsSecure($this->m_formController->GetFieldValue('password'))) {
 				$this->m_formController->SetError(getstr('regprof.pass_not_secure'), 'password');
 			}
 
@@ -200,7 +200,7 @@ class RegisterForm_Wrapper extends eForm_Wrapper{
 			}
 
 			if((int)$this->m_pageControllerInstance->m_MyExpertise){
-				echo '<script type="text/javascript">window.parent.location="/editprofile.php?success=1&my_expertise=1";</script>';
+				echo '<script type="text/javascript">window.parent.location="/editprofile.php?success=1&my_expertise=1&tAction=showedit";</script>';
 				exit;
 			}
 
