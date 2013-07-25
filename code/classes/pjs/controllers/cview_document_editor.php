@@ -738,8 +738,11 @@ class cView_Document_Editor extends cView_Document {
 				'has_se' => $lHasSE,
 			);
 			
-			foreach ($commonDocProperties as $key => $value)
-					$this->m_contentObject->SetVal($key, $value);			
+			foreach ($commonDocProperties as $key => $value){
+				if($this->m_contentObject){	
+					$this->m_contentObject->SetVal($key, $value);
+				}
+			}			
 		} elseif($this->m_editor_mode == 1){ //Action mode
 			switch ($this->m_documentState) {
 				case DOCUMENT_WAITING_SE_ASSIGNMENT_STATE:
