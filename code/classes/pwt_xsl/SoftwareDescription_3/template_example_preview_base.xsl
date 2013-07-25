@@ -1,36 +1,5 @@
 <?xml version='1.0'?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tp="http://www.plazi.org/taxpub"  xmlns:php="http://php.net/xsl" exclude-result-prefixes="php tp xlink xsl">
-	<xsl:param  name="gGenerateFullHtml">1</xsl:param>
-	<xsl:param  name="pDocumentId">0</xsl:param>
-	<xsl:param  name="pMarkContentEditableFields">0</xsl:param>
-	<xsl:param  name="pShowPreviewCommentTip">1</xsl:param>
-	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
-	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
-	<xsl:param  name="pSiteUrl"></xsl:param>
-	
-	<xsl:key name="materialType" match="*[@object_id='37']" use="./fields/*[@id='209']/value/@value_id"></xsl:key>
-	<!-- Дали да генерира целия html или само фрагмент от него
-		т.е. дали да слага тагове htmk, head ...
-		или само да сложи всичко в 1 див
-	 -->
-
-	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
-
-	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
-	
-	<!-- MARKING EDITABLE FIELDS TEMPLATE --> 
-	<xsl:template name="markContentEditableField">
-		<xsl:param name="pObjectId"></xsl:param>
-		<xsl:param name="pFieldId"></xsl:param>
-
-		<xsl:if test="$pMarkContentEditableFields &gt; 0">
-			<xsl:variable name="lCheck" select="php:function('checkIfObjectFieldIsEditable', string($pObjectId), string($pFieldId))"></xsl:variable>
-			<xsl:if test="$lCheck &gt; 0">
-				<xsl:attribute name="contenteditable">true</xsl:attribute>
-			</xsl:if>
-		</xsl:if>
-	</xsl:template>
-	
 	<xsl:template match="/document">
 		<xsl:variable name="lContent">
 			<div class="P-Article-Preview">
@@ -89,35 +58,7 @@
 				<xsl:copy-of select="$lContent"/>
 			</xsl:otherwise>
 		</xsl:choose>
-
-
-
-
 	</xsl:template>
-
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete" mode="formatting">
-		<xsl:copy-of select="."/>
-<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))"></xsl:variable> -->
-<!-- 		<xsl:element name="{$lNodeName}"> -->
-<!-- 			<xsl:apply-templates mode="formatting"></xsl:apply-templates> -->
-<!-- 		</xsl:element> -->
-	</xsl:template>
-
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|ol|li|table|tr|td|tbody|th" mode="table_formatting">
-		<xsl:copy-of select="."/>
-<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))"></xsl:variable> -->
-<!-- 		<xsl:element name="{$lNodeName}"> -->
-<!-- 			<xsl:apply-templates mode="formatting"></xsl:apply-templates> -->
-<!-- 		</xsl:element> -->
-	</xsl:template>
-
-	
-
-	<!-- Removes spaces -->
-	<xsl:template match="*" mode="formatting_nospace">
-		<xsl:value-of select="normalize-space()"/>
-	</xsl:template>
-
 	
 	
 	<!-- Project Description -->
@@ -282,7 +223,7 @@
 									<a>
 										<xsl:attribute name="href"><xsl:value-of select="normalize-space(./value)"/></xsl:attribute>
 										<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-										<xsl:value-of select="normalize-space(./value)"/>
+										<xsl:apply-templates select="./value" mode="formatting_nospace"/>
 									</a>
 									<!-- <xsl:apply-templates select="./value" mode="formatting"/> -->
 								</div>
@@ -341,8 +282,8 @@
 								<xsl:if test="./@id = '307'">
 									<a>
 										<xsl:attribute name="href"><xsl:value-of select="normalize-space(./value)"/></xsl:attribute>
-										<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-										<xsl:value-of select="normalize-space(./value)"/>
+										<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>										
+										<xsl:apply-templates select="./value" mode="formatting_nospace"/>
 									</a>
 								</xsl:if>
 								<xsl:if test="./@id != '307'">

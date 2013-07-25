@@ -1,22 +1,5 @@
 <?xml version='1.0'?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tp="http://www.plazi.org/taxpub"  xmlns:php="http://php.net/xsl" exclude-result-prefixes="php tp xlink xsl">
-	<xsl:param  name="gGenerateFullHtml">1</xsl:param>
-	<!--Whether to generate the whole HTML or just a fragment,
-		i.e. to add tags like html, head
-		or just put everything in 1 div
-	 -->
-	<xsl:param  name="pDocumentId">0</xsl:param>
-	<xsl:param  name="pMarkContentEditableFields">0</xsl:param>
-	<xsl:param  name="pShowPreviewCommentTip">1</xsl:param>
-	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
-	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
-	<xsl:param  name="pSiteUrl"></xsl:param>
-
-	<xsl:key name="materialType" match="*[@object_id='37']" use=".//fields/*[@id='209']/value/@value_id"></xsl:key>
-
-	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
-	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
-	
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tp="http://www.plazi.org/taxpub"  xmlns:php="http://php.net/xsl" exclude-result-prefixes="php tp xlink xsl">	
 	<xsl:template match="/document">
 		<xsl:variable name="lContent">
 			<div class="P-Article-Preview">
@@ -27,10 +10,7 @@
 					<xsl:attribute name="instance_id">
 						<xsl:value-of select="/document/objects/*[@object_id='14']/*[@object_id='9']/@instance_id" />
 					</xsl:attribute>
-					<div>
-						<xsl:attribute name="field_id">3</xsl:attribute>
-						<xsl:apply-templates select="/document/objects/*[@object_id='14']/*[@object_id='9']/fields/*[@id='3']" mode="articleTitle" />
-					</div>
+					<xsl:apply-templates select="/document/objects/*[@object_id='14']/*[@object_id='9']/fields/*[@id='3']" mode="articleTitle" />
 					<xsl:call-template name="authors">
 						<xsl:with-param name="pDocumentNode" select="/document" />
 					</xsl:call-template>
@@ -70,27 +50,6 @@
 				<xsl:copy-of select="$lContent"/>
 			</xsl:otherwise>
 		</xsl:choose>
-	</xsl:template>
-
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete" mode="formatting">
-		<xsl:copy-of select="."/>
-<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))" /> -->
-<!-- 		<xsl:element name="{$lNodeName}"> -->
-<!-- 			<xsl:apply-templates mode="formatting" /> -->
-<!-- 		</xsl:element> -->
-	</xsl:template>
-
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|table|tr|td|tbody|th" mode="table_formatting">
-		<xsl:copy-of select="."/>
-<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))" /> -->
-<!-- 		<xsl:element name="{$lNodeName}"> -->
-<!-- 			<xsl:apply-templates mode="formatting" /> -->
-<!-- 		</xsl:element> -->
-	</xsl:template>
-
-	<!-- Removes spaces -->
-	<xsl:template match="*" mode="formatting_nospace">
-		<xsl:value-of select="normalize-space()"/>
 	</xsl:template>
 
 	<!-- Discussion -->
@@ -150,7 +109,7 @@
 						<xsl:with-param name="pFieldId">413</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">413</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id='413']/value" />
+					<xsl:apply-templates select="./fields/*[@id='413']/value" mode="formatting"/>
 				</h1>
 					<xsl:for-each select="//*[@object_id='212']">
 						<xsl:apply-templates select="." mode="checklistLocality"/>
@@ -170,7 +129,7 @@
 					<xsl:with-param name="pFieldId">357</xsl:with-param>
 				</xsl:call-template>
 				<xsl:attribute name="field_id">357</xsl:attribute>
-				<xsl:value-of select="./fields/*[@id='357']" />
+				<xsl:apply-templates select="./fields/*[@id='357']/value" mode="formatting"/>				
 			</h2>
 			<xsl:choose>
 					<!-- Locality/Region -->

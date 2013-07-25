@@ -1,36 +1,5 @@
 <?xml version='1.0'?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tp="http://www.plazi.org/taxpub"  xmlns:php="http://php.net/xsl" exclude-result-prefixes="php tp xlink xsl">
-	<xsl:param  name="gGenerateFullHtml">1</xsl:param>
-	<xsl:param  name="pDocumentId">0</xsl:param>
-	<xsl:param  name="pMarkContentEditableFields">0</xsl:param>
-	<xsl:param  name="pShowPreviewCommentTip">1</xsl:param>
-	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
-	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
-	<xsl:param  name="pSiteUrl"></xsl:param>
-
-	<xsl:key name="materialType" match="*[@object_id='37']" use="./fields/*[@id='209']/value/@value_id"></xsl:key>
-	<!-- Дали да генерира целия html или само фрагмент от него
-		т.е. дали да слага тагове htmk, head ...
-		или само да сложи всичко в 1 див
-	 -->
-
-	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
-
-	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
-
-	<!-- MARKING EDITABLE FIELDS TEMPLATE -->
-	<xsl:template name="markContentEditableField">
-		<xsl:param name="pObjectId"></xsl:param>
-		<xsl:param name="pFieldId"></xsl:param>
-
-		<xsl:if test="$pMarkContentEditableFields &gt; 0">
-			<xsl:variable name="lCheck" select="php:function('checkIfObjectFieldIsEditable', string($pObjectId), string($pFieldId))" />
-			<xsl:if test="$lCheck &gt; 0">
-				<xsl:attribute name="contenteditable">true</xsl:attribute>
-			</xsl:if>
-		</xsl:if>
-	</xsl:template>
-
 	<xsl:template match="/document">
 		<xsl:variable name="lContent">
 			<div class="P-Article-Preview">
@@ -89,37 +58,8 @@
 				<xsl:copy-of select="$lContent"/>
 			</xsl:otherwise>
 		</xsl:choose>
-
-
-
-
 	</xsl:template>
 
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete" mode="formatting">
-		<xsl:copy-of select="."/>
-<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))" /> -->
-<!-- 		<xsl:element name="{$lNodeName}"> -->
-<!-- 			<xsl:apply-templates mode="formatting"></xsl:apply-templates> -->
-<!-- 		</xsl:element> -->
-	</xsl:template>
-
-
-	<xsl:template match="*" mode="formatting_output_escape">
-		<xsl:value-of select="." disable-output-escaping="yes"/>
-	</xsl:template>
-
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|ol|li|table|tr|td|tbody|th" mode="table_formatting">
-		<xsl:copy-of select="."/>
-<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))" /> -->
-<!-- 		<xsl:element name="{$lNodeName}"> -->
-<!-- 			<xsl:apply-templates mode="formatting"></xsl:apply-templates> -->
-<!-- 		</xsl:element> -->
-	</xsl:template>
-
-	<!-- Removes spaces -->
-	<xsl:template match="*" mode="formatting_nospace">
-		<xsl:value-of select="normalize-space()"/>
-	</xsl:template>
 
 <!-- General Description -->
 	<xsl:template match="*[@object_id='189']" mode="bodySections">
@@ -271,58 +211,6 @@
 
 	</xsl:template>
 
-	<!-- Project Description 
-	<xsl:template match="*[@object_id='111']" mode="bodySections">
-		<xsl:variable name="lSecTitle" select="./@display_name" />
-		<xsl:variable name="lSecSubTitle" select="./fields/*[@id='289']/@field_name" />
-		<xsl:variable name="lStudyAreaDescription" select="./fields/*[@id='290']/@field_name" />
-		<xsl:variable name="lDesignDescription" select="./fields/*[@id='291']/@field_name" />
-		<xsl:variable name="lFunding" select="./fields/*[@id='292']/@field_name" />
-		<div class="P-Article-Preview-Block">
-			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<div class="P-Article-Preview-Block-Title"><xsl:value-of select="$lSecTitle" /></div>
-			<div class="myfieldHolder">
-				<span class="fieldLabel">Title:&#160;</span>
-				<div class="fieldValue">
-					<xsl:attribute name="field_id">289</xsl:attribute>
-					<xsl:attribute name="class">P-Inline</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='289']/value" mode="formatting"/>
-				</div>
-			</div>
-			<div class="myfieldHolder">
-				<span class="fieldLabel">Study area description:&#160;</span>
-				<div class="fieldValue">
-					<xsl:attribute name="field_id">290</xsl:attribute>
-					<xsl:attribute name="class">P-Inline</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='290']/value" mode="formatting"/>
-				</div>
-			</div>
-			<div class="myfieldHolder">
-				<span class="fieldLabel">
-					<xsl:value-of select="$lDesignDescription" />
-				:&#160;</span>
-
-<div class="fieldValue">
-					<xsl:attribute name="field_id">291</xsl:attribute>
-					<xsl:attribute name="class">P-Inline</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='291']/value" mode="formatting"/>
-				</div>
-			</div>
-			<div class="myfieldHolder">
-				<span class="fieldLabel">
-					<xsl:value-of select="$lFunding" />
-				:&#160;</span>
-
-<div class="fieldValue">
-					<xsl:attribute name="field_id">292</xsl:attribute>
-					<xsl:attribute name="class">P-Inline</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='292']/value" mode="formatting"/>
-				</div>
-			</div>
-		</div>
-	</xsl:template>
-	
--->
 
 	<!-- Sampling Methods -->
 	<xsl:template match="*[@object_id='123']" mode="bodySections">
@@ -538,7 +426,7 @@
 			<td>
 				<xsl:if test="./fields/*[@id='453']/value != ''">
 						<xsl:attribute name="field_id">453</xsl:attribute>
-						<xsl:value-of select="concat(translate(substring($lRankType,1,1), 'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ'), substring($lRankType,2))"/>
+						<xsl:apply-templates select="$lRankType" mode="format_taxa_rank"/>
 				</xsl:if>
 			</td>
 			<td>
