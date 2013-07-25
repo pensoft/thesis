@@ -55,9 +55,11 @@
 
 				<xsl:apply-templates select="/document/objects/*[@object_id &gt; 0]" mode="bodySections"></xsl:apply-templates>
 
-				<xsl:apply-templates select="/document/figures/figure" mode="figures"></xsl:apply-templates>
-
-				<xsl:apply-templates select="/document/tables/table" mode="tables"></xsl:apply-templates>
+				<!-- 				<xsl:apply-templates select="/document/figures/figure" mode="figures"/> -->
+<!-- 				<xsl:apply-templates select="/document/tables/table" mode="tables"/> -->
+				
+				<xsl:apply-templates select="/document/objects/*[@object_id='236']" mode="figuresPreview"/>
+				<xsl:apply-templates select="/document/objects/*[@object_id='237']" mode="tablesPreview"/>
 
 				<xsl:apply-templates select="/document/objects/*[@object_id &gt; 0]" mode="articleBack"></xsl:apply-templates>
 			</div>
