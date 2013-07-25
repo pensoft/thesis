@@ -1,6 +1,46 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tp="http://www.plazi.org/taxpub" xmlns:php="http://php.net/xsl" exclude-result-prefixes="php tp xlink xsl" >
+	<xsl:param  name="gGenerateFullHtml">1</xsl:param>
+	<!--Whether to generate the whole HTML or just a fragment,
+		i.e. to add tags like html, head
+		or just put everything in 1 div
+	 -->
+	<xsl:param  name="pDocumentId">0</xsl:param>
+	<xsl:param  name="pMarkContentEditableFields">0</xsl:param>
+	<xsl:param  name="pShowPreviewCommentTip">1</xsl:param>
+	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
+	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
+	<xsl:param  name="pSiteUrl"></xsl:param>
+	
+	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
+	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
+	
+	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="formatting">
+		<xsl:copy-of select="."/>
+	</xsl:template>
+	
+	<xsl:template match="*" mode="formatting_output_escape">
+		<xsl:value-of select="." disable-output-escaping="yes"/>
+	</xsl:template>
 
+	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|ol|li|comment-start|comment-end|table|tr|td|tbody|th|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="table_formatting">
+		<xsl:copy-of select="."/>
+	</xsl:template>
+	
+	<xsl:template match="b|i|u|strong|em|sup|sub|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="title">
+		<xsl:copy-of select="."/>
+	</xsl:template>
+	
+	<!-- Removes spaces -->
+	<xsl:template match="*" mode="formatting_nospace">
+		<xsl:param name="lTreatmentUrl"/>
+		<xsl:apply-templates select="." mode="formatting"/>
+	</xsl:template>
+	
+	<xsl:template match="*" mode="format_taxa_rank">		
+		<xsl:apply-templates select="." mode="formatting"/>
+	</xsl:template>	
+	
 	<!-- MARKING EDITABLE FIELDS TEMPLATE --> 
 	<xsl:template name="markContentEditableField">
 		<xsl:param name="pObjectId" />
@@ -394,194 +434,7 @@
 			</xsl:choose>
 		</div>
 	</xsl:template>
-
-	<!--
-		!!!!!
-		If you edit the wrapper of the figure/table (i.e. <div class="figure">) 
-		you have to edit it in the ice.js in the method getElementContents 
-		!!!!!!!
-	-->
-	<!-- Single figure or plate -->
-	<xsl:template match="*" mode="figures">
-		<xsl:variable name="lFigId" select="php:function('getFigureId', string(./@id))"></xsl:variable>
-		<xsl:variable name="lIsPlate" select="@is_plate"></xsl:variable>
-		<xsl:choose>
-			<xsl:when test="@is_plate"> <!-- plate -->
-				<xsl:variable name="lPlateType" select="./@type"></xsl:variable>
-					<div class="figure">
-						<xsl:attribute name="plate_id"><xsl:value-of select="./@id"/></xsl:attribute>
-						<xsl:attribute name="contenteditable">false</xsl:attribute>
-						<xsl:attribute name="figure_position"><xsl:value-of select="$lFigId"/></xsl:attribute>
-						
-							<xsl:choose>
-								<xsl:when test="$lPlateType = 1"><!-- 2 rows 1 columns -->
-									<xsl:for-each select="./url">
-										<div class="">
-											<xsl:apply-templates select="." mode="plate_photo">
-												<xsl:with-param name="picUrl" select="."></xsl:with-param>
-												<xsl:with-param name="picId" select="./@id"></xsl:with-param>
-											</xsl:apply-templates>
-										</div>
-									</xsl:for-each>
-								</xsl:when>
-								<xsl:when test="$lPlateType = 2"><!-- 1 rows 2 columns -->
-									<xsl:for-each select="./url">
-										<div class="plate2column">
-											<xsl:apply-templates select="." mode="plate_photo">
-												<xsl:with-param name="picUrl" select="."></xsl:with-param>
-												<xsl:with-param name="picId" select="./@id"></xsl:with-param>
-											</xsl:apply-templates>
-										</div>
-									</xsl:for-each>
-								</xsl:when>
-								<xsl:when test="$lPlateType = 4"><!-- 3 rows 2 columns -->
-									<xsl:for-each select="./url">
-										<div class="plate2column">
-											<xsl:apply-templates select="." mode="plate_photo">
-												<xsl:with-param name="picUrl" select="."></xsl:with-param>
-												<xsl:with-param name="picId" select="./@id"></xsl:with-param>
-												<xsl:with-param name="picDesc" select="following::photo_description"></xsl:with-param>
-											</xsl:apply-templates>
-											<xsl:if test="position() mod 2 = 0 and position() != last()">
-												<xsl:text disable-output-escaping="yes"><![CDATA[<div class="P-Clear"></div>]]></xsl:text>
-											</xsl:if>
-										</div>
-									</xsl:for-each>
-								</xsl:when>
-								<xsl:otherwise>
-									<div>
-										<xsl:attribute name="class"><xsl:text>P-Article-Preview-Picture-Row</xsl:text></xsl:attribute>
-										<xsl:for-each select="./url">
-											<div class="plate2column">
-												<xsl:apply-templates select="." mode="plate_photo">
-													<xsl:with-param name="picUrl" select="."></xsl:with-param>
-													<xsl:with-param name="picId" select="./@id"></xsl:with-param>
-													<xsl:with-param name="picDesc" select="following::photo_description"></xsl:with-param>
-												</xsl:apply-templates>
-												<xsl:if test="position() mod 2 = 0 and position() != last()">
-													<xsl:text disable-output-escaping="yes"><![CDATA[</div><div class="P-Article-Preview-Picture-Row">]]></xsl:text>
-												</xsl:if>
-											</div>
-										</xsl:for-each>
-									</div>
-								</xsl:otherwise>
-							</xsl:choose>
-							<div style="clear: both"></div>
-							<div class="description">
-								<div class="name">
-									<xsl:text>Figure </xsl:text><xsl:value-of select="$lFigId" /><xsl:text>. </xsl:text>
-								</div>
-							
-								<div class="figureCaption">	
-									<xsl:call-template name="markContentEditableFiguresAndTables"></xsl:call-template>	
-									<xsl:attribute name="figure_id">
-										<xsl:value-of select="./@id"/>
-									</xsl:attribute>
-									<xsl:attribute name="is_plate">
-										<xsl:value-of select="$lIsPlate"/>
-									</xsl:attribute>				
-									<xsl:apply-templates select="./caption" mode="formatting"/>
-								</div>
-								<xsl:variable name="lFigRealId" select="./@id"></xsl:variable>
-								<xsl:for-each select="./photo_description">									
-									<b><xsl:number format="a" /></b><xsl:text>:&#160;</xsl:text>									
-									<span class="figureCaption plateCaption">
-										<xsl:call-template name="markContentEditableFiguresAndTables"></xsl:call-template>		
-										<xsl:attribute name="figure_id">
-											<xsl:value-of select="$lFigRealId"/>
-										</xsl:attribute>	
-										<xsl:attribute name="plate_column_num">
-											<xsl:value-of select="position()"></xsl:value-of>
-										</xsl:attribute>			
-										<xsl:attribute name="is_plate">
-											<xsl:value-of select="$lIsPlate"/>
-										</xsl:attribute>	
-										<xsl:apply-templates select="." mode="formatting"/>
-									</span>								
-									<br/>
-								</xsl:for-each>
-							</div>
-
-					</div>
-			</xsl:when>
-			<xsl:when test="@is_video"> <!-- video -->
-				<div class="figure">
-					<xsl:attribute name="figure_id">
-						<xsl:value-of select="./@id"/>
-					</xsl:attribute>
-					<xsl:attribute name="contenteditable">false</xsl:attribute>
-					<xsl:attribute name="figure_position">
-						<xsl:value-of select="$lFigId"/>
-					</xsl:attribute>
-					<div class="holder">
-						<iframe width="696" height="522" frameborder="0">
-							<xsl:attribute name="src">
-								<xsl:text>http://www.youtube.com/embed/</xsl:text>
-								<xsl:value-of select="php:function('getYouTubeId', string(./url))"/>
-							</xsl:attribute>
-						</iframe>
-					</div>
-					<div class="description">
-						<div class="name">
-							<xsl:text>Figure </xsl:text><xsl:value-of select="$lFigId" /><xsl:text>. </xsl:text>
-						</div>
-						<div class="figureCaption">
-							<xsl:call-template name="markContentEditableFiguresAndTables"></xsl:call-template>		
-							<xsl:attribute name="figure_id">
-								<xsl:value-of select="./@id"/>
-							</xsl:attribute>	
-							<xsl:attribute name="is_plate">0</xsl:attribute>			
-							<xsl:apply-templates select="./caption" mode="formatting"/>
-						</div>
-					</div>
-					<div class="P-Clear"></div>
-				</div>
-			</xsl:when>
-			<xsl:otherwise> <!-- figure -->
-				<div class="figure">
-					<xsl:attribute name="figure_id"><xsl:value-of select="./@id"/></xsl:attribute>
-					<xsl:attribute name="contenteditable">false</xsl:attribute>
-					<xsl:attribute name="figure_position"><xsl:value-of select="$lFigId"/></xsl:attribute>
-					<div class="holder">
-						<a target="_blank">
-							<xsl:attribute name="href">
-								<xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
-								<xsl:value-of select="./@id"/>
-							</xsl:attribute>
-							<img>
-								<xsl:attribute name="src">
-									<xsl:value-of select="./url"/>
-								</xsl:attribute>
-								<xsl:attribute name="alt" />
-							</img>
-						</a>
-						<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
-							<xsl:attribute name="href">
-								<xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
-								<xsl:value-of select="./@id"/>
-							</xsl:attribute>
-							
-						</a>
-					</div>
-
-					<div class="description">
-						<div class="name">
-							<xsl:text>Figure </xsl:text><xsl:value-of select="$lFigId" /><xsl:text>. </xsl:text>
-						</div>
-						<div class="figureCaption">
-							<xsl:call-template name="markContentEditableFiguresAndTables"></xsl:call-template>		
-							<xsl:attribute name="figure_id">
-								<xsl:value-of select="./@id"/>
-							</xsl:attribute>		
-							<xsl:attribute name="is_plate">0</xsl:attribute>			
-							<xsl:apply-templates select="./caption" mode="formatting"/>
-						</div>						
-					</div>
-					<div class="P-Clear"></div>
-				</div>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
+	
 	
 	<xsl:template match="*[@object_id='236']" mode="figuresPreview">
 		<xsl:apply-templates select="./*[@object_id='221']" mode="singleFigNormalPreview"/>	
@@ -981,77 +834,5 @@
 					</div>			
 				</div>
 			</div>
-	</xsl:template>
-	
-	<!--
-		!!!!!
-		If you edit the wrapper of the figure/table (i.e. <div class="table">) 
-		you have to edit it in the ice.js in the method getElementContents 
-		!!!!!!!
-	-->
-	<!-- Single table -->
-	<xsl:template match="*" mode="tables">
-		<div class="table">
-			<xsl:attribute name="contenteditable">false</xsl:attribute>
-			<xsl:attribute name="table_id"><xsl:value-of select="./@id"/></xsl:attribute>
-			<xsl:attribute name="table_position"><xsl:value-of select="./@position"/></xsl:attribute>
-			<div class="description">
-				<div class="name">Table <xsl:value-of select="./@position" />.</div>
-				<div class="P-Inline">
-					<div class="tableCaption">
-						<xsl:call-template name="markContentEditableFiguresAndTables"></xsl:call-template>		
-						<xsl:attribute name="table_id">
-							<xsl:value-of select="./@id"/>
-						</xsl:attribute>		
-						<xsl:attribute name="is_title">1</xsl:attribute>			
-						<xsl:apply-templates select="./title" mode="formatting"/>
-					</div>				
-				</div>
-			</div>
-			<div class="P-Clear"></div>
-			<div class="Table-Body">
-				<div class="tableCaption">
-					<xsl:call-template name="markContentEditableFiguresAndTables"></xsl:call-template>		
-					<xsl:attribute name="table_id">
-						<xsl:value-of select="./@id"/>
-					</xsl:attribute>		
-					<xsl:attribute name="is_title">0</xsl:attribute>			
-					<xsl:apply-templates select="./description" mode="table_formatting"/>
-				</div>			
-			</div>
-		</div>
-	</xsl:template>
-
-	<!-- Single plate photo -->
-	<xsl:template match="*" mode="plate_photo">
-		<xsl:param name="picUrl"></xsl:param>
-		<xsl:param name="picId"></xsl:param>
-		<div class="singlePlatePhoto">
-			<a target="_blank">
-				<xsl:attribute name="href">
-					<xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
-					<xsl:value-of select="$picId" />
-				</xsl:attribute>
-			
-
-			 	<img>
-					<xsl:attribute name="src">
-						<xsl:value-of select="$picUrl"/>
-					</xsl:attribute>
-				</img>
-			</a>
-			
-			<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
-				<xsl:attribute name="href">
-					<xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
-					<xsl:value-of select="$picId" />
-				</xsl:attribute>
-			</a>
-			
-			<!-- <xsl:value-of select="$picDesc" /> -->
-			<div class="Plate-part-letter">
-				<xsl:number format="a" />
-			</div>
-		</div>
 	</xsl:template>
 </xsl:stylesheet>

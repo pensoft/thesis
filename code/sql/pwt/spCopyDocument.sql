@@ -514,7 +514,7 @@ $BODY$
 			WHERE instance_id = lRecord.instance_id AND field_id = lRecord.field_id;	
 			
 			lCitationObjectIds = ARRAY[]::bigint[];
-			IF lRecord.citation_type IN (lReferenceCitationType, lSupFileCitationType) THEN
+			IF lRecord.citation_type IN (lReferenceCitationType, lSupFileCitationType, lFigCitationType, lTableCitationType) THEN
 				<<lCitationInstanceItemsLoop>>
 				FOR lCitationItemsRecord IN
 					SELECT * 
@@ -523,7 +523,7 @@ $BODY$
 				LOOP
 					lCitationObjectIds = array_append(lCitationObjectIds, lCitationItemsRecord.new_id);
 				END LOOP lCitationInstanceItemsLoop;
-			ELSEIF lRecord.citation_type = lFigCitationType THEN
+			/*ELSEIF lRecord.citation_type = lFigCitationType THEN
 				<<lCitationFigItemsLoop>>
 				FOR lCitationItemsRecord IN
 					SELECT * 
@@ -541,6 +541,7 @@ $BODY$
 				LOOP
 					lCitationObjectIds = array_append(lCitationObjectIds, lCitationItemsRecord.new_id);
 				END LOOP lCitationTableItemsLoop;
+			*/
 			END IF;
 			UPDATE pwt.citations SET
 				object_ids = lCitationObjectIds,
