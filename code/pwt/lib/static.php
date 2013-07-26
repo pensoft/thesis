@@ -3504,12 +3504,13 @@ function getDocumentXml($pDocumentId, $pMode = SERIALIZE_INTERNAL_MODE, $pExplic
 	}
 
 	$lXml = $lDocumentXmls[(int)$pDocumentId][(int)$pMode];
-
+	
 	if($pInsertDocumentComments){
 		$lXml = InsertDocumentComments($pDocumentId, $lXml);
 	}
 	if($pInsertCommentPositions){
 		$lDocumentComments = GetDocumentComments($pDocumentId);
+// 		var_dump($lDocumentComments);
 		$lXml = InsertDocumentCommentPositionNodes($lXml, $lDocumentComments);
 	}
 
@@ -5685,6 +5686,7 @@ function GetDocumentComments($pDocumentId){
 		SELECT m.*
 		FROM pwt.msg m
 		WHERE m.document_id = ' . (int)$pDocumentId . ' AND m.start_object_instances_id > 0 AND m.end_object_instances_id > 0
+			AND m.revision_id = spGetDocumentLatestCommentRevisionId(' . (int)$pDocumentId . ', 0)
 	';
 	$lResult = array();
 	$lCon->Execute($lSql);
