@@ -1637,6 +1637,9 @@ $STRARRAY = array(
 	'pjs.dashboards.actions.reviewSubmitted' => 'review&nbsp;submitted',
 	'pjs.dashboards.actions.inviteReviewers' => 'invite&nbsp;reviewers',
 	'pjs.dashboards.actions.takeDecision' => 'take editorial decision',
+	'pjs.dashboards.actions.continueReview' => 'revise manuscript',
+	'pjs.dashboards.actions.submitLayout' => 'submit version for layout',
+	'pjs.dashboards.actions.submitCopy' => 'submit version for copy editing',
 
 	'pjs.footer1'=>'Website design and publishing framework:',
 	'pjs.footer.copyright' => 'Copyright &#169; 2012 Pensoft Publishers',

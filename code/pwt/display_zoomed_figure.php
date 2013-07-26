@@ -5,15 +5,14 @@ require_once ($docroot . '/lib/static.php');
 $gFigId = (int)$_REQUEST['fig_id'];
 
 $lResult = new crs(array(
-	'sqlstr' => 'SELECT 	m.id, 
-				m.document_id, 
-				m.plate_id, 
-				m.title as photo_title, 
-				m.description as photo_desc, 
-				m.position
-			FROM pwt.media m
-			WHERE m.id = ' . (int)$gFigId . '
-			ORDER BY m.createdate ASC',
+	'sqlstr' => 'select max(a) as photo_desc, max(b) as id from (
+						SELECT value_str as a, 0 as b
+						FROM pwt.instance_field_values 
+						WHERE instance_id = ' . (int)$gFigId . ' and field_id in (482, 487)
+						union 
+						SELECT \'\' as a, value_int as b
+						FROM pwt.instance_field_values 
+						WHERE instance_id = ' . (int)$gFigId . ' and field_id in (483, 484) ) as c',
 	'templs' => array(
 		G_ROWTEMPL => 'figures.zoomed_fig'
 	),

@@ -58,6 +58,9 @@ class mDashboard extends emBase_Model {
 					  when rv.action = 'pjs.dashboards.actions.takeDecision' 	then ".$dict['pjs.dashboards.actions.takeDecision']."
 					  when rv.action = 'pjs.dashboards.actions.submitReview'    then ".$dict['pjs.dashboards.actions.submitReview']."
 					  when rv.action = 'pjs.dashboards.actions.reviewSubmitted' then ".$dict['pjs.dashboards.actions.reviewSubmitted']."
+					  when rv.action = 'pjs.dashboards.actions.continueReview'  then ".$dict['pjs.dashboards.actions.continueReview']."
+					  when rv.action = 'pjs.dashboards.actions.submitLayout'	then ".$dict['pjs.dashboards.actions.submitLayout']."
+					  when rv.action = 'pjs.dashboards.actions.submitCopy'		then ".$dict['pjs.dashboards.actions.submitCopy']."
 				 			end)";
 	}
 									  
@@ -79,9 +82,9 @@ class mDashboard extends emBase_Model {
 		$daysToAssignSE = 7;
 		$days2AssignSE = "submitted_date::date + $daysToAssignSE - current_date";
 		$days2AcceptRequest = "due_date::date - current_date";
-		$days2reviewPaper = "rv.due_date - current_date";
-		$days2layoutpaper = "due_date::date - current_date";
-		$days2copyedit = "due_date::date - current_date";
+		$days2reviewPaper =      "rv.due_date - current_date";
+		$days2layoutpaper   = "due_date::date - current_date";
+		$days2copyedit      = "due_date::date - current_date";
 		$days2inviteReviewers = "r.reviewers_assignment_duedate::date - current_date";
 		$days2closeRound = "r.round_due_date::date - current_date";
 		$lSql = '';
@@ -95,15 +98,22 @@ class mDashboard extends emBase_Model {
 		$schedule = array(
 						'pjs.dashboards.actions.inviteReviewers' => $this->scheduling($days2inviteReviewers),
 						'pjs.dashboards.actions.respond2request' => $this->scheduling($days2reviewPaper),
-						'pjs.dashboards.actions.submitReview'    => $this->scheduling($days2reviewPaper),
-				    	'pjs.dashboards.actions.reviewSubmitted' => "'pjs.dashboard.status.completed'",
+						'pjs.dashboards.actions.submitReview'    => $this->scheduling($days2reviewPaper),			    	
 				    	'pjs.dashboards.actions.takeDecision'	 => $this->scheduling($days2reviewPaper),
+				    	'pjs.dashboards.actions.continueReview'  => $this->scheduling($days2reviewPaper),
+				    	'pjs.dashboards.actions.submitLayout'    => $this->scheduling($days2reviewPaper),
+				    	'pjs.dashboards.actions.submitCopy'		 => $this->scheduling($days2reviewPaper),
+				    	'pjs.dashboards.actions.reviewSubmitted' => "'pjs.dashboard.status.completed'"
+
 						);
 		$days = array(
 						'pjs.dashboards.actions.inviteReviewers' => $this->days_remaining($days2inviteReviewers),
 					 	'pjs.dashboards.actions.respond2request' => $this->days_remaining($days2reviewPaper),
 					 	'pjs.dashboards.actions.submitReview'    => $this->days_remaining($days2reviewPaper),
 					 	'pjs.dashboards.actions.takeDecision'    => $this->days_remaining($days2reviewPaper),
+					 	'pjs.dashboards.actions.continueReview'  => $this->days_remaining($days2reviewPaper),
+					 	'pjs.dashboards.actions.submitLayout'	 => $this->days_remaining($days2reviewPaper),
+					 	'pjs.dashboards.actions.submitCopy'  	 => $this->days_remaining($days2reviewPaper),
 					 	'pjs.dashboards.actions.reviewSubmitted' => "'pjs.dashboard.dash'::text",
 					    );
 		$late = array(
@@ -111,6 +121,9 @@ class mDashboard extends emBase_Model {
 					 	'pjs.dashboards.actions.respond2request' => $this->late($days2reviewPaper),
 					 	'pjs.dashboards.actions.submitReview'    => $this->late($days2reviewPaper),
 					 	'pjs.dashboards.actions.takeDecision'    => $this->late($days2reviewPaper),
+					 	'pjs.dashboards.actions.continueReview'  => $this->late($days2reviewPaper),
+					 	'pjs.dashboards.actions.submitLayout'    => $this->late($days2reviewPaper),
+					 	'pjs.dashboards.actions.submitCopy'      => $this->late($days2reviewPaper),
 					 	'pjs.dashboards.actions.reviewSubmitted' => "'pjs.dashboard.dash'::text",
 					    );
 		
@@ -126,13 +139,15 @@ class mDashboard extends emBase_Model {
 					". $this->roler($days)    . " as days
 				FROM pjs.v_getdocumentsandauthors v  
 					JOIN pjs.document_review_rounds r on v.current_round = r.id 
-					 	LEFT JOIN pjs.v_reviewers rv on v.current_round = rv.round_id 
+					 	LEFT JOIN pjs.v_tasks rv on v.current_round = rv.round_id 
 					JOIN pjs.user_role_types role ON rv.role_id = role.id 
 				WHERE v.journal = $pJournalId 
 				  AND uid = $pUid
-				  AND rv.decision_id is NULL 
+				  AND rv.decision_id is NULL
+				  AND rv.action IS NOT NULL 
 				  AND v.state in $this->activeStates
-				ORDER BY v.doc_id asc"; break;
+				ORDER BY id asc"; 
+				break;
 			
 			case DASHBOARD_AUTHOR_PENDING_VIEWMODE:
 				$lSql = "
