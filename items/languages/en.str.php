@@ -1637,6 +1637,9 @@ $STRARRAY = array(
 	'pjs.dashboards.actions.reviewSubmitted' => 'review&nbsp;submitted',
 	'pjs.dashboards.actions.inviteReviewers' => 'invite&nbsp;reviewers',
 	'pjs.dashboards.actions.takeDecision' => 'take editorial decision',
+	'pjs.dashboards.actions.continueReview' => 'revise manuscript',
+	'pjs.dashboards.actions.submitLayout' => 'submit version for layout',
+	'pjs.dashboards.actions.submitCopy' => 'submit version for copy editing',
 
 	'pjs.footer1'=>'Website design and publishing framework:',
 	'pjs.footer.copyright' => 'Copyright &#169; 2012 Pensoft Publishers',
@@ -2149,7 +2152,7 @@ $STRARRAY = array(
 	'pwt.validation.missingSubjectClassification' => 'Subject classification is required for this type of document',
 	'pwt.validation.ChecklistTaxonRequired1' => 'You need to add at least 1 taxon',
 	'pwt.validation.identificationKeyKeyCoupletRequired' => 'You need to add at least 1 couplet',
-	'pwt.validation.atLeastOneFieldRequiredInWebLocations' => 'pwt.validation.atLeastOneFieldRequiredInWebLocations',
+	'pwt.validation.atLeastOneFieldRequiredInWebLocations' => 'At least one filed is required',
 	'pwt.validation.usageRightsNotesisRequired' => 'pwt.validation.usageRightsNotesisRequired',
 	'pwt.validation.projectDescriptionAtLeasOneFieldRequired' => 'pwt.validation.projectDescriptionAtLeasOneFieldRequired',
 	

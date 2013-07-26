@@ -49,6 +49,7 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		165 => array(412),
 		166 => array(20),
 		168 => array(22),
+		169 => array(21),
 		170 => array(23),
 		171 => array(224),
 		18 => array(22),
@@ -56,6 +57,7 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		180 => array(48, 49, 50, 417),
 		181 => array(48, 50),
 		186 => array(441, 442, 443),
+		189 => array(315, 449),
 		190 => array(289, 290, 291, 292, 450),
 		191 => array(452, 451),
 		200 => array(460),
@@ -377,8 +379,9 @@ function formatDate($pDate) {
 		return $pDate;
 	}
 	$lMonth = ltrim($lMatch[2], '0');
-
-	return (int)$lMatch[1] . ' ' . substr(ucfirst($gMonths[$lMonth]), 0, 3) . '. ' . $lMatch[3];
+	//var_dump($lMatch);
+	//return (int)$lMatch[1] . ' ' . substr(ucfirst($gMonths[$lMonth]), 0, 3) . '. ' . $lMatch[3];
+	return (int)$lMatch[1] . ' ' . $lMonth . ' ' . $lMatch[3];
 }
 
 

@@ -109,7 +109,7 @@
 						<xsl:with-param name="pFieldId">413</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">413</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='413']/value" mode="formatting"/>
+					<xsl:apply-templates select="./fields/*[@id='413']/value" mode="title"/>
 				</h1>
 					<xsl:for-each select="//*[@object_id='212']">
 						<xsl:apply-templates select="." mode="checklistLocality"/>
@@ -129,7 +129,7 @@
 					<xsl:with-param name="pFieldId">357</xsl:with-param>
 				</xsl:call-template>
 				<xsl:attribute name="field_id">357</xsl:attribute>
-				<xsl:apply-templates select="./fields/*[@id='357']/value" mode="formatting"/>				
+				<xsl:apply-templates select="./fields/*[@id='357']/value" mode="title"/>				
 			</h2>
 			<xsl:choose>
 					<!-- Locality/Region -->

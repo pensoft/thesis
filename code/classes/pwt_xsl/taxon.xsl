@@ -150,7 +150,7 @@
 		<xsl:if test="./fields/*[@id='474']/value != ''">
 			<div class="myfieldHolder otstapLeft">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<div class="fieldLabel no-float otstapBottom">Nomenclature</div>
+				<div class="fieldLabel">Nomenclature:&#160;</div>
 				<div class="fieldValue">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>

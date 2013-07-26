@@ -3943,9 +3943,11 @@ function prepareXMLErrors($pXMLArr) {
 					<ul>';
 			foreach($val as $v) {
 				if($v['node_instance_name'] == 'figures') {
-					$lStr .= '<li>- <a href="/figures.php?document_id=' . $v['document_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';	
+					//$lStr .= '<li>- <a href="/figures.php?document_id=' . $v['document_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
 				} elseif($v['node_instance_name'] == 'tables') {
-					$lStr .= '<li>- <a href="/tables.php?document_id=' . $v['document_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					//$lStr .= '<li>- <a href="/tables.php?document_id=' . $v['document_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
 				} elseif($v['node_instance_name'] == 'reference') {
 					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
 				} else {
@@ -5123,17 +5125,17 @@ function prepareDateFieldForXSDValidation($pDate){
 	if (!preg_match('/[\/\\\.\-]/', $pDate, $lMatches)) {
 		return $pDate;
 	}
-
+	
 	$lSeparator = $lMatches[0]; //Kato nqma skobi v reg expa v 0-q element e kakvoto e machnalo
-
-	if(! preg_match('/^(\d{2,4})\\' . $lSeparator . '(\d{1,2})\\' . $lSeparator . '(\d{1,2})$/i', $pDate, $lMatches)){
+	
+	if(! preg_match('/^(\d{1,2})\\' . $lSeparator . '(\d{1,2})\\' . $lSeparator . '(\d{2,4})$/i', $pDate, $lMatches)){
 		return $pDate;
 	}
-	$lTimeFormat = mktime(null, null, null, $lMatches[2], $lMatches[3], $lMatches[1]);
+	$lTimeFormat = mktime(null, null, null, $lMatches[2], $lMatches[1], $lMatches[3]);
 
 	// Форматът, в който трябва да бъде датата, за да мине валидацията
 	// 2001-10-26T19:32:52Z
-
+	
 	return date('c', $lTimeFormat);
 }
 
@@ -6182,7 +6184,7 @@ function ExecActionType($pDocumentId, $pActionType) {
 			break;
 		case SUBMIT_DOCUMENT_ACTION_TYPE:
 			if(
-				$user->id == $lCreatorData['id'] 
+				(int)$user->id == (int)$lCreatorData['id'] 
 				&& !$lCreatorData['has_unprocessed_changes'] 
 				&& in_array($lDocumentState, array(READY_TO_SUBMIT_DOCUMENT_STATE, RETURNED_FROM_PJS_DOCUMENT_STATE))
 			) {
