@@ -87,6 +87,7 @@ if($gInstanceId == getDocumentMetadataInstanceId($gDocumentId)){
 	header("Location: /display_document.php?document_id=" . (int) $gDocumentId . '&instance_id=' . $lInstanceId);
 	exit();
 }
+checkDocumentMenuAndColumnsState($gDocumentId);
 MarkActiveTab($gInstanceId); 
 session_write_close();
 

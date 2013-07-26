@@ -278,6 +278,9 @@ function submitPreviewNewComment(){
 
 function scrollToComment(pCommentId){
 	var lComment = $('#P-Root-Comment-' + pCommentId);
+	if(!lComment.length){
+		return false;
+	}
 
 //	$('html, body').scrollTop(lComment.offset().top);
 	$('html, body').scrollTop(lComment.offset().top - $('.P-Header').outerHeight() - $('.P-Bread-Crumbs').outerHeight() - $('#CommentsFreeze').outerHeight());// Because
