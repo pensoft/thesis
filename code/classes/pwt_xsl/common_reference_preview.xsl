@@ -1301,7 +1301,7 @@
 				<xsl:text>Release date: </xsl:text>
 				<span>
 					<xsl:attribute name="field_id">285</xsl:attribute>
-					<xsl:value-of select="php:function('customDateFormat', string(./fields/*[@id='285']/value))"/>
+					<xsl:value-of select="php:function('formatDate', string(./fields/*[@id='285']/value))"/>
 				</span>
 				<xsl:text>.</xsl:text>
 			</xsl:if>
@@ -1353,7 +1353,7 @@
 				<xsl:text> Accession date: </xsl:text>
 				<span>
 					<xsl:attribute name="field_id">280</xsl:attribute>
-					<xsl:value-of select="php:function('customDateFormat', string(./fields/*[@id='280']/value))"/>
+					<xsl:value-of select="php:function('formatDate', string(./fields/*[@id='280']/value))"/>
 				</span>
 				<xsl:text>.</xsl:text>
 			</xsl:if>

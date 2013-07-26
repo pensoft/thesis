@@ -107,12 +107,12 @@ $BODY$
 			dv.version_num, dvt.name, js.title, null, null, null, null, d.notes_to_editor, null, d.submitted_date, null, null, null, d.panel_duedate, d.current_round_id, 
 			null, null, null, dv.id as author_version_id, null, null, null, pd.pwt_id, null, null, null, d.public_duedate
 		FROM pjs.documents d
-		JOIN pjs.document_review_rounds dr ON dr.id = d.current_round_id
-		JOIN pjs.document_versions dv ON dv.id = dr.create_from_version_id
-		JOIN pjs.document_review_types dvt ON dvt.id = d.document_review_type_id
-		JOIN pjs.document_types dt ON dt.id = d.document_type_id
-		JOIN pjs.journal_sections js ON js.id = d.journal_section_id
-		JOIN pjs.pwt_documents pd ON pd.document_id = d.id
+		LEFT JOIN pjs.document_review_rounds dr ON dr.id = d.current_round_id
+		LEFT JOIN pjs.document_versions dv ON dv.id = dr.create_from_version_id
+		LEFT JOIN pjs.document_review_types dvt ON dvt.id = d.document_review_type_id
+		LEFT JOIN pjs.document_types dt ON dt.id = d.document_type_id
+		LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id
+		LEFT JOIN pjs.pwt_documents pd ON pd.document_id = d.id
 		WHERE d.id = pDocumentId;
 		
 		-- selecting SE data

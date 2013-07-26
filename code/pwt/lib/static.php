@@ -5123,17 +5123,17 @@ function prepareDateFieldForXSDValidation($pDate){
 	if (!preg_match('/[\/\\\.\-]/', $pDate, $lMatches)) {
 		return $pDate;
 	}
-
+	
 	$lSeparator = $lMatches[0]; //Kato nqma skobi v reg expa v 0-q element e kakvoto e machnalo
-
-	if(! preg_match('/^(\d{2,4})\\' . $lSeparator . '(\d{1,2})\\' . $lSeparator . '(\d{1,2})$/i', $pDate, $lMatches)){
+	
+	if(! preg_match('/^(\d{1,2})\\' . $lSeparator . '(\d{1,2})\\' . $lSeparator . '(\d{2,4})$/i', $pDate, $lMatches)){
 		return $pDate;
 	}
-	$lTimeFormat = mktime(null, null, null, $lMatches[2], $lMatches[3], $lMatches[1]);
+	$lTimeFormat = mktime(null, null, null, $lMatches[2], $lMatches[1], $lMatches[3]);
 
 	// Форматът, в който трябва да бъде датата, за да мине валидацията
 	// 2001-10-26T19:32:52Z
-
+	
 	return date('c', $lTimeFormat);
 }
 

@@ -379,8 +379,9 @@ function formatDate($pDate) {
 		return $pDate;
 	}
 	$lMonth = ltrim($lMatch[2], '0');
-
-	return (int)$lMatch[1] . ' ' . substr(ucfirst($gMonths[$lMonth]), 0, 3) . '. ' . $lMatch[3];
+	//var_dump($lMatch);
+	//return (int)$lMatch[1] . ' ' . substr(ucfirst($gMonths[$lMonth]), 0, 3) . '. ' . $lMatch[3];
+	return (int)$lMatch[1] . ' ' . $lMonth . ' ' . $lMatch[3];
 }
 
 

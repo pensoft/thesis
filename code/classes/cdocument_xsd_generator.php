@@ -245,8 +245,8 @@ class cdocument_xsd_generator extends csimple {
 			$this->generateObject($lTemplateObjectId, $lObjectsXmlNode);
 		}
 
-		$this->generateFiguresDefinition();
-		$this->generateTablesDefinition();
+		//$this->generateFiguresDefinition();
+		//$this->generateTablesDefinition();
 		$this->generateFieldTypesDefinition();
 		$this->generateDataSrcs();
 	}
@@ -499,6 +499,19 @@ class cdocument_xsd_generator extends csimple {
 		$lContentXmlNode = $lTableSeqNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:element'));
 		$lContentXmlNode->setAttribute('name', 'description');
 		$lContentXmlNode->setAttribute('type', 'fieldNotEmpty');
+		
+		/*
+		$lDescriptionFieldTypeComplexTypeNode = $lSchemaXmlNode->appendChild($this->xsdElem('complexType'));
+		$lDescriptionFieldTypeComplexTypeNode->setAttribute('name', 'tabledescriptionType');
+		
+		$lDescriptionFieldTypeSeq = $lDescriptionFieldTypeComplexTypeNode->appendChild($this->xsdElem('sequence'));
+		$lDescValueElementNode = $lDescriptionFieldTypeSeq->appendChild($this->xsdElem('element'));
+		$lDescValueElementNode->setAttribute('name', 'description');
+		$lDescInnerFieldTypeComplexTypeNode = $lDescValueElementNode->appendChild($this->xsdElem('complexType'));
+		$lDescInnerContentTypeComplexTypeNode = $lDescInnerFieldTypeComplexTypeNode->appendChild($this->xsdElem('complexContent'));
+		$lDescInnerExtContentTypeComplexTypeNode = $lDescInnerContentTypeComplexTypeNode->appendChild($this->xsdElem('extension'));
+		$lDescInnerExtContentTypeComplexTypeNode->setAttribute('base', 'fieldNotEmpty');
+		*/
 
 		//Table node attributes
 		$lIdAttributeNode = $lTableTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:attribute'));
@@ -533,7 +546,7 @@ class cdocument_xsd_generator extends csimple {
 			</xsd:simpleType>
 
 			<xsd:simpleType xmlns:xsd="' . XSD_SCHEMA_LOCATION . '" name="tstamp_not_empty">
-				<xsd:restriction base="xsd:date" />
+				<xsd:restriction base="xsd:dateTime" />
 			</xsd:simpleType>
 			<xsd:simpleType xmlns:xsd="' . XSD_SCHEMA_LOCATION . '" name="tstamp_empty">
 				<xsd:union memberTypes="empty_str tstamp_not_empty" />
