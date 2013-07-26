@@ -88,6 +88,10 @@
 					<div class="myfieldHolder">
 						<span class="fieldLabel">Addititional information:&#160;</span>
 						<div  class="fieldValue" field_id="315">
+							<xsl:call-template name="markContentEditableField">
+								<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+								<xsl:with-param name="pFieldId">315</xsl:with-param>
+							</xsl:call-template>
 							<xsl:apply-templates select="./fields/*[@id='315']/value" mode="formatting"/>
 						</div>
 					</div>
@@ -722,7 +726,7 @@
 							</xsl:call-template>
 							<xsl:attribute name="field_id">340</xsl:attribute>
 							<xsl:attribute name="class">P-Inline</xsl:attribute>
-							<xsl:apply-templates select="./fields/*[@id='340']/value" mode="formatting_treatment_link">
+							<xsl:apply-templates select="./fields/*[@id='340']/value" mode="formatting">
 								<xsl:with-param name="lTreatmentUrl" select="$lTreatmentURLPrefix"/>
 							</xsl:apply-templates>
 						</div>
@@ -820,7 +824,7 @@
 						<xsl:attribute name="field_id">458</xsl:attribute>
 						<xsl:attribute name="class">P-Inline</xsl:attribute>
 
-						<xsl:apply-templates select="./fields/*[@id='458']/value" mode="formatting_treatment_link">
+						<xsl:apply-templates select="./fields/*[@id='458']/value" mode="formatting">
 							<xsl:with-param name="lTreatmentUrl" select="$lTreatmentURLPrefix"/>
 						</xsl:apply-templates>
 

@@ -2149,7 +2149,7 @@ $STRARRAY = array(
 	'pwt.validation.missingSubjectClassification' => 'Subject classification is required for this type of document',
 	'pwt.validation.ChecklistTaxonRequired1' => 'You need to add at least 1 taxon',
 	'pwt.validation.identificationKeyKeyCoupletRequired' => 'You need to add at least 1 couplet',
-	'pwt.validation.atLeastOneFieldRequiredInWebLocations' => 'pwt.validation.atLeastOneFieldRequiredInWebLocations',
+	'pwt.validation.atLeastOneFieldRequiredInWebLocations' => 'At least one filed is required',
 	'pwt.validation.usageRightsNotesisRequired' => 'pwt.validation.usageRightsNotesisRequired',
 	'pwt.validation.projectDescriptionAtLeasOneFieldRequired' => 'pwt.validation.projectDescriptionAtLeasOneFieldRequired',
 	

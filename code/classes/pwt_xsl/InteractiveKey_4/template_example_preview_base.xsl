@@ -396,13 +396,14 @@
 							<span class="fieldLabel">
 								<xsl:value-of select="./@field_name"></xsl:value-of>:&#160;</span>
 							<div class="fieldValue">
-								<xsl:call-template name="markContentEditableField">
-									<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
-									<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
-								</xsl:call-template>								
+															
 								<xsl:attribute name="instance_id"><xsl:value-of select="../../@instance_id"></xsl:value-of></xsl:attribute>								
 								<xsl:if test="./@id = '329'">
 									<a>
+										<xsl:call-template name="markContentEditableField">
+											<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
+											<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
+										</xsl:call-template>	
 										<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>
 										<xsl:attribute name="href"><xsl:value-of select="normalize-space(./value)"/></xsl:attribute>
 										<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
@@ -410,6 +411,11 @@
 									</a>
 								</xsl:if>
 								<xsl:if test="./@id != '329'">
+									<xsl:call-template name="markContentEditableField">
+										<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
+										<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
+									</xsl:call-template>	
+									<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>
 									<xsl:apply-templates select="./value" mode="formatting"/>
 								</xsl:if>
 							</div>
