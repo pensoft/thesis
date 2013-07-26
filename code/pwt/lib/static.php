@@ -6151,7 +6151,7 @@ function ExecActionType($pDocumentId, $pActionType) {
 			break;
 		case SUBMIT_DOCUMENT_ACTION_TYPE:
 			if(
-				$user->id == $lCreatorData['id'] 
+				(int)$user->id == (int)$lCreatorData['id'] 
 				&& !$lCreatorData['has_unprocessed_changes'] 
 				&& in_array($lDocumentState, array(READY_TO_SUBMIT_DOCUMENT_STATE, RETURNED_FROM_PJS_DOCUMENT_STATE))
 			) {
