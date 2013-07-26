@@ -395,7 +395,7 @@ class mDashboard extends emBase_Model {
 				WHERE v.journal = $pJournalId
 				  AND rv.uid = $pUid
 				  AND rv.action <> 'pjs.dashboards.actions.reviewSubmitted'
-				  AND role_id = " . DEDICATED_REVIEWER_ROLE . "
+				  AND role_id in (" . DEDICATED_REVIEWER_ROLE . ", ". COMMUNITY_REVIEWER_ROLE . ")
 				ORDER BY v.doc_id asc"; break;
 				
 			case DASHBOARD_DEDICATED_REVIEWER_PENDING_ARCHIVED_VIEWMODE:
