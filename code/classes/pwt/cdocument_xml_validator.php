@@ -98,7 +98,6 @@ class cdocument_xml_validator extends csimple {
 	}
 	
 	function GetCitationErrors() {
-		return;
 		$this->PrepareDocumentCitations();
 		
 		$lQuery = 'SELECT * FROM spGetDocumentCitationsForValidation(
@@ -124,21 +123,35 @@ class cdocument_xml_validator extends csimple {
 			$lCon->MoveNext();
 		}
 		$lCon->Close();
-		
-		$lQuery = 'SELECT * FROM spGetDocumentFiguresAndTables(' . (int)$this->m_document_id . ')';
+	
+		$lQuery = 'SELECT * FROM spGetDocumentFigures(' . (int)$this->m_document_id . ')';
 		$lCon = new DBCn();
 		$lCon->Open();
 		$lCon->Execute($lQuery);
 		$lCon->MoveFirst();
-		$lFigsTables = array();
+		$lFiguresArr = array();
 		
+		$i = 0;
 		while(!$lCon->Eof()){
-			$lFigsTables[$lCon->mRs['object_id']] = array(
-				'object_type' => $lCon->mRs['object_type'],
-				'is_plate' => $lCon->mRs['is_plate'],
-				'position' => $lCon->mRs['position'],
-				'plate_id' => $lCon->mRs['plate_id'],
-			);
+			$lFiguresArr[$i]['instance_id'] = $lCon->mRs['instance_id'];
+			$lFiguresArr[$i]['fignum'] = $lCon->mRs['fignum'];
+			$i++;
+			$lCon->MoveNext();
+		}
+		$lCon->Close();
+		
+		$lQuery = 'SELECT * FROM spGetDocumentTables(' . (int)$this->m_document_id . ')';
+		$lCon = new DBCn();
+		$lCon->Open();
+		$lCon->Execute($lQuery);
+		$lCon->MoveFirst();
+		$lTablesArr = array();
+		
+		$i = 0;
+		while(!$lCon->Eof()){
+			$lTablesArr[$i]['instance_id'] = $lCon->mRs['instance_id'];
+			$lTablesArr[$i]['fignum'] = $lCon->mRs['fignum'];
+			$i++;
 			$lCon->MoveNext();
 		}
 		$lCon->Close();
@@ -165,43 +178,34 @@ class cdocument_xml_validator extends csimple {
 					$lCittReferencesArr[] = $lCitation['citation_objects'];
 				} elseif($lCitation['citation_type'] == (int)CITATION_FIGURE_PLATE_TYPE_ID) {
 					$lCittFiguresArr[] = $lCitation['citation_objects'];
-					$lCittPlateIds[] = $lCitation['plate_id'];
 				}
 			}
 		}
 		
-		if(count($lFigsTables)){ // Фигури и таблици на едно място
-			$lPlateIds = array();
-			foreach($lFigsTables as $key => $val) {
-				if($val['object_type'] == (int)CITATION_TABLE_TYPE_ID) {
-					$lTablesArr[] = $key;
-				} elseif($val['object_type'] == (int)CITATION_FIGURE_PLATE_TYPE_ID) {
-					$lFiguresArr[] = $key;
-					$lPlateIds[$key] = $val['plate_id'];
-				}
-			}
-			
-			foreach($lFiguresArr as $lFigure) {
-				if(!in_array($lPlateIds[$lFigure], $lCittPlateIds)) {
-					if(!in_array($lPlateIds[$lFigure], $lErrsArr)) {
-						$lErrsArr[] = $lPlateIds[$lFigure];
-						$this->m_GroupedErrArr[XML_UNCITED_FIGURES_ERROR][] = array (
-							'node_instance_name' => 'figures',
-							'cited_error_type' => (int)CITATION_FIGURE_PLATE_TYPE_ID,
-							'document_id' => (int)$this->m_document_id,
-							'node_attribute_field_name' => 'Fig ' . $lFigsTables[$lFigure]['position'] . ' is not cited',
-						);
-						$this->m_errorsCounter++;
-					}
-				}
-			}
+		if(count($lTablesArr)){ // Таблици
 			foreach($lTablesArr as $lTable) {
-				if(!$this->in_array_r($lTable, $lCittTablesArr)) {
+				if(!$this->in_array_r($lTable['instance_id'], $lCittTablesArr)) {
 					$this->m_GroupedErrArr[XML_UNCITED_TABLES_ERROR][] = array (
 						'node_instance_name' => 'tables',
 						'cited_error_type' => (int)CITATION_TABLE_TYPE_ID,
-						'document_id' => (int)$this->m_document_id,
-						'node_attribute_field_name' => 'Table ' . $lFigsTables[$lTable]['position'] . ' is not cited',
+						//'document_id' => (int)$this->m_document_id,
+						'node_attribute_field_name' => 'Table ' . $lTable['fignum'] . ' is not cited',
+						'node_instance_id' => $lTable['instance_id'],
+					);
+					$this->m_errorsCounter++;
+				}
+			}
+		}
+		
+		if(count($lFiguresArr)){ // Фигури
+			foreach($lFiguresArr as $lFigure) {
+				if(!$this->in_array_r($lFigure['instance_id'], $lCittFiguresArr)) {
+					$this->m_GroupedErrArr[XML_UNCITED_FIGURES_ERROR][] = array (
+						'node_instance_name' => 'figures',
+						'cited_error_type' => (int)CITATION_FIGURE_PLATE_TYPE_ID,
+						//'document_id' => (int)$this->m_document_id,
+						'node_attribute_field_name' => 'Fig ' . $lFigure['fignum'] . ' is not cited',
+						'node_instance_id' => $lFigure['instance_id'],
 					);
 					$this->m_errorsCounter++;
 				}
@@ -297,9 +301,7 @@ class cdocument_xml_validator extends csimple {
 	 * Gets all errors info in $this->m_all_errors array
 	 */
 	 
-	function GetNextNode($pNode){
-		//var_dump($pNode->nodeName);
-		
+	function GetNextNode($pNode){		
 		while(!$pNode->nextSibling && $pNode){
 			$pNode = $pNode->parentNode;
 		}
@@ -315,8 +317,6 @@ class cdocument_xml_validator extends csimple {
 
 	function GetNodeErrors($pNode){
 		if(!count($this->m_flippedErrors)){
-			//var_dump('TUKA NQMA ERRS');
-			//exit;
 			return false;
 		}
 		if($this->m_firstIter == 1) {
@@ -327,12 +327,6 @@ class cdocument_xml_validator extends csimple {
 				
 		$lCurrentNode = $pNode;
 		$lNextNode = $this->GetNextNode($lCurrentNode);
-		
-		// ako po nqkakva pri4ina neuspeem da vzemem 
-		//var_dump('-----START------');
-		//var_dump($lCurrentNode);
-		//var_dump($lNextNode);
-		//var_dump('-----END------');
 		
 		if ($lCurrentNode->hasAttributes()) {
 			if($lCurrentNode->getAttribute('display_name') && $lCurrentNode->getAttribute('instance_id')) {
@@ -369,12 +363,8 @@ class cdocument_xml_validator extends csimple {
 		if($lCurrentNode->nodeType == 1) {
 			return $this->GetNodeErrors($lCurrentNode->firstChild);
 		} else {
-			//var_dump('TUKA nqma deca!!!');
-			//var_dump($lCurrentNode->getLineNo());
 			$lErrType = $this->GetErrType($this->m_errline, $this->m_error_lines);
-			/*var_dump($this->m_errline);
-			var_dump($this->m_error_lines);
-			var_dump('------------------------------------');*/
+
 			$this->m_all_errors[] = array (
 					'node_name' => $this->m_err_nodeName,
 					'node_instance_id' => $this->m_err_InstanceId,
