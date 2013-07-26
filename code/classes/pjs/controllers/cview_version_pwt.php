@@ -646,17 +646,17 @@ class cView_Version_Pwt extends cView_Version {
 						),
 						'AddTags' => array()
 					),
-					'publish_review' => array(
-						'VType' => 'int',
-						'CType' => 'checkbox',
-						'DisplayName' => getstr('admin.article_versions.recomend.option7'),
-						'AllowNulls' => true,
-						'TransType' => MANY_TO_BIT,
-						'SrcValues' => array(
-							1 => '',
-						),
-						'AddTags' => array()
-					),
+					// 'publish_review' => array(
+						// 'VType' => 'int',
+						// 'CType' => 'checkbox',
+						// 'DisplayName' => getstr('admin.article_versions.recomend.option7'),
+						// 'AllowNulls' => true,
+						// 'TransType' => MANY_TO_BIT,
+						// 'SrcValues' => array(
+							// 1 => '',
+						// ),
+						// 'AddTags' => array()
+					// ),
 					'new' => array(
 						'CType' => 'action',
 						'ActionMask' => ACTION_CHECK | ACTION_EXEC | ACTION_SHOW | ACTION_FETCH,
@@ -664,7 +664,7 @@ class cView_Version_Pwt extends cView_Version {
 					),
 					'save' => array(
 						'CType' => 'action',
-						'SQL' => 'SELECT spSaveDocument_review_round_users_form(1, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', {decision_id}, {question1}, {question2}, {question3}, {question4}, {question5}, {question6}, {question7}, {question8}, {question9}, {question10}, {question11}, {question12}, {question13}, {question14}, {notes_to_author}, {notes_to_editor}, {disclose_name}, {publish_review}, null)/*{close}{url_params}*/',
+						'SQL' => 'SELECT spSaveDocument_review_round_users_form(1, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', {decision_id}, {question1}, {question2}, {question3}, {question4}, {question5}, {question6}, {question7}, {question8}, {question9}, {question10}, {question11}, {question12}, {question13}, {question14}, {notes_to_author}, {notes_to_editor}, {disclose_name}, 1, null)/*{close}{url_params}*/',
 						'ActionMask' => ACTION_CHECK | ACTION_CCHECK | ACTION_EXEC,
 						'DisplayName' => getstr('admin.article_versions.save'),
 						'AddTags' => array(
@@ -674,7 +674,7 @@ class cView_Version_Pwt extends cView_Version {
 					),
 					'review' => array(
 						'CType' => 'action',
-						'SQL' => 'SELECT spSaveDocument_review_round_users_form(1, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', {decision_id}, {question1}, {question2}, {question3}, {question4}, {question5}, {question6}, {question7}, {question8}, {question9}, {question10}, {question11}, {question12}, {question13}, {question14}, {notes_to_author}, {notes_to_editor}, {disclose_name}, {publish_review}, null)/*{close}{url_params}*/',
+						'SQL' => 'SELECT spSaveDocument_review_round_users_form(1, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', {decision_id}, {question1}, {question2}, {question3}, {question4}, {question5}, {question6}, {question7}, {question8}, {question9}, {question10}, {question11}, {question12}, {question13}, {question14}, {notes_to_author}, {notes_to_editor}, {disclose_name}, 1, null)/*{close}{url_params}*/',
 						'ActionMask' => ACTION_CHECK | ACTION_CCHECK | ACTION_EXEC,
 						'DisplayName' => getstr('admin.article_versions.review'),
 						'AddTags' => array(

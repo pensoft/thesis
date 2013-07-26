@@ -366,7 +366,7 @@ function DeleteComment(pCommentId) {
 						$(pElement).removeClass('P-Preview-Comment');
 					}
 				}else{
-					removeAttributeValue($(pElement), 'comment_id', pCommentId, ' ')
+					removeAttributeValue($(pElement), 'comment_id', pCommentId, ' ');
 				}						
 			});
 		}
@@ -375,7 +375,10 @@ function DeleteComment(pCommentId) {
 
 function scrollToComment(pCommentId) {
 	var lComment = $('#P-Root-Comment-' + pCommentId);
-
+	if(!lComment.length){
+		return false;
+	}
+	
 	// the header of the html has fixed position
 	$('html, body').scrollTop(lComment.offset().top - $('.documentHeader').outerHeight() - $('#CommentsFreeze').outerHeight());// Because
 	return false;

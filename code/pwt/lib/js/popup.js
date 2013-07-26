@@ -5,6 +5,7 @@ var gReferenceObjectId = 95;
 var gSupFileObjectId = 55;
 var gFigureObjectId = 221;
 var gTableObjectId = 238;
+var gPopupIsOpened = false;
 
 function CreatePopup(pParentInstanceId, pObjectId, pAdditionalData){
 	showLoading();
@@ -41,6 +42,7 @@ function CreatePopup(pParentInstanceId, pObjectId, pAdditionalData){
 			}
 			popUp(POPUP_OPERS.open, gPopupId, gPopupId);
 			hideLoading();
+			gPopupIsOpened = true;
 		}
 	});
 }
@@ -75,6 +77,7 @@ function CreateEditPopup(pInstanceId){
 			}
 			popUp(POPUP_OPERS.open, gPopupId, gPopupId);
 			hideLoading();
+			gPopupIsOpened = true;
 		}
 	});
 }
@@ -107,6 +110,7 @@ function createPopUpForEditReference(pParentInstanceId, pObjectId, pInstanceId){
 				$('.P-Wrapper-Container').append(pAjaxResult['html']);
 			}
 			popUp(POPUP_OPERS.open, gPopupId, gPopupId);
+			gPopupIsOpened = true;
 		}
 	});
 }
@@ -162,6 +166,7 @@ function CreateNewElementPopupInEditor(pParentInstanceId, pElementObjectId, pPop
 function HideNewPopup(){
 	gActiveInstanceFormName = gDocumentFormName;
 	popUp(POPUP_OPERS.close, gPopupId, gPopupId);
+	gPopupIsOpened = false;
 }
 
 function HideEditPopup(){

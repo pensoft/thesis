@@ -1879,8 +1879,9 @@ function ProcessChanges($pOriginalContent, $pChanges1Arr, $pChanges2Arr = false,
 		if($lCurrentChange['change_type'] == CHANGE_DELETE_TYPE){
 			continue;
 		}
+		$lChangeIdx++;
 		$lCurrentChangeNode = $lDom->documentElement->appendChild($lDom->createElement('insert', $lCurrentChange['modified_text']));
-		$lCurrentChangeNode->setAttribute('class', $lChangeClass);
+		SetChangeNodeAttributes($lCurrentChangeNode, $lCurrentChange, $lChangeIdx);		
 	}
 	$lResult = '';
 	if($lFakeRootNode){

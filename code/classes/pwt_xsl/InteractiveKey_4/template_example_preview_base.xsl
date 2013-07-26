@@ -1,36 +1,5 @@
 <?xml version='1.0'?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tp="http://www.plazi.org/taxpub"  xmlns:php="http://php.net/xsl" exclude-result-prefixes="php tp xlink xsl">
-	<xsl:param  name="gGenerateFullHtml">1</xsl:param>
-	<xsl:param  name="pDocumentId">0</xsl:param>
-	<xsl:param  name="pMarkContentEditableFields">0</xsl:param>
-	<xsl:param  name="pShowPreviewCommentTip">1</xsl:param>
-	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
-	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
-	<xsl:param  name="pSiteUrl"></xsl:param>
-
-	<xsl:key name="materialType" match="*[@object_id='37']" use="./fields/*[@id='209']/value/@value_id"></xsl:key>
-	<!-- Дали да генерира целия html или само фрагмент от него
-		т.е. дали да слага тагове htmk, head ...
-		или само да сложи всичко в 1 див
-	 -->
-
-	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
-
-	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
-	
-	<!-- MARKING EDITABLE FIELDS TEMPLATE --> 
-	<xsl:template name="markContentEditableField">
-		<xsl:param name="pObjectId"></xsl:param>
-		<xsl:param name="pFieldId"></xsl:param>
-
-		<xsl:if test="$pMarkContentEditableFields &gt; 0">
-			<xsl:variable name="lCheck" select="php:function('checkIfObjectFieldIsEditable', string($pObjectId), string($pFieldId))"></xsl:variable>
-			<xsl:if test="$lCheck &gt; 0">
-				<xsl:attribute name="contenteditable">true</xsl:attribute>
-			</xsl:if>
-		</xsl:if>
-	</xsl:template>
-	
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tp="http://www.plazi.org/taxpub"  xmlns:php="http://php.net/xsl" exclude-result-prefixes="php tp xlink xsl">	
 	<xsl:template match="/document">
 		<xsl:variable name="lContent">
 			<div class="P-Article-Preview">
@@ -42,10 +11,7 @@
 					<xsl:attribute name="instance_id">
 						<xsl:value-of select="/document/objects/*[@object_id='14']/*[@object_id='9']/@instance_id"></xsl:value-of>
 					</xsl:attribute>
-					<div>
-						<xsl:attribute name="field_id">3</xsl:attribute>
-						<xsl:apply-templates select="/document/objects/*[@object_id='14']/*[@object_id='9']/fields/*[@id='3']" mode="articleTitle"></xsl:apply-templates>
-					</div>
+					<xsl:apply-templates select="/document/objects/*[@object_id='14']/*[@object_id='9']/fields/*[@id='3']" mode="articleTitle"></xsl:apply-templates>
 					<xsl:call-template name="authors">
 						<xsl:with-param name="pDocumentNode" select="/document"></xsl:with-param>
 					</xsl:call-template>
@@ -55,9 +21,11 @@
 
 				<xsl:apply-templates select="/document/objects/*[@object_id &gt; 0]" mode="bodySections"></xsl:apply-templates>
 
-				<xsl:apply-templates select="/document/figures/figure" mode="figures"></xsl:apply-templates>
-
-				<xsl:apply-templates select="/document/tables/table" mode="tables"></xsl:apply-templates>
+				<!-- 				<xsl:apply-templates select="/document/figures/figure" mode="figures"/> -->
+<!-- 				<xsl:apply-templates select="/document/tables/table" mode="tables"/> -->
+				
+				<xsl:apply-templates select="/document/objects/*[@object_id='236']" mode="figuresPreview"/>
+				<xsl:apply-templates select="/document/objects/*[@object_id='237']" mode="tablesPreview"/>
 
 				<xsl:apply-templates select="/document/objects/*[@object_id &gt; 0]" mode="articleBack"></xsl:apply-templates>
 			</div>
@@ -87,31 +55,6 @@
 				<xsl:copy-of select="$lContent"/>
 			</xsl:otherwise>
 		</xsl:choose>
-
-
-
-
-	</xsl:template>
-
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete" mode="formatting">
-		<xsl:copy-of select="."/>
-<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))"></xsl:variable> -->
-<!-- 		<xsl:element name="{$lNodeName}"> -->
-<!-- 			<xsl:apply-templates mode="formatting"></xsl:apply-templates> -->
-<!-- 		</xsl:element> -->
-	</xsl:template>
-
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|ol|li|table|tr|td|tbody|th" mode="table_formatting">
-		<xsl:copy-of select="."/>
-<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))"></xsl:variable> -->
-<!-- 		<xsl:element name="{$lNodeName}"> -->
-<!-- 			<xsl:apply-templates mode="formatting"></xsl:apply-templates> -->
-<!-- 		</xsl:element> -->
-	</xsl:template>
-
-	<!-- Removes spaces -->
-	<xsl:template match="*" mode="formatting_nospace">
-		<xsl:value-of select="normalize-space()"/>
 	</xsl:template>
 
 	<!-- Project Description -->
@@ -321,7 +264,7 @@
 			<td>
 				<xsl:if test="./fields/*[@id='453']/value != ''">
 						<xsl:attribute name="field_id">453</xsl:attribute>
-						<xsl:value-of select="concat(translate(substring($lRankType,1,1), 'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ'), substring($lRankType,2))"/>
+						<xsl:apply-templates select="$lRankType" mode="format_taxa_rank"/>						
 				</xsl:if>
 			</td>
 			<td>
@@ -453,22 +396,26 @@
 							<span class="fieldLabel">
 								<xsl:value-of select="./@field_name"></xsl:value-of>:&#160;</span>
 							<div class="fieldValue">
-								<xsl:call-template name="markContentEditableField">
-									<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
-									<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
-								</xsl:call-template>
-								<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>
-								<xsl:attribute name="instance_id"><xsl:value-of select="../../@instance_id"></xsl:value-of></xsl:attribute>
-								
-								<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>	
+															
+								<xsl:attribute name="instance_id"><xsl:value-of select="../../@instance_id"></xsl:value-of></xsl:attribute>								
 								<xsl:if test="./@id = '329'">
 									<a>
+										<xsl:call-template name="markContentEditableField">
+											<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
+											<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
+										</xsl:call-template>	
+										<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>
 										<xsl:attribute name="href"><xsl:value-of select="normalize-space(./value)"/></xsl:attribute>
 										<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-										<xsl:value-of select="normalize-space(./value)"/>
+										<xsl:apply-templates select="./value" mode="formatting_nospace"/>
 									</a>
 								</xsl:if>
 								<xsl:if test="./@id != '329'">
+									<xsl:call-template name="markContentEditableField">
+										<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
+										<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
+									</xsl:call-template>	
+									<xsl:attribute name="field_id"><xsl:value-of select="./@id"></xsl:value-of></xsl:attribute>
 									<xsl:apply-templates select="./value" mode="formatting"/>
 								</xsl:if>
 							</div>

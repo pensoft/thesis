@@ -65,7 +65,7 @@ BEGIN
 	LOOP
 		PERFORM spRemoveInstance(lRecord.id, pUid);
 	END LOOP;
-	RAISE NOTICE 'FigObj %', lFigureObjectId;
+	--RAISE NOTICE 'FigObj %', lFigureObjectId;
 	PERFORM spCreateNewInstance(pFigureInstanceId, lFigureObjectId, pUid);
 	
 	RETURN lRes;

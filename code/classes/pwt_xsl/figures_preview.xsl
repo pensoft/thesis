@@ -69,7 +69,7 @@
 	<xsl:template match="*[@object_id='222']" mode="figurePhotoPreview">
 		<div >
 				<img style="float: left;"  alt="">
-					<xsl:attribute name="src">/showfigure.php?filename=c45x82y_<xsl:value-of select="./fields/*[@id='483']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+					<xsl:attribute name="src">/showfigure.php?filename=c45x82y_<xsl:value-of select="./fields/*[@id='483']/value"></xsl:value-of>.jpg</xsl:attribute>
 				</img>
 				<div class="P-Clear"></div>
 		</div>
@@ -100,58 +100,58 @@
 	<!-- Plate type 1 image preview -->
 	<xsl:template match="*[@object_id='231']" mode="singleFigSmallPreview">
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 	</xsl:template>
 	
 	<!-- Plate type 2 image preview -->
 	<xsl:template match="*[@object_id='232']" mode="singleFigSmallPreview">
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c45x82y_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c45x82y_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c45x82y_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c45x82y_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 	</xsl:template>
 	
 	<!-- Plate type 3 image preview -->
 	<xsl:template match="*[@object_id='233']" mode="singleFigSmallPreview">
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c45x41y_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c45x41y_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c45x41y_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c45x41y_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c45x41y_<xsl:value-of select="./*[@object_id='227']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c45x41y_<xsl:value-of select="./*[@object_id='227']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c45x41y_<xsl:value-of select="./*[@object_id='228']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c45x41y_<xsl:value-of select="./*[@object_id='228']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 	</xsl:template>
 	
 	<!-- Plate type 4 image preview -->
 	<xsl:template match="*[@object_id='234']" mode="singleFigSmallPreview">
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='227']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='227']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='228']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='228']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='229']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='229']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 		<img style="float: left;"  alt="">
-			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='230']/fields/*[@id='484']/value"></xsl:value-of>.jpg&amp;45</xsl:attribute>
+			<xsl:attribute name="src">/showfigure.php?filename=c90x41y_<xsl:value-of select="./*[@object_id='230']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 		</img>
 	</xsl:template>
 

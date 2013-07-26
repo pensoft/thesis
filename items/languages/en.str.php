@@ -1920,7 +1920,7 @@ $STRARRAY = array(
 	'pwt.validation,identificationKeyKeyCoupletRequired' => 'Minimum 1 key couplet is required',
 	'pwt.validation.referenceRequired' => 'Minimum 1 Reference is required',
 	'pwt.validation.treatmentRequired' => 'Minimum 1 Treatment is required',
-	'pwt.validation.treatmentRequired1' => 'Minimum 1 Treatment or 1 checklist or 1 identification key is required',
+	'pwt.validation.treatmentRequired1' => 'Minimum 1 Treatment or 1 Checklist or 1 Identification key is required',
 	'pwt.validation.missingTaxonClassification' => 'Taxon classification is required for this type of document',
 	'pwt.validation.missingField' => "The field can't be empty",
 	'pwt.validation.missingHabitatCodeOrHabitatClassification' => 'You must fill habitat code or habitat classification fields',
@@ -2144,12 +2144,12 @@ $STRARRAY = array(
 	'pwt.submit_document_btn' => 'Submit',
 	'pwt.document_ready_for_review_mail_subject' => 'Document is ready for review',
 	
-	'pwt.document_ready_for_submit_mail_subject' => 'pwt.document_ready_for_submit_mail_subject',
+	'pwt.document_ready_for_submit_mail_subject' => '[PENSOFT WRITING TOOL] Document ready for submission',
 	
 	'pwt.validation.missingSubjectClassification' => 'Subject classification is required for this type of document',
-	'pwt.validation.ChecklistTaxonRequired1' => 'pwt.validation.ChecklistTaxonRequired1',
-	'pwt.validation.identificationKeyKeyCoupletRequired' => 'pwt.validation.identificationKeyKeyCoupletRequired',
-	'pwt.validation.atLeastOneFieldRequiredInWebLocations' => 'pwt.validation.atLeastOneFieldRequiredInWebLocations',
+	'pwt.validation.ChecklistTaxonRequired1' => 'You need to add at least 1 taxon',
+	'pwt.validation.identificationKeyKeyCoupletRequired' => 'You need to add at least 1 couplet',
+	'pwt.validation.atLeastOneFieldRequiredInWebLocations' => 'At least one filed is required',
 	'pwt.validation.usageRightsNotesisRequired' => 'pwt.validation.usageRightsNotesisRequired',
 	'pwt.validation.projectDescriptionAtLeasOneFieldRequired' => 'pwt.validation.projectDescriptionAtLeasOneFieldRequired',
 	
@@ -2166,5 +2166,6 @@ $STRARRAY = array(
 	'pjs.SE_cancel_reviewer_review_confirmation' => 'Are you sure that you want to cancel this review process?',
 	'pjs.R_submit_review_confirmation' => 'Are you sure that you have completed the review? Once submitted you will not be able to make any further changes!',
 	'pjs.SE_E_CE_submit_review_confirmation' => 'Are you sure that you have completed your editorial decision? Once submitted you will not be able to make any further changes!',
+	'pjs.panel_public_review_ended' => 'This manuscript is no longer available to panel reviewers',
 );
 ?>

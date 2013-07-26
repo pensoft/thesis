@@ -250,7 +250,19 @@ CKEDITOR.plugins.add('figs', {
 						}
 					} ]
 				} ],
-				onShow : function() {
+				onShow : function() {	
+					var lNewElementBtnIds = ['addNewFigure'];
+					for(var i = 0; i < lNewElementBtnIds.length; ++i){
+						var lNewElementBtn = CKEDITOR.dialog.getCurrent().getButton(lNewElementBtnIds[i]);
+						if(gPopupIsOpened){						
+							lNewElementBtn.disable();
+							$('#' + lNewElementBtn.domId).hide();						
+						}else{
+							lNewElementBtn.enable();
+							$('#' + lNewElementBtn.domId).show();		
+						}
+					}
+					
 					CKEDITOR.dialog.getCurrent().resize($(window).width() - 200, $(window).height() - 200);
 					CKEDITOR.dialog.getCurrent().move(75, 40);
 					$(CKEDITOR.dialog.getCurrent().getElement().$).find('*[name="tab1"]').height('100%');
@@ -278,9 +290,9 @@ CKEDITOR.plugins.add('figs', {
 					$('#' + editor.m_figuresHolderId).find('.P-PopUp-Checkbox-Holder, .P-Figure-InsertOnly').each(function() {
 						var lCheck = $(this).find(':checkbox');
 						lCheck.change(function() {
-							if ($(this).is(':checked') && $(this).attr('figtype') != 1) {
+							if ($(this).is(':checked')) {
 								lFiguresObject.addFigure($(this).val());
-							} else if ($(this).attr('figtype') != 1) {
+							} else{
 								lFiguresObject.removeFigure($(this).val());
 							}
 						});
@@ -298,9 +310,9 @@ CKEDITOR.plugins.add('figs', {
 										if ($(this).val() == lChild.getAttribute('rid')) {
 											$(this).attr('checked', 'checked');
 										}
-										if ($(this).is(':checked') && $(this).attr('figtype') != 1) {
+										if ($(this).is(':checked')) {
 											lFiguresObject.addFigure($(this).val());
-										} else if ($(this).attr('figtype') != 1) {
+										} else {
 											lFiguresObject.removeFigure($(this).val());
 										}
 									});
@@ -354,8 +366,7 @@ CKEDITOR.plugins.add('figs', {
 					onClick : function() {
 						gCurrentDialog = CKEDITOR.dialog.getCurrent();
 						gCurrentDialog.hide();
-						ChangeFiguresForm('image', GetDocumentId(), 'P-PopUp-Content-Inner', 0, 2, 0, 0, 1);
-						popUp(POPUP_OPERS.open, 'add-figure-popup', 'add-figure-popup');
+						CreateNewFigurePopup(1, 1);						
 					}
 				}, {
 					id : 'closeDialog',

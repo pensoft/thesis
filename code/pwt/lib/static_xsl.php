@@ -49,6 +49,7 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		165 => array(412),
 		166 => array(20),
 		168 => array(22),
+		169 => array(21),
 		170 => array(23),
 		171 => array(224),
 		18 => array(22),
@@ -56,6 +57,7 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		180 => array(48, 49, 50, 417),
 		181 => array(48, 50),
 		186 => array(441, 442, 443),
+		189 => array(315, 449),
 		190 => array(289, 290, 291, 292, 450),
 		191 => array(452, 451),
 		200 => array(460),
@@ -520,7 +522,7 @@ function GetSortedMaterialFields($pFields){
 		$lFieldValue = '';
 		$lFieldValueNode = $lXPath->query('./value', $lCurrentField);
 		if($lFieldValueNode->length){
-			$lFieldValue = $lFieldValueNode->item(0)->nodeValue;
+			$lFieldValue = $lFieldValueNode->item(0);
 		}
 		$lInstanceIdValueNode = $lXPath->query('./../../@instance_id', $lCurrentField);
 		if($lInstanceIdValueNode->length){
@@ -550,7 +552,7 @@ function GetSortedMaterialFields($pFields){
 		$lChild= $lRoot->appendChild($lDom->createElement('field'));
 
 		$lFieldName = $lFieldData['field_name'];
-		$lFieldValue = $lFieldData['value'];
+		$lFieldValueNode = $lFieldData['value'];
 		$lInstanceIdValue = $lFieldData['instance_id'];
 		$lObjectIdValue = $lFieldData['object_id'];
 				
@@ -558,8 +560,9 @@ function GetSortedMaterialFields($pFields){
 		$lChild->SetAttribute('field_name', $lFieldName);
 		$lChild->SetAttribute('instance_id', $lInstanceIdValue);
 		$lChild->SetAttribute('object_id', $lObjectIdValue);		
-		$lValueNode = $lChild->appendChild($lDom->createElement('value'));
-		$lValueNode->appendChild($lDom->createTextNode($lFieldValue));
+		$lValueNode = $lChild->appendChild($lDom->importNode($lFieldValueNode, true));
+		
+// 		$lValueNode->appendChild($lDom->createTextNode($lFieldValue));
 	}
 // 	var_dump($lDom->saveXML());
 	return $lDom;

@@ -1725,25 +1725,31 @@ class mVersions extends emBase_Model {
 		if((int)$lCon->mRs['id']) {
 			//$lSqlDocumentStructure = 'SELECT * FROM spGetDocumentTree(' . (int)$lCon->mRs['id'] . ',null) WHERE char_length(pos) = 2';
 			$lSqlDocumentStructure = '
-				SELECT DISTINCT ON (i.id)
-					i.display_name as object_name
-				FROM pwt.document_object_instances i
-				LEFT JOIN pwt.document_object_instances i1 ON (i1.parent_id = i.id) AND i1.is_confirmed = TRUE
-				LEFT JOIN pwt.instance_field_values f ON (i.id = f.instance_id)
-				WHERE i.display_in_tree = true
-					AND char_length(i.pos) = 2
-					AND i.document_id = ' . (int)$lCon->mRs['id'] . '
-					AND (
-						i1.id IS NOT NULL OR
-						(
-							f.value_str <> \'\' OR
-							value_int IS NOT NULL OR
-							array_upper(f.value_arr_int, 1) IS NOT NULL OR
-							array_upper(f.value_arr_str, 1) IS NOT NULL OR
-							value_date IS NOT NULL OR
-							array_upper(f.value_arr_date, 1) IS NOT NULL
+				select * from (
+					SELECT DISTINCT ON (i.id)
+						i.display_name as object_name, i.pos as pos
+					FROM pwt.document_object_instances i
+					LEFT JOIN pwt.document_object_instances i1 ON (i1.parent_id = i.id) AND i1.is_confirmed = TRUE
+					LEFT JOIN pwt.instance_field_values f ON (i.id = f.instance_id)
+					WHERE i.display_in_tree = true
+						AND char_length(i.pos) = 2
+						AND i.document_id = ' . (int)$lCon->mRs['id'] . '
+						AND i.object_id not in (236, 237) -- figures & tables
+						AND (
+							i1.id IS NOT NULL OR
+							(
+								f.value_str <> \'\' OR
+								value_int IS NOT NULL OR
+								array_upper(f.value_arr_int, 1) IS NOT NULL OR
+								array_upper(f.value_arr_str, 1) IS NOT NULL OR
+								value_date IS NOT NULL OR
+								array_upper(f.value_arr_date, 1) IS NOT NULL
+							)
 						)
-					)';
+				
+						) as a
+				order by pos
+			';
 			//var_dump($lSqlDocumentStructure);
 			$lCon->Execute($lSqlDocumentStructure);
 			while (!$lCon->Eof()) {

@@ -139,7 +139,7 @@ $gTemplArr = array(
 								</tbody></table>
 							</div>
 							<div class="document_author_holder_content_no_review_yet_middle">
-								<span class="yellow-green-txt">Respond to this review request. The review is due in 21 days</span>
+								<span class="yellow-green-txt">Respond to this review request. The review is due in 14 days</span>
 								<div class="document_btn_actions_editor_holder">
 									<table cellpadding="0" cellspacing="0" width=100%>
 										<tr>

@@ -1,36 +1,5 @@
 <?xml version='1.0'?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tp="http://www.plazi.org/taxpub"  xmlns:php="http://php.net/xsl" exclude-result-prefixes="php tp xlink xsl">
-	<xsl:param  name="gGenerateFullHtml">1</xsl:param>
-	<xsl:param  name="pDocumentId">0</xsl:param>
-	<xsl:param  name="pMarkContentEditableFields">0</xsl:param>
-	<xsl:param  name="pShowPreviewCommentTip">1</xsl:param>
-	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
-	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
-	<xsl:param  name="pSiteUrl"></xsl:param>
-
-	<xsl:key name="materialType" match="*[@object_id='37']" use="./fields/*[@id='209']/value/@value_id"></xsl:key>
-	<!-- Дали да генерира целия html или само фрагмент от него
-		т.е. дали да слага тагове htmk, head ...
-		или само да сложи всичко в 1 див
-	 -->
-
-	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
-
-	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
-	
-	<!-- MARKING EDITABLE FIELDS TEMPLATE --> 
-	<xsl:template name="markContentEditableField">
-		<xsl:param name="pObjectId"></xsl:param>
-		<xsl:param name="pFieldId"></xsl:param>
-
-		<xsl:if test="$pMarkContentEditableFields &gt; 0">
-			<xsl:variable name="lCheck" select="php:function('checkIfObjectFieldIsEditable', string($pObjectId), string($pFieldId))"></xsl:variable>
-			<xsl:if test="$lCheck &gt; 0">
-				<xsl:attribute name="contenteditable">true</xsl:attribute>
-			</xsl:if>
-		</xsl:if>
-	</xsl:template>
-	
 	<xsl:template match="/document">
 		<xsl:variable name="lContent">
 			<div class="P-Article-Preview">
@@ -55,9 +24,11 @@
 
 				<xsl:apply-templates select="/document/objects/*[@object_id &gt; 0]" mode="bodySections"></xsl:apply-templates>
 
-				<xsl:apply-templates select="/document/figures/figure" mode="figures"></xsl:apply-templates>
-
-				<xsl:apply-templates select="/document/tables/table" mode="tables"></xsl:apply-templates>
+				<!-- 				<xsl:apply-templates select="/document/figures/figure" mode="figures"/> -->
+<!-- 				<xsl:apply-templates select="/document/tables/table" mode="tables"/> -->
+				
+				<xsl:apply-templates select="/document/objects/*[@object_id='236']" mode="figuresPreview"/>
+				<xsl:apply-templates select="/document/objects/*[@object_id='237']" mode="tablesPreview"/>
 
 				<xsl:apply-templates select="/document/objects/*[@object_id &gt; 0]" mode="articleBack"></xsl:apply-templates>
 			</div>
@@ -87,27 +58,7 @@
 				<xsl:copy-of select="$lContent"/>
 			</xsl:otherwise>
 		</xsl:choose>
-
-
-
-
-	</xsl:template>
-
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete" mode="formatting">
-		<xsl:copy-of select="."/>
-<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))"></xsl:variable> -->
-<!-- 		<xsl:element name="{$lNodeName}"> -->
-<!-- 			<xsl:apply-templates mode="formatting"></xsl:apply-templates> -->
-<!-- 		</xsl:element> -->
-	</xsl:template>
-
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|table|tr|td|tbody|th" mode="table_formatting">
-		<xsl:copy-of select="."/>
-<!-- 		<xsl:variable name="lNodeName" select="php:function('getFormattingNodeRealNameForPmt', string(local-name(.)))"></xsl:variable> -->
-<!-- 		<xsl:element name="{$lNodeName}"> -->
-<!-- 			<xsl:apply-templates mode="formatting"></xsl:apply-templates> -->
-<!-- 		</xsl:element> -->
-	</xsl:template>
+	</xsl:template>	
 
 	<!-- Formats treatment links -->
 	<xsl:template match="*" mode="formatting_treatment_link">
@@ -117,22 +68,17 @@
 			<a>
 				<xsl:attribute name="href"><xsl:value-of select="translate(normalize-space(concat($lTreatmentUrl, $lCurrentVal)) , ' ', '')"/></xsl:attribute>
 				<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-				<xsl:value-of select="$lCurrentVal"/>
+				<xsl:apply-templates select="$lCurrentVal" mode="formatting"/>				
 			</a>
 		</xsl:if>
 		<xsl:if test="$lTreatmentUrl = 'URL'">
 			<a>
 				<xsl:attribute name="href"><xsl:value-of select="normalize-space($lCurrentVal)"/></xsl:attribute>
 				<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-				<xsl:value-of select="normalize-space($lCurrentVal)"/>
+				<xsl:apply-templates select="$lCurrentVal" mode="formatting_nospace"/>
 			</a>
 		</xsl:if>
-	</xsl:template>
-
-	<!-- Removes spaces -->
-	<xsl:template match="*" mode="formatting_nospace">
-		<xsl:value-of select="normalize-space()"/>
-	</xsl:template>
+	</xsl:template>	
 
 	<!-- Formatting uploaded files spaces -->
 	<xsl:template match="*" mode="formatting_uploaded_file">
@@ -237,164 +183,10 @@
 		</div>
 	</xsl:template>
 
-	<xsl:template match="*" mode="singleAuthor">
-		<span>
-			<xsl:attribute name="field_id" >6</xsl:attribute>
-			<xsl:value-of select="./fields/*[@id=6]"></xsl:value-of>
-		</span>
-		<xsl:text> </xsl:text>
-		<xsl:if test="count(./fields/*[@id=7]) &gt; 0">
-			<span>
-				<xsl:attribute name="field_id" >7</xsl:attribute>
-				<xsl:value-of select="./fields/*[@id=7]"></xsl:value-of>
-			</span>
-			<xsl:text> </xsl:text>
-		</xsl:if>
-		<span>
-			<xsl:attribute name="field_id" >8</xsl:attribute>
-			<xsl:value-of select="./fields/*[@id=8]"></xsl:value-of>
-		</span>
-		<sup class="P-Current-Author-Addresses">
-			<xsl:for-each select="./*[@object_id='5']" >
-				<xsl:variable name="lCurrentNode" select="." />
-				<xsl:variable name="lAffId" select="php:function('getContributorAffId', string($lCurrentNode/@instance_id))"></xsl:variable>
-				<span class="P-Current-Author-Single-Address">
-					<xsl:value-of select="php:function('getUriSymbol', string($lAffId))" />
-				</span>
-				<xsl:if test="position()!=last()"><xsl:text> , </xsl:text></xsl:if>
-			</xsl:for-each>
-		</sup>
-	</xsl:template>
-
-	<xsl:template match="*" mode="singleAuthorAddress">
-		<xsl:variable name="lCurrentNode" select="." />
-		<xsl:variable name="lAffId" select="php:function('getContributorAffId', string($lCurrentNode/@instance_id))"></xsl:variable>
-
-		<div class="P-Single-Author-Address">
-			<span class="P-Address-Symbol">
-				<xsl:value-of select="php:function('getUriSymbol', string($lAffId))" /><xsl:text> </xsl:text>
-			</span>
-		    <xsl:apply-templates select="./fields/*[@id='9']" mode="formatting_nospace"/><xsl:text>, </xsl:text>
-            <xsl:apply-templates select="./fields/*[@id='10']" mode="formatting_nospace"/><xsl:text>, </xsl:text>
-            <xsl:apply-templates select="./fields/*[@id='11']" mode="formatting_nospace"/>
-		</div>
-	</xsl:template>
-
-	<xsl:template match="*" mode="singleCorrespondingAuthor">
-		<span>
-			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span>
-				<xsl:attribute name="field_id" >6</xsl:attribute>
-				<xsl:value-of select="./fields/*[@id=6]"></xsl:value-of>
-			</span>
-			<xsl:text> </xsl:text>
-			<xsl:if test="count(./fields/*[@id=7]) &gt; 0">
-				<span>
-					<xsl:attribute name="field_id" >7</xsl:attribute>
-					<xsl:value-of select="./fields/*[@id=7]"></xsl:value-of>
-				</span>
-				<xsl:text> </xsl:text>
-			</xsl:if>
-			<span>
-				<xsl:attribute name="field_id" >8</xsl:attribute>
-				<xsl:value-of select="./fields/*[@id=8]"></xsl:value-of>
-			</span>
-			<xsl:text> (</xsl:text>
-			<a>
-				<xsl:attribute name="field_id" >4</xsl:attribute>
-				<xsl:attribute name="href" ><xsl:text>mailto:</xsl:text><xsl:apply-templates select="./fields/*[@id=4]" mode="formatting_nospace"/></xsl:attribute>
-				<xsl:apply-templates select="./fields/*[@id=4]" mode="formatting_nospace"/>
-			</a>
-			<xsl:text>)</xsl:text>
-		</span>
-	</xsl:template>
-
-	<xsl:template match="*" mode="singleCorrespondingAuthorInLicense">
-			<span>
-				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<span>
-					<xsl:attribute name="field_id" >6</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id=6]" mode="formatting_nospace"/>
-				</span>
-				<xsl:text> </xsl:text>
-				<xsl:if test="count(./fields/*[@id=7]) &gt; 0">
-					<span>
-						<xsl:attribute name="field_id" >7</xsl:attribute>
-						<xsl:apply-templates select="./fields/*[@id=7]" mode="formatting_nospace"/>
-					</span>
-					<xsl:text> </xsl:text>
-				</xsl:if>
-				<span>
-					<xsl:attribute name="field_id" >8</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id=8]" mode="formatting_nospace"/>
-				</span>
-			</span>
-	</xsl:template>
-
-	<!-- Темплейт за показване на абстракт-а и ключовите думи
-	 -->
-	<xsl:template match="*" mode="abstractAndKeywords">
-			<div>
-				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<xsl:if test="./fields/*[@id='18']/value != ''">
-					<div class="P-Article-Preview-Block">
-						<div class="P-Article-Preview-Block-Title">Abstract</div>
-						<div class="P-Article-Preview-Block-Content">
-							<xsl:attribute name="field_id" >18</xsl:attribute>
-							<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
-							<xsl:call-template name="markContentEditableField">
-								<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-								<xsl:with-param name="pFieldId">18</xsl:with-param>
-							</xsl:call-template>
-							<xsl:apply-templates select="./fields/*[@id=18]" mode="formatting"/>
-						</div>
-					</div>
-				</xsl:if>
-				<xsl:if test="./fields/*[@id='19']/value != ''">
-					<div class="P-Article-Preview-Block">
-						<div class="P-Article-Preview-Block-Title">Keywords</div>
-						<div class="P-Article-Preview-Block-Content">
-							<xsl:attribute name="field_id">19</xsl:attribute>
-							<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
-							<xsl:call-template name="markContentEditableField">
-								<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-								<xsl:with-param name="pFieldId">19</xsl:with-param>
-							</xsl:call-template>
-							<xsl:apply-templates select="./fields/*[@id=19]" mode="formatting"/>
-						</div>
-					</div>
-				</xsl:if>
-			</div>
-	</xsl:template>
-
 	<!-- Default-ен празен темплейт.
 		Секциите които искаме да мачнем ще ги специфицираме ръчно
 	 -->
 	<xsl:template match="*" mode="bodySections"></xsl:template>
-
-	<!-- Introduction -->
-	<xsl:template match="*[@object_id='16']" mode="bodySections">
-		<xsl:if test="./fields/*[@id='20']/value != ''">
-			<xsl:variable name="lSecTitle">Introduction</xsl:variable>
-			<div class="P-Article-Preview-Block">
-				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<!--anchor-->
-				<span class="anchor" id="introduction"></span>
-				<div class="P-Article-Preview-Block-Title"><xsl:value-of select="$lSecTitle"></xsl:value-of></div>
-				<div class="P-Article-Preview-Block-Content">
-					<xsl:attribute name="field_id">20</xsl:attribute>
-					<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
-					<xsl:call-template name="markContentEditableField">
-						<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-						<xsl:with-param name="pFieldId">20</xsl:with-param>
-					</xsl:call-template>
-					<xsl:apply-templates select="./fields/*[@id='20']" mode="formatting"/>
-				</div>
-				<xsl:apply-templates mode="bodySubsection"/>
-			</div>
-		</xsl:if>
-	</xsl:template>
-
 
 	<!-- Discussions -->
 	<xsl:template match="*[@object_id='58']" mode="bodySections">
@@ -501,7 +293,7 @@
 					<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
 					<xsl:with-param name="pFieldId">211</xsl:with-param>
 				</xsl:call-template>
-				<xsl:value-of select="$lSecTitle"></xsl:value-of>
+				<xsl:copy-of select="$lSecTitle"/>
 			</span>
 			<xsl:text> </xsl:text>
 			<span>
@@ -529,7 +321,7 @@
 					<xsl:with-param name="pFieldId">211</xsl:with-param>
 				</xsl:call-template>
 				<xsl:attribute name="field_id">211</xsl:attribute>
-				<xsl:value-of select="$lSecTitle"></xsl:value-of>
+				<xsl:copy-of select="$lSecTitle"/>
 			</span>
 			<xsl:text> </xsl:text>
 			<span>
@@ -575,7 +367,7 @@
 								<xsl:with-param name="pFieldId">31</xsl:with-param>
 							</xsl:call-template>
 							<xsl:attribute name="field_id">31</xsl:attribute>
-							<xsl:value-of select="$lSecTitle"></xsl:value-of>
+							<xsl:copy-of select="$lSecTitle"/>
 						</div>
 						<div class="P-Article-Ident-KeyNotes">
 							<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
@@ -2027,51 +1819,7 @@
 			</xsl:for-each>
 
 		</div>
-	</xsl:template>
-
-	<!-- Single supplementary material
-	 -->
-	<xsl:template match="*" mode="singleSupplementaryMaterial">
-		<div class="P-Article-Preview-Block-Content">
-			<xsl:choose>
-				<xsl:when test="./@id = 214">
-					<div class="P-Article-Preview-Block-Subsection-Title">
-						<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
-						<xsl:apply-templates select="./value" mode="formatting"/>
-					</div>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:choose>
-						<xsl:when test="./@id = 222">
-							<xsl:variable name="lFileName" select="php:function('getFileNameById', string(./value))"></xsl:variable>
-							<xsl:variable name="lUploadedFileName" select="php:function('getUploadedFileNameById', string(./value))"></xsl:variable>
-							<span>
-								<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
-								<xsl:attribute name="class">P-Article-Preview-Block-Subsection-Title P-Indent</xsl:attribute>
-								<xsl:apply-templates select="./value" mode="formatting_uploaded_file">
-									<xsl:with-param name="lFileName" select="$lFileName"></xsl:with-param>
-									<xsl:with-param name="lUploadedFileName" select="$lUploadedFileName"></xsl:with-param>
-								</xsl:apply-templates>
-							</span>
-						</xsl:when>
-						<xsl:otherwise>
-							<span>
-								<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
-								<xsl:attribute name="class">P-Article-Preview-Block-Subsection-Title P-Indent</xsl:attribute>
-								<xsl:apply-templates select="./@field_name" mode="formatting"/>
-							</span>
-							<xsl:text>: </xsl:text>
-							<span>
-								<xsl:attribute name="class">P-Inline</xsl:attribute>
-								<xsl:apply-templates select="./value" mode="formatting"/>
-							</span>
-						</xsl:otherwise>
-					</xsl:choose>
-
-				</xsl:otherwise>
-			</xsl:choose>
-		</div>
-	</xsl:template>
+	</xsl:template>	
 
 	<!-- Single supplementary material
 	 -->
@@ -2094,177 +1842,6 @@
 			</xsl:for-each>
 		</li>
 	</xsl:template>
-
-	<!-- Single figure or plate -->
-	<xsl:template match="*" mode="figures">
-		<xsl:variable name="lFigId" select="php:function('getFigureId', string(./@id))"></xsl:variable>
-		<xsl:choose>
-			<xsl:when test="@is_plate"> <!-- plate -->
-				<xsl:variable name="lPlateType" select="./@type"></xsl:variable>
-					<div class="P-Article-Preview-Base-Info-Block">
-						<xsl:attribute name="plate_id">
-							<xsl:value-of select="./@id"/>
-						</xsl:attribute>
-						<xsl:attribute name="contenteditable">false</xsl:attribute>
-						<xsl:attribute name="figure_position">
-							<xsl:value-of select="$lFigId"/>
-						</xsl:attribute>
-						<div class="P-Article-Preview-Picture-Holder">
-							<xsl:choose>
-								<xsl:when test="$lPlateType = 2">
-									<xsl:for-each select="./url">
-										<xsl:apply-templates select="." mode="plate_photo">
-											<xsl:with-param name="picUrl" select="."></xsl:with-param>
-											<xsl:with-param name="picId" select="./@id"></xsl:with-param>
-											<xsl:with-param name="picDesc" select="following::photo_description"></xsl:with-param>
-										</xsl:apply-templates>
-									</xsl:for-each>
-								</xsl:when>
-								<xsl:when test="$lPlateType = 4">
-									<xsl:for-each select="./url">
-										<xsl:apply-templates select="." mode="plate_photo">
-											<xsl:with-param name="picUrl" select="."></xsl:with-param>
-											<xsl:with-param name="picId" select="./@id"></xsl:with-param>
-											<xsl:with-param name="picDesc" select="following::photo_description"></xsl:with-param>
-										</xsl:apply-templates>
-										<xsl:if test="position() mod 2 = 0 and position() != last()">
-											<xsl:text disable-output-escaping="yes"><![CDATA[<div class="P-Clear"></div>]]></xsl:text>
-										</xsl:if>
-									</xsl:for-each>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:for-each select="./url">
-										<xsl:apply-templates select="." mode="plate_photo">
-											<xsl:with-param name="picUrl" select="."></xsl:with-param>
-											<xsl:with-param name="picId" select="./@id"></xsl:with-param>
-											<xsl:with-param name="picDesc" select="following::photo_description"></xsl:with-param>
-										</xsl:apply-templates>
-									</xsl:for-each>
-								</xsl:otherwise>
-							</xsl:choose>
-						</div>
-						<div class="P-Article-Preview-Picture-Name"><xsl:text>Figure </xsl:text><xsl:value-of select="$lFigId" /></div>
-						<div class="P-Article-Preview-Picture-Plus-Icon"></div>
-						<div class="P-Clear"></div>
-						<div class="P-Article-Preview-Picture-Desc">
-							<xsl:apply-templates select="./caption" mode="formatting"/>
-						</div>
-					</div>
-			</xsl:when>
-			<xsl:when test="@is_video"> <!-- video -->
-				<div class="P-Article-Preview-Base-Info-Block">
-					<xsl:attribute name="figure_id">
-						<xsl:value-of select="./@id"/>
-					</xsl:attribute>
-					<xsl:attribute name="contenteditable">false</xsl:attribute>
-					<xsl:attribute name="figure_position">
-						<xsl:value-of select="$lFigId"/>
-					</xsl:attribute>
-					<div class="P-Article-Preview-Picture-Holder">
-						<iframe width="560" height="315" frameborder="0">
-							<xsl:attribute name="src">
-								<xsl:text>http://www.youtube.com/embed/</xsl:text>
-								<xsl:value-of select="php:function('getYouTubeId', string(./url))"/>
-							</xsl:attribute>
-						</iframe>
-					</div>
-					<div class="P-Article-Preview-Picture-Desc">
-						<div class="P-Article-Preview-Picture-Name">
-							<xsl:text>Figure </xsl:text><xsl:value-of select="$lFigId" /><xsl:text>. </xsl:text>
-						</div>
-						<xsl:apply-templates select="./caption" mode="formatting"/>
-					</div>
-					<div class="P-Clear"></div>
-				</div>
-			</xsl:when>
-			<xsl:otherwise> <!-- figure -->
-				<div class="P-Article-Preview-Base-Info-Block">
-					<xsl:attribute name="figure_id">
-						<xsl:value-of select="./@id"/>
-					</xsl:attribute>
-					<xsl:attribute name="contenteditable">false</xsl:attribute>
-					<xsl:attribute name="figure_position">
-						<xsl:value-of select="$lFigId"/>
-					</xsl:attribute>
-					<div class="P-Article-Preview-Picture-Holder">
-						<a target="_blank">
-							<xsl:attribute name="href">
-								<xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
-								<xsl:value-of select="./@id"/>
-							</xsl:attribute>
-							<img>
-								<xsl:attribute name="src">
-									<xsl:value-of select="./url"/>
-								</xsl:attribute>
-							</img>
-						</a>
-						<a target="_blank">
-							<xsl:attribute name="href">
-								<xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
-								<xsl:value-of select="./@id"/>
-							</xsl:attribute>
-							<div class="P-Article-Preview-Picture-Zoom"></div>
-						</a>
-					</div>
-					<div class="P-Article-Preview-Picture-Name"><xsl:text>Figure </xsl:text><xsl:value-of select="$lFigId" /></div>
-					<div class="P-Article-Preview-Picture-Plus-Icon"></div>
-					<div class="P-Clear"></div>
-					<div class="P-Article-Preview-Picture-Desc">
-						<xsl:apply-templates select="./caption" mode="formatting"/>
-					</div>
-				</div>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<!-- Single table -->
-	<xsl:template match="*" mode="tables">
-		<xsl:variable name="lTablePosition" select="./@position"></xsl:variable>
-		<div class="P-Article-Preview-Block">
-			<xsl:attribute name="table_id">
-				<xsl:value-of select="./@id"/>
-			</xsl:attribute>
-			<xsl:attribute name="table_position">
-				<xsl:value-of select="$lTablePosition"/>
-			</xsl:attribute>
-			<div class="P-Article-Preview-Table-Header"><xsl:text>(Table </xsl:text><xsl:value-of select="$lTablePosition" />) <xsl:apply-templates select="./title" mode="formatting"/></div>
-			<div class="P-Clear"></div>
-			<div class="P-Article-Preview-Table-Desc">
-				<xsl:apply-templates select="./description" mode="table_formatting"/>
-			</div>
-		</div>
-	</xsl:template>
-
-	<!-- Single plate photo -->
-	<xsl:template match="*" mode="plate_photo">
-		<xsl:param name="picUrl"></xsl:param>
-		<xsl:param name="picId"></xsl:param>
-		<xsl:param name="picDesc"></xsl:param>
-		<div class="singlePlatePhoto">
-			<a target="_blank">
-				<xsl:attribute name="href">
-					<xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
-					<xsl:value-of select="$picId" />
-				</xsl:attribute>
-				<img>
-					<xsl:attribute name="src">
-						<xsl:value-of select="$picUrl"/>
-					</xsl:attribute>
-				</img>
-			</a>
-			<a target="_blank">
-				<xsl:attribute name="href">
-					<xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
-					<xsl:value-of select="$picId" />
-				</xsl:attribute>
-				<div class="P-Article-Preview-Picture-Zoom"></div>
-			</a>
-			<div class="P-Article-Preview-Picture-Desc">
-				<xsl:value-of select="$picDesc" />
-			</div>
-		</div>
-	</xsl:template>
-
 
 	<!-- NEW Templates -->
 

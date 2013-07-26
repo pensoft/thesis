@@ -1364,7 +1364,7 @@ function showAssignmentSEDueDate($pSEName, $pRoundDueDate, $pDocumentId, $pRound
 								<span class="subj_editor_name_class_1">' . $pSEName . '</div>
 							</td>
 							<td align="center">
-								<span class="se_due_date_txt">Review assignment is due in ' . $lDaysDiff . ' days</span> <img src="../i/"> &nbsp;<img class="pointer" onclick="openDueDatePopUp(\'/updateduedate.php?action=reviewers_assignment&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)" src="../i/edit.png" src="../i/edit.png"/>
+								<span class="se_due_date_txt">Review assignments are ' . $lDaysDiff . ' days late</span> &nbsp;<img class="pointer" onclick="openDueDatePopUp(\'/updateduedate.php?action=reviewers_assignment&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)" src="../i/edit.png" src="../i/edit.png"/>
 							</td>
 							<td align="right">
 								<a href="view_document.php?id=' . $pDocumentId . '&view_role=3&mode=1' . ($pRoleId == JOURNAL_EDITOR_ROLE ? '&e_back=1' : '') . '">Invite Reviewers</a>
@@ -2442,7 +2442,7 @@ function decisionFormPreviewMode($pReadOnly, $pRole, $pName, $pDecision, $pUserL
 	}else{
 		$lRes .= '<div class="box clearBorder" style="width: 155px;" id="changes_display_holder">
 				<h3>View</h3>
-				<input type="radio" id="changes" name="changes_display" checked="checked" value="1" /> <label for="final">Changes</label>
+				<input type="radio" id="changes" name="changes_display" checked="checked" value="1" /> <label for="changes">Changes</label>
 				<input type="radio" id="final" name="changes_display" /> <label for="final"> Final </label>
 					<script type="text/javascript">
 						$("#changes_display_holder :radio").bind("change", toggleChangesDisplay);

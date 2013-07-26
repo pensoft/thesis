@@ -12,9 +12,8 @@ CREATE OR REPLACE FUNCTION pjs.spDocumentInviteReviewerByAuthor(
 $BODY$
 	DECLARE
 		lRes ret_spDocumentInviteReviewer;
-		lStateId int;
+		cStateId CONSTANT int := 7;
 	BEGIN		
-		lStateId = 7;
 		-- Check that the current user is submitting_author
 		IF NOT EXISTS (
 			SELECT d.submitting_author_id
@@ -26,10 +25,10 @@ $BODY$
 		
 		IF pOper = 1 THEN -- INSERT
 			--Invite the reviewer
-			INSERT INTO pjs.document_user_invitations(uid, document_id, round_id, added_by_type_id, state_id) 
-			SELECT pReviewerId, pDocumentId, d.current_round_id, pAddedByType, lStateId
-			FROM pjs.documents d
-			WHERE d.id = pDocumentId;
+			INSERT INTO pjs.document_user_invitations (uid, document_id, round_id, added_by_type_id, state_id)
+				SELECT pReviewerId, pDocumentId, d.current_round_id, pAddedByType, cStateId
+				FROM pjs.documents d
+				WHERE d.id = pDocumentId;
 		ELSEIF pOper = 2 THEN -- DELETE
 			DELETE FROM pjs.document_user_invitations WHERE id = pInvitationId;
 		END IF;

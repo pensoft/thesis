@@ -196,8 +196,9 @@ class mJournal extends emBase_Model {
 				ORDER BY rating DESC
 				) AS oaeuaoeouaeouoeu
 				) AS aouoeuoeuoe
-				WHERE rating >= $limit
-				OR position <= 2
+				WHERE id NOT IN (SELECT uid FROM pjs.document_user_invitations 
+									WHERE document_id = $pDocumentId AND round_id = (SELECT current_round_id FROM pjs.documents WHERE id = $pDocumentId) ) 
+				  AND (rating >= $limit OR position <= 2)
 				limit 20)
 							
 			

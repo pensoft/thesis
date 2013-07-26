@@ -63,8 +63,7 @@ class cCreate_Pwt_Document extends cBase_Controller {
 			return;
 		}*/
 
-		$lDocumentData['value'] = $this->getDocumentXML();
-
+		$lDocumentData['value'] = $this->getDocumentXML();		
 		// checking for errors
 		if(in_array($lDocumentData['value'], array('1', '2'))) {
 			$this->m_errCnt ++;

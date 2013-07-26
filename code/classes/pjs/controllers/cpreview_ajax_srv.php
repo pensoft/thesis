@@ -60,9 +60,10 @@ class cPreview_Ajax_Srv extends cBase_Controller {
 	}
 
 	function GetDocumentPreview(){
-
+// 		var_dump($this->m_versionXml);
 		$lQueryResult = executeExternalQuery(PWT_VERSION_PREVIEW_URL, array('document_id' => $this->m_documentPwtId, 'xml' => $this->m_versionXml, 'readonly_preview' => $this->m_ReadOnlyPreview));
 		$lQueryResult = json_decode($lQueryResult, true);
+// 		var_dump($lQueryResult['preview']);
 
 		if(!is_array($lQueryResult) || $lQueryResult['err_cnt'] || $lQueryResult['preview'] == ''){
 			$this->m_errCnt++;

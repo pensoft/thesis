@@ -1638,7 +1638,12 @@ function scrollToForm(){
 	
 	var lFormEl = $('#P-Version-PopUp-Form');
 	var lElemToScroll = $(lFormEl).find('.errstr:visible:first');
-
+	if(!lElemToScroll.length){
+		lElemToScroll = lFormEl;
+		if(!lFormEl){
+			return;
+		}
+	}
 	$('html, body').animate( {
 		scrollTop : ( $(lElemToScroll).offset().top - lHeaderHeight )
 	},
@@ -1646,6 +1651,14 @@ function scrollToForm(){
 		duration : 800
 	});
 }
+
+function scrollTo(anchor){
+	$('html, body').animate( 
+		{ scrollTop: ( $(anchor).offset().top - $('.documentHeader').height() )}, 
+		{ duration: 800}
+	);
+}
+
 var gPreviewAjaxSrv = gAjaxUrlsPrefix + 'preview_srv.php';
 function getDocumentPreview(pVersionId, pReadOnlyFlag, pPreviewHolderId, pArticleHolderId){
 	$('#P-Ajax-Loading-Image').show();

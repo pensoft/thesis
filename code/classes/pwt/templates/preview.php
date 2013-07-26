@@ -10,7 +10,7 @@ $gTemplArr = array(
 			<div id="docEditHeader">
 				<div class="box clearBorder" style="width: 155px;" id="changes_display_holder">
 					<h3>View</h3>
-					<input type="radio" id="changes" name="changes_display" checked="checked" value="1" /> <label for="final">Changes</label>
+					<input type="radio" id="changes" name="changes_display" checked="checked" value="1" /> <label for="changes">Changes</label>
 					<input type="radio" id="final" name="changes_display" /> <label for="final"> Final </label>
 					<script type="text/javascript">
 						$("#changes_display_holder :radio").bind("change", toggleChangesDisplay);

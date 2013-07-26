@@ -9,9 +9,10 @@ require_once($docroot . '/lib/static.php');
 $lDocumentId = (int)$_REQUEST['document_id'];
 $lIp = $_SERVER['REMOTE_ADDR'];
 $lIpFilterCheck = ipfilter($lIp, array(ACCEPT_REQUEST_BY_IP));
+// $lIpFilterCheck = 1;
 
 if($lDocumentId && $lIpFilterCheck) {
-	$lDocumentXML = getDocumentXml($lDocumentId, SERIALIZE_INTERNAL_MODE, false, false, 0, true);
+	$lDocumentXML = getDocumentXml($lDocumentId, SERIALIZE_INTERNAL_MODE, false, true, 0, true);
 // 	var_dump($lDocumentXML);
 	if($lDocumentXML) {
 		echo $lDocumentXML;

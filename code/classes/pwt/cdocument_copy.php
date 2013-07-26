@@ -121,7 +121,7 @@ class cdocument_copy{
 				JOIN pwt.document_object_instances i ON true
 				WHERE f.field_id = iv.field_id AND f.object_id = i.object_id AND t.id = iv.value_int 
 					AND i.id = iv.instance_id AND i.document_id = ' . (int) $this->m_newDocumentId . '
-					AND f.control_type = ' . (int) FIELD_HTML_FILE_UPLOAD_TYPE . ' 
+					AND f.control_type IN (' . (int) FIELD_HTML_FILE_UPLOAD_TYPE . ', ' . (int)FIELD_HTML_FILE_UPLOAD_FIGURE_IMAGE . ', ' . (int)FIELD_HTML_FILE_UPLOAD_FIGURE_PLATE_IMAGE . ') 
 		';
 		$this->ExecuteSqlQuery($lSql);
 		//Update the original name in the media table
