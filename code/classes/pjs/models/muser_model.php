@@ -179,16 +179,6 @@ class mUser_Model extends emBase_Model {
 	 * @return boolean
 	 */
 	function CheckIfUserIsJournalDedicatedReviewer($pUid, $pJournalId) {
-		$lSql = "SELECT id
-		FROM pjs.documents d JOIN
-		 	 pjs.document_user_invitations dui ON dui.document_id = d.id
-		WHERE d.journal_id = $pJournalId 
-		  AND dui.uid = $pUid
-		  AND dui.state_id in (" . REVIEWER_INVITATION_NEW_STATE . ', ' . REVIEWER_CONFIRMED_STATE . ', ' . REVIEWER_CONFIRMED_BY_SE_STATE . ")
-		  AND dui.role_id = " . DEDICATED_REVIEWER_ROLE
-		  ;
-		
-		
 		// Checks if the user has been any added successfully as dedicated
 		// reviewer for any document in the specified journal
 		$lSql = 'SELECT d.id
@@ -203,7 +193,7 @@ class mUser_Model extends emBase_Model {
 		$lSql = 'SELECT d.id
 		FROM pjs.documents d
 		JOIN pjs.document_user_invitations du ON du.document_id = d.id AND d.current_round_id = du.round_id
-		WHERE d.journal_id = ' . (int) $pJournalId . ' AND du.uid = ' . (int) $pUid . ' AND du.role_id = ' . (int) DEDICATED_REVIEWER_ROLE . '
+		WHERE d.journal_id = ' . (int) $pJournalId . ' AND du.uid = ' . (int) $pUid . ' AND du.role_id in (' . DEDICATED_REVIEWER_ROLE . ', ' . COMMUNITY_REVIEWER_ROLE . ' )
 			AND d.state_id = ' . (int) DOCUMENT_IN_REVIEW_STATE . '
 		LIMIT 1
 		';
