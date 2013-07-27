@@ -3,7 +3,7 @@ CREATE TYPE ret_spDeleteDocument AS (
 	result int
 );
 
-CREATE OR REPLACE FUNCTION spDeleteDocument(pDocumentId bigint)
+CREATE OR REPLACE FUNCTION pjs."spDeleteDocument"(pDocumentId bigint)
   RETURNS ret_spDeleteDocument AS
 $BODY$
 	DECLARE
@@ -38,6 +38,8 @@ $BODY$
 			JOIN pjs.document_versions dv ON dv.id = pdv.version_id
 			WHERE dv.document_id = pDocumentId
 		);
+
+		delete from pjs.msg where document_id = pDocumentId;
 		
 		-- delete from pwt_document_versions
 		DELETE FROM pjs.pwt_document_versions WHERE version_id IN (SELECT id FROM pjs.document_versions WHERE document_id = pDocumentId);
@@ -66,4 +68,4 @@ $BODY$
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE SECURITY DEFINER;
 
-GRANT EXECUTE ON FUNCTION spDeleteDocument(pDocumentId bigint) TO iusrpmt;
+GRANT EXECUTE ON FUNCTION pjs."spDeleteDocument"(pDocumentId bigint) TO iusrpmt;

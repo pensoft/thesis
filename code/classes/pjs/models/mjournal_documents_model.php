@@ -129,16 +129,8 @@ class mJournal_Documents_Model extends emBase_Model {
 	}
 	
 	function DeleteDocument($pDocumentId) {
-		$lResult = array();
-		$lCon = $this->m_con;
-		$lSql = 'SELECT * FROM spDeleteDocument(' . (int)$pDocumentId . ')';
-		
-		$lCon->Execute($lSql);
-		while(!$lCon->Eof()){
-			 $lResult[] = $lCon->mRs;
-			$lCon->MoveNext();
-		}
-		return $lResult;
+		$lSql = 'SELECT * FROM pjs."spDeleteDocument"(' . (int)$pDocumentId . ')';
+		return $this->ArrayOfRows($lSql);
 	}
 	
 	function GetJournalHomeArticles($pJournalId) {
