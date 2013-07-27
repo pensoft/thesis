@@ -274,12 +274,11 @@ class mTask_Model extends emBase_Model {
 		$lCon->Execute($lSql);
 	}
 	
-	function SendJustOneEmail($pTaskDetailId, $pTemplateNotes, $pCC) {
+	function SendJustOneEmail($pTaskDetailId, $pTemplateNotes) {
 		$lCon = $this->m_con;
 		$lSql = '
 			UPDATE pjs.email_task_details SET 
 				state_id = ' . (int)TASK_DETAIL_READY_STATE_ID . ', 
-				cc = \'' . $pCC . '\', 
 				template_notes = \'' . $pTemplateNotes . '\' 
 			WHERE id = ' . $pTaskDetailId . ' AND state_id = ' . (int)TASK_DETAIL_NEW_STATE_ID;
 		$lCon->Execute($lSql);
