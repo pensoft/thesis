@@ -37,3 +37,7 @@ update pwt.document_template_objects set xml_node_name = 'reference_single_citat
 update pwt.document_template_objects set xml_node_name = 'authors_editors_institutions' where object_id = 92;
 update pwt.document_template_objects set xml_node_name = 'authors_institutions' where object_id = 100;
 update pwt.document_template_objects set xml_node_name = 'authors' where object_id = 101;
+
+-- da pitam dan4o...!!!
+update pwt.document_template_objects set xml_node_name = 'treatment1' where object_id = 216;
+update pwt.template_objects set xml_node_name = 'treatment1' where object_id = 216;

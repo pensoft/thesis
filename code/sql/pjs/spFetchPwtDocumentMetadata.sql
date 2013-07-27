@@ -44,9 +44,16 @@ $BODY$
 		lMediaId int;
 		lPWTPaperTypeId int;
 		lTempXmlValText text;
+		lAuthorFirstNameXPathVal xml[];
+		lAuthorMiddleNameXPathVal xml[];
+		lAuthorLastNameXPathVal xml[];
+		lAffiliationXPathVal xml[];
+		lCityXPathVal xml[];
+		lCountryXPathVal xml[];
 		
 		lInactiveDocumentUserStateId int = 2;
 		lActiveDocumentUserStateId int = 1;
+		lOrd int;
 	BEGIN		
 		lAuthorRoleId = 11;
 		
@@ -107,13 +114,22 @@ $BODY$
 			state_id = lInactiveDocumentUserStateId
 		WHERE document_id = pDocumentId AND role_id = lAuthorRoleId;
 		
+		lTempNodes := xpath('/document/objects//*[@object_id="9" or @object_id="153"]/*[@object_id="8"]', pDocumentXml);
+		lOrd = 1;
 		
-		lTempNodes := xpath('/document/objects//*[@object_id="9" or @object_id="153"]/*[@object_id="8"]/fields', pDocumentXml);
 		FOR lIter IN 
 			1 .. coalesce(array_upper(lTempNodes, 1), 0) 
 		LOOP
-			lAuthorXPathVal := xpath('/fields/*[@id="13"]/value/text()', lTempNodes[lIter]);
-			lCorrespondingAuthorXPathVal = xpath('/fields/*[@id="15"]/value/@value_id', lTempNodes[lIter]);
+			lAuthorXPathVal := xpath('/*[@object_id="8"]/fields/*[@id="13"]/value/text()', lTempNodes[lIter]);
+			lCorrespondingAuthorXPathVal = xpath('/*[@object_id="8"]/fields/*[@id="15"]/value/@value_id', lTempNodes[lIter]);
+			
+			lAuthorFirstNameXPathVal := xpath('/*[@object_id="8"]/fields/*[@id="6"]/value/text()', lTempNodes[lIter]);
+			lAuthorMiddleNameXPathVal := xpath('/*[@object_id="8"]/fields/*[@id="7"]/value/text()', lTempNodes[lIter]);
+			lAuthorLastNameXPathVal := xpath('/*[@object_id="8"]/fields/*[@id="8"]/value/text()', lTempNodes[lIter]);
+			
+			lAffiliationXPathVal := xpath('/*[@object_id="8"]/*[@object_id="5"]/fields/*[@id="9"]/value/text()', lTempNodes[lIter]);
+			lCityXPathVal := xpath('/*[@object_id="8"]/*[@object_id="5"]/fields/*[@id="10"]/value/text()', lTempNodes[lIter]);
+			lCountryXPathVal := xpath('/*[@object_id="8"]/*[@object_id="5"]/fields/*[@id="11"]/value/text()', lTempNodes[lIter]);
 			
 			lAuthorId = spConvertAnyToInt(lAuthorXPathVal[1]);
 			lCorrespondingAuthorFlag = spConvertAnyToInt(lCorrespondingAuthorXPathVal[1]);
@@ -128,14 +144,24 @@ $BODY$
 					WHERE document_id = pDocumentId AND role_id = lAuthorRoleId AND uid = lAuthorId
 				) THEN
 					UPDATE pjs.document_users SET
-						state_id = lActiveDocumentUserStateId
+						state_id = lActiveDocumentUserStateId,
+						first_name = lAuthorFirstNameXPathVal[1]::text,
+						middle_name = lAuthorMiddleNameXPathVal[1]::text,
+						last_name = lAuthorLastNameXPathVal[1]::text,
+						affiliation = lAffiliationXPathVal[1]::text,
+						city = lCityXPathVal[1]::text,
+						country = lCountryXPathVal[1]::text,
+						ord = lOrd
 					WHERE document_id = pDocumentId AND role_id = lAuthorRoleId AND uid = lAuthorId;
 				ELSE
-					INSERT INTO pjs.document_users(document_id, role_id, uid, co_author) VALUES(pDocumentId, lAuthorRoleId, lAuthorId, lCorrespondingAuthorFlag);
+					INSERT INTO pjs.document_users(document_id, role_id, uid, co_author, first_name, middle_name, last_name, affiliation, city, country, ord) 
+						VALUES(pDocumentId, lAuthorRoleId, lAuthorId, lCorrespondingAuthorFlag, lAuthorFirstNameXPathVal[1]::text, lAuthorMiddleNameXPathVal[1]::text, lAuthorLastNameXPathVal[1]::text, lAffiliationXPathVal[1]::text, lCityXPathVal[1]::text, lCountryXPathVal[1]::text, lOrd);
 				END IF;
+				lOrd = lOrd + 1;
 			END IF;
+			
 		END LOOP;
-	
+		
 		/*Document categories metadata*/
 		-- Fetch all Taxon classifications
 		lTempNodes := xpath('/document/objects//*[@object_id="82"]/fields/*[@id="244"]/value/@value_id', pDocumentXml);

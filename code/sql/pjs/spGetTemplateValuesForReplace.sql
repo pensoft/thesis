@@ -102,18 +102,17 @@ BEGIN
 	lPanelDueDate
 	
 	d.name,
-	a.author_list,
+	(SELECT aggr_concat_coma(a.author_name)
+	FROM (
+		SELECT (du.first_name || ' ' || du.last_name) as author_name 
+		FROM pjs.document_users du
+		WHERE du.document_id = pDocumentId AND du.role_id = cAuthorRoleId AND du.state_id = 1
+		ORDER BY du.ord
+	) a) as author_list,
 	drt.name,
 	d.panel_duedate
 	FROM pjs.documents d
 	JOIN pjs.document_review_types drt ON drt.id = d.document_review_type_id
-	LEFT JOIN (
-		SELECT aggr_concat_coma(u.first_name || ' ' || u.last_name) as author_list, du.document_id
-		FROM pjs.document_users du
-		JOIN usr u ON u.id = du.uid
-		WHERE document_id = pDocumentId AND du.role_id = cAuthorRoleId
-		GROUP BY du.document_id
-	) a ON a.document_id = d.id
 	WHERE d.id = pDocumentId;
 
 	SELECT INTO lRes.panreview_due_days (lPanelDueDate::date - now()::date);

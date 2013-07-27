@@ -230,11 +230,20 @@ $BODY$
 		END IF;
 		
 		-- document authors
-		SELECT INTO lRes.author_name aggr_concat_coma(u.first_name || ' ' || u.last_name)
+		/*SELECT INTO lRes.author_name aggr_concat_coma(du.first_name || ' ' || du.last_name)
 		FROM pjs.document_users du
-		JOIN usr u ON u.id = du.uid
-		WHERE du.document_id = pDocumentId AND du.role_id = lARoleType
-		GROUP BY du.document_id;
+		WHERE du.document_id = pDocumentId AND du.role_id = lARoleType AND du.state_id = 1
+		GROUP BY du.document_id, du.ord
+		ORDER BY du.document_id, du.ord;
+		*/
+		SELECT INTO lRes.author_name aggr_concat_coma(a.author_name)
+		FROM (
+			SELECT (du.first_name || ' ' || du.last_name) as author_name 
+			FROM pjs.document_users du
+			WHERE du.document_id = pDocumentId AND du.role_id = lARoleType AND du.state_id = 1
+			ORDER BY du.ord
+		) a;
+		
 		
 		IF pRoleType = lARoleType THEN
 			lVersionType = 1;
