@@ -2372,25 +2372,25 @@ function displayChangesButtons($pRole) {
 		return '<div class="box">
 					<h3>Changes</h3>
 					<div class="optionHolder">
-						<a href="#" onclick="AcceptAllChanges()">
-							<img src="/i/adddoc.png" alt="add document" /><span>Accept</span>
+						<a href="#" onclick="if(confirm(\'Are you sure you want to ACCEPT ALL changes?\')){AcceptAllChanges();}">
+							<img src="/i/adddoc.png" alt="Accept all changes" /><span>Accept All</span>
 						</a>
 					</div>
 					<div class="optionHolder">
-						<a href="#" onclick="RejectAllChanges()">
-							<img src="/i/removedoc.png" alt="add document" /><span>Reject</span>
+						<a href="#" onclick="if(confirm(\'Are you sure you want to REJECT ALL changes?\')){RejectAllChanges();}">
+							<img src="/i/removedoc.png" alt="Reject all changes" /><span>Reject All</span>
 						</a>
 					</div>
 					<div class="arrow">
 						<a href="#">
-							<img src="/i/docleftarrow.png" alt="add document" />
+							<img src="/i/docleftarrow.png" alt="Go to previous change" />
 							<span>Previous</span>
 						</a>
 					</div>
 					<br /><br />
 					<div class="arrow">
 						<a href="#">
-							<img src="/i/docrightarrow.png" alt="add document" />
+							<img src="/i/docrightarrow.png" alt="Go to next change" />
 							<span>Next</span>
 						</a>
 					</div>
@@ -2445,7 +2445,9 @@ function decisionFormPreviewMode($pReadOnly, $pRole, $pName, $pDecision, $pUserL
 				<input type="radio" id="changes" name="changes_display" checked="checked" value="1" /> <label for="changes">Changes</label>
 				<input type="radio" id="final" name="changes_display" /> <label for="final"> Final </label>
 					<script type="text/javascript">
-						$("#changes_display_holder :radio").bind("change", toggleChangesDisplay);
+						$("#changes_display_holder :radio").bind("change", function(){
+							toggleChangesDisplay();
+						});
 					</script>
 				</div>
 				' . displayChangesButtons($pRole) . '

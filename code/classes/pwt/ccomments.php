@@ -395,6 +395,7 @@ class ccomments extends csimple {
 								'VType' => 'string',
 								'CType' => 'textarea',
 								'Checks' => array (),
+								'AllowNulls' => true,
 								// ~ CKMAXSTRLEN('{msg}', 4096),
 								'AddTags' => array (
 										'onfocus' => 'changeFocus(1, this)',
