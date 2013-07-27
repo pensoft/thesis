@@ -2,11 +2,11 @@
 
 -- DROP FUNCTION pjs.spdocumentinvitereviewer(bigint, integer[], integer, integer, integer);
 
-﻿/*DROP TYPE ret_spDocumentInviteReviewer CASCADE;
-CREATE TYPE ret_spDocumentInviteReviewer AS (
-	result int,
-	event_id bigint
-);*/
+--DROP TYPE ret_spDocumentInviteReviewer CASCADE;
+--CREATE TYPE ret_spDocumentInviteReviewer AS (
+--	result int,
+--	event_id bigint
+--);
 
 CREATE OR REPLACE FUNCTION pjs."spDocumentInviteReviewer"(pdocumentid bigint, previewerids integer[], puid integer, proleid integer, proundid integer)
   RETURNS SETOF ret_spdocumentinvitereviewer AS
