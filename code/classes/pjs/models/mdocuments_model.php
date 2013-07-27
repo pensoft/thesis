@@ -241,7 +241,7 @@ class mDocuments_Model extends emBase_Model {
 			$lCon = $this->m_con;
 			//The checks whether the current user is journal manager or the specified se is SE of the journal of the document are performed in the SP
 
-			$lSql = 'SELECT * FROM pjs.spDocumentInviteReviewer(
+			$lSql = 'SELECT * FROM pjs."spDocumentInviteReviewer"(
 					' . (int)$pDocumentId . ',
 					ARRAY[' . $pInvitedUsrId . ']::int[],
 					' . $pUsrId . ',
@@ -338,7 +338,7 @@ class mDocuments_Model extends emBase_Model {
 			$lCon = $this->m_con;
 			//The checks whether the current user is journal manager or the specified se is SE of the journal of the document are performed in the SP
 
-			$lSql = 'SELECT * FROM pjs.spDocumentInviteReviewer(' . (int)$pDocumentID . ', ' . $pReviewerIds . ', ' . (int)$pUid . ', ' . (int)$pRole . ', ' . $pRoundId . ');';
+			$lSql = 'SELECT * FROM pjs."spDocumentInviteReviewer"(' . (int)$pDocumentID . ', ' . $pReviewerIds . ', ' . (int)$pUid . ', ' . (int)$pRole . ', ' . $pRoundId . ');';
 			//var_dump($lSql);
 			//exit;
 			if(!$lCon->Execute($lSql)){
