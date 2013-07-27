@@ -55,22 +55,22 @@ class cdocument_xml_validator extends csimple {
 	}
 
 	function GetXmlErrors() {
-		unlink('/tmp/validation.log');
-		file_put_contents('/tmp/validation.log', 'GetXmlSchemaValidation() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		//unlink('/tmp/validation.log');
+		//file_put_contents('/tmp/validation.log', 'GetXmlSchemaValidation() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		$this->GetXmlSchemaValidation();
-		file_put_contents('/tmp/validation.log', 'GetXmlSchemaValidation() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
-		file_put_contents('/tmp/validation.log', 'GetAllNodesErrsByLineNum() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		//file_put_contents('/tmp/validation.log', 'GetXmlSchemaValidation() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		//file_put_contents('/tmp/validation.log', 'GetAllNodesErrsByLineNum() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		$this->GetAllNodesErrsByLineNum();
-		file_put_contents('/tmp/validation.log', 'GetAllNodesErrsByLineNum() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
-		file_put_contents('/tmp/validation.log', 'GroupXMLErrors() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		//file_put_contents('/tmp/validation.log', 'GetAllNodesErrsByLineNum() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		//file_put_contents('/tmp/validation.log', 'GroupXMLErrors() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		$this->GroupXMLErrors();
-		file_put_contents('/tmp/validation.log', 'GroupXMLErrors() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
-		file_put_contents('/tmp/validation.log', 'GetCitationErrors() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		//file_put_contents('/tmp/validation.log', 'GroupXMLErrors() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		//file_put_contents('/tmp/validation.log', 'GetCitationErrors() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		$this->GetCitationErrors();
-		file_put_contents('/tmp/validation.log', 'GetCitationErrors() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
-		file_put_contents('/tmp/validation.log', 'GetCustomCheckErrors() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		//file_put_contents('/tmp/validation.log', 'GetCitationErrors() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		//file_put_contents('/tmp/validation.log', 'GetCustomCheckErrors() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		$this->GetCustomCheckErrors();
-		file_put_contents('/tmp/validation.log', 'GetCustomCheckErrors() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		//file_put_contents('/tmp/validation.log', 'GetCustomCheckErrors() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		
 		return (int)$this->m_errorsCounter;
 	}
@@ -352,6 +352,7 @@ class cdocument_xml_validator extends csimple {
 			$lKey = array_search($this->m_errline, $this->m_flippedErrors);
 			unset($this->m_flippedErrors[$lKey]);
 			$this->m_errline = reset($this->m_flippedErrors);
+			$this->m_errorsCounter++;
 			
 			return $this->GetNodeErrors($lCurrentNode->parentNode);
 		}
@@ -377,6 +378,7 @@ class cdocument_xml_validator extends csimple {
 			$lKey = array_search($this->m_errline, $this->m_flippedErrors);
 			unset($this->m_flippedErrors[$lKey]);
 			$this->m_errline = reset($this->m_flippedErrors);
+			$this->m_errorsCounter++;
 			
 			return $this->GetNodeErrors($lCurrentNode->parentNode);
 		}
