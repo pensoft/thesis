@@ -121,7 +121,8 @@ class cTask_Manager extends cBase_Controller {
 				$lUsersArr[] = (int)$value1['uid'];
 				$lUsersRoleArr[] = (int)$value1['role_id'];
 				$lUserTemplArr[] = '\'' . q($lTempl) . '\'';
-				$lUserSubjArr[] = '\'' . q($lSubj  . ' ' . ($this->m_uPass ? 'JournalID:' . (int)$this->m_JournalId : $value['document_id'])) . '\'';
+				//$lUserSubjArr[] = '\'' . q($lSubj  . ' ' . ($this->m_uPass ? 'JournalID:' . (int)$this->m_JournalId : $value['document_id'])) . '\'';
+				$lUserSubjArr[] = '\'' . q($lSubj) . '\'';
 			}
 			
 			/**
