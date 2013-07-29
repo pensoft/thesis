@@ -760,7 +760,7 @@ function DisplaySETextAboutDedicatedReviewer($pReviewerState, $pReviewerUsrState
 							});
 						});
 					</script> -->
-				 	' : '<span style="color:red">Request is timeout in ' . $lDaysDiff . ' days <img id="duedate_editimg" class="ui-datepicker-trigger cursor" src="../i/edit.png"
+				 	' : '<span style="color:red">' . $lDaysDiff . ' day'.(abs($lDaysDiff)>1?'s':'').' late to respond <img id="duedate_editimg" class="ui-datepicker-trigger cursor" src="../i/edit.png"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_invitation&roundduedate=' . $PreviewersAssignmentDuedate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					></img></span>');
 
