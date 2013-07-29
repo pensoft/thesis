@@ -98,14 +98,14 @@ $BODY$
 				SELECT d.id			
 				FROM pjs.documents d 
 				JOIN pjs.document_user_invitations du ON du.document_id = d.id AND du.round_id = d.current_round_id
-				WHERE d.id = pDocumentId AND du.uid = lReviewerId AND du.role_id = pRoleId
+				WHERE d.id = pDocumentId AND du.uid = lReviewerId AND du.role_id = pRoleId AND due_date is not null
 			) THEN --reinvite
 				UPDATE pjs.document_user_invitations SET state_id = cNewInvitationStateId WHERE uid = lReviewerId AND round_id = pRoundId;
 				SELECT INTO lDocUsrId id FROM pjs.document_users WHERE uid = lReviewerId AND document_id = pDocumentId AND role_id IN(cReviewerRoleId, cPanelReviewerRoleId) ORDER BY id DESC LIMIT 1;
 				UPDATE pjs.document_review_round_users SET state_id = 1 WHERE document_user_id = lDocUsrId AND round_id = pRoundId;
-			ELSE
-				-- if the user was added by 
+			ELSE -- First time invite
 				PERFORM pjs."spInviteReviewerAsGhost"(lReviewerId, pDocumentId, pRoundId);
+
 				UPDATE pjs.document_user_invitations
 					SET state_id  = cNewInvitationStateId, 		 
 						added_by_type_id  = cAddedBySE,

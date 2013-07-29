@@ -37,6 +37,9 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 			case 'invite_reviewer_as_ghost':
 				$this->InviteReviewerAsGhost();
 				break;
+			case 'saveReviewerRole':
+				$this->saveReviewerRole();
+				break;
 			case 'se_confirm_reviewer_invitation' :
 			case 'se_cancel_reviewer_invitation' :
 				$this->SECancelConfirmReviewerInvitation();
@@ -357,6 +360,32 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 			);
 		}
 	}
+	function saveReviewerRole(){
+		try{
+			if(! $this->GetUserId()){
+				throw new Exception(getstr('pjs.onlyLoggedUsersCanPerformThisAction'));
+			}
+		$lReviewer = 	 (int) $this->GetValueFromRequestWithoutChecks('reviewer_id');
+		$lCurrentRound = (int) $this->GetValueFromRequestWithoutChecks('current_round_id');
+		$lRole = 		 (int) $this->GetValueFromRequestWithoutChecks('role');
+		
+		$lDocumentsModel = new mDocuments_Model();
+		$this->m_action_result = $lDocumentsModel->SaveReviewerRole($lReviewer, $lCurrentRound, $lRole);
+		
+		if($this->m_action_result['err_cnt']){
+			$this->m_errCnt = $this->m_action_result['err_cnt'];
+			$this->m_errMsgs = $this->m_action_result['err_msgs'];
+		}
+
+		} catch(Exception $lException){
+			$this->m_errCnt ++;
+			$this->m_errMsgs[] = array(
+				'err_msg' => $lException->getMessage()
+			);
+		}
+		
+	}
+	
 	function SECancelConfirmReviewerInvitation() {
 		try{
 			if(! $this->GetUserId()){

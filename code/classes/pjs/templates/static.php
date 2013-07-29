@@ -1057,17 +1057,19 @@ function ReviewerOptionsHeader($pRound, $pReview_type) {
 	if(CanInvitePanel($pRound, $pReview_type))
 		return '<th>' . getstr('pjs.reviewers_panel_label') . '</th>';
 }
-function ReviewerOptions($pRole_id, $pReviewer_id, $pRound, $pReview_type) {
+function ReviewerOptions($pRole_id, $pReviewer_id, $pRound, $pReview_type, $pDue_date) {
+	$columns = '		 <td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="n" '. ($pRole_id == DEDICATED_REVIEWER_ROLE ? 'checked="checked"' : '') . ' /></td>';
 	if(CanInvitePanel($pRound, $pReview_type)){
-		if(COMMUNITY_REVIEWER_ROLE == $pRole_id)
-			return '<td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="n"  /></td>
-				    <td align="center">invited</td>';
-		else
-			return '<td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="n"  /></td>
-				    <td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="p" /></td>';
-	}else{
-		return '<td align="center"><input type="checkbox" name="' . $pReviewer_id . '"  value="n"  /></td>';
+		
+		if(isset($pDue_date) && $pRole_id == COMMUNITY_REVIEWER_ROLE){		
+			$columns .= '<td align="center">invited</td>';
+		} 
+		else {
+			$columns .= '<td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="p" '. ($pRole_id == COMMUNITY_REVIEWER_ROLE ? 'checked="checked"' : '') . ' /></td>';
+		}
+
 	}
+	return $columns;
 }
 
 function showInvitationCheckBoxName($pInvited) {

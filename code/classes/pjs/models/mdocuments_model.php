@@ -176,32 +176,9 @@ class mDocuments_Model extends emBase_Model {
 		LEFT JOIN pjs.document_review_round_decisions de ON de.id = rd.decision_id
 
 		JOIN usr u ON u.id = i.uid
-		WHERE i.document_id = ' . (int)$pDocumentId . ' AND i.role_id = ' . (int) DEDICATED_REVIEWER_ROLE . '
+		WHERE i.document_id = ' . (int)$pDocumentId . ' AND i.role_id = ' . (int) DEDICATED_REVIEWER_ROLE . ' AND i.due_date IS NOT NULL
 		';
- 		//~ var_dump($lSql);
-		$lResult = array();
-		$this->m_con->Execute($lSql);
-
-		while(!$this->m_con->Eof()){
-			// no decision || active review || not enough reviewers
-			/*echo $this->m_con->mRs['usr_state'] . '<br>';
-			echo $this->m_con->mRs['invitation_state'] . '<br>';
-			echo $this->m_con->mRs['enough_reviewers'] . '<br>';
-			echo '<br><br><br>';
-			if(
-				(
-					$this->m_con->mRs['usr_state'] = REVIEWER_CONFIRMED ||
-					in_array($this->m_con->mRs['invitation_state'], array(REVIEWER_INVITATION_NEW_STATE, REVIEWER_CONFIRMED_STATE))
-				) ||
-				!$this->m_con->mRs['enough_reviewers']
-			) {
-				$lProceedWithSEDecision = false;
-			}*/
-			$lResult[] = $this->m_con->mRs;
-			$this->m_con->MoveNext();
-		}
-
-		return $lResult;
+		return $this->ArrayOfRows($lSql, 0);
 	}
 
 	function AddRemoveSE($pDocumentID, $pSEId, $pUid, $pAdd = true){
@@ -381,6 +358,17 @@ class mDocuments_Model extends emBase_Model {
 			$lResult['err_msgs'][] = array('err_msg' => $pException->getMessage());
 		}
 		return $lResult;
+	}
+	
+	function SaveReviewerRole($lReviewer, $lCurrentRound, $lRole){
+		if ($lRole == 0)
+			$lRole = 'NULL';
+		$SQL = "UPDATE pjs.document_user_invitations 
+				 SET role_id = $lRole
+				 WHERE round_id = $lCurrentRound AND uid = $lReviewer
+				 ";
+		$this->ArrayOfRows($SQL, 1);
+		return array('dont_redirect' => true);
 	}
 
 	/**
