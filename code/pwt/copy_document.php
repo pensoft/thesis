@@ -9,6 +9,7 @@ if((int)$user->staff) {
 	$lCopy = new cdocument_copy(array('document_id' => $lDocumentId));
 	$lCopy->GetData();
 	echo 'copy finished';
+	echo $lCopy->GetNewDocumentId();
 } else {
 	echo 'you have no permissions';
 }

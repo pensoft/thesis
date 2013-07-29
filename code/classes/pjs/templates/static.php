@@ -760,7 +760,7 @@ function DisplaySETextAboutDedicatedReviewer($pReviewerState, $pReviewerUsrState
 							});
 						});
 					</script> -->
-				 	' : '<span style="color:red">Request is timeout in ' . $lDaysDiff . ' days <img id="duedate_editimg" class="ui-datepicker-trigger cursor" src="../i/edit.png"
+				 	' : '<span style="color:red">' . $lDaysDiff . ' day'.(abs($lDaysDiff)>1?'s':'').' late to respond <img id="duedate_editimg" class="ui-datepicker-trigger cursor" src="../i/edit.png"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_invitation&roundduedate=' . $PreviewersAssignmentDuedate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					></img></span>');
 
@@ -1057,17 +1057,19 @@ function ReviewerOptionsHeader($pRound, $pReview_type) {
 	if(CanInvitePanel($pRound, $pReview_type))
 		return '<th>' . getstr('pjs.reviewers_panel_label') . '</th>';
 }
-function ReviewerOptions($pRole_id, $pReviewer_id, $pRound, $pReview_type) {
+function ReviewerOptions($pRole_id, $pReviewer_id, $pRound, $pReview_type, $pDue_date) {
+	$columns = '		 <td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="n" '. ($pRole_id == DEDICATED_REVIEWER_ROLE ? 'checked="checked"' : '') . ' /></td>';
 	if(CanInvitePanel($pRound, $pReview_type)){
-		if(COMMUNITY_REVIEWER_ROLE == $pRole_id)
-			return '<td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="n"  /></td>
-				    <td align="center">invited</td>';
-		else
-			return '<td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="n"  /></td>
-				    <td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="p" /></td>';
-	}else{
-		return '<td align="center"><input type="checkbox" name="' . $pReviewer_id . '"  value="n"  /></td>';
+		
+		if(isset($pDue_date) && $pRole_id == COMMUNITY_REVIEWER_ROLE){		
+			$columns .= '<td align="center">invited</td>';
+		} 
+		else {
+			$columns .= '<td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="p" '. ($pRole_id == COMMUNITY_REVIEWER_ROLE ? 'checked="checked"' : '') . ' /></td>';
+		}
+
 	}
+	return $columns;
 }
 
 function showInvitationCheckBoxName($pInvited) {

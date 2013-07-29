@@ -580,7 +580,7 @@ $gTemplArr = array(
 			{_unsafe_render_if(taxa, ,<br />)}{_unsafe_render_if(subjects, ,<br />)}{_unsafe_render_if(geo)}</span></td>
 			<td class="sm_font">{email}</td>
 			<td class="sm_font">{_suggestedBy(added)}</td>
-			{_ReviewerOptions(role_id, id, round_number, review_process_type)}
+			{_ReviewerOptions(role_id, id, round_number, review_process_type, due_date)}
 		</tr>',
 	'view_document_se.noSuggestedReviewersAvailable' =>
 	'<p>{_getstr(pjs.no_suggestions)}</p>',
@@ -589,13 +589,18 @@ $gTemplArr = array(
 	
 	'view_document_se.dedicatedReviewerAvailableListFooter' => '
 	<script type="text/javascript">
-	
 			var check;
 			$(\'input[type="radio"]\').hover(function() {
 			    check = $(this).is(\':checked\');
 			});
 			$(\'input[type="radio"]\').click(function() {
 			    check = !check;
+				ExecuteSimpleDocumentAjaxRequest({
+					action : "saveReviewerRole",
+					reviewer_id: this.name,
+					role: (check ? (this.value == "n" ? 5 : 7 ) : 0),
+					current_round_id : {current_round_id}
+				}) 
 			    $(this).attr("checked", check);
 			});
 		
