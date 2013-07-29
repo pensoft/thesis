@@ -50,6 +50,7 @@ $BODY$
 		lAffiliationXPathVal xml[];
 		lCityXPathVal xml[];
 		lCountryXPathVal xml[];
+		cEditorialPaperType CONSTANT int := 8;
 		
 		lInactiveDocumentUserStateId int = 2;
 		lActiveDocumentUserStateId int = 1;
@@ -164,7 +165,11 @@ $BODY$
 		
 		/*Document categories metadata*/
 		-- Fetch all Taxon classifications
-		lTempNodes := xpath('/document/objects//*[@object_id="82"]/fields/*[@id="244"]/value/@value_id', pDocumentXml);
+		IF(lPWTPaperTypeId = cEditorialPaperType) THEN
+			lTempNodes := xpath('/document/objects//*[@object_id="162"]/fields/*[@id="244"]/value/@value_id', pDocumentXml);
+		ELSE
+			lTempNodes := xpath('/document/objects//*[@object_id="82"]/fields/*[@id="244"]/value/@value_id', pDocumentXml);
+		END IF;
 		FOR lIter IN 1 .. coalesce(array_upper(lTempNodes, 1), 0)  LOOP
 			lTaxonClassId = spConvertAnyToInt(lTempNodes[lIter]);
 			lTaxonClassifications = lTaxonClassifications || lTaxonClassId;
@@ -172,7 +177,11 @@ $BODY$
 		UPDATE pjs.documents SET taxon_categories = lTaxonClassifications WHERE id = pDocumentId;
 		
 		-- Fetch all Chronological classifications
-		lTempNodes := xpath('/document/objects//*[@object_id="82"]/fields/*[@id="246"]/value/@value_id', pDocumentXml);
+		IF(lPWTPaperTypeId = cEditorialPaperType) THEN
+			lTempNodes := xpath('/document/objects//*[@object_id="162"]/fields/*[@id="246"]/value/@value_id', pDocumentXml);
+		ELSE
+			lTempNodes := xpath('/document/objects//*[@object_id="82"]/fields/*[@id="246"]/value/@value_id', pDocumentXml);
+		END IF;
 		FOR lIter IN 1 .. coalesce(array_upper(lTempNodes, 1), 0)  LOOP
 			lChronologicalClassId = spConvertAnyToInt(lTempNodes[lIter]);
 			lChronologicalClassifications = lChronologicalClassifications || lChronologicalClassId;
@@ -180,7 +189,11 @@ $BODY$
 		UPDATE pjs.documents SET chronological_categories = lChronologicalClassifications WHERE id = pDocumentId;
 		
 		-- Fetch all Subject classifications
-		lTempNodes := xpath('/document/objects//*[@object_id="82"]/fields/*[@id="245"]/value/@value_id', pDocumentXml);
+		IF(lPWTPaperTypeId = cEditorialPaperType) THEN
+			lTempNodes := xpath('/document/objects//*[@object_id="162"]/fields/*[@id="245"]/value/@value_id', pDocumentXml);
+		ELSE
+			lTempNodes := xpath('/document/objects//*[@object_id="82"]/fields/*[@id="245"]/value/@value_id', pDocumentXml);
+		END IF;
 		FOR lIter IN 1 .. coalesce(array_upper(lTempNodes, 1), 0)  LOOP
 			lSubjectClassId = spConvertAnyToInt(lTempNodes[lIter]);
 			lSubjectClassifications = lSubjectClassifications || lSubjectClassId;
@@ -188,7 +201,11 @@ $BODY$
 		UPDATE pjs.documents SET subject_categories = lSubjectClassifications WHERE id = pDocumentId;
 	
 		-- Fetch all Geographical classifications
-		lTempNodes := xpath('/document/objects//*[@object_id="82"]/fields/*[@id="247"]/value/@value_id', pDocumentXml);
+		IF(lPWTPaperTypeId = cEditorialPaperType) THEN
+			lTempNodes := xpath('/document/objects//*[@object_id="162"]/fields/*[@id="247"]/value/@value_id', pDocumentXml);
+		ELSE
+			lTempNodes := xpath('/document/objects//*[@object_id="82"]/fields/*[@id="247"]/value/@value_id', pDocumentXml);
+		END IF;
 		FOR lIter IN 1 .. coalesce(array_upper(lTempNodes, 1), 0)  LOOP
 			lGeographicalClassId = spConvertAnyToInt(lTempNodes[lIter]);
 			lGeographicalClassifications = lGeographicalClassifications || lGeographicalClassId;
