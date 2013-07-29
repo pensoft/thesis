@@ -27,6 +27,7 @@ $BODY$
 		lVersionType int;
 		lJournalId int;
 		lHadDecision int;
+		lIsAthorForCurrentDocument boolean := FALSE;
 		
 		-- user roles
 		cEditorRoleId CONSTANT int := 2;
@@ -36,6 +37,7 @@ $BODY$
 		cPublicReviewerRoleId CONSTANT int := 6;
 		cCERoleId CONSTANT int := 9;
 		cLERoleId CONSTANT int := 8;
+		cAuthorRoleId CONSTANT int := 11;
 		
 		-- waiting author document states
 		cWaitingAuthorVersionAfterReviewRound CONSTANT int := 9;
@@ -70,6 +72,9 @@ $BODY$
 		cConfirmedInvitationStateId CONSTANT int := 2;
 		cConfirmedBySEInvitationStateId CONSTANT int := 5;
 		
+		-- other states
+		cActiveUserStateId CONSTANT int := 1;
+		
 		
 	BEGIN		
 		lRes.result = 0;
@@ -96,6 +101,15 @@ $BODY$
 		SELECT INTO lVersionType version_type_id FROM pjs.document_versions WHERE document_id = pDocumentId AND id = pVersionId; --AND version_type_id = cReviewerVersionType;
 		
 		IF(lVersionType = cPublicReviewVersionType) THEN
+			lRes.result = 1;
+			RETURN lRes;
+		END IF;
+		
+		IF EXISTS (SELECT id FROM pjs.document_users WHERE uid = pUid AND role_id = cAuthorRoleId AND state_id = cActiveUserStateId AND document_id = pDocumentId) THEN
+			lIsAthorForCurrentDocument = TRUE;
+		END IF;
+		
+		IF((lVersionType = cAuthorVersionType OR lVersionType = cSEVersionType OR lVersionType = cCEVersionType) AND lIsAthorForCurrentDocument = TRUE) THEN
 			lRes.result = 1;
 			RETURN lRes;
 		END IF;

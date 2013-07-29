@@ -2952,4 +2952,27 @@ function scrollFormIfErrors($pErrs){
 	}
 }
 
+function ShowHideAuthorAction($pCreateUid, $pPWTid) {
+	global $user;
+	if($pCreateUid == $user->id) {
+		return '
+			<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first" onclick="window.location=\'' . PWT_URL . 'display_document.php?document_id=' . $pPWTid . '\'">
+				<div class="invite_reviewer_btn_left"></div>
+				<div class="invite_reviewer_btn_middle">Proceed</div>
+				<div class="invite_reviewer_btn_right"></div>
+				<div class="P-Clear"></div>
+			</div>
+		';
+	} else {
+		return '
+			<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first btn_inactive">
+				<div class="invite_reviewer_btn_left"></div>
+				<div class="invite_reviewer_btn_middle">Proceed</div>
+				<div class="invite_reviewer_btn_right"></div>
+				<div class="P-Clear"></div>
+			</div>
+		';
+	}
+}
+
 ?>
