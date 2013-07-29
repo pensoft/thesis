@@ -18,6 +18,7 @@ CREATE type pjs.ret_spGetTemplateValuesForReplace AS (
 	se_first_name varchar,
 	se_last_name varchar,
 	se_usr_title varchar,
+	se_email varchar,
 	se_tax_expertize varchar,
 	se_geo_expertize varchar,
 	se_sub_expertize varchar,
@@ -25,7 +26,9 @@ CREATE type pjs.ret_spGetTemplateValuesForReplace AS (
 	r_last_name varchar,
 	r_usr_title varchar,
 	nomreview_due_days int,
+	nomreview_due_date date,
 	panreview_due_days int,
+	panreview_due_date date,
 	se_createusr_tax_expertize varchar,
 	se_createusr_geo_expertize varchar,
 	se_createusr_sub_expertize varchar,
@@ -81,12 +84,14 @@ BEGIN
 		lRes.se_first_name,
 		lRes.se_last_name,
 		lRes.se_usr_title,
-		lSEUID
+		lSEUID,
+		lRes.se_email
 		
 		u.first_name, 
 		u.last_name,
 		ut.name as usr_title,
-		u.id
+		u.id,
+		u.uname
 	FROM pjs.document_users du
 	JOIN usr u ON u.id = du.uid
 	LEFT JOIN usr_titles ut ON ut.id = u.usr_title_id 
@@ -116,6 +121,7 @@ BEGIN
 	WHERE d.id = pDocumentId;
 
 	SELECT INTO lRes.panreview_due_days (lPanelDueDate::date - now()::date);
+	lRes.panreview_due_date = (now() + (lRes.panreview_due_days*INTERVAL '1 day'))::date;
 
 	/* Get due date and due date days START*/
 	-- get journal_section_id and some journal data
@@ -187,7 +193,8 @@ BEGIN
 		IF(pUsrRoleEventTo = cNominatedReviewerRoleId OR pUsrRoleEventTo = cPanelReviewerRoleId) THEN
 			
 			SELECT INTO lRes.nomreview_due_days "offset" FROM pjs.getEventOffset(cReviewerAcceptTakeDecisionEventTypeId, lRes.journal_id, lSectionId);
-		
+			lRes.nomreview_due_date = (now() + (lRes.nomreview_due_days*INTERVAL '1 day'))::date;
+			
 			SELECT INTO 
 				lRes.r_first_name,
 				lRes.r_last_name,
