@@ -3219,7 +3219,7 @@ function upToParentNodeByTag($pNode, $pNodeName, $pEndNodeSearch = 'body') {
 	$pNode = $pNode->parentNode;
 	while ($pNode->nodeName != $pNodeName) {
 		if($pNode->nodeName == $pEndNodeSearch)
-			return 0;
+			return null;
 		$pNode = $pNode->parentNode;
 	}
 	return $pNode;
@@ -3253,38 +3253,47 @@ function getFollowingFigureNode($pFigNum, $pXPath, $pDomDoc, $pObjectCitt = 'fig
 	премахва го и го слага след подаден $pPNodeToMove
 	$pDivObjectAttr е атрибута на div-a, по който ще се ориентираме дали е фигура или таблица
 */
-function moveObjectToCitationPos($pDomDoc, $pFigNum, $pPNodeToMove, $pDivObjectAttr = 'figure_position', $pIdentKeyNode, $pNode) {
+function moveObjectToCitationPos($pDomDoc, $pFigNum, $pNodeAfterWhichToMoveElement, $pDivObjectAttr = 'figure_position', $pIdentKeyNode, $pNode) {
 	$lXpath = new DOMXPath($pDomDoc);
 	$lFigureNode = $lXpath->query('//div[@' . $pDivObjectAttr . '=' . (int)$pFigNum . ']', $pDomDoc);
 	if ((int)$lFigureNode->length) {
 		foreach ($lFigureNode as $figurenode) {
 			if($pIdentKeyNode) { // тук влизаме, ако фигурата е в identification_key
 				$lTableRow = upToParentNodeByNameAndAttribute($pNode, 'tr', 'instance_id');
+				$lNodeToInsertBefore = $lTableRow->nextSibling->nextSibling;
+				if(!$lTableRow){
+					$lTableRow = upToParentNodeByTag($pNode, 'tr');
+					$lNodeToInsertBefore = $lTableRow->nextSibling;
+				}
+				if(!$lTableRow){
+					return;
+				}
 				$tr = $pDomDoc->createElement('tr');
 				$td = $pDomDoc->createElement('td');
 				$td->setAttribute('colspan', '3');
 				$td->setAttribute('class', 'P-Article-Preview-Table-Row');
 				$td->appendChild($figurenode);
 				$tr->appendChild($td);
-// 				if(!$lTableRow || !$lTableRow->nextSibling->nextSibling){
-// 					var_dump($pFigNum);
-// 					var_dump($pNode->nodeName);
-// 					exit;
-// 					trigger_error('ERROR1' . var_export($lTableRow, 1), E_USER_WARNING);
-// 				}
-				$lTableRow->parentNode->insertBefore($tr, $lTableRow->nextSibling->nextSibling);
+				if($lNodeToInsertBefore){
+					$lTableRow->parentNode->insertBefore($tr, $lNodeToInsertBefore);
+				}else{
+					$lTableRow->parentNode->appendChild($tr);
+				}
 
 			} else {
+				if(!$pNodeAfterWhichToMoveElement){
+					return;
+				}
 				$lFigureParentNode = $figurenode->parentNode;
-
+ 
 				// махаме фигурата от документа
 				$lFigureParentNode->removeChild($figurenode);
 // 				$pPNodeToMove->insertBefore($figurenode);
 				// поставяме фигурата на правилното място
 				$lCitationElementsWrapper = null;
 				
-				if($pPNodeToMove->nextSibling && $pPNodeToMove->nextSibling->nodeName == CITATION_ELEMENT_CITATION_WRAPPER_NODE_NAME){
-					$lCitationElementsWrapper = $pPNodeToMove->nextSibling;
+				if($pNodeAfterWhichToMoveElement->nextSibling && $pNodeAfterWhichToMoveElement->nextSibling->nodeName == CITATION_ELEMENT_CITATION_WRAPPER_NODE_NAME){
+					$lCitationElementsWrapper = $pNodeAfterWhichToMoveElement->nextSibling;
 // 					var_dump($pFigNum);
 // 					var_dump($figurenode->ownerDocument->SaveXML($figurenode));
 // 					var_dump($figurenode->ownerDocument->SaveXML($pPNodeToMove->nextSibling));
@@ -3293,11 +3302,15 @@ function moveObjectToCitationPos($pDomDoc, $pFigNum, $pPNodeToMove, $pDivObjectA
 				}else{
 // 					$pPNodeToMove->insertBefore($figurenode);
 // 					$pPNodeToMove->parentNode->appendChild($figurenode);
-					$lCitationElementsWrapper = $pPNodeToMove->ownerDocument->createElement(CITATION_ELEMENT_CITATION_WRAPPER_NODE_NAME);
-					if($pPNodeToMove->nextSibling){
-						$lCitationElementsWrapper = $pPNodeToMove->parentNode->insertBefore($lCitationElementsWrapper, $pPNodeToMove->nextSibling);
+					if(!$pNodeAfterWhichToMoveElement || !$pNodeAfterWhichToMoveElement->ownerDocument){
+						var_dump($pNodeAfterWhichToMoveElement, $pFigNum);
+						exit;
+					}
+					$lCitationElementsWrapper = $pNodeAfterWhichToMoveElement->ownerDocument->createElement(CITATION_ELEMENT_CITATION_WRAPPER_NODE_NAME);
+					if($pNodeAfterWhichToMoveElement->nextSibling){
+						$lCitationElementsWrapper = $pNodeAfterWhichToMoveElement->parentNode->insertBefore($lCitationElementsWrapper, $pNodeAfterWhichToMoveElement->nextSibling);
 					}else{
-						$lCitationElementsWrapper = $pPNodeToMove->parentNode->appendChild($lCitationElementsWrapper);
+						$lCitationElementsWrapper = $pNodeAfterWhichToMoveElement->parentNode->appendChild($lCitationElementsWrapper);
 					}
 				}
 				if($lCitationElementsWrapper){
@@ -3374,10 +3387,13 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 				if(!in_array($lCurFigNum, $lVisitedFigures)) {
 					$lMinNodeId = (int)$node->getAttribute($pObjectNum);
 					$lMinNodeRef = $node;
-					if($lMinNodeId >= $lMinFigNum){
-						$lPTagNode = upToParentNodeByTag($lMinNodeRef, 'p');
+					if($lMinNodeId >= $lMinFigNum){ 
+						$lNodeAfterWhichToMoveCitationElement = GetCitationElementParentPredecessor($lMinNodeRef);		
+						if(!$lNodeAfterWhichToMoveCitationElement){ 
+							var_dump($lNodeAfterWhichToMoveCitationElement, 4);
+						}				
 						for($i = $lMinFigNum; $i <= $lMinNodeId;$i++) {
-							moveObjectToCitationPos($pDomDoc, $i, $lPTagNode, $pPositionAttr, 0, $node);
+							moveObjectToCitationPos($pDomDoc, $i, $lNodeAfterWhichToMoveCitationElement, $pPositionAttr, 0, $node);
 							$lVisitedFigures[] = $i;
 						}
 					}
@@ -3386,20 +3402,29 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 			} else {
 				if(!in_array($lCurFigNum, $lVisitedFigures)) {
 					if($lCurFigNum > $lMinNodeId) {
-						$lPTagNode = upToParentNodeByTag($lMinNodeRef, 'p');
+						$lNodeAfterWhichToMoveCitationElement = GetCitationElementParentPredecessor($lMinNodeRef);
+						if(!$lNodeAfterWhichToMoveCitationElement){
+							var_dump($lNodeAfterWhichToMoveCitationElement, 3);
+						}
 						for($i = $lMinNodeId; $i < $lCurFigNum;$i++) {
-							moveObjectToCitationPos($pDomDoc, $i, $lPTagNode, $pPositionAttr, 0, $node);
+							moveObjectToCitationPos($pDomDoc, $i, $lNodeAfterWhichToMoveCitationElement, $pPositionAttr, 0, $node);
 							$lVisitedFigures[] = $i;
 						}
 
-						$lPTagNode = upToParentNodeByTag($lCurNodeRef, 'p');
-						moveObjectToCitationPos($pDomDoc, $lCurFigNum, $lPTagNode, $pPositionAttr, $lIdentKeyNode, $node);
+						$lNodeAfterWhichToMoveCitationElement = GetCitationElementParentPredecessor($lCurNodeRef);
+						if(!$lNodeAfterWhichToMoveCitationElement){
+							var_dump('A', $node->ownerDocument->saveXml($node->parentNode), $lCurNodeRef->ownerDocument->saveXml($lCurNodeRef));
+						}
+						moveObjectToCitationPos($pDomDoc, $lCurFigNum, $lNodeAfterWhichToMoveCitationElement, $pPositionAttr, $lIdentKeyNode, $node);
 
 						$lMinNodeId = $lCurFigNum;
 						$lMinNodeRef = $lCurNodeRef;
-					} else {
-						$lPTagNode = upToParentNodeByTag($lMinNodeRef, 'p');
-						moveObjectToCitationPos($pDomDoc, $lMinNodeId, $lPTagNode, $pPositionAttr, $lIdentKeyNode, $node);
+					} else {						
+						$lNodeAfterWhichToMoveCitationElement = GetCitationElementParentPredecessor($lMinNodeRef);
+						if(!$lNodeAfterWhichToMoveCitationElement){
+							var_dump($lNodeAfterWhichToMoveCitationElement, 1);
+						}
+						moveObjectToCitationPos($pDomDoc, $lMinNodeId, $lNodeAfterWhichToMoveCitationElement, $pPositionAttr, $lIdentKeyNode, $node);
 					}
 					//~ $lNextFigNode = getFollowingFigureNode(end($lVisitedFigures), $xpath, $pDomDoc, $pObjectCitt, $pObjectNum);
 					//~ if($lNextFigNode == 1){ // последна фигура - слагаме я на мястото й
@@ -3430,6 +3455,22 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
     $pDomDoc->encoding = DEFAULT_XML_ENCODING;
 //     return $pHtml;
 	return $pDomDoc->saveHTML();
+}
+
+/**
+ * Returns the node after which the citation element should be moved
+ * @param DomElement $pCitationElement
+ */
+function GetCitationElementParentPredecessor($pCitationElement){
+	//First chech for paragraph. If there are no paragraphs try ul and ol.
+	$lAllowedParentNodeNames = array('p', 'ul', 'ol');
+	foreach ($lAllowedParentNodeNames as $lCurrentParentType){
+		$lResult = upToParentNodeByTag($pCitationElement, $lCurrentParentType);
+		if($lResult){
+			return $lResult;
+		}
+	}
+	return null;
 }
 
 /**
