@@ -22,6 +22,7 @@ $gTemplArr = array(
 				<link type="text/css" href="/lib/css/ui.dynatree.css" id="skinSheet" rel="stylesheet" />
 				<link type="text/css" rel="stylesheet" href="/lib/css/editor_rewrite.css" media="all" title="default" />
 				<link type="text/css" rel="stylesheet" href="/lib/css/article_preview.css" media="all" title="default" />
+				<link type="text/css" rel="stylesheet" href="/lib/css/editable_preview.css" media="all" title="default" />
 				<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" rel="stylesheet" />
 				<script src="/lib/js/jquery.js" type="text/javascript"></script>
 				<script src="/lib/js/jquery_ui.js" type="text/javascript"></script>
@@ -39,9 +40,15 @@ $gTemplArr = array(
 				<script src="/lib/js/def.js" type="text/javascript"></script>
 				<script src="/lib/js/comments_common.js" type="text/javascript"></script>
 				<script src="/lib/js/comments.js" type="text/javascript"></script>
+				<script src="/lib/js/changes_common.js" type="text/javascript"></script>
 				<script src="/lib/js/popup.js" type="text/javascript"></script>
 				<script src="/lib/js/figures.js" type="text/javascript"></script>
-				<script src="/lib/js/rangy-core.js" type="text/javascript"></script>
+				<script src="/lib/js/editable_preview.js" type="text/javascript"></script>
+		
+				<script src="' . PJS_SITE_URL . '/lib/js/ice/lib/rangy-1.2/rangy-core.js"></script>
+				<script src="' . PJS_SITE_URL . '/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js"></script>
+				<script src="' . PJS_SITE_URL . '/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js"></script>
+				<script src="' . PJS_SITE_URL . '/lib/js/ice/lib/rangy-1.2/rangy-serializer.js"></script>
 
 				<script type="text/javascript" src="/lib/editors/ckeditor_4.1/ckeditor.js"></script>
 				<script type="text/javascript" src="/lib/editors/ckeditor/adapters/jquery.js"></script>

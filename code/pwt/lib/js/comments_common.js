@@ -24,6 +24,61 @@ var gTextCommentIdAttribute = 'comment_id';
 var gPreviousPreviewSelection = false;
 var gPreviousPreviewSelectionStartNode = false;
 
+/**
+ * Попълваме позицията на коментара спрямо instance/field-а в който е направен
+ */
+function fillCommentPos() {
+	var lCommentPos = GetSelectedTextPos();		
+	if(lCommentPos && !lCommentPos.selection_is_empty){
+		var lStartNodeDetails = lCommentPos['start_pos'];
+		var lEndNodeDetails = lCommentPos['end_pos'];
+		
+		var lStartInstanceId , lStartFieldId, lStartOffset;
+		var lEndInstanceId, lEndFieldId, lEndOffset;
+		if(lStartNodeDetails){
+			lStartInstanceId = lStartNodeDetails['instance_id'];
+			lStartFieldId = lStartNodeDetails['field_id'];
+			lStartOffset = lStartNodeDetails['offset'];
+	
+			
+		}
+	
+		if(lEndNodeDetails){
+			lEndInstanceId = lEndNodeDetails['instance_id'];
+			lEndFieldId = lEndNodeDetails['field_id'];
+			lEndOffset = lEndNodeDetails['offset'];			
+		}
+		if(lStartInstanceId && lStartFieldId && lEndInstanceId && lEndFieldId){
+			$('#' + gCommentEndInstanceIdInputId).val(lEndInstanceId);
+			$('#' + gCommentEndFieldIdInputId).val(lEndFieldId);
+			$('#' + gCommentEndOffsetInputId).val(lEndOffset);
+			
+			$('#' + gCommentStartInstanceIdInputId).val(lStartInstanceId);
+			$('#' + gCommentStartFieldIdInputId).val(lStartFieldId);
+			$('#' + gCommentStartOffsetInputId).val(lStartOffset);
+			MarkCurrentCommentAsInline();
+		}else{
+			MarkCurrentCommentAsUnavailable();
+			clearCommentPos();
+			return false;
+		}
+	}else{
+		clearCommentPos();
+		MarkCurrentCommentAsGeneral();		
+	}
+	return true;
+}
+
+function clearCommentPos(){
+	$('#' + gCommentEndInstanceIdInputId).val('');
+	$('#' + gCommentEndFieldIdInputId).val('');
+	$('#' + gCommentEndOffsetInputId).val('');
+	
+	$('#' + gCommentStartInstanceIdInputId).val('');
+	$('#' + gCommentStartFieldIdInputId).val('');
+	$('#' + gCommentStartOffsetInputId).val('');
+}
+
 getPlainText = function(node){
 	// used for testing:
 	//return node.innerText || node.textContent;
@@ -381,7 +436,7 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 
 
 function GetSelectedTextPos(){
-	var lSelection = GetCommentSelection();	
+	var lSelection = GetPreviewSelection();	
 	var lResult = {
 			'start_pos' : null,
 			'end_pos' : null,
@@ -602,7 +657,7 @@ function markCommentStartNode(pCommentId, pParentNode, pStartNode, pStartOffset,
 	}
 	//Селекцията е някъде в децата
 	//За всеки случай се уверяваме, че pParentNode е Element възел
-	if(pParentNode.nodeType != 1)
+	if(!pParentNode || pParentNode.nodeType != 1)
 		return;
 	//Обикаляме децата му
 	var lChildren = pParentNode.childNodes;
@@ -1024,7 +1079,7 @@ function MakeCommentActive(pCommentId) {
 }
 
 function CheckSelectedTextForActiveComment() {
-	var lSelection = GetCommentSelection();
+	var lSelection = GetPreviewSelection();
 
 	var lStartNode, lStartOffset, lEndNode, lEndOffset;
 	if(!lSelection.isBackwards()){
@@ -1317,3 +1372,198 @@ function submitCommentEdit(pCommentId){
 		}
 	});
 }
+
+function GetPreviewFirstNode(){
+	var lIframeContents = GetPreviewContent();
+	return lIframeContents.find('#previewHolder');
+}
+
+
+function GetPreviewPreviousSelection(){
+	return getIframeSelection(gPreviewIframeId);
+}
+
+/**
+ * Слага event-a за показване на попъпа за нов коментар при селектиране на текст в превю режим
+ */
+function initPreviewSelectCommentEvent(){
+	//Слагаме event-a на mouseup понеже onselect не е crossbrowser
+	$('#' + gPreviewIframeId).contents().bind('mouseup', function(pEvent){
+		gPreviousPreviewSelectionStartNode = false;
+		CheckSelectedTextForActiveComment();
+		CheckSelectedTextForActiveChange();		
+		fillCommentPos();	
+		
+	});
+
+	$('#' + gPreviewIframeId).contents().bind('keyup', function(pEvent) {
+		gPreviousPreviewSelectionStartNode = false;
+		CheckSelectedTextForActiveComment();
+		CheckSelectedTextForActiveChange();
+	});
+	$('#' + gPreviewIframeId).contents().bind('selectionchange', function(pEvent) {
+		cancelPreviewNewComment();
+		fillCommentPos();
+		CheckSelectedTextForActiveChange();
+	});
+}
+
+/**
+ * Изчислява позицията по вертикала на възела на коментара
+ * Не трябва да забравим и позицията на iframe-a (offset() на възела е релативен спрямо iframe-a)
+ */
+
+function getCommentNodeVerticalPosition(pNode){
+	return $(pNode).offset().top + $('#' + gPreviewIframeId).offset().top;
+}
+
+
+var gCommentIsBeingCreated = 0;
+function submitPreviewNewComment(){
+	if(!gCommentIsBeingCreated){
+		gCommentIsBeingCreated = 1;
+		var lCommentPosIsFound = fillCommentPos();
+		if(!lCommentPosIsFound){
+			gCommentIsBeingCreated = 0;
+			return;
+		}
+		var lFormData = $('form[name="' + gPreviewCommentFormName + '"]').formSerialize();
+		lFormData += '&tAction=save&action=' + gPreviewNewCommentFormActionName;
+		$.ajax({
+			url : gPreviewCommentAjaxUrl,
+			dataType : 'json',
+			data : lFormData,
+			success : function(pAjaxResult){
+				if(pAjaxResult['err_cnt']){
+					alert(pAjaxResult['err_msg']);
+					gCommentIsBeingCreated = 0;
+					return;
+					return;
+				}
+				var lStartInstanceId = pAjaxResult['start_instance_id'];
+				var lStartFieldId =  pAjaxResult['start_field_id'];
+				var lStartOffset =  pAjaxResult['start_offset'];
+
+				var lEndInstanceId = pAjaxResult['end_instance_id'];
+				var lEndFieldId =  pAjaxResult['end_field_id'];
+				var lEndOffset =  pAjaxResult['end_offset'];
+
+				var lCommentId = pAjaxResult['comment_id'];
+				//Insert the comment start and end nodes
+
+				if(lStartInstanceId > 0 && lStartFieldId > 0 && lEndInstanceId > 0 && lEndFieldId > 0 ){
+
+					var lStartPositionDetails = calculateCommentPositionAccordingToInternalPosition(lStartInstanceId, lStartFieldId, lStartOffset, true);
+					InsertCommentStartEndTag(lStartPositionDetails.node, lStartPositionDetails.offset, lCommentId, true);
+
+					var lEndPositionDetails = calculateCommentPositionAccordingToInternalPosition(lEndInstanceId, lEndFieldId, lEndOffset);
+					InsertCommentStartEndTag(lEndPositionDetails.node, lEndPositionDetails.offset, lCommentId, false);
+
+
+					var lIframeContent = GetPreviewContent();
+					var lIframeWindow = document.getElementById(gPreviewIframeId).contentWindow;
+					if(lStartInstanceId && lStartFieldId){
+						var lStartTrackerNode = null;
+						if(lIframeWindow.GetInstanceFieldTrackerNode){
+							lStartTrackerNode = lIframeWindow.GetInstanceFieldTrackerNode(lStartInstanceId, lStartFieldId);
+						}
+						if(lStartTrackerNode){//Edit mode - save the field
+							lIframeWindow.SaveNodeTrackerContents(lStartTrackerNode);
+						}else{//Readonly
+							var lInstanceNode = lIframeContent.find('*[instance_id="' + lStartInstanceId + '"]');
+							lInstanceNode = lInstanceNode.first();
+							if(lInstanceNode){
+								var lFieldNodes = lIframeContent.find('*[field_id="' + lStartFieldId + '"]');
+								var lFieldNode = null;
+								for(var i = 0; i < lFieldNodes.length; ++ i){
+									var lField = $(lFieldNodes.get(i));
+									if(lField.closest('*[instance_id]')[0] === lInstanceNode[0]){//Това е търсения field
+										lFieldNode = lField[0];
+										break;
+									}
+								}
+								if(lFieldNode){
+									$.ajax({
+										url : gCommentPositionRecalculateAjaxUrl,
+										dataType : 'json',
+										data : {
+											'instance_id' : lStartInstanceId,
+											'action' : gRecalculateCommentPositionAction,
+											'field_id' : lStartFieldId,
+											'comment_id' : lCommentId,
+											'position_fix_type' : gCommentPositionStartType,
+											'field_html_value' : $(lFieldNode).html()
+										}
+									});
+								}
+
+							}
+						}
+					}
+					if(lEndInstanceId && lEndFieldId){
+						var lEndTrackerNode = null;
+						if(lIframeWindow.GetInstanceFieldTrackerNode){
+							lEndTrackerNode = lIframeWindow.GetInstanceFieldTrackerNode(lEndInstanceId, lEndFieldId);
+						}
+						if(lEndTrackerNode){//Edit mode - save the field
+							lIframeWindow.SaveNodeTrackerContents(lEndTrackerNode);
+						}else{//Readonly
+							var lInstanceNode = lIframeContent.find('*[instance_id="' + lEndInstanceId + '"]');
+							lInstanceNode = lInstanceNode.first();
+							if(lInstanceNode){
+								var lFieldNodes = lIframeContent.find('*[field_id="' + lEndFieldId + '"]');
+								var lFieldNode = null;
+								for(var i = 0; i < lFieldNodes.length; ++ i){
+									var lField = $(lFieldNodes.get(i));
+									if(lField.closest('*[instance_id]')[0] === lInstanceNode[0]){//Това е търсения field
+										lFieldNode = lField[0];
+										break;
+									}
+								}
+								if(lFieldNode){
+									$.ajax({
+										url : gCommentPositionRecalculateAjaxUrl,
+										dataType : 'json',
+										data : {
+											'instance_id' : lEndInstanceId,
+											'action' : gRecalculateCommentPositionAction,
+											'field_id' : lEndFieldId,
+											'comment_id' : lCommentId,
+											'position_fix_type' : gCommentPositionEndType,
+											'field_html_value' : $(lFieldNode).html()
+										}
+									});
+								}
+
+							}
+						}
+					}
+				}
+				//Крием формата
+				cancelPreviewNewComment();
+				// Aко няма коментари ползваме темплейт с expand и collapse и добавяме след хедър секцията
+				var lCommentResult = pAjaxResult['result'];
+				if(!lCommentResult){
+					lCommentResult = pAjaxResult['comment_preview'];
+				}
+				if(pAjaxResult['is_first']){
+					$('#P-Wrapper-Right-Content').find('.P-Article-StructureHead').after(lCommentResult);
+				}else{ // Иначе Добавяме коментара след последния коментар
+					$('#P-Root-Comments-Holder').children('.P-Root-Comment').last().after(lCommentResult);
+				}
+				setCommentsWrapEvents();
+				positionCommentsBase();
+				MakeCommentActive(lCommentId);	
+				ExpandSingleComment(lCommentId);
+				displayCommentEditForm(lCommentId);
+				scrollToComment(lCommentId);
+				gCommentIsBeingCreated = 0;
+			}
+		});
+	}
+}
+
+function cancelPreviewNewComment (){
+	
+}
+

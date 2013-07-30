@@ -44,7 +44,7 @@ if($gDocumentId){
 	$lPutEditableJSAndCss = 1;
 	$lPreview = getDocumentPreview($gDocumentId, 1, $gXSLPath, $gRevisionXML, $lCanEditPreview, $lHideTip, $lPutEditableJSAndCss, true, $gTrackFigures);
 
-	$lPreviewHeader = displayEditPreviewHeader($gDocumentId, $gRevisionId, $gTrackFigures);
+	$lPreviewHeader = displayEditPreviewHeader($gDocumentId, $gRevisionId);
 	$lPreview = str_replace('<!--' . PREVIEW_EDITABLE_HEADER_REPLACEMENT_TEXT . '-->', $lPreviewHeader, $lPreview);
 
 	echo $lPreview;

@@ -6,31 +6,8 @@ $gTemplArr = array(
 // 		{preview}
 // 	',
 
-	'preview.editHeader' => '
-			<div id="docEditHeader">
-				<div class="box clearBorder" style="width: 155px;" id="changes_display_holder">
-					<h3>View</h3>
-					<input type="radio" id="changes" name="changes_display" checked="checked" value="1" /> <label for="changes">Changes</label>
-					<input type="radio" id="final" name="changes_display" /> <label for="final"> Final </label>
-					<script type="text/javascript">
-						$("#changes_display_holder :radio").bind("change", toggleChangesDisplay);
-					</script>
-				</div>
-				<div class="box">
-					<h3>Changes</h3>
-					<div class="optionHolder">
-						<a href="#" onclick="AcceptAllChanges()">
-							<img src="' . PJS_SITE_URL . '/i/adddoc.png" alt="Accept all changes" /><span>Accept</span>
-						</a>
-					</div>
-					<div class="optionHolder">
-						<a href="#" onclick="RejectAllChanges()">
-							<img src="' . PJS_SITE_URL . '/i/removedoc.png" alt="Reject all changes" /><span>Reject</span>
-						</a>
-					</div>
-				</div>
-				{legend}
-			</div>
+	'preview.editHeaderIframe' => '
+			
 			<div id="changeContextMenu">
 				<a href="#" id="approveChangeContextLink">Accept</a><a href="#" id="rejectChangeContextLink">Reject</a>
 			</div>
@@ -46,7 +23,7 @@ $gTemplArr = array(
 			</script>
 	',
 
-	'preview.editHeaderWithoutChanges' => '
+	'preview.editHeaderWithoutChangesIframe' => '
 			<script>
 				$(document).ready(function(){
 					DisableChangeTracking();
@@ -55,6 +32,51 @@ $gTemplArr = array(
 				});
 			</script>
 	',
+		
+	'preview.editHeader' => '
+			<div id="docEditHeader">
+				<div class="box clearBorder" style="width: 155px;" id="changes_display_holder">
+					<h3>View</h3>
+					<input type="radio" id="changes" name="changes_display" checked="checked" value="1" /> <label for="changes">Changes</label>
+					<input type="radio" id="final" name="changes_display" /> <label for="final"> Final </label>
+					<script type="text/javascript">
+						$("#changes_display_holder :radio").bind("change", function(){
+							$(\'#previewIframe\')[0].contentWindow.toggleChangesDisplay();
+						});
+					</script>
+				</div>
+				<div class="box">
+					<h3>Changes</h3>
+					<div class="optionHolder">
+						<a href="#" onclick="AcceptRejectCurrentChange(1);return false;" id="P-Accept-Change-Btn-Id" class="P-Disabled-Btn">
+							<img src="' . PJS_SITE_URL . '/i/adddoc.png" alt="Accept all changes" /><span>Accept</span>
+						</a>
+					</div>
+					<div class="optionHolder">
+						<a href="#" onclick="AcceptRejectCurrentChange();return false;" id="P-Reject-Change-Btn-Id" class="P-Disabled-Btn">
+							<img src="' . PJS_SITE_URL . '/i/removedoc.png" alt="Reject all changes" /><span>Reject</span>
+						</a>
+					</div>
+					<div class="arrow" onclick="SelectPreviousNextChange(1);return false;">
+						<a href="#">
+							<img src="' . PJS_SITE_URL . '/i/docleftarrow.png" alt="Go to previous change" />
+							<span>Previous</span>
+						</a>
+					</div>
+					<br /><br />
+					<div class="arrow" onclick="SelectPreviousNextChange();return false;" >
+						<a href="#">
+							<img src="' . PJS_SITE_URL . '/i/docrightarrow.png" alt="Go to next change" />
+							<span>Next</span>
+						</a>
+					</div>
+					<script>InitChangeBtns()</script>
+				</div>
+				{legend}
+			</div>
+	',
+		
+	'preview.editHeaderWithoutChanges' => '',
 
 	'preview.user_legend_start' => '
 				<div class="box filter">
@@ -76,7 +98,7 @@ $gTemplArr = array(
 
 	'preview.user_legend_end' => '
 						<br />
-						<a href="#">Show All reviews</a>
+						<a href="#" onclick="$(\'#previewIframe\')[0].contentWindow.ShowAllReviews();return false;">Show All reviews</a>
 					</div>
 					<a href="#" onclick="openFilterPopUp(); return false;">
 						View reviews only from..
@@ -86,6 +108,7 @@ $gTemplArr = array(
 
 	'preview.content' => '
 		{*document.documentOnlyForm}
+		{preview_header}
 		<iframe src="/preview_src.php?document_id={document_id}&template_xsl_path={template_xsl_path}&track_figures=1" id="previewIframe" class="previewIframe" frameBorder="0" scrolling="no">
 		</iframe>
 		<input type="hidden" value="{document_id}" name="document_id">

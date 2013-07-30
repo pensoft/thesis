@@ -12,15 +12,22 @@ class cPreview_Ajax_Srv extends cBase_Controller {
 	var $m_versionId;
 	var $m_documentPwtId;
 	var $m_ReadOnlyPreview;
+	var $m_versionModel;
 
 	function __construct() {
 		parent::__construct();
+		$this->RedirectIfNotLogged();
 
 		$pViewPageObjectsDataArray = array();
 		$this->m_versionId = (int)$this->GetValueFromRequestWithoutChecks('version_id');
-		$this->m_ReadOnlyPreview = (int)$this->GetValueFromRequestWithoutChecks('readonly_preview');
+		
+		$this->m_ReadOnlyPreview = 0;
 
 		$this->m_versionModel = new mVersions();
+		$lDecisionData = $this->m_versionModel->checkForDecision($this->m_versionId);
+		if((int)$lDecisionData['has_decision']) {
+			$this->m_ReadOnlyPreview = 1;
+		}
 		$this->m_documentPwtId = $this->m_versionModel->GetVersionDocumentPwtId($this->m_versionId);
 
 		try{
@@ -36,11 +43,11 @@ class cPreview_Ajax_Srv extends cBase_Controller {
 			if($lXmlData['err_cnt']){
 				throw new Exception($lProcession['err_msgs'][0]['err_msg']);
 			}
-			$this->m_versionXml = $lXmlData['xml'];
+			$this->m_versionXml = $lXmlData['xml'];			
 			if(!$lXmlData['is_cached']){
 				$lCommentsModel = new mComments();
 				$lInstanceComments = $lCommentsModel->GetVersionInstanceComments($this->m_versionId);
-				$this->m_versionXml = InsertDocumentCommentPositionNodes($this->m_versionXml, $lInstanceComments);
+				$this->m_versionXml = InsertDocumentCommentPositionNodes($this->m_versionXml, $lInstanceComments);				
 			}
 // 			var_dump($this->m_versionXml);
 
@@ -50,13 +57,29 @@ class cPreview_Ajax_Srv extends cBase_Controller {
 		}
 
 		$this->GetDocumentPreview();
-
-		$lResultArr = array_merge($this->m_action_result, array(
-			'err_cnt' => $this->m_errCnt,
-			'err_msgs' => $this->m_errMsgs,
-			'url_params' => $this->m_eventsParamString,
-		));
-		$this->m_pageView = new epPage_Json_View($lResultArr);
+		
+		$lVersionUidChanges = $this->m_versionModel->GetVersionPwtChangeUserIds($this->m_versionId);
+		$pViewPageObjectsDataArray = array();
+		$pViewPageObjectsDataArray['users_with_changes'] = $lVersionUidChanges;
+		global $user;		
+		if($this->m_errCnt){
+			$pViewPageObjectsDataArray['contents'] = array(
+					'ctype' => 'evSimple_Block_Display',
+					'name_in_viewobject' => 'preview_with_error',
+					'err_msg' => $this->m_errMsgs[0]['err_msg'],
+			);
+		}else{
+			$pViewPageObjectsDataArray['contents'] = array(
+					'ctype' => 'evSimple_Block_Display',
+					'name_in_viewobject' => 'preview',							
+					'preview' => $this->m_action_result['preview'],
+					'current_user_id' => $user->id,
+					'current_user_name' => $user->fullname,
+					'version_id' => $this->m_versionId,
+			);
+		}		
+		
+		$this->m_pageView = new pPreview_Page_View(array_merge($this->m_commonObjectsDefinitions, $pViewPageObjectsDataArray));		
 	}
 
 	function GetDocumentPreview(){

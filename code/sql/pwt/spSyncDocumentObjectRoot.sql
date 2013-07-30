@@ -40,7 +40,7 @@ BEGIN
 	)THEN
 		SELECT INTO lRes
 			result, processed_objectids 
-		FROM spSyncDocumentObjectRoot(pObjectId, pDocumentId, pUid);
+		FROM spSyncDocumentObject(pObjectId, pDocumentId, pUid);
 		RETURN lRes;
 	END IF;
 	

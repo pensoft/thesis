@@ -1179,6 +1179,7 @@ a {
 	border-left: 3px solid #E2E2DC;
 	border-right: 3px solid #E2E2DC;
 	padding: 5px 0px;
+	min-height:960px;
 }
 
 .P-Article-Content.P-Wrapper-Container-Right-Hide {
@@ -6594,3 +6595,7 @@ table.no_bold_class td a {
 	color:#666666;
 }
 
+.P-Disabled-Btn{
+	opacity: .5;
+	filter: alpha(opacity=50);
+}

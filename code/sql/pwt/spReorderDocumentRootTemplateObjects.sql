@@ -4,7 +4,6 @@ CREATE TYPE ret_spReorderDocumentRootTemplateObjects AS (
 );
 
 CREATE OR REPLACE FUNCTION spReorderDocumentRootTemplateObjects(
-	pObjectId bigint,
 	pDocumentId bigint,
 	pUid int
 )
@@ -32,11 +31,11 @@ BEGIN
 	FROM pwt.documents WHERE id = pDocumentId;
 	
 	INSERT INTO document_template_objects_ord(document_template_object_id)
-	SELECT dto.id, i.pos as ipos, dto.pos as dpos, CASE WHEN i.id IS NULL THEN 0 ELSE 1 END as ord
+	SELECT dto.id
 		FROM pwt.document_template_objects dto
 		LEFT JOIN pwt.template_objects i ON i.object_id = dto.object_id	AND char_length(i.pos) = char_length(dto.pos) AND i.template_id = lTemplateId		
 		WHERE char_length(dto.pos) = 2 AND dto.document_id = pDocumentId		
-		ORDER BY ord DESC, ipos ASC, dpos ASC;
+		ORDER BY i.pos ASC, dto.pos ASC;
 		
 		
 		
@@ -89,6 +88,8 @@ BEGIN
 	JOIN document_objects_instances_ord o ON o.instance_id = p.id
 	WHERE substring(t.pos, 1, char_length(p.pos)) = p.pos AND p.document_id = pDocumentId AND t.document_id = pDocumentId;
 	
+	DROP TABLE document_template_objects_ord;
+	DROP TABLE document_objects_instances_ord;
 	
 	lRes.result = 1;	
 	RETURN lRes;
@@ -97,7 +98,6 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE SECURITY DEFINER;
 
 GRANT EXECUTE ON FUNCTION spReorderDocumentRootTemplateObjects(
-	pObjectId bigint,
 	pDocumentId bigint,
 	pUid int
 ) TO iusrpmt;

@@ -31,27 +31,18 @@ $gTemplArr = array(
 			<div class="P-Clear"></div>
 		</div>	<!-- P-Wrapper-Right-Content -->
 
-		<div id="P-Ajax-Loading-Image">
+		<div id="P-Ajax-Loading-Image" style="display:block">
 			<img src="./i/loading.gif" alt="" />
 		</div>
-		<div class="P-Article-Content" id="P-Article-Content" style="display:none;{_fixMarginTop(read_only)}">
+		<div class="P-Article-Content" id="P-Article-Content" style="{_fixMarginTop(read_only)}">			
 			<div class="P-Article-Preview-Holder" id="previewHolder">
-				<script type="text/javascript">
-					getDocumentPreview({version_id}, {read_only}, \'previewHolder\', \'P-Article-Content\');
-				</script>
+				<iframe id="previewIframe" class="previewIframe" frameBorder="0" scrolling="no" width="100%" src="/lib/ajax_srv/preview_srv.php?version_id={version_id}"></iframe>
+				<script type="text/javascript">		
+					initPreviewIframeLoadEvents("previewIframe");						
+				</script>				
 			</div>
-			{_SetVersionMode(role)}
-
-			<script type="text/javascript">
-				initPreviewSelectCommentEvent();
-				SetVersionUser({current_user_id}, {_json_encode(current_user_name)});
-				SetDisplayUserChangeEvent();
-				InitTrackers({version_id});
-				GetVersionUserDisplayNames();
-			</script>
-			<div id="changeContextMenu">
-				<a href="#" id="approveChangeContextLink">Accept</a><a href="#" id="rejectChangeContextLink">Reject</a>
-			</div>
+						
+			
 			{_addSingleDocumentClass(role)}
 			<div class="br"></div>
 			<div class="response"></div>
@@ -70,12 +61,7 @@ $gTemplArr = array(
 			<div class="brownBorder" {_showHideByRole(role)}></div>
 			{reviewerpoll}
 			{form}
-		</div>
-		<script>
-			if($(\'#P-Article-Content\').height() < 960) {
-				$(\'#P-Article-Content\').css(\'height\',\'960px\');
-			}
-		</script>
+		</div>		
 	',
 	'view_version_pwt.structure_head' => '<div class="P-Article-StructureHead">Contents:</div>',
 	'view_version_pwt.structure_foot' => '',
@@ -441,6 +427,27 @@ $gTemplArr = array(
 
 	'view_version_pwt.no_premissions' => '
 		<h3 class="limitedPermissions">' . getstr('pjs.no_permissions_for_page') . '</h3>
+	',
+	
+
+	'view_version_pwt.preview_content' => '		
+		<div id="previewHolder">
+			{preview}
+		</div>
+		{_SetVersionMode(role)}		
+		<script type="text/javascript">
+				SetVersionUser({current_user_id}, {_json_encode(current_user_name)});
+				SetDisplayUserChangeEvent();			
+				InitTrackers({version_id});			
+				GetVersionUserDisplayNames();
+		</script>
+			<div id="changeContextMenu">
+				<a href="#" id="approveChangeContextLink">Accept</a><a href="#" id="rejectChangeContextLink">Reject</a>
+			</div>
+	',
+	
+		'view_version_pwt.preview_content_error' => '
+		{err_msg}
 	',
 
 );

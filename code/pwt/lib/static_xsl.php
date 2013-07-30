@@ -46,6 +46,7 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		15 => array(18, 19),
 		153 => array(3),
 		16 => array(20),
+		17 => array(21),
 		165 => array(412),
 		166 => array(20),
 		168 => array(22),
@@ -407,8 +408,7 @@ function getEditPreviewHead($pDocumentId){
 		PJS_SITE_URL . '/lib/js/ice/plugins/IceAddTitlePlugin/IceAddTitlePlugin.js',
 		PJS_SITE_URL . '/lib/js/ice/plugins/IceCopyPastePlugin/IceCopyPastePlugin.js',
 		PJS_SITE_URL . '/lib/js/ice/plugins/IceEmdashPlugin/IceEmdashPlugin.js',
-		PJS_SITE_URL . '/lib/js/ice/plugins/IceSmartQuotesPlugin/IceSmartQuotesPlugin.js',
-		PJS_SITE_URL . '/lib/js/ice/lib/tinymce/jscripts/tiny_mce/tiny_mce.js',
+		PJS_SITE_URL . '/lib/js/ice/plugins/IceSmartQuotesPlugin/IceSmartQuotesPlugin.js',		
 		PJS_SITE_URL . '/lib/js/version_preview.js',
 		'/lib/js/editable_preview.js',
 	);

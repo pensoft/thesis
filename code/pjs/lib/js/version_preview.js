@@ -3,23 +3,7 @@ var gTrackers = {
 	'editors' : [],
 };
 
-var gFigureTrackers = {
-	'keys' : [],
-	'editors' : [],
-};
-
-var gTableTrackers = {
-	'keys' : [],
-	'editors' : [],
-};
-
 var gInstanceFieldTrackerNodes = {
-
-};
-var gFigureTrackerNodes = {
-
-};
-var gTableTrackerNodes = {
 
 };
 var gPreviewHolderId = 'previewHolder';
@@ -27,8 +11,6 @@ var gVersionsAjaxSrv = '/lib/ajax_srv/version_srv.php';
 var gVersionId = 0;
 var gDocumentId = 0;
 var gAllTrackersInited = 0;
-var gAllFigureTrackersInited = 0;
-var gAllTableTrackersInited = 0;
 var gChangeContextMenuHideEventIsBinded = 0;
 var gContextMenuHolderId = 'changeContextMenu';
 var gApproveChangeContextMenuLinkId = 'approveChangeContextLink';
@@ -36,7 +18,6 @@ var gRejectChangeContextMenuLinkId = 'rejectChangeContextLink';
 var gUserName = '';
 var gUserId = 0;
 var gTrackChanges = 1;
-var gTrackFigures = 0;
 var gAuthorRoleViewMode = 1;
 var gSERoleViewMode = 2;
 var gVersionRoleMode = gAuthorRoleViewMode;
@@ -51,8 +32,6 @@ var gChangeUserNamesAttrName = 'data-username';
 var gChangeUserIdsSeparator = ', ';
 
 var gFieldContentEditableSelector = ' *[contenteditable="true"][field_id]';
-var gFigureContentEditableSelector = ' .figureCaption[contenteditable="true"]';
-var gTableContentEditableSelector = ' .tableCaption[contenteditable="true"]';
 
 var gVersionUserDisplayNames = {};
 
@@ -97,24 +76,6 @@ function InitTrackers(pVersionId, pDocumentId) {
 		SaveNodeTrackerContents(this);
 	});
 	InitForcefullyAllTrackers();
-	if(gTrackFigures){
-		InitFigureTrackers(pVersionId, pDocumentId);
-		InitTableTrackers(pVersionId, pDocumentId);
-	}
-}
-
-function InitFigureTrackers(pVersionId, pDocumentId) {	
-	$('#' + gPreviewHolderId + gFigureContentEditableSelector).bind('blur', function(pEvent) {
-		SaveFigNodeTrackerContents(this);
-	});
-	InitForcefullyAllFigureTrackers();
-}
-
-function InitTableTrackers(pVersionId, pDocumentId) {	
-	$('#' + gPreviewHolderId + gTableContentEditableSelector).bind('blur', function(pEvent) {
-		SaveTableNodeTrackerContents(this);
-	});
-	InitForcefullyAllTableTrackers();
 }
 
 function InitForcefullyAllTrackers() {
@@ -125,26 +86,6 @@ function InitForcefullyAllTrackers() {
 		InitSingleNodeTracker(pNode);
 	});
 	gAllTrackersInited = 1;
-}
-
-function InitForcefullyAllFigureTrackers() {
-	if(gAllFigureTrackersInited){
-		return;
-	}
-	$('#' + gPreviewHolderId + gFigureContentEditableSelector).each(function(pIdx, pNode) {
-		InitSingleFigureNodeTracker(pNode);
-	});
-	gAllFigureTrackersInited = 1;
-}
-
-function InitForcefullyAllTableTrackers() {
-	if(gAllTableTrackersInited){
-		return;
-	}
-	$('#' + gPreviewHolderId + gTableContentEditableSelector).each(function(pIdx, pNode) {
-		InitSingleTableNodeTracker(pNode);
-	});
-	gAllTableTrackersInited = 1;
 }
 
 
@@ -178,95 +119,7 @@ function GetInstanceFieldTrackerNode(pInstanceId, pFieldId){
 	}
 }
 
-function InitSingleFigureNodeTracker(pNode) {
-	var lFigId = $(pNode).attr('figure_id');
-	var lPlateNum = parseInt($(pNode).attr('plate_column_num'));
-	if(isNaN(lPlateNum)){
-		lPlateNum = 0;
-	}
-	
-	if(!gFigureTrackerNodes[lFigId]){
-		gFigureTrackerNodes[lFigId] = {};
-	}
-	if(!gFigureTrackerNodes[lFigId][lPlateNum]){
-		gFigureTrackerNodes[lFigId][lPlateNum] = pNode;
-	}
 
-	if(gFigureTrackers['keys'].indexOf(pNode) == -1){
-		gFigureTrackers['keys'].push(pNode);
-		var lNewTracker = new ice.InlineChangeEditor({
-			element : pNode,
-			handleEvents : true,
-			currentUser : {
-				id : gUserId,
-				name : gUserName
-			},
-			plugins : ['IceAddTitlePlugin', 'IceSmartQuotesPlugin', 'IceEmdashPlugin', {
-				name : 'IceCopyPastePlugin',
-				settings : {
-					pasteType : 'formattedClean',
-					preserve : 'p,a[href],i,em,b,span'
-				}
-			}],
-			mode : gVersionRoleMode,
-			fake_tracking : !gTrackChanges ,
-		});
-		gFigureTrackers['editors'].push(lNewTracker);
-		try{
-			lNewTracker.startTracking();
-			lNewTracker.disableChangeTracking();						
-		}catch(e){
-
-		}
-	}else{
-//		console.log('Already inited');
-	}
-}
-
-function InitSingleTableNodeTracker(pNode) {
-	var lTableId = $(pNode).attr('table_id');
-	var lIsTitle = parseInt($(pNode).attr('is_title'));
-	if(isNaN(lIsTitle)){
-		lIsTitle = 0;
-	}
-	
-	if(!gTableTrackerNodes[lTableId]){
-		gTableTrackerNodes[lTableId] = {};
-	}
-	if(!gTableTrackerNodes[lTableId][lIsTitle]){
-		gTableTrackerNodes[lTableId][lIsTitle] = pNode;
-	}
-
-	if(gTableTrackers['keys'].indexOf(pNode) == -1){
-		gTableTrackers['keys'].push(pNode);
-		var lNewTracker = new ice.InlineChangeEditor({
-			element : pNode,
-			handleEvents : true,
-			currentUser : {
-				id : gUserId,
-				name : gUserName
-			},
-			plugins : ['IceAddTitlePlugin', 'IceSmartQuotesPlugin', 'IceEmdashPlugin', {
-				name : 'IceCopyPastePlugin',
-				settings : {
-					pasteType : 'formattedClean',
-					preserve : 'p,a[href],i,em,b,span'
-				}
-			}],
-			mode : gVersionRoleMode,
-			fake_tracking : !gTrackChanges ,
-		});
-		gTableTrackers['editors'].push(lNewTracker);
-		try{
-			lNewTracker.startTracking();
-			lNewTracker.disableChangeTracking();						
-		}catch(e){
-
-		}
-	}else{
-//		console.log('Already inited');
-	}
-}
 function InitSingleNodeTracker(pNode) {
 	var lFieldId = $(pNode).attr('field_id');
 	var lInstanceId = $(pNode).closest('*[instance_id]').attr('instance_id');
@@ -295,10 +148,10 @@ function InitSingleNodeTracker(pNode) {
 			}],
 			mode : gVersionRoleMode,
 			fake_tracking : !gTrackChanges ,
-		});
+		});	
 		gTrackers['editors'].push(lNewTracker);
-		try{
-			lNewTracker.startTracking();
+		try{			
+			lNewTracker.startTracking();			
 			if(!gTrackChanges){
 				lNewTracker.disableChangeTracking();
 			}
@@ -334,60 +187,6 @@ function SaveNodeTrackerContents(pNode) {
 //	console.log(lFieldId, lInstanceId, lContent);
 }
 
-function SaveFigNodeTrackerContents(pNode) {
-	var lIdx = gFigureTrackers['keys'].indexOf(pNode);
-	if(lIdx == -1){
-		return;
-	}
-	var lFigId = $(pNode).attr('figure_id');
-	var lPlateNum = parseInt($(pNode).attr('plate_column_num'));
-	var lIsPlate = parseInt($(pNode).attr('is_plate'));
-	if(isNaN(lPlateNum)){
-		lPlateNum = 0;
-	}
-	var lContent = gFigureTrackers['editors'][lIdx].getElementContents();
-//	alert(lContent);
-//	return;
-
-	ExecuteSimpleVersionAjaxRequest({
-		action : 'save_fig_caption_change',
-		version_id : gVersionId,
-		fig_id : lFigId,
-		plate_num : lPlateNum,
-		is_plate : lIsPlate,
-		content : lContent,
-		document_id : gDocumentId
-	});
-
-//	console.log(lFieldId, lInstanceId, lContent);
-}
-
-function SaveTableNodeTrackerContents(pNode) {
-	var lIdx = gTableTrackers['keys'].indexOf(pNode);
-	if(lIdx == -1){
-		return;
-	}
-	var lTableId = $(pNode).attr('table_id');
-	var lModifiedElementIsTitle = parseInt($(pNode).attr('is_title'));
-	if(isNaN(lModifiedElementIsTitle)){
-		lModifiedElementIsTitle = 0;
-	}
-	var lContent = gTableTrackers['editors'][lIdx].getElementContents();
-//	alert(lContent);
-//	return;
-
-	ExecuteSimpleVersionAjaxRequest({
-		action : 'save_table_change',
-		version_id : gVersionId,
-		table_id : lTableId,
-		modified_element_is_title : lModifiedElementIsTitle,
-		content : lContent,
-		document_id : gDocumentId
-	});
-
-//	console.log(lFieldId, lInstanceId, lContent);
-}
-
 function SingleTrackerAcceptAllChanges(pTracker) {
 	pTracker.acceptAll();
 }
@@ -397,8 +196,13 @@ function SingleTrackerRejectAllChanges(pTracker) {
 }
 
 function toggleChangesDisplay(){
-	$lVal = $('input:radio[name=changes_display]:checked').val();
-	if($lVal > 0){
+	var lVal = 0;
+	if($('input:radio[name=changes_display]').length){
+		lVal = $('input:radio[name=changes_display]:checked').val();
+	}else{
+		lVal = window.parent.$('input:radio[name=changes_display]:checked').val();
+	}
+	if(lVal > 0){
 		$('#' + gPreviewHolderId).removeClass('hideChanges');
 	}else{
 		$('#' + gPreviewHolderId).addClass('hideChanges');
@@ -451,9 +255,17 @@ function InitTrackerChangesEvents(pTrackerNode, pTracker){
 	}
 }
 
+function GetUserChangesInputs(){
+	var lInputs = $('input[name="display_user_change"]');
+	if(lInputs){
+		lInputs = window.parent.$('input[name="display_user_change"]');
+	}	
+	return lInputs;
+}
 function SetDisplayUserChangeEvent(){
-	$('input[name="display_user_change"]').bind('change', function(){
-		var lInputs = $('input[name="display_user_change"]');
+	var lInputs = GetUserChangesInputs();
+	lInputs.bind('change', function(){		
+		console.log(1);
 		for(var i = 0; i < lInputs.length; ++i){
 			if($(lInputs[i]).is(':checked')){
 				$('#' + gPreviewHolderId).removeClass('hideChange' + $(lInputs[i]).val());
@@ -465,9 +277,13 @@ function SetDisplayUserChangeEvent(){
 }
 
 function ShowAllReviews() {
-	$('input[name="display_user_change"]').each(function(){
+	var lInputs = GetUserChangesInputs();
+	lInputs.each(function(){
 		$(this).attr('checked', true);
 		$(this).trigger('change');
+		if(window.parent){
+			window.parent.$(this).trigger('change');
+		}
 	});
 }
 
@@ -533,4 +349,24 @@ function GenerateChangesTitle(){
 				$(pChangeNode).attr('title', lTitle);
 			}
 	);
+}
+
+function AcceptRejectChange(pChangeNode, pAccept){
+	var lClosestParentInstanceId = $(pChangeNode).closest('*[instance_id]').attr('instance_id');
+	var lClosestParentFieldId = $(pChangeNode).closest('*[field_id]').attr('field_id');
+	var lTrackerNode = GetInstanceFieldTrackerNode(lClosestParentInstanceId,lClosestParentFieldId );
+	if(!lTrackerNode){
+		return;
+	}
+	var lIdx = gTrackers['keys'].indexOf(lTrackerNode);
+	if(lIdx == -1){
+		return;
+	}
+	var lTracker = gTrackers['editors'][lIdx];
+	if(pAccept){
+		lTracker.acceptChange(pChangeNode);
+	}else{
+		lTracker.rejectChange(pChangeNode);
+	}
+	SaveNodeTrackerContents(lTrackerNode);
 }

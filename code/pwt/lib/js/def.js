@@ -3807,3 +3807,11 @@ function checkAutosaveAndRedirect(pUrl) {
 		window.location = pUrl;
 	}
 }
+
+function GetPreviewContent(){
+	return $('#' + gPreviewIframeId).contents();
+}
+
+function GetPreviewSelection(){
+	return getIframeSelection(gPreviewIframeId);
+}

@@ -1,5 +1,6 @@
 var gCommentPreviewElementClass = 'P-Preview-Comment';
 var gActiveCommentTextClass = 'Active-Comment-Text';
+var gActiveChangeClass = 'P-Active-Change';
 (function() {
 
 var exports = this, defaults, InlineChangeEditor;
@@ -218,6 +219,9 @@ InlineChangeEditor.prototype = {
 		})
 		ice.dom.each(ice.dom.find(lElementCopy, '.' + gCommentPreviewElementClass), function(i, node){
 			$(node).removeClass(gCommentPreviewElementClass);
+		})
+		ice.dom.each(ice.dom.find(lElementCopy, '.' + gActiveChangeClass), function(i, node){
+			$(node).removeClass(gActiveChangeClass);
 		})
 		ice.dom.each(ice.dom.find(lElementCopy, '.' + gActiveCommentTextClass), function(i, node){
 			$(node).removeClass(gActiveCommentTextClass);

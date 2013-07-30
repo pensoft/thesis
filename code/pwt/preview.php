@@ -89,6 +89,7 @@ $lPageArray = array(
 		'templs' => array(
 			G_DEFAULT => 'preview.content',
 		),
+		'preview_header' => displayEditPreviewHeader($gDocumentId, getDocumentLatestRevisionId($gDocumentId), false),
 		//~ 'preview' => getDocumentPreview($gDocumentId, 0, $gXSLPath),
 		'document_id' => $gDocumentId,
 		'template_xsl_path' => $gXSLPath,

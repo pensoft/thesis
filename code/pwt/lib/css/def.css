@@ -612,6 +612,8 @@ h1 {
 	border-left: 1px solid #e2e2dc;
 	border-right: 1px solid #e2e2dc;
 	padding: 20px 40px 20px 20px;
+	position:relative;
+	z-index:3;
 }
 
 .P-Wrapper-Container-Middle.P-Wrapper-Container-Right-Hide {
@@ -641,6 +643,7 @@ h1 {
 	opacity: 0.8;
 	filter: alpha(opacity =     80);
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	z-index:4;
 }
 
 .P-Wrapper-Container-Right:hover {
@@ -5221,8 +5224,7 @@ td #docDescr {
 
 .ajaxTreeLoadingHolder{
 	margin-top:200px;
-	text-align: center;
-	
+	text-align: center;	
 }
 
 .P-Article-Buttons .P-Green-Btn-Middle-Big_One {
@@ -5239,4 +5241,18 @@ td #docDescr {
 .P-Main-Comment-Btn-Disabled{
 	opacity:0.5;
 	filter: alpha(opacity = 50);			
+}
+
+#docEditHeader{
+	position:fixed;
+	z-index:1000;
+	background:white;	
+	padding-top:20px;
+	margin-top:-20px;	
+	margin-left:-20px;
+	padding-left:20px;
+}
+
+#previewIframe{
+	margin-top:113px;	
 }

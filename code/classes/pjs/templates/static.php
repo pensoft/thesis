@@ -2052,7 +2052,7 @@ function displayFilterBox($pLegend) {
 					<a href="#" style="border-bottom: 1px solid #E2E2DC; border-top: none;" onclick="openFilterPopUp();">View reviews only from..</a>
 					' . $pLegend . '
 					<br />
-					<a href="javascript:void(0);" onclick="ShowAllReviews();">Show All reviews</a>
+					<a href="javascript:void(0);" onclick="$(\'#previewIframe\')[0].contentWindow.ShowAllReviews();">Show All reviews</a>
 				</div>
 				<a href="#" onclick="openFilterPopUp(); return false;">
 					View reviews only from..
@@ -2372,28 +2372,29 @@ function displayChangesButtons($pRole) {
 		return '<div class="box">
 					<h3>Changes</h3>
 					<div class="optionHolder">
-						<a href="#" onclick="if(confirm(\'Are you sure you want to ACCEPT ALL changes?\')){AcceptAllChanges();}">
-							<img src="/i/adddoc.png" alt="Accept all changes" /><span>Accept All</span>
+						<a href="#" onclick="AcceptRejectCurrentChange(1);return false;" id="P-Accept-Change-Btn-Id" class="P-Disabled-Btn">
+							<img src="/i/adddoc.png" alt="Accept current change" /><span>Accept</span>
 						</a>
 					</div>
 					<div class="optionHolder">
-						<a href="#" onclick="if(confirm(\'Are you sure you want to REJECT ALL changes?\')){RejectAllChanges();}">
-							<img src="/i/removedoc.png" alt="Reject all changes" /><span>Reject All</span>
+						<a href="#" onclick="AcceptRejectCurrentChange();return false;" id="P-Reject-Change-Btn-Id" class="P-Disabled-Btn">
+							<img src="/i/removedoc.png" alt="Reject current change" /><span>Reject</span>
 						</a>
 					</div>
-					<div class="arrow">
+					<div class="arrow" onclick="SelectPreviousNextChange(1);return false;">
 						<a href="#">
 							<img src="/i/docleftarrow.png" alt="Go to previous change" />
 							<span>Previous</span>
 						</a>
 					</div>
 					<br /><br />
-					<div class="arrow">
+					<div class="arrow" onclick="SelectPreviousNextChange();return false;" >
 						<a href="#">
 							<img src="/i/docrightarrow.png" alt="Go to next change" />
 							<span>Next</span>
 						</a>
 					</div>
+					<script>InitChangeBtns()</script>
 			</div>
 		';
 	}
@@ -2446,7 +2447,7 @@ function decisionFormPreviewMode($pReadOnly, $pRole, $pName, $pDecision, $pUserL
 				<input type="radio" id="final" name="changes_display" /> <label for="final"> Final </label>
 					<script type="text/javascript">
 						$("#changes_display_holder :radio").bind("change", function(){
-							toggleChangesDisplay();
+							$(\'#previewIframe\')[0].contentWindow.toggleChangesDisplay();
 						});
 					</script>
 				</div>

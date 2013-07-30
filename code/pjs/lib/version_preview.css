@@ -80,6 +80,10 @@ body {
 	color: #000000;
 }
 
+.ins.P-Active-Change{
+	background: green;
+}
+
 .del {
 	border-bottom: none;
 }
@@ -87,6 +91,10 @@ body {
 .del {
 	background: #FFE8E8;
 	color: #BC0000;
+}
+
+.del.P-Active-Change{
+	background: red;
 }
 
 .hideChanges .ins, fake-insert.ins {

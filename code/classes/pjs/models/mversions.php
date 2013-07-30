@@ -373,7 +373,7 @@ class mVersions extends emBase_Model {
 		u.id as undisclosed_real_usr_id, null as undisclosed_user_fullname, 1 as is_disclosed
 		FROM pjs.pwt_document_versions pdv
 		JOIN pjs.document_versions v ON v.id = pdv.version_id
-		JOIN public.usr u ON u.id = ANY(pdv.change_user_ids) OR (u.id = v.uid AND v.is_disclosed = false)
+		JOIN public.usr u ON u.id = ANY(pdv.change_user_ids) OR (u.id = v.uid AND v.is_disclosed = true)
 		WHERE v.id = ' . (int) $pVersionId . ')
 		UNION
 		(SELECT DISTINCT uu.id, coalesce(u.first_name, \'\') || \' \' || coalesce(u.last_name, \'\') as user_name,
