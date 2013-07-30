@@ -107,7 +107,8 @@ class mJournal extends emBase_Model {
 					WHERE c.id = ANY(u.expertise_geographical_categories))  as geo,  
 				dui.role_id,
 				dui.date_invited,
-				dui.due_date
+				dui.due_date,
+				0 as rating
 			FROM pjs.document_user_invitations dui
 			JOIN pjs.documents d ON d.id = dui.document_id
 			JOIN public.usr u ON u.id = dui.uid
@@ -117,7 +118,7 @@ class mJournal extends emBase_Model {
 				
 			UNION
 		
-			(SELECT id, first_name, last_name, email, added, taxa, subjects, geo, role_id, date_invited, due_date
+			(SELECT id, first_name, last_name, email, added, taxa, subjects, geo, role_id, date_invited, due_date, rating
 			 FROM
 				(SELECT row_number() OVER(ORDER BY rating DESC) AS position, * 
 				 FROM			
@@ -126,9 +127,9 @@ class mJournal extends emBase_Model {
 						, u.first_name, u.last_name, u.uname AS email
 						, t1.pos AS tax_pos, t2.pos AS sub_pos, t3.pos AS geo_pos
 	
-						, ( coalesce(1 - tax_rating::double precision / (SELECT max(length(pos)) FROM public.taxon_categories)        , 0) * 6 + 
-							coalesce(1 - sub_rating::double precision / (SELECT max(length(pos)) FROM public.subject_categories)      , 0) * 3 + 
-							coalesce(1 - geo_rating::double precision / (SELECT max(length(pos)) FROM public.geographical_categories) , 0) * 1)
+						, ( greatest(coalesce(1 - tax_rating::double precision / 10 , 0), 0.0) * 6 + 
+							greatest(coalesce(1 - sub_rating::double precision / 10 , 0), 0.0) * 3 + 
+							greatest(coalesce(1 - geo_rating::double precision / 10 , 0), 0.0) * 1)
 					
 						  as rating, 3 AS added,
 						  
@@ -193,12 +194,15 @@ class mJournal extends emBase_Model {
 					) AS oaeuaoeouaeouoeu
 				) AS aouoeuoeuoe
 				WHERE id NOT IN (SELECT uid FROM pjs.document_user_invitations 
-									WHERE document_id = $pDocumentId AND round_id = (SELECT current_round_id FROM pjs.documents WHERE id = $pDocumentId) ) 
+									WHERE document_id = $pDocumentId AND round_id = (SELECT current_round_id FROM pjs.documents WHERE id = $pDocumentId) 
+								 UNION
+								 SELECT uid FROM pjs.document_users WHERE document_id = $pDocumentId and role_id = 11
+								) 
 				  AND (rating >= $limit OR position <= 2)
 				limit 20)
 							
 			
-			ORDER BY added, date_invited
+			ORDER BY added, rating desc, date_invited
 			";
 		return $this->ArrayOfRows($lSql, 0);
 	}
