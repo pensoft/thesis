@@ -1269,4 +1269,33 @@ function CustomCheckProjectDescriptionFieldsNotEmpty($pProjectDescriptionNode, $
 	return $lResult;
 }
 
+
+/**
+ * Ще гледаме при save/validate дали имаме добавена подсекция за конкретия обект и ако имаме казваме че е валиден. 
+ * Ако нямаме проверяваме дали value-то на първия му field е празно и ако е празно гърмим.
+ * @param unknown_type $pObjectNode
+ */
+function FieldSubsectionCustomCheck($pObjectNode, $pCheckMode = CUSTOM_CHECK_VALIDATION_MODE){
+	define('SUBOBJECT_OBJECT_ID', 50);
+	
+	$lResult = array();
+	
+	$lXPath = new DOMXPath($pObjectNode->ownerDocument);
+	$lSubobjectCount = $lXPath->evaluate('count(.//*[@object_id=' . (int) SUBOBJECT_OBJECT_ID . '])', $pObjectNode);
+	$lObjectFieldValue = $lXPath->query('./fields/*[@id][1]/value', $pObjectNode);
+	$lObjectFieldValue = $lObjectFieldValue->item(0)->nodeValue;
+
+	if(!(int)$lSubobjectCount && !$lObjectFieldValue) {
+	
+		$lResult[] = array(
+				'instance_id' => $pObjectNode->getAttribute('instance_id'),
+				'instance_name' => $pObjectNode->getAttribute('display_name'),
+				'msg' => getstr('pwt.validation.noSubObjectsAndEmptyValueInFieldErr') ,
+				'error_type' => CUSTOM_CHECK_NORMAL_ERROR_TYPE,
+			);
+		return $lResult;
+	}
+	return $lResult;
+}
+
 ?>
