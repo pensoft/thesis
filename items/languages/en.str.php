@@ -2180,6 +2180,7 @@ $STRARRAY = array(
 	'pjs.tooltips.change_SE' => 'Change subject editor',
 	'pjs.tooltips.reinvite_reviewer' => 'Invite this reviewer again',
 	'pjs.tooltips.send_email' => 'Send e-mail',
+	'pjs.cannotInviteMoreReviewers' => 'You can not invite more reviewers',
 	
 	
 );
