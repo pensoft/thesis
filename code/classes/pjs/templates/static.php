@@ -2425,7 +2425,7 @@ function decisionFormPreviewMode($pReadOnly, $pRole, $pName, $pDecision, $pUserL
 			if($pRole == PUBLIC_ROLE) {
 				$lRes .= '<div class="userDecision"></div>';
 			} else {
-				$lRes .= '<div class="userDecision" style="color:red">READ-ONLY PREVIEW of ' . $pAuthorName . '\'s manuscript: Version ' . $pAuthorVersionNum . '</div>';
+				$lRes .= '<div class="userDecision" style="color:red">Read-only preview of ' . $pAuthorName . '\'s manuscript: Version ' . $pAuthorVersionNum . '</div>';
 			}
 
 		}
