@@ -174,7 +174,7 @@ $gTemplArr = array(
 	',
 	'view_document.AuthorsListRow' => '
 		<tr>
-			<td align="left">{first_name} {last_name} {_showIfItemExists(submitting_author, *&nbsp;)}<a href="mailto:{uname}"><img src="../i/mail.png"></a></td>
+			<td align="left">{first_name} {last_name} {_showIfItemExists(submitting_author, *&nbsp;)}<a href="mailto:{uname}"><img title="'.getstr('pjs.tooltips.send_email').'"src="../i/mail.png"></a></td>
 			<td align="left">{affiliation}</td>
 			<td align="center">{country}</td>
 			<td align="center">{_showCoAuthorCheck(co_author)}</td>
@@ -377,7 +377,7 @@ $gTemplArr = array(
 					<div class="document_author_review_round_top_left document_author_review_round_top_left_editor">Subject Editor</div>
 				</td>
 				<td align="center">
-					<span class="subj_editor_name_class">{first_name} {last_name}</span> <a href="mailto:{uname}"><img src="../i/mail.png" /></a>
+					<span class="subj_editor_name_class">{first_name} {last_name}</span> <a href="mailto:{uname}"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png" /></a>
 				</td>
 				<td align="right">
 					<img src="../i/edit.png"/> <a href="/view_document.php?id={document_id}&amp;view_role=2&amp;mode=1&suggested=1">Change</a>

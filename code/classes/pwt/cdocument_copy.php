@@ -85,6 +85,8 @@ class cdocument_copy{
 		$this->ExecuteSqlQuery($lSql);
 		
 		$lPngExt = '.png';
+		$lJpgExt = '.jpg';
+		$lExtensions = array($lPngExt, $lJpgExt);			
 		$lPrefixes = array('oo_', 'big_');
 		$lOriginalNamesToBeUpdated = array();
 		while(!$this->m_con->Eof()){
@@ -95,10 +97,8 @@ class cdocument_copy{
 			if(!$lNewId || !$lPreviousId){
 				continue;
 			}
-			$lExtensions = array($lFileExt);			
-			if($lFileExt != $lPngExt){
-				$lExtensions[] = $lPngExt;
-			} 
+			
+			
 			
 			foreach ($lPrefixes as $lCurrentPrefix){
 				foreach ($lExtensions as $lCurrentExt){

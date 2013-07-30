@@ -121,7 +121,8 @@ class cTask_Manager extends cBase_Controller {
 				$lUsersArr[] = (int)$value1['uid'];
 				$lUsersRoleArr[] = (int)$value1['role_id'];
 				$lUserTemplArr[] = '\'' . q($lTempl) . '\'';
-				$lUserSubjArr[] = '\'' . q($lSubj  . ' ' . ($this->m_uPass ? 'JournalID:' . (int)$this->m_JournalId : $value['document_id'])) . '\'';
+				//$lUserSubjArr[] = '\'' . q($lSubj  . ' ' . ($this->m_uPass ? 'JournalID:' . (int)$this->m_JournalId : $value['document_id'])) . '\'';
+				$lUserSubjArr[] = '\'' . q($lSubj) . '\'';
 			}
 			
 			/**
@@ -229,6 +230,7 @@ class cTask_Manager extends cBase_Controller {
 			'{SE_first_name}' 		=> $pDataToFromReplace['se_first_name'],
 			'{SE_last_name}' 		=> $pDataToFromReplace['se_last_name'],
 			'{SE_usr_title}' 		=> $pDataToFromReplace['se_usr_title'],
+			'{SE_email}' 			=> $pDataToFromReplace['se_email'],
 			'{R_first_name}' 		=> $pDataToFromReplace['r_first_name'],
 			'{R_last_name}' 		=> $pDataToFromReplace['r_last_name'],
 			'{R_usr_title}' 		=> $pDataToFromReplace['r_usr_title'],
@@ -239,7 +241,9 @@ class cTask_Manager extends cBase_Controller {
 			'{SE_createusr_geo_expertize}' 	=> $pDataToFromReplace['se_createusr_geo_expertize'],
 			'{SE_createusr_sub_expertize}' 	=> $pDataToFromReplace['se_createusr_sub_expertize'],
 			'{NomReview_due_days}'	=> $pDataToFromReplace['nomreview_due_days'],
+			'{NomReview_due_date}'	=> $pDataToFromReplace['nomreview_due_date'],
 			'{PanReview_due_days}'	=> $pDataToFromReplace['panreview_due_days'],
+			'{PanReview_due_date}'	=> $pDataToFromReplace['panreview_due_date'],
 			'{SE_invite_reviewers_days}'	=> $pDataToFromReplace['se_invite_reviewers_days'],
 			'{SE_can_take_decision_days}'	=> $pDataToFromReplace['se_can_take_decision_days'],
 			'{site_href}' 			=> $a . '">'. $u .'</a>',

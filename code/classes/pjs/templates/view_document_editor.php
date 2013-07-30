@@ -739,7 +739,7 @@ $gTemplArr = array(
 
 	'view_document_editor.dedicatedReviewerAssignedListRow' => '
 		<tr>
-			<td align="left">{first_name} {last_name} <a href="mailto:{uname}"><img src="../i/mail.png"></a></td>
+			<td align="left">{first_name} {last_name} <a href="mailto:{uname}"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a></td>
 			<td align="left">
 				{_DisplaySETextAboutDedicatedReviewer(invitation_state, usr_state, decision_id, due_date, decision_name, review_usr_due_date, round_id, id, reviwer_id)}
 			</td>
@@ -1290,7 +1290,7 @@ $gTemplArr = array(
 
 	'view_document_editor.dedicatedReviewerAssignedOldListRow' => '
 		<tr>
-			<td align="left">{first_name} {last_name} <a href="mailto:{uname}"><img src="../i/mail.png"></a></td>
+			<td align="left">{first_name} {last_name} <a href="mailto:{uname}"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a></td>
 			<td align="left">
 				{_DisplaySETextAboutDedicatedReviewer(invitation_state, usr_state, decision_id, due_date, decision_name, review_usr_due_date)}
 			</td>

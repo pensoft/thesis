@@ -38,7 +38,7 @@ class TasksPopUpForm_Wrapper extends eForm_Wrapper{
 		
 		if($this->m_action == 'sendthis') {
 			$lTaskModel = new mTask_model();
-			$lTaskModel->SendJustOneEmail((int)$this->m_formController->GetFieldValue('task_detail_id'), $this->m_formController->GetFieldValue('template_notes'), $this->m_formController->GetFieldValue('cc'));
+			$lTaskModel->SendJustOneEmail((int)$this->m_formController->GetFieldValue('task_detail_id'), $this->m_formController->GetFieldValue('template_notes'));
 		}
 		
 		if($this->m_formController->GetFieldValue('state_id') == TASK_DETAIL_SKIP_STATE_ID) {

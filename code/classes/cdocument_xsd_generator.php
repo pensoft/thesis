@@ -500,19 +500,6 @@ class cdocument_xsd_generator extends csimple {
 		$lContentXmlNode->setAttribute('name', 'description');
 		$lContentXmlNode->setAttribute('type', 'fieldNotEmpty');
 		
-		/*
-		$lDescriptionFieldTypeComplexTypeNode = $lSchemaXmlNode->appendChild($this->xsdElem('complexType'));
-		$lDescriptionFieldTypeComplexTypeNode->setAttribute('name', 'tabledescriptionType');
-		
-		$lDescriptionFieldTypeSeq = $lDescriptionFieldTypeComplexTypeNode->appendChild($this->xsdElem('sequence'));
-		$lDescValueElementNode = $lDescriptionFieldTypeSeq->appendChild($this->xsdElem('element'));
-		$lDescValueElementNode->setAttribute('name', 'description');
-		$lDescInnerFieldTypeComplexTypeNode = $lDescValueElementNode->appendChild($this->xsdElem('complexType'));
-		$lDescInnerContentTypeComplexTypeNode = $lDescInnerFieldTypeComplexTypeNode->appendChild($this->xsdElem('complexContent'));
-		$lDescInnerExtContentTypeComplexTypeNode = $lDescInnerContentTypeComplexTypeNode->appendChild($this->xsdElem('extension'));
-		$lDescInnerExtContentTypeComplexTypeNode->setAttribute('base', 'fieldNotEmpty');
-		*/
-
 		//Table node attributes
 		$lIdAttributeNode = $lTableTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:attribute'));
 		$lIdAttributeNode->setAttribute('name', 'id');
@@ -632,7 +619,7 @@ class cdocument_xsd_generator extends csimple {
 					<xsd:element name="value" minOccurs="1" maxOccurs="1">
 						<xsd:complexType>
 							<xsd:sequence>
-								<xsd:any namespace="##any" processContents="skip"/>
+								<xsd:any namespace="##any" maxOccurs="unbounded" processContents="skip"/>
 							</xsd:sequence>
 						</xsd:complexType>
 					</xsd:element>

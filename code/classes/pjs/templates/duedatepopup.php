@@ -17,7 +17,6 @@ $gTemplArr = array(
 							minDate: 1,
 							defaultDate: "+1d",
 						});
-						$(".ui-datepicker-trigger").attr(\'title\', \'Choose a date\');
 					});
 				</script>
 			</div>

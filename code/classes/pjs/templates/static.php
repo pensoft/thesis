@@ -736,7 +736,7 @@ function DisplaySETextAboutDedicatedReviewer($pReviewerState, $pReviewerUsrState
 		$lDaysDiff = floor($lSecDiff / 3600 / 24);
 		switch ((int) $pReviewerState) {
 			case REVIEWER_INVITATION_NEW_STATE :
-				$lRes = ($lDueDateFlag == 1 ? 'Request will time out in ' . $lDaysDiff . ' days <img id="duedate_editimg" class="ui-datepicker-trigger cursor"
+				$lRes = ($lDueDateFlag == 1 ? 'Request will time out in ' . $lDaysDiff . ' day'.(abs($lDaysDiff)>1?'s':'').' <img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="ui-datepicker-trigger cursor"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_invitation&roundduedate=' . $PreviewersAssignmentDuedate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					src="../i/edit.png"></img>
 				 	<!-- <input id="from_date" class="hasDatepicker" type="text" value="" name="from_date">
@@ -760,7 +760,7 @@ function DisplaySETextAboutDedicatedReviewer($pReviewerState, $pReviewerUsrState
 							});
 						});
 					</script> -->
-				 	' : '<span style="color:red">Request is timeout in ' . $lDaysDiff . ' days <img id="duedate_editimg" class="ui-datepicker-trigger cursor" src="../i/edit.png"
+				 	' : '<span style="color:red">' . $lDaysDiff . ' day'.(abs($lDaysDiff)>1?'s':'').' late to respond <img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="ui-datepicker-trigger cursor" src="../i/edit.png"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_invitation&roundduedate=' . $PreviewersAssignmentDuedate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					></img></span>');
 
@@ -785,9 +785,9 @@ function DisplaySETextAboutDedicatedReviewer($pReviewerState, $pReviewerUsrState
 				}
 
 				$lRes = ($lDueDateFlag == 1 ? '
-					Review is due in ' . $lDaysDiff . ' days <img id="duedate_editimg" class="ui-datepicker-trigger cursor" src="../i/edit.png"
+					Review is due in ' . $lDaysDiff . ' day'.(abs($lDaysDiff)>1?'s':'').' <img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="ui-datepicker-trigger cursor" src="../i/edit.png"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $PreviewersAssignmentDuedate . '&roundid=null&rounduserid=' . $pReviwerId . '\', 400, 200)"
-					></img>' : '<span style="color:red">Review is ' . $lDaysDiff . ' days late</span> <img id="duedate_editimg" class="ui-datepicker-trigger cursor" src="../i/edit.png"
+					></img>' : '<span style="color:red">Review is ' . $lDaysDiff . ' day'.(abs($lDaysDiff)>1?'s':'').' late</span> <img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="ui-datepicker-trigger cursor" src="../i/edit.png"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $PreviewersAssignmentDuedate . '&roundid=null&rounduserid=' . $pReviwerId . '\', 400, 200)"
 					></img>');
 				break;
@@ -812,7 +812,7 @@ function DisplayReviewIcon($pInvitationId, $pDecisionId, $pReviewerId, $pRoundId
 	if((int) $pDecisionId){
 		$lRes .= '
 			<span class="reviewer_act">
-				<img onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')" src="../i/review_ready.png"></img>
+				<img title="{_getstr(View review1)}" onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')" src="../i/review_ready.png"></img>
 			</span>';
 		return $lRes;
 	}else{
@@ -825,7 +825,7 @@ function DisplayReviewIcon($pInvitationId, $pDecisionId, $pReviewerId, $pRoundId
 function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState, $pReviewerUsrState, $pDecisionId, $PreviewersAssignmentDuedate, $pReviewerId, $pRoundId, $pDocumentId, $pDocUsrId, $pRoundNumber, $pReviewerVersionId) {
 	$lRes = '';
 	if((int) $pDecisionId){
-		$lRes .= '<span class="reviewer_act"><img onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')" src="../i/review_ready.png"></img></span>';
+		$lRes .= '<span class="reviewer_act"><img title="'.getstr('pjs.tooltips.view_review').'" onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')" src="../i/review_ready.png"></img></span>';
 		return $lRes;
 	}
 	if(((int) $pReviewerUsrState != (int) REVIEWER_REMOVED || $pReviewerState == REVIEWER_CANCELLED_BY_SE_STATE || ((int) $pReviewerUsrState == (int) REVIEWER_REMOVED) && $pReviewerState == REVIEWER_INVITATION_NEW_STATE)){
@@ -836,15 +836,15 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 		switch ((int) $pReviewerState) {
 			case REVIEWER_INVITATION_NEW_STATE :
 				$lRes .= '
-					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SEConfirmReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_accept_reviewer_invitation_confirmation') . '\')"><img src="../i/review_accepted.png"></img></a></span>
-					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_cancel_reviewer_invitation_confirmation') . '\')"><img src="../i/remove_reviewer.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SEConfirmReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_accept_reviewer_invitation_confirmation') . '\')"><img title="'.getstr('pjs.tooltips.accept_review_request').'" src="../i/review_accepted.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_cancel_reviewer_invitation_confirmation') . '\')"><img title="'.getstr('pjs.tooltips.cancel_review_request').'" src="../i/remove_reviewer.png"></img></a></span>
 				';
 				break;
 			case REVIEWER_CONFIRMED_STATE : // /view_version.php?version_id=1003&id=335&view_role=3&round=2&round_user_id=695!!!!!!!!!!!!!!!!!!!!!!!!!?version_id=1003&id='
 			                               // . $pDocumentId . '
 				$lRes .= '
-					<span class="reviewer_act"><a href="javascript:openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')"><img src="../i/reviewing.png"></img></a></span>
-					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_cancel_reviewer_review_confirmation') . '\')"><img src="../i/remove_reviewer.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')"><img title="'.getstr('pjs.tooltips.SE_reviewing_as_reviewer').'" src="../i/reviewing.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_cancel_reviewer_review_confirmation') . '\')"><img title="'.getstr('pjs.tooltips.cancel_review').'" src="../i/remove_reviewer.png"></img></a></span>
 				';
 
 				$lToday = strtotime(date("d/m/Y"));
@@ -861,7 +861,7 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 				$lRes .= '
 				 	<span class="reviewer_act">
 					 	<a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ', \'' . getstr('pjs.SE_reinvite_reviewer_confirmation') . '\')">
-							<img src="../i/in_review.png"></img>
+							<img title="'.getstr('pjs.tooltips.reinvite_reviewer').'" src="../i/in_review.png"></img>
 						</a>
 					</span>
 				';
@@ -870,7 +870,7 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 				$lRes .= '
 					<span class="reviewer_act">
 						<a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ', \'' . getstr('pjs.SE_reinvite_reviewer_confirmation') . '\')">
-							<img src="../i/in_review.png"></img>
+							<img title="'.getstr('pjs.tooltips.reinvite_reviewer').'" src="../i/in_review.png"></img>
 						</a>
 					</span>
 				';
@@ -880,7 +880,7 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 		}
 
 	}else{
-		$lRes .= '<span class="reviewer_act"><a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ', \'' . getstr('pjs.SE_reinvite_reviewer_confirmation') . '\')"><img src="../i/in_review.png"></img></a></span>';
+		$lRes .= '<span class="reviewer_act"><a href="javascript:void(0)" onclick="ReInviteDocumentReviewer(' . $pDocumentId . ', ' . (int) $pDocUsrId . ', ' . $pRoundId . ', \'' . getstr('pjs.SE_reinvite_reviewer_confirmation') . '\')"><img title="'.getstr('pjs.tooltips.reinvite_reviewer').'" src="../i/in_review.png"></img></a></span>';
 	}
 	return $lRes;
 }
@@ -1057,17 +1057,19 @@ function ReviewerOptionsHeader($pRound, $pReview_type) {
 	if(CanInvitePanel($pRound, $pReview_type))
 		return '<th>' . getstr('pjs.reviewers_panel_label') . '</th>';
 }
-function ReviewerOptions($pRole_id, $pReviewer_id, $pRound, $pReview_type) {
+function ReviewerOptions($pRole_id, $pReviewer_id, $pRound, $pReview_type, $pDue_date) {
+	$columns = '		 <td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="n" '. ($pRole_id == DEDICATED_REVIEWER_ROLE ? 'checked="checked"' : '') . ' /></td>';
 	if(CanInvitePanel($pRound, $pReview_type)){
-		if(COMMUNITY_REVIEWER_ROLE == $pRole_id)
-			return '<td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="n"  /></td>
-				    <td align="center">invited</td>';
-		else
-			return '<td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="n"  /></td>
-				    <td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="p" /></td>';
-	}else{
-		return '<td align="center"><input type="checkbox" name="' . $pReviewer_id . '"  value="n"  /></td>';
+		
+		if(isset($pDue_date) && $pRole_id == COMMUNITY_REVIEWER_ROLE){		
+			$columns .= '<td align="center">invited</td>';
+		} 
+		else {
+			$columns .= '<td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="p" '. ($pRole_id == COMMUNITY_REVIEWER_ROLE ? 'checked="checked"' : '') . ' /></td>';
+		}
+
 	}
+	return $columns;
 }
 
 function showInvitationCheckBoxName($pInvited) {
@@ -1321,7 +1323,7 @@ function showAssignmentSEDueDate($pSEName, $pRoundDueDate, $pDocumentId, $pRound
 							</td>
 							<td align="center">
 								<span class="se_due_date_txt se_due_date_txt_green">' . sprintf(getstr('pjs.submission_review_assignment'), $lDaysDiff) . '</span>
-								<img class="pointer" onclick="openDueDatePopUp(\'/updateduedate.php?action=reviewers_assignment&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)" src="../i/edit.png" />
+								<img title="'.getstr('pjs.tooltips.change_due_date').'" class="pointer" onclick="openDueDatePopUp(\'/updateduedate.php?action=reviewers_assignment&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)" src="../i/edit.png" />
 							</td>
 							<td align="right">
 								<a href="view_document.php?id=' . $pDocumentId . '&view_role=3&mode=1' . ($pRoleId == JOURNAL_EDITOR_ROLE ? '&e_back=1' : '') . '">Invite Reviewers</a>
@@ -1364,7 +1366,7 @@ function showAssignmentSEDueDate($pSEName, $pRoundDueDate, $pDocumentId, $pRound
 								<span class="subj_editor_name_class_1">' . $pSEName . '</div>
 							</td>
 							<td align="center">
-								<span class="se_due_date_txt">Review assignments are ' . $lDaysDiff . ' days late</span> &nbsp;<img class="pointer" onclick="openDueDatePopUp(\'/updateduedate.php?action=reviewers_assignment&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)" src="../i/edit.png" src="../i/edit.png"/>
+								<span class="se_due_date_txt">Review assignments are ' . $lDaysDiff . ' day'.(abs($lDaysDiff)>1?'s':'').' late</span> &nbsp;<img class="pointer" onclick="openDueDatePopUp(\'/updateduedate.php?action=reviewers_assignment&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)" src="../i/edit.png" src="../i/edit.png"/>
 							</td>
 							<td align="right">
 								<a href="view_document.php?id=' . $pDocumentId . '&view_role=3&mode=1' . ($pRoleId == JOURNAL_EDITOR_ROLE ? '&e_back=1' : '') . '">Invite Reviewers</a>
@@ -1508,13 +1510,13 @@ function getYourTasksBtn($pShow, $pJournalId) {
 function checkReviewRoundDate($pRoundDueDate, $pRoundId, $pRoundUserId) {
 	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
 	if($lDueDateArr['flag'] == 2){
-		return '<span class="red_txt_due_date">Editorial decision is ' . $lDueDateArr['datediff_days'] . ' days late</span>
-					<img id="duedate_editimg" class="ui-datepicker-trigger pointer"
+		return '<span class="red_txt_due_date">Editorial decision is ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').' late</span>
+					<img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="ui-datepicker-trigger pointer"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					src="../i/edit.png"></img>';
 	}else{
-		return '<span class="green_txt_due_date">Editorial decision is due in ' . $lDueDateArr['datediff_days'] . ' days</span>
-		<img id="duedate_editimg" class="ui-datepicker-trigger pointer"
+		return '<span class="green_txt_due_date">Editorial decision is due in ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').'</span>
+		<img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="ui-datepicker-trigger pointer"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					src="../i/edit.png"></img>';
 	}
@@ -1783,14 +1785,14 @@ function checkAReviewRoundDate($pRoundDueDate, $pRoundId, $pRoundUserId) {
 	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
 
 	if($lDueDateArr['flag'] == 2){
-		return '<span class="red_txt_due_date">Author\'s revised version is ' . $lDueDateArr['datediff_days'] . ' days late</span>
-				<img id="duedate_editimg" class="ui-datepicker-trigger pointer"
+		return '<span class="red_txt_due_date">Author\'s revised version is ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').' late</span>
+				<img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="ui-datepicker-trigger pointer"
 				onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 				src="../i/edit.png"></img>
 				';
 	}else{
-		return '<span class="green_txt_due_date">Author\'s revised version is due in ' . $lDueDateArr['datediff_days'] . ' days
-				<img id="duedate_editimg" class="ui-datepicker-trigger pointer"
+		return '<span class="green_txt_due_date">Author\'s revised version is due in ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').'
+				<img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="ui-datepicker-trigger pointer"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					src="../i/edit.png"></img>
 		</span>';
@@ -1880,9 +1882,9 @@ function checkEditorLEAssignDueDate($pRoundDueDate) {
 	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
 
 	if($lDueDateArr['flag'] == 2){
-		return '<span class="red_txt_due_date">Layout editor assignment is ' . $lDueDateArr['datediff_days'] . ' days late</span>';
+		return '<span class="red_txt_due_date">Layout editor assignment is ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').' late</span>';
 	}else{
-		return '<span class="green_txt_due_date">Layout editor assignment is due in ' . $lDueDateArr['datediff_days'] . ' days</span>';
+		return '<span class="green_txt_due_date">Layout editor assignment is due in ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').'</span>';
 	}
 
 }
@@ -1917,9 +1919,9 @@ function checkEditorCEAssignDueDate($pRoundDueDate) {
 	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
 
 	if($lDueDateArr['flag'] == 2){
-		return '<span class="red_txt_due_date">Copyeditor assignment is ' . $lDueDateArr['datediff_days'] . ' days late</span>';
+		return '<span class="red_txt_due_date">Copyeditor assignment is ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').' late</span>';
 	}else{
-		return '<span class="green_txt_due_date">Copyeditor assignment is due in ' . $lDueDateArr['datediff_days'] . ' days</span>';
+		return '<span class="green_txt_due_date">Copyeditor assignment is due in ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').'</span>';
 	}
 
 }
@@ -1928,14 +1930,14 @@ function checkEditorLEDecisionDueDate($pRoundDueDate, $pRoundId, $pRoundUserId) 
 	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
 
 	if($lDueDateArr['flag'] == 2){
-		return '<span class="red_txt_due_date">First proof is ' . $lDueDateArr['datediff_days'] . ' days late
-		<img id="duedate_editimg" class="pointer"
+		return '<span class="red_txt_due_date">First proof is ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').' late
+		<img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="pointer"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					src="../i/edit.png" />
 		</span>';
 	}else{
-		return '<span class="green_txt_due_date">First proof is due in ' . $lDueDateArr['datediff_days'] . ' days
-		<img id="duedate_editimg" class="ui-datepicker-trigger pointer"
+		return '<span class="green_txt_due_date">First proof is due in ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').'
+		<img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="ui-datepicker-trigger pointer"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					src="../i/edit.png" />
 		</span>';
@@ -1958,14 +1960,14 @@ function checkEditorCEDecisionDueDate($pRoundDueDate, $pRoundId, $pRoundUserId) 
 	$lDueDateArr = CheckDueDateDays($pRoundDueDate);
 
 	if($lDueDateArr['flag'] == 2){
-		return '<span class="red_txt_due_date">Linguistic editing is ' . $lDueDateArr['datediff_days'] . ' days late
-				<img id="duedate_editimg" class="pointer"
+		return '<span class="red_txt_due_date">Linguistic editing is ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').' late
+				<img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="pointer"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					src="../i/edit.png" />
 				</span>';
 	}else{
-		return '<span class="green_txt_due_date">Linguistic editing is due in ' . $lDueDateArr['datediff_days'] . ' days
-					<img id="duedate_editimg" class="pointer"
+		return '<span class="green_txt_due_date">Linguistic editing is due in ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').'
+					<img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="pointer"
 					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					src="../i/edit.png" />
 				</span>';
@@ -2289,16 +2291,16 @@ function checkCommunityPublicDueDate($pReviewProcessType, $pPanelDueDate, $pPubl
 	}
 
 	if($lDueDateArr['flag'] == 2){
-		return '<span class="red_txt_due_date">Reviews are ' . $lDueDateArr['datediff_days'] . ' days late</span>';
+		return '<span class="red_txt_due_date">Reviews are ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').' late</span>';
 	}else{
-		return '<span class="green_txt_due_date">Reviews expected in ' . $lDueDateArr['datediff_days'] . ' days</span>';
+		return '<span class="green_txt_due_date">Reviews expected in ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').'</span>';
 	}
 
 }
 
 function showSeparatorReviewers($pFirstName, $pLastName, $pRecords, $pRownum, $pVersionId) {
 	if((int)$pVersionId) {
-		$lStartReviewer = '<a href="javascript: void(0)" onclick="openPopUp(\'/view_version.php?version_id=' . (int)$pVersionId . '\')">';
+		$lStartReviewer = '<a title="'.getstr('pjs.tooltips.view_review').'" href="javascript: void(0)" onclick="openPopUp(\'/view_version.php?version_id=' . (int)$pVersionId . '\')">';
 		$lEndReviewer = '</a>';
 	}
 
@@ -2543,7 +2545,7 @@ function showCurrentAuthorVersionReviewer($pVersionNum, $pAuthorVersionNum, $pAu
 
 function changeReviewType($pState, $pDocumentId, $pReviewTypeId, $pRole) {
 	if((int) $pState == DOCUMENT_WAITING_SE_ASSIGNMENT_STATE && $pRole == JOURNAL_EDITOR_ROLE){
-		return '<img style="cursor: pointer;" onclick="openReviewTypePopUp(\'/chanrereviewtype.php?document_id=' . $pDocumentId . '&review_type_id=' . $pReviewTypeId . '\', 400, 200)" src="../i/edit.png" alt="edit">';
+		return '<img title="'.getstr('pjs.tooltips.change_review_process').'" style="cursor: pointer;" onclick="openReviewTypePopUp(\'/chanrereviewtype.php?document_id=' . $pDocumentId . '&review_type_id=' . $pReviewTypeId . '\', 400, 200)" src="../i/edit.png" alt="edit">';
 	}
 }
 function RetOldPjsLogoutImg($pLogout) {
@@ -2718,7 +2720,7 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
 
 		$lChangeIcon = '';
 		if($lRole == E_ROLE){
-			$lChangeIcon = '<img src="../i/edit.png" onclick="window.location=\'/view_document.php?id=' . (int) $pDocumentId . '&view_role=' . E_ROLE . '&mode=1&suggested=1\'" class="ui-datepicker-trigger pointer">';
+			$lChangeIcon = '<img src="../i/edit.png" title="'.getstr('pjs.tooltips.change_SE').'" onclick="window.location=\'/view_document.php?id=' . (int) $pDocumentId . '&view_role=' . E_ROLE . '&mode=1&suggested=1\'" class="ui-datepicker-trigger pointer">';
 		}
 
 		return '
@@ -2728,7 +2730,7 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
 				</div>
 				<div class="document_info_bottom_info_right_right">
 					' . $pFirstName . ' ' . $pLastName . '
-					<a href="mailto:' . $pUname . '"><img src="../i/mail.png"></a>
+					<a href="mailto:' . $pUname . '"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a>
 					' . $lChangeIcon . '
 				</div>
 				<div class="P-Clear"></div>
@@ -2950,6 +2952,29 @@ function CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserIsEdit
 function scrollFormIfErrors($pErrs){
 	if($pErrs) {
 		return 'scrollToForm()';
+	}
+}
+
+function ShowHideAuthorAction($pCreateUid, $pPWTid) {
+	global $user;
+	if($pCreateUid == $user->id) {
+		return '
+			<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first" onclick="window.location=\'' . PWT_URL . 'display_document.php?document_id=' . $pPWTid . '\'">
+				<div class="invite_reviewer_btn_left"></div>
+				<div class="invite_reviewer_btn_middle">Proceed</div>
+				<div class="invite_reviewer_btn_right"></div>
+				<div class="P-Clear"></div>
+			</div>
+		';
+	} else {
+		return '
+			<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first btn_inactive">
+				<div class="invite_reviewer_btn_left"></div>
+				<div class="invite_reviewer_btn_middle">Proceed</div>
+				<div class="invite_reviewer_btn_right"></div>
+				<div class="P-Clear"></div>
+			</div>
+		';
 	}
 }
 

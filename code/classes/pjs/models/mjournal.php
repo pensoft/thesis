@@ -85,126 +85,126 @@ class mJournal extends emBase_Model {
 		//error_reporting(E_ERROR | E_WARNING | E_PARSE);
 		//assert(is_int($pJournalId));
 		assert(is_int($pDocumentId));
-		$limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 7;
-		$lSql = "SELECT
+		$limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 5;
+		$lSql = "
+			SELECT
 				u.id,
 				u.first_name, 
 				u.last_name, 
 				u.uname as email
 				, dui.added_by_type_id as added,
 		
-				(SELECT string_agg((CASE WHEN c.id = any(d.taxon_categories) THEN '<b>' || c.name || '</b>'
-										 ELSE c.name END) , '; ') 
-				 FROM public.taxon_categories c 
-				 WHERE c.id = ANY(u.expertise_taxon_categories)) as taxa,
+				(SELECT string_agg((CASE WHEN c.id = any(d.taxon_categories) THEN '<b>' || c.name || '</b>' ELSE c.name END) , '; ') 
+					FROM public.taxon_categories c 
+					WHERE c.id = ANY(u.expertise_taxon_categories)) as taxa,
 				
-				(SELECT string_agg((CASE WHEN c.id = any(d.subject_categories) THEN '<b>' || c.name || '</b>'
-										 ELSE c.name END) , '; ') 
-				 FROM public.subject_categories c 
-				 WHERE c.id = ANY(u.expertise_subject_categories)) as subjects,
-				 
-				(SELECT string_agg((CASE WHEN c.id = any(d.geographical_categories) THEN '<b>' || c.name || '</b>'
-										 ELSE c.name END) , '; ')
-				 FROM public.geographical_categories c 
-				 WHERE c.id = ANY(u.expertise_geographical_categories))  as geo,  
-				 dui.role_id,
-				 dui.date_invited
-				FROM pjs.document_user_invitations dui
-				JOIN pjs.documents d ON d.id = dui.document_id
-				JOIN public.usr u ON u.id = dui.uid
-				WHERE document_id = $pDocumentId
-				  AND dui.round_id = d.current_round_id
-				  AND ((dui.role_id <> 5 AND dui.role_id <> 11 AND dui.role_id <> 3) OR dui.role_id IS NULL)
-				
-				UNION
-		
-				(SELECT id, first_name, last_name, email, added,
-					taxa, subjects, geo, role_id, date_invited
-				FROM(
-				SELECT row_number() OVER(ORDER BY rating DESC) AS position, * FROM
-				
-				(SELECT 
-					u.id
-					, u.first_name, u.last_name, u.uname AS email
-					, t1.pos AS tax_pos, t2.pos AS sub_pos, t3.pos AS geo_pos
-
-					, ( coalesce(1 - tax_rating::double precision / (SELECT max(length(pos)) FROM public.taxon_categories)        , 0) * 6 + 
-						coalesce(1 - sub_rating::double precision / (SELECT max(length(pos)) FROM public.subject_categories)      , 0) * 3 + 
-						coalesce(1 - geo_rating::double precision / (SELECT max(length(pos)) FROM public.geographical_categories) , 0) * 1)
-				
-					  as rating, 3 AS added,
-					  
-					(SELECT string_agg((CASE WHEN c.pos = any(t1.pos) THEN '<b>' || c.name || '</b>'
-											 ELSE c.name END) , '; ') 
-					 FROM public.taxon_categories c 
-					 WHERE c.id = ANY(u.expertise_taxon_categories)) as taxa,
-					
-					(SELECT string_agg((CASE WHEN c.pos = any(t2.pos) THEN '<b>' || c.name || '</b>'
-											 ELSE c.name END) , '; ') 
+				(SELECT string_agg((CASE WHEN c.id = any(d.subject_categories) THEN '<b>' || c.name || '</b>' ELSE c.name END) , '; ') 
 					 FROM public.subject_categories c 
 					 WHERE c.id = ANY(u.expertise_subject_categories)) as subjects,
-					 
-					(SELECT string_agg((CASE WHEN c.pos = any(t3.pos) THEN '<b>' || c.name || '</b>'
-											 ELSE c.name END) , '; ') 
-					 FROM public.geographical_categories c 
-					 WHERE c.id = ANY(u.expertise_geographical_categories))  as geo,
-					 0 AS role_id,
-					 NULL::timestamp as date_invited 
-				FROM
-				usr u 
-				LEFT join(
-					SELECT t1.usr_id, array_agg(t1.pos) as pos, max((length(c1.pos) - length(t1.pos)) / 2) as tax_rating
-					FROM pjs.documents d
-					JOIN public.taxon_categories c1 on (c1.id = ANY(d.taxon_categories))
-					JOIN (
-						SELECT c.pos as pos, c.name AS name, u.id AS usr_id
-							FROM usr u
-							JOIN public.taxon_categories c ON (c.id = ANY(u.expertise_taxon_categories))
-					) AS t1 ON (c1.pos like t1.pos || '%')
-					WHERE 
-						d.id = $pDocumentId
-					group by t1.usr_id
-				) as t1 on (u.id = t1.usr_id)
-				LEFT join(
-					SELECT t1.usr_id, array_agg(t1.pos) as pos, max((length(c1.pos) - length(t1.pos)) / 2) as sub_rating
-					FROM pjs.documents d
-					JOIN public.subject_categories c1 on (c1.id = ANY(d.subject_categories))
-					JOIN (
-						select c.pos as pos, c.name as name, u.id as usr_id
-							from usr u
-							JOIN public.subject_categories c on (c.id = ANY(u.expertise_subject_categories))
-					) as t1 on (c1.pos like t1.pos || '%')
-					WHERE 
-						d.id = $pDocumentId
-					group by t1.usr_id
-				) as t2 on (u.id = t2.usr_id)
+				 
+				(SELECT string_agg((CASE WHEN c.id = any(d.geographical_categories) THEN '<b>' || c.name || '</b>' ELSE c.name END) , '; ')
+					FROM public.geographical_categories c 
+					WHERE c.id = ANY(u.expertise_geographical_categories))  as geo,  
+				dui.role_id,
+				dui.date_invited,
+				dui.due_date,
+				0 as rating
+			FROM pjs.document_user_invitations dui
+			JOIN pjs.documents d ON d.id = dui.document_id
+			JOIN public.usr u ON u.id = dui.uid
+			WHERE document_id = $pDocumentId
+			  AND dui.round_id = d.current_round_id
+			  AND ((dui.role_id <> 5 AND dui.role_id <> 11 AND dui.role_id <> 3) OR dui.due_date IS NULL)
 				
-				LEFT join(
-					SELECT t1.usr_id, array_agg(t1.pos) as pos, max((length(c1.pos) - length(t1.pos)) / 2) as geo_rating
-					FROM pjs.documents d
-					JOIN public.geographical_categories c1 on (c1.id = ANY(d.geographical_categories))
-					JOIN (
-						select c.pos as pos, c.name as name, u.id as usr_id
-							from usr u
-							JOIN public.geographical_categories c on (c.id = ANY(u.expertise_geographical_categories))
-					) as t1 on (c1.pos like t1.pos || '%')
-					WHERE 
-						d.id = $pDocumentId
-					GROUP BY t1.usr_id
-				) AS t3 ON (u.id = t3.usr_id)	
-				WHERE t1.usr_id is not null OR t2.usr_id is not null or t3.usr_id is not null
-				ORDER BY rating DESC
-				) AS oaeuaoeouaeouoeu
+			UNION
+		
+			(SELECT id, first_name, last_name, email, added, taxa, subjects, geo, role_id, date_invited, due_date, rating
+			 FROM
+				(SELECT row_number() OVER(ORDER BY rating DESC) AS position, * 
+				 FROM			
+					(SELECT 
+						u.id
+						, u.first_name, u.last_name, u.uname AS email
+						, t1.pos AS tax_pos, t2.pos AS sub_pos, t3.pos AS geo_pos
+	
+						, ( greatest(coalesce(1 - tax_rating::double precision / 5 , 0), 0.0) * 7 + 
+							greatest(coalesce(1 - sub_rating::double precision / 5 , 0), 0.0) * 2 + 
+							greatest(coalesce(1 - geo_rating::double precision / 5 , 0), 0.0) * 1)
+					
+						  as rating, 3 AS added,
+						  
+						(SELECT string_agg((CASE WHEN c.pos = any(t1.pos) THEN '<b>' || c.name || '</b>' ELSE c.name END) , '; ') 
+							 FROM public.taxon_categories c 
+							 WHERE c.id = ANY(u.expertise_taxon_categories)) as taxa,
+						
+						(SELECT string_agg((CASE WHEN c.pos = any(t2.pos) THEN '<b>' || c.name || '</b>' ELSE c.name END) , '; ') 
+							 FROM public.subject_categories c 
+							 WHERE c.id = ANY(u.expertise_subject_categories)) as subjects,
+						 
+						(SELECT string_agg((CASE WHEN c.pos = any(t3.pos) THEN '<b>' || c.name || '</b>' ELSE c.name END) , '; ') 
+							 FROM public.geographical_categories c 
+							 WHERE c.id = ANY(u.expertise_geographical_categories))  as geo,
+						0 AS role_id,
+						NULL::timestamp as date_invited,
+						NULL::timestamp as due_date 
+					FROM
+					usr u 
+					LEFT join(
+						SELECT t1.usr_id, array_agg(t1.pos) as pos, max((length(c1.pos) - length(t1.pos)) / 2) as tax_rating
+						FROM pjs.documents d
+						JOIN public.taxon_categories c1 on (c1.id = ANY(d.taxon_categories))
+						JOIN (
+							SELECT c.pos as pos, c.name AS name, u.id AS usr_id
+								FROM usr u
+								JOIN public.taxon_categories c ON (c.id = ANY(u.expertise_taxon_categories))
+						) AS t1 ON (c1.pos like t1.pos || '%')
+						WHERE 
+							d.id = $pDocumentId
+						group by t1.usr_id
+					) as t1 on (u.id = t1.usr_id)
+					LEFT join(
+						SELECT t1.usr_id, array_agg(t1.pos) as pos, max((length(c1.pos) - length(t1.pos)) / 2) as sub_rating
+						FROM pjs.documents d
+						JOIN public.subject_categories c1 on (c1.id = ANY(d.subject_categories))
+						JOIN (
+							select c.pos as pos, c.name as name, u.id as usr_id
+								from usr u
+								JOIN public.subject_categories c on (c.id = ANY(u.expertise_subject_categories))
+						) as t1 on (c1.pos like t1.pos || '%')
+						WHERE 
+							d.id = $pDocumentId
+						group by t1.usr_id
+					) as t2 on (u.id = t2.usr_id)
+					
+					LEFT join(
+						SELECT t1.usr_id, array_agg(t1.pos) as pos, max((length(c1.pos) - length(t1.pos)) / 2) as geo_rating
+						FROM pjs.documents d
+						JOIN public.geographical_categories c1 on (c1.id = ANY(d.geographical_categories))
+						JOIN (
+							select c.pos as pos, c.name as name, u.id as usr_id
+								from usr u
+								JOIN public.geographical_categories c on (c.id = ANY(u.expertise_geographical_categories))
+						) as t1 on (c1.pos like t1.pos || '%')
+						WHERE 
+							d.id = $pDocumentId
+						GROUP BY t1.usr_id
+					) AS t3 ON (u.id = t3.usr_id)	
+					WHERE (t1.usr_id is not null OR t2.usr_id is not null OR t3.usr_id is not null) AND u.state > 0
+					ORDER BY rating DESC
+					) AS oaeuaoeouaeouoeu
 				) AS aouoeuoeuoe
 				WHERE id NOT IN (SELECT uid FROM pjs.document_user_invitations 
-									WHERE document_id = $pDocumentId AND round_id = (SELECT current_round_id FROM pjs.documents WHERE id = $pDocumentId) ) 
+									WHERE document_id = $pDocumentId AND round_id = (SELECT current_round_id FROM pjs.documents WHERE id = $pDocumentId) 
+								 UNION
+								 SELECT uid FROM pjs.document_users WHERE document_id = $pDocumentId and role_id = 11
+								) 
 				  AND (rating >= $limit OR position <= 2)
 				limit 20)
 							
 			
-			ORDER BY added, date_invited
+			ORDER BY added, rating desc, date_invited
 			";
-		return $this->ArrayOfRows($lSql);
+		return $this->ArrayOfRows($lSql, 0);
 	}
 
 	/**

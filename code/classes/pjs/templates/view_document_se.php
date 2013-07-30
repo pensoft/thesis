@@ -546,7 +546,7 @@ $gTemplArr = array(
 
 	'view_document_se.dedicatedReviewerAssignedListRow' => '
 		<tr>
-			<td align="left">{first_name} {last_name} <a href="mailto:{uname}"><img src="../i/mail.png"></a></td>
+			<td align="left">{first_name} {last_name} <a href="mailto:{uname}"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a></td>
 			<td align="left">
 				{_DisplaySETextAboutDedicatedReviewer(invitation_state, usr_state, decision_id, due_date, decision_name, review_usr_due_date, round_id, id, reviwer_id)}
 			</td>
@@ -580,7 +580,7 @@ $gTemplArr = array(
 			{_unsafe_render_if(taxa, ,<br />)}{_unsafe_render_if(subjects, ,<br />)}{_unsafe_render_if(geo)}</span></td>
 			<td class="sm_font">{email}</td>
 			<td class="sm_font">{_suggestedBy(added)}</td>
-			{_ReviewerOptions(role_id, id, round_number, review_process_type)}
+			{_ReviewerOptions(role_id, id, round_number, review_process_type, due_date)}
 		</tr>',
 	'view_document_se.noSuggestedReviewersAvailable' =>
 	'<p>{_getstr(pjs.no_suggestions)}</p>',
@@ -589,13 +589,18 @@ $gTemplArr = array(
 	
 	'view_document_se.dedicatedReviewerAvailableListFooter' => '
 	<script type="text/javascript">
-	
 			var check;
 			$(\'input[type="radio"]\').hover(function() {
 			    check = $(this).is(\':checked\');
 			});
 			$(\'input[type="radio"]\').click(function() {
 			    check = !check;
+				ExecuteSimpleDocumentAjaxRequest({
+					action : "saveReviewerRole",
+					reviewer_id: this.name,
+					role: (check ? (this.value == "n" ? 5 : 7 ) : 0),
+					current_round_id : {current_round_id}
+				}) 
 			    $(this).attr("checked", check);
 			});
 		
@@ -818,7 +823,7 @@ $gTemplArr = array(
 
 	'view_document_se.dedicatedReviewerAssignedOldListRow' => '
 		<tr>
-			<td align="left">{first_name} {last_name} <a href="mailto:{uname}"><img src="../i/mail.png"></a></td>
+			<td align="left">{first_name} {last_name} <a href="mailto:{uname}"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a></td>
 			<td align="left">
 				{_DisplaySETextAboutDedicatedReviewer(invitation_state, usr_state, decision_id, due_date, decision_name, review_usr_due_date)}
 			</td>

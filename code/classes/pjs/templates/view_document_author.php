@@ -147,12 +147,7 @@ $gTemplArr = array(
 								<table cellpadding="0" cellspacing="0" width=100%>
 									<tr>
 										<td align="center">
-											<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first" onclick="window.location=\'' . PWT_URL . 'display_document.php?document_id={pwt_id}\'">
-												<div class="invite_reviewer_btn_left"></div>
-												<div class="invite_reviewer_btn_middle">Proceed</div>
-												<div class="invite_reviewer_btn_right"></div>
-												<div class="P-Clear"></div>
-											</div>
+											{_ShowHideAuthorAction(createuid, pwt_id)}
 										</td>
 									</tr>
 								</table>
@@ -289,12 +284,7 @@ $gTemplArr = array(
 									<tr>
 										<td align="center">
 											<span class="yellow-green-txt">Revise your manuscript and submit version to be used for copy editing</span>
-											<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first" onclick="window.location=\'' . PWT_URL . 'display_document.php?document_id={pwt_id}\'">
-												<div class="invite_reviewer_btn_left"></div>
-												<div class="invite_reviewer_btn_middle">Proceed</div>
-												<div class="invite_reviewer_btn_right"></div>
-												<div class="P-Clear"></div>
-											</div>
+											{_ShowHideAuthorAction(createuid, pwt_id)}
 										</td>
 									</tr>
 								</table>
@@ -348,12 +338,7 @@ $gTemplArr = array(
 											<span class="yellow-green-txt">
 												{_getstr(pjs.revise_author_version_for_ce_le_round)}
 											</span>
-											<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first" onclick="window.location=\'' . PWT_URL . 'display_document.php?document_id={pwt_id}\'">
-												<div class="invite_reviewer_btn_left"></div>
-												<div class="invite_reviewer_btn_middle">Proceed</div>
-												<div class="invite_reviewer_btn_right"></div>
-												<div class="P-Clear"></div>
-											</div>
+											{_ShowHideAuthorAction(createuid, pwt_id)}
 										</td>
 									</tr>
 								</table>

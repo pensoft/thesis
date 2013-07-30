@@ -36,15 +36,14 @@ $BODY$
 			d.abstract,
 			d.keywords,
 			d.journal_id,
-			(SELECT string_agg(u.first_name || ' ' || u.last_name || 
-													(case when co_author = 1 then '*'
-																										else '' end) || ' - ' || u.affiliation, '<br />') as author_name
-				
-			 FROM pjs.document_users du 
-			 JOIN public.usr u ON du.uid = u.id
-			 WHERE du.document_id = pDocumentId
-			  AND role_id = cAuthorRoleId)
-			   as author_name,
+			(SELECT string_agg(a.author_name, '<br />') FROM (
+				SELECT (du.first_name || ' ' || du.last_name || (case when co_author = 1 then '*' else '' end) || ' - ' || du.affiliation) as author_name
+				 FROM pjs.document_users du 
+				 JOIN public.usr u ON du.uid = u.id
+				 WHERE du.document_id = pDocumentId
+					AND role_id = cAuthorRoleId AND du.state_id = 1
+				ORDER BY du.ord ASC
+			) a ) as author_name,
 			   
 			   (SELECT u.first_name || ' ' || u.last_name			 																						
 					from public.usr  u
@@ -60,6 +59,14 @@ $BODY$
 			d.pwt_paper_type_id as pwt_paper_type_id,
 			js.title as journal_section
 		FROM pjs.documents d
+		/*LEFT JOIN (
+			SELECT (du.first_name || ' ' || du.last_name || (case when co_author = 1 then '*' else '' end) || ' - ' || du.affiliation) as author_name, du.document_id
+			 FROM pjs.document_users du 
+			 JOIN public.usr u ON du.uid = u.id
+			 WHERE du.document_id = pDocumentId
+			  AND role_id = cAuthorRoleId AND du.state_id = 1
+			ORDER BY du.ord ASC
+		) a ON a.document_id = d.id*/
 		LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id AND js.journal_id = d.journal_id
 		WHERE  d.id = pDocumentId;	
 		RETURN lRes;

@@ -592,18 +592,12 @@ class mDashboard extends emBase_Model {
 			max(role_id) as role_id, 
 			viewmode_id,
 			sum(count) as count
- 			FROM pjs.spGetDashboardViewmodeCount(' . $pJournalId . ', 
-		  ARRAY[' . implode(',', $pRolesArr) . ']::int[], ' . $pUid . ')
+ 			FROM pjs.spGetDashboardViewmodeCount(' . $pJournalId . ', ARRAY[' . implode(',', $pRolesArr) . ']::int[], ' . $pUid . ')
 		  GROUP BY viewmode_id;
 		  ';
 		//echo $lSql;
 		$this->m_con->Execute($lSql);
 		while(!$this->m_con->Eof()){
-			/*$lRole = $this->m_con->mRs['role_id'];
-			if(!array_key_exists($lRole, $lResultArray)){
-				$lResultArray[$lRole] = array();
-			}*/
-			//$lResultArray[$lRole][$this->m_con->mRs['viewmode_id']] = $this->m_con->mRs['count'];
 			$lResultArray[$this->m_con->mRs['viewmode_id']] = $this->m_con->mRs['count'];
 			$this->m_con->MoveNext();
 		}
