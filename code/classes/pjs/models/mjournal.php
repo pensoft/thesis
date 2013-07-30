@@ -85,7 +85,7 @@ class mJournal extends emBase_Model {
 		//error_reporting(E_ERROR | E_WARNING | E_PARSE);
 		//assert(is_int($pJournalId));
 		assert(is_int($pDocumentId));
-		$limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 7;
+		$limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 5;
 		$lSql = "
 			SELECT
 				u.id,
@@ -127,9 +127,9 @@ class mJournal extends emBase_Model {
 						, u.first_name, u.last_name, u.uname AS email
 						, t1.pos AS tax_pos, t2.pos AS sub_pos, t3.pos AS geo_pos
 	
-						, ( greatest(coalesce(1 - tax_rating::double precision / 10 , 0), 0.0) * 6 + 
-							greatest(coalesce(1 - sub_rating::double precision / 10 , 0), 0.0) * 3 + 
-							greatest(coalesce(1 - geo_rating::double precision / 10 , 0), 0.0) * 1)
+						, ( greatest(coalesce(1 - tax_rating::double precision / 5 , 0), 0.0) * 7 + 
+							greatest(coalesce(1 - sub_rating::double precision / 5 , 0), 0.0) * 2 + 
+							greatest(coalesce(1 - geo_rating::double precision / 5 , 0), 0.0) * 1)
 					
 						  as rating, 3 AS added,
 						  
