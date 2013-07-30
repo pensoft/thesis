@@ -88,10 +88,12 @@
 	display: block;
 	margin-top: -5px;
 }
+
+/*
 #docEditHeader .box .P-Grey-Btn-Holder, .P-Green-Btn-Holder{
 	margin: 32px 0 0 16px;
 }
-
+*/
 
 .P-Disabled-Btn{
 	opacity: .5;

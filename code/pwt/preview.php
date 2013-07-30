@@ -91,6 +91,7 @@ $lPageArray = array(
 		),
 		'preview_header' => displayEditPreviewHeader($gDocumentId, getDocumentLatestRevisionId($gDocumentId), false),
 		//~ 'preview' => getDocumentPreview($gDocumentId, 0, $gXSLPath),
+		'document_has_unprocessed_changes' => checkIfDocumentHasUnprocessedChangesSimple($gDocumentId),
 		'document_id' => $gDocumentId,
 		'template_xsl_path' => $gXSLPath,
 	),

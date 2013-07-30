@@ -3166,6 +3166,7 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 // 	return $lHtml;
 // 	error_reporting(0)
 // 	var_dump($lHtml);
+// 	file_put_contents('/tmp/preview_' . $pDocumentId . '.html', $lHtml);
 	
 	$lDomHtml = new DOMDocument('1.0', DEFAULT_XML_ENCODING);	
 	$lDomHtml->loadHTML($lHtml);
@@ -3232,7 +3233,7 @@ function upToParentNodeByNameAndAttribute($pNode, $pNodeName, $pAttributeName, $
 	$pNode = $pNode->parentNode;
 	while (!$pNode->hasAttribute($pAttributeName) || $pNode->nodeName != $pNodeName) {
 		if($pNode->nodeName == $pEndNodeSearch)
-			return 0;
+			return null;
 		$pNode = $pNode->parentNode;
 	}
 	return $pNode;
@@ -3265,6 +3266,12 @@ function moveObjectToCitationPos($pDomDoc, $pFigNum, $pPNodeToMove, $pDivObjectA
 				$td->setAttribute('class', 'P-Article-Preview-Table-Row');
 				$td->appendChild($figurenode);
 				$tr->appendChild($td);
+// 				if(!$lTableRow || !$lTableRow->nextSibling->nextSibling){
+// 					var_dump($pFigNum);
+// 					var_dump($pNode->nodeName);
+// 					exit;
+// 					trigger_error('ERROR1' . var_export($lTableRow, 1), E_USER_WARNING);
+// 				}
 				$lTableRow->parentNode->insertBefore($tr, $lTableRow->nextSibling->nextSibling);
 
 			} else {
@@ -5226,16 +5233,8 @@ function displayEditPreviewHeader($pDocumentId, $pRevisionId, $pHeaderInIframe =
 		return $lResult;
 	}
 	$lTemplate = 'preview.editHeader';
-	$lCon = new DBCn();
-	$lCon->Open();
-	$lSql = '
-		SELECT has_unprocessed_changes::int as has_unprocessed_changes, doc_xml
-		FROM pwt.documents
-		WHERE id = ' . (int)$pDocumentId;
-	$lCon->Execute($lSql);
-	$lDocumentHasUnprocessedChanges = (int)$lCon->mRs['has_unprocessed_changes'];
-	$lDocumentXml = $lCon->mRs['doc_xml'];
-	if(!checkIfDocumentHasUnprocessedChanges($pDocumentId, $lDocumentHasUnprocessedChanges, $lDocumentXml)){
+	
+	if(!checkIfDocumentHasUnprocessedChangesSimple($pDocumentId)){
 		$lTemplate = 'preview.editHeaderWithoutChanges';
 	}
 	
@@ -5555,6 +5554,25 @@ function GetFieldComments($pInstanceId, $pFieldId, $pCon = false){
 	}
 // 	var_dump($lResult);
 	return $lResult;
+}
+
+function displayIframePreviewHasUnprocessedChangesClass($pDocumentHasUnprocessedChanges){
+	if((int)$pDocumentHasUnprocessedChanges){
+		return ' previewIframeWithUnprocessedChanges ';
+	}
+}
+
+function checkIfDocumentHasUnprocessedChangesSimple($pDocumentId){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = '
+		SELECT has_unprocessed_changes::int as has_unprocessed_changes, doc_xml
+		FROM pwt.documents
+		WHERE id = ' . (int)$pDocumentId;
+	$lCon->Execute($lSql);
+	$lDocumentHasUnprocessedChanges = (int)$lCon->mRs['has_unprocessed_changes'];
+	$lDocumentXml = $lCon->mRs['doc_xml'];
+	return checkIfDocumentHasUnprocessedChanges($pDocumentId, $lDocumentHasUnprocessedChanges, $lDocumentXml);
 }
 
 /**

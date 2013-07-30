@@ -5253,6 +5253,6 @@ td #docDescr {
 	padding-left:20px;
 }
 
-#previewIframe{
+#previewIframe.previewIframeWithUnprocessedChanges{
 	margin-top:113px;	
 }
