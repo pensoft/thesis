@@ -81,7 +81,7 @@ body {
 }
 
 .ins.P-Active-Change{
-	background: green;
+	background: #8dcb54;
 }
 
 .del {
@@ -94,7 +94,7 @@ body {
 }
 
 .del.P-Active-Change{
-	background: red;
+	background: #eaafaf;
 }
 
 .hideChanges .ins, fake-insert.ins {
