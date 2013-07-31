@@ -24,8 +24,8 @@ class cPreview_Ajax_Srv extends cBase_Controller {
 		$this->m_ReadOnlyPreview = 0;
 
 		$this->m_versionModel = new mVersions();
-		$lDecisionData = $this->m_versionModel->checkForDecision($this->m_versionId);
-		if((int)$lDecisionData['has_decision']) {
+		$lIsReadonly = $this->m_versionModel->CheckIfVersionIsReadonly($this->m_versionId);		
+		if($lIsReadonly) {
 			$this->m_ReadOnlyPreview = 1;
 		}
 		$this->m_documentPwtId = $this->m_versionModel->GetVersionDocumentPwtId($this->m_versionId);
