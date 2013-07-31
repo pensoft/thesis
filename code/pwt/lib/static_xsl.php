@@ -316,6 +316,15 @@ function parseReferenceItemTitle($pTitle){
 	return $pTitle;
 }
 
+function parseReferenceItemTitleLastCharachter($pTitle){
+	$pTitle = trim($pTitle);
+	$lLastChar = mb_substr($pTitle, mb_strlen($pTitle) - 1);
+	if(!($lLastChar == '.' || $lLastChar == '!' || $lLastChar == '?')){
+		return '.';
+	}
+	return '';
+}
+
 function customDateFormat($pDate){
 	return str_replace('/', '-', $pDate);
 }

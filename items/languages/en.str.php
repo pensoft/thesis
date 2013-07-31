@@ -2171,7 +2171,7 @@ $STRARRAY = array(
 	'pjs.SE_E_CE_submit_review_confirmation' => 'Are you sure that you have completed your editorial decision? Once submitted you will not be able to make any further changes!',
 	'pjs.panel_public_review_ended' => 'This manuscript is no longer available to panel reviewers',
 	'pjs.tooltips.view_review' => 'View review',
-	'pjs.tooltips.accept_review_request' => 'Accept review request',
+	'pjs.tooltips.accept_review_request' => 'Accept review request on behalf of the reviewer',
 	'pjs.tooltips.cancel_review_request' => 'Cancel review request',
 	'pjs.tooltips.change_due_date' => 'Change due date',
 	'pjs.tooltips.SE_reviewing_as_reviewer' => 'Make review on the behalf of this reviewer',
@@ -2180,6 +2180,7 @@ $STRARRAY = array(
 	'pjs.tooltips.change_SE' => 'Change subject editor',
 	'pjs.tooltips.reinvite_reviewer' => 'Invite this reviewer again',
 	'pjs.tooltips.send_email' => 'Send e-mail',
+	'pjs.cannotInviteMoreReviewers' => 'You can not invite more reviewers',
 	
 	
 );

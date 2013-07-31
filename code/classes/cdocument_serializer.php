@@ -135,9 +135,9 @@ class cdocument_serializer extends csimple {
 		$this->DumpTimeLog('END PROCESSING INVALID CACHE SERIALIZING');
 		$this->serializeFields();
 		$this->DumpTimeLog('END SERIALIZING FIELDS');
-		$this->serializeFigures();
+		//$this->serializeFigures();
 		$this->DumpTimeLog('END SERIALIZING FIGURES');
-		$this->serializeTables();
+		//$this->serializeTables();
 		$this->DumpTimeLog('END SERIALIZING TABLES');		
 		
 // 		$lInstanceId = 234969;
