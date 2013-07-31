@@ -408,7 +408,10 @@
 			
 			<!-- Volume -->
 			<xsl:if test="$lVolume != ''">
-				<xsl:text>, </xsl:text>
+				<xsl:if test="normalize-space(./fields/*[@id='256']/value) != ''">
+					<xsl:text>,</xsl:text>
+				</xsl:if>	
+				<xsl:text> </xsl:text>	
 				<span>
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
