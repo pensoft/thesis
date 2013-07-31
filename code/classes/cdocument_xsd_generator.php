@@ -80,13 +80,13 @@ class cdocument_xsd_generator extends csimple {
 		$lObjectsXmlNode->setAttribute('name', 'objects');
 		$lObjectsXmlNode->setAttribute('type', 'objectsType');
 
-		$lFiguresXmlNode = $lDocumentSeqNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:element'));
-		$lFiguresXmlNode->setAttribute('name', 'figures');
-		$lFiguresXmlNode->setAttribute('type', 'figuresType');
-
-		$lTablesXmlNode = $lDocumentSeqNode->appendChild($this->xsdElem('element'));
-		$lTablesXmlNode->setAttribute('name', 'tables');
-		$lTablesXmlNode->setAttribute('type', 'tablesType');
+		// $lFiguresXmlNode = $lDocumentSeqNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:element'));
+		// $lFiguresXmlNode->setAttribute('name', 'figures');
+		// $lFiguresXmlNode->setAttribute('type', 'figuresType');
+// 
+		// $lTablesXmlNode = $lDocumentSeqNode->appendChild($this->xsdElem('element'));
+		// $lTablesXmlNode->setAttribute('name', 'tables');
+		// $lTablesXmlNode->setAttribute('type', 'tablesType');
 
 		$lDocumentAttribNode = $lDocumentTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:attribute'));
 		$lDocumentAttribNode->setAttribute('name', 'id');
@@ -638,7 +638,15 @@ class cdocument_xsd_generator extends csimple {
 			</xsd:complexType>
 
 			<xsd:complexType xmlns:xsd="' . XSD_SCHEMA_LOCATION . '" name="fieldStringEmpty">
-			<xsd:sequence><xsd:element name="value" minOccurs="1" maxOccurs="1"><xsd:complexType><xsd:simpleContent><xsd:extension base="xsd:string">' . $lIdAttributeXml . '</xsd:extension></xsd:simpleContent></xsd:complexType></xsd:element></xsd:sequence>
+				<xsd:sequence>
+					<xsd:element name="value" minOccurs="1" maxOccurs="1">
+						<xsd:complexType>
+							<xsd:simpleContent>
+								<xsd:extension base="xsd:string">' . $lIdAttributeXml . '</xsd:extension>
+							</xsd:simpleContent>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
 			</xsd:complexType>
 
 			<xsd:complexType xmlns:xsd="' . XSD_SCHEMA_LOCATION . '" name="fieldStringArr">
@@ -769,6 +777,7 @@ class cdocument_xsd_generator extends csimple {
 			case (int)FIELD_HTML_EDITOR_TYPE:
 			case (int)FIELD_HTML_EDITOR_TYPE_NO_CITATIONS:
 			case (int)FIELD_HTML_EDITOR_TYPE_ONLY_REFERENCE_CITATIONS:
+			case (int)FIELD_HTML_TEXTAREA_TABLE:
 				if($pAllowNull){
 					return 'fieldEmpty';
 				}else{
