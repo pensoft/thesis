@@ -33,7 +33,8 @@ CREATE type pjs.ret_spGetTemplateValuesForReplace AS (
 	se_createusr_geo_expertize varchar,
 	se_createusr_sub_expertize varchar,
 	se_invite_reviewers_days int,
-	se_can_take_decision_days int
+	se_can_take_decision_days int,
+	user_name varchar
 );
 -- Function: spGetReviewerAnswer(integer)
 
@@ -63,6 +64,9 @@ DECLARE
 BEGIN
 
 	lRes.document_id = pDocumentId;
+
+	-- selecting information about user that the event is for
+	SELECT INTO lRes.user_name u.uname FROM usr u WHERE u.id = pUsrIdEventTo;
 
 	-- selecting information about user
 	SELECT INTO 
