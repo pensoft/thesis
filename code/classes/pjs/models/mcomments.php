@@ -109,10 +109,10 @@ class mComments extends emBase_Model {
 		);
 		$lSql = 'SELECT * FROM pjs.spDeleteComment(' . $pCommentId . ',' . $pUsrId . ');';
 // 		var_dump($this->m_con->Execute($lSql));
-// 		var_dump($lSql);
+// 		var_dump($lSql);		
 // 		var_dump($this->m_con->Execute($lSql));
 		if(!$this->m_con->Execute($lSql)){
-			$lResult['err_cnt']++;
+			$lResult['err_cnt'] = 1;
 			$lResult['err_msg'] = getstr($this->m_con->GetLastError());
 		}
 
@@ -138,6 +138,7 @@ class mComments extends emBase_Model {
 					m2.is_disclosed::int as is_disclosed,
 					uu.name as undisclosed_user_fullname
 				FROM pjs.spResolveComment(' . $pCommentId . ',' . (int)$pResolve . ',' . $pUsrId . ') m
+				JOIN pjs.msg m2 ON m2.id = ' . $pCommentId . '
 				LEFT JOIN usr u2 ON m.resolve_uid = u2.id
 				LEFT JOIN undisclosed_users uu ON uu.id = m2.undisclosed_usr_id
 				;

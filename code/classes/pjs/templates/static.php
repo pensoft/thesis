@@ -2433,8 +2433,8 @@ function decisionFormPreviewMode($pReadOnly, $pRole, $pName, $pDecision, $pUserL
 					// <![CDATA[
 			$(document).ready(function(){
 				$(\'.P-Wrapper-Container-Left\').css(\'margin-top\', \'0px\');
-				$(\'.P-Article-Content\').css(\'margin-top\', \'109px\');
-				$(\'.P-Wrapper-Container-Right\').css(\'top\', \'112px\');
+				$(\'.P-Article-Content\').css(\'margin-top\', \'136px\');
+				$(\'.P-Wrapper-Container-Right\').css(\'top\', \'136px\');
 				$(\'.buttons\').css({
 					\'margin-top\': \'-18px\',
 					\'border-left\': \'none\',
@@ -2517,7 +2517,7 @@ function showReviewerRoundStateObjs($pDecisionId, $pInvitationState, $pUsrRoleNa
 }
 function changeHeaderSize($pReadOnly) {
 	if($pReadOnly == 1)
-		return 'height: 59px;';
+		return 'height: 59px;overflow:hidden';
 }
 function returnQuestion($pQuestionNum){
 	return getstr('admin.article_versions.quest' . ($pQuestionNum + 1));
@@ -2822,15 +2822,37 @@ function DisplayCommentAnswerForm($pAnswerForms, $pRootId){
 	return $pAnswerForms[$pRootId];
 }
 
-function DisplayCommentEditForm($pEditForms, $pCommentId, $pCommentUsrId, $pCurrentUsrId){
+function DisplayCommentEditForm($pEditForms, $pCommentId, $pCommentUsrId, $pCurrentUsrId, $pVersionIsReadonly = false){
 // 	var_dump($pEditForms);
-	if((int)$pCommentUsrId == (int)$pCurrentUsrId){
+	if((int)$pCommentUsrId == (int)$pCurrentUsrId && !$pVersionIsReadonly){
 		return $pEditForms[$pCommentId];
 	}
 }
 
-function putCommentOnClickEvent($pCommentId, $pCommentUsrId, $pCurrentUsrId){	
-	if($pCurrentUsrId != $pCommentUsrId){
+function displayCommentReplyDetails($pRootId, $pCommentReplyForms, $pVersionIsReadonly = false){
+	if($pVersionIsReadonly){
+		return ;
+	}
+	$lResult = '
+				<div onclick="showCommentForm(' . (int)$pRootId . ');" class="reply_btn" id="P-Comment-Btn-' . (int)$pRootId . '"></div>
+				<div id="P-Comment-Form_' . (int)$pRootId . '" style="display: none;">
+					' . DisplayCommentAnswerForm($pCommentReplyForms, $pRootId) . '
+					<div class="P-Grey-Btn-Holder">
+						<div class="P-Grey-Btn-Left"></div>
+						<div class="P-Grey-Btn-Middle">
+							<div class="P-Comment">
+								<div class="P-Btn-Icon"></div>
+								<div class="P-Grey-Btn-Middle" onclick="SubmitCommentReplyForm(' . (int)$pRootId . ');">Reply</div>
+							</div>
+						</div>
+						<div class="P-Grey-Btn-Right"></div>
+					</div>
+				</div>';
+	return $lResult;
+}
+
+function putCommentOnClickEvent($pCommentId, $pCommentUsrId, $pCurrentUsrId, $pVersionIsReadonly = false){	
+	if($pVersionIsReadonly || $pCurrentUsrId != $pCommentUsrId){
 		return;
 	}
 	return ' onclick="displayCommentEditForm(' . (int)$pCommentId . ')"';
@@ -2853,7 +2875,7 @@ function showDoiLinkIfExist($pDoi){
 
 function fixTopPositionLeftCol($pReadOnly) {
 	if($pReadOnly == 1) {
-		return 'style="top:110px"';
+		return 'style="top:136px"';
 	} else {
 		return 'style="top:153px"';
 	}
@@ -2861,7 +2883,7 @@ function fixTopPositionLeftCol($pReadOnly) {
 
 function fixMarginTop($pReadOnly) {
 	if($pReadOnly == 1) {
-		return 'margin-top:110px;';
+		return 'margin-top:136px;';
 	} else {
 		return 'margin-top:153px;';
 	}
@@ -2874,24 +2896,63 @@ function GetRootCommentStyle($pStartInstanceId, $pStartFieldId, $pEndInstanceId,
 	return ' P-Global-Comment ';
 }
 
-function DisplayDeleteCommentLink($pId, $pRootId, $pOriginalId, $pUsrId){
+function DisplayDeleteCommentLink($pId, $pRootId, $pOriginalId, $pUsrId, $pVersionIsReadonly = false){
 	global $user;
 // 	$lResult = $pId . '_' . $pRootId . '_' . $pOriginalId . '_' . $pUsrId;
-	if($pId == $pRootId && $pId == $pOriginalId && $pUsrId == $user->id){
+	if(!$pVersionIsReadonly && $pId == $pRootId && $pId == $pOriginalId && $pUsrId == $user->id){
 		$lResult = '<span class="P-Delete-Comment" onclick="DeleteComment(' . $pId . '); return false;">delete</span>';
 	}
 	return $lResult;
 }
 
-function displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate){
+function displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pVersionIsReadonly = false){
 	$lResult = '<div class="Comment-Resolve-Info">';
-
-	$lResult .= '<input type="checkbox" onclick="ResolveComment(' . $pCommentId . ')" name="is_resolved_' . $pCommentId . '" id="is_resolved_' . $pCommentId . '" value="1" ' . ($pIsResolved ? 'checked="checked"' : '') . '>';
-	$lResult .= '<label id="label_is_resolved_' . $pCommentId . '" for="is_resolved_' . $pCommentId . '">' . ($pIsResolved ? ('Resolved by ' . $pResolveUserFullname) : 'Resolve') . '</label>';
-
+	
+	if(!$pVersionIsReadonly){
+		$lResult .= '<input type="checkbox" onclick="ResolveComment(' . $pCommentId . ')" name="is_resolved_' . $pCommentId . '" id="is_resolved_' . $pCommentId . '" value="1" ' . ($pIsResolved ? 'checked="checked"' : '') . '>';
+		$lResult .= '<label id="label_is_resolved_' . $pCommentId . '" for="is_resolved_' . $pCommentId . '">' . ($pIsResolved ? ('Resolved by ' . $pResolveUserFullname) : 'Resolve') . '</label>';
+	}else{
+		if($pIsResolved){
+			$lResult .= 'Resolved by ' . $pResolveUserFullname;
+		}
+	}
 
 	$lResult .= '</div>';
 	return $lResult;
+}
+
+function  displayNewCommentBtn($pVersionIsReadonly){
+	if((int)$pVersionIsReadonly){
+		return;
+	}
+	return '<div class="comment_btn floatLeft " id="P-Comment-Main-Btn-Wrapper" onmousedown="submitPreviewNewComment(); return false;"></div>';
+}
+
+function displayNewCommentForm($pVersionIsReadonly, $pForm){
+	if((int)$pVersionIsReadonly){
+		return;
+	}
+	return '<div id="P-Comment-Unavailable-Text" style="display:none">
+				' . getstr('comments.currentSelectionCommentIsUnavailable') . '
+			</div>' . $pForm;
+}
+
+function displayPrevCommentVersionReadonlyClass($pVersionIsReadonly = false){
+	if((int)$pVersionIsReadonly){
+		return ' Comment-Prev-Readonly ';
+	}
+}
+
+function displayReadonlyVersionHeaderBox($pVersionIsReadonly){
+	if(!$pVersionIsReadonly){
+		return;
+	}
+	return '
+		<div class="P-Document-Err-Notification">
+			<img src="' . PWT_URL . '/i/excl_ico.png" alt=""/>
+			' . getstr('pjs.versionIsReadonly') . '
+		</div>		
+	';
 }
 
 function DisplayCommentUserName($pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName){

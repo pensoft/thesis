@@ -16,12 +16,19 @@ $BODY$
 	DECLARE
 		lRes pjs.ret_spCommentEdit;	
 		lOriginalId int;
+		lVersionId bigint;
+		lVersionIsReadonly int;
 	BEGIN		
 		IF pOper = 1 THEN
-			SELECT INTO lOriginalId 
-				original_id
+			SELECT INTO lOriginalId, lVersionId
+				original_id, version_id
 			FROM pjs.msg
 			WHERE id = pCommentId AND document_id = pDocumentId AND usr_id = pUid;
+			
+			lVersionIsReadonly = pjs.spCheckIfPjsVersionIsReadonly(lVersionId);
+			IF coalesce(lVersionIsReadonly, 0) = 1 THEN
+				RAISE EXCEPTION 'pjs.specifiedVersionIsReadonly';
+			END IF;
 			
 			UPDATE pjs.msg SET
 				msg = pMsg

@@ -318,7 +318,7 @@ a {
 .P-Header {
 	width: 100%;
 	min-width: 980px;
-	height: 50px;
+	min-height: 50px;
 	/* background: url('/i/head_bg.png') repeat-x; */
 }
 
@@ -929,7 +929,7 @@ a {
 }
 /* START NEW ARTICLE STRUCTURE DESIGN */
 .P-Article-StructureHead {
-	padding: 5px 15px 5px;
+	padding: 12px 15px 2px;
 	color: #737373;
 	font-size: 15px;
 	font-weight: bold;
@@ -6512,6 +6512,10 @@ table.no_bold_class td a {
 	cursor:pointer;
 }
 
+.Comment-Prev-Readonly{
+	margin-left:0px;
+}
+
 .P-Wrapper-Container-Right .P-Article-StructureHead{
 	position:fixed;
 	top:152px;
@@ -6598,4 +6602,19 @@ table.no_bold_class td a {
 .P-Disabled-Btn{
 	opacity: .5;
 	filter: alpha(opacity=50);
+}
+
+.P-Document-Err-Notification{
+	height: 30px;
+	background: url('/i/validation_errors_bg.png') repeat-x scroll center center transparent;
+	color: #FFFFFF;
+	display: inline-block;
+	line-height: 30px;
+	text-align: center;
+	font-size: 11px;
+	width: 100%;
+}
+
+#docEditHeaderHolder.editHeaderWithNotification{
+	height:133px;	
 }

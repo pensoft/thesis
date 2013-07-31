@@ -83,8 +83,13 @@ class cComment_Ajax_Srv extends cBase_Controller {
 		$lCommentId = $lForm->GetFieldValue('comment_id');
 
 		if($lForm->GetErrorCount() || $lForm->GetCurrentAction() != 'save' || ! $lCommentId){
-			if($lForm->GetErrorCount()){				
-				$lErrMsg = 'pjs.couldNotCreateComment';
+			if($lForm->GetErrorCount()){
+// 				$lErrMsg= $lForm->				
+				$lFormGlobalErrors = $lForm->GetFormGlobalErrors();
+				$lErrMsg = $lFormGlobalErrors[0];
+				if(!$lErrMsg){
+					$lErrMsg = 'pjs.couldNotCreateComment';
+				}
 			}elseif($lForm->GetCurrentAction() != 'save'){
 				$lErrMsg = 'pjs.wrongFormAction';
 			}elseif(! $lCommentId){
@@ -94,6 +99,7 @@ class cComment_Ajax_Srv extends cBase_Controller {
 			$this->m_errMsgs[] = array(
 				'err_msg' => getstr($lErrMsg)
 			);
+			$this->m_action_result['err_msg'] = getstr($lErrMsg);
 			return;
 		}
 		$this->m_action_result['comment_id'] = $lCommentId;
@@ -225,6 +231,7 @@ class cComment_Ajax_Srv extends cBase_Controller {
 			'view_object' => $this->m_tempPageView,			
 			'has_editor_permissions' => $lVersionsModel->CheckUserSpecificRole($this->GetUserId(), $lDocumentId) ? true : false,
 			'current_user_id' => $this->GetUserId(),
+			'version_is_readonly' => $lVersionsModel->CheckIfVersionIsReadonly($lVersionId)
 		));
 		if($pPlaceReplyForm){
 			$lForm = new Comment_Reply_Form_Wrapper(array(
@@ -290,7 +297,12 @@ class cComment_Ajax_Srv extends cBase_Controller {
 
 	function DeleteComment() {
 		$lCommentId = (int) $this->GetValueFromRequestWithoutChecks('comment_id');
-		return $this->m_commentsModel->DeleteComment($lCommentId, $this->m_userId);
+		$this->m_action_result = $this->m_commentsModel->DeleteComment($lCommentId, $this->m_userId);
+		if($this->m_action_result['err_cnt']){
+			$this->m_errCnt++;
+			$this->m_errMsgs[]['err_msg'] = $this->m_action_result['err_msg'];
+		}
+		return $this->m_action_result;
 	}
 
 	function ResolveComment() {
@@ -298,6 +310,10 @@ class cComment_Ajax_Srv extends cBase_Controller {
 		$lResolveId = (int) $this->GetValueFromRequestWithoutChecks('resolve');
 		$lResult = $this->m_commentsModel->ResolveComment($lCommentId, $lResolveId, $this->m_userId);
 		$this->m_action_result = $lResult;
+		if($this->m_action_result['err_cnt']){
+			$this->m_errCnt++;
+			$this->m_errMsgs[]['err_msg'] = $this->m_action_result['err_msg'];
+		}
 		return $lResult;
 	}
 

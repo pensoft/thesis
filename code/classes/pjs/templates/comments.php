@@ -41,7 +41,8 @@ $gTemplArr = array(
 			<div id="P-Root-Comment-{id}" class="P-Comments-Revisions-Item {_GetRootCommentStyle(start_instance_id, start_field_id, end_instance_id, end_field_id)}">
 				{_showCommentPic(photo_id, is_disclosed, usr_id, has_editor_permissions, current_user_id)}
 				<div class="P-Comments-Revisions-Item-Details">
-					<div class="username">{_DisplayCommentUserName(is_disclosed, usr_id, has_editor_permissions, current_user_id, fullname, undisclosed_user_fullname)} {rootid} {_DisplayDeleteCommentLink(id, rootid, original_id, usr_id)}</div>
+					<div class="username">{_DisplayCommentUserName(is_disclosed, usr_id, has_editor_permissions, current_user_id, fullname, undisclosed_user_fullname)} 
+					{rootid} {_DisplayDeleteCommentLink(id, rootid, original_id, usr_id, version_is_readonly)}</div>
 					<div class="commentdate">Comment / {_showFormatedPubDate(lastmoddate)}</div>
 				</div>
 				<script type="text/javascript">
@@ -49,7 +50,7 @@ $gTemplArr = array(
 				</script>
 			</div>
 			<div class="P-Comments-Revisions-Item-Content">
-				{_displayResolvedInfo(id, is_resolved, resolve_uid, resolve_fullname, resolve_date)}
+				{_displayResolvedInfo(id, is_resolved, resolve_uid, resolve_fullname, resolve_date, version_is_readonly)}
 				<div class="P-Comments-Container">
 	',
 	'comments.browseRow' => '
@@ -59,30 +60,16 @@ $gTemplArr = array(
 	'comments.viewRow' => '
 					<div id="P-Comment-{id}" class="P-Comments-Revisions-History">
 						<a href="#">{_DisplayCommentUserName(is_disclosed, usr_id, has_editor_permissions, current_user_id, fullname, undisclosed_user_fullname)}</a>&nbsp;commented: <span class="P-Comments-Reviosions-History-Date">{_showFormatedPubDate(lastmoddate, 1)}</span>
-						<div class="P-Comment-Msg" id="P-Comment-Msg-Holder_{id}" {_putCommentOnClickEvent(id, usr_id, current_user_id)}>{_nl2br(msg)}</div>
+						<div class="P-Comment-Msg" id="P-Comment-Msg-Holder_{id}" {_putCommentOnClickEvent(id, usr_id, current_user_id, version_is_readonly)}>{_nl2br(msg)}</div>
 						<div id="P-Comment-Edit-Form_{id}" style="display:none" >
-							{_DisplayCommentEditForm(comment_edit_forms, id, usr_id, current_user_id)}							
+							{_DisplayCommentEditForm(comment_edit_forms, id, usr_id, current_user_id, version_is_readonly)}							
 						</div>
 					</div>
 	',
 	'comments.browseSplitFoot' => '
 					<div class="P-Inline-Line"></div>
 				</div>
-
-				<div onclick="showCommentForm({rootid});" class="reply_btn" id="P-Comment-Btn-{rootid}"></div>
-				<div id="P-Comment-Form_{rootid}" style="display: none;">
-					{_DisplayCommentAnswerForm(comment_reply_forms, rootid)}
-					<div class="P-Grey-Btn-Holder">
-						<div class="P-Grey-Btn-Left"></div>
-						<div class="P-Grey-Btn-Middle">
-							<div class="P-Comment">
-								<div class="P-Btn-Icon"></div>
-								<div class="P-Grey-Btn-Middle" onclick="SubmitCommentReplyForm({rootid});">Reply</div>
-							</div>
-						</div>
-						<div class="P-Grey-Btn-Right"></div>
-					</div>
-				</div>
+				{_displayCommentReplyDetails(rootid, comment_reply_forms, version_is_readonly)}				
 				<div class="P-Clear"></div>
 
 			</div>
@@ -125,15 +112,11 @@ $gTemplArr = array(
 
 	'comments.new_form_wrapper' => '
 						<div class="P-Clear"></div>
-						<div class="comment_btn floatLeft " id="P-Comment-Main-Btn-Wrapper" onmousedown="submitPreviewNewComment(); return false;"></div>
-						<!--<div class="comment_btn floatLeft " id="P-Comment-Main-Btn-Wrapper" onclick="submitPreviewNewComment(); return false;"></div>-->
-						<div class="Comment-Prev floatLeft"><a onclick="SelectPreviousComment()">Prev</a></div>
+						{_displayNewCommentBtn(version_is_readonly)}											
+						<div class="Comment-Prev floatLeft {_displayPrevCommentVersionReadonlyClass(version_is_readonly)}"><a onclick="SelectPreviousComment()">Prev</a></div>
 						<div class="Comment-Next floatLeft"><a onclick="SelectNextComment()">Next</a></div>
 						<div class="P-Clear"></div>
-						<div id="P-Comment-Unavailable-Text" style="display:none">
-							' . getstr('comments.currentSelectionCommentIsUnavailable') . '
-						</div>
-						{new_comment_form}
+						{_displayNewCommentForm(version_is_readonly, new_comment_form)}						
 						<div class="P-Clear"></div>
 	',
 
