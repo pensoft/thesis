@@ -60,8 +60,13 @@ class mVersions extends emBase_Model {
 			$lResult[] = $this->m_con->mRs;
 			$this->m_con->MoveNext();
 		}
-// 		var_dump($lResult);
+// 		var_dump($lSql);
 		return $lResult;
+	}
+	
+	function CheckIfVersionIsReadonly($pVersionId){
+		$this->m_con->Execute('SELECT pjs.spCheckIfPjsVersionIsReadonly(' . (int)$pVersionId . ') as is_readonly');		
+		return $this->m_con->mRs['is_readonly'];
 	}
 
 	function GetVersionFieldValueFromXml($pVersionId, $pInstanceId, $pFieldId){
