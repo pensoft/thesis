@@ -56,7 +56,7 @@ class mJournal extends emBase_Model {
 				  ORDER BY first_name asc, last_name asc";
 			}
 			$lSql = "
-			SELECT uname as email, u.id as id, first_name, last_name, 
+			SELECT u.uname as email, u.id as id, u.first_name, u.last_name, 
 				coalesce($duFiltering(du.id), 0) as assigned_se_uid,
 				(SELECT string_agg(subj.name, '; ') FROM public.subject_categories subj WHERE subj.id  = ANY(jue.subject_categories)) as subjects,
 				(SELECT string_agg(taxon.name, '; ') FROM public.taxon_categories taxon WHERE taxon.id = ANY(jue.taxon_categories)) as taxons
@@ -68,7 +68,6 @@ class mJournal extends emBase_Model {
 					pjs.journal_users_expertises jue ON jue.journal_usr_id = ju.id
 			$tail			
 			";
-			;
 		}
  		return $this->ArrayOfRows($lSql, 0);
 	}
