@@ -12,6 +12,7 @@ class ccomments extends csimple {
 	var $m_rootmsgid;
 	var $m_inPreviewMode;
 	var $m_useAsAjaxSrv;
+	var $m_canEditDocument;
 	function __construct($pFieldTempl) {
 		$this->m_con = new DBCn();
 		$this->m_con->Open();
@@ -24,6 +25,8 @@ class ccomments extends csimple {
 		if ($this->m_inPreviewMode) {
 			$this->m_pubdata ['showtype'] = 3;
 		}
+		$this->m_canEditDocument = checkIfPreviewCanBeEdited($this->m_documentId);
+// 		$this->m_canEditDocument = false;
 		switch (( int ) $this->m_pubdata ['showtype']) {
 			case 0 :
 				$this->GetCommentsByInstanceId();
@@ -98,6 +101,8 @@ class ccomments extends csimple {
 				'sqlstr' => $lSql,
 				'splitcol' => 'rootid',
 				'hideroot' => 1,
+				'preview_can_be_edited' => $this->m_canEditDocument,
+				'preview_is_readonly' => !$this->m_canEditDocument,
 				'in_preview_mode' => ( int ) $this->m_inPreviewMode,
 				'templs' => array (
 						G_HEADER => 'comments.browseHead',
@@ -163,6 +168,8 @@ class ccomments extends csimple {
 				'sqlstr' => $lSql,
 				'splitcol' => 'rootid',
 				'hideroot' => 1,
+				'preview_can_be_edited' => $this->m_canEditDocument,
+				'preview_is_readonly' => !$this->m_canEditDocument,
 				'in_preview_mode' => ( int ) $this->m_inPreviewMode,
 				'templs' => array (
 						G_HEADER => 'comments.browseHead',
@@ -224,6 +231,8 @@ class ccomments extends csimple {
 		$lSingleComment = new crs(array (
 				'ctype' => 'crs',
 				'sqlstr' => $lSql,
+				'preview_can_be_edited' => $this->m_canEditDocument,
+				'preview_is_readonly' => !$this->m_canEditDocument,
 				'in_preview_mode' => ( int ) $this->m_inPreviewMode,
 				'templs' => array (
 						G_ROWTEMPL => 'comments.viewRow',						
@@ -356,7 +365,7 @@ class ccomments extends csimple {
 						G_DEFAULT => 'comments.form' 
 				) 
 		), 0);
-				
+		
 		if ($this->m_pubdata ['formaction'])
 			$this->form->SetFormAction($this->m_pubdata ['formaction']);
 			

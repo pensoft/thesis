@@ -133,8 +133,7 @@ class cComment_Ajax_Srv extends cBase_Controller {
 					'err_msg' => getstr($lErrMsg)
 			);
 			return;
-		}
-		$lVersionCommentsNum = $this->m_commentsModel->GetVersionCommentsNum($lVersionId);
+		}		
 		$lForm = new Comment_Edit_Form_Wrapper(array(
 				'page_controller_instance' => $this,
 				'name_in_viewobject' => 'edit_comment_form',

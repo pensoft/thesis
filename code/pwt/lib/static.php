@@ -2253,11 +2253,15 @@ function formatCreateDate($pPubdate) {
 	return (int)$lMatch[1] . ' ' . substr(ucfirst($gMonths[$lMonth]), 0, 3) . '. ' . $lMatch[3] . '&nbsp;&nbsp;&nbsp;' . $lTime[0] . ':' . $lTime[1];
 }
 
-function showCommentAnswerForm($pInstanceId, $pDocumentId, $pRootMsg) {
+function showCommentAnswerForm($pInstanceId, $pDocumentId, $pRootMsgId, $pVersionIsReadonly = false) {
+	if($pVersionIsReadonly){
+		return '';
+	}
+	
 	$lComment = new ccomments(array(
 			'ctype' => 'ccomments',
 			'showtype' => 2,
-			'rootmsgid' => $pRootMsg,
+			'rootmsgid' => $pRootMsgId,
 			'instance_id' => $pInstanceId,
 			'document_id' => $pDocumentId,
 			'formaction' =>  $_SERVER['REQUEST_URI'],
@@ -2267,20 +2271,37 @@ function showCommentAnswerForm($pInstanceId, $pDocumentId, $pRootMsg) {
 			),
 		)
 	);
-	return $lComment->Display();
+	$lComment->Display();
+	$lResult = '
+			<div onclick="showCommentForm(' . (int)$pRootMsgId . ');" class="reply_btn" id="P-Comment-Btn-' . (int)$pRootMsgId . '"></div>
+			<div id="P-Comment-Form_' . (int)$pRootMsgId . '" style="display: none;">
+				' . $lComment->Display() . '
+				<div class="P-Grey-Btn-Holder">
+					<div class="P-Grey-Btn-Left"></div>
+					<div class="P-Grey-Btn-Middle">
+						<div class="P-Comment">
+							<div class="P-Btn-Icon"></div>
+							<div class="P-Grey-Btn-Middle" onclick="SubmitCommentForm(\'P-Root-Comment-' . (int)$pRootMsgId . '\', \'commentpost_' . (int)$pRootMsgId . '\', 1, ' . (int)$pRootMsgId . ');">Reply</div>
+						</div>
+					</div>
+					<div class="P-Grey-Btn-Right"></div>
+				</div>
+			</div>
+	';
+	return $lResult;
 }
 
-function putCommentOnClickEvent($pCommentId, $pCommentUsrId){
+function putCommentOnClickEvent($pCommentId, $pCommentUsrId, $pVersionIsReadonly = false){
 	global $user;
-	if((int)$user->id != $pCommentUsrId){
+	if($pVersionIsReadonly || (int)$user->id != $pCommentUsrId){
 		return;
 	}
 	return ' onclick="displayCommentEditForm(' . (int)$pCommentId . ')"';
 }
 
-function showCommentEditForm($pCommentId, $pCommentUsrId, $pDocumentId){
+function showCommentEditForm($pCommentId, $pCommentUsrId, $pDocumentId, $pVersionIsReadonly = false){
 	global $user;
-	if((int)$user->id != $pCommentUsrId){
+	if($pVersionIsReadonly || (int)$user->id != $pCommentUsrId){
 		return;
 	}
 	$lComment = new ccomments( array (
@@ -2293,7 +2314,12 @@ function showCommentEditForm($pCommentId, $pCommentUsrId, $pDocumentId){
 			G_DEFAULT => 'comments.editform_wrapper' 
 		) 
 	) );
-	return $lComment->Display();
+	$lRes = '
+				<div id="P-Comment-Edit-Form_' . (int)$pCommentId . '" style="display:none" >
+					' . $lComment->Display() . '											
+				</div>
+	';
+	return $lRes;
 }
 
 function showCommentPic($pPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserId) {
@@ -2471,9 +2497,9 @@ function displayDeleteDocumentBtn($pCreateUsrId, $pDocumentId, $pIsLocked, $pDoc
 	}
 }
 
-function displayDeleteCommentBtn($pCommentId, $pUsrId){
+function displayDeleteCommentBtn($pCommentId, $pUsrId, $pVersionIsReadonly = false){
 	global $user;
-	if( (int)$user->id == (int)$pUsrId )
+	if( !$pVersionIsReadonly && (int)$user->id == (int)$pUsrId )
 		return '<span class="P-Delete-Comment" onclick="deleteComment(' . (int)$pCommentId . ')">delete</span>';
 }
 
@@ -4136,7 +4162,7 @@ function showValidationErrorClassMain($pErrors, $pValidation = 0) {
 	}
 }
 
-function showDocumentLockWarning($pIsLocked, $pLockedUser, $pWithoutWarning = 0) {
+function showDocumentLockWarning($pIsLocked, $pLockedUser, $pWithoutWarning = 0, $pVersionIsReadonly = false) {
 	global $user;
 	if(checkIfDocumentIsLockedByAnotherUser($pIsLocked, $pLockedUser, $pWithoutWarning)) {
 		$lDocLockedUserFullName = getUserNameById((int)$pLockedUser);
@@ -4144,18 +4170,23 @@ function showDocumentLockWarning($pIsLocked, $pLockedUser, $pWithoutWarning = 0)
 		return '<div class="P-Document-Locked-Warning">
 					<img src="/i/document_locked_warning_icon.png" alt="" />' . $lStr . '
 				</div>';
+	}elseif($pVersionIsReadonly){
+		return '
+				<div class="P-Document-Validation-Err-Notification">
+					<img src="/i/excl_ico.png" alt="" />' . getstr('pwt.documentIsReadonly') . '
+				</div>';
 	}
 	return '';
 }
 
-function showLockedErrorClass($pIsLocked, $pLockedUser, $pWithoutWarning = 0){
-	if(checkIfDocumentIsLockedByAnotherUser($pIsLocked, $pLockedUser, $pWithoutWarning)) {		
+function showLockedErrorClass($pIsLocked, $pLockedUser, $pWithoutWarning = 0, $pVersionIsReadonly = false){
+	if(checkIfDocumentIsLockedByAnotherUser($pIsLocked, $pLockedUser, $pWithoutWarning) || $pVersionIsReadonly) {		
 		return ' P-Bread-Crumbs-With-Lock-Warning ';
 	}
 }
 
-function showLockedErrorClassMain($pIsLocked, $pLockedUser, $pWithoutWarning = 0){
-	if(checkIfDocumentIsLockedByAnotherUser($pIsLocked, $pLockedUser, $pWithoutWarning)) {
+function showLockedErrorClassMain($pIsLocked, $pLockedUser, $pWithoutWarning = 0, $pVersionIsReadonly = false){
+	if(checkIfDocumentIsLockedByAnotherUser($pIsLocked, $pLockedUser, $pWithoutWarning) || $pVersionIsReadonly) {
 		return ' P-Wrapper-With-Lock-Warning ';
 	}
 }
@@ -5837,12 +5868,17 @@ function DisplayValidationErrs($pErrCount, $pErrors) {
 }
 
 
-function displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate){
+function displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pVersionIsReadonly = false){
 	$lResult = '<div class="Comment-Resolve-Info">';
-
-	$lResult .= '<input type="checkbox" onclick="ResolveComment(' . $pCommentId . ')" name="is_resolved_' . $pCommentId . '" id="is_resolved_' . $pCommentId . '" value="1" ' . ($pIsResolved ? 'checked="checked"' : '') . '>';
-	$lResult .= '<label id="label_is_resolved_' . $pCommentId . '" for="is_resolved_' . $pCommentId . '">' . ($pIsResolved ? ('Resolved by ' . $pResolveUserFullname) : 'Resolve') . '</label>';
-
+	
+	if(!$pVersionIsReadonly){
+		$lResult .= '<input type="checkbox" onclick="ResolveComment(' . $pCommentId . ')" name="is_resolved_' . $pCommentId . '" id="is_resolved_' . $pCommentId . '" value="1" ' . ($pIsResolved ? 'checked="checked"' : '') . '>';
+		$lResult .= '<label id="label_is_resolved_' . $pCommentId . '" for="is_resolved_' . $pCommentId . '">' . ($pIsResolved ? ('Resolved by ' . $pResolveUserFullname) : 'Resolve') . '</label>';
+	}else{
+		if($pIsResolved){
+			$lResult .= 'Resolved by ' . $pResolveUserFullname;
+		}
+	}	
 
 	$lResult .= '</div>';
 	return $lResult;
@@ -6275,5 +6311,40 @@ function ExecActionType($pDocumentId, $pActionType) {
 	
 	return $lActionResult;
 }
+
+function  displayNewCommentBtn($pVersionIsReadonly){
+	if((int)$pVersionIsReadonly){
+		return;
+	}
+	return '<div class="comment_btn floatLeft " id="P-Comment-Main-Btn-Wrapper" onclick="submitPreviewNewComment();"></div>';
+}
+
+function displayPrevCommentVersionReadonlyClass($pVersionIsReadonly = false){
+	if((int)$pVersionIsReadonly){
+		return ' Comment-Prev-Readonly ';
+	}
+}
+
+function displayCommentUnavailableText($pVersionIsReadonly = false, $pCommentForm){
+	if((int)$pVersionIsReadonly){
+		return;
+	}
+	return '<div id="P-Comment-Unavailable-Text" style="display:none">
+				' . getstr('comments.currentSelectionCommentIsUnavailable') . '
+			</div>';
+}
+
+function displayNewCommentForm($pVersionIsReadonly, $pForm){
+	if((int)$pVersionIsReadonly){
+		return;
+	}
+	return '<div id="P-Comment-Unavailable-Text" style="display:none">
+				' . getstr('comments.currentSelectionCommentIsUnavailable') . '
+			</div>
+			<div id="P-Comment-Form_" style="display: none;">
+				' . $pForm . '
+			</div>';
+}
+
 
 ?>

@@ -82,6 +82,9 @@ if(!$gLoadTreeWithAjax){
 	$gPageTemplate = 'global.editdocument_page';
 }
 
+$lRevisionId = getDocumentLatestRevisionId($gDocumentId);
+$lCanEditPreview = checkIfPreviewCanBeEdited($gDocumentId, $lRevisionId);
+// $lCanEditPreview = false;
 $lPageArray = array(
 	'title' => strip_tags($gDocument->getDocumentName()) . ' - ',
 	'content' => array(
@@ -89,12 +92,16 @@ $lPageArray = array(
 		'templs' => array(
 			G_DEFAULT => 'preview.content',
 		),
-		'preview_header' => displayEditPreviewHeader($gDocumentId, getDocumentLatestRevisionId($gDocumentId), false),
+		'preview_header' => displayEditPreviewHeader($gDocumentId, $lRevisionId, false),
 		//~ 'preview' => getDocumentPreview($gDocumentId, 0, $gXSLPath),
 		'document_has_unprocessed_changes' => checkIfDocumentHasUnprocessedChangesSimple($gDocumentId),
 		'document_id' => $gDocumentId,
 		'template_xsl_path' => $gXSLPath,
+		'preview_can_be_edited' => $lCanEditPreview,
+		'preview_is_readonly' => !$lCanEditPreview,
 	),
+	'preview_can_be_edited' => $lCanEditPreview,
+	'preview_is_readonly' => !$lCanEditPreview,
 	'commentform' => $gDocument->GetVal('commentform'),
 	'comments' => $gDocument->GetVal('comments'),
 	'path' => $gDocument->getDocumentPath(),

@@ -205,6 +205,23 @@ $gTemplArr = array(
 					</div><!-- End P-Bread-Crumbs -->
 					<div class="P-Wrapper-Container">
 	',
+		
+	'global.htmlstartcontent_preview' =>
+		'{*global.htmlonlyheader}
+				<div class="P-Wrapper {_showLockedErrorClassMain(document_is_locked, document_lock_usr_id, without_warning, preview_is_readonly)} {_showValidationErrorClassMain(xml_errors, xml_validation)}">
+					{*global.header}
+					<div class="P-Bread-Crumbs {_showLockedErrorClass(document_is_locked, document_lock_usr_id, without_warning, preview_is_readonly)} {_showValidationErrorClass(xml_errors, xml_validation)}">
+						{_showDocumentLockWarning(document_is_locked, document_lock_usr_id, without_warning, preview_is_readonly)}
+						{_showValidationErrorDiv(xml_errors, xml_validation)}
+						<div class="P-Path"><a href="/index.php"><img class="pathHomeImg" src="./i/home_path.png" alt="My manuscripts"/></a>{path}</div>
+						<div class="P-SavePreview-Btns">
+							<div class="P-RevHistory"><a href="/preview_revisions.php?document_id={document_id}">Revision History</a></div>
+							{_displayTopRightButtons( document_is_locked, preview_mode, document_id)}
+						</div>
+						<div class="P-Clear"></div>
+					</div><!-- End P-Bread-Crumbs -->
+					<div class="P-Wrapper-Container">
+	',
 
 	'global.htmlendcontent' => '
 						<div id="P-Ajax-Loading-Image">
@@ -387,7 +404,7 @@ $gTemplArr = array(
 	',
 
 	'global.editdocument_page' =>
-		   '{*global.htmlstartcontent}
+		   '{*global.htmlstartcontent_preview}
 						<div class="P-Wrapper-Container-Left {_getContainerHideClass(1)}">
 							{tree}
 							<div class="P-Container-Toggler-Btn-Left" onclick="toggleLeftContainer();"></div>
@@ -412,7 +429,7 @@ $gTemplArr = array(
 	',
 		
 	'global.editdocument_page_ajax_tree' =>
-		'{*global.htmlstartcontent}
+		'{*global.htmlstartcontent_preview}
 						<div class="P-Wrapper-Container-Left {_getContainerHideClass(1)}">
 							{*document.tree_ajax_wrapper}
 							<div class="P-Container-Toggler-Btn-Left" onclick="toggleLeftContainer();"></div>
