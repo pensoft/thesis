@@ -50,7 +50,7 @@ class mVersions extends emBase_Model {
 			JOIN usr u ON m2.usr_id = u.id
 			LEFT JOIN usr u2 ON m2.resolve_uid = u2.id
 			LEFT JOIN undisclosed_users uu ON uu.id = m2.undisclosed_usr_id
-			JOIN usr_titles ut ON ut.id = u.usr_title_id
+			LEFT JOIN usr_titles ut ON ut.id = u.usr_title_id
 			WHERE m2.version_id =' .  $pVersionId. '
 			ORDER BY m2.rootid, m2.ord, m2.mdate
 		';
