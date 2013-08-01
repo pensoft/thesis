@@ -1659,6 +1659,13 @@ function scrollTo(anchor){
 	);
 }
 
+function scrollToPreviewIframeAnchor(pAnchor){
+	$('html, body').animate( 
+		{ scrollTop: ( GetPreviewContent().find(pAnchor).offset().top)}, 
+		{ duration: 800}
+	);
+}
+
 var gPreviewAjaxSrv = gAjaxUrlsPrefix + 'preview_srv.php';
 function getDocumentPreview(pVersionId, pReadOnlyFlag, pPreviewHolderId, pArticleHolderId){
 	$('#P-Ajax-Loading-Image').show();
