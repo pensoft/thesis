@@ -2181,7 +2181,7 @@ $STRARRAY = array(
 	'pjs.tooltips.reinvite_reviewer' => 'Invite this reviewer again',
 	'pjs.tooltips.send_email' => 'Send e-mail',
 	'pjs.cannotInviteMoreReviewers' => 'You can not invite more reviewers',
-	
+	'pjs.versionIsReadonly' => 'This is read-only version!'
 	
 );
 ?>
