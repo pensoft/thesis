@@ -7,7 +7,7 @@ class mUsers extends emBase_Model
 			$lSql = "SELECT u.id, first_name || ' ' || last_name as name, uname as email,
 						affiliation
 					 FROM public.usr u
-					 WHERE u.state > 0
+					 WHERE u.state = ".USER_ACTIVE_STATE."
 					   AND (first_name || ' ' || last_name ILIKE '$name%'
 						    OR uname ILIKE '$name%'
 						    OR first_name ILIKE '$name%'
@@ -29,7 +29,7 @@ class mUsers extends emBase_Model
 				affiliation, ju.role_id
 			 FROM public.usr u
 			 LEFT JOIN (SELECT uid, role_id FROM pjs.journal_users WHERE role_id = ". SE_ROLE .") AS ju ON ju.uid = u.id  
-			 WHERE u.state > 0
+			 WHERE u.state = " . USER_ACTIVE_STATE . "
 			   AND (first_name || ' ' || last_name ILIKE '$name%'
 				    OR uname ILIKE '$name%'
 				    OR first_name ILIKE '$name%'

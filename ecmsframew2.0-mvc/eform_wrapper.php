@@ -50,6 +50,10 @@ class eForm_Wrapper extends ebase{
 	function GetFieldValue($pFieldName){
 		return $this->m_formController->GetFieldValue($pFieldName);
 	}
+	
+	function GetFormGlobalErrors(){
+		return $this->m_formController->m_globalErrors;
+	}
 
 	function GetErrorCount(){
 		return $this->m_formController->GetErrorCount();
