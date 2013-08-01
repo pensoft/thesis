@@ -17,7 +17,6 @@ $gTemplArr = array(
 				<meta name="application-name" content="Pensoft Writing Tool" />
 				<meta name="description" content="Online, collaborative, article-authoring tool" />
 				<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=IE8" />
-				<link rel="icon" href="pwt-32.png" sizes="32x32" />
 				<link type="text/css" rel="stylesheet" href="/lib/css/def.css" media="all" title="default" />
 				<link type="text/css" href="/lib/css/ui.dynatree.css" id="skinSheet" rel="stylesheet" />
 				<link type="text/css" rel="stylesheet" href="/lib/css/editor_rewrite.css" media="all" title="default" />

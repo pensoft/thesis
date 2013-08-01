@@ -163,7 +163,7 @@ class mComments extends emBase_Model {
 
 	function GetVersionCommentsNum($pVersionId){
 		$lSql = 'SELECT count(*)
-			FROM pjs.msg
+			FROM (SELECT * FROM pjs.spGetVersionRoleFilteredMsgRootIds(' . $pVersionId . ')) m
 			WHERE version_id = ' . $pVersionId;
 		$this->m_con->Execute($lSql);
 		return (int)$this->m_con->mRs['count'];

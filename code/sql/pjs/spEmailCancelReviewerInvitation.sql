@@ -7,20 +7,9 @@ CREATE OR REPLACE FUNCTION pjs."spEmailCancelReviewerInvitation"(
 $BODY$
 	DECLARE
 		lRes ret_spSECancelConfirmReviewerInvitation;	
-						
-		lSERoleId int;		
-		lInReviewState int;
-		
-		lConfirmedBySEStateId int;
-		lCanceledBySEStateId int;
-		lNewInvitationStateId int;
-		lRemovedReviewerStateId int;
-		lConfirmedInvitationStateId int;
-		lReviewerCanceledEventType int;
-		lJournalId int;
-		lReviewerRoleId int := 5;
-		lReviewerId bigint;
-		cERoleId int := 2;
+							
+		lCanceledBySEStateId int := 6;
+		lRemovedReviewerStateId int := 2;
 		lEnoughReviewers boolean;
 		lCanTakeDecision boolean;
 		lCurrentRoundId bigint;
@@ -31,18 +20,7 @@ $BODY$
 		lSEUsrId bigint;
 		lDocumentReviewRoundUserId bigint;
 	BEGIN		
-		
-		lSERoleId = 3;		
-		lInReviewState = 3;
-		lConfirmedBySEStateId = 5;
-		lCanceledBySEStateId = 6;
-		lNewInvitationStateId = 1;
-		lRemovedReviewerStateId = 2;
-		lConfirmedInvitationStateId = 2;
-		--lReviewerCanceledEventType = 7;
-		
-		
-		SELECT INTO lJournalId, lCurrentRoundId d.journal_id, d.current_round_id FROM pjs.documents d WHERE d.id = pDocumentId;
+		SELECT INTO lCurrentRoundId d.current_round_id FROM pjs.documents d WHERE d.id = pDocumentId;
 		
 		SELECT INTO lDocumentReviewRoundUserId drru.id 
 		FROM pjs.document_review_round_users drru
@@ -63,6 +41,7 @@ $BODY$
 		END IF;
 				
 		UPDATE pjs.document_user_invitations SET 
+			due_date = NULL,
 			state_id = lCanceledBySEStateId,
 			date_canceled = now()
 		WHERE round_id = lCurrentRoundId AND document_id = pDocumentId AND uid = pUID;
