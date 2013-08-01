@@ -18,7 +18,7 @@ class mJournal extends emBase_Model {
 			$lSql = "SELECT u.*
 				FROM pjs.journal_users ju
 				JOIN usr u ON u.id = ju.uid
-				WHERE ju.journal_id = $pJournalId AND ju.role_id = " .  SE_ROLE;
+				WHERE ju.journal_id = $pJournalId AND ju.role_id = " .  SE_ROLE . ' AND u.state = ' . USER_ACTIVE_STATE;
 		}else{
 			
 			if($pFilterSearchByLetter) {
@@ -51,7 +51,8 @@ class mJournal extends emBase_Model {
 			else
 			{
 				$tail = "WHERE ju.journal_id = $pJournalId
-				  $lWhereAdd 
+				  $lWhereAdd
+				  AND u.state = " . USER_ACTIVE_STATE . " 
 				  AND ju.role_id = " . SE_ROLE . "
 				  ORDER BY first_name asc, last_name asc";
 			}
