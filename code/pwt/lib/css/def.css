@@ -5256,3 +5256,10 @@ td #docDescr {
 #previewIframe.previewIframeWithUnprocessedChanges{
 	margin-top:113px;	
 }
+.P-Comment-Nav-Btns{
+	margin-bottom:10px;
+}
+
+.Comment-Prev.Comment-Prev-Readonly{
+	margin-left:0px;
+}

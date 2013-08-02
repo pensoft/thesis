@@ -360,13 +360,14 @@ class mDocuments_Model extends emBase_Model {
 		return $lResult;
 	}
 	
-	function SaveReviewerRole($lReviewer, $lCurrentRound, $lRole){
+	function SaveReviewerRole($lReviewer, $lCurrentRound, $lRole, $lDoc_id){
 		if ($lRole == 0)
 			$lRole = 'NULL';
-		$SQL = "UPDATE pjs.document_user_invitations 
+		
+		$SQL = "SELECT * FROM pjs.\"spInviteReviewerAsGhost\"($lReviewer , $lDoc_id, $lCurrentRound);
+				UPDATE pjs.document_user_invitations 
 				 SET role_id = $lRole
-				 WHERE round_id = $lCurrentRound AND uid = $lReviewer
-				 ";
+				 WHERE round_id = $lCurrentRound AND uid = $lReviewer";
 		$this->ArrayOfRows($SQL, 1);
 		return array('dont_redirect' => true);
 	}

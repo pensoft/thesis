@@ -337,6 +337,8 @@ $lCsv = '';
 $gHeader = 0;
 $lHeaderAdd = array();
 
+$lArrToFillValsIfEmpty = array(48, 417, 49, 50);
+
 if($lAction == 'export_materials_as_csv') {
 	$lCon = new DBCn();
 	$lCon->Open();
@@ -367,7 +369,8 @@ if($lAction == 'export_materials_as_csv') {
 			$lTreatmentName = $mval['treatment_name'];
 			
 			$lGetMaterialDarwinCorePosSql = 'SELECT pos FROM pwt.document_object_instances where parent_id = ' . $lMaterialInstanceId . ' AND object_id = ' . DARWINCORE_OBJECT_ID;
-			//~ var_dump($lGetMaterialDarwinCorePosSql);
+			// var_dump($lGetMaterialDarwinCorePosSql);
+			// exit;
 			$lCon->Execute($lGetMaterialDarwinCorePosSql);
 			$lCon->MoveFirst();
 			
@@ -383,14 +386,14 @@ if($lAction == 'export_materials_as_csv') {
 					AND field_id NOT IN (' . $lForbiddenFields . ')
 			');
 			$lCon->MoveFirst();
-			//~ var_dump('
-				//~ SELECT ifv.*
-				//~ FROM pwt.document_object_instances doi
-				//~ JOIN pwt.v_instance_fields ifv ON ifv.instance_id = doi.id 
-				//~ WHERE doi.pos like \'' . $lPos . '%\' AND document_id = ' . $lMaterialDocumentId . '
-					//~ AND field_id NOT IN (' . $lForbiddenFields . ')
-			//~ ');
-			//~ exit;
+			// var_dump('
+				// SELECT ifv.*
+				// FROM pwt.document_object_instances doi
+				// JOIN pwt.v_instance_fields ifv ON ifv.instance_id = doi.id 
+				// WHERE doi.pos like \'' . $lPos . '%\' AND document_id = ' . $lMaterialDocumentId . '
+					// AND field_id NOT IN (' . $lForbiddenFields . ')
+			// ');
+			 // exit;
 			$lMaterialsFieldValuesArr[$lMaterialInstanceId] = $lMaterialsFieldsArr;
 				
 			while(!$lCon->Eof()){
@@ -419,6 +422,21 @@ if($lAction == 'export_materials_as_csv') {
 					$lHeaderAdd[$lCon->mRs['field_id']] = $lLabel;
 				}
 				$lCon->MoveNext();
+			}
+			//checks for empty fields (for taxon treatment - rank - species)
+			if(
+				!$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] &&
+				!$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] &&
+				!$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] &&
+				!$lMaterialsFieldValuesArr[$lMaterialInstanceId][101]
+			) {
+				$lArrVals = fixEmptyValues($lMaterialDocumentId, $lPos, 42, $lArrToFillValsIfEmpty);
+				if(count($lArrVals)) {
+					$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] = $lArrVals[48];
+					$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] = $lArrVals[417];
+					$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] = $lArrVals[49];
+					$lMaterialsFieldValuesArr[$lMaterialInstanceId][101] = $lArrVals[50];
+				}
 			}
 			$gHeader++;
 		}
@@ -464,6 +482,43 @@ if($lAction == 'export_materials_as_csv') {
 	
 	print chr(239) . chr(187) . chr(191) . $lCsvStr;
 	exit;
+	
+}
+
+function fixEmptyValues($pDocumentId, $pPos, $pTaxonRankFieldId, $pFieldIds) {
+	$lResArr = array();
+	$lConSec = new DBCn();
+	$lConSec->Open();
+	$lPosMain = substr($pPos, 0, 4);
+	
+	$lConSec->Execute('
+		SELECT ifv.value_int
+		FROM pwt.document_object_instances doi
+		JOIN pwt.v_instance_fields ifv ON ifv.instance_id = doi.id 
+		WHERE doi.pos = \'' . $lPosMain . '\' AND document_id = ' . $pDocumentId . '
+			AND field_id = ' . $pTaxonRankFieldId
+	);
+	
+	$lRank = (int)$lConSec->mRs['value_int'];
+	
+	$lPosInner = substr($pPos, 0, 6);
+
+	if($lRank == 1) {
+		$lConSec->Execute('
+			SELECT ifv.*
+			FROM pwt.document_object_instances doi
+			JOIN pwt.v_instance_fields ifv ON ifv.instance_id = doi.id 
+			WHERE doi.pos like \'' . $lPosInner . '%\' AND document_id = ' . $pDocumentId . '
+				AND field_id IN (' . implode(',', $pFieldIds) . ')'
+		);
+		while(!$lConSec->Eof()){
+			$lResArr[$lConSec->mRs['field_id']] = $lConSec->mRs['value_str']; 
+			$lConSec->MoveNext();
+		}
+	}
+	$lConSec->Close();
+	
+	return $lResArr;
 	
 }
 

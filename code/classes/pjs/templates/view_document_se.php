@@ -599,7 +599,8 @@ $gTemplArr = array(
 					action : "saveReviewerRole",
 					reviewer_id: this.name,
 					role: (check ? (this.value == "n" ? 5 : 7 ) : 0),
-					current_round_id : {current_round_id}
+					current_round_id : {current_round_id},
+					doc_id: {document_id}
 				}) 
 			    $(this).attr("checked", check);
 			});
