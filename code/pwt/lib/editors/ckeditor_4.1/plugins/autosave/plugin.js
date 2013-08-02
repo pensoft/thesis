@@ -11,6 +11,16 @@ CKEDITOR.plugins.add('autosave', {
 			var lForm = $('form[name="' + gDocumentFormName + '"]');	
 			var lValue = editor.getData();
 			
+			if(gDocumentFormName != gActiveInstanceFormName){//Disable autosave in popup
+				return;
+			}
+			if(!$(lForm).find('input[name="instance_ids[]"][value="' + lMatch[1] + '"]').length){
+				//The instance is in viewmode or is not in the form
+				//This often happens after a popup has been closed (with cancel) and the 
+				//on blur event has been fired after the close popup event
+				return;
+			}
+			
 			// We must update the textarea element
 			this.updateElement();
 			

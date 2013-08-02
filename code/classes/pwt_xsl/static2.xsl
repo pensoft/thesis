@@ -376,7 +376,7 @@
 		</xsl:if>
 		<xsl:if test="$lFileName != ''">
 			<a target="_blank">
-				<xsl:attribute name="href"><xsl:text>getfile.php?filename=</xsl:text><xsl:value-of select="normalize-space($lFileName)"/></xsl:attribute>
+				<xsl:attribute name="href"><xsl:value-of select="normalize-space($pSiteUrl)"/><xsl:text>getfile.php?filename=</xsl:text><xsl:value-of select="normalize-space($lFileName)"/></xsl:attribute>
 				<xsl:attribute name="name"><xsl:value-of select="normalize-space($lFileName)"/></xsl:attribute>
 				<xsl:text>Download file</xsl:text>
 			</a>
