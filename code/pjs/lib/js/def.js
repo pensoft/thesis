@@ -2053,3 +2053,19 @@ function GetPreviewContent(){
 function GetPreviewSelection(){
 	return getIframeSelection(gPreviewIframeId);
 }
+
+function PerformReviewFormAutosaveTimeout(){
+	setTimeout("PerformReviewFormAutosave();PerformReviewFormAutosaveTimeout", 30 * 1000);
+}
+
+function PerformReviewFormAutosave(){
+	var lForm = $('form[name="document_review_form"]');
+	if(!lForm.length){
+		return;
+	}
+	lForm.ajaxSubmit({
+		'data' : {			
+			'tAction' : 'save'
+		}		
+	});
+}

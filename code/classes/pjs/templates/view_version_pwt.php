@@ -182,11 +182,13 @@ $gTemplArr = array(
 						//~ fixEditorMaximizeBtn(this);
 					}, {
 					skin : \'office2003\',
+					extraPlugins : \'autosave\',
 					toolbar : \'ModerateToolbar\',
 					removePlugins: \'elementspath\',
 					height: 200
 				});
 				// ]]>
+				PerformReviewFormAutosaveTimeout();
 			</script>
 	',
 
@@ -245,9 +247,11 @@ $gTemplArr = array(
 					}, {
 					skin : \'office2003\',
 					toolbar : \'ModerateToolbar\',
+					extraPlugins : \'autosave\',
 					removePlugins: \'elementspath\',
 					height: 200
 				});
+				PerformReviewFormAutosaveTimeout();
 			</script>
 	',
 
@@ -405,10 +409,12 @@ $gTemplArr = array(
 					//~ fixEditorMaximizeBtn(this);
 				}, {
 				skin : \'office2003\',
+				extraPlugins : \'autosave\',
 				toolbar : \'ModerateToolbar\',
 				removePlugins: \'elementspath\',
 				height: 200
 			});
+			PerformReviewFormAutosaveTimeout();
 		</script>
 	',
 	'view_version_pwt.error_row' => '<p style="text-align: center;">{err_msg}</p>',
