@@ -365,12 +365,13 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 			if(! $this->GetUserId()){
 				throw new Exception(getstr('pjs.onlyLoggedUsersCanPerformThisAction'));
 			}
-		$lReviewer = 	 (int) $this->GetValueFromRequestWithoutChecks('reviewer_id');
-		$lCurrentRound = (int) $this->GetValueFromRequestWithoutChecks('current_round_id');
-		$lRole = 		 (int) $this->GetValueFromRequestWithoutChecks('role');
+		$lReviewer 		= (int) $this->GetValueFromRequestWithoutChecks('reviewer_id');
+		$lCurrentRound	= (int) $this->GetValueFromRequestWithoutChecks('current_round_id');
+		$lRole 			= (int) $this->GetValueFromRequestWithoutChecks('role');
+		$lDoc_id		= (int) $this->GetValueFromRequestWithoutChecks('doc_id');
 		
 		$lDocumentsModel = new mDocuments_Model();
-		$this->m_action_result = $lDocumentsModel->SaveReviewerRole($lReviewer, $lCurrentRound, $lRole);
+		$this->m_action_result = $lDocumentsModel->SaveReviewerRole($lReviewer, $lCurrentRound, $lRole, $lDoc_id);
 		
 		if($this->m_action_result['err_cnt']){
 			$this->m_errCnt = $this->m_action_result['err_cnt'];

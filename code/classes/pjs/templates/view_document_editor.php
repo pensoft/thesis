@@ -591,7 +591,7 @@ $gTemplArr = array(
 			</tr>
 	',
 	'view_document_editor.seAvailableListNodata' => '
-		<p>No subject editors match your criteria</p>
+		<p>{_getstr(pjs.no_se_editors_to_suggest)}</p>
 		<div class="back_link editor_back_link">
 			&laquo; <a href="/view_document.php?id={document_id}&amp;view_role=2">back</a>
 		</div>
