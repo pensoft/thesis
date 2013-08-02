@@ -46,7 +46,13 @@ $BODY$
 			lEndOffset int;
 			lFlag int;
 			lDocumentId bigint;
+			lVersionIsReadonly int;
 		BEGIN
+			lVersionIsReadonly = pjs.spCheckIfPjsVersionIsReadonly(pVersionId);
+			IF coalesce(lVersionIsReadonly, 0) = 1 THEN
+				RAISE EXCEPTION 'pjs.specifiedVersionIsReadonly';
+			END IF;
+				
 			lCurTime := current_timestamp; --tva go polzvame za da insertnem i updatenem s edno i sushto vreme na vsiakude			
 			lStartObjectInstancesId = pStartInstanceId;
 			IF coalesce(lStartObjectInstancesId, 0) = 0 THEN

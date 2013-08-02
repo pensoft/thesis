@@ -132,11 +132,11 @@ function scrollToComment(pCommentId) {
 
 function InitFreezeResizeEvent(){
 	$(document).ready(function(){
-		$("#CommentsFreeze").css('top', ($('.documentHeader').outerHeight() - 7) + 'px');
+		$("#CommentsFreeze").css('top', ($('.documentHeader').outerHeight() -2) + 'px');
 	});
 	$("#CommentsFreeze").bind("resize", function(){
 		var lHeight = $(this).outerHeight();
-		$(this).parent().css('padding-top', lHeight + 'px');
+		$(this).parent().css('padding-top', (lHeight) + 'px');
 		positionCommentsBase();
 	});
 }

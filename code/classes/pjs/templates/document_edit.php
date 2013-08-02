@@ -60,10 +60,10 @@ $gTemplArr = array(
 					</div>
 				</div>
 			</div>
+			{_displayReadonlyVersionHeaderBox(version_is_readonly)}
 		</div>
-		<div id="P-Registration-Content" style="display: none;"></div>
 		<!-- End P-Header -->
-		<div id="docEditHeader" class="docEditHeaderHolder {_checkReadOnlyAndHasLegend(readonly, user_legend)}" style="{_changeHeaderSize(readonly)}">
+		<div id="docEditHeader" class="docEditHeaderHolder {_checkReadOnlyAndHasLegend(readonly, user_legend)}" style="{_changeHeaderSize(readonly)}">			
 			{_decisionFormPreviewMode(readonly, role, name, decision, user_legend, author_version_num, author_name)}
 			{_displayFilterBox(user_legend)}
 			<div class="box buttons">

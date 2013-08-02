@@ -17,14 +17,20 @@ $BODY$
 		lRes pjs.ret_spResolveComment;
 		lIsResolved int;
 		lOriginalId int;
+		lVersionId bigint;
+		lVersionIsReadonly int;
 	BEGIN	
 		lRes.result = 1;		
 		
-		SELECT INTO lIsResolved, lOriginalId
-			is_resolved::int,
-			original_id
+		SELECT INTO lIsResolved, lOriginalId, lVersionId
+			is_resolved::int, original_id, version_id
 		FROM pjs.msg
 		WHERE id = pCommentId;	
+		
+		lVersionIsReadonly = pjs.spCheckIfPjsVersionIsReadonly(lVersionId);
+		IF coalesce(lVersionIsReadonly, 0) = 1 THEN
+			RAISE EXCEPTION 'pjs.specifiedVersionIsReadonly';
+		END IF;
 		
 		IF lOriginalId IS NULL THEN
 			RETURN lRes;

@@ -39,6 +39,7 @@ $BODY$
 			lFlag int;
 			lDocumentId bigint;
 			lVersionId bigint;
+			lVersionIsReadonly int;
 		BEGIN
 			lCurTime := current_timestamp; --tva go polzvame za da insertnem i updatenem s edno i sushto vreme na vsiakude			
 			SELECT INTO lTopicFlags, lStartObjectInstancesId, lEndObjectInstancesId, lStartObjectFieldId, lEndObjectFieldId, lStartOffset, lEndOffset, lDocumentId, lVersionId
@@ -46,6 +47,10 @@ $BODY$
 			FROM pjs.msg
 			WHERE
 				id = pRootId;
+			lVersionIsReadonly = pjs.spCheckIfPjsVersionIsReadonly(lVersionId);
+			IF coalesce(lVersionIsReadonly, 0) = 1 THEN
+				RAISE EXCEPTION 'pjs.specifiedVersionIsReadonly';
+			END IF;
 			
 			lMsgID := nextval('pjs.msg_id_seq');
 			INSERT INTO pjs.msg (id, version_id, document_id, author, subject, msg, senderip, rootid, usr_id, mdate, lastmoddate, flags,  

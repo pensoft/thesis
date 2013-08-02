@@ -408,7 +408,10 @@
 			
 			<!-- Volume -->
 			<xsl:if test="$lVolume != ''">
-				<xsl:text>, </xsl:text>
+				<xsl:if test="normalize-space(./fields/*[@id='256']/value) != ''">
+					<xsl:text>,</xsl:text>
+				</xsl:if>	
+				<xsl:text> </xsl:text>
 				<span>
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
@@ -568,8 +571,8 @@
 				<!--xsl:apply-templates select="./fields/*[@id='276']/value" mode="formatting"/-->
 				<!--  <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='276']/value))"/>-->
 				<xsl:apply-templates select="./fields/*[@id='276']/value" mode="formatting_nospace"/>
-				<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='255']/value))"/>
 			</span>
+			<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='276']/value))"/>
 
 			<!-- Journal -->
 			<xsl:if test="normalize-space(./fields/*[@id='243']/value) != ''">
@@ -729,7 +732,7 @@
 				<!--xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='26']/value))"/-->
 				<xsl:apply-templates select="./fields/*[@id='26']/value" mode="formatting_nospace"/>
 			</span>
-			<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='255']/value))"/>
+			<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='26']/value))"/>
 
 			<xsl:if test="count(./*[@object_id='93']/*[@object_id='91']) &gt; 0">
 				<xsl:text> In: </xsl:text>
@@ -1429,7 +1432,7 @@
 				<!-- <xsl:value-of select="php:function('parseReferenceItemTitle', string(./fields/*[@id='26']/value))"/> -->
 				<xsl:apply-templates select="./fields/*[@id='26']/value" mode="formatting_nospace"/>
 			</span>
-			<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='255']/value))"/>
+			<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='26']/value))"/>
 			
 			<!-- Version -->
 			<xsl:if test="normalize-space(./fields/*[@id='279']/value) != ''">

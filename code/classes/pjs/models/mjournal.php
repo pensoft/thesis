@@ -18,7 +18,7 @@ class mJournal extends emBase_Model {
 			$lSql = "SELECT u.*
 				FROM pjs.journal_users ju
 				JOIN usr u ON u.id = ju.uid
-				WHERE ju.journal_id = $pJournalId AND ju.role_id = " .  SE_ROLE;
+				WHERE ju.journal_id = $pJournalId AND ju.role_id = " .  SE_ROLE . ' AND u.state = ' . USER_ACTIVE_STATE;
 		}else{
 			
 			if($pFilterSearchByLetter) {
@@ -51,12 +51,13 @@ class mJournal extends emBase_Model {
 			else
 			{
 				$tail = "WHERE ju.journal_id = $pJournalId
-				  $lWhereAdd 
+				  $lWhereAdd
+				  AND u.state = " . USER_ACTIVE_STATE . " 
 				  AND ju.role_id = " . SE_ROLE . "
 				  ORDER BY first_name asc, last_name asc";
 			}
 			$lSql = "
-			SELECT uname as email, u.id as id, first_name, last_name, 
+			SELECT u.uname as email, u.id as id, u.first_name, u.last_name, 
 				coalesce($duFiltering(du.id), 0) as assigned_se_uid,
 				(SELECT string_agg(subj.name, '; ') FROM public.subject_categories subj WHERE subj.id  = ANY(jue.subject_categories)) as subjects,
 				(SELECT string_agg(taxon.name, '; ') FROM public.taxon_categories taxon WHERE taxon.id = ANY(jue.taxon_categories)) as taxons
@@ -68,7 +69,6 @@ class mJournal extends emBase_Model {
 					pjs.journal_users_expertises jue ON jue.journal_usr_id = ju.id
 			$tail			
 			";
-			;
 		}
  		return $this->ArrayOfRows($lSql, 0);
 	}

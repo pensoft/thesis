@@ -13,6 +13,7 @@ $BODY$
 		lRes pjs.ret_spDeleteComment;
 		lVersionId bigint;
 		lRoundId bigint;
+		lVersionIsReadonly int;
 	BEGIN		
 		SELECT INTO lVersionId 
 			version_id 
@@ -21,6 +22,11 @@ $BODY$
 			
 		IF lVersionId IS NULL THEN
 			RAISE EXCEPTION 'pjs.youCannotDeleteThisComment';
+		END IF;
+		
+		lVersionIsReadonly = pjs.spCheckIfPjsVersionIsReadonly(lVersionId);
+		IF coalesce(lVersionIsReadonly, 0) = 1 THEN
+			RAISE EXCEPTION 'pjs.specifiedVersionIsReadonly';
 		END IF;
 		
 		DELETE FROM pjs.msg WHERE rootid = pCommentId AND version_id = lVersionId;

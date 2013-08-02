@@ -21,9 +21,9 @@ $BODY$
 		lReferenceObjectId bigint;
 		lWebsiteReferenceObjectId bigint;
 		
-		lAuthorFirstNameFieldId bigint;
-		lAuthorLastNameFieldId bigint;
-		
+		lAuthorFirstNameFieldId bigint = 251;
+		lAuthorLastNameFieldId bigint = 252;
+		lAuthorCombinedNameFieldId bigint = 250;
 		lPubYearFieldId bigint;
 		
 		lRecord record;
@@ -31,13 +31,14 @@ $BODY$
 		lAuthorsCount int;
 		lInitials varchar;
 		lCurrentAuthorCombinedNames varchar;
+		lAuthorsAuthorshipType int = 1;
+		lEditorsAuthorshipType int = 2;
+		lAuthorshipFieldIds bigint[] = ARRAY[281, 282, 265];
 	BEGIN
 		lAuthorObjectId = 90;
 		lReferenceObjectId = 95;
 		lWebsiteReferenceObjectId = 108;
 		
-		lAuthorFirstNameFieldId = 251;
-		lAuthorLastNameFieldId = 252;
 		
 		lPubYearFieldId = 254;
 		
@@ -56,17 +57,26 @@ $BODY$
 			lAuthorsCount = 0;
 			lCombinedAuthorNames = '';
 			FOR lRecord IN 
-				SELECT fn.value_str as first_name, ln.value_str as last_name
+				SELECT fn.value_str as first_name, ln.value_str as last_name, cn.value_str as combined_name, at.value_int as authorship_type
 				FROM pwt.document_object_instances i
 				JOIN pwt.document_object_instances p ON p.id = lRes.reference_instance_id AND substring(i.pos, 1, char_length(p.pos)) = p.pos
 				JOIN pwt.instance_field_values fn ON fn.instance_id = i.id AND fn.field_id = lAuthorFirstNameFieldId
 				JOIN pwt.instance_field_values ln ON ln.instance_id = i.id AND ln.field_id = lAuthorLastNameFieldId
-				WHERE i.document_id = pDocumentId AND i.object_id = lAuthorObjectId
+				JOIN pwt.instance_field_values cn ON cn.instance_id = i.id AND cn.field_id = lAuthorCombinedNameFieldId
+				JOIN pwt.document_object_instances ai ON substring(ai.pos, 1, char_length(p.pos)) = p.pos
+				JOIN pwt.instance_field_values at ON at.instance_id = ai.id AND at.field_id = ANY (lAuthorshipFieldIds)
+				
+				WHERE i.document_id = pDocumentId AND i.object_id = lAuthorObjectId AND ai.document_id = pDocumentId 
 				ORDER BY i.pos ASC
 			LOOP
 				lAuthorsCount = lAuthorsCount + 1;
 				lInitials = substring(lRecord.first_name, 1, 1);
-				lCurrentAuthorCombinedNames = trim(coalesce(lRecord.last_name || ' ', '') || coalesce(lInitials, ''));
+				IF lRecord.authorship_type IN (lAuthorsAuthorshipType, lEditorsAuthorshipType) THEN 
+					lCurrentAuthorCombinedNames = trim(coalesce(lRecord.last_name || ' ', '') || coalesce(lInitials, ''));
+				ELSE
+					lCurrentAuthorCombinedNames = trim(coalesce(lRecord.combined_name, ''));
+				END IF;
+				
 				IF lAuthorsCount = 1 THEN					
 					lRes.first_author_combined_name = lCurrentAuthorCombinedNames;
 					lCombinedAuthorNames = lCurrentAuthorCombinedNames;

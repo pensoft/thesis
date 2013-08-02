@@ -161,6 +161,7 @@ class cView_Version_Pwt extends cView_Version {
 				'controller_data' => $lCommentsData,
 				'has_editor_permissions' => $this->m_hasEditorPermissions,
 				'current_user_id' => $this->GetUserId(),
+				'version_is_readonly' => $this->m_ReadOnlyPreview,
 			);
 
 			$lNewCommentForm = new New_Comment_Form_Wrapper(array(
@@ -203,6 +204,7 @@ class cView_Version_Pwt extends cView_Version {
 					'reviewerpoll' => $lReviewerPoll,
 					'comments' => &$lComments,
 					'new_comment_form' => $lNewCommentForm,
+					'version_is_readonly' => $this->m_ReadOnlyPreview,
 				),
 				'users_with_changes' => $lVersionUidChanges,
 			);
@@ -262,21 +264,8 @@ class cView_Version_Pwt extends cView_Version {
 	 *
 	 * @return void
 	 */
-	private function CheckVersionReadOnly() {
-		/**
-		 * if the current version is author version or public review version or there is already a decision for the specific user( by version_id ) then objects must be in read only mode
-		 */
-		if(
-			$this->m_versionType == DOCUMENT_VERSION_AUTHOR_SUBMIT_TYPE ||
-			$this->m_versionType == DOCUMENT_VERSION_PUBLIC_REVIEWER_TYPE
-		) {
-			$this->m_ReadOnlyPreview = 1;
-		} else {
-			$lDecisionData = $this->m_versionModel->checkForDecision($this->m_versionId);
-			if((int)$lDecisionData['has_decision']) {
-				$this->m_ReadOnlyPreview = 1;
-			}
-		}
+	private function CheckVersionReadOnly() {	
+		$this->m_ReadOnlyPreview = (int)$this->m_versionModel->CheckIfVersionIsReadonly($this->m_versionId);
 	}
 
 	/**
