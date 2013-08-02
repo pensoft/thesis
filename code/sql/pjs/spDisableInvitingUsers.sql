@@ -1,5 +1,5 @@
-﻿DROP FUNCTION IF EXISTS pjs."spDisableInvitingUsers"(pRoundId int, pDocumentId int);
-CREATE OR REPLACE FUNCTION pjs."spDisableInvitingUsers"(pRoundId int, pDocumentId int)
+﻿DROP FUNCTION IF EXISTS pjs."spDisableInvitingUsers"(pRoundId bigint, pDocumentId bigint);
+CREATE OR REPLACE FUNCTION pjs."spDisableInvitingUsers"(pRoundId bigint, pDocumentId bigint)
   RETURNS integer AS
 $BODY$
 	BEGIN		
@@ -9,4 +9,4 @@ END
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE SECURITY DEFINER;
 
-GRANT EXECUTE ON FUNCTION pjs."spDisableInvitingUsers"(pRoundId int, pDocumentId int) TO iusrpmt;
+GRANT EXECUTE ON FUNCTION pjs."spDisableInvitingUsers"(pRoundId bigint, pDocumentId bigint) TO iusrpmt;

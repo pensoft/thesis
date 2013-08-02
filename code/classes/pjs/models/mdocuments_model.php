@@ -486,6 +486,9 @@ class mDocuments_Model extends emBase_Model {
 			//The checks whether the current user is journal manager or the specified se is SE of the journal of the document are performed in the SP
 			// 			var_dump($pConfirm);
 			// 			$pConfirm = false;
+			if(!$this->InsertDecisionComments($pRoundUserId)){
+				throw new Exception(getstr('pjs.couldNotCreateDecisionComments'));
+			}
 			$lSql = 'BEGIN; SELECT * FROM spSaveReviewerDecision(' . (int)$pRoundUserId . ', ' . (int)$pDecisionId . ', \'' . q($pDecisionNotes) . '\', ' . (int)$pUid . ', ' . (int)$pDocumentId . ');';
 			 			//~ var_dump($lSql);
 						//~ exit;
@@ -496,10 +499,7 @@ class mDocuments_Model extends emBase_Model {
 				if((int)$lCon->mRs['event_id_sec']) {
 					$lResult['data']['event_id'][] = (int)$lCon->mRs['event_id_sec'];
 				}
-				$lResult['data']['event_id'][] = (int)$lCon->mRs['event_id'];
-				if(!$this->InsertDecisionComments($pRoundUserId)){
-					throw new Exception(getstr('pjs.couldNotCreateDecisionComments'));
-				}				
+				$lResult['data']['event_id'][] = (int)$lCon->mRs['event_id'];				
 				if(!$this->UndiscloseRoundUserVersionIfNecessary($pRoundUserId)){
 					throw new Exception(getstr('pjs.couldNotCreateDecisionComments'));
 				}

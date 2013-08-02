@@ -24,6 +24,7 @@ $BODY$
 		cPanelReviewerRoleId CONSTANT int := 7;
 		cPublicReviewerRoleId CONSTANT int := 6;
 		lCanInvitePanelReviewers boolean;
+		lPanelFlag int := 0;
 	BEGIN
 		lDedicatedReviewerRoleId = 5;
 		lNewInvitationStateId = 1;
@@ -46,14 +47,45 @@ $BODY$
 			-- checking for community_public_due_date is not due (the SE can not take decision)
 			IF(lReviewType = cCommunityPeerReview) THEN
 			
-				IF(lPanelDueDate::date > now()::date OR lPanelDueDate IS NULL) THEN
-					RETURN lRes;
-				END IF;
+				-- if all panel reviewers has taken their decisions or the due_date has passed then TRUE
+				IF(lPanelDueDate IS NOT NULL) THEN
+				--RAISE NOTICE 'panel check';
+					IF NOT EXISTS (
+						SELECT dui.*
+						FROM pjs.document_user_invitations dui
+						JOIN pjs.document_users u ON u.uid = dui.uid AND u.role_id = cPanelReviewerRoleId AND u.document_id = pDocumentId
+						JOIN pjs.document_review_round_users r ON r.document_user_id = u.id
+						WHERE dui.document_id = pDocumentId AND r.decision_id IS NULL AND dui.role_id IN (cPanelReviewerRoleId)
+						UNION
+						SELECT dui.*
+						FROM pjs.document_user_invitations dui
+						LEFT JOIN pjs.document_users u ON u.uid = dui.uid AND u.role_id IN (cPanelReviewerRoleId) AND u.document_id = pDocumentId
+						WHERE dui.document_id = pDocumentId AND dui.role_id IN (cPanelReviewerRoleId) AND u.id IS NULL
+					) THEN
+						lRes.result = TRUE;
+						lPanelFlag = 1;
+					ELSE
+						IF(lPanelDueDate::date > now()::date) THEN
+							lRes.result = FALSE;
+							RETURN lRes;
+						END IF;
+						
+						SELECT INTO lCanInvitePanelReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, lCurrentRoundId, cPanelReviewerRoleId);
+						IF(lCanInvitePanelReviewers = TRUE) THEN
+							lRes.result = FALSE;
+							RETURN lRes;
+						END IF;
+						
+					END IF;
+				ELSE
 				
-				-- check for can invite panels
-				SELECT INTO lCanInvitePanelReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, lCurrentRoundId, cPanelReviewerRoleId);
-				IF(lCanInvitePanelReviewers = TRUE) THEN
-					RETURN lRes;
+					-- check for can invite panels
+					SELECT INTO lCanInvitePanelReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, lCurrentRoundId, cPanelReviewerRoleId);
+					IF(lCanInvitePanelReviewers = TRUE) THEN
+						lRes.result = FALSE;
+						RETURN lRes;
+					END IF;
+					
 				END IF;
 				
 			END IF;
@@ -61,12 +93,14 @@ $BODY$
 			IF(lReviewType = cPublicPeerReview) THEN
 				
 				IF(lPublicDueDate::date > now()::date OR lPublicDueDate IS NULL) THEN
+					lRes.result = FALSE;
 					RETURN lRes;
 				END IF;
 				
 				-- check for can invite panels
 				SELECT INTO lCanInvitePanelReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, lCurrentRoundId, cPanelReviewerRoleId);
 				IF(lCanInvitePanelReviewers = TRUE) THEN
+					lRes.result = FALSE;
 					RETURN lRes;
 				END IF;
 				
@@ -79,6 +113,7 @@ $BODY$
 				JOIN pjs.document_user_invitations i ON i.document_id = d.id AND i.round_id = d.current_round_id
 				WHERE i.role_id = lDedicatedReviewerRoleId AND i.state_id = lNewInvitationStateId AND d.id = pDocumentId
 			) THEN
+				lRes.result = FALSE;
 				RETURN lRes;
 			END IF;
 			
@@ -88,8 +123,9 @@ $BODY$
 				FROM pjs.documents d
 				JOIN pjs.document_review_round_users r ON r.round_id = d.current_round_id
 				JOIN pjs.document_users u ON u.id = r.document_user_id
-				WHERE u.role_id IN (lDedicatedReviewerRoleId, cPanelReviewerRoleId, cPublicReviewerRoleId) AND r.decision_id IS NULL AND r.state_id = lReviewerConfirmedStateId AND d.id = pDocumentId
+				WHERE u.role_id IN (lDedicatedReviewerRoleId) AND r.decision_id IS NULL AND r.state_id = lReviewerConfirmedStateId AND d.id = pDocumentId
 			) THEN
+				lRes.result = FALSE;
 				RETURN lRes;
 			END IF;
 			--RAISE EXCEPTION 'lCurrentRoundId: %, lDedicatedReviewerRoleId: %', lCurrentRoundId, lDedicatedReviewerRoleId;
@@ -105,6 +141,10 @@ $BODY$
 				--RAISE EXCEPTION '333';
 				lRes.result = TRUE;
 			ELSE 
+				IF(lPanelFlag = 1) THEN
+					lRes.result = TRUE;
+					RETURN lRes;
+				END IF;
 				-- check for can invite nominated reviewers
 				--RAISE EXCEPTION '222';
 				SELECT INTO lCanInviteDedicatedReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, lCurrentRoundId,lDedicatedReviewerRoleId);
