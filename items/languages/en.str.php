@@ -2181,7 +2181,8 @@ $STRARRAY = array(
 	'pjs.tooltips.reinvite_reviewer' => 'Invite this reviewer again',
 	'pjs.tooltips.send_email' => 'Send e-mail',
 	'pjs.cannotInviteMoreReviewers' => 'You can not invite more reviewers',
-	'pjs.versionIsReadonly' => 'This is read-only version!'
+	'pjs.versionIsReadonly' => 'This is a read-only version!',
+	'pjs.no_se_editors_to_suggest' => 'There is no exact match between the article\'s metadata and the expertise of a subject editors. Please assign a subject editor with closest possible expertise.',
 	
 );
 ?>
