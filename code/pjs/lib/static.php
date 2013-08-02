@@ -26,18 +26,20 @@ function phpGetLoggedErrors() {
                 E_DEPRECATED 		 => 'Deprecated',
 				E_USER_DEPRECATED    => 'User deprecated'
                 );
-	sort($_logged_php_errors);
-	$old = array();
-	foreach ($_logged_php_errors as $key => $e) {
-		//if ($old == $e) continue;
-		$i = $e[0];
-		$file = str_replace(PATH_CHECKOUT, '', $e[2]);
-		$lRet .= "<tr>
-					 <td style='padding-left: 195px;'><b>$errortype[$i]</b>: $e[1]</td>
-					 <td>$file</td>
-					 <td>$e[3]</td>
-				  </tr>";
-		$old = $e;
+	if(is_array($_logged_php_errors)){
+		sort($_logged_php_errors);
+		$old = array();
+		foreach ($_logged_php_errors as $key => $e) {
+			//if ($old == $e) continue;
+			$i = $e[0];
+			$file = str_replace(PATH_CHECKOUT, '', $e[2]);
+			$lRet .= "<tr>
+						 <td style='padding-left: 195px;'><b>$errortype[$i]</b>: $e[1]</td>
+						 <td>$file</td>
+						 <td>$e[3]</td>
+					  </tr>";
+			$old = $e;
+		}
 	}
 	if ($lRet != "")
     return '<div class="P-Clear"></div>
