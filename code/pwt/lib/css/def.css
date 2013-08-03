@@ -5251,6 +5251,7 @@ td #docDescr {
 	margin-top:-20px;	
 	margin-left:-20px;
 	padding-left:20px;
+	height:auto!important;
 }
 
 #previewIframe.previewIframeWithUnprocessedChanges{
