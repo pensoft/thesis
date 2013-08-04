@@ -904,48 +904,6 @@ function deleteDocumentById( pDocumentId, pPage ) {
 	}
 }
 
-function deleteComment( pCommentId ) {
-	if (confirm("Are you sure you want to delete this comment?")) {
-		$.ajax({
-			url: gDeleteCommentSrv,
-			dataType : 'json',
-			type : 'POST',
-			async : false,
-			data : {
-				comment_id: pCommentId
-			},
-			success: function(pAjaxResult){
-				if(pAjaxResult["result"] == 1){
-					if( $('#P-Root-Comment-Holder-' + pCommentId).siblings('div[id*=P-Root-Comment-Holder]').length < 1 ){
-						$('.P-Comments-Expand-Collapse').hide('slow', function(){
-							$(this).remove();
-						});
-					}
-					$('#P-Root-Comment-Holder-' + pCommentId).hide('slow', function(){
-						$(this).remove();
-					});
-					
-					var lPreviewContents = GetPreviewContent();			
-					
-					lPreviewContents.find('.P-Preview-Comment[comment_id~="' + pCommentId + '"]').each(function(pIdx, pElement){
-						if($(pElement).attr('comment_id') == pCommentId){
-							if(pElement.nodeName.toLowerCase() == 'span'){
-								$(pElement).replaceWith($(pElement).contents());
-							}else{
-								$(pElement).removeClass('P-Preview-Comment');
-							}
-						}else{
-							removeAttributeValue($(pElement), 'comment_id', pCommentId, ' ')
-						}						
-					});
-				}else{
-
-				}
-			}
-		});
-	}
-}
-
 /**
  * unlock на документ
  */
