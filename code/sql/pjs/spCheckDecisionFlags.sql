@@ -53,6 +53,7 @@ $BODY$
 		-- checking for community_public_due_date is not due (the SE can not take decision)
 		IF(pDocumentReviewType = cCommunityPeerReview) THEN
 		
+		/*
 			IF(pPanelDuedate::date > now()::date OR pPanelDuedate IS NULL) THEN
 				lRes.waitpanelflag = TRUE;
 			END IF;
@@ -62,6 +63,45 @@ $BODY$
 			IF(lCanInvitePanelReviewers = TRUE) THEN
 				lRes.waitpanelflag = TRUE;
 			END IF;
+			*/
+			
+				-- if all panel reviewers has taken their decisions or the due_date has passed then TRUE
+				IF(pPanelDuedate IS NOT NULL) THEN
+				--RAISE NOTICE 'panel check';
+					IF NOT EXISTS (
+						SELECT dui.*
+						FROM pjs.document_user_invitations dui
+						JOIN pjs.document_users u ON u.uid = dui.uid AND u.role_id = cPanelReviewerRoleId AND u.document_id = pDocumentId
+						JOIN pjs.document_review_round_users r ON r.document_user_id = u.id
+						WHERE dui.document_id = pDocumentId AND r.decision_id IS NULL AND dui.role_id IN (cPanelReviewerRoleId)
+						UNION
+						SELECT dui.*
+						FROM pjs.document_user_invitations dui
+						LEFT JOIN pjs.document_users u ON u.uid = dui.uid AND u.role_id IN (cPanelReviewerRoleId) AND u.document_id = pDocumentId
+						WHERE dui.document_id = pDocumentId AND dui.role_id IN (cPanelReviewerRoleId) AND u.id IS NULL
+					) THEN
+						lRes.waitpanelflag = FALSE;
+					ELSE
+						IF(pPanelDuedate::date > now()::date) THEN
+							lRes.waitpanelflag = TRUE;
+						END IF;
+						
+						SELECT INTO lCanInvitePanelReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, pCurrentRoundId, cPanelReviewerRoleId);
+						IF(lCanInvitePanelReviewers = TRUE) THEN
+							lRes.waitpanelflag = TRUE;
+						END IF;
+						
+					END IF;
+				ELSE
+				
+					-- check for can invite panels
+					SELECT INTO lCanInvitePanelReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, pCurrentRoundId, cPanelReviewerRoleId);
+					IF(lCanInvitePanelReviewers = TRUE) THEN
+						lRes.waitpanelflag = TRUE;
+					END IF;
+					
+				END IF;
+			
 			
 		END IF;
 		
@@ -79,17 +119,17 @@ $BODY$
 			
 		END IF;
 		
-		--RAISE EXCEPTION 'lCurrentRoundId: %, lDedicatedReviewerRoleId: %', lCurrentRoundId, lDedicatedReviewerRoleId;
+		--RAISE EXCEPTION 'pCurrentRoundId: %, lDedicatedReviewerRoleId: %', pCurrentRoundId, lDedicatedReviewerRoleId;
 		-- at least 1 reviewer that took decision
 		SELECT INTO lRes.reviews count(d.id) 
 		FROM pjs.documents d
 		JOIN pjs.document_review_round_users r ON r.round_id = d.current_round_id
 		JOIN pjs.document_review_rounds dr ON dr.id = d.current_round_id
 		JOIN pjs.document_users u ON u.id = r.document_user_id
-		WHERE u.role_id = lDedicatedReviewerRoleId AND r.decision_id IS NOT NULL AND r.state_id = lReviewerConfirmedStateId AND d.id = pDocumentId;
+		WHERE u.role_id IN (lDedicatedReviewerRoleId, cPanelReviewerRoleId) AND r.decision_id IS NOT NULL AND r.state_id = lReviewerConfirmedStateId AND d.id = pDocumentId;
 
 		-- check for can invite nominated reviewers
-		-- RAISE EXCEPTION 'pDocumentId: %, lCurrentRoundId: %, lDedicatedReviewerRoleId: %', pDocumentId, pCurrentRoundId, lDedicatedReviewerRoleId;
+		-- RAISE EXCEPTION 'pDocumentId: %, pCurrentRoundId: %, lDedicatedReviewerRoleId: %', pDocumentId, pCurrentRoundId, lDedicatedReviewerRoleId;
 		SELECT INTO lRes.caninvitenominatedflag result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, pCurrentRoundId,lDedicatedReviewerRoleId);
 		
 		RETURN lRes;
