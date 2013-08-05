@@ -155,6 +155,12 @@ function InitSingleNodeTracker(pNode) {
 			if(!gTrackChanges){
 				lNewTracker.disableChangeTracking();
 			}
+			var lEmptyChangeNodes = $(pNode).find(gAcceptedInsertChangeNodeName + ':empty,' + gAcceptedDeleteChangeNodeName + ':empty,' + gFakeInsertChangeNodeName + ':empty,' + gFakeDeleteChangeNodeName + ':empty,' + gDeleteChangeNodeName + ':empty,' + gInsertChangeNodeName + ':empty');
+			if(lEmptyChangeNodes.length){
+				lEmptyChangeNodes.remove();
+				SaveNodeTrackerContents(pNode);
+			}
+			
 			InitTrackerChangesEvents(pNode, lNewTracker);
 		}catch(e){
 
