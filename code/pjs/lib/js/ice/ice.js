@@ -206,9 +206,9 @@ InlineChangeEditor.prototype = {
 
 		// Remove all the cited figures/tables/plates
 		var lItemHolderBaseSelector = 'div';
-		var lFigureHolderSelector = lItemHolderBaseSelector + '[class="figure"][figure_id]';
-		var lPlateHolderSelector = lItemHolderBaseSelector + '[class="figure"][plate_id]';
-		var lTableHolderSelector = lItemHolderBaseSelector + '[class="table"][table_id]';
+		var lFigureHolderSelector = lItemHolderBaseSelector + '.figure[figure_id]';
+		var lPlateHolderSelector = lItemHolderBaseSelector + '.figure[plate_id]';
+		var lTableHolderSelector = lItemHolderBaseSelector + '.table[table_id]';
 		ice.dom.each(ice.dom.find(lElementCopy, lPlateHolderSelector + ', ' +  lFigureHolderSelector + ', ' +  lTableHolderSelector), function(i, node){
 //			console.log(1);
 			$(node).remove();
@@ -220,11 +220,12 @@ InlineChangeEditor.prototype = {
 		ice.dom.each(ice.dom.find(lElementCopy, '.' + gCommentPreviewElementClass), function(i, node){
 			$(node).removeClass(gCommentPreviewElementClass);
 		})
-		ice.dom.each(ice.dom.find(lElementCopy, '.' + gActiveChangeClass), function(i, node){
-			$(node).removeClass(gActiveChangeClass);
-		})
 		ice.dom.each(ice.dom.find(lElementCopy, '.' + gActiveCommentTextClass), function(i, node){
 			$(node).removeClass(gActiveCommentTextClass);
+		})
+		
+		ice.dom.each(ice.dom.find(lElementCopy, '.' + gActiveChangeClass), function(i, node){
+			$(node).removeClass(gActiveChangeClass);
 		})
 
 		//Remove the changes username attributes and title

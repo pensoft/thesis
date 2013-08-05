@@ -458,13 +458,19 @@ class mDocuments_Model extends emBase_Model {
 	function UndiscloseRoundUserVersionIfNecessary($pRoundUserId){
 		$lCon = $this->m_con;
 		$lSql = 'SELECT * FROM pjs.spUndiscloseRoundUserVersionIfNecessary(' . (int)$pRoundUserId . ');';
-		return $lCon->Execute($lSql);
+		$lRes = $lCon->Execute($lSql);
+// 		var_dump($this->m_con->GetLastError());
+// 		var_dump($lRes);
+		return $lRes;
 	}
 
 	function InsertDecisionComments($pRoundUserId){
 		$lCon = $this->m_con;
 		$lSql = 'SELECT * FROM pjs.spInsertDecisionComments(' . (int)$pRoundUserId . ');';
-		return $lCon->Execute($lSql);
+		$lRes = $lCon->Execute($lSql);
+// 		var_dump($this->m_con->GetLastError());
+// 		var_dump($lRes);
+		return $lRes;
 	}
 
 	/**
@@ -501,7 +507,7 @@ class mDocuments_Model extends emBase_Model {
 				}
 				$lResult['data']['event_id'][] = (int)$lCon->mRs['event_id'];				
 				if(!$this->UndiscloseRoundUserVersionIfNecessary($pRoundUserId)){
-					throw new Exception(getstr('pjs.couldNotCreateDecisionComments'));
+					throw new Exception(getstr('pjs.couldNotUndiscloseUser'));
 				}
 				if(!$lCon->Execute('COMMIT;')){
 					throw new Exception(getstr('pjs.couldNotCommitTransaction'));
@@ -538,16 +544,20 @@ class mDocuments_Model extends emBase_Model {
 			//The checks whether the current user is journal manager or the specified se is SE of the journal of the document are performed in the SP
 			// 			var_dump($pConfirm);
 			// 			$pConfirm = false;
-			$lSql = 'BEGIN;SELECT * FROM spSaveSEDecision(' . (int)$pRoundUserId . ', ' . (int)$pDecisionId . ', \'' . q($pDecisionNotes) . '\', ' . (int)$pUid . ', ' . (int)$pDocumentId . ');';
+			if(!$lCon->Execute('BEGIN;')){
+				throw new Exception(getstr('pjs.couldNotBeginTransaction'));
+			}
+			if(!$this->InsertDecisionComments($pRoundUserId)){
+				throw new Exception(getstr('pjs.couldNotCreateDecisionComments'));
+			}
+			$lSql = 'SELECT * FROM spSaveSEDecision(' . (int)$pRoundUserId . ', ' . (int)$pDecisionId . ', \'' . q($pDecisionNotes) . '\', ' . (int)$pUid . ', ' . (int)$pDocumentId . ');';
  						//var_dump($lSql);
 
 			if(!$lCon->Execute($lSql)){
 				throw new Exception($lCon->GetLastError());
 			} else {
 				$lResult['event_id'] = $lCon->mRs['event_id'];
-				if(!$this->InsertDecisionComments($pRoundUserId)){
-					throw new Exception(getstr('pjs.couldNotCreateDecisionComments'));
-				}
+				
 				if(!$lCon->Execute('COMMIT;')){
 					throw new Exception(getstr('pjs.couldNotCommitTransaction'));
 				}

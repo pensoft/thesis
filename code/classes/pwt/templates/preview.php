@@ -73,6 +73,7 @@ $gTemplArr = array(
 					<script>InitChangeBtns()</script>
 				</div>
 				{legend}
+				<div class="P-Clear"></div>
 			</div>
 	',
 		

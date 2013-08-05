@@ -318,7 +318,9 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 	if(lFieldNode == null){//Някаква грешка е станала щом не може да намерим field-а
 		return lResult;
 	}
-
+	if(pOffset === null){
+		pOffset = 0;
+	}
 	var lTreeCopy = document.createElement(lFieldNode.nodeName);
 	var lTreeCopyRoot = lTreeCopy;
 //	Сега обикаляме надолу по възлите докато стигнем до точната позиция която ни отговаря на internal позицията
@@ -341,10 +343,21 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 				var lAppendedChild = lTreeCopy.appendChild(lCurrentChild.cloneNode(true));
 				if(getPlainText(lTreeCopyRoot).length > pOffset){
 					lTreeCopy.removeChild(lAppendedChild);
-
-					if(lCurrentChild.nodeType == 1)
-						lTreeCopy = lTreeCopy.appendChild(document.createElement(lCurrentChild.nodeName));
 					lRootNode = lCurrentChild;
+					
+					if(lCurrentChild.nodeType == 1){
+						lTreeCopy = lTreeCopy.appendChild(document.createElement(lCurrentChild.nodeName));
+						if(getPlainText(lTreeCopyRoot).length >= pOffset){
+							//This will happen if the previous sibling is textnode 
+							//containing trailing whitespace
+							//which wont be counted if they are the last elements of the tree
+							//but now when we add a trailing element node 
+							//they may increase the length of the tree
+							lOffset = 0;
+							lOffsetFound = true;
+						}
+					}
+					
 					continue lNodeLoop;
 
 				}else if(getPlainText(lTreeCopyRoot).length == pOffset){
@@ -795,8 +808,8 @@ function positionCommentsBase(){
 		if(lCommentAPos < lCommentBPos){
 			return -1;
 		}
-		var lCommentAStartNode = $(gCommentStartPosNodeName + '[' + gCommentIdAttributeName + '="' + lCommentAId + '"]')[0];
-		var lCommentBStartNode = $(gCommentStartPosNodeName + '[' + gCommentIdAttributeName + '="' + lCommentBId + '"]')[0];
+		var lCommentAStartNode = GetPreviewContent().find(gCommentStartPosNodeName + '[' + gCommentIdAttributeName + '="' + lCommentAId + '"]')[0];
+		var lCommentBStartNode = GetPreviewContent().find(gCommentStartPosNodeName + '[' + gCommentIdAttributeName + '="' + lCommentBId + '"]')[0];
 		return compareNodesOrder(lCommentBStartNode, lCommentAStartNode);
 
 	};
@@ -1452,12 +1465,13 @@ function submitPreviewNewComment(){
 				//Insert the comment start and end nodes
 
 				if(lStartInstanceId > 0 && lStartFieldId > 0 && lEndInstanceId > 0 && lEndFieldId > 0 ){
-
+					var lEndPositionDetails = calculateCommentPositionAccordingToInternalPosition(lEndInstanceId, lEndFieldId, lEndOffset);
+					InsertCommentStartEndTag(lEndPositionDetails.node, lEndPositionDetails.offset, lCommentId, false);
+					
 					var lStartPositionDetails = calculateCommentPositionAccordingToInternalPosition(lStartInstanceId, lStartFieldId, lStartOffset, true);
 					InsertCommentStartEndTag(lStartPositionDetails.node, lStartPositionDetails.offset, lCommentId, true);
 
-					var lEndPositionDetails = calculateCommentPositionAccordingToInternalPosition(lEndInstanceId, lEndFieldId, lEndOffset);
-					InsertCommentStartEndTag(lEndPositionDetails.node, lEndPositionDetails.offset, lCommentId, false);
+					
 
 
 					var lIframeContent = GetPreviewContent();
@@ -1567,3 +1581,32 @@ function cancelPreviewNewComment (){
 	
 }
 
+function CleanupAfterCommentDelete(pCommentId){
+	if( $('#P-Root-Comment-Holder-' + pCommentId).siblings('div[id*=P-Root-Comment-Holder]').length < 1 ){
+		$('.P-Comments-Expand-Collapse').hide('slow', function(){
+			$(this).remove();
+		});
+	}
+	$('#P-Root-Comment-Holder-' + pCommentId).hide('slow', function(){
+		$(this).remove();
+	});
+	
+	var lPreviewContents = GetPreviewContent();			
+	
+	lPreviewContents.find('.P-Preview-Comment[comment_id~="' + pCommentId + '"]').each(function(pIdx, pElement){
+		if($(pElement).attr('comment_id') == pCommentId){
+			if(pElement.nodeName.toLowerCase() == 'span'){
+				$(pElement).replaceWith($(pElement).contents());
+			}else{
+				$(pElement).removeClass('P-Preview-Comment');
+				$(pElement).removeAttr('comment_id');
+				$(pElement).removeAttr('title');
+				if(gCurrentActiveCommentId == pCommentId){
+					DeactivateAllComments();
+				}
+			}
+		}else{
+			removeAttributeValue($(pElement), 'comment_id', pCommentId, ' ');
+		}						
+	});
+}

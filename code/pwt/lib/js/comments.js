@@ -31,3 +31,24 @@ function scrollToComment(pCommentId){
 	$('html, body').scrollTop(lComment.offset().top - $('.P-Header').outerHeight() - $('.P-Bread-Crumbs').outerHeight() - $('#CommentsFreeze').outerHeight());// Because
 	return false;
 }
+
+function deleteComment( pCommentId ) {
+	if (confirm("Are you sure you want to delete this comment?")) {
+		$.ajax({
+			url: gDeleteCommentSrv,
+			dataType : 'json',
+			type : 'POST',
+			async : false,
+			data : {
+				comment_id: pCommentId
+			},
+			success: function(pAjaxResult){
+				if(pAjaxResult["result"] == 1){				
+					CleanupAfterCommentDelete(pCommentId);
+				}else{
+
+				}
+			}
+		});
+	}
+}
