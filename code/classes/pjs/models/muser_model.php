@@ -233,7 +233,12 @@ class mUser_Model extends emBase_Model {
 						FROM pjs.document_users
 						WHERE document_id = $pDocumentId 
 						  AND uid = $pUid
-						  AND role_id IN ($pViewRole, " . JOURNAL_EDITOR_ROLE . ")";
+						  AND role_id IN ($pViewRole, " . JOURNAL_EDITOR_ROLE . ")
+						UNION 
+						SELECT d.id
+						FROM pjs.documents d
+						JOIN pjs.journal_users ju ON ju.journal_id = d.journal_id AND ju.uid = $pUid AND ju.role_id = " . JOURNAL_EDITOR_ROLE . "
+						WHERE d.id = $pDocumentId";
 					break;
 				case LE_ROLE:
 				case CE_ROLE:
