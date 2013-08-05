@@ -2184,6 +2184,7 @@ $STRARRAY = array(
 	'pjs.versionIsReadonly' => 'This is a read-only version!',
 	'pjs.no_se_editors_to_suggest' => 'There is no exact match between the article\'s metadata and the expertise of a subject editors. Please assign a subject editor with closest possible expertise.',
 	'pwt.documentIsReadonly' => 'This is a read-only version!',
-	
+	'pwt.validation.noSubObjectsAndEmptyValueInFieldErr' => 'Content', 
+	'pjs.youHaveToSelectChecklistNomenclatureFirst' => 'Please assign your checklist to the closest higher rank in the present classification',
 );
 ?>
