@@ -331,7 +331,7 @@ $gTemplArr = array(
 				<div class="bold" {_showHideTextByViewMode(view_mode)}>' . getstr('admin.article_versions.yourpreview') . '</div>
 				<div class="br"></div>
 
-				<div {_showHideTextByViewMode(view_mode)}>{*notes_to_author}{_showRequiredStart(user_role)}:</div>
+				<!--<div {_showHideTextByViewMode(view_mode)}>{*notes_to_author}{_showRequiredStart(user_role)}:</div>
 				<div {_showHideTextByViewMode2(view_mode)}>' . getstr('admin.article_versions.viewyourpreview') . ':</div>
 				<div class="br"></div>
 				{!notes_to_author}
@@ -339,7 +339,7 @@ $gTemplArr = array(
 				<div {_showHideTextByViewMode2(view_mode)}>{@notes_to_author}</div>
 
 				<div class="br"></div>
-				<div class="br"></div>
+				<div class="br"></div>-->
 				<div {_showHideTextByViewMode(view_mode)}>{*notes_to_editor}:</div>
 				<div {_showHideTextByViewMode2(view_mode)}>' . getstr('admin.article_versions.view2yourpreview') . ':</div>
 				<div class="br"></div>

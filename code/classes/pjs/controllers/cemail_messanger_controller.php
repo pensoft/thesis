@@ -28,7 +28,7 @@ class cEmail_Messanger_Controller extends cBase_Controller {
 				'siteurl' => SITE_URL,
 				'mailsubject' => $value['subject'],
 				'mailto' => $value['to'],
-				'content' => ($value['template_notes'] ? $value['template_notes'] . '<br>' : '') . $value['template'],
+				'content' => ($value['template_notes'] ? $value['template_notes'] . '<br><br><hr><br>' : '') . $value['template'],
 				'bcc' => $value['bcc'],
 				'cc' => $value['cc'],
 				'charset' => 'UTF-8',
