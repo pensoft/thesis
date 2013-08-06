@@ -1326,7 +1326,7 @@ function showAssignmentSEDueDate($pSEName, $pRoundDueDate, $pDocumentId, $pRound
 								<img title="'.getstr('pjs.tooltips.change_due_date').'" class="pointer" onclick="openDueDatePopUp(\'/updateduedate.php?action=reviewers_assignment&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)" src="../i/edit.png" />
 							</td>
 							<td align="right">
-								<a href="view_document.php?id=' . $pDocumentId . '&view_role=3&mode=1' . ($pRoleId == JOURNAL_EDITOR_ROLE ? '&e_back=1' : '') . '">Invite Reviewers</a>
+								<a href="view_document.php?id=' . $pDocumentId . '&view_role=3&mode=1' . ($pRoleId == JOURNAL_EDITOR_ROLE ? '&e_redirect=1' : '') . '">Invite Reviewers</a>
 							</td>
 						</tr>
 					</table>
@@ -1369,7 +1369,7 @@ function showAssignmentSEDueDate($pSEName, $pRoundDueDate, $pDocumentId, $pRound
 								<span class="se_due_date_txt">Review assignments are ' . $lDaysDiff . ' day'.(abs($lDaysDiff)>1?'s':'').' late</span> &nbsp;<img class="pointer" onclick="openDueDatePopUp(\'/updateduedate.php?action=reviewers_assignment&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)" src="../i/edit.png" src="../i/edit.png"/>
 							</td>
 							<td align="right">
-								<a href="view_document.php?id=' . $pDocumentId . '&view_role=3&mode=1' . ($pRoleId == JOURNAL_EDITOR_ROLE ? '&e_back=1' : '') . '">Invite Reviewers</a>
+								<a href="view_document.php?id=' . $pDocumentId . '&view_role=3&mode=1' . ($pRoleId == JOURNAL_EDITOR_ROLE ? '&e_redirect=1' : '') . '">Invite Reviewers</a>
 							</td>
 						</tr>
 					</tbody></table>
@@ -2331,12 +2331,12 @@ function ChangeDueDate($pOper) {
 	elseif($pOper == 3)
 		return '';
 }
-function showAddReviewersSection($pCanAddFlag, $pDocumentId) {
+function showAddReviewersSection($pCanAddFlag, $pDocumentId, $pERedirect = 0) {
 	if($pCanAddFlag == 'false')
 		return '<div class="reviewholder_top">
 					<div class="reviewholder_top_left">Reviewers</div>
 					<div class="reviewholder_top_right">
-						<img src="../i/plus.png" alt="" /> <a href="/view_document.php?id=' . (int) $pDocumentId . '&amp;view_role=' . SE_ROLE . '&amp;mode=1">Invite more reviewers</a>
+						<img src="../i/plus.png" alt="" /> <a href="/view_document.php?id=' . (int) $pDocumentId . '&amp;view_role=' . SE_ROLE . '&amp;mode=1' . ($pERedirect ? '&e_redirect=1' : '') . '">Invite more reviewers</a>
 					</div>
 					<div class="P-Clear"></div>
 				</div>';

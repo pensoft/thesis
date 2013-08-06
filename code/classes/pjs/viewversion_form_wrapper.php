@@ -41,7 +41,11 @@ class viewVersion_Form_Wrapper extends eForm_Wrapper{
 			// This is only for Community reviewer
 			$this->m_formController->SetFieldProp('notes_to_editor', 'AllowNulls', true);
 			if($this->m_pageControllerInstance->m_reviewer_role != COMMUNITY_REVIEWER_ROLE) {
-				$this->m_formController->SetFieldProp('notes_to_author', 'AllowNulls', false);
+				$this->m_formController->SetFieldProp('notes_to_author', 'AllowNulls', true);
+				if($this->m_pageControllerInstance->m_viewingRole == SE_ROLE) {
+					$this->m_formController->SetFieldProp('notes_to_author', 'AllowNulls', false);
+				}
+				//$this->m_formController->SetFieldProp('notes_to_author', 'AllowNulls', false);
 			} else {
 				$this->m_formController->SetFieldProp('notes_to_author', 'AllowNulls', true);
 				//~ $this->m_formController->SetFieldProp('notes_to_editor', 'AllowNulls', true);

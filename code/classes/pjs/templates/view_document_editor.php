@@ -1709,5 +1709,25 @@ $gTemplArr = array(
 		<div class="document_info_row_border_line"></div>
 	',
 
+	'view_document_editor.AssignedInvitedReviewersHolder' => '
+		<div class="document_author_review_round_holder" id="doc_tab_1">
+			<div class="document_author_review_round_top">
+				<div class="document_author_review_round_top_left">{_showRoundNumberInfo(round_type, round_name, round_number, state_id)}</div>
+				<div class="P-Clear"></div>
+			</div>
+			<div class="document_author_holder_rev">
+				{_showCurrentAuthorVersion(version_num, author_version_id, document_id)}
+				{_showAddReviewersSection(review_lock, document_id, 1)}
+				<div class="document_author_holder_content">
+					{dedicated_reviewers}
+					{_showNoDedicatedReviewersData(no_data_type, document_review_type_id, document_id)}
+					{panel_public_reviewers}
+					{_showNoPanelsData(no_data_type, document_review_type_id, document_id, round_number)}
+					<div class="document_author_holder_line"></div>
+				</div>
+			</div>
+		</div>
+	',
+
 );
 ?>

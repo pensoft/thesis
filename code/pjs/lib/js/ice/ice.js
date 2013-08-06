@@ -216,17 +216,21 @@ InlineChangeEditor.prototype = {
 		//Remove the comments marker spans
 		ice.dom.each(ice.dom.find(lElementCopy, 'span[class="' + gCommentPreviewElementClass + '"] span[class="' + gCommentPreviewElementClass + ' ' + gActiveCommentTextClass + '"]'), function(i, node){
 			$(node).replaceWith(ice.dom.contents(node));
-		})
+		});
 		ice.dom.each(ice.dom.find(lElementCopy, '.' + gCommentPreviewElementClass), function(i, node){
 			$(node).removeClass(gCommentPreviewElementClass);
-		})
+		});
+		ice.dom.each(ice.dom.find(lElementCopy, '*[comment_id]'), function(i, node){
+			$(node).removeAttr('comment_id');
+			$(node).removeAttr('title');
+		});
 		ice.dom.each(ice.dom.find(lElementCopy, '.' + gActiveCommentTextClass), function(i, node){
 			$(node).removeClass(gActiveCommentTextClass);
-		})
+		});
 		
 		ice.dom.each(ice.dom.find(lElementCopy, '.' + gActiveChangeClass), function(i, node){
 			$(node).removeClass(gActiveChangeClass);
-		})
+		});
 
 		//Remove the changes username attributes and title
 		var lChangesSelector = gAcceptedInsertChangeNodeName + ',' + gAcceptedDeleteChangeNodeName + ',' + gDeleteChangeNodeName + ',' + gInsertChangeNodeName;
