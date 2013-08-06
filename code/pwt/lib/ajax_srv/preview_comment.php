@@ -63,6 +63,7 @@ if($lCommentForm->form->KforErrCnt()){
 					G_FOOTER =>'',
 					G_NODATA =>'',
 				),
+				'preview_is_readonly' => false,
 				'sqlstr'=>'SELECT m2.id id,
 						m2.document_id document_id,
 						m2.root_object_instance_id instance_id,
