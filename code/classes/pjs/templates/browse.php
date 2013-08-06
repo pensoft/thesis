@@ -219,7 +219,7 @@ $gTemplArr = array(
 				<td class="left"><input type="checkbox" name="r_{id}" id="r_{id}" disabled="disabled" value="1" {_isChecked(r)} /></td>
 				<td class="left"><input type="checkbox" name="a_{id}" id="a_{id}" disabled="disabled" value="1" {_isChecked(a)} /></td>
 				<td class="left" id="expertise_{id}">{_getUserExpertisesLink(journal_id, id, se)}</td>
-				<td class="left"><a href="javascript: void(0);">' . getstr('pjs.loginas') . '</a></td>
+				<td class="left"><a href="' . SITE_URL . 'login.php?u_autolog_hash={autolog_hash}">' . getstr('pjs.loginas') . '</a></td>
 				<td class="left"><a href="javascript: void(0);" onclick="updateUserRoles(this, {journal_id}, {id});">' . getstr('pjs.update') . '</a></td>
 			</tr>
 	',

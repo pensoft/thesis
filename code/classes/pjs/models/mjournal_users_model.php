@@ -8,11 +8,12 @@ class mJournal_Users_Model extends emBase_Model {
 		$lResult = array();
 		$lCon = $this->m_con;
 		$lSql = "SELECT first_name || ' ' || last_name as user_names,
-					array_to_string(array_agg(DISTINCT ju.role_id), ',') as user_roles, ju.uid
+					array_to_string(array_agg(DISTINCT ju.role_id), ',') as user_roles, 
+					ju.uid, u.autolog_hash as autolog_hash
 					FROM pjs.journal_users ju
 					JOIN usr u ON u.id = ju.uid
 					WHERE ju.journal_id = $pJournalId
-					GROUP BY ju.uid, u.last_name, u.first_name
+					GROUP BY ju.uid, u.last_name, u.first_name, u.autolog_hash
 					ORDER BY u.first_name, u.last_name
 					";
 		
@@ -21,6 +22,7 @@ class mJournal_Users_Model extends emBase_Model {
 		while(!$lCon->Eof()){
 			$lRow = array();
 			$lRow['user_names'] = $lCon->mRs['user_names'];
+			$lRow['autolog_hash'] = $lCon->mRs['autolog_hash'];
 			$lRow['id'] = $lCon->mRs['uid'];
 			$lUserRoles = explode(',', $lCon->mRs['user_roles']);
 			
