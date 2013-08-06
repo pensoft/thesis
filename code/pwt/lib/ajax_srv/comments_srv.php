@@ -23,6 +23,7 @@ $lComm = new crs(
 		'templs'=>array(
 			G_HEADER=>'', G_ROWTEMPL=>'comments.singlecomment', G_FOOTER =>'', G_NODATA =>'',
 		),
+		'preview_is_readonly' => false,
 		'sqlstr'=>'SELECT m.id id,
 						m.document_id document_id,
 						m.root_object_instance_id instance_id,
