@@ -4,17 +4,17 @@ $gTemplArr = array(
 	'comments.filter' => '
 			<div class="Comments-Filter">
 				<script>SetCommentsVersion({version_id}); SetDisplayUserChangeFilterEvent();</script>
-				<div class="commentsSingleFilter">
+				<div class="commentsSingleFilter" style="width:100px">
 					<input type="checkbox" id="comments_filter_general" onclick="FilterComments()" name="comments_filter_general" value="1" checked="checked">
-					<label for="comments_filter_general">General comments</label>
+					<label for="comments_filter_general">General</label>
 				</div>
-				<div class="commentsSingleFilter">
+				<div class="commentsSingleFilter" style="width:100px">
 					<input type="checkbox" id="comments_filter_inline" onclick="FilterComments()" name="comments_filter_inline" value="1" checked="checked">
-					<label for="comments_filter_inline">Inline comments</label>
+					<label for="comments_filter_inline">Inline</label>
 				</div>
-				<div class="commentsSingleFilter">
+				<div class="commentsSingleFilter" style="width:100px">
 					<input type="checkbox" id="comments_filter_resolved" onclick="FilterComments()" name="comments_filter_resolved" value="1" checked="checked">
-					<label for="comments_filter_resolved">Resolved comments</label>
+					<label for="comments_filter_resolved">Resolved</label>
 				</div>
 				<div class="P-Clear"></div>
 			</div>
