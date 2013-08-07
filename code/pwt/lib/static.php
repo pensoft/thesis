@@ -1375,16 +1375,16 @@ function MoveInstanceInDocumentTree($pInstanceId, $pOper){
 		'err_msg' => '',
 	);
 	if ($lCon->Execute($lSql)) {
-		$lSql = 'SELECT parent_id
-			FROM pwt.document_object_instances
-			WHERE id = ' . (int)$pInstanceId . ' 
-		';
-		$lCon->Execute($lSql);
 		$lResult['swap_id'] = $lCon->mRs['swap_instance_id'];
 		$lResult['original_available_move_up'] = (int)$lCon->mRs['original_available_move_up'];
 		$lResult['original_available_move_down'] = (int)$lCon->mRs['original_available_move_down'];
 		$lResult['swap_available_move_up'] = (int)$lCon->mRs['swap_available_move_up'];
 		$lResult['swap_available_move_down'] = (int)$lCon->mRs['swap_available_move_down'];
+		$lSql = 'SELECT parent_id
+			FROM pwt.document_object_instances
+			WHERE id = ' . (int)$pInstanceId . '
+		';
+		$lCon->Execute($lSql);		
 		$lResult['parent_id'] = (int)$lCon->mRs['parent_id'];
 	}else{
 		$lResult['err_cnt']++;
@@ -3328,10 +3328,10 @@ function moveObjectToCitationPos($pDomDoc, $pFigNum, $pNodeAfterWhichToMoveEleme
 				}else{
 // 					$pPNodeToMove->insertBefore($figurenode);
 // 					$pPNodeToMove->parentNode->appendChild($figurenode);
-					if(!$pNodeAfterWhichToMoveElement || !$pNodeAfterWhichToMoveElement->ownerDocument){
-						var_dump($pNodeAfterWhichToMoveElement, $pFigNum);
-						exit;
-					}
+// 					if(!$pNodeAfterWhichToMoveElement || !$pNodeAfterWhichToMoveElement->ownerDocument){
+// 						var_dump($pNodeAfterWhichToMoveElement, $pFigNum);
+// 						exit;
+// 					}
 					$lCitationElementsWrapper = $pNodeAfterWhichToMoveElement->ownerDocument->createElement(CITATION_ELEMENT_CITATION_WRAPPER_NODE_NAME);
 					if($pNodeAfterWhichToMoveElement->nextSibling){
 						$lCitationElementsWrapper = $pNodeAfterWhichToMoveElement->parentNode->insertBefore($lCitationElementsWrapper, $pNodeAfterWhichToMoveElement->nextSibling);
@@ -3416,7 +3416,7 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 					if($lMinNodeId >= $lMinFigNum){ 
 						$lNodeAfterWhichToMoveCitationElement = GetCitationElementParentPredecessor($lMinNodeRef);		
 						if(!$lNodeAfterWhichToMoveCitationElement){ 
-							var_dump($lNodeAfterWhichToMoveCitationElement, 4);
+// 							var_dump($lNodeAfterWhichToMoveCitationElement, 4);
 						}				
 						for($i = $lMinFigNum; $i <= $lMinNodeId;$i++) {
 							moveObjectToCitationPos($pDomDoc, $i, $lNodeAfterWhichToMoveCitationElement, $pPositionAttr, 0, $node);
@@ -3430,6 +3430,7 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 					if($lCurFigNum > $lMinNodeId) {
 						$lNodeAfterWhichToMoveCitationElement = GetCitationElementParentPredecessor($lMinNodeRef);
 						if(!$lNodeAfterWhichToMoveCitationElement){
+							continue;
 							var_dump($lNodeAfterWhichToMoveCitationElement, 3);
 						}
 						for($i = $lMinNodeId; $i < $lCurFigNum;$i++) {
@@ -3439,7 +3440,7 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 
 						$lNodeAfterWhichToMoveCitationElement = GetCitationElementParentPredecessor($lCurNodeRef);
 						if(!$lNodeAfterWhichToMoveCitationElement){
-							var_dump('A', $node->ownerDocument->saveXml($node->parentNode), $lCurNodeRef->ownerDocument->saveXml($lCurNodeRef));
+// 							var_dump('A', $node->ownerDocument->saveXml($node->parentNode), $lCurNodeRef->ownerDocument->saveXml($lCurNodeRef));
 						}
 						moveObjectToCitationPos($pDomDoc, $lCurFigNum, $lNodeAfterWhichToMoveCitationElement, $pPositionAttr, $lIdentKeyNode, $node);
 
@@ -3448,7 +3449,8 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 					} else {						
 						$lNodeAfterWhichToMoveCitationElement = GetCitationElementParentPredecessor($lMinNodeRef);
 						if(!$lNodeAfterWhichToMoveCitationElement){
-							var_dump($lNodeAfterWhichToMoveCitationElement, 1);
+							continue;
+// 							var_dump($lNodeAfterWhichToMoveCitationElement, 1);
 						}
 						moveObjectToCitationPos($pDomDoc, $lMinNodeId, $lNodeAfterWhichToMoveCitationElement, $pPositionAttr, $lIdentKeyNode, $node);
 					}
