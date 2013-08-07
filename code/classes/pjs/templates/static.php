@@ -2435,12 +2435,11 @@ function decisionFormPreviewMode($pReadOnly, $pRole, $pName, $pDecision, $pUserL
 		$lRes .= '<script type="text/javascript">
 					// <![CDATA[
 			$(document).ready(function(){
-				$(\'.P-Wrapper-Container-Left\').css(\'margin-top\', \'0px\');
-				$(\'.P-Article-Content\').css(\'margin-top\', \'136px\');
-				$(\'.P-Wrapper-Container-Right\').css(\'top\', \'136px\');
-				$(\'.buttons\').css({
-					\'margin-top\': \'-18px\',
-					\'border-left\': \'none\',
+				$(".P-Wrapper-Container-Left").css("margin-top", "0px");
+				$(".P-Article-Content").css("margin-top", "136px");
+				$(".P-Wrapper-Container-Right").css("top", "136px");
+				$(".buttons").css({
+					"border-left": "none",
 				});
 			});
 			// ]]>
@@ -2728,7 +2727,7 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
 
 		return '
 			<div class="document_info_se">
-				<div class="document_info_bottom_info_right_left">
+				<div class="document_info_bottom_info_right_left" style="width:71px;">
 					Subject Editor:
 				</div>
 				<div class="document_info_bottom_info_right_right">
@@ -2736,7 +2735,6 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
 					<a href="mailto:' . $pUname . '"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a>
 					' . $lChangeIcon . '
 				</div>
-				<div class="P-Clear"></div>
 			</div>
 		';
 	}

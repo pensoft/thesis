@@ -726,7 +726,7 @@ a {
 	margin-top: -5px;
 }
 
-#docEditHeader .box .P-Grey-Btn-Holder, #docEditHeader .box .P-Green-Btn-Holder {
+#docEditHeader .box .P-Grey-Btn-Holder, .P-Green-Btn-Holder {
 	margin: 15px 0 0 16px;
 }
 
@@ -4954,11 +4954,12 @@ table.tbl_editors td a {
 }
 
 .document_info_bottom_info_left {
-	width: 300px;
+	
 	float: left;
 	font-size: 11px;
 	color: #1F1F1F;
 	padding-top: 5px;
+	padding-right: 30px;
 }
 
 .document_info_bottom_info_right {
@@ -4968,7 +4969,7 @@ table.tbl_editors td a {
 
 .document_info_bottom_info_right_left {
 	float: left;
-	width: 90px;
+	width: 80px;
 	color: #1F1F1F;
 	font-size: 11px;
 	padding-right: 5px;
@@ -6275,7 +6276,13 @@ table.no_bold_class td a {
 }
 
 .document_info_se {
-	padding-bottom: 10px;
+	float:right;
+	padding-right: 20px;
+}
+
+.document_info_review_type{
+	float:left;
+	padding-right:20px;
 }
 
 .no_dedicated_reviewers_data {

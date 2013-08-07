@@ -66,17 +66,15 @@ $gTemplArr = array(
 				{author_name}
 			</div>
 			<div class="document_info_bottom_info">
-				<div class="document_info_bottom_info_left">
-					Article type: <span class="document_info_bottom_info_left_rubr">{document_type_name}</span>
-				</div>
-				<div class="document_info_bottom_info_right">
-					{_showSEDocumentInfo(document_id, se_uname, se_first_name, se_last_name)}
-					<div>
+					<div class="document_info_bottom_info_left">
+						Article type: <span class="document_info_bottom_info_left_rubr">{document_type_name}</span>
+					</div>
+					<div class="document_info_review_type">
 						<div class="document_info_bottom_info_right_left">
 							Type of review:
 						</div>
 						<div class="document_info_bottom_info_right_icon">
-							<img src="../i/review_type3.png"></img>
+							<img src="../i/review_type{document_review_type_id}.png"></img>
 						</div>
 						<div class="document_info_bottom_info_right_right">
 							{review_type_name}
@@ -84,7 +82,8 @@ $gTemplArr = array(
 						</div>
 						<div class="P-Clear"></div>
 					</div>
-				</div>
+					{_showSEDocumentInfo(document_id, se_uname, se_first_name, se_last_name)}
+					<div class="P-Clear"></div>
 				<div class="P-Clear"></div>
 			</div>
 		</div>

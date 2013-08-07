@@ -889,13 +889,15 @@
 					</xsl:if>
 					<xsl:copy-of select="$lSecTitle"/>
 				</h3>
-				<div field_id="212" class="P-Inline">
-					<xsl:call-template name="markContentEditableField">
-						<xsl:with-param name="pObjectId" select="./@object_id"/>
-						<xsl:with-param name="pFieldId">212</xsl:with-param>
-					</xsl:call-template>
-					<xsl:apply-templates select="./fields/*[@id='212']/value" mode="formatting"/>
-				</div>
+				<xsl:if test="./fields/*[@id='212']/value != ''">
+					<div field_id="212" class="P-Inline">
+						<xsl:call-template name="markContentEditableField">
+							<xsl:with-param name="pObjectId" select="./@object_id"/>
+							<xsl:with-param name="pFieldId">212</xsl:with-param>
+						</xsl:call-template>
+						<xsl:apply-templates select="./fields/*[@id='212']/value" mode="formatting"/>
+					</div>
+				</xsl:if>
 				<xsl:apply-templates select="./*[@object_id='50']" mode="taxonTreatmentSubSections"/>
 			</div>
 		</xsl:if>
