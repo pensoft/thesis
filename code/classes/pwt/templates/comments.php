@@ -6,15 +6,15 @@ $gTemplArr = array(
 				<script>SetCommentsDocument({document_id}); SetDisplayUserChangeFilterEvent();</script>
 				<div class="commentsSingleFilter">
 					<input type="checkbox" id="comments_filter_general" onclick="FilterComments()" name="comments_filter_general" value="1" checked="checked">
-					<label for="comments_filter_general">General comments</label>
+					<label for="comments_filter_general" style="width:100px">General</label>
 				</div>
 				<div class="commentsSingleFilter">
 					<input type="checkbox" id="comments_filter_inline" onclick="FilterComments()" name="comments_filter_inline" value="1" checked="checked">
-					<label for="comments_filter_inline">Inline comments</label>
+					<label for="comments_filter_inline" style="width:100px">Inline</label>
 				</div>
 				<div class="commentsSingleFilter">
 					<input type="checkbox" id="comments_filter_resolved" onclick="FilterComments()" name="comments_filter_resolved" value="1" checked="checked">
-					<label for="comments_filter_resolved">Resolved comments</label>
+					<label for="comments_filter_resolved" style="width:100px">Resolved</label>
 				</div>
 				<div class="P-Clear"></div>
 			</div>

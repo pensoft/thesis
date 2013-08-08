@@ -2047,18 +2047,20 @@ function displayFilterBox($pLegend) {
 	if($pLegend && $pLegend != 'user_legend'){
 		// var_dump($pLegend);
 		return '
-			<div class="box filter">
-				<h3>Filter <a href="JavaScript:void(0);"><img src="/i/filter.png" alt="filter" /></a></h3>
+			<div class="box filter" align="center">
+				<h3>Show markup</h3>
 				<div class="popup">
 					<br />
-					<a href="#" style="border-bottom: 1px solid #E2E2DC; border-top: none;" onclick="openFilterPopUp();">View reviews only from..</a>
+					<a href="#" style="border-bottom: 1px solid #E2E2DC; border-top: none;" onclick="openFilterPopUp();"><img src="/i/filter.png" alt="filter" /> Filter by reviewer</a>
 					' . $pLegend . '
 					<br />
-					<a href="javascript:void(0);" onclick="$(\'#previewIframe\')[0].contentWindow.ShowAllReviews();">Show All reviews</a>
+					<a href="javascript:void(0);" onclick="$(\'#previewIframe\')[0].contentWindow.ShowAllReviews();">Show all reviews</a>
 				</div>
+				<div class="optionHolder">
 				<a href="#" onclick="openFilterPopUp(); return false;">
-					View reviews only from..
+					<img src="/i/filter.png" alt="filter" /> Filter by reviewer
 				</a>
+				</div>
 			</div>';
 	}
 }
@@ -2371,26 +2373,27 @@ function displayChangesButtons($pRole) {
 		 * </script>';
 		 */
 	}else{
-		return '<div class="box">
+		return '<div class="box" align="center">
 					<h3>Changes</h3>
 					<div class="optionHolder">
 						<a href="#" onclick="AcceptRejectCurrentChange(1);return false;" id="P-Accept-Change-Btn-Id" class="P-Disabled-Btn">
-							<img src="/i/adddoc.png" alt="Accept current change" /><span>Accept</span>
+							<img src="/i/adddoc-small.png" alt="Accept current change" />
+							<span>Accept</span>
 						</a>
 					</div>
 					<div class="optionHolder">
 						<a href="#" onclick="AcceptRejectCurrentChange();return false;" id="P-Reject-Change-Btn-Id" class="P-Disabled-Btn">
-							<img src="/i/removedoc.png" alt="Reject current change" /><span>Reject</span>
+							<img src="/i/removedoc-small.png" alt="Reject current change" />
+							<span>Reject</span>
 						</a>
 					</div>
-					<div class="arrow" onclick="SelectPreviousNextChange(1);return false;">
+					<div class="optionHolder" onclick="SelectPreviousNextChange(1);return false;" style="margin-left:0px;">
 						<a href="#">
 							<img src="/i/docleftarrow.png" alt="Go to previous change" />
 							<span>Previous</span>
 						</a>
 					</div>
-					<br /><br />
-					<div class="arrow" onclick="SelectPreviousNextChange();return false;" >
+					<div class="optionHolder" onclick="SelectPreviousNextChange();return false;" >
 						<a href="#">
 							<img src="/i/docrightarrow.png" alt="Go to next change" />
 							<span>Next</span>
@@ -2432,12 +2435,11 @@ function decisionFormPreviewMode($pReadOnly, $pRole, $pName, $pDecision, $pUserL
 		$lRes .= '<script type="text/javascript">
 					// <![CDATA[
 			$(document).ready(function(){
-				$(\'.P-Wrapper-Container-Left\').css(\'margin-top\', \'0px\');
-				$(\'.P-Article-Content\').css(\'margin-top\', \'136px\');
-				$(\'.P-Wrapper-Container-Right\').css(\'top\', \'136px\');
-				$(\'.buttons\').css({
-					\'margin-top\': \'-18px\',
-					\'border-left\': \'none\',
+				$(".P-Wrapper-Container-Left").css("margin-top", "0px");
+				$(".P-Article-Content").css("margin-top", "136px");
+				$(".P-Wrapper-Container-Right").css("top", "136px");
+				$(".buttons").css({
+					"border-left": "none",
 				});
 			});
 			// ]]>
@@ -2725,7 +2727,7 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
 
 		return '
 			<div class="document_info_se">
-				<div class="document_info_bottom_info_right_left">
+				<div class="document_info_bottom_info_right_left" style="width:71px;">
 					Subject Editor:
 				</div>
 				<div class="document_info_bottom_info_right_right">
@@ -2733,7 +2735,6 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
 					<a href="mailto:' . $pUname . '"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a>
 					' . $lChangeIcon . '
 				</div>
-				<div class="P-Clear"></div>
 			</div>
 		';
 	}
@@ -2877,7 +2878,7 @@ function fixTopPositionLeftCol($pReadOnly) {
 	if($pReadOnly == 1) {
 		return 'style="top:136px"';
 	} else {
-		return 'style="top:153px"';
+		return 'style="top:110px"';
 	}
 }
 
@@ -2885,7 +2886,7 @@ function fixMarginTop($pReadOnly) {
 	if($pReadOnly == 1) {
 		return 'margin-top:136px;';
 	} else {
-		return 'margin-top:153px;';
+		return 'margin-top:110px;';
 	}
 }
 

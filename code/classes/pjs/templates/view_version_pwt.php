@@ -17,7 +17,6 @@ $gTemplArr = array(
 			<div id="P-Wrapper-Right-Content">
 				<div class="content">
 					<div class="P-Article-StructureHead" id="CommentsFreeze">
-						Comments:
 						{*comments.new_form_wrapper}
 						{*comments.filter}
 						<div class="P-Container-Toggler-Btn-Right" onclick="toggleRightContainer();"></div>
@@ -172,7 +171,7 @@ $gTemplArr = array(
 					});
 					{_scrollFormIfErrors(err_cnt)}
 				});
-				CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
+				/*CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
 				CKEDITOR.config.language = \'en\';
 				var instance = CKEDITOR.instances[\'.review"\'];
 				if(instance){
@@ -186,7 +185,7 @@ $gTemplArr = array(
 					toolbar : \'ModerateToolbar\',
 					removePlugins: \'elementspath\',
 					height: 200
-				});
+				});*/
 				// ]]>
 				PerformReviewFormAutosaveTimeout();
 			</script>
@@ -236,7 +235,7 @@ $gTemplArr = array(
 					});
 					{_scrollFormIfErrors(err_cnt)}
 				});
-				CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
+				/*CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
 				CKEDITOR.config.language = \'en\';
 				var instance = CKEDITOR.instances[\'.review"\'];
 				if(instance){
@@ -250,7 +249,7 @@ $gTemplArr = array(
 					extraPlugins : \'autosave\',
 					removePlugins: \'elementspath\',
 					height: 200
-				});
+				});*/
 				PerformReviewFormAutosaveTimeout();
 			</script>
 	',
@@ -399,7 +398,7 @@ $gTemplArr = array(
 				});
 				{_scrollFormIfErrors(err_cnt)}
 			});
-			CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
+			/*CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
 			CKEDITOR.config.language = \'en\';
 			var instance = CKEDITOR.instances[\'.review"\'];
 			if(instance){
@@ -413,7 +412,7 @@ $gTemplArr = array(
 				toolbar : \'ModerateToolbar\',
 				removePlugins: \'elementspath\',
 				height: 200
-			});
+			});*/
 			PerformReviewFormAutosaveTimeout();
 		</script>
 	',
