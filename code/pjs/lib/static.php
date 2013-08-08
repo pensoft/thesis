@@ -83,6 +83,20 @@ if (!$user->id && $_COOKIE['rememberme']) {
 }
 // updateUsrLastAccess();
 
+if(!$gDontRedirectToLogin && !(int)$user->id){
+	$lUrl = $_SERVER['REQUEST_URI'];
+	$lUrl = urlencode($lUrl);
+
+	if(isset($_REQUEST['u_autolog_hash'])){
+		$lAutologHash = $_REQUEST['u_autolog_hash'];
+		$lUrl = $lUrl . '&' . 'u_autolog_hash=' . $lAutologHash;
+	}
+
+	header("Location: /login.php?redirurl=$lUrl");
+	exit;
+}
+
+
 function updateUsrLastAccess() {
 	global $user;
 
