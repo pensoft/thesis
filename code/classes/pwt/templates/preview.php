@@ -149,7 +149,7 @@ $gTemplArr = array(
 				<div class="P-PopUp-Comment-Textarea-Holder">
 					<textarea name="msg"></textarea>
 				</div>
-				<div class="P-Green-Btn-Holder" id="newCommentOkBtn" onclick="submitPreviewNewComment()">
+				<div class="P-Green-Btn-Holder" id="newCommentOkBtn" onmausedown="submitPreviewNewComment(); return false">
 					<div class="P-Green-Btn-Left"></div>
 					<div class="P-Green-Btn-Middle">Comment</div>
 					<div class="P-Green-Btn-Right"></div>

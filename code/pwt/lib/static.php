@@ -6320,7 +6320,7 @@ function  displayNewCommentBtn($pVersionIsReadonly){
 	}
 
 	return '<div class="comment_btn floatLeft " id="P-Comment-Btn-General" onclick="submitPreviewNewComment(1);"></div>
-			<div class="comment_btn floatLeft P-Comment-Inline-Main-Btn " id="P-Comment-Btn-Inline" onclick="submitPreviewNewComment();"></div>
+			<div class="comment_btn floatLeft P-Comment-Inline-Main-Btn " id="P-Comment-Btn-Inline" onmousedown="submitPreviewNewComment();return false"></div>
 			';
 }
 
