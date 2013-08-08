@@ -55,6 +55,11 @@ function clearNewReplyCommentForm(pRootId) {
 	$('form[name="' + gReplyCommentFormPrefix + pRootId + '"] textarea').val('');
 }
 
+
+function GetFixedFooterHeight(){
+	return 0;
+}
+
 function cancelNewReplyComment(pRootId) {
 	showCommentForm(pRootId);
 	clearNewReplyCommentForm(pRootId);
