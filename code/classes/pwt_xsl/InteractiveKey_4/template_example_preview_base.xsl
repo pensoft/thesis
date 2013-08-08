@@ -141,71 +141,74 @@
 		<xsl:variable name="lWest" select="./fields/*[@id='317']/@field_name" />
 		<xsl:variable name="lNorth" select="./fields/*[@id='320']/@field_name" />
 
+		
 		<xsl:if test="(./fields/*[@id='316']/value != '') or (./fields/*[@id='319']/value != '') or (./fields/*[@id='320']/value != '') or (./fields/*[@id='317']/value != '') or (./fields/*[@id='318']/value != '')">
 			<div class="P-Article-Preview-Block">
-				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<div class="P-Article-Preview-Block-Title"><xsl:value-of select="$lSecTitle" /></div>
 				<xsl:if test="(./fields/*[@id='316']/value != '')">
-					<div class="myfieldHolder">
-						<span class="fieldLabel">Description:&#160;</span>
-						<div class="fieldValue">
-							<xsl:attribute name="field_id">316</xsl:attribute>
-							<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
-							<xsl:call-template name="markContentEditableField">
-								<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-								<xsl:with-param name="pFieldId">316</xsl:with-param>
-							</xsl:call-template>
-							<xsl:attribute name="class">P-Inline</xsl:attribute>
-							<xsl:apply-templates select="./fields/*[@id='316']/value" mode="formatting"/>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<div class="P-Article-Preview-Block-Title"><xsl:value-of select="$lSecTitle" /></div>
+						<div class="myfieldHolder">
+							<span class="fieldLabel">Description:&#160;</span>
+							<div class="fieldValue">
+								<xsl:attribute name="field_id">316</xsl:attribute>
+								<!--CALL MARK CONTENT EDITABLE TEMPLATE -->
+								<xsl:call-template name="markContentEditableField">
+									<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+									<xsl:with-param name="pFieldId">316</xsl:with-param>
+								</xsl:call-template>
+								<xsl:attribute name="class">P-Inline</xsl:attribute>
+								<xsl:apply-templates select="./fields/*[@id='316']/value" mode="formatting"/>
+							</div>
 						</div>
-					</div>
 				</xsl:if>
 				<!-- Coordinates -->
-				<div class="myfieldHolder">
-					<span class="fieldLabel">Coordinates:&#160;</span>
-					<span>
-						<xsl:attribute name="field_id">319</xsl:attribute>
-						<xsl:call-template name="markContentEditableField">
-							<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-							<xsl:with-param name="pFieldId">319</xsl:with-param>
-						</xsl:call-template>
-						<xsl:attribute name="class">P-Inline</xsl:attribute>
-						<xsl:apply-templates select="./fields/*[@id='319']/value" mode="formatting"/>
-					</span>
-					<xsl:text> and </xsl:text>
-					<span>
-						<xsl:attribute name="field_id">320</xsl:attribute>
-						<xsl:call-template name="markContentEditableField">
-							<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-							<xsl:with-param name="pFieldId">320</xsl:with-param>
-						</xsl:call-template>
-						<xsl:attribute name="class">P-Inline</xsl:attribute>
-						<xsl:apply-templates select="./fields/*[@id='320']/value" mode="formatting"/>
-					</span>
-					<xsl:text> Latitude; </xsl:text>
-					<span>
-						<xsl:attribute name="field_id">317</xsl:attribute>
-						<xsl:call-template name="markContentEditableField">
-							<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-							<xsl:with-param name="pFieldId">317</xsl:with-param>
-						</xsl:call-template>
-						<xsl:attribute name="class">P-Inline</xsl:attribute>
-						<xsl:apply-templates select="./fields/*[@id='317']/value" mode="formatting"/>
-					</span>
-					<xsl:text> and </xsl:text>
-					<span>
-						<xsl:attribute name="field_id">318</xsl:attribute>
-						<xsl:call-template name="markContentEditableField">
-							<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
-							<xsl:with-param name="pFieldId">318</xsl:with-param>
-						</xsl:call-template>
-						<xsl:attribute name="class">P-Inline</xsl:attribute>
-						<xsl:apply-templates select="./fields/*[@id='318']/value" mode="formatting"/>
-					</span>
-					<xsl:text> Longitude.</xsl:text>
-				</div>
+				<xsl:if test="(./fields/*[@id='319']/value != '') or (./fields/*[@id='320']/value != '') or (./fields/*[@id='317']/value != '') or (./fields/*[@id='318']/value != '')">
+					<div class="myfieldHolder">
+						<span class="fieldLabel">Coordinates:&#160;</span>
+						<span>
+							<xsl:attribute name="field_id">319</xsl:attribute>
+							<xsl:call-template name="markContentEditableField">
+								<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+								<xsl:with-param name="pFieldId">319</xsl:with-param>
+							</xsl:call-template>
+							<xsl:attribute name="class">P-Inline</xsl:attribute>
+							<xsl:apply-templates select="./fields/*[@id='319']/value" mode="formatting"/>
+						</span>
+						<xsl:text> and </xsl:text>
+						<span>
+							<xsl:attribute name="field_id">320</xsl:attribute>
+							<xsl:call-template name="markContentEditableField">
+								<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+								<xsl:with-param name="pFieldId">320</xsl:with-param>
+							</xsl:call-template>
+							<xsl:attribute name="class">P-Inline</xsl:attribute>
+							<xsl:apply-templates select="./fields/*[@id='320']/value" mode="formatting"/>
+						</span>
+						<xsl:text> Latitude; </xsl:text>
+						<span>
+							<xsl:attribute name="field_id">317</xsl:attribute>
+							<xsl:call-template name="markContentEditableField">
+								<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+								<xsl:with-param name="pFieldId">317</xsl:with-param>
+							</xsl:call-template>
+							<xsl:attribute name="class">P-Inline</xsl:attribute>
+							<xsl:apply-templates select="./fields/*[@id='317']/value" mode="formatting"/>
+						</span>
+						<xsl:text> and </xsl:text>
+						<span>
+							<xsl:attribute name="field_id">318</xsl:attribute>
+							<xsl:call-template name="markContentEditableField">
+								<xsl:with-param name="pObjectId" select="./@object_id"></xsl:with-param>
+								<xsl:with-param name="pFieldId">318</xsl:with-param>
+							</xsl:call-template>
+							<xsl:attribute name="class">P-Inline</xsl:attribute>
+							<xsl:apply-templates select="./fields/*[@id='318']/value" mode="formatting"/>
+						</span>
+						<xsl:text> Longitude.</xsl:text>
+					</div>
+				</xsl:if>
 			</div>
-		</xsl:if>
+		</xsl:if>	
 	</xsl:template>
 
 	
