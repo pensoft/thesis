@@ -216,7 +216,7 @@ class cTask_Manager extends cBase_Controller {
 			'{first_name}'  		=> $pDataToFromReplace['first_name'], 
 			'{last_name}'  			=> $pDataToFromReplace['last_name'], 
 			'{document_id}' 		=> $pDataToFromReplace['document_id'], 
-			'{document_title}' 		=> $pDataToFromReplace['document_title'],
+			'{document_title}' 		=> trim($pDataToFromReplace['document_title']),
 			'{usr_title}'			=> $pDataToFromReplace['usr_title'],
 			'{user_name}'			=> $pDataToFromReplace['user_name'],
 			'{author_list}'			=> $pDataToFromReplace['author_list'],
