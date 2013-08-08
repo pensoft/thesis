@@ -21,7 +21,7 @@ class LoginForm_Wrapper extends eForm_Wrapper{
 				$lRedirUrl = '/index.php';
 			}
 
-			$lAutologinCookieUrl = '/set_pwt_cookie.php?redirurl=' . $lRedirUrl;
+			$lAutologinCookieUrl = '/set_pwt_cookie.php?redirurl=' . urlencode($lRedirUrl);
 			$lLoginResult = $this->m_pageControllerInstance->ProcessLoginRequest($lUserName, $lPassword, true, $lAutologinCookieUrl);
 			if($lLoginResult['err_cnt']){
 				foreach ($lLoginResult['err_msgs'] as $lCurrentError) {
