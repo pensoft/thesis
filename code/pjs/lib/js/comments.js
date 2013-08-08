@@ -55,6 +55,11 @@ function clearNewReplyCommentForm(pRootId) {
 	$('form[name="' + gReplyCommentFormPrefix + pRootId + '"] textarea').val('');
 }
 
+
+function GetFixedFooterHeight(){
+	return 0;
+}
+
 function cancelNewReplyComment(pRootId) {
 	showCommentForm(pRootId);
 	clearNewReplyCommentForm(pRootId);
@@ -123,4 +128,14 @@ function InitFreezeResizeEvent(){
 		$(this).parent().css('padding-top', (lHeight) + 'px');
 		positionCommentsBase();
 	});
+}
+
+function GetCurrentScrollAccordingToPreview(){
+	return $(window).scrollTop();
+}
+
+function GetPreviewIframeVisiblePartHeight(){
+	var lWindowHeight = $(window).height();
+	var lIframeOffset = $('#previewIframe').offset().top;
+	return lWindowHeight - lIframeOffset;
 }

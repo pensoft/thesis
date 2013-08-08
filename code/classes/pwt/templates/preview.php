@@ -124,6 +124,8 @@ $gTemplArr = array(
 			$("#previewIframe").load(function(){
 				resizePreviewIframe("previewIframe");
 				initPreviewSelectCommentEvent();
+				fillCommentPos();
+				positionCommentsBase(true);							
 			});
 			window.onresize = function() {
 				resizePreviewIframe("previewIframe");

@@ -222,7 +222,7 @@ InlineChangeEditor.prototype = {
 		});
 		ice.dom.each(ice.dom.find(lElementCopy, '*[comment_id]'), function(i, node){
 			$(node).removeAttr('comment_id');
-			$(node).removeAttr('title');
+//			$(node).removeAttr('title');
 		});
 		ice.dom.each(ice.dom.find(lElementCopy, '.' + gActiveCommentTextClass), function(i, node){
 			$(node).removeClass(gActiveCommentTextClass);

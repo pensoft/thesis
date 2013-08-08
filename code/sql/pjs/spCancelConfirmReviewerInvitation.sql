@@ -108,7 +108,7 @@ $BODY$
 			END IF;
 			
 			-- Reviewer decline event
-			SELECT INTO lRes.event_id event_id FROM spCreateEvent(lReviewDeclinedEventType, pDocumentId, pUid, lJournalId, null, null);
+			SELECT INTO lRes.event_id event_id FROM spCreateEvent(lReviewDeclinedEventType, pDocumentId, pUid, lJournalId, pUid, cNominatedReviewerRoleId);
 			
 		END IF;
 		

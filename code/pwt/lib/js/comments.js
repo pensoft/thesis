@@ -21,7 +21,7 @@ function SetCommentsDocument(pDocumentId){
 
 
 
-function scrollToComment(pCommentId){
+function scrollToComment(pCommentId){	
 	var lComment = $('#P-Root-Comment-' + pCommentId);
 	if(!lComment.length){
 		return false;
@@ -51,4 +51,32 @@ function deleteComment( pCommentId ) {
 			}
 		});
 	}
+}
+
+function GetFixedFooterHeight(){
+	return $('.P-Footer').outerHeight();
+}
+
+function GetCurrentScrollAccordingToPreview(){
+	var lCurrentScroll = $(window).scrollTop();
+	var lIframeParentPadding = parseInt($('#previewIframe').parent().css('padding-top'));
+	lCurrentScroll -= lIframeParentPadding;
+	if(lCurrentScroll < 0){
+		lCurrentScroll = 0;
+	}
+	return lCurrentScroll;
+}
+
+function GetPreviewIframeVisiblePartHeight(){
+	var lWindowHeight = $(window).height();
+	var lCurrentScroll = $(window).scrollTop();
+	var lParentPadding = parseInt($('#previewIframe').parent().css('padding-top'));
+	var lIframeOffset = $('#previewIframe').offset().top;
+	if(lCurrentScroll >= lParentPadding){
+		lIframeOffset -= lParentPadding;
+	}else{
+		lIframeOffset -= lCurrentScroll;
+	}
+	var lFooterHeight = GetFixedFooterHeight();
+	return lWindowHeight - lIframeOffset - lFooterHeight;
 }
