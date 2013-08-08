@@ -356,6 +356,9 @@ if($lAction == 'export_materials_as_csv') {
 	;
 	$lCon->Execute($lGetMaterialsSql);
 	
+	// var_dump($lGetMaterialsSql);
+	// exit;
+	
 	$lCon->MoveFirst();
 	while(!$lCon->Eof()){
 		$lMaterialsArr[] = $lCon->mRs;
@@ -369,14 +372,16 @@ if($lAction == 'export_materials_as_csv') {
 			$lTreatmentName = $mval['treatment_name'];
 			
 			$lGetMaterialDarwinCorePosSql = 'SELECT pos FROM pwt.document_object_instances where parent_id = ' . $lMaterialInstanceId . ' AND object_id = ' . DARWINCORE_OBJECT_ID;
-			// var_dump($lGetMaterialDarwinCorePosSql);
-			// exit;
+			//var_dump($lGetMaterialDarwinCorePosSql);
+			
+			// tva e typ fix za connection-a
+			$lCon->Open();
+			$lCon->Close();
+			$lCon->Open();
 			$lCon->Execute($lGetMaterialDarwinCorePosSql);
 			$lCon->MoveFirst();
 			
 			$lPos = $lCon->mRs['pos'];
-			
-			//~ print_r($lCon->mRs);
 			
 			$lCon->Execute('
 				SELECT ifv.*
@@ -395,17 +400,22 @@ if($lAction == 'export_materials_as_csv') {
 			// ');
 			 // exit;
 			$lMaterialsFieldValuesArr[$lMaterialInstanceId] = $lMaterialsFieldsArr;
-				
+			$lMaterialFieldsArr = array();
 			while(!$lCon->Eof()){
-				$lFieldValueColumn = $lCon->mRs['value_column_name'];
-				$lFieldValue = $lCon->mRs[$lFieldValueColumn];
-				$lLabel = $lCon->mRs['label'];
+				$lMaterialFieldsArr[] = $lCon->mRs;
+				$lCon->MoveNext();
+			}
+			
+			foreach ($lMaterialFieldsArr as $fldkey => $fldval) {
+				$lFieldValueColumn = $fldval['value_column_name'];
+				$lFieldValue = $fldval[$lFieldValueColumn];
+				$lLabel = $fldval['label'];
 				
 				if($lFieldValue) {
-					$lParsedValue = parseFieldValue($lFieldValue, $lCon->mRs['type']);
+					$lParsedValue = parseFieldValue($lFieldValue, $fldval['type']);
 					
-					if($lCon->mRs['src_query']) {
-						$lParsedValue = getFieldSelectOptionsById($lCon->mRs['src_query'], $lParsedValue, $lMaterialDocumentId, $lCon->mRs['instance_id']);
+					if($fldval['src_query']) {
+						$lParsedValue = getFieldSelectOptionsById($fldval['src_query'], $lParsedValue, $lMaterialDocumentId, $fldval['instance_id']);
 						if(is_array($lParsedValue)) {
 							$lParsedValue = implode(";", $lParsedValue);
 						}
@@ -415,15 +425,14 @@ if($lAction == 'export_materials_as_csv') {
 					$lParsedValue = '';
 				}
 			
-				$lMaterialsFieldValuesArr[$lMaterialInstanceId][$lCon->mRs['field_id']] = $lParsedValue;
+				$lMaterialsFieldValuesArr[$lMaterialInstanceId][$fldval['field_id']] = $lParsedValue;
 				
-				if(!in_array($lCon->mRs['field_id'], $lMaterialsColumnsArr) && !$gHeader) {
+				if(!in_array($fldval['field_id'], $lMaterialsColumnsArr) && !$gHeader) {
 					//$lHeaderAdd['field_id'] = $lLabel;
-					$lHeaderAdd[$lCon->mRs['field_id']] = $lLabel;
+					$lHeaderAdd[$fldval['field_id']] = $lLabel;
 				}
-				$lCon->MoveNext();
 			}
-			//checks for empty fields (for taxon treatment - rank - species)
+			
 			if(
 				!$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] &&
 				!$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] &&
@@ -498,7 +507,13 @@ function fixEmptyValues($pDocumentId, $pPos, $pTaxonRankFieldId, $pFieldIds) {
 		WHERE doi.pos = \'' . $lPosMain . '\' AND document_id = ' . $pDocumentId . '
 			AND field_id = ' . $pTaxonRankFieldId
 	);
-	
+	$lConSec->MoveFirst();
+	// var_dump('
+		// SELECT ifv.value_int
+		// FROM pwt.document_object_instances doi
+		// JOIN pwt.v_instance_fields ifv ON ifv.instance_id = doi.id 
+		// WHERE doi.pos = \'' . $lPosMain . '\' AND document_id = ' . $pDocumentId . '
+			// AND field_id = ' . $pTaxonRankFieldId);
 	$lRank = (int)$lConSec->mRs['value_int'];
 	
 	$lPosInner = substr($pPos, 0, 6);
@@ -511,6 +526,7 @@ function fixEmptyValues($pDocumentId, $pPos, $pTaxonRankFieldId, $pFieldIds) {
 			WHERE doi.pos like \'' . $lPosInner . '%\' AND document_id = ' . $pDocumentId . '
 				AND field_id IN (' . implode(',', $pFieldIds) . ')'
 		);
+		$lConSec->MoveFirst();
 		while(!$lConSec->Eof()){
 			$lResArr[$lConSec->mRs['field_id']] = $lConSec->mRs['value_str']; 
 			$lConSec->MoveNext();
