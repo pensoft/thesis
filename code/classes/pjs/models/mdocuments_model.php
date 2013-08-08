@@ -492,6 +492,10 @@ class mDocuments_Model extends emBase_Model {
 			//The checks whether the current user is journal manager or the specified se is SE of the journal of the document are performed in the SP
 			// 			var_dump($pConfirm);
 			// 			$pConfirm = false;
+			$lSql = 'BEGIN;';
+			if(!$lCon->Execute($lSql)){
+				throw new Exception($lCon->GetLastError());
+			}
 			if(!$this->InsertDecisionComments($pRoundUserId)){
 				throw new Exception(getstr('pjs.couldNotCreateDecisionComments'));
 			}

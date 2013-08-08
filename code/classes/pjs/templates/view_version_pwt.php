@@ -172,7 +172,7 @@ $gTemplArr = array(
 					});
 					{_scrollFormIfErrors(err_cnt)}
 				});
-				CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
+				/*CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
 				CKEDITOR.config.language = \'en\';
 				var instance = CKEDITOR.instances[\'.review"\'];
 				if(instance){
@@ -186,7 +186,7 @@ $gTemplArr = array(
 					toolbar : \'ModerateToolbar\',
 					removePlugins: \'elementspath\',
 					height: 200
-				});
+				});*/
 				// ]]>
 				PerformReviewFormAutosaveTimeout();
 			</script>
@@ -236,7 +236,7 @@ $gTemplArr = array(
 					});
 					{_scrollFormIfErrors(err_cnt)}
 				});
-				CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
+				/*CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
 				CKEDITOR.config.language = \'en\';
 				var instance = CKEDITOR.instances[\'.review"\'];
 				if(instance){
@@ -250,7 +250,7 @@ $gTemplArr = array(
 					extraPlugins : \'autosave\',
 					removePlugins: \'elementspath\',
 					height: 200
-				});
+				});*/
 				PerformReviewFormAutosaveTimeout();
 			</script>
 	',
@@ -399,7 +399,7 @@ $gTemplArr = array(
 				});
 				{_scrollFormIfErrors(err_cnt)}
 			});
-			CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
+			/*CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
 			CKEDITOR.config.language = \'en\';
 			var instance = CKEDITOR.instances[\'.review"\'];
 			if(instance){
@@ -413,7 +413,7 @@ $gTemplArr = array(
 				toolbar : \'ModerateToolbar\',
 				removePlugins: \'elementspath\',
 				height: 200
-			});
+			});*/
 			PerformReviewFormAutosaveTimeout();
 		</script>
 	',
