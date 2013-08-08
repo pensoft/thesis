@@ -6318,7 +6318,9 @@ function  displayNewCommentBtn($pVersionIsReadonly){
 	if((int)$pVersionIsReadonly){
 		return;
 	}
-	return '<div class="comment_btn floatLeft " id="P-Comment-Main-Btn-Wrapper" onmousedown="submitPreviewNewComment();"></div>';
+	return '<div class="comment_btn floatLeft " id="P-Comment-Btn-General" onclick="submitPreviewNewComment(1);"></div>
+			<div class="comment_btn floatLeft P-Comment-Inline-Main-Btn " id="P-Comment-Btn-Inline" onclick="submitPreviewNewComment();"></div>
+			';
 }
 
 function displayPrevCommentVersionReadonlyClass($pVersionIsReadonly = false){

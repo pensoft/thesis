@@ -124,3 +124,13 @@ function InitFreezeResizeEvent(){
 		positionCommentsBase();
 	});
 }
+
+function GetCurrentScrollAccordingToPreview(){
+	return $(window).scrollTop();
+}
+
+function GetPreviewIframeVisiblePartHeight(){
+	var lWindowHeight = $(window).height();
+	var lIframeOffset = $('#previewIframe').offset().top;
+	return lWindowHeight - lIframeOffset;
+}
