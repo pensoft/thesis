@@ -66,10 +66,25 @@
 
 		<xsl:variable name="lJournalName" select="$pDocumentNode/journal_name" />
 		<xsl:variable name="lDocumentType" select="$pDocumentNode/document_type" />
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<colgroup>
+				<col width="90%"></col>
+				<col width="10%"></col>
+			</colgroup>
+			<tr>
+				<td>
+					<div class="P-Article-Preview-Antet">
+						<xsl:value-of select="$lJournalName" /> : <xsl:value-of select="$lDocumentType" />
+					</div>
+				</td>
+				<td>
+					<div class="P-Article-Preview-Antet" style="text-align:right;font-size:12px;line-height:18px;">
+						<a href="javascript:void(0);" onclick="window.print()" style="background:transparent url('/i/printer.jpg') no-repeat 0px 0px; padding-left:20px;">Print</a>
+					</div>
+				</td>
+			</tr>
+		</table>
 		
-		<div class="P-Article-Preview-Antet">
-			<xsl:value-of select="$lJournalName" /> : <xsl:value-of select="$lDocumentType" />
-		</div>
 	</xsl:template>
 	
 	<!-- ARTICLE TITLE -->
