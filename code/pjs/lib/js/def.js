@@ -1652,9 +1652,12 @@ function scrollToForm(){
 	});
 }
 
-function scrollTo(anchor){
+function scrollToAnchor(pAnchor){
+	if(!$(pAnchor).length){
+		return;
+	}
 	$('html, body').animate( 
-		{ scrollTop: ( $(anchor).offset().top - $('.documentHeader').height() )}, 
+		{ scrollTop: ( $(pAnchor).offset().top - $('.documentHeader').height() )}, 
 		{ duration: 800}
 	);
 }
@@ -2019,7 +2022,9 @@ function initPreviewIframeLoadEvents(pIframeId){
 		$('#P-Article-Content').show();
 		$('#P-Ajax-Loading-Image').hide();
 		resizePreviewIframe(pIframeId);				
-		initPreviewSelectCommentEvent();			
+		initPreviewSelectCommentEvent();	
+		fillCommentPos();
+		positionCommentsBase(true);	
 	});
 	window.onresize = function() {
 		resizePreviewIframe(pIframeId);

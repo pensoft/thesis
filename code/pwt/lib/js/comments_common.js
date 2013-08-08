@@ -9,12 +9,12 @@ var gCommentPreviewElementClass = 'P-Preview-Comment';
 var gActiveCommentTextClass = 'Active-Comment-Text';
 var gActiveCommentHolderClass = 'Active-Comment-Holder';
 var gUnavailableCommentLabelId = 'P-Comment-Unavailable-Text';
-var gMainCommentBtnWrapperId = 'P-Comment-Main-Btn-Wrapper'
+var gInlineCommentBtnId = 'P-Comment-Btn-Inline';
 var gCommentsInPreviewMode = 0;
 var gFilterRootComments = false;
 var gVisibleRootCommentIds = [];
 var gCurrentActiveCommentId = 0;
-
+var gInlineCommentIsAvailable = true;
 
 var gCommentsVersionId = 0;
 var gCommentsDocumentId = 0;
@@ -23,6 +23,8 @@ var gTextCommentIdAttribute = 'comment_id';
 
 var gPreviousPreviewSelection = false;
 var gPreviousPreviewSelectionStartNode = false;
+var gCurrentCommentSpecificPosition = false;
+var gUnavailableInlineText = 'You cannot comment on the current selection. Please change your selection and try again!';
 
 /**
  * Попълваме позицията на коментара спрямо instance/field-а в който е направен
@@ -38,9 +40,7 @@ function fillCommentPos() {
 		if(lStartNodeDetails){
 			lStartInstanceId = lStartNodeDetails['instance_id'];
 			lStartFieldId = lStartNodeDetails['field_id'];
-			lStartOffset = lStartNodeDetails['offset'];
-	
-			
+			lStartOffset = lStartNodeDetails['offset'];			
 		}
 	
 		if(lEndNodeDetails){
@@ -56,15 +56,16 @@ function fillCommentPos() {
 			$('#' + gCommentStartInstanceIdInputId).val(lStartInstanceId);
 			$('#' + gCommentStartFieldIdInputId).val(lStartFieldId);
 			$('#' + gCommentStartOffsetInputId).val(lStartOffset);
-			MarkCurrentCommentAsInline();
+			MarkInlineCommentAsAvailable();
 		}else{
-			MarkCurrentCommentAsUnavailable();
+			MarkInlineCommentAsUnavailable();
 			clearCommentPos();
 			return false;
 		}
 	}else{
 		clearCommentPos();
-		MarkCurrentCommentAsGeneral();		
+		MarkInlineCommentAsUnavailable();
+		return false;
 	}
 	return true;
 }
@@ -493,7 +494,9 @@ function GetSelectedTextPos(){
 	lResult['end_pos'] = lEndNodeDetails;
 	lResult['selection_is_empty'] = lSelection.isCollapsed;
 	
+	lSelection.detach();
 	return lResult;
+	
 }
 
 function MoveSelectionNodeToTextNode(pNode, pOffset, pMoveToPrevious){
@@ -769,28 +772,38 @@ function markCommentEndNode(pCommentId, pParentNode, pEndNode, pOffset, pUserNam
 	}
 }
 
-
-
-function positionCommentsBase(){
-//	return;
-	if(gCommentsInPreviewMode < 1)
-		return;
-
+function GetSortedRootComments(){
 	var lRootComments = $('.P-Root-Comment');
 
 	compareRootComments = function(pCommentA, pCommentB){
-		var lPattern = new RegExp("^P-Root-Comment-Holder-(\\d+)$","i");
+//		var lPattern = new RegExp("^P-Root-Comment-Holder-(\\d+)$","i");
 		var lCommentAId = 0;
 		var lCommentBId = 0;
 
-		var lMatch = lPattern.exec($(pCommentA).attr('id'));
-		if(lMatch !== null){
-			lCommentAId = lMatch[1];
+//		var lMatch = lPattern.exec($(pCommentA).attr('id'));
+//		if(lMatch !== null){
+//			lCommentAId = lMatch[1];
+//		}
+//		lMatch = lPattern.exec($(pCommentB).attr('id'));
+//		if(lMatch !== null){
+//			lCommentBId = lMatch[1];
+//		}
+		//Remove the P-Root-Comment-Holder- prefix from the id-s
+		lCommentAId = $(pCommentA).attr('id').substr(22);
+		lCommentBId = $(pCommentB).attr('id').substr(22);
+		
+		var lCommentAStartNode = GetPreviewContent().find(gCommentStartPosNodeName + '[' + gCommentIdAttributeName + '="' + lCommentAId + '"]')[0];
+		var lCommentBStartNode = GetPreviewContent().find(gCommentStartPosNodeName + '[' + gCommentIdAttributeName + '="' + lCommentBId + '"]')[0];
+		
+		if(!lCommentAStartNode){
+			return -1;
 		}
-		lMatch = lPattern.exec($(pCommentB).attr('id'));
-		if(lMatch !== null){
-			lCommentBId = lMatch[1];
+		if(!lCommentBStartNode){
+			return 1;
 		}
+		
+		return compareNodesOrder(lCommentBStartNode, lCommentAStartNode);
+		
 //		var lCommentAPos = gCommentsVerticalPosition[lCommentAId];
 		var lCommentAPos = getCommentVerticalPosition(lCommentAId);
 		if(!lCommentAPos){
@@ -823,10 +836,29 @@ function positionCommentsBase(){
 			}
 		}
 	}
+	return lRootComments;
+}
+
+function RecacheCommentsOrder(){
+	gCommentOrderCached = GetSortedRootComments();
+}
 
 
+var gCommentOrderCached = false;
+function positionCommentsBase(pRecacheOrder){
+//	return;
+	if(gCommentsInPreviewMode < 1)
+		return;	
+	if(gCommentOrderCached === false || pRecacheOrder){		
+		RecacheCommentsOrder();
+	}
+	var lRootComments = gCommentOrderCached;
+//	lRootComments = GetSortedRootComments();
+	
 	var lPreviousElement = null;
-
+//	console.log($('#P-Root-Comments-Holder').offset().top);
+	
+	var lPositions = {};
 	$.each(lRootComments, function(pIndex, pRow){
 
 		var lPattern = new RegExp("^P-Root-Comment-Holder-(\\d+)$","i");
@@ -844,31 +876,66 @@ function positionCommentsBase(){
 		}else{
 			$(pRow).show();
 		}
-		var lOffsetParent = $(pRow).offsetParent();
+		var lOffsetParent = $(pRow).offsetParent();		
 //		var lCommentPosition = gCommentsVerticalPosition[lCommentId];
 		var lCommentPosition = getCommentVerticalPosition(lCommentId);
+		
+		var lIsGeneral = false;
+		if(lCommentPosition == 0){
+			lIsGeneral = true;
+		}
+				
+		
 		lCommentPosition -= lOffsetParent.offset().top;
+		//console.log('Offset parent top ' + lOffsetParent.offset().top);
+		if(gCurrentActiveCommentId == lCommentId && gCurrentCommentSpecificPosition !== false){
+			lCommentPosition = gCurrentCommentSpecificPosition;
+		}
 		if(lCommentPosition < 0){
 			lCommentPosition = 0;
 		}
+		
+//		if(lCommentId == gCurrentActiveCommentId){
+//			console.log(getCommentVerticalPosition(lCommentId), lCommentPosition, lOffsetParent.offset().top);
+//		}
 
 		if(lPreviousElement){
-        	var lPreviousCommentPosition = $(lPreviousElement).position().top;
+        	var lPreviousCommentPosition = pIndex > 0 ? lPositions[pIndex - 1] : 0;
         	var lPreviousCommentHeight = $(lPreviousElement).outerHeight();
 
 
         	if(lCommentPosition < (lPreviousCommentPosition + lPreviousCommentHeight)){
-        		lCommentPosition = (lPreviousCommentPosition + lPreviousCommentHeight);
+        		if(gCurrentActiveCommentId == lCommentId && !lIsGeneral){//Position the current active comment at its real place and move the ones before it up
+        			var lFixOffset = (lPreviousCommentPosition + lPreviousCommentHeight) - lCommentPosition ;
+        			for(var i = 0; i < pIndex; ++i){
+//        				var lPreviousComment =  lRootComments[i];
+//        				var lPreviousCommentTop = parseInt($(lPreviousComment).css('top'), 10);
+//        				$(lPreviousComment).css('top', lPreviousCommentTop - lFixOffset);
+        				lPositions[i] -= lFixOffset;
+//        				$(lPreviousComment).animate({'top':(lPreviousCommentTop - lFixOffset)});      
+        			}
+        		}else{
+        			lCommentPosition = (lPreviousCommentPosition + lPreviousCommentHeight);
+        		}
         	}
 
         }else{
 
         }
-		$(pRow).css('position', 'absolute');
-		$(pRow).css('top', lCommentPosition);
+//		$(pRow).css('position', 'absolute');
+//		$(pRow).css('top', lCommentPosition);
+		lPositions[pIndex] = lCommentPosition;
+//		$(pRow).animate({'top' : lCommentPosition});
 
 		lPreviousElement = pRow;
     });
+	
+//	console.log(lPositions);
+	$.each(lRootComments, function(pIndex, pRow){
+		$(pRow).css('position', 'absolute');
+//		$(pRow).css('top', lPositions[pIndex]);
+		$(pRow).animate({'top' : lPositions[pIndex], 'position': 'absolute'}); 
+	});
 
 	//Накрая пренареждаме и стрелките отдолу
 	var lBottomButtons = $('#P-Comments-Bottom-Buttons');
@@ -1054,12 +1121,12 @@ function pasteCommentNodeMarkup(pCommentId, pNode, pUserName, pTimestamp){
 	if(!gCommentsVerticalPosition[pCommentId]){
 		gCommentsVerticalPosition[pCommentId] = getCommentNodeVerticalPosition(pNode);
 	}
-	$(pNode).bind('click', function(){
-		scrollToComment(pCommentId);
-	});
+//	$(pNode).bind('click', function(){
+//		scrollToComment(pCommentId);
+//	});
 	addAttributeValue($(pNode), 'comment_id', pCommentId);
 //	$(pNode).attr('comment_id', pCommentId);
-	$(pNode).attr('title', pUserName + ' commented this on ' + pTimestamp);
+//	$(pNode).attr('title', pUserName + ' commented this on ' + pTimestamp);
 }
 
 function CheckIfRootCommentIsVisible(pCommentId){
@@ -1069,26 +1136,33 @@ function CheckIfRootCommentIsVisible(pCommentId){
 	return true;
 }
 
-function DeactivateAllComments() {
+function DeactivateAllComments(pDontRepositionComments) {
 	if(!gCurrentActiveCommentId){
 		return;
 	}
+	gCurrentCommentSpecificPosition = false;
 	gCurrentActiveCommentId = 0;
 	var lPreviewContent = GetPreviewContent();
 	lPreviewContent.find('.' + gActiveCommentTextClass).removeClass(gActiveCommentTextClass);
 	$('.' + gActiveCommentHolderClass).removeClass(gActiveCommentHolderClass);
+	if(!pDontRepositionComments){
+		positionCommentsBase();
+	}
 }
 
-function MakeCommentActive(pCommentId) {
+function MakeCommentActive(pCommentId, pDontRepositionComments) {
 	if(gCurrentActiveCommentId == pCommentId){
 		return;
 	}
-	DeactivateAllComments();
+	DeactivateAllComments(1);
 	gCurrentActiveCommentId = pCommentId;
 	var lRootHolder = $('#P-Root-Comment-Holder-' + pCommentId);
 	lRootHolder.addClass(gActiveCommentHolderClass);
 	var lPreviewContent = GetPreviewContent();
 	lPreviewContent.find('.P-Preview-Comment[' + gTextCommentIdAttribute + '*="' + pCommentId + '"]').addClass(gActiveCommentTextClass);
+	if(!pDontRepositionComments){
+		positionCommentsBase();
+	}
 }
 
 function CheckSelectedTextForActiveComment() {
@@ -1106,8 +1180,8 @@ function CheckSelectedTextForActiveComment() {
 		lEndNode = lSelection.anchorNode;
 		lEndOffset = lSelection.anchorOffset;
 	}
-
-	if(!lStartNode || !lEndNode){
+	lSelection.detach();
+	if(!lStartNode || !lEndNode){		
 		return;
 	}
 
@@ -1216,7 +1290,7 @@ function FilterComments() {
 			gVisibleRootCommentIds = pAjaxResult['visible_rootids'];
 			if(gCurrentActiveCommentId){
 				if(!CheckIfRootCommentIsVisible(gCurrentActiveCommentId)){
-					DeactivateAllComments();
+					DeactivateAllComments(1);
 				}
 			}
 			positionCommentsBase();
@@ -1229,7 +1303,7 @@ function InitFreezeResizeEvent(){
 	$("#CommentsFreeze").bind("resize", function(){
 		var lHeight = $(this).outerHeight();
 		$(this).parent().css('padding-top', lHeight + 'px');
-		positionCommentsBase();
+//		positionCommentsBase();
 	});
 }
 
@@ -1299,7 +1373,7 @@ function SelectPreviousNextComment(pPrevious){
 
 	if(lResultCommentId){
 		MakeCommentActive(lResultCommentId);
-		scrollToComment(lResultCommentId);
+		setTimeout(function(){scrollToComment(lResultCommentId);}, 400);
 		// Move the selection to the end of the comment
 		var lEndCommentNode = lPreviewContent.find(gCommentEndPosNodeName + '[' + gCommentIdAttributeName + '="' + lResultCommentId + '"]')[0];
 		gPreviousPreviewSelectionStartNode = lEndCommentNode;
@@ -1314,50 +1388,51 @@ function SelectNextComment() {
 	SelectPreviousNextComment(false);
 }
 
-function MarkCurrentCommentAsInline(){
-	$('#' + gUnavailableCommentLabelId).hide();
-	EnableDisableMainCommentBtn(1);
-	var lMainCommentBtnWrapper = $('#' + gMainCommentBtnWrapperId);
-	lMainCommentBtnWrapper.removeClass('P-Comment-General-Main-Btn');
-	lMainCommentBtnWrapper.addClass('P-Comment-Inline-Main-Btn');
-	
+function MarkInlineCommentAsAvailable(){
+	if(gInlineCommentIsAvailable){
+		return;
+	}
+	gInlineCommentIsAvailable = true;	
+//	$('#' + gUnavailableCommentLabelId).hide(400, function(){console.log(1); positionCommentsBase()});
+//	$('#' + gUnavailableCommentLabelId).hide();
+	EnableDisableInlineCommentBtn(1);
+	var lBtn = $('#' + gInlineCommentBtnId);
+	lBtn.removeAttr('title');	
 }
 
-function MarkCurrentCommentAsGeneral(){
-	$('#' + gUnavailableCommentLabelId).hide();
-	var lMainCommentBtnWrapper = $('#' + gMainCommentBtnWrapperId);
-	lMainCommentBtnWrapper.removeClass('P-Comment-Inline-Main-Btn');
-	lMainCommentBtnWrapper.addClass('P-Comment-General-Main-Btn');	
-	EnableDisableMainCommentBtn(1);	
+function MarkInlineCommentAsUnavailable(){
+	if(!gInlineCommentIsAvailable){
+		return;
+	}
+	gInlineCommentIsAvailable = false;
+//	$('#' + gUnavailableCommentLabelId).show(400, function(){console.log(1);positionCommentsBase()});
+//	$('#' + gUnavailableCommentLabelId).show();
+	var lBtn = $('#' + gInlineCommentBtnId);	
+	lBtn.attr('title', gUnavailableInlineText);
+	EnableDisableInlineCommentBtn();	
 }
 
-function MarkCurrentCommentAsUnavailable(){
-	$('#' + gUnavailableCommentLabelId).show();
-	var lMainCommentBtnWrapper = $('#' + gMainCommentBtnWrapperId);
-	lMainCommentBtnWrapper.removeClass('P-Comment-Inline-Main-Btn');
-	lMainCommentBtnWrapper.removeClass('P-Comment-General-Main-Btn');	
-	EnableDisableMainCommentBtn();
-}
-
-function EnableDisableMainCommentBtn(pEnable){
-	var lMainCommentBtnWrapper = $('#' + gMainCommentBtnWrapperId);
-	var lSubmits = lMainCommentBtnWrapper.find('input[type="submit"]');
+function EnableDisableInlineCommentBtn(pEnable){
+	var lBtn = $('#' + gInlineCommentBtnId);
+	var lSubmits = lBtn.find('input[type="submit"]');
 	if(!pEnable){
-		lMainCommentBtnWrapper.attr('disabled', 'disabled');
+		lBtn.attr('disabled', 'disabled');
 		lSubmits.attr('disabled', 'disabled');
-		lMainCommentBtnWrapper.addClass('P-Main-Comment-Btn-Disabled');
+		lBtn.addClass('P-Main-Comment-Btn-Disabled');
 	}else{
-		lMainCommentBtnWrapper.removeAttr('disabled');
+		lBtn.removeAttr('disabled');
 		lSubmits.removeAttr('disabled');
-		lMainCommentBtnWrapper.removeClass('P-Main-Comment-Btn-Disabled');
+		lBtn.removeClass('P-Main-Comment-Btn-Disabled');
 	}
 }
 
-function displayCommentEditForm(pCommentId){
+function displayCommentEditForm(pCommentId, pDontRepositionComments){
 	$('#P-Comment-Msg-Holder_' + pCommentId).hide();
 	$('#P-Comment-Edit-Form_' + pCommentId).show();
 	$('#P-Comment-Edit-Form_' + pCommentId).find('textarea').first().focus();
-	positionCommentsBase();
+	if(!pDontRepositionComments){
+		positionCommentsBase();
+	}
 }
 
 function submitCommentEdit(pCommentId){
@@ -1432,13 +1507,17 @@ function getCommentNodeVerticalPosition(pNode){
 
 
 var gCommentIsBeingCreated = 0;
-function submitPreviewNewComment(){
+function submitPreviewNewComment(pCommentIsGeneral){
 	if(!gCommentIsBeingCreated){
 		gCommentIsBeingCreated = 1;
-		var lCommentPosIsFound = fillCommentPos();
-		if(!lCommentPosIsFound){
-			gCommentIsBeingCreated = 0;
-			return;
+		if(!pCommentIsGeneral){//Inline
+			var lCommentPosIsFound = fillCommentPos();
+			if(!lCommentPosIsFound){
+				gCommentIsBeingCreated = 0;
+				return;
+			}
+		}else{//General
+			clearCommentPos();
 		}
 		var lFormData = $('form[name="' + gPreviewCommentFormName + '"]').formSerialize();
 		lFormData += '&tAction=save&action=' + gPreviewNewCommentFormActionName;
@@ -1555,6 +1634,7 @@ function submitPreviewNewComment(){
 				}
 				//Крием формата
 				cancelPreviewNewComment();
+				var lPreviousScrollPos = $(window).scrollTop();
 				// Aко няма коментари ползваме темплейт с expand и collapse и добавяме след хедър секцията
 				var lCommentResult = pAjaxResult['result'];
 				if(!lCommentResult){
@@ -1565,12 +1645,29 @@ function submitPreviewNewComment(){
 				}else{ // Иначе Добавяме коментара след последния коментар
 					$('#P-Root-Comments-Holder').children('.P-Root-Comment').last().after(lCommentResult);
 				}
+				
 				setCommentsWrapEvents();
-				positionCommentsBase();
-				MakeCommentActive(lCommentId);	
+				MakeCommentActive(lCommentId);
+				gCurrentCommentSpecificPosition = false;
+				var lSelectionIsVisible = false;
+				
+//				var lOffsetParent = $('#P-Root-Comment-Holder-' + lCommentId).offsetParent();		
+				if(pCommentIsGeneral){
+					gCurrentCommentSpecificPosition = lPreviousScrollPos //+ lOffsetParent.offset().top;
+				}else{
+					lSelectionIsVisible = CheckIfInlineCommentIsVisible(lCommentId)
+				}
+				RecacheCommentsOrder();
+					
 				ExpandSingleComment(lCommentId);
-				displayCommentEditForm(lCommentId);
-				scrollToComment(lCommentId);
+				displayCommentEditForm(lCommentId, 1);
+				if(pCommentIsGeneral || lSelectionIsVisible){
+					$(window).scrollTop(lPreviousScrollPos);
+				}else{
+					var lOffsetParent = $('#P-Root-Comment-Holder-' + lCommentId).offsetParent();		
+					$(window).scrollTop(getCommentVerticalPosition(lCommentId) - lOffsetParent.offset().top);
+				}
+				
 				gCommentIsBeingCreated = 0;
 			}
 		});
@@ -1587,9 +1684,7 @@ function CleanupAfterCommentDelete(pCommentId){
 			$(this).remove();
 		});
 	}
-	$('#P-Root-Comment-Holder-' + pCommentId).hide('slow', function(){
-		$(this).remove();
-	});
+	
 	
 	var lPreviewContents = GetPreviewContent();			
 	
@@ -1600,13 +1695,120 @@ function CleanupAfterCommentDelete(pCommentId){
 			}else{
 				$(pElement).removeClass('P-Preview-Comment');
 				$(pElement).removeAttr('comment_id');
-				$(pElement).removeAttr('title');
+//				$(pElement).removeAttr('title');
 				if(gCurrentActiveCommentId == pCommentId){
-					DeactivateAllComments();
+					DeactivateAllComments(1);
 				}
 			}
 		}else{
 			removeAttributeValue($(pElement), 'comment_id', pCommentId, ' ');
 		}						
 	});
+	$('#P-Root-Comment-Holder-' + pCommentId).hide('slow', function(){
+		$(this).remove();
+		positionCommentsBase(1);
+	});
+}
+
+/**
+ * Checks if the selection in the
+ * preview iframe is now visible on the screen (i.e. it is not scrolled up or down)
+ * @returns {Boolean}
+ */
+function CheckIfPreviewSelectionIsVisible(){
+	//The delta for top/end in px (If the selection is in this many px from the top/bottom it will be considered out)
+	var lDelta = 5;
+	var lSelection = GetPreviewSelection();
+	if(!lSelection){
+		return true;
+	}
+	/*
+	 * Here we will insert 2 markers at the beginning and at the end
+	 * and we will intersect their vertical positions with the visible part of the screen 
+	*/
+	var lRange = lSelection.getRangeAt(0);
+//	var lStartOffset = GetSelectionNodeVerticalOffset(lRangeCopy.startContainer, lRangeCopy.startOffset);
+//	var lEndOffset = GetSelectionNodeVerticalOffset(lRangeCopy.endContainer, lRangeCopy.endOffset);
+	var lPos = GetRangeOffsets(lRange);	
+	lSelection.addRange(lRange);
+	
+	var lStartTopOffset = Math.min(lPos.start.top, lPos.end.top);
+	var lEndTopOffset = Math.max(lPos.start.top, lPos.end.top);
+	
+	var lCurrentScroll = GetCurrentScrollAccordingToPreview();	
+	var lVisiblePartHeight = GetPreviewIframeVisiblePartHeight();
+	var lIframeVisiblePartMin = lCurrentScroll + lDelta;
+	var lIframeVisiblePartMax = lCurrentScroll + lVisiblePartHeight - lDelta;
+	
+	if(lIframeVisiblePartMin > lEndTopOffset || lIframeVisiblePartMax < lStartTopOffset){
+		return false;
+	}
+	
+	return true;
+}
+
+function CheckIfInlineCommentIsVisible(pCommentId){
+	var lDelta = 5;
+	var lStartNode = GetPreviewContent().find(gCommentStartPosNodeName + '[' + gCommentIdAttributeName + '="' + pCommentId + '"]');
+	var lEndNode = GetPreviewContent().find(gCommentEndPosNodeName + '[' + gCommentIdAttributeName + '="' + pCommentId + '"]');
+	if(!lStartNode.length || !lEndNode.length){
+		return false;
+	}
+	var lPos = {
+		'start' : lStartNode.offset(),
+		'end' : lEndNode.offset(),
+	}
+	var lStartTopOffset = Math.min(lPos.start.top, lPos.end.top);
+	var lEndTopOffset = Math.max(lPos.start.top, lPos.end.top);
+	
+	var lCurrentScroll = GetCurrentScrollAccordingToPreview();	
+	var lVisiblePartHeight = GetPreviewIframeVisiblePartHeight();
+	var lIframeVisiblePartMin = lCurrentScroll + lDelta;
+	var lIframeVisiblePartMax = lCurrentScroll + lVisiblePartHeight - lDelta;
+	
+	if(lIframeVisiblePartMin > lEndTopOffset || lIframeVisiblePartMax < lStartTopOffset){
+		return false;
+	}
+	
+	return true;
+}
+
+/**
+ * This function returns the offsets of the start and the end of the range
+ * !!!It is possible if the range is part of the current selection
+ * !!!to make the selection empty. If this is a problem the passed range
+ * !!!should be added to the selection after this function has returned its value!!!
+ * @param pRange
+ * @returns
+ */
+function GetRangeOffsets(pRange){
+	pRange.splitBoundaries();
+	var lRangeCopyStart = pRange.cloneRange();
+	var lRangeCopyEnd = pRange.cloneRange();
+		
+	lRangeCopyStart.collapse(true);
+	lRangeCopyEnd.collapse(false);
+	
+	
+	var lDocument = pRange.startContainer.ownerDocument;
+	var lStartMarker = lDocument.createElement('span');
+	var lEndMarker = lDocument.createElement('span');
+	
+//	pRange.detach();
+	lRangeCopyStart.insertNode(lStartMarker);
+	lRangeCopyEnd.insertNode(lEndMarker);
+	
+	var lStartOffset = $(lStartMarker).offset();
+	$(lStartMarker).remove();
+	var lEndOffset = $(lEndMarker).offset();
+	$(lEndMarker).remove();
+	
+	lResult = {
+		'start' : lStartOffset,
+		'end' : lEndOffset
+	};
+	
+	
+//	console.log(lResult);
+	return lResult;	
 }

@@ -86,7 +86,7 @@ $gTemplArr = array(
 				{_showCommentPic(photo_id, is_disclosed, usr_id, current_user_id)}
 				<div class="P-Comments-Revisions-Item-Details">
 					<div class="username">
-						{_DisplayCommentUserName(is_disclosed, usr_id, current_user_id, fullname, undisclosed_user_fullname)} 
+						{_DisplayCommentUserName(is_disclosed, usr_id, current_user_id, fullname, undisclosed_user_fullname)}
 						{_displayDeleteCommentBtn(id, usr_id, preview_is_readonly)}
 					</div>
 					<div class="commentdate">Comment / {_showFormatedPubDate(lastmoddate)}</div>
@@ -121,8 +121,7 @@ $gTemplArr = array(
 	',
 	'comments.browseEnd' => '
 			<div class="P-Inline-Line"></div>
-		</div>
-		<script type="text/javascript">positionComments()</script>
+		</div>		
 	',
 	'comments.browseFoot' => '',
 	'comments.browseNoData' => '',
