@@ -53,6 +53,10 @@ function deleteComment( pCommentId ) {
 	}
 }
 
+function GetFixedFooterHeight(){
+	return $('.P-Footer').outerHeight();
+}
+
 function GetCurrentScrollAccordingToPreview(){
 	var lCurrentScroll = $(window).scrollTop();
 	var lIframeParentPadding = parseInt($('#previewIframe').parent().css('padding-top'));
@@ -73,6 +77,6 @@ function GetPreviewIframeVisiblePartHeight(){
 	}else{
 		lIframeOffset -= lCurrentScroll;
 	}
-	var lFooterHeight = $('.P-Footer').outerHeight();
+	var lFooterHeight = GetFixedFooterHeight();
 	return lWindowHeight - lIframeOffset - lFooterHeight;
 }

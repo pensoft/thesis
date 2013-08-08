@@ -1036,6 +1036,12 @@ function setCommentsWrapEvents(){
 		if(lMatch !== null){
 			lCommentId = lMatch[1];
 			MakeCommentActive(lCommentId);
+			//Wait for the repositioning
+			setTimeout(function(){
+				if(!CheckIfCommentIsVisible(lCommentId)){
+					scrollToComment(lCommentId);
+				}
+			}, 401);
 		}
 
 	});
@@ -1811,4 +1817,27 @@ function GetRangeOffsets(pRange){
 	
 //	console.log(lResult);
 	return lResult;	
+}
+
+function CheckIfCommentIsVisible(pCommentId){
+	var lCommentHolder = $('#P-Root-Comment-Holder-' + pCommentId);
+	if(!lCommentHolder.length){
+		return true;
+	}
+	var lDelta = 5;
+	var lStartTopOffset = lCommentHolder.offset().top;
+	var lCommentHeight = lCommentHolder.outerHeight();
+	var lEndTopOffset = lStartTopOffset + lCommentHeight;
+	var lOffsetParentTopOffset = lCommentHolder.offsetParent().offset().top;
+	var lWindowHeight = $(window).height();
+	var lCurrentScroll = $(window).scrollTop();
+	var lFixedFooterHeight = GetFixedFooterHeight();
+	
+	var lIframeVisiblePartMin = lCurrentScroll + lDelta + lOffsetParentTopOffset;
+	var lIframeVisiblePartMax = lCurrentScroll + lWindowHeight - lDelta - lFixedFooterHeight;
+	if(lIframeVisiblePartMin > lEndTopOffset || lIframeVisiblePartMax < lStartTopOffset){
+		return false;
+	}
+	
+	return true;
 }
