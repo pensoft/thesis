@@ -660,6 +660,7 @@ a {
 #docEditHeader .box a {
 	font-size: 12px;
 	color: #727272;
+	text-decoration:none;
 }
 
 #docEditHeader .box .arrow {
@@ -679,7 +680,7 @@ a {
 }
 
 #docEditHeader .box .optionHolder span {
-	float: right;
+	/*float: right;*/
 	margin-top: 2px;
 	margin-left: 6px;
 	margin-right: 10px;
@@ -771,8 +772,8 @@ a {
 	overflow-x: hidden;
     overflow-y: scroll;
 	height: 200px;*/
-	opacity: 0.8;
-	filter: alpha(opacity =   80);
+	opacity: 1;
+	filter: alpha(opacity =   100);
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
 	border-left: 1px solid #F4F4F1;
 	z-index: 0;

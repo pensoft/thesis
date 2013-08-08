@@ -33,47 +33,54 @@ $gTemplArr = array(
 			</script>
 	',
 		
+		/* <div class="box clearBorder">
+					<img title="Accept/reject all changes in the manuscript and then use Advance edit button" src="' . PJS_SITE_URL . '/i/lightbulb.png" alt="Help" style="padding-top:16px" style="vertical-align:middle;" /> 
+		</div> */
+				
 	'preview.editHeader' => '
 			<div id="docEditHeader">
 				<div class="box clearBorder" style="width: 155px;" id="changes_display_holder">
 					<h3>View</h3>
-					<input type="radio" id="changes" name="changes_display" checked="checked" value="1" /> <label for="changes">Changes</label>
-					<input type="radio" id="final" name="changes_display" /> <label for="final"> Final </label>
+					<input type="radio" id="changes" name="changes_display" checked="checked" value="1" style="margin-left: 5px; margin-right: 3px; margin-top: 3px;" /> 
+					<label for="changes">Changes</label>
+					<input type="radio" id="final" name="changes_display" style="margin-left: 5px; margin-right: 3px; margin-top: 3px;"/> 
+					<label for="final">Final</label>
 					<script type="text/javascript">
 						$("#changes_display_holder :radio").bind("change", function(){
 							$(\'#previewIframe\')[0].contentWindow.toggleChangesDisplay();
 						});
 					</script>
 				</div>
-				<div class="box">
+				<div class="box" align="center">
 					<h3>Changes</h3>
 					<div class="optionHolder">
 						<a href="#" onclick="AcceptRejectCurrentChange(1);return false;" id="P-Accept-Change-Btn-Id" class="P-Disabled-Btn">
-							<img src="' . PJS_SITE_URL . '/i/adddoc.png" alt="Accept all changes" /><span>Accept</span>
+							<img src="' . PJS_SITE_URL . '/i/adddoc-small.png" alt="Accept current change" style="vertical-align:middle;" />
+							<span>Accept</span>
 						</a>
 					</div>
 					<div class="optionHolder">
 						<a href="#" onclick="AcceptRejectCurrentChange();return false;" id="P-Reject-Change-Btn-Id" class="P-Disabled-Btn">
-							<img src="' . PJS_SITE_URL . '/i/removedoc.png" alt="Reject all changes" /><span>Reject</span>
+							<img src="' . PJS_SITE_URL . '/i/removedoc-small.png" alt="Reject current change" style="vertical-align:middle;" />
+							<span>Reject</span>
 						</a>
 					</div>
-					<div class="arrow" onclick="SelectPreviousNextChange(1);return false;">
+					<div class="optionHolder" onclick="SelectPreviousNextChange(1);return false;">
 						<a href="#">
-							<img src="' . PJS_SITE_URL . '/i/docleftarrow.png" alt="Go to previous change" />
+							<img src="' . PJS_SITE_URL . '/i/docleftarrow.png" alt="Go to previous change" style="vertical-align:middle;" />
 							<span>Previous</span>
 						</a>
 					</div>
-					<br /><br />
-					<div class="arrow" onclick="SelectPreviousNextChange();return false;" >
+					<div class="optionHolder" onclick="SelectPreviousNextChange();return false;" >
 						<a href="#">
-							<img src="' . PJS_SITE_URL . '/i/docrightarrow.png" alt="Go to next change" />
+							<img src="' . PJS_SITE_URL . '/i/docrightarrow.png" alt="Go to next change" style="vertical-align:middle;" />
 							<span>Next</span>
 						</a>
 					</div>
 					<script>InitChangeBtns()</script>
 				</div>
 				{legend}
-				<div class="P-Clear"></div>
+				<div class="P-Clear"></div>	
 			</div>
 	',
 		
@@ -81,10 +88,10 @@ $gTemplArr = array(
 
 	'preview.user_legend_start' => '
 				<div class="box filter">
-					<h3>Filter <a href="JavaScript:void(0);"><img src="' . PJS_SITE_URL . '/i/filter.png" alt="filter" /></a></h3>
+					<h3>Show markup</h3>
 					<div class="popup">
 						<br />
-						<a href="#" style="border-bottom: 1px solid #E2E2DC; border-top: none;" onclick="openFilterPopUp();">View reviews only from..</a>
+						<a href="#" style="border-bottom: 1px solid #E2E2DC; border-top: none;" onclick="openFilterPopUp();"><img src="' . PJS_SITE_URL . '/i/filter.png" alt="filter" style="vertical-align:middle;" /> Filter by reviewer</a>
 	',
 
 	'preview.user_legend_row' => '
@@ -99,10 +106,10 @@ $gTemplArr = array(
 
 	'preview.user_legend_end' => '
 						<br />
-						<a href="#" onclick="$(\'#previewIframe\')[0].contentWindow.ShowAllReviews();return false;">Show All reviews</a>
+						<a href="#" onclick="$(\'#previewIframe\')[0].contentWindow.ShowAllReviews();return false;">Show all reviews</a>
 					</div>
 					<a href="#" onclick="openFilterPopUp(); return false;">
-						View reviews only from..
+						<img src="' . PJS_SITE_URL . '/i/filter.png" alt="filter" style="vertical-align:middle;" /> Filter by reviewer
 					</a>
 				</div>
 	',

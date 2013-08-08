@@ -2374,7 +2374,7 @@ function displayChangesButtons($pRole) {
 		 */
 	}else{
 		return '<div class="box" align="center">
-					<h3>Changes</h3>
+					<h3>Changes</h3> 
 					<div class="optionHolder">
 						<a href="#" onclick="AcceptRejectCurrentChange(1);return false;" id="P-Accept-Change-Btn-Id" class="P-Disabled-Btn">
 							<img src="/i/adddoc-small.png" alt="Accept current change" />
@@ -2387,7 +2387,7 @@ function displayChangesButtons($pRole) {
 							<span>Reject</span>
 						</a>
 					</div>
-					<div class="optionHolder" onclick="SelectPreviousNextChange(1);return false;" style="margin-left:0px;">
+					<div class="optionHolder" onclick="SelectPreviousNextChange(1);return false;" >
 						<a href="#">
 							<img src="/i/docleftarrow.png" alt="Go to previous change" />
 							<span>Previous</span>
