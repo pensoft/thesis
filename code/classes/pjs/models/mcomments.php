@@ -76,6 +76,8 @@ class mComments extends emBase_Model {
 					coalesce(m2.end_object_field_id, 0) as end_field_id,
 					coalesce(m2.start_offset, 0) as start_offset,
 					coalesce(m2.end_offset, 0) as end_offset,
+					EXTRACT(EPOCH FROM m2.mdate) as mdate_in_seconds,
+					EXTRACT(EPOCH FROM m2.lastmoddate) as lastmoddate_in_seconds,
 					m2.original_id,
 					m2.is_resolved::int as is_resolved,
 					m2.resolve_uid,

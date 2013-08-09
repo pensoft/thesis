@@ -22,6 +22,7 @@ $gTemplArr = array(
 				<link type="text/css" rel="stylesheet" href="/lib/css/editor_rewrite.css" media="all" title="default" />
 				<link type="text/css" rel="stylesheet" href="/lib/css/article_preview.css" media="all" title="default" />
 				<link type="text/css" rel="stylesheet" href="/lib/css/editable_preview.css" media="all" title="default" />
+				<link type="text/css" rel="stylesheet" href="/lib/css/comments.css" media="all" title="default" />
 				<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" rel="stylesheet" />
 				<script src="/lib/js/jquery.js" type="text/javascript"></script>
 				<script src="/lib/js/jquery_ui.js" type="text/javascript"></script>

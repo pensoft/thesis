@@ -2,7 +2,7 @@
 
 $gTemplArr = array(
 	'form.default_header' => '
-		<div class="formWrapper" id="P-Comment-Form_">
+		<div class="formWrapper">
 		<form enctype="multipart/form-data" action="{^form_action}" method="{^form_method}" name="{@form_name}" {_htmlformid(htmlformid)}>
 			{form_name}{selfurl}{backurl}
 	',

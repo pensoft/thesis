@@ -33,6 +33,8 @@ $lComm = new crs(
 						m.subject subject,
 						m.usr_id usr_id,
 						m.lastmoddate lastmoddate,
+						EXTRACT(EPOCH FROM m.mdate) as mdate_in_seconds,
+						EXTRACT(EPOCH FROM m.lastmoddate) as lastmoddate_in_seconds,
 						u.photo_id photo_id,
 						u.first_name || \' \' || u.last_name as fullname,
 						m.mdate mdate,

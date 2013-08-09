@@ -2819,7 +2819,7 @@ function showFormatedPubDateInJSON($pPubdate, $pDateOnly = false, $pSwitchDateYe
 	return json_encode(showFormatedPubDate($pPubdate, $pDateOnly, $pSwitchDateYear));
 }
 
-function DisplayCommentAnswerForm($pAnswerForms, $pRootId){
+function DisplayCommentAnswerForm($pAnswerForms, $pRootId){	
 	return $pAnswerForms[$pRootId];
 }
 
@@ -2833,22 +2833,18 @@ function DisplayCommentEditForm($pEditForms, $pCommentId, $pCommentUsrId, $pCurr
 function displayCommentReplyDetails($pRootId, $pCommentReplyForms, $pVersionIsReadonly = false){
 	if($pVersionIsReadonly){
 		return ;
-	}
-	$lResult = '
-				<div onclick="showCommentForm(' . (int)$pRootId . ');" class="reply_btn" id="P-Comment-Btn-' . (int)$pRootId . '"></div>
-				<div id="P-Comment-Form_' . (int)$pRootId . '" style="display: none;">
-					' . DisplayCommentAnswerForm($pCommentReplyForms, $pRootId) . '
-					<div class="P-Grey-Btn-Holder">
-						<div class="P-Grey-Btn-Left"></div>
-						<div class="P-Grey-Btn-Middle">
-							<div class="P-Comment">
-								<div class="P-Btn-Icon"></div>
-								<div class="P-Grey-Btn-Middle" onclick="SubmitCommentReplyForm(' . (int)$pRootId . ');">Reply</div>
-							</div>
-						</div>
-						<div class="P-Grey-Btn-Right"></div>
-					</div>
-				</div>';
+	}	
+	$lResult = '			
+				<div id="P-Comment-Form_' . (int)$pRootId . '" class="P-Comment-Reply-Form-Wrapper" style="display: none;">
+					<div class="P-Comment-Reply-Form">
+						' . DisplayCommentAnswerForm($pCommentReplyForms, $pRootId) . '
+						<div class="P-Clear"></div>
+						<div class="reply_btn" onmousedown="SubmitCommentReplyForm(' . (int)$pRootId . ');"></div>
+						<div class="P-Comment-Reply-Form-Cancel-Btn" onmousedown="showCommentForm(' . (int)$pRootId . ');"></div>
+						<div class="P-Clear"></div>
+					</div>				
+				</div>
+			';
 	return $lResult;
 }
 
@@ -2901,7 +2897,7 @@ function DisplayDeleteCommentLink($pId, $pRootId, $pOriginalId, $pUsrId, $pVersi
 	global $user;
 // 	$lResult = $pId . '_' . $pRootId . '_' . $pOriginalId . '_' . $pUsrId;
 	if(!$pVersionIsReadonly && $pId == $pRootId && $pId == $pOriginalId && $pUsrId == $user->id){
-		$lResult = '<span class="P-Delete-Comment" onclick="DeleteComment(' . $pId . '); return false;">delete</span>';
+		$lResult = '<span class="P-Delete-Comment P-Comment-Delete-Btn" onclick="deleteComment(' . (int)$pId . ')">delete</span>';
 	}
 	return $lResult;
 }
@@ -2911,10 +2907,10 @@ function displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveU
 	
 	if(!$pVersionIsReadonly){
 		$lResult .= '<input type="checkbox" onclick="ResolveComment(' . $pCommentId . ')" name="is_resolved_' . $pCommentId . '" id="is_resolved_' . $pCommentId . '" value="1" ' . ($pIsResolved ? 'checked="checked"' : '') . '>';
-		$lResult .= '<label id="label_is_resolved_' . $pCommentId . '" for="is_resolved_' . $pCommentId . '">' . ($pIsResolved ? ('Resolved by ' . $pResolveUserFullname) : 'Resolve') . '</label>';
+		$lResult .= '<label id="label_is_resolved_' . $pCommentId . '" for="is_resolved_' . $pCommentId . '" class="' . ($pIsResolved ? ('Resolved-Comment-Label') : '') . '">' . ($pIsResolved ? ('Resolved by: <br/>' . $pResolveUserFullname) : 'Resolve') . '</label>';
 	}else{
 		if($pIsResolved){
-			$lResult .= 'Resolved by ' . $pResolveUserFullname;
+			$lResult .= '<div class="P-Comment-Resolved-Read-Only-Info">Resolved by: ' . $pResolveUserFullname . '</div>';
 		}
 	}
 
@@ -3016,6 +3012,102 @@ function CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserIsEdit
 function scrollFormIfErrors($pErrs){
 	if($pErrs) {
 		return 'scrollToForm()';
+	}
+}
+
+function displayCommentLastModdate($pCommentId, $pDate, $pDateInSeconds, $pIsRoot = false){
+	$lResult = '';
+	$pDate = showCommentDate($pDate);
+	$lSpanId = 'comment_date_';
+	if($pIsRoot){
+		$lSpanId .= 'root_';
+	}
+	$lSpanId .= $pCommentId;
+	$lCurrentSeconds = time();
+	$lDiff = $lCurrentSeconds - $pDateInSeconds;
+	$lResult = '<span id="' . $lSpanId . '" title="' . $pDate . '">
+					<script>SetCommentDateLabel(' . json_encode($lSpanId) . ', ' . (int)$pDateInSeconds . ', ' . json_encode($pDate) . ')</script>
+				</span>';
+	return $lResult;
+}
+
+function showCommentDate($pPubDate){
+	global $gMonths;
+	if (!preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+)\s+(\d+:\s*\d+)/', $pPubDate, $lMatch)) {
+		return '';
+	}
+	$lMonth = ltrim($lMatch[2], '0');
+	$lMonthName = substr(ucfirst($gMonths[$lMonth]), 0, 3);
+
+	return $lMatch[4] . ' on ' . (int)$lMatch[1] . ' ' . $lMonthName . '. ' . $lMatch[3];
+}
+
+function displaySingleCommentInfo($pCommentId, $pRootId, $pCurrentUserIsEditor, $pUserPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName, $pCommentDate, $pCommentDateInSeconds,
+		$pInRoot = false, $pStartInstanceId = 0, $pStartFieldId = 0, $pEndInstanceId = 0, $pEndFieldId = 0){
+	if((int)$pCommentId == (int)$pRootId && !$pInRoot){
+		return false;
+	}
+	$lIsGeneral = true;
+	$lImgSrc = '/i/general_comment_icon.png';
+	if((int)$pStartInstanceId && (int)$pStartFieldId && (int)$pEndInstanceId && (int)$pEndFieldId){
+		$lIsGeneral = false;
+		$lImgSrc = '/i/inline_comment_icon.png';
+	}
+	$lResult = '
+			<div class="P-Comments-Info">
+				' . ($pInRoot ?
+						'<div class="P-Comment-Type-Icon"><img src="' . $lImgSrc . '" /></div>'
+						:
+						''
+				) . '
+				<div class="P-Comment-User-Pic">
+					' . showCommentPic($pUserPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId) . '
+				</div>
+				<div class="P-Comment-Text-Data">
+					<div class="P-Comment-UserName">
+						 ' . DisplayCommentUserName($pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName) . '
+					</div>
+					<div class="P-Comment-Date">
+						' . displayCommentLastModdate($pCommentId, $pCommentDate, $pCommentDateInSeconds, $pInRoot) . '
+					</div>
+				</div>
+				<div class="P-Clear"></div>
+			</div>
+		
+	';
+	return $lResult;
+}
+
+function displayRootCommentActions($pCommentId, $pOriginalId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pUsrId, $pCommentReplyForms, $pVersionIsReadonly = false){
+// 		$pVersionIsReadonly = 0;
+// 	var_dump($pCommentReplyForms, $pVersionIsReadonly);
+	if($pVersionIsReadonly){
+		return '
+			<div class="P-Inline-Line"></div>
+			<div class="P-Comment-Root-Action-Btns">
+				' . displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pVersionIsReadonly) . '
+				<div class="P-Clear"></div>
+			</div>';
+	}
+
+	$lResult = '
+			<div class="P-Inline-Line"></div>
+			<div class="P-Comment-Root-Action-Btns">
+				<div onclick="showCommentForm(' . (int)$pCommentId . ');" class="reply_btn P-Comment-Reply-Btn" id="P-Comment-Btn-' . (int)$pCommentId . '"></div>
+				' . displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pVersionIsReadonly) . '
+				' . DisplayDeleteCommentLink($pCommentId, $pCommentId, $pOriginalId, $pUsrId, $pVersionIsReadonly) . '
+
+				<div class="P-Clear"></div>
+				' . displayCommentReplyDetails($pCommentId, $pCommentReplyForms, $pVersionIsReadonly) . '
+
+				<div class="P-Clear"></div>
+			</div>';
+	return $lResult;
+}
+
+function displayCommentSingleRowClass($pCommentId, $pRootId){
+	if((int)$pCommentId != (int)$pRootId){
+		return ' P-Comments-Single-Row-Non-Root ';
 	}
 }
 

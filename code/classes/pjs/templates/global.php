@@ -36,6 +36,7 @@ $gTemplArr = array(
 			<!--link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview.css" media="all" title="default"/-->
 			<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css" media="all" title="default"/>
 			<link type="text/css" rel="stylesheet" href="/lib/editor.css" media="all" />
+			<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/comments.css" media="all" />
 			<style type="text/css">
 				{_IncludeVersionCss(users_with_changes)}
 			</style>
