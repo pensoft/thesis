@@ -3811,7 +3811,7 @@ div.token-input-dropdown-facebook:after {
 
 .P-Picture-Holder {
 	padding-bottom: 40px;
-	width: 90px;
+	width: 120px;
 	min-height: 82px;
 }
 
@@ -5252,6 +5252,8 @@ td #docDescr {
 	padding-left:20px;
 	/*height:auto!important;*/
 }
+.twocolumnminiholder{width: 51px; height: 51px; float: left;  text-align: center; display: table}
+.twocolumnmini{display: table-cell; vertical-align: middle; text-align: center; padding: 3px}
 
 #previewIframe.previewIframeWithUnprocessedChanges{
 	margin-top:56px;	
