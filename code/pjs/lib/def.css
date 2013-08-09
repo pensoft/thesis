@@ -1096,8 +1096,9 @@ a {
 	background: url("/i/inline_line.png") repeat-x scroll left center
 		transparent;
 	height: 1px;
-	width: 100%;
 	vertical-align: middle;
+	margin-left: 25px;
+	width: 90%;
 }
 
 .P-Inline-Line-Middle {
@@ -3636,12 +3637,6 @@ img {
 	margin-top: 30px;
 }
 
-.P-Inline-Line {
-	background: url("/i/inline_line.png") repeat-x scroll left center
-		transparent;
-	height: 1px;
-	width: 100%;
-}
 
 .P-Inline-Line-Middle {
 	background: url("/i/inline_line.png") repeat-x scroll left center

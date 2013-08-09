@@ -51,21 +51,21 @@
 
 
 .P-Root-Comment-Wrapper{
-	border-top: 1px solid #e2e2dc;
+	border-top: 5px solid #FFF;
 	padding:6px 8px 8px;
 }
 
 .P-Comments-Single-Row {
-	padding: 0px 0 10px;
+	padding: 0px 0 6px;
 }
 
 .P-Comments-Single-Row-Non-Root{
-	padding-top:10px;
+	padding-top:6px;
 }
 
 .P-Comments-Single-Row.P-Comments-Single-Row-Non-Root{
 	border-top:1px solid #E2E2DC;
-	padding-left:25px;
+	margin-left:25px;
 }
 
 .P-Comments-Single-Row-Non-Root .P-Comments-Info{
