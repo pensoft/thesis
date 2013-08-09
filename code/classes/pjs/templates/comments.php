@@ -107,8 +107,8 @@ $gTemplArr = array(
 	'comments.new_form_wrapper' => '
 						<div class="P-Clear"></div>
 						{_displayNewCommentBtn(version_is_readonly)}											
-						<div class="Comment-Prev floatLeft {_displayPrevCommentVersionReadonlyClass(version_is_readonly)}"><a onclick="SelectPreviousComment()">Prev</a></div>
-						<div class="Comment-Next floatLeft"><a onclick="SelectNextComment()">Next</a></div>
+						<div class="Comment-Prev floatLeft {_displayPrevCommentVersionReadonlyClass(version_is_readonly)}"><a onclick="SelectPreviousComment()"><img src="/i/docleftarrow.png" alt="" style="vertical-align:middle;" />&nbsp;Prev</a></div>
+						<div class="Comment-Next floatLeft"><a onclick="SelectNextComment()"><img src="/i/docrightarrow.png" alt="" style="vertical-align:middle;" />&nbsp;Next</a></div> 
 						<div class="P-Clear"></div>
 						{_displayNewCommentForm(version_is_readonly, new_comment_form)}						
 						<div class="P-Clear"></div>
@@ -126,7 +126,7 @@ $gTemplArr = array(
 								<div class="P-Grey-Btn-Middle">
 									<div class="P-Comment">
 										<div class="P-Btn-Icon"></div>
-										<input type="submit"  name="tAction" value="Comment" onclick="submitPreviewNewComment();return false;" class="P-Grey-Btn-Middle" />
+										<input type="submit" name="tAction" value="Comment" onmousedown="submitPreviewNewComment();return false;" class="P-Grey-Btn-Middle" />
 									</div>
 								</div>
 								<div class="P-Grey-Btn-Right"></div>

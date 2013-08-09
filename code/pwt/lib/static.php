@@ -4094,9 +4094,11 @@ function prepareXMLErrors($pXMLArr) {
 					<ul>';
 			foreach($val as $v) {
 				if($v['node_instance_name'] == 'figures') {
-					$lStr .= '<li>- <a href="/figures.php?document_id=' . $v['document_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					//$lStr .= '<li>- <a href="/figures.php?document_id=' . $v['document_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
 				} elseif($v['node_instance_name'] == 'tables') {
-					$lStr .= '<li>- <a href="/tables.php?document_id=' . $v['document_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					//$lStr .= '<li>- <a href="/tables.php?document_id=' . $v['document_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
 				} elseif($v['node_instance_name'] == 'reference') {
 					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
 				} else {
@@ -6411,7 +6413,7 @@ function  displayNewCommentBtn($pVersionIsReadonly){
 	}
 
 	return '<div class="comment_btn floatLeft " id="P-Comment-Btn-General" onclick="submitPreviewNewComment(1);"></div>
-			<div class="comment_btn floatLeft P-Comment-Inline-Main-Btn " id="P-Comment-Btn-Inline" onclick="submitPreviewNewComment();"></div>
+			<div class="comment_btn floatLeft P-Comment-Inline-Main-Btn " id="P-Comment-Btn-Inline" onmousedown="submitPreviewNewComment();return false"></div>
 			';
 }
 

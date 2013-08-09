@@ -114,7 +114,12 @@ class mJournal extends emBase_Model {
 			JOIN public.usr u ON u.id = dui.uid
 			WHERE document_id = $pDocumentId
 			  AND dui.round_id = d.current_round_id
-			  AND ((dui.role_id <> 5 AND dui.role_id <> 11 AND dui.role_id <> 3) OR dui.due_date IS NULL)
+			  AND ((dui.role_id NOT IN ("
+			  		. SE_ROLE . ", "
+			  		. DEDICATED_REVIEWER_ROLE . ", "
+			  		. PUBLIC_REVIEWER_ROLE . ", "
+			  		. COMMUNITY_REVIEWER_ROLE. ", "
+			  		. AUTHOR_ROLE . ")) OR dui.due_date IS NULL)
 				
 			UNION
 		

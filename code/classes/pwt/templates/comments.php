@@ -30,8 +30,8 @@ $gTemplArr = array(
 			<div class="P-Clear"></div>
 			<div class="P-Comment-Nav-Btns">
 				{_displayNewCommentBtn(preview_is_readonly)}			
-				<div class="Comment-Prev floatLeft{_displayPrevCommentVersionReadonlyClass(preview_is_readonly)}"><a onclick="SelectPreviousComment()">Prev</a></div>
-				<div class="Comment-Next floatLeft"><a onclick="SelectNextComment()">Next</a></div>
+				<div class="Comment-Prev floatLeft{_displayPrevCommentVersionReadonlyClass(preview_is_readonly)}"><a onclick="SelectPreviousComment()"><img src="/i/docleftarrow.png" alt="" style="vertical-align:middle;" />&nbsp;Prev</a></div>
+				<div class="Comment-Next floatLeft"><a onclick="SelectNextComment()"><img src="/i/docrightarrow.png" alt="" style="vertical-align:middle;" />&nbsp;Next</a></div>
 				<div class="P-Clear"></div>
 			</div>
 			{_displayNewCommentForm(preview_is_readonly, commentform)}						

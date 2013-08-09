@@ -660,6 +660,7 @@ a {
 #docEditHeader .box a {
 	font-size: 12px;
 	color: #727272;
+	text-decoration:none;
 }
 
 #docEditHeader .box .arrow {
@@ -679,7 +680,7 @@ a {
 }
 
 #docEditHeader .box .optionHolder span {
-	float: right;
+	/*float: right;*/
 	margin-top: 2px;
 	margin-left: 6px;
 	margin-right: 10px;
@@ -771,8 +772,8 @@ a {
 	overflow-x: hidden;
     overflow-y: scroll;
 	height: 200px;*/
-	opacity: 0.8;
-	filter: alpha(opacity =   80);
+	opacity: 1;
+	filter: alpha(opacity =   100);
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
 	border-left: 1px solid #F4F4F1;
 	z-index: 0;
@@ -867,7 +868,7 @@ a {
 }
 
 .comment_btn {
-	background: url("/i/commentbtn.png") no-repeat scroll left center
+	background: url("/i/commentbtn80.png") no-repeat scroll left center
 		transparent;
 	border: none;
 	height: 34px;
@@ -875,7 +876,7 @@ a {
 }
 
 .comment_btn:hover {
-	background: url("/i/commentbtn_hover.png") no-repeat scroll left center
+	background: url("/i/commentbtn_hover80.png") no-repeat scroll left center
 		transparent;
 }
 
@@ -898,12 +899,12 @@ a {
 }
 
 .P-Comment-Inline-Main-Btn{
-	background: url("/i/commentbtn_inline.png") no-repeat scroll left center
+	background: url("/i/commentbtn_inline80.png") no-repeat scroll left center
 		transparent;
 }
 
 .P-Comment-Inline-Main-Btn:hover{
-	background: url("/i/commentbtn_hover_inline.png") no-repeat scroll left center
+	background: url("/i/commentbtn_hover_inline80.png") no-repeat scroll left center
 		transparent;
 }
 
@@ -6518,6 +6519,7 @@ table.no_bold_class td a {
 
 .Comment-Prev a, .Comment-Next a{
 	cursor:pointer;
+	text-decoration:none !important;
 }
 
 .Comment-Prev-Readonly{
