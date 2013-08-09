@@ -127,8 +127,8 @@ function SEexpertise($first, $second) {
 }
 function translate($text, $late) {
 	$prefix = $suffix = "";
-	if($late == 'late'){
-		$prefix = '<span class="late">';
+	if($late == 'late' or $late == 'completed'){
+		$prefix = "<span class='$late'>";
 		$suffix = '</span>';
 	}
 	return $prefix . getstr($text) . $suffix;

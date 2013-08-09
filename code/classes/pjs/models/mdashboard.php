@@ -124,7 +124,7 @@ class mDashboard extends emBase_Model {
 					 	'pjs.dashboards.actions.continueReview'  => $this->late($days2reviewPaper),
 					 	'pjs.dashboards.actions.submitLayout'    => $this->late($days2reviewPaper),
 					 	'pjs.dashboards.actions.submitCopy'      => $this->late($days2reviewPaper),
-					 	'pjs.dashboards.actions.reviewSubmitted' => "'pjs.dashboard.dash'::text",
+					 	'pjs.dashboards.actions.reviewSubmitted' => "'completed'::text",
 					    );
 		
 		switch ($pViewingMode) {
