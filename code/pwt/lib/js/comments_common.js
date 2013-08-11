@@ -859,6 +859,7 @@ function positionCommentsBase(pRecacheOrder){
 //	console.log($('#P-Root-Comments-Holder').offset().top);
 	
 	var lPositions = {};
+	var lOffsetParent = false;
 	$.each(lRootComments, function(pIndex, pRow){
 
 		var lPattern = new RegExp("^P-Root-Comment-Holder-(\\d+)$","i");
@@ -876,7 +877,7 @@ function positionCommentsBase(pRecacheOrder){
 		}else{
 			$(pRow).show();
 		}
-		var lOffsetParent = $(pRow).offsetParent();		
+		lOffsetParent = $(pRow).offsetParent();		
 //		var lCommentPosition = gCommentsVerticalPosition[lCommentId];
 		var lCommentPosition = getCommentVerticalPosition(lCommentId);
 		
@@ -936,7 +937,13 @@ function positionCommentsBase(pRecacheOrder){
 //		$(pRow).css('top', lPositions[pIndex]);
 		$(pRow).animate({'top' : lPositions[pIndex], 'position': 'absolute'}); 
 	});
-
+	var lFilteredComments = $(lRootComments).filter(':visible');
+	var lLastElementIdx = lFilteredComments.length - 1;
+	if(lLastElementIdx >= 0){
+		var lMaxPosition = $(lFilteredComments[lLastElementIdx]).offset().top + $(lFilteredComments[lLastElementIdx]).outerHeight();
+		$('.P-Wrapper-Container-Right').css('min-height', lMaxPosition);
+	}
+	
 	//Накрая пренареждаме и стрелките отдолу
 	var lBottomButtons = $('#P-Comments-Bottom-Buttons');
 	var lCurrentPosition = 0;
