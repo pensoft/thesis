@@ -836,8 +836,9 @@ h1 {
 	background: url("/i/inline_line.png") repeat-x scroll left center
 		transparent;
 	height: 1px;
-	width: 100%;
 	vertical-align: middle;
+	margin-left: 25px;
+	width: 90%;
 }
 
 .P-Data-Resources-Head .P-Data-Resources-Head-Text+.P-Inline-Line-Middle
