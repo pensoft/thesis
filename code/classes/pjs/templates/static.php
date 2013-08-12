@@ -126,19 +126,41 @@ function SEexpertise($first, $second) {
 	return $first . (($first && $second) ? '<br />&nbsp;' : '') . $second;
 }
 function translate($text, $late) {
-	$prefix = $suffix = "";
-	if($late == 'late' or $late == 'completed'){
-		$prefix = "<span class='$late'>";
-		$suffix = '</span>';
-	}
-	return $prefix . getstr($text) . $suffix;
+	return  "<td class='$late'>" . getstr($text) . '</td>';
 }
+/*
 function reduce($pWho, $late) {
 	foreach($pWho as $key => $value){
 		$pWho[$key] = translate($pWho[$key], $late[$key]);
 	}
-	return implode("<br />", $pWho);
+	return '<td>' . implode("</td><td>", $pWho) . '</td>';
+}*/
+
+function translate_row($action, $who, $schedule, $days, $state, $reminder){
+	return translate($action, $state) .
+		   translate($who, $state) .
+		   translate($schedule, $state) .
+		   translate($days, $state . ' days').
+		   translate($reminder, $state);;
 }
+
+function merge_cells($action, $who, $schedule, $days, $state, $remind){
+	$first_row = translate_row( array_shift($action), 
+								array_shift($who), 
+								array_shift($schedule), 
+								array_shift($days), 
+								array_shift($state),
+								array_shift($remind)
+			);
+	return $first_row . 
+		implode('', array_map(
+			function($action1, $who1, $schedule1, $days1, $state1, $remind1){
+				$otherRow = translate_row($action1, $who1, $schedule1, $days1, $state1, remind1);
+				return "</tr>\n<tr>" . $otherRow;	
+			},
+			$action, $who, $schedule, $days, $state, $remind));
+}
+
 function comma_if($lst) {
 	return (strlen($lst) > 0) ? ", $lst" : "";
 }

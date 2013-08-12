@@ -4290,8 +4290,12 @@ div.token-input-dropdown-facebook:after {
 	margin: 0px !important;
 }
 
-.dashboard tr:last-child td {
-	border: none
+.dashboard tr:last-child td, .dashboard td[rowspan] {
+	border-bottom: 1px solid #d1cdbb;
+} 
+
+.dashboard tbody {
+	border-bottom: 1px solid #d1cdbb;
 }
 
 .dashboard th,.dashboard td {
@@ -4353,13 +4357,16 @@ div.token-input-dropdown-facebook:after {
 	color: #006666
 }
 
-.dashboard tr td:first-child,.dashboard tr th:first-child {
+/*.dashboard tr td:first-child, */
+.dashboard tr th:first-child {
 	padding-left: 10px;
 }
 
-.dashboard tr:hover td {
-	background: #EED;
-}
+ .dashboard tbody:hover td[rowspan] { background: #EED; }
+ .dashboard tr:hover td { background: #EED; } 
+
+
+
 
 #dashboard-content .noUsersInGroup {
 	margin: 0 0 0 10px;

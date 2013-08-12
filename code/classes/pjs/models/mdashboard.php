@@ -53,7 +53,8 @@ class mDashboard extends emBase_Model {
 	function late($days_remaining){ return "(case when $days_remaining <= 0 then 'late' else '' end)"; }
 	
 	function roler($dict){
-		return "(case when rv.action = 'pjs.dashboards.actions.inviteReviewers' then ".$dict['pjs.dashboards.actions.inviteReviewers']."
+		return "(case when v.state = 9 											then ".$dict['pjs.dashboards.actions.reviseManuscript']."
+					  when rv.action = 'pjs.dashboards.actions.inviteReviewers' then ".$dict['pjs.dashboards.actions.inviteReviewers']."
 					  when rv.action = 'pjs.dashboards.actions.respond2request' then ".$dict['pjs.dashboards.actions.respond2request']."
 					  when rv.action = 'pjs.dashboards.actions.takeDecision' 	then ".$dict['pjs.dashboards.actions.takeDecision']."
 					  when rv.action = 'pjs.dashboards.actions.submitReview'    then ".$dict['pjs.dashboards.actions.submitReview']."
@@ -75,7 +76,8 @@ class mDashboard extends emBase_Model {
 	 *
 	 */
 	function HandleDashboardRequest($pUid, $pViewingRole, $pViewingMode, $pJournalId) {
-		//error_reporting(E_ALL);
+		//error_reporting(E_ALL ^ E_NOTICE);
+		//ini_set('display_errors', 'On');
 		$lResult = array();
 		$lCon = $this->m_con;
 		$lCon->SetFetchReturnType(PGSQL_ASSOC);
@@ -103,8 +105,8 @@ class mDashboard extends emBase_Model {
 				    	'pjs.dashboards.actions.continueReview'  => $this->scheduling($days2reviewPaper),
 				    	'pjs.dashboards.actions.submitLayout'    => $this->scheduling($days2reviewPaper),
 				    	'pjs.dashboards.actions.submitCopy'		 => $this->scheduling($days2reviewPaper),
-				    	'pjs.dashboards.actions.reviewSubmitted' => "'pjs.dashboard.status.completed'"
-
+				    	'pjs.dashboards.actions.reviewSubmitted' => "'pjs.dashboard.status.completed'",
+						'pjs.dashboards.actions.reviseManuscript'=> $this->scheduling($days2reviewPaper),
 						);
 		$days = array(
 						'pjs.dashboards.actions.inviteReviewers' => $this->days_remaining($days2inviteReviewers),
@@ -115,6 +117,7 @@ class mDashboard extends emBase_Model {
 					 	'pjs.dashboards.actions.submitLayout'	 => $this->days_remaining($days2reviewPaper),
 					 	'pjs.dashboards.actions.submitCopy'  	 => $this->days_remaining($days2reviewPaper),
 					 	'pjs.dashboards.actions.reviewSubmitted' => "'pjs.dashboard.dash'::text",
+					 	'pjs.dashboards.actions.reviseManuscript'=> $this->days_remaining($days2reviewPaper),
 					    );
 		$late = array(
 						'pjs.dashboards.actions.inviteReviewers' => $this->late($days2inviteReviewers),
@@ -125,6 +128,7 @@ class mDashboard extends emBase_Model {
 					 	'pjs.dashboards.actions.submitLayout'    => $this->late($days2reviewPaper),
 					 	'pjs.dashboards.actions.submitCopy'      => $this->late($days2reviewPaper),
 					 	'pjs.dashboards.actions.reviewSubmitted' => "'completed'::text",
+					 	'pjs.dashboards.actions.reviseManuscript'=> $this->late($days2reviewPaper),
 					    );
 		
 		switch ($pViewingMode) {
@@ -295,11 +299,13 @@ class mDashboard extends emBase_Model {
 					 v.editor_notes,
 					 v.review_type as review_num, rt.name as review_type,
 					 r.round_number as reviewround, " . $pViewingMode % 10 . " as role_id,
-					 rv.action,
+					 (case when v.state = 3 then rv.action
+		 				   when v.state = 9 then 'pjs.dashboards.actions.WaitingAuthorAfterReviewRound' end) as action,
 					 u.first_name || '&nbsp;' || u.last_name::text as who, 
  					 ". $this->roler($schedule)." as schedule,
 					 ". $this->roler($late)." as late,   
-					 ". $this->roler($days)." as days 
+					 ". $this->roler($days)." as days,
+					 ''::text as remind 
 				FROM pjs.v_getdocumentsandauthors v
 					JOIN pjs.document_review_rounds r ON  r.id = v.current_round
 						LEFT JOIN pjs.v_reviewers rv ON rv.round_id = r.id
@@ -311,7 +317,7 @@ class mDashboard extends emBase_Model {
 				  		OR r.can_proceed
 				  		OR rv.role_id = ".DEDICATED_REVIEWER_ROLE. ")
 				  " . $lSql . "ORDER BY v.doc_id asc";  
-				$group = array('action', 'who', 'schedule', 'days', 'late');
+				$group = array('action', 'who', 'schedule', 'days', 'late', 'remind');
 				$verbatim = 10; 
 				break;
 				
@@ -541,7 +547,7 @@ class mDashboard extends emBase_Model {
 				
 		}
 		//if(defined('DanchoDebug'))
-		//trigger_error('<textarea style="position: fixed; bottom: 0; left: 0; width: 500px; height: 200px" rows="12" cols="40">' . str_replace("\t\t\t\t", "", $lSql)   . "</textarea>\n");		
+		//echo('<textarea style="position: fixed; bottom: 0; left: 0; width: 500px; height: 200px" rows="12" cols="40">' . str_replace("\t\t\t\t", "", $lSql)   . "</textarea>\n");		
 		
 		$lCon->Execute($lSql);
 		
@@ -553,10 +559,10 @@ class mDashboard extends emBase_Model {
 
 				while(! $lCon->Eof()){
 					$record = $lCon->mRs; $id = $record['id'];
-					 
+
 					if (empty($lResult[$id]))					
 						 $lResult[$id] = array_slice($record, 0, $verbatim); 
-				
+
 					foreach ($group as $key) 
 						$lResult[$id][$key][] = $record[$key];
 					
