@@ -5,8 +5,11 @@ class viewVersion_Form_Wrapper extends eForm_Wrapper{
 	var $m_pageControllerInstance;
 	var $m_versionUID;
 	var $m_roundID;
+	var $m_poll_questions = array();
 
 	function __construct($pData){
+		global $gQuestions;
+		$this->m_poll_questions = $gQuestions;
 		$this->m_pageControllerInstance = $pData['page_controller_instance'];
 		$this->m_versionUID = (int)$pData['version_uid'];
 		$this->m_roundID = (int)$pData['round_id'];
@@ -14,7 +17,7 @@ class viewVersion_Form_Wrapper extends eForm_Wrapper{
 	}
 
 	protected function PreActionProcessing(){
-
+		
 		if(
 			($this->m_pageControllerInstance->m_viewingRole == DEDICATED_REVIEWER_ROLE ||
 			$this->m_pageControllerInstance->m_reviewer_role == COMMUNITY_REVIEWER_ROLE) &&
@@ -56,6 +59,11 @@ class viewVersion_Form_Wrapper extends eForm_Wrapper{
 			) {
 				//~ $this->m_formController->SetFieldProp('notes_to_editor', 'AllowNulls', false);
 				$this->m_formController->SetFieldProp('notes_to_editor', 'AllowNulls', true);
+				foreach ($this->m_poll_questions as $key => $value) {
+					$this->m_formController->SetFieldProp('question' . $value, 'AllowNulls', false);
+				}
+				
+				/*
 				$this->m_formController->SetFieldProp('question1', 'AllowNulls', false);
 				$this->m_formController->SetFieldProp('question2', 'AllowNulls', false);
 				$this->m_formController->SetFieldProp('question3', 'AllowNulls', false);
@@ -70,13 +78,13 @@ class viewVersion_Form_Wrapper extends eForm_Wrapper{
 				$this->m_formController->SetFieldProp('question12', 'AllowNulls', false);
 				$this->m_formController->SetFieldProp('question13', 'AllowNulls', false);
 				$this->m_formController->SetFieldProp('question14', 'AllowNulls', false);
+				*/
 			}
 		}
 
 	}
 
 	protected function PostActionProcessing(){
-
 		if($this->m_formController->GetCurrentAction() == 'review'){
 			if(!$this->m_formController->GetErrorCount()) {
 					$lUrl = SITE_URL . 'lib/ajax_srv/document_srv.php';
@@ -117,25 +125,14 @@ class viewVersion_Form_Wrapper extends eForm_Wrapper{
 					$this->m_formController->SetFieldValue('close', 1);
 					$this->m_formController->SetFieldValue('url_params', $lResult->url_params);
 			} else {
-				if(
-					count($this->m_formController->GetFieldErrorsArr('question2')) ||
-					count($this->m_formController->GetFieldErrorsArr('question3')) ||
-					count($this->m_formController->GetFieldErrorsArr('question4')) ||
-					count($this->m_formController->GetFieldErrorsArr('question5')) ||
-					count($this->m_formController->GetFieldErrorsArr('question6')) ||
-					count($this->m_formController->GetFieldErrorsArr('question7')) ||
-					count($this->m_formController->GetFieldErrorsArr('question8')) ||
-					count($this->m_formController->GetFieldErrorsArr('question9')) ||
-					count($this->m_formController->GetFieldErrorsArr('question10')) ||
-					count($this->m_formController->GetFieldErrorsArr('question11')) ||
-					count($this->m_formController->GetFieldErrorsArr('question12')) ||
-					count($this->m_formController->GetFieldErrorsArr('question13')) ||
-					count($this->m_formController->GetFieldErrorsArr('question14'))
-
-				) {
-					if(!count($this->m_formController->GetFieldErrorsArr('question1'))) {
-						$this->m_formController->SetError('Empty Field', 'question1');
+				$lPollErrs = 0;
+				foreach ($this->m_poll_questions as $key => $value) {
+					if(count($this->m_formController->GetFieldErrorsArr('question' . $value))) {
+						$lPollErrs = 1;
 					}
+				}
+				if((int)$lPollErrs){
+					$this->m_formController->SetError('Empty Field', 'question0');
 				}
 			}
 		}
