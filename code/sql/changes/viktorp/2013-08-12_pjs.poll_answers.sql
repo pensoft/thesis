@@ -27,6 +27,7 @@ ALTER TABLE pjs.document_review_round_users_form DROP COLUMN question11;
 ALTER TABLE pjs.document_review_round_users_form DROP COLUMN question12;
 ALTER TABLE pjs.document_review_round_users_form DROP COLUMN question13;
 ALTER TABLE pjs.document_review_round_users_form DROP COLUMN question14;
+ALTER TABLE pjs.document_review_round_users_form DROP COLUMN question15;
 
 
 GRANT ALL ON TABLE pjs.document_review_round_users_form_id_seq TO public;
