@@ -856,6 +856,7 @@ function positionCommentsBase(pRecacheOrder){
 //	lRootComments = GetSortedRootComments();
 	
 	var lPreviousElement = null;
+	var lPreviousElementIdx = 0;
 //	console.log($('#P-Root-Comments-Holder').offset().top);
 	
 	var lPositions = {};
@@ -873,6 +874,7 @@ function positionCommentsBase(pRecacheOrder){
 
 		if(!CheckIfRootCommentIsVisible(lCommentId)){
 			$(pRow).hide();
+			lPositions[pIndex] = 0;
 			return;
 		}else{
 			$(pRow).show();
@@ -901,7 +903,7 @@ function positionCommentsBase(pRecacheOrder){
 //		}
 
 		if(lPreviousElement){
-        	var lPreviousCommentPosition = pIndex > 0 ? lPositions[pIndex - 1] : 0;
+        	var lPreviousCommentPosition = pIndex > 0 ? lPositions[lPreviousElementIdx] : 0;
         	var lPreviousCommentHeight = $(lPreviousElement).outerHeight();
 
 
@@ -929,6 +931,7 @@ function positionCommentsBase(pRecacheOrder){
 //		$(pRow).animate({'top' : lCommentPosition});
 
 		lPreviousElement = pRow;
+		lPreviousElementIdx = pIndex;
     });
 	
 //	console.log(lPositions);
@@ -1302,7 +1305,7 @@ function FilterComments() {
 				alert(pAjaxResult['err_msg']);
 				return;
 			}
-			gFilterRootComments = true;
+			gFilterRootComments = true;			
 			gVisibleRootCommentIds = pAjaxResult['visible_rootids'];
 			if(gCurrentActiveCommentId){
 				if(!CheckIfRootCommentIsVisible(gCurrentActiveCommentId)){
