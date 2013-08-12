@@ -16,6 +16,7 @@ class cdocument_saver{
 	var $m_dontGetData;
 	var $m_documentId;
 	var $m_rootInstanceId;
+	var $m_documentHasUnprocessedChanges;
 
 	/**
 	 *
@@ -211,7 +212,7 @@ class cdocument_saver{
 		$lSql = '
 			SELECT i.id as instance_id, fv.field_id, f.type, of.control_type as html_control_type,
 				ft.value_column_name, of.allow_nulls::int, of.label, ft.is_array::int as is_array,
-				hct.is_html::int as is_html
+				hct.is_html::int as is_html, hct.tags_to_keep, d.has_unprocessed_changes::int as document_has_unprocessed_changes
 			FROM pwt.document_object_instances i
 			JOIN pwt.document_object_instances pi ON pi.document_id = i.document_id AND
 				char_length(pi.pos) <= char_length(i.pos) AND substring(i.pos, 1, char_length(pi.pos)) = pi.pos
@@ -223,6 +224,7 @@ class cdocument_saver{
 			JOIN pwt.fields f ON f.id = fv.field_id
 			JOIN pwt.field_types ft ON ft.id = f.type
 			JOIN pwt.html_control_types hct ON hct.id = of.control_type
+			JOIN pwt.documents d ON d.id = i.document_id
 			WHERE i.document_id = ' . (int)$this->m_documentId . ' AND
 				pi.id = ' . (int)$this->m_rootInstanceId . ' AND (pi.id = i.id OR i.display_in_tree = false)
 				AND pi1.id IS NULL ' . $lFieldCheck . '
@@ -235,6 +237,7 @@ class cdocument_saver{
 			return;
 		}
 		$this->m_con->MoveFirst();
+		$this->m_documentHasUnprocessedChanges = (int)$this->m_con->mRs['document_has_unprocessed_changes'];
 		while(!$this->m_con->Eof()){
 			if(!is_array($this->m_fields[$this->m_con->mRs['instance_id']])){
 				$this->m_fields[$this->m_con->mRs['instance_id']] = array();
@@ -261,6 +264,7 @@ class cdocument_saver{
 				'validation_err_msg' => '',
 				'is_array' => (int)$this->m_con->mRs['is_array'],
 				'is_html' => (int)$this->m_con->mRs['is_html'],
+				'tags_to_keep' => $this->m_con->mRs['tags_to_keep'],
 				'comments' => array(),
 				'previous_value' => null,
 			);
@@ -566,6 +570,26 @@ class cdocument_saver{
 	protected function GetParsedFieldValue($pInstanceId, $pFieldId) {
 		$lBaseValue = $this->m_fields[$pInstanceId][$pFieldId]['base_value'];
 		$lFieldType = $this->m_fields[$pInstanceId][$pFieldId]['type'];
+		$lTagsToKeep = $this->m_fields[$pInstanceId][$pFieldId]['tags_to_keep'];
+		$lFieldValueColumn = $this->m_fields[$pInstanceId][$pFieldId]['value_column_name'];
+		if($lFieldValueColumn == 'value_str'){
+			$lTagsToKeepArr = explode(',', $lTagsToKeep);
+			$lAllowedTags = '';
+			if($this->m_documentHasUnprocessedChanges){
+				$lTagsToKeepArr[] = CHANGE_INSERT_NODE_NAME;
+				$lTagsToKeepArr[] = CHANGE_DELETE_NODE_NAME;
+				$lTagsToKeepArr[] = CHANGE_ACCEPTED_INSERT_NODE_NAME;
+				$lTagsToKeepArr[] = CHANGE_ACCEPTED_DELETE_NODE_NAME;
+			}
+			foreach ($lTagsToKeepArr as $lCurrentTag){
+				$lCurrentTag = trim($lCurrentTag);
+				if($lCurrentTag == ''){
+					continue;
+				}
+				$lAllowedTags .= '<' . $lCurrentTag . '>';				
+			}
+			$lBaseValue = strip_tags($lBaseValue, $lAllowedTags);
+		}
 // 		var_dump($pFieldId, $lBaseValue);
 // 		echo "\n";
 		if($this->m_fields [$pInstanceId] [$pFieldId] ['value_is_null']){
@@ -741,10 +765,10 @@ class cdocument_saver{
 					}
 
 				}
-				if($lFieldData['is_html']){
-					//Remove the comment start and end nodes
-					$this->m_fields[$lInstanceId][$lFieldId]['base_value'] = RemoveFieldCommentNodes($this->m_fields[$lInstanceId][$lFieldId]['base_value']);
-				}
+// 				if($lFieldData['is_html']){
+// 					//Remove the comment start and end nodes
+// 					$this->m_fields[$lInstanceId][$lFieldId]['base_value'] = RemoveFieldCommentNodes($this->m_fields[$lInstanceId][$lFieldId]['base_value']);
+// 				}
 			}
 		}
 

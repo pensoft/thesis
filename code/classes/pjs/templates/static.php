@@ -2922,7 +2922,7 @@ function  displayNewCommentBtn($pVersionIsReadonly){
 	if((int)$pVersionIsReadonly){
 		return;
 	}
-	return '<div class="comment_btn floatLeft " id="P-Comment-Btn-General" onclick="submitPreviewNewComment(1);"></div>
+	return '<div class="comment_btn floatLeft " id="P-Comment-Btn-General" onmousedown="submitPreviewNewComment(1);return false"></div>
 			<div class="comment_btn floatLeft P-Comment-Inline-Main-Btn " id="P-Comment-Btn-Inline" onmousedown="submitPreviewNewComment();return false"></div>
 			';
 }
