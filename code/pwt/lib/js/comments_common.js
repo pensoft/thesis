@@ -25,7 +25,7 @@ var gPreviousPreviewSelection = false;
 var gPreviousPreviewSelectionStartNode = false;
 var gCurrentCommentSpecificPosition = false;
 var gUnavailableInlineText = 'You cannot comment on the current selection. Please change your selection and try again!';
-
+var gEmptySelectionInlineText = 'You have to make a section in order to comment on it.';
 /**
  * Попълваме позицията на коментара спрямо instance/field-а в който е направен
  */
@@ -64,7 +64,7 @@ function fillCommentPos() {
 		}
 	}else{
 		clearCommentPos();
-		MarkInlineCommentAsUnavailable();
+		MarkInlineCommentAsUnavailable(1);
 		return false;
 	}
 	return true;
@@ -856,9 +856,11 @@ function positionCommentsBase(pRecacheOrder){
 //	lRootComments = GetSortedRootComments();
 	
 	var lPreviousElement = null;
+	var lPreviousElementIdx = 0;
 //	console.log($('#P-Root-Comments-Holder').offset().top);
 	
 	var lPositions = {};
+	var lOffsetParent = false;
 	$.each(lRootComments, function(pIndex, pRow){
 
 		var lPattern = new RegExp("^P-Root-Comment-Holder-(\\d+)$","i");
@@ -872,11 +874,12 @@ function positionCommentsBase(pRecacheOrder){
 
 		if(!CheckIfRootCommentIsVisible(lCommentId)){
 			$(pRow).hide();
+			lPositions[pIndex] = 0;
 			return;
 		}else{
 			$(pRow).show();
 		}
-		var lOffsetParent = $(pRow).offsetParent();		
+		lOffsetParent = $(pRow).offsetParent();		
 //		var lCommentPosition = gCommentsVerticalPosition[lCommentId];
 		var lCommentPosition = getCommentVerticalPosition(lCommentId);
 		
@@ -900,12 +903,12 @@ function positionCommentsBase(pRecacheOrder){
 //		}
 
 		if(lPreviousElement){
-        	var lPreviousCommentPosition = pIndex > 0 ? lPositions[pIndex - 1] : 0;
+        	var lPreviousCommentPosition = pIndex > 0 ? lPositions[lPreviousElementIdx] : 0;
         	var lPreviousCommentHeight = $(lPreviousElement).outerHeight();
 
 
         	if(lCommentPosition < (lPreviousCommentPosition + lPreviousCommentHeight)){
-        		if(gCurrentActiveCommentId == lCommentId && !lIsGeneral){//Position the current active comment at its real place and move the ones before it up
+        		if(gCurrentActiveCommentId == lCommentId && (!lIsGeneral || gCurrentCommentSpecificPosition !== false)){//Position the current active comment at its real place and move the ones before it up
         			var lFixOffset = (lPreviousCommentPosition + lPreviousCommentHeight) - lCommentPosition ;
         			for(var i = 0; i < pIndex; ++i){
 //        				var lPreviousComment =  lRootComments[i];
@@ -928,6 +931,7 @@ function positionCommentsBase(pRecacheOrder){
 //		$(pRow).animate({'top' : lCommentPosition});
 
 		lPreviousElement = pRow;
+		lPreviousElementIdx = pIndex;
     });
 	
 //	console.log(lPositions);
@@ -936,7 +940,13 @@ function positionCommentsBase(pRecacheOrder){
 //		$(pRow).css('top', lPositions[pIndex]);
 		$(pRow).animate({'top' : lPositions[pIndex], 'position': 'absolute'}); 
 	});
-
+	var lFilteredComments = $(lRootComments).filter(':visible');
+	var lLastElementIdx = lFilteredComments.length - 1;
+	if(lLastElementIdx >= 0){
+		var lMaxPosition = $(lFilteredComments[lLastElementIdx]).offset().top + $(lFilteredComments[lLastElementIdx]).outerHeight();
+		$('.P-Wrapper-Container-Right').css('min-height', lMaxPosition);
+	}
+	
 	//Накрая пренареждаме и стрелките отдолу
 	var lBottomButtons = $('#P-Comments-Bottom-Buttons');
 	var lCurrentPosition = 0;
@@ -1251,7 +1261,10 @@ function ResolveComment(pCommentId) {
 			var lLabel = $('#label_is_resolved_' + pCommentId);
 			var lLabelText = 'Resolve';
 			if(pAjaxResult['is_resolved']){
-				lLabelText = 'Resolved by ' + pAjaxResult['resolve_fullname'];
+				lLabelText = 'Resolved by:<br/> ' + pAjaxResult['resolve_fullname'];
+				$(lLabel).addClass('Resolved-Comment-Label');
+			}else{
+				$(lLabel).removeClass('Resolved-Comment-Label');
 			}
 			$(lLabel).html(lLabelText);
 			FilterComments();
@@ -1292,7 +1305,7 @@ function FilterComments() {
 				alert(pAjaxResult['err_msg']);
 				return;
 			}
-			gFilterRootComments = true;
+			gFilterRootComments = true;			
 			gVisibleRootCommentIds = pAjaxResult['visible_rootids'];
 			if(gCurrentActiveCommentId){
 				if(!CheckIfRootCommentIsVisible(gCurrentActiveCommentId)){
@@ -1406,15 +1419,20 @@ function MarkInlineCommentAsAvailable(){
 	lBtn.removeAttr('title');	
 }
 
-function MarkInlineCommentAsUnavailable(){
+function MarkInlineCommentAsUnavailable(pSelectionIsEmpty){
+	var lTitle = gUnavailableInlineText;
+	var lBtn = $('#' + gInlineCommentBtnId);
+	if(pSelectionIsEmpty){
+		lTitle = gEmptySelectionInlineText;
+	}
+	lBtn.attr('title', lTitle);
+	
 	if(!gInlineCommentIsAvailable){
 		return;
 	}
 	gInlineCommentIsAvailable = false;
 //	$('#' + gUnavailableCommentLabelId).show(400, function(){console.log(1);positionCommentsBase()});
-//	$('#' + gUnavailableCommentLabelId).show();
-	var lBtn = $('#' + gInlineCommentBtnId);	
-	lBtn.attr('title', gUnavailableInlineText);
+//	$('#' + gUnavailableCommentLabelId).show();			
 	EnableDisableInlineCommentBtn();	
 }
 
@@ -1843,8 +1861,8 @@ function CheckIfCommentIsVisible(pCommentId){
 	return true;
 }
 
-function SetCommentDateRefreshEvents(pHolderId, pDateInSeconds, pDateString){
-	var lCurrentDate = Date();
+function SetCommentDateLabel(pHolderId, pDateInSeconds, pDateString){
+	var lCurrentDate = new Date();
 	var lYear = lCurrentDate.getUTCFullYear();
 	var lMonth = lCurrentDate.getUTCMonth();
 	var lDays = lCurrentDate.getUTCDate();
@@ -1852,25 +1870,38 @@ function SetCommentDateRefreshEvents(pHolderId, pDateInSeconds, pDateString){
 	var lMinutes = lCurrentDate.getUTCMinutes();
 	var lSeconds = lCurrentDate.getUTCSeconds();
 	var lMilliseconds = lCurrentDate.getUTCMilliseconds();
-	var lCurrentSeconds = Date.UTC(lYear, lMonth, lDays, lHours, lMinutes, lSeconds, lMilliseconds);
+	var lCurrentSeconds = Math.floor(Date.UTC(lYear, lMonth, lDays, lHours, lMinutes, lSeconds, lMilliseconds) / 1000);
 	var lLabel = '';
 	var lTimeoutSeconds = 0;
 	var lDiff = lCurrentSeconds - pDateInSeconds;
-	switch(lDiff){
-		case lDiff < 60:
-			lLabel = 'less than a minute ago';
-			lTimeoutSeconds = 60 - lDiff;
-			break;
-		case lDiff < 3600:
-			lLabel = floor($lDiff / 60) + ' minutes ago';
-			lTimeoutSeconds = 3600 - lDiff;
-			break;
-		case lDiff < 3600 * 24:
-			lLabel = floor($lDiff / 3600) + ' hours ago';
-			lTimeoutSeconds = 3600 * 24 - lDiff;
-			break;
-		default:
-			lLabel = pDateString;
+	//Remove the offset of the current time to UFC time because pDateInSeconds is in UFC time
+	lDiff -= lCurrentDate.getTimezoneOffset() * 60;//The offset is in minutes
+	if(lDiff < 60){
+		lLabel = 'less than a minute ago';
+		lTimeoutSeconds = 60 - lDiff;		
+	}else if(lDiff < 3600){
+		lLabel = Math.floor(lDiff / 60);
+		if(lLabel == 1){
+			lLabel += ' minute';
+		}else{
+			lLabel += ' minutes';
+		}
+		lLabel += ' ago';
+		lTimeoutSeconds = 60 - (lDiff % 60);		
+	}else if(lDiff < 3600 * 24){
+		lLabel = Math.floor(lDiff / 3600);
+		if(lLabel == 1){
+			lLabel += ' hour';
+		}else{
+			lLabel += ' hours';
+		}
+		lLabel += ' ago';
+		lTimeoutSeconds = 3600 - (lDiff % 3600);		
+	}else{
+		lLabel = pDateString;
 	}
-//	$(pHolderId).
+	$('#' + pHolderId).html(lLabel);
+	if(lTimeoutSeconds > 0){
+		setTimeout(function(){SetCommentDateLabel(pHolderId, pDateInSeconds, pDateString);}, lTimeoutSeconds * 1000);
+	}
 }

@@ -1,0 +1,368 @@
+@CHARSET "UTF-8";
+.P-Comments-Expand-Collapse {
+	padding: 8px 0px 5px;
+	font-size:12px;
+	font-weight:normal;
+	margin-top:3px;
+}
+
+.P-Comments-Expand-Collapse span {
+	padding-right: 15px;
+}
+
+.P-Comments-Expand-Collapse img {
+	padding-right: 5px;
+	vertical-align: middle;
+}
+
+.P-Root-Comment {
+	width: 100%;
+	background: #F1F4F3;
+}
+
+
+.Comment-Resolve-Info input[type="checkbox"] {
+	margin: 8px 3px 3px 4px;
+	float:left;
+}
+
+
+.P-Comment-Msg {
+	padding: 10px 0px 0px 0px;
+	color: #000000;
+}
+
+.P-Comments-Revisions-Item {	
+	background: url("/i/arrowDown.png") no-repeat scroll 300px center;
+	cursor: pointer;
+}
+
+.P-Delete-Comment:hover {
+	text-decoration: underline;
+}
+
+.P-Delete-Comment {
+	float: right;
+	color: red;
+	font-size: 12px;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+
+.P-Root-Comment-Wrapper{
+	border-top: 5px solid #FFF;
+	padding:6px 8px 8px;
+}
+
+.P-Comments-Single-Row {
+	padding: 0px 0 6px;
+}
+
+.P-Comments-Single-Row-Non-Root{
+	padding-top:6px;
+}
+
+.P-Comments-Single-Row.P-Comments-Single-Row-Non-Root{
+	border-top:1px solid #E2E2DC;
+	margin-left:25px;
+}
+
+.P-Comments-Single-Row-Non-Root .P-Comments-Info{
+	margin-bottom:-5px;
+}
+
+.P-Comment-Edit-Form{
+	padding-top:10px;
+}
+
+.P-Comment-User-Pic, .P-Comment-Type-Icon{
+	float:left;
+}
+
+.P-Comment-Type-Icon{
+	margin-right:6px;	
+}
+
+.P-Comment-Type-Icon img{
+	width:19px;
+}
+
+.P-Comment-Text-Data{
+	margin-left:8px;
+	float:left;
+	width:235px;	
+}
+
+.P-Comment-UserName {
+	color: #006CD8;
+	font-size: 12px;
+	font-family:Tahoma;
+	font-weight:bold;
+	padding: 0px 0px 2px 0px;
+}
+
+.P-Comment-Date {
+	color: #727272;
+	font-size: 11px;
+	font-family:Tahoma;
+}
+
+.P-Comment-User-Pic{
+	padding-top:3px;
+}
+
+.P-Comment-User-Pic img{
+	width: 27px;	
+	
+}
+
+.P-Comments-Revisions-Content{	
+	height:100%;	
+}
+
+.P-Comments-Revisions-Content .uparrow {
+	background: url("/i/arrowUp.png") no-repeat scroll 300px center!important;
+}
+
+.P-Comments-Revisions-Item-Details {
+	width: 250px;
+	float: left;
+	margin-left:8px;
+}
+
+.P-Comments-Revisions-Item-Content {
+	color: #727272;
+	display: none;	
+}
+
+.P-Comments-Revisions-Item-Content-Btns {
+
+}
+
+.P-Comments-Revisions-Item-Content .changedtext {
+	color: #727272;
+	font-size: 12px;
+}
+
+.P-Comments-Revisions-Item-Content .changedtextfrom {
+	color: #ab2d2a;
+	font-size: 14px;
+}
+
+.P-Comments-Revisions-Item-Content .changedtextto {
+	color: #007f0d;
+	font-size: 14px;
+}
+
+.P-Comments-Revisions-History .rejected {
+	color: #b21d1c;
+}
+
+.P-Comments-Reviosions-History-Date {
+	float: right;
+}
+
+
+
+.commentsSingleFilter{
+	float:left;
+	width:33%;
+	font-weight:normal;
+	font-size:11px;
+}
+
+.commentsSingleFilter label{
+	margin-left:25px;
+	display:block;
+}
+
+.commentsSingleFilter input{
+	float:left;
+}
+
+.Comment-Prev, .Comment-Next{
+	margin-left:20px;
+	font-size:12px;
+	margin-top:8px;
+}
+
+.Comment-Prev a, .Comment-Next a{
+	cursor:pointer;
+}
+
+.Active-Comment-Holder{
+	background:#fdf5e3;
+}
+
+ .Active-Comment-Text{
+ 	background:#fdf5e3;
+}
+
+
+#P-Comment-Unavailable-Text{
+	font-size: 11px;
+	font-weight: normal;
+	margin-bottom: 15px;
+	color: red;
+}
+
+.P-Comment-Nav-Btns{
+	margin-bottom:10px;
+}
+
+.Comment-Prev.Comment-Prev-Readonly{
+	margin-left:0px;
+}
+
+.comment_btn {
+	background: url("/i/commentbtn80.png") no-repeat scroll left center
+		transparent;
+	border: none;
+	height: 34px;
+	width: 92px;
+}
+
+.comment_btn:hover {
+	background: url("/i/commentbtn_hover80.png") no-repeat scroll left center
+		transparent;
+}
+
+.reply_btn {
+	background: url("/i/replybtn.png") no-repeat scroll left center
+		transparent;
+	border: none;
+	height: 34px;
+	width: 92px;
+}
+
+.reply_btn:hover {
+	background: url("/i/replybtn_hover.png") no-repeat scroll left center
+		transparent;
+}
+
+.reply_btn.comment_btn_inactive{
+	background: url("/i/replybtn_inactive.png") no-repeat scroll left 1px
+		transparent;
+}
+
+.P-Comment-Inline-Main-Btn{
+	background: url("/i/commentbtn_inline80.png") no-repeat scroll left center
+		transparent;
+}
+
+
+
+.P-Comment-Inline-Main-Btn:hover{
+	background: url("/i/commentbtn_hover_inline80.png") no-repeat scroll left center
+		transparent;
+}
+
+.comment_btn_inactive {
+	background: url("/i/commentbtn_inactive.png") no-repeat scroll left
+		center transparent;
+	border: none;
+	height: 34px;
+	width: 92px;
+}
+
+.commentbtn_big {
+	background: url("/i/commentbtn_big.png") no-repeat scroll left center
+		transparent;
+	border: none;
+	height: 34px;
+	width: 123px;
+	margin-bottom: 7px;
+	margin-top: 7px;
+}
+
+.commentbtn_big:hover {
+	background: url("/i/commentbtn_big_hover.png") no-repeat scroll left
+		center transparent;
+}
+
+.P-Comments-Revisions-Txt {
+	font-size: 12px;
+	margin-top: 7px;
+	margin-bottom: 5px;
+	height: 120px;
+	padding: 10px;
+	width: 250px;
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	box-sizing: content-box;
+	-moz-box-sizing: content-box;
+}
+
+.P-Comments-Single-Row-Non-Root .P-Comments-Revisions-Txt{
+	margin-left:-2px;
+}
+
+.P-Comments-Revisions-Txt:focus {
+	border: 1px solid #89c0e8;
+	box-shadow: 0 0 10px #e0e0d6;
+}
+
+.P-Comment-Reply-Btn{
+	float:left;
+	width:90px;
+	margin-top:9px;
+	height:24px;
+}
+
+.P-Comment-Delete-Btn{
+	float:right;
+	width:35px;
+	padding-top:11px;
+}
+
+
+.Comment-Resolve-Info{
+	float:left;
+	width:185px;
+	margin-top:5px;
+	padding-right:10px;
+}
+
+.Comment-Resolve-Info label{
+	display:block;
+	margin-left:25px;
+	padding-top:5px;
+}
+
+
+.Comment-Resolve-Info .Resolved-Comment-Label{
+	padding-top:0px;
+}
+
+.P-Comment-Reply-Form-Wrapper{
+	border-top: 1px solid #e2e2dc;
+	margin-top:8px;
+	padding-top:4px;
+}
+
+.P-Comment-Reply-Form{
+	width:272px;
+	margin:0px auto;
+}
+
+.P-Comment-Reply-Form .reply_btn{
+	background-position-x: -2px;
+	float:left;
+}
+
+.P-Comment-Reply-Form-Cancel-Btn{
+	background: url("/i/reply_cancel_btn.png") no-repeat scroll right center
+		transparent;
+	border: none;
+	height: 34px;
+	width: 75px;
+	float:right;	
+	margin-right:-2px;
+}
+
+.P-Comment-Reply-Form-Cancel-Btn:hover{
+	background: url("/i/reply_cancel_btn_hover.png") no-repeat scroll right center
+		transparent;
+}

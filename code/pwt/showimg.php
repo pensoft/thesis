@@ -34,6 +34,9 @@ $i = new cgetimage(array(
 		'c30x30y' => array(
 			'-thumbnail ' . escapeshellarg('30x30^').' -crop ' . escapeshellarg('30x30+0+0!')
 		),
+		'c27x27y' => array(
+				'-thumbnail ' . escapeshellarg('27x27^').' -crop ' . escapeshellarg('27x27+0+0!')
+		),
 	),
 ));
 

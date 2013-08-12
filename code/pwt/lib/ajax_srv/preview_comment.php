@@ -76,6 +76,8 @@ if($lCommentForm->form->KforErrCnt()){
 						u.photo_id photo_id,
 						u.first_name || \' \' || u.last_name as fullname,
 						m2.mdate mdate,
+						EXTRACT(EPOCH FROM m2.mdate) as mdate_in_seconds,
+						EXTRACT(EPOCH FROM m2.lastmoddate) as lastmoddate_in_seconds,
 						coalesce(m2.start_object_instances_id, 0) as start_instance_id,
 						coalesce(m2.end_object_instances_id, 0) as end_instance_id,
 						coalesce(m2.start_object_field_id, 0) as start_field_id,

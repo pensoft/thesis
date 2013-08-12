@@ -18,6 +18,36 @@ $i = new cgetimage(array(
 			'-thumbnail',
 			escapeshellarg('1024x1024>'), // Tazi se polzva za osnova
 		),
+		'singlefig' => array(
+			'-quality', 
+			'90',
+			'-thumbnail',
+			escapeshellarg('663x663>'),
+		),
+		'twocolumn' => array(
+			'-quality', 
+			'90',
+			'-thumbnail',
+			escapeshellarg('296x296>'),
+		),
+		'singlefigmini' => array(
+			'-quality', 
+			'90',
+			'-thumbnail',
+			escapeshellarg('90x52>'),
+		),
+		'twocolumnmini' => array(
+			'-quality', 
+			'90',
+			'-thumbnail',
+			escapeshellarg('45x45>'),
+		),
+		'plateportraitmini' => array(
+			'-quality', 
+			'90',
+			'-thumbnail',
+			escapeshellarg('45x90>'),
+		),
 		'gb' => array(
 			'-quality',
 			'60', 

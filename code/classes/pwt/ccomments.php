@@ -69,9 +69,11 @@ class ccomments extends csimple {
 						m2.subject subject,
 						m2.usr_id usr_id,
 						m2.lastmoddate lastmoddate,
+						EXTRACT(EPOCH FROM m2.lastmoddate) as lastmoddate_in_seconds,
 						u.photo_id photo_id,
 						u.first_name || \' \' || u.last_name as fullname,
 						m2.mdate mdate,
+						EXTRACT(EPOCH FROM m2.mdate) as mdate_in_seconds,
 						coalesce(m2.start_object_instances_id, 0) as start_instance_id,
 						coalesce(m2.end_object_instances_id, 0) as end_instance_id,
 						coalesce(m2.start_object_field_id, 0) as start_field_id,
@@ -141,6 +143,8 @@ class ccomments extends csimple {
 						u.photo_id photo_id,
 						u.first_name || \' \' || u.last_name as fullname,
 						m2.mdate mdate,
+						EXTRACT(EPOCH FROM m2.mdate) as mdate_in_seconds,
+						EXTRACT(EPOCH FROM m2.lastmoddate) as lastmoddate_in_seconds,
 						coalesce(m2.start_object_instances_id, 0) as start_instance_id,
 						coalesce(m2.end_object_instances_id, 0) as end_instance_id,
 						coalesce(m2.start_object_field_id, 0) as start_field_id,
@@ -206,6 +210,8 @@ class ccomments extends csimple {
 						u.photo_id photo_id,
 						u.first_name || \' \' || u.last_name as fullname,
 						m2.mdate mdate,
+						EXTRACT(EPOCH FROM m2.mdate) as mdate_in_seconds,
+						EXTRACT(EPOCH FROM m2.lastmoddate) as lastmoddate_in_seconds,
 						coalesce(m2.start_object_instances_id, 0) as start_instance_id,
 						coalesce(m2.end_object_instances_id, 0) as end_instance_id,
 						coalesce(m2.start_object_field_id, 0) as start_field_id,
@@ -355,7 +361,7 @@ class ccomments extends csimple {
 							{start_instance_id}, {end_instance_id}, {start_field_id}, {end_field_id}, {start_offset}, {end_offset}) as comment_id',
 								'RedirUrl' => $this->m_pubdata ['returl'],
 								'AddTags' => array (
-										'onclick' => 'submitPreviewNewComment();return false;',
+										'onmausedown' => 'submitPreviewNewComment();return false;',
 										'class' => 'P-Grey-Btn-Middle' 
 								),
 								'ActionMask' => ACTION_CHECK | ACTION_CCHECK | ACTION_EXEC | ACTION_FETCH | ACTION_SHOW 

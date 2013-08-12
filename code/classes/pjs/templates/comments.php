@@ -38,47 +38,41 @@ $gTemplArr = array(
 
 	'comments.browseSplitHead' => '
 		<div id="P-Root-Comment-Holder-{id}" class="P-Root-Comment">
-			<div id="P-Root-Comment-{id}" class="P-Comments-Revisions-Item {_GetRootCommentStyle(start_instance_id, start_field_id, end_instance_id, end_field_id)}">
-				{_showCommentPic(photo_id, is_disclosed, usr_id, has_editor_permissions, current_user_id)}
-				<div class="P-Comments-Revisions-Item-Details">
-					<div class="username">{_DisplayCommentUserName(is_disclosed, usr_id, has_editor_permissions, current_user_id, fullname, undisclosed_user_fullname)} 
-					{rootid} {_DisplayDeleteCommentLink(id, rootid, original_id, usr_id, version_is_readonly)}</div>
-					<div class="commentdate">Comment / {_showFormatedPubDate(lastmoddate)}</div>
+			<div class="P-Root-Comment-Wrapper">
+				<div id="P-Root-Comment-{id}" class="P-Comments-Revisions-Item">
+					{_displaySingleCommentInfo(id, rootid, has_editor_permissions, photo_id, is_disclosed, usr_id, current_user_id, fullname, undisclosed_user_fullname, lastmoddate, lastmoddate_in_seconds, 111, start_instance_id, start_field_id, end_instance_id, end_field_id)}			
+					<script type="text/javascript">
+						initComment({id}, {start_instance_id}, {start_field_id}, {start_offset}, {end_instance_id}, {end_field_id}, {end_offset}, \'{_DisplayCommentUserName(is_disclosed, usr_id, has_editor_permissions, current_user_id, fullname, undisclosed_user_fullname)}\', {_showFormatedPubDateInJSON(lastmoddate)});
+					</script>
 				</div>
-				<script type="text/javascript">
-					initComment({id}, {start_instance_id}, {start_field_id}, {start_offset}, {end_instance_id}, {end_field_id}, {end_offset}, \'{_DisplayCommentUserName(is_disclosed, usr_id, has_editor_permissions, current_user_id, fullname, undisclosed_user_fullname)}\', {_showFormatedPubDateInJSON(lastmoddate)});
-				</script>
-			</div>
-			<div class="P-Comments-Revisions-Item-Content">
-				{_displayResolvedInfo(id, is_resolved, resolve_uid, resolve_fullname, resolve_date, version_is_readonly)}
-				<div class="P-Comments-Container">
+				<div class="P-Comments-Revisions-Item-Content">					
+					<div class="P-Comments-Container">
 	',
 	'comments.browseRow' => '
-					<div class="P-Inline-Line"></div>
-					{*comments.viewRow}
+						{*comments.viewRow}
 	',
 	'comments.viewRow' => '
-					<div id="P-Comment-{id}" class="P-Comments-Revisions-History">
-						<a href="#">{_DisplayCommentUserName(is_disclosed, usr_id, has_editor_permissions, current_user_id, fullname, undisclosed_user_fullname)}</a>&nbsp;commented: <span class="P-Comments-Reviosions-History-Date">{_showFormatedPubDate(lastmoddate, 1)}</span>
-						<div class="P-Comment-Msg" id="P-Comment-Msg-Holder_{id}" {_putCommentOnClickEvent(id, usr_id, current_user_id, version_is_readonly)}>{_nl2br(msg)}</div>
-						<div id="P-Comment-Edit-Form_{id}" style="display:none" >
-							{_DisplayCommentEditForm(comment_edit_forms, id, usr_id, current_user_id, version_is_readonly)}							
+						<div id="P-Comment-{id}" class="P-Comments-Single-Row {_displayCommentSingleRowClass(id, rootid)}">
+							{_displaySingleCommentInfo(id, rootid, has_editor_permissions, photo_id, is_disclosed, usr_id, current_user_id, fullname, undisclosed_user_fullname, lastmoddate, lastmoddate_in_seconds)}
+							<div class="P-Comment-Msg" id="P-Comment-Msg-Holder_{id}" {_putCommentOnClickEvent(id, usr_id, current_user_id, version_is_readonly)}>
+								{_nl2br(msg)}
+							</div>
+							<div id="P-Comment-Edit-Form_{id}" class="P-Comment-Edit-Form" style="display:none" >
+								{_DisplayCommentEditForm(comment_edit_forms, id, usr_id, current_user_id, version_is_readonly)}							
+							</div>
 						</div>
-					</div>
 	',
-	'comments.browseSplitFoot' => '
-					<div class="P-Inline-Line"></div>
+	'comments.browseSplitFoot' => '			
+					</div>
+					<!-- End P-Comments-Container -->
+					{_displayRootCommentActions(rootid, original_id, is_resolved, resolve_uid, resolve_fullname, resolve_date, usr_id, comment_reply_forms, version_is_readonly)}	
 				</div>
-				{_displayCommentReplyDetails(rootid, comment_reply_forms, version_is_readonly)}				
-				<div class="P-Clear"></div>
-
 			</div>
 		</div>
 	',
 	'comments.browseEnd' => '
 			<div class="P-Inline-Line"></div>
-		</div>
-		<script type="text/javascript">positionComments()</script>
+		</div>		
 	',
 	'comments.browseFoot' => '',
 	'comments.browseNoData' => '',
@@ -113,8 +107,8 @@ $gTemplArr = array(
 	'comments.new_form_wrapper' => '
 						<div class="P-Clear"></div>
 						{_displayNewCommentBtn(version_is_readonly)}											
-						<div class="Comment-Prev floatLeft {_displayPrevCommentVersionReadonlyClass(version_is_readonly)}"><a onclick="SelectPreviousComment()">Prev</a></div>
-						<div class="Comment-Next floatLeft"><a onclick="SelectNextComment()">Next</a></div>
+						<div class="Comment-Prev floatLeft {_displayPrevCommentVersionReadonlyClass(version_is_readonly)}"><a onclick="SelectPreviousComment()"><img src="/i/docleftarrow.png" alt="" style="vertical-align:middle;" />&nbsp;Prev</a></div>
+						<div class="Comment-Next floatLeft"><a onclick="SelectNextComment()"><img src="/i/docrightarrow.png" alt="" style="vertical-align:middle;" />&nbsp;Next</a></div> 
 						<div class="P-Clear"></div>
 						{_displayNewCommentForm(version_is_readonly, new_comment_form)}						
 						<div class="P-Clear"></div>
@@ -132,7 +126,7 @@ $gTemplArr = array(
 								<div class="P-Grey-Btn-Middle">
 									<div class="P-Comment">
 										<div class="P-Btn-Icon"></div>
-										<input type="submit"  name="tAction" value="Comment" onclick="submitPreviewNewComment();return false;" class="P-Grey-Btn-Middle" />
+										<input type="submit" name="tAction" value="Comment" onmousedown="submitPreviewNewComment();return false;" class="P-Grey-Btn-Middle" />
 									</div>
 								</div>
 								<div class="P-Grey-Btn-Right"></div>
@@ -160,14 +154,7 @@ $gTemplArr = array(
 	',
 
 	'comments.replyCommentRow' => '
-			<div class="P-Comments-Revisions-History" id="P-Comment-{id}">
-				<a href="#">{fullname}</a>&nbsp;commented: <span class="P-Comments-Reviosions-History-Date">{_showFormatedPubDate(lastmoddate, 1)}</span>
-				<div class="P-Comment-Msg" id="P-Comment-Msg-Holder_{id}" {_putCommentOnClickEvent(id, usr_id, current_user_id)}>{_nl2br(msg)}</div>
-				<div id="P-Comment-Edit-Form_{id}" style="display:none" >
-					{_DisplayCommentEditForm(comment_edit_forms, id, usr_id, current_user_id)}							
-				</div>
-			</div>
-			<div class="P-Inline-Line"></div>
+				{*comments.viewRow}
 	',
 );
 ?>
