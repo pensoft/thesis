@@ -11,6 +11,8 @@ class cView_Version_Pwt extends cView_Version {
 	var $m_reviewer_uid;
 	var $m_reviewer_role;
 	var $m_hasEditorPermissions;
+	var $m_PollQuestionsData = array();
+	var $m_PollAnswersData = array();
 
 	function InitObjects() {
 		global $user;
@@ -35,6 +37,7 @@ class cView_Version_Pwt extends cView_Version {
 				'controller_data' => $this->m_errMsgs,
 			));
 		} else {
+			$this->m_PollQuestionsData = $this->m_versionModel->GetPollQuestions((int)$this->m_documentData['journal_id'], (int)$this->m_versionId);
 			// reviewers changes list
 			$lESECheckUserRole = $this->m_hasEditorPermissions;
 			if(($this->m_viewingRole == SE_ROLE || $this->m_viewingRole == JOURNAL_EDITOR_ROLE) && $lESECheckUserRole){
@@ -98,6 +101,7 @@ class cView_Version_Pwt extends cView_Version {
 						);
 
 					}
+
 					$lReviewerPoll = array(
 						'ctype' => 'evList_Display',
 						'name_in_viewobject' => 'reviewerpoll',
@@ -110,6 +114,15 @@ class cView_Version_Pwt extends cView_Version {
 				}
 			} elseif($this->m_viewingRole == DEDICATED_REVIEWER_ROLE) {
 				$lNameInViewObjects = 'reviewermode';
+				
+				//$i = 1;
+				global $gQuestions;
+				$gQuestions = array();
+				foreach ($this->m_PollQuestionsData as $key => $value) {
+					//$lQuestions .= ($i == count($this->m_PollQuestionsData) ? $value['id'] : $value['id'] . ',' );
+					$gQuestions[] = $value['id'];
+					//$i++;
+				}
 				$lForm = array(
 					'ctype' => 'viewVersion_Form_Wrapper',
 					'page_controller_instance' => $this,
@@ -356,6 +369,11 @@ class cView_Version_Pwt extends cView_Version {
 								'id' => 'previewMode',
 							)
 						),
+						'id' => array (
+							'VType' => 'int' ,
+							'CType' => 'hidden',
+							'AllowNulls' => true,
+						),
 						'notes_to_author' => array(
 							'CType' => 'textarea',
 							'VType' => 'string',
@@ -378,11 +396,11 @@ class cView_Version_Pwt extends cView_Version {
 						'new' => array(
 							'CType' => 'action',
 							'ActionMask' => ACTION_CHECK | ACTION_EXEC | ACTION_SHOW | ACTION_FETCH,
-							'SQL' => 'SELECT * FROM spSaveDocument_review_round_users_form(2, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)/*{close}{url_params}*/',
+							'SQL' => 'SELECT * FROM spSaveDocument_review_round_users_form(2, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', null, null, null, null, null, null)/*{id}{close}{url_params}*/',
 						),
 						'save' => array(
 							'CType' => 'action',
-							'SQL' => 'SELECT spSaveDocument_review_round_users_form(1, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', {decision_id}, null, null, null, null, null, null, null, null, null, null, null, null, null, null, {notes_to_author}, null, null, null, ' . (int)$this->m_viewingRole . ')/*{close}{url_params}*/',
+							'SQL' => 'SELECT spSaveDocument_review_round_users_form(1, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', {decision_id}, {notes_to_author}, null, null, null, ' . (int)$this->m_viewingRole . ')/*{id}{close}{url_params}*/',
 							'ActionMask' => ACTION_CHECK | ACTION_CCHECK | ACTION_EXEC,
 							'DisplayName' => getstr('admin.article_versions.save'),
 							'AddTags' => array(
@@ -392,7 +410,7 @@ class cView_Version_Pwt extends cView_Version {
 						),
 						'review' => array(
 							'CType' => 'action',
-							'SQL' => 'SELECT spSaveDocument_review_round_users_form(1, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', {decision_id}, null, null, null, null, null, null, null, null, null, null, null, null, null, null, {notes_to_author}, null, null, null, ' . (int)$this->m_viewingRole . ')/*{close}{url_params}*/',
+							'SQL' => 'SELECT spSaveDocument_review_round_users_form(1, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', {decision_id}, {notes_to_author}, null, null, null, ' . (int)$this->m_viewingRole . ')/*{id}{close}{url_params}*/',
 							'ActionMask' => ACTION_CHECK | ACTION_CCHECK | ACTION_EXEC,
 							'DisplayName' => $lSubmitReviewText,
 							'AddTags' => array(
@@ -405,6 +423,51 @@ class cView_Version_Pwt extends cView_Version {
 			break;
 			case (int) COMMUNITY_REVIEWER_ROLE :
 			case (int) DEDICATED_REVIEWER_ROLE :
+				$this->m_PollAnswersData = $this->m_versionModel->GetPollAnswers($this->m_versionId);
+				
+				$lQuestionsArr = array();
+				$lQuestionsAddToChecks = '';
+				$lUpdateSql = '';
+				$lWhereCondSqlAdd = (
+					count($this->m_PollAnswersData) ? 
+					'document_review_round_users_form_id = {id}' : 
+					'document_review_round_users_form_id = currval(\'pjs.document_review_round_users_form_id_seq\')'
+				);
+				foreach ($this->m_PollQuestionsData as $key => $value) {
+					$lQuestionName = 'question' . $value['id'];
+					$lQuestionsAddToChecks .= '{question' . $value['id'] . '}';
+					if($_REQUEST[$lQuestionName]) {
+						$lDefault = $_REQUEST[$lQuestionName];
+					} elseif ((int)$this->m_PollAnswersData[$lQuestionName]) {
+						$lDefault = (int)$this->m_PollAnswersData[$lQuestionName];
+					} else {
+						$lDefault = null;
+					}
+					
+					$lUpdateSql .= '
+						UPDATE pjs.poll_answers 
+						SET 
+							answer_id = {' . $lQuestionName . '} 
+						WHERE poll_id = ' . $value['id'] . ' 
+							AND ' . $lWhereCondSqlAdd . ';
+					';
+					$lQuestionsArr[] = array(
+						$lQuestionName => array(
+							'VType' => 'int',
+							'CType' => 'radio',
+							'DisplayName' => $value['label'],
+							'AllowNulls' => true,
+							'SrcValues' => array(
+								1 => '',
+								2 => '',
+								3 => '',
+								4 => '',
+							),
+							'DefValue' => $lDefault,
+						)
+					);
+				}
+				
 				$lFieldsMetadataTempl = array(
 					'url_params' => array (
 						'VType' => 'string' ,
@@ -425,166 +488,15 @@ class cView_Version_Pwt extends cView_Version {
 							'id' => 'previewMode',
 						)
 					),
-					'question1' => array(
+					'id' => array (
+						'VType' => 'int' ,
+						'CType' => 'hidden',
+						'AllowNulls' => true,
+					),
+					'question0' => array(
 						'VType' => 'int',
 						'CType' => 'radio',
 						'DisplayName' => 'Poll',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question2' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question3' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question4' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question5' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question6' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question7' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question8' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question9' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question10' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question11' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question12' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question13' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
-						'AllowNulls' => true,
-						'SrcValues' => array(
-							1 => '',
-							2 => '',
-							3 => '',
-							4 => '',
-						),
-					),
-					'question14' => array(
-						'VType' => 'int',
-						'CType' => 'radio',
-						'DisplayName' => '',
 						'AllowNulls' => true,
 						'SrcValues' => array(
 							1 => '',
@@ -649,11 +561,16 @@ class cView_Version_Pwt extends cView_Version {
 					'new' => array(
 						'CType' => 'action',
 						'ActionMask' => ACTION_CHECK | ACTION_EXEC | ACTION_SHOW | ACTION_FETCH,
-						'SQL' => 'SELECT * FROM spSaveDocument_review_round_users_form(2, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)/*{close}{url_params}*/',
+						'SQL' => 'SELECT * FROM spSaveDocument_review_round_users_form(2, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', null, null, null, null, null, null);/*{question0}{id}{close}{url_params}' . $lQuestionsAddToChecks . '*/',
 					),
 					'save' => array(
 						'CType' => 'action',
-						'SQL' => 'SELECT spSaveDocument_review_round_users_form(1, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', {decision_id}, {question1}, {question2}, {question3}, {question4}, {question5}, {question6}, {question7}, {question8}, {question9}, {question10}, {question11}, {question12}, {question13}, {question14}, {notes_to_author}, {notes_to_editor}, {disclose_name}, 1, null)/*{close}{url_params}*/',
+						'SQL' => '
+						BEGIN;
+							SELECT spSaveDocument_review_round_users_form(1, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', {decision_id}, {notes_to_author}, {notes_to_editor}, {disclose_name}, 1, null);/*{question0}{id}{close}{url_params}' . $lQuestionsAddToChecks . '*/ 
+						' . $lUpdateSql . '
+						COMMIT;
+						',
 						'ActionMask' => ACTION_CHECK | ACTION_CCHECK | ACTION_EXEC,
 						'DisplayName' => getstr('admin.article_versions.save'),
 						'AddTags' => array(
@@ -663,7 +580,13 @@ class cView_Version_Pwt extends cView_Version {
 					),
 					'review' => array(
 						'CType' => 'action',
-						'SQL' => 'SELECT spSaveDocument_review_round_users_form(1, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', {decision_id}, {question1}, {question2}, {question3}, {question4}, {question5}, {question6}, {question7}, {question8}, {question9}, {question10}, {question11}, {question12}, {question13}, {question14}, {notes_to_author}, {notes_to_editor}, {disclose_name}, 1, null)/*{close}{url_params}*/',
+						'SQL' => '
+						BEGIN;
+							SELECT spSaveDocument_review_round_users_form(1, ' . ($this->m_versionId) . ', ' . ($this->m_roundId ? $this->m_roundId : ($this->m_versionUserRoundId ? $this->m_versionUserRoundId : 'null')) . ', {decision_id}, {notes_to_author}, {notes_to_editor}, {disclose_name}, 1, null);/*{question0}{id}{close}{url_params}' . $lQuestionsAddToChecks . '*/
+						' . $lUpdateSql . '
+						COMMIT;	
+						',
+						
 						'ActionMask' => ACTION_CHECK | ACTION_CCHECK | ACTION_EXEC,
 						'DisplayName' => getstr('admin.article_versions.review'),
 						'AddTags' => array(
@@ -673,6 +596,9 @@ class cView_Version_Pwt extends cView_Version {
 						),
 					),
 				);
+				foreach ($lQuestionsArr as $key => $value) {
+					$lFieldsMetadataTempl = array_merge($value, $lFieldsMetadataTempl);	
+				}
 			break;
 		}
 		return $lFieldsMetadataTempl;

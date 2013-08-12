@@ -1793,29 +1793,81 @@ class mVersions extends emBase_Model {
 	}
 	function GetReviewersAnswers($pDocumentId, $pRoundId){
 		$lResult = array();
+		$lFinalRes = array();
 		$lCon = $this->m_con;
-		$lSql = 'SELECT * FROM pjs.spgetrevieweranswers(' . $pDocumentId . ', ' . $pRoundId . ')';
-
+		
+		$lSql = '
+			SELECT pa.*, p.label
+			FROM pjs.document_review_round_users_form f
+			JOIN pjs.poll_answers pa ON pa.document_review_round_users_form_id = f.id
+			JOIN pjs.poll p ON p.id = pa.poll_id
+			WHERE f.round_id = ' . $pRoundId . ' 
+				AND f.decision_id IS NOT NULL 
+				AND pa.answer_id IS NOT NULL
+			ORDER BY p.ord
+		';
+		
 		$lCon->Execute($lSql);
-		$lFlag = 0;
 		while (!$lCon->Eof()) {
-			$lResult[] = $lCon->mRs;
-			if ($lCon->mRs['question'] != $lFlag){
-				$lCount[$lCon->mRs['question']] = (int)$lCon->mRs['count'];
-				$lFlag = $lCon->mRs['question'];
-			} else {
-				$lCount[$lCon->mRs['question']] = (int)$lCount[$lCon->mRs['question']] + $lCon->mRs['count'];
-			}
+			$lResult[$lCon->mRs['poll_id']][$lCon->mRs['answer_id']]++;
+			$lResult[$lCon->mRs['poll_id']]['label'] = $lCon->mRs['label'];
+			$lResult[$lCon->mRs['poll_id']]['count']++;
 			$lCon->MoveNext();
 		}
-		foreach ($lResult as $data => $v) {
-			for($i=0; $i<=4; $i++){
-				if (!$lRes[$v['question']][$i])
-					$lRes[$v['question']][$i] = '0%';
-			}
-			$lRes[$v['question']][$v['answer']] = round((100 / $lCount[$v['question']]) * $v['count'], 2) . '%';
+		
+		foreach ($lResult as $key => $value) {
+			$lFinalRes[] = array(
+				'1' => ((int)$value['1'] ? ceil(((int)$value['1']/(int)$value['count'])*100) . '%' : '0%'),
+				'2' => ((int)$value['1'] ? ceil(((int)$value['2']/(int)$value['count'])*100) . '%' : '0%'),
+				'3' => ((int)$value['1'] ? ceil(((int)$value['3']/(int)$value['count'])*100) . '%' : '0%'),
+				'4' => ((int)$value['1'] ? ceil(((int)$value['4']/(int)$value['count'])*100) . '%' : '0%'),
+				'label' => $value['label']
+			);
+			
 		}
-		return $lRes;
+		
+		return $lFinalRes;
+	}
+
+	function GetPollQuestions($pJournalId, $pVersionId){
+		$lResult = array();
+		$lCon = $this->m_con;
+		$lSql = 'SELECT p.* 
+				FROM pjs.document_review_round_users usr
+				JOIN pjs.document_review_round_users_form f ON usr.id = f.document_review_round_user_id
+				JOIN pjs.poll_answers a ON a.document_review_round_users_form_id = f.id
+				JOIN pjs.poll p ON p.id = a.poll_id
+				WHERE usr.document_version_id = ' . $pVersionId;
+		$lCon->Execute($lSql);
+		if(!$lCon->RecordCount()){
+			$lSql = 'SELECT * FROM pjs.poll WHERE journal_id = ' . (int)$pJournalId . ' AND state = 1 ORDER BY ord';
+			$lCon->Execute($lSql);
+		}
+		
+		while (!$lCon->Eof()) {
+			$lResult[] = $lCon->mRs;
+			$lCon->MoveNext();
+		}
+		
+		return $lResult;
+	}
+
+	function GetPollAnswers($pVersionId) {
+		$lResult = array();
+		$lCon = $this->m_con;
+		$lSql = 'SELECT a.poll_id, a.answer_id 
+				FROM pjs.document_review_round_users usr
+				JOIN pjs.document_review_round_users_form f ON usr.id = f.document_review_round_user_id
+				JOIN pjs.poll_answers a ON a.document_review_round_users_form_id = f.id
+				WHERE usr.document_version_id = ' . $pVersionId;
+		
+		$lCon->Execute($lSql);
+		while (!$lCon->Eof()) {
+			$lResult['question' . $lCon->mRs['poll_id']] = $lCon->mRs['answer_id'];
+			$lCon->MoveNext();
+		}
+		
+		return $lResult;
 	}
 
 	function GetSEDecisionDetails($pVersionId) {

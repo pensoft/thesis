@@ -1,5 +1,20 @@
 <?php
 // @formatter->off
+global $gQuestions;
+function showPoll() {
+	global $gQuestions;
+	if(count($gQuestions)){
+		foreach ($gQuestions as $key => $value) {
+			$lRes .= '
+			<tr>
+				<td>{*question' . $value . '}</td>
+				{question' . $value . '}
+			</tr>';
+		}
+	}
+	return $lRes;
+}
+
 $gTemplArr = array(
 	'view_version_pwt.version_preview' => '
 	{*document_edit.document_header}
@@ -101,7 +116,7 @@ $gTemplArr = array(
 					<td>' . getstr('admin.article_versions.quest1') . '<span class="txtred">*</span></td>
 					<td class="center">' . getstr('admin.article_versions.option1') . '</td><td class="center">' . getstr('admin.article_versions.option2') . '</td><td class="center">' . getstr('admin.article_versions.option3') . '</td><td class="center">' . getstr('admin.article_versions.option4') . '</td>
 				</tr>
-				<tr><td>' . getstr('admin.article_versions.quest2') . '</td></tr>
+				<tr><td>111' . getstr('admin.article_versions.quest2') . '</td></tr>
 				<tr><td>' . getstr('admin.article_versions.quest3') . '</td></tr>
 				<tr><td>' . getstr('admin.article_versions.quest4') . '</td></tr>
 				<tr><td>' . getstr('admin.article_versions.quest5') . '</td></tr>
@@ -255,6 +270,7 @@ $gTemplArr = array(
 	',
 
 	'view_version_pwt.form_reviewer' => '
+				{id}
 				<table class="previewform">
 					<tr class="bold">
 						<td class="no-Border withSmallPadding">' . getstr('admin.article_versions.quest1') . '{_showRequiredStart(user_role)}
@@ -267,64 +283,8 @@ $gTemplArr = array(
 						</td>
 						<td class="center no-Border withSmallPadding">' . getstr('admin.article_versions.option1') . '</td><td class="center no-Border withSmallPadding">' . getstr('admin.article_versions.option2') . '</td><td class="center no-Border withSmallPadding">' . getstr('admin.article_versions.option3') . '</td><td class="center no-Border withSmallPadding">' . getstr('admin.article_versions.option4') . '</td>
 					</tr>
-					<tr {_showHideErrRow(err_cnt)}><td colspan="5" class="no-Border">{!question1}</td></tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest2') . '
-						</td>
-						{question1}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest3') . '</td>
-						{question2}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest4') . '</td>
-						{question3}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest5') . '</td>
-						{question4}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest6') . '</td>
-						{question5}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest7') . '</td>
-						{question6}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest8') . '</td>
-						{question7}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest9') . '</td>
-						{question8}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest10') . '</td>
-						{question9}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest11') . '</td>
-						{question10}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest12') . '</td>
-						{question11}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest13') . '</td>
-						{question12}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest14') . '</td>
-						{question13}
-					</tr>
-					<tr>
-						<td>' . getstr('admin.article_versions.quest15') . '</td>
-						{question14}
-					</tr>
+					<tr {_showHideErrRow(err_cnt)}><td colspan="5" class="no-Border">{!question0}</td></tr>
+					' . showPoll() . '
 				</table>
 				<div class="P-Article-Editing">
 				<div class="bold" {_showHideTextByViewMode(view_mode)}>' . getstr('admin.article_versions.yourpreview') . '</div>
