@@ -1669,7 +1669,7 @@ function submitPreviewNewComment(pCommentIsGeneral){
 				}else{ // Иначе Добавяме коментара след последния коментар
 					$('#P-Root-Comments-Holder').children('.P-Root-Comment').last().after(lCommentResult);
 				}
-				
+				gVisibleRootCommentIds.push(lCommentId.toString());
 				setCommentsWrapEvents();
 				MakeCommentActive(lCommentId);
 				gCurrentCommentSpecificPosition = false;
