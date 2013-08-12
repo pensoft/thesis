@@ -1820,9 +1820,9 @@ class mVersions extends emBase_Model {
 		foreach ($lResult as $key => $value) {
 			$lFinalRes[] = array(
 				'1' => ((int)$value['1'] ? ceil(((int)$value['1']/(int)$value['count'])*100) . '%' : '0%'),
-				'2' => ((int)$value['1'] ? ceil(((int)$value['2']/(int)$value['count'])*100) . '%' : '0%'),
-				'3' => ((int)$value['1'] ? ceil(((int)$value['3']/(int)$value['count'])*100) . '%' : '0%'),
-				'4' => ((int)$value['1'] ? ceil(((int)$value['4']/(int)$value['count'])*100) . '%' : '0%'),
+				'2' => ((int)$value['2'] ? ceil(((int)$value['2']/(int)$value['count'])*100) . '%' : '0%'),
+				'3' => ((int)$value['3'] ? ceil(((int)$value['3']/(int)$value['count'])*100) . '%' : '0%'),
+				'4' => ((int)$value['4'] ? ceil(((int)$value['4']/(int)$value['count'])*100) . '%' : '0%'),
 				'label' => $value['label']
 			);
 			
