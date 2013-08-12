@@ -110,7 +110,7 @@ $gTemplArr = array(
 		</div>
 	',
 	'comments.browseEnd' => '
-			  <div class="P-Inline-Line"></div>		
+			  	
 		</div>		
 	',
 	'comments.browseFoot' => '',
