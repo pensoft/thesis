@@ -155,7 +155,7 @@ function merge_cells($action, $who, $schedule, $days, $state, $remind){
 	return $first_row . 
 		implode('', array_map(
 			function($action1, $who1, $schedule1, $days1, $state1, $remind1){
-				$otherRow = translate_row($action1, $who1, $schedule1, $days1, $state1, remind1);
+				$otherRow = translate_row($action1, $who1, $schedule1, $days1, $state1, $remind1);
 				return "</tr>\n<tr>" . $otherRow;	
 			},
 			$action, $who, $schedule, $days, $state, $remind));
