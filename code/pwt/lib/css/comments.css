@@ -84,10 +84,14 @@
 	margin-right:6px;	
 }
 
+.P-Comment-Type-Icon img{
+	width:19px;
+}
+
 .P-Comment-Text-Data{
 	margin-left:8px;
 	float:left;
-	width:260px;	
+	width:235px;	
 }
 
 .P-Comment-UserName {
@@ -111,6 +115,10 @@
 .P-Comment-User-Pic img{
 	width: 27px;	
 	
+}
+
+.P-Comments-Revisions-Content{	
+	height:100%;	
 }
 
 .P-Comments-Revisions-Content .uparrow {

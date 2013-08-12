@@ -1,0 +1,14 @@
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Do the title, abstract and keywords accurately reflect the contents and data?', 1, 1, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Is the manuscript written in grammatically correct English?', 1, 2, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Are the relevant non-textual data and media (data sets, audio and video files) also available as supplementary files to the manuscript or as links to external repositories?', 1, 3, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Is the data sufficiently novel to merit publication?', 1, 4, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Are the data completely and consistently recorded within the dataset(s)?', 1, 5, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Are the data consistent internally and described using applicable standards (e.g. in terms of file formats, file names, file size, units and metadata)?', 1, 6, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Is the repository to which the data are submitted appropriate for the nature of the data?', 1, 7, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Does the manuscript provide an accurate description of the data?', 1, 8, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Does the manuscript properly describe how to access the data?', 1, 9, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Are the methods used to generate the data (including calibration, code and suitable controls) described in sufficient detail?', 1, 10, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Have possible sources of error been appropriately addressed in the protocols and/or the paper?', 1, 11, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Is anything missing in the manuscript or the data resource itself that would prevent replication of the measurements, or reproduction of the figures or other representations of the data?', 1, 12, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Are all claims made in the manuscript substantiated by the underlying data?', 1, 13, 1);
+INSERT INTO pjs.poll(label, state, ord, journal_id) VALUES('Are conflicts of interest, relevant permissions and other ethical issues addressed in an appropriate manner?', 1, 14, 1);

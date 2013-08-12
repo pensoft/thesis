@@ -856,9 +856,11 @@ function positionCommentsBase(pRecacheOrder){
 //	lRootComments = GetSortedRootComments();
 	
 	var lPreviousElement = null;
+	var lPreviousElementIdx = 0;
 //	console.log($('#P-Root-Comments-Holder').offset().top);
 	
 	var lPositions = {};
+	var lOffsetParent = false;
 	$.each(lRootComments, function(pIndex, pRow){
 
 		var lPattern = new RegExp("^P-Root-Comment-Holder-(\\d+)$","i");
@@ -872,11 +874,12 @@ function positionCommentsBase(pRecacheOrder){
 
 		if(!CheckIfRootCommentIsVisible(lCommentId)){
 			$(pRow).hide();
+			lPositions[pIndex] = 0;
 			return;
 		}else{
 			$(pRow).show();
 		}
-		var lOffsetParent = $(pRow).offsetParent();		
+		lOffsetParent = $(pRow).offsetParent();		
 //		var lCommentPosition = gCommentsVerticalPosition[lCommentId];
 		var lCommentPosition = getCommentVerticalPosition(lCommentId);
 		
@@ -900,7 +903,7 @@ function positionCommentsBase(pRecacheOrder){
 //		}
 
 		if(lPreviousElement){
-        	var lPreviousCommentPosition = pIndex > 0 ? lPositions[pIndex - 1] : 0;
+        	var lPreviousCommentPosition = pIndex > 0 ? lPositions[lPreviousElementIdx] : 0;
         	var lPreviousCommentHeight = $(lPreviousElement).outerHeight();
 
 
@@ -928,6 +931,7 @@ function positionCommentsBase(pRecacheOrder){
 //		$(pRow).animate({'top' : lCommentPosition});
 
 		lPreviousElement = pRow;
+		lPreviousElementIdx = pIndex;
     });
 	
 //	console.log(lPositions);
@@ -936,7 +940,13 @@ function positionCommentsBase(pRecacheOrder){
 //		$(pRow).css('top', lPositions[pIndex]);
 		$(pRow).animate({'top' : lPositions[pIndex], 'position': 'absolute'}); 
 	});
-
+	var lFilteredComments = $(lRootComments).filter(':visible');
+	var lLastElementIdx = lFilteredComments.length - 1;
+	if(lLastElementIdx >= 0){
+		var lMaxPosition = $(lFilteredComments[lLastElementIdx]).offset().top + $(lFilteredComments[lLastElementIdx]).outerHeight();
+		$('.P-Wrapper-Container-Right').css('min-height', lMaxPosition);
+	}
+	
 	//Накрая пренареждаме и стрелките отдолу
 	var lBottomButtons = $('#P-Comments-Bottom-Buttons');
 	var lCurrentPosition = 0;
@@ -1295,7 +1305,7 @@ function FilterComments() {
 				alert(pAjaxResult['err_msg']);
 				return;
 			}
-			gFilterRootComments = true;
+			gFilterRootComments = true;			
 			gVisibleRootCommentIds = pAjaxResult['visible_rootids'];
 			if(gCurrentActiveCommentId){
 				if(!CheckIfRootCommentIsVisible(gCurrentActiveCommentId)){
@@ -1659,7 +1669,7 @@ function submitPreviewNewComment(pCommentIsGeneral){
 				}else{ // Иначе Добавяме коментара след последния коментар
 					$('#P-Root-Comments-Holder').children('.P-Root-Comment').last().after(lCommentResult);
 				}
-				
+				gVisibleRootCommentIds.push(lCommentId.toString());
 				setCommentsWrapEvents();
 				MakeCommentActive(lCommentId);
 				gCurrentCommentSpecificPosition = false;

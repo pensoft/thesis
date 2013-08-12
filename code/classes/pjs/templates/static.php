@@ -2897,7 +2897,7 @@ function DisplayDeleteCommentLink($pId, $pRootId, $pOriginalId, $pUsrId, $pVersi
 	global $user;
 // 	$lResult = $pId . '_' . $pRootId . '_' . $pOriginalId . '_' . $pUsrId;
 	if(!$pVersionIsReadonly && $pId == $pRootId && $pId == $pOriginalId && $pUsrId == $user->id){
-		$lResult = '<span class="P-Delete-Comment P-Comment-Delete-Btn" onclick="deleteComment(' . (int)$pId . ')">delete</span>';
+		$lResult = '<span class="P-Delete-Comment P-Comment-Delete-Btn" onclick="DeleteComment(' . (int)$pId . ')">delete</span>';
 	}
 	return $lResult;
 }
