@@ -185,6 +185,7 @@ class cTask_Manager extends cBase_Controller {
 	 * 
 	 */
 	private function GetTaskDefinition($pDocumentId, $pJournalId = 0){
+		$lTaskDefinitionData = array();
 		$lTaskDefinitionData = $this->m_taskModel->GetTaskDefinition($pDocumentId, (int)$this->m_eventId, $pJournalId);
 		if((int)$lTaskDefinitionData['err_cnt']) {
 			$this->m_errCnt++;
