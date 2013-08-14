@@ -30,7 +30,10 @@ class cDueDate_Ajax_Srv extends cBase_Controller {
 				$this->UpdateReviwerInvitationDueDate($lRoundId, $lRoundUserId, $lDueDate);
 				break;
 			case 'user_decision' :
-				$this->UpdateUserDecisionDueDate($lRoundId, $lRoundUserId, $lDueDate);
+				$this->UpdateReviwerDecisionDueDate($lRoundId, $lRoundUserId, $lDueDate);
+				break;
+			case 'se_decision' :
+				$this->UpdateSEDecisionDueDate($lRoundId, $lRoundUserId, $lDueDate);
 				break;
 			case 'round_duedate' :
 				$this->UpdateRoundDueDate($lRoundId, $lDueDate);
@@ -51,24 +54,34 @@ class cDueDate_Ajax_Srv extends cBase_Controller {
 	function UpdateReviwerInvitationDueDate($pRoundId, $pRoundUserId, $pDueDate) {
 		// poper 3
 		$lDocumentsModel = new mDocuments_Model();
-		$this->m_action_result = $lDocumentsModel->UpdateDocumentDueDates(3, $pRoundId, $pRoundUserId, $pDueDate);
+		$lEventId = $lDocumentsModel->GetEventId(3, $pRoundId);
+		$this->m_action_result = $lDocumentsModel->UpdateDocumentDueDates(3, $pRoundId, $pRoundUserId, $pDueDate, $lEventId);
 	}
-	function UpdateUserDecisionDueDate($pRoundId, $pRoundUserId, $pDueDate) {
+	function UpdateReviwerDecisionDueDate($pRoundId, $pRoundUserId, $pDueDate) {
 		// poper 1 roundid = null
 		$lDocumentsModel = new mDocuments_Model();
-		$this->m_action_result = $lDocumentsModel->UpdateDocumentDueDates(1, $pRoundId, $pRoundUserId, $pDueDate);
+		$lEventId = $lDocumentsModel->GetEventId(1, $pRoundId);
+		$this->m_action_result = $lDocumentsModel->UpdateDocumentDueDates(1, $pRoundId, $pRoundUserId, $pDueDate, $lEventId);
+	}
+	function UpdateSEDecisionDueDate($pRoundId, $pRoundUserId, $pDueDate) {
+		// poper 1 roundid = null
+		$lDocumentsModel = new mDocuments_Model();
+		$lEventId = $lDocumentsModel->GetEventId(4, $pRoundId);
+		$this->m_action_result = $lDocumentsModel->UpdateDocumentDueDates(1, $pRoundId, $pRoundUserId, $pDueDate, $lEventId);
 		
 	}
+	/*
 	function UpdateRoundDueDate($pRoundId, $pDueDate) {
 		// poper 1
 		$lDocumentsModel = new mDocuments_Model();
 		$this->m_action_result = $lDocumentsModel->UpdateDocumentDueDates(1, $pRoundId, null, $pDueDate);
 		
-	}
+	}*/
 	function UpdateReviwersAssignment($pRoundId, $pRoundUserId, $pDueDate) {
 		// poper 2
 		$lDocumentsModel = new mDocuments_Model();
-		$this->m_action_result = $lDocumentsModel->UpdateDocumentDueDates(2, $pRoundId, $pRoundUserId, $pDueDate);
+		$lEventId = $lDocumentsModel->GetEventId(2, $pRoundId);
+		$this->m_action_result = $lDocumentsModel->UpdateDocumentDueDates(2, $pRoundId, $pRoundUserId, $pDueDate, (int)$lEventId);
 		
 	}
 	

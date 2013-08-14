@@ -460,9 +460,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 			switch($pDocumentReviewTypeId) {
 				case DOCUMENT_CLOSED_PEER_REVIEW: {
 					
-					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
-						$lMessage = getstr('pjs.conventional_peer_review_speedup_round_' . $pRoundNumber);
-					} elseif ((int)$pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
+					if ((int)$pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
 						$lMessage = getstr('pjs.conventional_peer_review_take_decision_round_' . $pRoundNumber);
 					} elseif ((int)$pReviews == 0 && !($pCanInviteNominatedFlag || $pWaitNominatedFlag || $pWaitPanelFlag)) {
 						$lMessage = getstr('pjs.conventional_peer_review_take_decision_without_reviewers_round_' . $pRoundNumber);
@@ -473,9 +471,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 				break;
 				}
 				case DOCUMENT_COMMUNITY_PEER_REVIEW: {
-					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
-						$lMessage = getstr('pjs.community_peer_review_speedup_round_' . $pRoundNumber);
-					} elseif ($pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
+					if ($pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
 						$lMessage = getstr('pjs.community_peer_review_take_decision_round_' . $pRoundNumber);
 					} elseif ($pReviews == 0 && !($pCanInviteNominatedFlag || $pWaitNominatedFlag || $pWaitPanelFlag)) {
 						$lMessage = getstr('pjs.community_peer_review_take_decision_without_reviewers_round_' . $pRoundNumber);
@@ -486,9 +482,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 				break;
 				}
 				case DOCUMENT_PUBLIC_PEER_REVIEW: {
-					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
-						$lMessage = getstr('pjs.public_peer_review_speedup_round_' . $pRoundNumber);
-					} elseif ($pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
+					if ($pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
 						$lMessage = getstr('pjs.public_peer_review_take_decision_round_' . $pRoundNumber);
 					} elseif ($pReviews == 0 && !($pCanInviteNominatedFlag || $pWaitNominatedFlag || $pWaitPanelFlag)) {
 						$lMessage = getstr('pjs.public_peer_review_take_decision_without_reviewers_round_' . $pRoundNumber);
@@ -505,9 +499,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 			
 			switch($pDocumentReviewTypeId) {
 				case DOCUMENT_CLOSED_PEER_REVIEW: {
-					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
-						$lMessage = getstr('pjs.conventional_peer_review_speedup_round_' . $pRoundNumber);
-					} elseif ($pReviews >= 1 && !$pWaitNominatedFlag) {
+					if ($pReviews >= 1 && !$pWaitNominatedFlag) {
 						$lMessage = getstr('pjs.conventional_peer_review_take_decision_round_' . $pRoundNumber);
 					} elseif ($pReviews == 0 && !$pWaitNominatedFlag) {
 						$lMessage = getstr('pjs.conventional_peer_review_take_decision_without_reviewers_round_' . $pRoundNumber);
@@ -518,9 +510,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 				break;
 				}
 				case DOCUMENT_COMMUNITY_PEER_REVIEW: {
-					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
-						$lMessage = getstr('pjs.community_peer_review_speedup_round_' . $pRoundNumber);
-					} elseif ($pReviews >= 1 && !$pWaitNominatedFlag) {
+					if ($pReviews >= 1 && !$pWaitNominatedFlag) {
 						$lMessage = getstr('pjs.community_peer_review_take_decision_round_' . $pRoundNumber);
 					} elseif ($pReviews == 0 && !$pWaitNominatedFlag) {
 						$lMessage = getstr('pjs.community_peer_review_take_decision_without_reviewers_round_' . $pRoundNumber);
@@ -531,9 +521,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 				break;
 				}
 				case DOCUMENT_PUBLIC_PEER_REVIEW: {
-					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
-						$lMessage = getstr('pjs.public_peer_review_speedup_round_' . $pRoundNumber);
-					} elseif ($pReviews >= 1 && !$pWaitNominatedFlag) {
+					if ($pReviews >= 1 && !$pWaitNominatedFlag) {
 						$lMessage = getstr('pjs.public_peer_review_take_decision_round_' . $pRoundNumber);
 					} elseif ($pReviews == 0 && !$pWaitNominatedFlag) {
 						$lMessage = getstr('pjs.public_peer_review_take_decision_without_reviewers_round_' . $pRoundNumber);
@@ -1512,12 +1500,12 @@ function checkReviewRoundDate($pRoundDueDate, $pRoundId, $pRoundUserId) {
 	if($lDueDateArr['flag'] == 2){
 		return '<span class="red_txt_due_date">Editorial decision is ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').' late</span>
 					<img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="ui-datepicker-trigger pointer"
-					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=se_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					src="../i/edit.png"></img>';
 	}else{
 		return '<span class="green_txt_due_date">Editorial decision is due in ' . $lDueDateArr['datediff_days'] . ' day'.(abs($lDueDateArr['datediff_days'])>1?'s':'').'</span>
 		<img title="'.getstr('pjs.tooltips.change_due_date').'" id="duedate_editimg" width="18" height="16" style="cursor:pointer;" class="ui-datepicker-trigger pointer"
-					onclick="openDueDatePopUp(\'/updateduedate.php?action=user_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
+					onclick="openDueDatePopUp(\'/updateduedate.php?action=se_decision&roundduedate=' . $pRoundDueDate . '&roundid=' . $pRoundId . '&rounduserid=' . $pRoundUserId . '\', 400, 200)"
 					src="../i/edit.png"></img>';
 	}
 
@@ -2334,11 +2322,13 @@ function ChangeDueDate($pOper) {
 		return '';
 }
 function showAddReviewersSection($pCanAddFlag, $pDocumentId, $pERedirect = 0) {
-	if($pCanAddFlag == 'false')
 		return '<div class="reviewholder_top">
 					<div class="reviewholder_top_left">Reviewers</div>
 					<div class="reviewholder_top_right">
-						<img src="../i/plus.png" alt="" /> <a href="/view_document.php?id=' . (int) $pDocumentId . '&amp;view_role=' . SE_ROLE . '&amp;mode=1' . ($pERedirect ? '&e_redirect=1' : '') . '">Invite more reviewers</a>
+					' . 
+					($pCanAddFlag == 'false' 
+					? '<img src="../i/plus.png" alt="" /> <a href="/view_document.php?id=' . (int) $pDocumentId . '&amp;view_role=' . SE_ROLE . '&amp;mode=1' . ($pERedirect ? '&e_redirect=1' : '') . '">Invite more reviewers</a>' 
+					: getstr('pjs.cannot_invite_more_reviewers')) . '
 					</div>
 					<div class="P-Clear"></div>
 				</div>';

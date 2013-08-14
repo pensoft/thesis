@@ -150,7 +150,7 @@ class mDocuments_Model extends emBase_Model {
 			i.date_invited,
 			i.date_confirmed,
 			i.date_canceled,
-			i.due_date,
+			(CASE WHEN i.state_id = 2 THEN rd.due_date ELSE i.due_date END) as due_date,
 			ist.id as invitation_state,
 			i.id as invitation_id,
 			de.name as decision_name,
@@ -178,6 +178,7 @@ class mDocuments_Model extends emBase_Model {
 		JOIN usr u ON u.id = i.uid
 		WHERE i.document_id = ' . (int)$pDocumentId . ' AND i.role_id = ' . (int) DEDICATED_REVIEWER_ROLE . ' AND i.due_date IS NOT NULL
 		';
+		// var_dump($lSql);
 		return $this->ArrayOfRows($lSql, 0);
 	}
 
@@ -1512,9 +1513,19 @@ class mDocuments_Model extends emBase_Model {
 		return $lResult;
 	}
 
-	function UpdateDocumentDueDates($pOper, $pRoundId, $pRoundUserId, $pDueDate){
+	function GetEventId($pOper, $pRoundId){
 
-		$lSql = 'SELECT * FROM pjs.spmanualupdateduedates(' . $pOper . ', null, ' . $pRoundId . ', ' . $pRoundUserId . ', \'' . $pDueDate . '\')';
+		$lSql = 'SELECT event_id FROM pjs."spGetEventId"(' . $pOper . ', ' . (int)$pRoundId . ')';
+		$this->m_con->Execute($lSql);
+		$this->m_con->MoveFirst();
+
+		return $this->m_con->mRs['event_id'];
+	}
+
+	function UpdateDocumentDueDates($pOper, $pRoundId, $pRoundUserId, $pDueDate, $pEventId){
+
+		$lSql = 'SELECT * FROM pjs.spmanualupdateduedates(' . $pOper . ', null, ' . $pRoundId . ', ' . $pRoundUserId . ', \'' . $pDueDate . '\', ' . (int)$pEventId . ')';
+		//file_put_contents('/tmp/mass_log.log', '$lSql: ' . $lSql . "\n\n", FILE_APPEND);
 		$lResult = array();
 		$this->m_con->Execute($lSql);
 
