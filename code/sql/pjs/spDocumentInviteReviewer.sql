@@ -128,7 +128,7 @@ $BODY$
 			IF(lDocumentReviewType = 4 AND lPublicDueDate IS NULL) THEN
 				lSECommunityPublicEvent = 40;
 				PERFORM pjs.spUpdateDueDates(5, pDocumentId, lSECommunityPublicEvent, NULL, NULL);
-			ELSEIF(lDocumentReviewType = 3 AND lPanelDueDate IS NULL) THEN
+			ELSEIF(lDocumentReviewType = 3) THEN
 				lSECommunityPublicEvent = 41;
 				PERFORM pjs.spUpdateDueDates(4, pDocumentId, lSECommunityPublicEvent, NULL, NULL);
 			END IF;

@@ -229,7 +229,7 @@ $BODY$
 					-- SET due dates for current round and users
 					-- Updatating round due date
 					PERFORM pjs.spUpdateDueDates(1, pDocumentId, lSEAssignEventType, lRoundId, NULL);
-					
+					PERFORM pjs.spUpdateDueDates(2, pDocumentId, cNotEnoughReviewersEventType, lRoundId, NULL);
 				END IF;
 			ELSE 
 				--Change se
@@ -295,11 +295,11 @@ $BODY$
 			FROM pjs.document_review_rounds 
 			WHERE id = lRoundId;
 
-
+			/*
 			-- not enough reviewers
 			IF (lEnoughReviewers = FALSE) THEN
 				PERFORM pjs.spUpdateDueDates(2, pDocumentId, cNotEnoughReviewersEventType, lRoundId, NULL);
-			END IF;
+			END IF;*/
 			-- not enough reviewers
 			IF (lCanProceed = TRUE) THEN
 				PERFORM pjs.spUpdateDueDates(1, pDocumentId, cCanProceedEventType, NULL, lDocumentReviewRoundUserId);
