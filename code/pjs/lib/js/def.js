@@ -1,6 +1,7 @@
 var gFocus = 'JS-Focus';
 var gInputHolder = 'P-Input-Holder';
 var gActiveClass = 'P-Active';
+var rule = ".dashboard tbody:hover td { background: #EED; }";
 
 var gAjaxUrlsPrefix = '/lib/ajax_srv/';
 var gManageJournalAboutPagesPageUrl = '/manage_journal_about_pages.php';

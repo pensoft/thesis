@@ -1,0 +1,45 @@
+.Main-Content{
+	margin-top:50px;
+}
+
+.P-Article-Info-Bar {
+	position: absolute;
+	top: 50px;
+	right: 0px;
+	width: 336px;
+	border-left: 1px solid #e2e2dc;
+	height: 100%;
+	border-left: 1px solid #F4F4F1;
+	z-index: 0;
+}
+
+.P-Article-Preview {
+	margin-right: 336px;
+}
+
+.P-Article-Preview iframe {
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	width: 100%;
+}
+
+.P-Info-Menu {
+	position: fixed;	
+	margin-top: 0px;
+	background: #E4E4DD;
+	z-index: 10;
+}
+
+.P-Info-Menu li{
+	cursor:pointer;
+}
+
+.P-Info-Menu .P-Active-Menu{
+	background:white;
+}
+
+.P-Info-Content{
+	margin-top:100px;
+}

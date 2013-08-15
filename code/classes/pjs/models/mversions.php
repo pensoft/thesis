@@ -1839,7 +1839,9 @@ class mVersions extends emBase_Model {
 				JOIN pjs.document_review_round_users_form f ON usr.id = f.document_review_round_user_id
 				JOIN pjs.poll_answers a ON a.document_review_round_users_form_id = f.id
 				JOIN pjs.poll p ON p.id = a.poll_id
-				WHERE usr.document_version_id = ' . $pVersionId;
+				WHERE usr.document_version_id = ' . $pVersionId . '
+				ORDER BY p.ord';
+				
 		$lCon->Execute($lSql);
 		if(!$lCon->RecordCount()){
 			$lSql = 'SELECT * FROM pjs.poll WHERE journal_id = ' . (int)$pJournalId . ' AND state = 1 ORDER BY ord';
