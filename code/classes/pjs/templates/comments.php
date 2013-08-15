@@ -4,23 +4,28 @@ $gTemplArr = array(
 	'comments.filter' => '
 			<div class="Comments-Filter">
 				<script>SetCommentsVersion({version_id}); SetDisplayUserChangeFilterEvent();</script>
-				<div class="commentsSingleFilter" style="width:100px">
-					<input type="checkbox" id="comments_filter_general" onclick="FilterComments()" name="comments_filter_general" value="1" checked="checked">
-					<label for="comments_filter_general">General</label>
-				</div>
-				<div class="commentsSingleFilter" style="width:100px">
+				<div class="commentsSingleFilter">
 					<input type="checkbox" id="comments_filter_inline" onclick="FilterComments()" name="comments_filter_inline" value="1" checked="checked">
-					<label for="comments_filter_inline">Inline</label>
+					<label for="comments_filter_inline" style="width:98px; cursor:pointer;">Inline</label>
 				</div>
-				<div class="commentsSingleFilter" style="width:100px">
+				<div class="commentsSingleFilter">
+					<input type="checkbox" id="comments_filter_general" onclick="FilterComments()" name="comments_filter_general" value="1" checked="checked">
+					<label for="comments_filter_general" style="width:98px; cursor:pointer;">General</label>
+				</div>
+				<div class="commentsSingleFilter">
 					<input type="checkbox" id="comments_filter_resolved" onclick="FilterComments()" name="comments_filter_resolved" value="1" checked="checked">
-					<label for="comments_filter_resolved">Resolved</label>
+					<label for="comments_filter_resolved" style="width:98px; cursor:pointer;">Resolved</label>
 				</div>
 				<div class="P-Clear"></div>
 			</div>
 			<div class="P-Comments-Expand-Collapse" id="Comments-Collapse-Expand-Top" style="display:none">
-				<span><img src="' . PWT_URL . '/i/double_arows_up.png" alt="" /><a href="javascript:void(0)" onclick="ExpandCollapseAll(0);">Collapse All</a></span>
-				<span><img src="' . PWT_URL . '/i/double_arrows_down.png" alt="" /><a href="javascript:void(0)" onclick="ExpandCollapseAll(1);">Expand All</a></span>
+				<span class="Collapse-Expand"><img src="' . PWT_URL . '/i/double_arows_up.png" alt="" /><a href="javascript:void(0)" onclick="ExpandCollapseAll(0);">Collapse all</a></span>
+				<span class="Collapse-Expand"><img src="' . PWT_URL . '/i/double_arrows_down.png" alt="" /><a href="javascript:void(0)" onclick="ExpandCollapseAll(1);">Expand all</a></span>
+				<div class="P-Comment-Nav-BtnsNEW">		
+					<span class="Comment-PrevNEW floatLeft{_displayPrevCommentVersionReadonlyClass(preview_is_readonly)}"><a style="cursor:pointer" onclick="SelectPreviousComment()"><img src="/i/docleftarrow.png" alt="" style="vertical-align:middle;" />&nbsp;Prev</a></span>
+					<span class="Comment-NextNEW floatLeft"><a style="cursor:pointer" onclick="SelectNextComment()"><img src="/i/docrightarrow.png" alt="" style="vertical-align:middle;" />&nbsp;Next</a></span>
+					<div class="P-Clear"></div>
+				</div>
 			</div>
 			<div class="P-Clear"></div>
 
@@ -103,8 +108,17 @@ $gTemplArr = array(
 		{comment_id}{document_id}
 		{msg}
 	',
-
+	
 	'comments.new_form_wrapper' => '
+			<div class="P-Clear"></div>
+			<div class="P-Comment-Nav-Btns">
+				{_displayNewCommentBtn(version_is_readonly)}
+			</div>
+			{_displayNewCommentForm(version_is_readonly, new_comment_form)}						
+			<div class="P-Clear"></div>
+	',
+
+	/*'comments.new_form_wrapper' => '
 						<div class="P-Clear"></div>
 						{_displayNewCommentBtn(version_is_readonly)}											
 						<div class="Comment-Prev floatLeft {_displayPrevCommentVersionReadonlyClass(version_is_readonly)}"><a onclick="SelectPreviousComment()"><img src="/i/docleftarrow.png" alt="" style="vertical-align:middle;" />&nbsp;Prev</a></div>
@@ -112,7 +126,7 @@ $gTemplArr = array(
 						<div class="P-Clear"></div>
 						{_displayNewCommentForm(version_is_readonly, new_comment_form)}						
 						<div class="P-Clear"></div>
-	',
+	',*/
 
 
 	'comments.new_comment_form' => '

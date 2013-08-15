@@ -32,7 +32,8 @@ $gTemplArr = array(
 			<div id="P-Wrapper-Right-Content">
 				<div class="content">
 					<div class="P-Article-StructureHead" id="CommentsFreeze">
-						Comments
+						<div>Comments</div>
+						{_displayCommentsHelp(version_is_readonly)}
 						{*comments.new_form_wrapper}
 						{*comments.filter}
 						<div class="P-Container-Toggler-Btn-Right" onclick="toggleRightContainer();"></div>
