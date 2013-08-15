@@ -90,7 +90,13 @@ $gTemplArr = array(
   <td><a href="view_document.php?id={id}&amp;view_role={role_id}"  target="_blank">'.getstr('pjs.dashboards.CompleteSubmission') . '</a></td></tr>',
 
 //Subject Editor In Review
-'dashboard.SubjectEditorInReview.STARTRS' => '<table class="dashboard"><tr>
+'dashboard.SubjectEditorInReview.STARTRS' => '
+<script type="text/javascript">
+  var style = document.createElement("style");
+  document.getElementsByTagName("head")[0].appendChild(style);
+  var s = document.styleSheets[document.styleSheets.length - 1];
+</script>
+<table class="dashboard"><tbody><tr>
   <th class="center">' . getstr('pjs.dashboards.ID') . '</th>
   <th>' . getstr('pjs.dashboards.TitleAuthors') . '</th>
   <th class="center">' . getstr('pjs.dashboards.ReviewType') . '</th>
@@ -99,17 +105,20 @@ $gTemplArr = array(
   <th>' . getstr('pjs.dashboards.Who') . '</th>
   <th>' . getstr('pjs.dashboards.Schedule') . '</th>
   <th class="days">' . getstr('pjs.dashboards.Days') . '</th>
-  <th><img src="/i/reminders.png" alt="' . getstr('pjs.dashboards.Remind') . '" title="' . getstr('pjs.dashboards.Remind') . '" /></th></tr>',
-'dashboard.SubjectEditorInReview.ROWTEMPL' => '<tr>
-  <td class="id right">{id}<br />{_editor_notes(editor_notes)}</td>
-  <td>{*pjs.submission}<br />{*dashboard.authors.all}</td>
-  <td class="center">{*pjs.review-type}</td>
-  <td class="center">{reviewround}</td>
-  <td>{_reduce(action, late)}</td>
-  <td>{_reduce(who, late)}</td>
-  <td>{_reduce(schedule, late)}</td>
-  <td class="days">{_reduce(days, late)}</td>
-  <td>{remind}</td></tr>',
+  <th><img src="/i/reminders.png" alt="' . getstr('pjs.dashboards.Remind') . '" title="' . getstr('pjs.dashboards.Remind') . '" /></th>
+  </tr><tbody>',
+'dashboard.SubjectEditorInReview.ROWTEMPL' => 
+'<tbody>
+<tr>
+  <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}" class="id right">{id}<br />{_editor_notes(editor_notes)}</td>
+  <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}">{*pjs.submission}<br />{*dashboard.authors.all}</td>
+  <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}" class="center">{*pjs.review-type}</td>
+  <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}" class="center">{reviewround}</td>
+  
+  {_merge_cells(action, who, schedule, days, late, remind)}
+  
+  </tr>
+  </tbody>',
 
 //Subject Editor In Production
 'dashboard.SubjectEditorInProduction.STARTRS' => '<table class="dashboard"><tr>
@@ -214,8 +223,14 @@ $gTemplArr = array(
   <td>{editorialdecision}</td>
   <td>{finaldecision}</td></tr>',
 
-//Editor Pending
-'dashboard.EditorPending.STARTRS' => '<table class="dashboard"><tr>
+//Editor Active
+'dashboard.EditorPending.STARTRS' => '
+<script type="text/javascript">
+  var style = document.createElement("style");
+  document.getElementsByTagName("head")[0].appendChild(style);
+  var s = document.styleSheets[document.styleSheets.length - 1];
+</script>
+<table class="dashboard"><tbody><tr>
   <th class="center">' . getstr('pjs.dashboards.ID') . '</th>
   <th>' . getstr('pjs.dashboards.TitleAuthors') . '</th>
   <th class="center">' . getstr('pjs.dashboards.ReviewType') . '</th>
@@ -224,17 +239,19 @@ $gTemplArr = array(
   <th>' . getstr('pjs.dashboards.Who') . '</th>
   <th>' . getstr('pjs.dashboards.Schedule') . '</th>
   <th class="days">' . getstr('pjs.dashboards.Days') . '</th>
-  <th><img src="/i/reminders.png" alt="' . getstr('pjs.dashboards.Remind') . '" title="' . getstr('pjs.dashboards.Remind') . '" /></th></tr>',
-'dashboard.EditorPending.ROWTEMPL' => '<tr>
-  <td class="id right">{id}<br />{_editor_notes(editor_notes)}</td>
-  <td>{*pjs.submission}<br />{*dashboard.authors.all}</td>
-  <td class="center">{*pjs.review-type}</td>
-  <td>{status}</td>
-  <td>{_reduce(action, late)}</td>
-  <td>{_reduce(who, late)}</td>
-  <td>{_reduce(schedule, late)}</td>
-  <td class="days">{_reduce(days, late)}</td>
-  <td>{remind}</td></tr>',
+  <th><img src="/i/reminders.png" alt="' . getstr('pjs.dashboards.Remind') . '" title="' . getstr('pjs.dashboards.Remind') . '" /></th></tr>
+</tbody>  ',
+'dashboard.EditorPending.ROWTEMPL' => '
+<tbody>
+<tr>
+  <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}" class="id right">{id}<br />{_editor_notes(editor_notes)}</td>
+  <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}">{*pjs.submission}<br />{*dashboard.authors.all}</td>
+  <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}" class="center">{*pjs.review-type}</td>
+  <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}" class="center">{status}</td>
+  {_merge_cells(action, who, schedule, days, late, remind)}
+  </tr>
+</tbody>
+  ',
 
 //Editor Unassigned
 'dashboard.EditorUnassigned.STARTRS' => '<table class="dashboard"><tr>
@@ -259,11 +276,9 @@ $gTemplArr = array(
 //Editor In Review
 'dashboard.EditorInReview.STARTRS' => '
 <script type="text/javascript">
-
-var style = document.createElement("style");
+  var style = document.createElement("style");
   document.getElementsByTagName("head")[0].appendChild(style);
   var s = document.styleSheets[document.styleSheets.length - 1];
-
 </script>
 <table class="dashboard"><tbody><tr>
   <th class="center">' . getstr('pjs.dashboards.ID') . '</th>

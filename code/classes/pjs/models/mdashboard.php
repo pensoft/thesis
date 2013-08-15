@@ -54,6 +54,7 @@ class mDashboard extends emBase_Model {
 	
 	function roler($dict){
 		return "(case when v.state = 9 											then ".$dict['pjs.dashboards.actions.reviseManuscript']."
+					  when v.state = 14											then ".$dict['pjs.dashboards.actions.reviseForCopyEd']."
 					  when rv.action = 'pjs.dashboards.actions.inviteReviewers' then ".$dict['pjs.dashboards.actions.inviteReviewers']."
 					  when rv.action = 'pjs.dashboards.actions.respond2request' then ".$dict['pjs.dashboards.actions.respond2request']."
 					  when rv.action = 'pjs.dashboards.actions.takeDecision' 	then ".$dict['pjs.dashboards.actions.takeDecision']."
@@ -62,6 +63,7 @@ class mDashboard extends emBase_Model {
 					  when rv.action = 'pjs.dashboards.actions.continueReview'  then ".$dict['pjs.dashboards.actions.continueReview']."
 					  when rv.action = 'pjs.dashboards.actions.submitLayout'	then ".$dict['pjs.dashboards.actions.submitLayout']."
 					  when rv.action = 'pjs.dashboards.actions.submitCopy'		then ".$dict['pjs.dashboards.actions.submitCopy']."
+					  
 				 			end)";
 	}
 									  
@@ -107,6 +109,7 @@ class mDashboard extends emBase_Model {
 				    	'pjs.dashboards.actions.submitCopy'		 => $this->scheduling($days2reviewPaper),
 				    	'pjs.dashboards.actions.reviewSubmitted' => "'pjs.dashboard.status.completed'",
 						'pjs.dashboards.actions.reviseManuscript'=> $this->scheduling($days2reviewPaper),
+						'pjs.dashboards.actions.reviseForCopyEd' => $this->scheduling($days2reviewPaper)
 						);
 		$days = array(
 						'pjs.dashboards.actions.inviteReviewers' => $this->days_remaining($days2inviteReviewers),
@@ -118,6 +121,7 @@ class mDashboard extends emBase_Model {
 					 	'pjs.dashboards.actions.submitCopy'  	 => $this->days_remaining($days2reviewPaper),
 					 	'pjs.dashboards.actions.reviewSubmitted' => "'pjs.dashboard.dash'::text",
 					 	'pjs.dashboards.actions.reviseManuscript'=> $this->days_remaining($days2reviewPaper),
+					 	'pjs.dashboards.actions.reviseForCopyEd' => $this->days_remaining($days2reviewPaper),
 					    );
 		$late = array(
 						'pjs.dashboards.actions.inviteReviewers' => $this->late($days2inviteReviewers),
@@ -129,6 +133,7 @@ class mDashboard extends emBase_Model {
 					 	'pjs.dashboards.actions.submitCopy'      => $this->late($days2reviewPaper),
 					 	'pjs.dashboards.actions.reviewSubmitted' => "'completed'::text",
 					 	'pjs.dashboards.actions.reviseManuscript'=> $this->late($days2reviewPaper),
+					 	'pjs.dashboards.actions.reviseForCopyEd' => $this->late($days2reviewPaper),
 					    );
 		
 		switch ($pViewingMode) {
@@ -250,18 +255,22 @@ class mDashboard extends emBase_Model {
 			case DASHBOARD_EDITOR_PENDING_ALL_VIEWMODE:
 				$role = JOURNAL_EDITOR_ROLE;
 				$lSql = "
+				select * from(
 				SELECT $idTitleAuthors,
 					 (case when v.state = 3 then 'review round ' || r.round_number::text
 					       else s.name end) as status,
 					 v.editor_notes,
 					 v.review_type as review_num, rt.name as review_type,
 					 r.round_number as reviewround, $role as role_id,
-					 (case when v.state = " . DOCUMENT_APPROVED_FOR_PUBLISH . " then 'pjs.actions.askTeo'
-					       else rv.action end) as action,
+					 (case when v.state = 3 then rv.action
+		 				   when v.state = 9 then 'pjs.dashboards.actions.WaitingAuthorAfterReviewRound'
+		 				   when v.state = 14 then 'pjs.dashboards.actions.WaitingAuthorSubmitVersionCopyEdit'
+		 				    end) as action,
 					 u.first_name || '&nbsp;' || u.last_name::text as who, 
  					 ". $this->roler($schedule)." as schedule,
 					 ". $this->roler($late)." as late,   
-					 ". $this->roler($days)." as days 
+					 ". $this->roler($days)." as days,
+					 ''::text as remind 
 				FROM pjs.v_getdocumentsandauthors v
 					JOIN pjs.document_review_rounds r ON  r.id = v.current_round
 						LEFT JOIN pjs.v_reviewers rv ON rv.round_id = r.id
@@ -271,9 +280,10 @@ class mDashboard extends emBase_Model {
 							  
 				WHERE v.journal = $pJournalId 
 				  AND v.state in $this->activeStates
-				ORDER BY v.doc_id asc";
+				ORDER BY v.doc_id asc) as a
+				where action is not null";
 				
-				$group = array('action', 'who', 'schedule', 'days', 'late');
+				$group = array('action', 'who', 'schedule', 'days', 'late', 'remind');
 				$verbatim = 11; 	
 				break;			
 			case DASHBOARD_EDITOR_PENDING_UNASSIGNED_VIEWMODE:
@@ -331,10 +341,9 @@ class mDashboard extends emBase_Model {
 					" . $this->schedule() . "
 				FROM pjs.v_getdocumentsandauthors v 
 				JOIN pjs.document_review_round_users rru ON rru.round_id = v.current_round
-				JOIN pjs.document_users du ON du.uid = rru.document_user_id
+				JOIN pjs.document_users du ON du.id = rru.document_user_id
 				WHERE v.journal = $pJournalId 
 				  AND v.state in  $this->inCopyEditStates
-				  AND du.role_id = " . CE_ROLE . "
 				ORDER BY v.doc_id asc"; break;
 					
 			case DASHBOARD_EDITOR_PENDING_IN_LAYOUT_VIEWMODE:
@@ -559,7 +568,6 @@ class mDashboard extends emBase_Model {
 
 				while(! $lCon->Eof()){
 					$record = $lCon->mRs; $id = $record['id'];
-
 					if (empty($lResult[$id]))					
 						 $lResult[$id] = array_slice($record, 0, $verbatim); 
 
@@ -579,7 +587,7 @@ class mDashboard extends emBase_Model {
 			//	header("location: " . SITE_URL . "view_document?view_role=$role&id=" . $lResult[0]['id']);
 		 }
 		
-		 //var_dump($lResult);
+		 //print_r($lResult);
 		 //exit();
 		 
 		//var_dump($lCon->GetLastError());
