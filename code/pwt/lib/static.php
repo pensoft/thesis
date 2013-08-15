@@ -2358,8 +2358,8 @@ function showCommentEditForm($pCommentId, $pCommentUsrId, $pDocumentId, $pVersio
 function showCommentPic($pPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserId) {
 	$lUserIsDisclosed = CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserId);
 	if($pPhotoId && $lUserIsDisclosed)
-		return '<img border="0" alt="" src="/showimg.php?filename=c27x27y_' . (int)$pPhotoId . '.jpg" />';
-	return '<img src="./i/user_no_img.png" alt="" style="height:27px;width:27px" />';
+		return '<img border="0" alt="" height="27" width="27" src="/showimg.php?filename=c27x27y_' . (int)$pPhotoId . '.jpg" />';
+	return '<img src="./i/user_no_img.png" alt="" height="27" width="27" />';
 }
 
 function displaySingleCommentInfo($pCommentId, $pRootId, $pUserPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName, $pCommentDate, $pCommentDateInSeconds, 
@@ -2376,7 +2376,7 @@ function displaySingleCommentInfo($pCommentId, $pRootId, $pUserPhotoId, $pIsDisc
 	$lResult = '			
 			<div class="P-Comments-Info">
 				' . ($pInRoot ? 
-					'<div class="P-Comment-Type-Icon"><img src="' . $lImgSrc . '" /></div>'
+					'<div class="P-Comment-Type-Icon"><img alt="" width="19" height="27" src="' . $lImgSrc . '" /></div>'
 					:
 					'' 
 				) . '

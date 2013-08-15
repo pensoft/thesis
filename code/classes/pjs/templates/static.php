@@ -2818,8 +2818,8 @@ function showNoPanelsData($pType, $pReviewType, $pDocumentId, $pRoundNumber) {
 function showCommentPic($pPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId) {
 	$lIsDisclosed = CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId);
 	if($pPhotoId && $lIsDisclosed)
-		return '<img border="0" alt="" src="' . PWT_URL . '/showimg.php?filename=c30x30y_' . (int)$pPhotoId . '.jpg" />';
-	return '<img src="' . PWT_URL . '/i/user_no_img.png" alt="" />';
+		return '<img border="0" alt="" height="27" width="27" src="' . PWT_URL . '/showimg.php?filename=c27x27y_' . (int)$pPhotoId . '.jpg" />';
+	return '<img src="' . PWT_URL . '/i/user_no_img.png" alt="" height="27" width="27" />';
 }
 
 function showFormatedPubDate($pPubdate, $pDateOnly = false, $pSwitchDateYear = false) {
@@ -3097,7 +3097,7 @@ function displaySingleCommentInfo($pCommentId, $pRootId, $pCurrentUserIsEditor, 
 	$lResult = '
 			<div class="P-Comments-Info">
 				' . ($pInRoot ?
-						'<div class="P-Comment-Type-Icon"><img src="' . $lImgSrc . '" /></div>'
+						'<div class="P-Comment-Type-Icon"><img alt="" width="19" height="27" src="' . $lImgSrc . '" /></div>'
 						:
 						''
 				) . '
