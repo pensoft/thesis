@@ -104,7 +104,7 @@ $gTemplArr = array(
 				</tr>',
 	'view_version_pwt.poll_row' => '
 		<tr>
-			<td>{_returnQuestion(rownum)}</td>
+			<td>{label}</td>
 			<td class="center">{1}</td>
 			<td class="center">{2}</td>
 			<td class="center">{3}</td>
@@ -118,7 +118,7 @@ $gTemplArr = array(
 					<td>' . getstr('admin.article_versions.quest1') . '<span class="txtred">*</span></td>
 					<td class="center">' . getstr('admin.article_versions.option1') . '</td><td class="center">' . getstr('admin.article_versions.option2') . '</td><td class="center">' . getstr('admin.article_versions.option3') . '</td><td class="center">' . getstr('admin.article_versions.option4') . '</td>
 				</tr>
-				<tr><td>111' . getstr('admin.article_versions.quest2') . '</td></tr>
+				<tr><td>' . getstr('admin.article_versions.quest2') . '</td></tr>
 				<tr><td>' . getstr('admin.article_versions.quest3') . '</td></tr>
 				<tr><td>' . getstr('admin.article_versions.quest4') . '</td></tr>
 				<tr><td>' . getstr('admin.article_versions.quest5') . '</td></tr>
