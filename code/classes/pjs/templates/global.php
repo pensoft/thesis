@@ -136,6 +136,78 @@ $gTemplArr = array(
 		</head>
 	<body>
 	',
+	
+	'global.htmlonlyheader_article' => '
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="bg" lang="bg">
+		<head>
+			<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+			<title>{pagetitle}</title>
+			<meta name="description" content="{description}" />
+			<meta name="keywords" content="{keywords}" />
+			<meta name="author" content="Etaligent.NET"/>
+			<meta name="distribution" content="global"/>
+			<meta name="robots" content="index, follow, all"/>
+	
+			<link rel="SHORTCUT ICON" href="/favicon.ico" />
+			<link type="text/css" rel="stylesheet" href="/lib/def.css" media="all" title="default" />
+			<link type="text/css" rel="stylesheet" href="/lib/version_preview.css" media="all" title="default" />
+			<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css" media="all" title="default" />
+			<link type="text/css" rel="stylesheet" href="/lib/article.css" media="all" title="default" />		
+	
+			<script src="/lib/js/jquery.js" type="text/javascript"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js"></script>
+			<script type="text/javascript" src="/lib/js/def.js" type="text/javascript"></script>
+			<script type="text/javascript" src="/lib/js/article.js" type="text/javascript"></script>
+		
+		
+			<script type="text/javascript">
+				$(window).load(function(){
+					gWindowIsLoaded = true;
+			
+				});
+			</script>
+		</head>
+		<body>
+	',
+	
+	'global.htmlonlyheader_article_preview' => '
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="bg" lang="bg">
+			<head>
+				<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+				<title>{pagetitle}</title>
+				<meta name="description" content="{description}" />
+				<meta name="keywords" content="{keywords}" />
+				<meta name="author" content="Etaligent.NET"/>
+				<meta name="distribution" content="global"/>
+				<meta name="robots" content="index, follow, all"/>
+		
+				<link rel="SHORTCUT ICON" href="/favicon.ico" />
+				<link type="text/css" rel="stylesheet" href="/lib/version_preview.css" media="all" title="default" />
+				<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css" media="all" title="default" />
+				<!--link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview.css" media="all" title="default"/-->
+				<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css" media="all" title="default"/>
+				<link type="text/css" rel="stylesheet" href="/lib/editor.css" media="all" />
+		
+				<script src="/lib/js/jquery.js" type="text/javascript"></script>
+				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js"></script>
+				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js"></script>
+				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js"></script>
+				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js"></script>		
+				
+				<script type="text/javascript">				
+					$(window).load(function(){
+						gWindowIsLoaded = true;
+						
+					});
+				</script>
+			</head>
+			<body>
+	',
 
 	'global.htmlonlyfooter' => '
 	{_phpGetLoggedErrors()}
@@ -557,6 +629,18 @@ $gTemplArr = array(
 		'{*global.htmlonlyheader_version}
 				{preview}
 			</div>
+		{*global.htmlonlyfooter}
+	',
+	
+	'global.article_page' =>'
+		{*global.htmlonlyheader_article}
+			{contents}			
+		{*global.htmlonlyfooter}
+	',
+	
+	'global.article_preview_page' =>'
+		{*global.htmlonlyheader_article_preview}
+			{contents}
 		{*global.htmlonlyfooter}
 	',
 

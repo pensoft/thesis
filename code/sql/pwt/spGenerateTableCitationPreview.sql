@@ -1,4 +1,4 @@
-DROP TYPE ret_spGenerateTableCitationPreview CASCADE;
+﻿DROP TYPE ret_spGenerateTableCitationPreview CASCADE;
 
 CREATE TYPE ret_spGenerateTableCitationPreview AS (
 	citation_id bigint,
@@ -18,22 +18,16 @@ $BODY$
 		
 		lRecord record;		
 		lRecord2 record;
-		lRecord3 record;
 		
 		lCitatedTables bigint[];
 		
 		lCurrentTableNum int;		
 		
-		lStartPos int;
-		lEndPos int;
 		lTableIter int;		
 		lTableId bigint;
 		lTableCitationType int = 2;
 		
 		lItemNumFieldId bigint = 489;
-		lGroupStartNum int = 0;
-		lPreviousNum int = 0;
-		lCurrentNum int = 0;
 	BEGIN				
 		SELECT INTO lRecord * 
 		FROM pwt.citations 
@@ -74,45 +68,14 @@ $BODY$
 			WHERE i.id = ANY(lRecord.object_ids) AND i.is_confirmed = true
 			ORDER BY i.pos ASC
 		LOOP
-			lCurrentNum = lRecord2.idx;
-			IF lGroupStartNum = 0 THEN
-				lGroupStartNum = lCurrentNum;
-			END IF;
-			lXrefTemp = lXrefTemp || '<xref class="hide" tid="' || coalesce(lRecord2.id::varchar, '') || '" tblnumber="' || coalesce(lRecord2.idx::varchar, '') || '"></xref>';
-			
-			IF lPreviousNum > 0 AND lPreviousNum + 1 < lCurrentNum THEN -- End Of Group
-				IF lTableIter > 1 THEN
+			IF lTableIter > 1 THEN
 					lTemp = lTemp || ', ';
-				END IF;
-				IF lGroupStartNum = lPreviousNum THEN -- Цитиран е само 1 фигура (няма група)
-					lTemp = lTemp || lGroupStartNum;
-				ELSE -- Цитирана е група от картинки
-					IF lPreviousNum - lGroupStartNum > 1 THEN
-						lTemp = lTemp || lGroupStartNum || '-' || lPreviousNum;
-					ELSE
-						lTemp = lTemp || lGroupStartNum || ', ' || lPreviousNum;
-					END IF;
-				END IF;
-				lGroupStartNum = lCurrentNum;
-				lTableIter = lTableIter + 1;
-			END IF;		
-			lPreviousNum = lRecord2.idx;
-		END LOOP;
-		IF lTableIter > 1 THEN
-			lTemp = lTemp || ', ';
-		END IF;
-		IF lGroupStartNum = lPreviousNum THEN -- Цитиран е само 1 фигура (няма група)
-			lTemp = lTemp || lGroupStartNum;
-		ELSE -- Цитирана е група от картинки
-			IF lPreviousNum - lGroupStartNum > 1 THEN
-				lTemp = lTemp || lGroupStartNum || '-' || lPreviousNum;
-			ELSE
-				lTemp = lTemp || lGroupStartNum || ', ' || lPreviousNum;
 			END IF;
-		END IF;
-		
-		-- Накрая добавяме xref-овете
-		lTemp = coalesce(lTemp, '') || lXrefTemp;
+			lTemp = lTemp || '<xref class="hide" type="table" rid="' || coalesce(lRecord2.id::varchar, '') || '" tblnumber="' || coalesce(lRecord2.idx::varchar, '') || '">' ||
+						lRecord2.idx ||
+					 '</xref>';
+			lTableIter = lTableIter + 1;
+		END LOOP;
 		lRes.preview = lTemp;
 		RETURN lRes;		
 	END

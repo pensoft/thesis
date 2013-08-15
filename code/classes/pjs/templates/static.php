@@ -126,19 +126,41 @@ function SEexpertise($first, $second) {
 	return $first . (($first && $second) ? '<br />&nbsp;' : '') . $second;
 }
 function translate($text, $late) {
-	$prefix = $suffix = "";
-	if($late == 'late'){
-		$prefix = '<span class="late">';
-		$suffix = '</span>';
-	}
-	return $prefix . getstr($text) . $suffix;
+	return  "<td class='$late'>" . getstr($text) . '</td>';
 }
+/*
 function reduce($pWho, $late) {
 	foreach($pWho as $key => $value){
 		$pWho[$key] = translate($pWho[$key], $late[$key]);
 	}
-	return implode("<br />", $pWho);
+	return '<td>' . implode("</td><td>", $pWho) . '</td>';
+}*/
+
+function translate_row($action, $who, $schedule, $days, $state, $reminder){
+	return translate($action, $state) .
+		   translate($who, $state) .
+		   translate($schedule, $state) .
+		   translate($days, $state . ' days').
+		   translate($reminder, $state);;
 }
+
+function merge_cells($action, $who, $schedule, $days, $state, $remind){
+	$first_row = translate_row( array_shift($action), 
+								array_shift($who), 
+								array_shift($schedule), 
+								array_shift($days), 
+								array_shift($state),
+								array_shift($remind)
+			);
+	return $first_row . 
+		implode('', array_map(
+			function($action1, $who1, $schedule1, $days1, $state1, $remind1){
+				$otherRow = translate_row($action1, $who1, $schedule1, $days1, $state1, $remind1);
+				return "</tr>\n<tr>" . $otherRow;	
+			},
+			$action, $who, $schedule, $days, $state, $remind));
+}
+
 function comma_if($lst) {
 	return (strlen($lst) > 0) ? ", $lst" : "";
 }
@@ -2922,9 +2944,28 @@ function  displayNewCommentBtn($pVersionIsReadonly){
 	if((int)$pVersionIsReadonly){
 		return;
 	}
-	return '<div class="comment_btn floatLeft " id="P-Comment-Btn-General" onmousedown="submitPreviewNewComment(1);return false"></div>
-			<div class="comment_btn floatLeft P-Comment-Inline-Main-Btn " id="P-Comment-Btn-Inline" onmousedown="submitPreviewNewComment();return false"></div>
-			';
+	return '<div style="margin-right:8px" class="comment_btn floatLeft P-Comment-Inline-Main-Btn" id="P-Comment-Btn-Inline" onmousedown="submitPreviewNewComment();return false"></div>	
+			<div class="comment_btn floatLeft " id="P-Comment-Btn-General" title="Comment issues related to the whole manuscript." onmousedown="submitPreviewNewComment(1);return false"></div>';
+}
+
+function  displayCommentsHelp($pVersionIsReadonly){
+	if((int)$pVersionIsReadonly){
+		return;
+	}
+
+	return '<div class="P-Input-Help" style="float: left; left: 100px;">
+				<div class="P-Baloon-Holder" style="top: 22px; left: -87px; position: absolute; z-index: 999;">
+					<div class="P-Baloon-Arrow" style="top: -4px; background-image: url(\'/i/boloon_arrow_top.png\'); height: 13px; left: 42px; position: absolute; width: 22px;"></div>
+					<div class="P-Baloon-Top"></div>
+					<div class="P-Baloon-Middle" style="width:280px;">
+						<div class="P-Baloon-Content" style="font-weight:normal; color:#333;">
+							There are two kinds of comments you can make on a manuscript.<br><br><b>Inline comments</b> are linked to a text selected in an editable field  (orange/gray outline on click/hover), but not to selected template texts, such as titles of the manuscript sections.<br><br><b>General comments</b> should be associated with the whole manuscript and not with selected parts parts of it. 
+						</div>
+						<div class="P-Clear"></div>
+					</div>
+					<div class="P-Baloon-Bottom"></div>
+				</div>
+			</div>';
 }
 
 function displayNewCommentForm($pVersionIsReadonly, $pForm){
@@ -3083,7 +3124,6 @@ function displayRootCommentActions($pCommentId, $pOriginalId, $pIsResolved, $pRe
 // 	var_dump($pCommentReplyForms, $pVersionIsReadonly);
 	if($pVersionIsReadonly){
 		return '
-			<div class="P-Inline-Line"></div>
 			<div class="P-Comment-Root-Action-Btns">
 				' . displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pVersionIsReadonly) . '
 				<div class="P-Clear"></div>

@@ -1499,7 +1499,7 @@ $STRARRAY = array(
 	'pjs.dashboard.schedule.done' => 'done',
 	'pjs.dashboard.schedule.duetoday' => 'due',
 	'pjs.dashboard.schedule.today' => 'today',
-	'pjs.dashboard.status.completed' => 'complete',
+	'pjs.dashboard.status.completed' => 'completed',
 	'pjs.dashboard.status.published' => 'published',
 	'pjs.dashboard.dash' => '-',
 

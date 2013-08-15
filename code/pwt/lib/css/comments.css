@@ -20,6 +20,10 @@
 	background: #F1F4F3;
 }
 
+.CommentsTextForIdiots{
+	font-size: 11px;
+    margin-top: 7px;
+}
 
 .Comment-Resolve-Info input[type="checkbox"] {
 	margin: 8px 3px 3px 4px;
@@ -208,7 +212,25 @@
 }
 
 .P-Comment-Nav-Btns{
+	margin-top:6px;
 	margin-bottom:10px;
+}
+
+.P-Comment-Nav-BtnsNEW{
+	float:right;
+}
+
+.Comment-PrevNEW, .Comment-NextNEW{
+	font-size:12px;
+}
+
+.Comments-Filter{
+	margin-top: 8px;
+	margin-left: 2px;
+}
+
+#Comments-Collapse-Expand-Top a{
+	text-decoration: none;
 }
 
 .Comment-Prev.Comment-Prev-Readonly{
