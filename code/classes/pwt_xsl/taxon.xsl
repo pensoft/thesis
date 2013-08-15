@@ -364,12 +364,12 @@
 						<xsl:text> </xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
-			
+				<span class="tn">
 				<!-- value -->
 				<xsl:if test="$lRankValue != ''">
 						<xsl:choose>
 							<xsl:when test="$lRankType = 'genus'">
-								<i>
+								<span class="genus">
 									<xsl:call-template name="markContentEditableField">
 										<xsl:with-param name="pObjectId" select="./@object_id" />
 										<xsl:with-param name="pFieldId">48</xsl:with-param>
@@ -377,10 +377,10 @@
 									<xsl:attribute name="field_id">48</xsl:attribute>
 									<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 									<xsl:apply-templates select="$lRankValue" mode="formatting"/>
-								</i>
+								</span>
 							</xsl:when>
 							<xsl:when test="$lRankType = 'subgenus'">
-								<i>
+								<span class="subgenus">
 									<xsl:call-template name="markContentEditableField">
 										<xsl:with-param name="pObjectId" select="./@object_id" />
 										<xsl:with-param name="pFieldId">417</xsl:with-param>
@@ -388,11 +388,11 @@
 									<xsl:attribute name="field_id">417</xsl:attribute>
 									<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 									<xsl:apply-templates select="$lRankValue" mode="formatting"/>
-								</i>
+								</span>
 							</xsl:when>
 							<xsl:when test="$lRankType = 'species' or $lRankType = 'subspecies' or $lRankType = 'variety' or $lRankType = 'form'">	
 								<!-- $Genus-->
-								<i>
+								<span class="genus">
 									<xsl:call-template name="markContentEditableField">
 										<xsl:with-param name="pObjectId" select="./@object_id" />
 										<xsl:with-param name="pFieldId">48</xsl:with-param>
@@ -400,11 +400,11 @@
 									<xsl:attribute name="field_id">48</xsl:attribute>
 									<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 									<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting_nospace"/>
-								</i>
+								</span>
 								<xsl:if test="./fields/*[@id='417']/value != ''">	
 									<xsl:text> (</xsl:text>
 									<!-- $Subgenus-->
-									<i>
+									<span class="subgenus">
 										<xsl:call-template name="markContentEditableField">
 											<xsl:with-param name="pObjectId" select="./@object_id" />
 											<xsl:with-param name="pFieldId">417</xsl:with-param>
@@ -412,11 +412,11 @@
 										<xsl:attribute name="field_id">417</xsl:attribute>
 										<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 										<xsl:apply-templates select="./fields/*[@id='417']" mode="formatting_nospace"/>
-									</i><xsl:text>)</xsl:text>
+									</span><xsl:text>)</xsl:text>
 								</xsl:if>
 								<xsl:text> </xsl:text>
 								<!-- $Species -->
-								<i>
+								<span class="species">
 									<xsl:call-template name="markContentEditableField">
 										<xsl:with-param name="pObjectId" select="./@object_id" />
 										<xsl:with-param name="pFieldId">49</xsl:with-param>
@@ -424,9 +424,9 @@
 									<xsl:attribute name="field_id">49</xsl:attribute>
 									<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 									<xsl:apply-templates select="./fields/*[@id='49']" mode="formatting_nospace"/>
-								</i>
+								</span>
 								<xsl:if test="$lRankType = 'subspecies'"> subsp. 
-									<i>
+									<span class="subspecies">
 										<xsl:call-template name="markContentEditableField">
 											<xsl:with-param name="pObjectId" select="./@object_id" />
 											<xsl:with-param name="pFieldId">418</xsl:with-param>
@@ -434,10 +434,10 @@
 										<xsl:attribute name="field_id">418</xsl:attribute>
 										<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 										<xsl:apply-templates select="./fields/*[@id='418']" mode="formatting_nospace"/>
-									</i>
+									</span>
 								</xsl:if>
 								<xsl:if test="$lRankType = 'variety'"> 	 var.   
-									<i>
+									<span class="variety">
 										<xsl:call-template name="markContentEditableField">
 											<xsl:with-param name="pObjectId" select="./@object_id" />
 											<xsl:with-param name="pFieldId">435</xsl:with-param>
@@ -445,10 +445,10 @@
 										<xsl:attribute name="field_id">435</xsl:attribute>
 										<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 										<xsl:apply-templates select="./fields/*[@id='435']" mode="formatting_nospace"/>
-									</i>
+									</span>
 								</xsl:if>
 								<xsl:if test="$lRankType = 'form'">		 f.     
-									<i>
+									<span class="form">
 										<xsl:call-template name="markContentEditableField">
 											<xsl:with-param name="pObjectId" select="./@object_id" />
 											<xsl:with-param name="pFieldId">436</xsl:with-param>
@@ -456,15 +456,16 @@
 										<xsl:attribute name="field_id">436</xsl:attribute>
 										<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 										<xsl:apply-templates select="./fields/*[@id='436']" mode="formatting_nospace"/>
-									</i>
+									</span>
 								</xsl:if>	
 							 </xsl:when>	
 							<xsl:otherwise>	
-								<span id="sad">
+								<span>
 									<xsl:call-template name="markContentEditableField">
 										<xsl:with-param name="pObjectId" select="./@object_id" />
 										<xsl:with-param name="pFieldId" select="$RankID" />
 									</xsl:call-template>
+									<xsl:attribute name="class"><xsl:value-of select="$lRankType" /></xsl:attribute>
 									<xsl:attribute name="field_id"><xsl:value-of select="$RankID" /></xsl:attribute>
 									<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 									<xsl:apply-templates select="$lRankValue" mode="formatting"/>
@@ -473,7 +474,7 @@
 					</xsl:choose>
 				</xsl:if>
 				<xsl:text> </xsl:text>
-				<span>
+				<span class="authority">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
 						<xsl:with-param name="pFieldId">236</xsl:with-param>
@@ -482,7 +483,7 @@
 					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 					<xsl:apply-templates select="./fields/*[@id='236']" mode="formatting"/>
 				</span>
-			</h3>
+			</span></h3>
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

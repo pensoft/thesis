@@ -366,3 +366,7 @@ td p, th p {
 .DataSetColumnsHolder {
 	padding-left: 20px;
 }
+
+.species, .genus, .subgenus, .subspecies, .variety, .form {
+	font-style:italic;	
+}
