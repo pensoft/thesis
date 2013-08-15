@@ -1,4 +1,4 @@
-DROP TYPE ret_spGenerateSupFileCitationPreview CASCADE;
+﻿DROP TYPE ret_spGenerateSupFileCitationPreview CASCADE;
 
 CREATE TYPE ret_spGenerateSupFileCitationPreview AS (
 	citation_id bigint,
@@ -93,9 +93,9 @@ $BODY$
 			IF lIter > 1 THEN
 				lTemp = lTemp || ', ';
 			END IF;
-			lXrefTemp = lXrefTemp || '<xref class="hide" fid="' || coalesce(lRecord2.id::varchar, '') || '"></xref>';
-			lTemp = lTemp || coalesce(lRecord2.idx::varchar, '');
-			
+			lTemp = lTemp || '<xref class="hide" type="suppl" rid="' || coalesce(lRecord2.id::varchar, '') || '" tblnumber="' || coalesce(lRecord2.idx::varchar, '') || '">' ||
+						coalesce(lRecord2.idx::varchar, '') ||
+					 '</xref>';
 			lIter = lIter + 1;
 		END LOOP;
 		
