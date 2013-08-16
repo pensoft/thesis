@@ -11,6 +11,8 @@
 	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
 	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
 	<xsl:param  name="pSiteUrl"></xsl:param>
+	<!-- This parameter will be passed when we generate the previews for article of the future -->
+	<xsl:param  name="pInArticleMode">0</xsl:param>
 	
 	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
 	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
@@ -905,4 +907,62 @@
 				</div>
 			</div>
 	</xsl:template>
+	
+	<!-- Article of the future SINGLE ELEMENT PREVIEWS START -->
+	<!-- Article of the future preview template of a single figure -->
+	<xsl:template match="*" mode="article_preview_figure">
+		<!-- The node of the specific figure -->
+		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+	</xsl:template>
+	
+	<!-- Article of the future preview template of a single plate -->
+	<xsl:template match="*" mode="article_preview_plate">
+		<!-- The node of the specific plate part (i.e. that is na instance which has an object id IN (225, 226, 227, 228, 229, 230) -->
+		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+	</xsl:template>
+	
+	<!-- Article of the future preview template of a single table -->
+	<xsl:template match="*" mode="article_preview_table">
+		<!-- The node of the specific table -->
+		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+	</xsl:template>
+	
+	<!-- Article of the future preview template of a single reference -->
+	<xsl:template match="*" mode="article_preview_reference">
+		<!-- The node of the specific reference -->
+		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+	</xsl:template>
+	
+	<!-- Article of the future preview template of a single sup file -->
+	<xsl:template match="*" mode="article_preview_sup_file">
+		<!-- The node of the specific sup file -->
+		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+	</xsl:template>
+	
+	<!-- Article of the future preview template of the figures list -->
+	<xsl:template match="*" mode="article_figures_list">
+		<!-- The node of the figures holder -->
+		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+	</xsl:template>
+	<!-- Article of the future SINGLE ELEMENT PREVIEWS END -->
+	
+	<!-- Article of the future LIST PREVIEWS START -->
+	<!-- Article of the future preview template of the tables list -->
+	<xsl:template match="*" mode="article_tables_list">
+		<!-- The node of the tables holder -->
+		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+	</xsl:template>
+	
+	<!-- Article of the future preview template of the references list -->
+	<xsl:template match="*" mode="article_references_list">
+		<!-- The node of the references holder -->
+		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+	</xsl:template>
+	
+	<!-- Article of the future preview template of the sup files list -->
+	<xsl:template match="*" mode="article_sup_files_list">
+		<!-- The node of the sup files holder -->
+		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+	</xsl:template>
+	<!-- Article of the future LIST PREVIEWS END -->
 </xsl:stylesheet>
