@@ -64,12 +64,27 @@ class cTask_Manager extends cBase_Controller {
 	 */
 	var $m_eventDataArr = array();
 	
+	/**
+	 * Event actions array
+	 * 
+	 * @var array() 
+	 */
+	var $m_eventActionsArr = array();
+	
+	/**
+	 * additional parameters used for events actions
+	 * 
+	 * @var array()
+	 */
+	var $m_AdditionalParams = array();
+	
 	function __construct($pFieldTempl) {
 		parent::__construct();
 		
 		$this->m_eventId = $pFieldTempl['event_id'];
 		$this->m_uPass = $pFieldTempl['upass'];
 		$this->m_JournalId = (array_key_exists('journal_id', $pFieldTempl) ? $pFieldTempl['journal_id'] : 0);
+		$this->m_AdditionalParams = (is_array($pFieldTempl['additional_params']) ? $pFieldTempl['additional_params'] : array());
 		
 		//trigger_error('EVENT ID: ' . $pFieldTempl['event_id'], E_USER_NOTICE);
 		if(!(int)$this->m_eventId) {
@@ -260,22 +275,66 @@ class cTask_Manager extends cBase_Controller {
 	}
 
 	/**
+	 * private function ExecEventActions()
+	 * 
+	 * This method evals event action code
+	 * @return void()
+	 */
+	private function ExecEventActions(){
+		$this->m_eventActionsArr = $this->m_taskModel->GetEventActions($this->m_eventId, $this->m_eventDataArr['journal_id']);
+		$lResult = array(
+			'err_cnt' => 0,
+			'err_msgs' => array()
+		);
+		
+		foreach ($this->m_eventActionsArr as $key => $value) {
+			//trigger_error('!!!!!!!!!!!!!!invitation_id!!!!!!!!!!: ' . (int)$this->m_AdditionalParams['invitation_id'], E_USER_NOTICE);
+			if($value['eval_code']) {
+				//trigger_error('CODE: ' . $value['eval_code'], E_USER_NOTICE);
+				try{
+					eval($value['eval_code']);
+				}catch(Exception $pException){
+					$lResult['err_cnt'] ++;
+					$lResult['err_msgs'][] = array(
+						'err_msg' => $pException->getMessage()
+					);
+				}
+			}
+		}
+		
+		//trigger_error('ERRORS: ' . var_export($lResult, 1), E_USER_NOTICE);
+		
+		return $lResult;
+	}
+
+	/**
 	 * If there are errors - we display them.
 	 *
 	 */
 	function Display(){
 		//trigger_error('CREATING TASK DEBUG POINT', E_USER_NOTICE);
+		
 		$this->m_eventDataArr = $this->GetEventData();
+		
+		// exec event actions here 
+		$this->ExecEventActions();
+		
 		//trigger_error('ERRORS1: ' . $this->m_errCnt, E_USER_NOTICE);
 		//trigger_error('GetEventData() DEBUG POINT', E_USER_NOTICE);
+		
 		$lTaskDefinition = $this->GetTaskDefinition((int)$this->m_eventDataArr['document_id'], (int)$this->m_JournalId);
+		
 		//trigger_error('GetTaskDefinition() DEBUG POINT', E_USER_NOTICE);
 		//trigger_error('ERRORS2: ' . $this->m_errCnt, E_USER_NOTICE);
+		
 		if($this->m_errCnt){
 			return $this->m_errMsgs;
 		}
+		
 		$this->CreateTask($lTaskDefinition);
+		
 		//trigger_error('CreateTask() DEBUG POINT', E_USER_NOTICE);
+		
 		if($this->m_errCnt){
 			return $this->m_errMsgs;
 		}

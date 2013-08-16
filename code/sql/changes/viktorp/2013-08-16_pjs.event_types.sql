@@ -1,0 +1,1 @@
+INSERT INTO pjs.event_types(name) VALUES('Reviewer automatically canceled');

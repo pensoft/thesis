@@ -21,12 +21,14 @@ class cReminders_Manager_Controller extends cBase_Controller {
 	}
 	
 	function Display() {
-		
 		$lRemindersData = $this->m_RemindersModel->GetRemindersData();
 		foreach ($lRemindersData as $key => $value) {
 			$lSql = str_replace(array('{offset}', '{journal_id}'), array($value['offset'], $value['journal_id']), $value['condition_sql']);
+			//trigger_error('$lConditionSqlData: ' . $lSql, E_USER_NOTICE);
 			$lConditionSqlData = $this->m_RemindersModel->GetConditionSqlData($lSql);
+			
 			foreach ($lConditionSqlData as $condition_key => $condition_value) {
+				$lAdditionalParams = array();
 				$lEventIdData = $this->m_RemindersModel->CreateEvent(
 					$value['event_type_id'], 
 					$condition_value['document_id'],
@@ -39,9 +41,14 @@ class cReminders_Manager_Controller extends cBase_Controller {
 				echo "\n\n" . 'Document ID: ' . $condition_value['document_id'];
 				echo "\n" . 'Event Type ID: ' . $value['event_type_id'];
 				if($lEventId) {
+					if($condition_value['invitation_id']) {
+						$lAdditionalParams['invitation_id'] = (int)$condition_value['invitation_id'];
+					}
+					//trigger_error('EVENT: ' . $lEventId, E_USER_NOTICE);
 					echo "\n" . 'Event ID: ' . (int)$lEventId;
 					$lTaskObj = new cTask_Manager(array(
 						'event_id' => (int)$lEventId,
+						'additional_params' => $lAdditionalParams,
 					));
 					$lTaskObj->Display();
 				} else {
