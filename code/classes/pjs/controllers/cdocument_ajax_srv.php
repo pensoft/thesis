@@ -111,6 +111,9 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 			case 'revert_le_xml_version' :
 				$this->RevertLEXMLVersion();
 				break;
+			case 'automatically_cancel_reviewer_invitation':
+				$this->AutomaticallyCancelReviewerInvitation();
+				break;
 		}
 
 		$lResultArr = array_merge($this->m_action_result, array(
@@ -486,6 +489,46 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 		}
 	}
 
+	function AutomaticallyCancelReviewerInvitation() {
+		try{
+			$lInvitationId = (int) $this->GetValueFromRequestWithoutChecks('invitation_id');
+			$lDocumentId = (int) $this->GetValueFromRequestWithoutChecks('document_id');
+			$lDocumentsModel = new mDocuments_Model();
+
+			$this->m_action_result = $lDocumentsModel->AutomaticallyCancelReviewerInvitation($lDocumentId, $lInvitationId);
+			if($this->m_action_result['err_cnt']){
+				$this->m_errCnt = $this->m_action_result['err_cnt'];
+				$this->m_errMsgs = $this->m_action_result['err_msgs'];
+			} else {
+				/**
+				 * Manage event task (submitting new document)
+				 */
+				$lTaskObj = new cTask_Manager(array(
+					'event_id' => (int)$this->m_action_result['event_id'],
+				));
+				$lTaskObj->Display();
+			
+				$lArrEvents[] = (int)$this->m_action_result['event_id'];
+			
+				if((int)$this->m_action_result['event_id_sec']) {
+					$lTaskObj = new cTask_Manager(array(
+						'event_id' => (int)$this->m_action_result['event_id_sec'],
+					));
+					$lTaskObj->Display();	
+					$lArrEvents[] = (int)$this->m_action_result['event_id_sec'];
+				}
+				 
+				$this->m_eventsParamString = 'event_id[]=' . implode("&event_id[]=", $lArrEvents);
+			}
+
+		}catch(Exception $lException){
+			$this->m_errCnt ++;
+			$this->m_errMsgs[] = array(
+				'err_msg' => $lException->getMessage()
+			);
+		}
+	}
+
 	function SaveReviewerDecision() {
 		try{
 			if(! $this->GetUserId()){
@@ -501,9 +544,10 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 			$lVersionId = $lVersionsModel->GetRoundUserIdVersionId($lRoundUserId);
 // 			var_dump(2);
 			$this->m_action_result = $lDocumentsModel->SaveReviewerDecision($lDocumentId, $lRoundUserId, $lDecisionId, $lDecisionNotes, $lUserId);
-			$lVersionsModel->SaveReviewerCachedVersion($lVersionId);
+			$lVersionsModel->SaveReviewerCachedVersion($lVersionId);			
 			//Accept all the reviewer changes
 			$lVersionsModel->PwtVersionAcceptAllChanges($lVersionId, $lUserId);
+			$lVersionsModel->ProcessVersionPwtChanges($lVersionId);
 			if($this->m_action_result['err_cnt']){
 				$this->m_errCnt = $this->m_action_result['err_cnt'];
 				$this->m_errMsgs = $this->m_action_result['err_msgs'];

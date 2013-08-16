@@ -73,8 +73,31 @@ class mTask_Model extends emBase_Model {
 			
 			$lCon->MoveNext();
 		}
-
+		
 		return $lResult;
+	}
+	
+	function GetEventActions($pEventId, $pJournalId) {
+		$lCon = $this->m_con;
+
+		$lSql = '
+		SELECT a.id, a.eval_code, a.eval_sql_function
+		FROM pjs.event_log el
+		JOIN pjs.event_types e ON e.id = el.event_type_id
+		JOIN pjs.event_action_pos ea ON ea.event_id = e.id AND ea.journal_id = ' . (int)$pJournalId . '
+		JOIN pjs.event_actions a ON a.id = ea.action_id
+		WHERE el.id = ' . (int)$pEventId . '
+		ORDER BY ea.ord';
+		
+		$lResult = array();
+		$lCon->Execute($lSql);
+		
+		while(!$lCon->Eof()){
+			$lResult[] = $lCon->mRs;
+			$lCon->MoveNext();
+		}
+		
+		return $lResult; 
 	}
 	
 	/**
