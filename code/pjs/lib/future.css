@@ -1,0 +1,27 @@
+.tn {
+	color:#006600;	
+}
+
+.tn .authority, .tn .basio-authority, .x {
+	color:black;	
+}
+
+.above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover {
+	background:#E3E3C7;
+	cursor:pointer;	
+}
+
+.bibr {
+	color:#0052CC;
+}
+
+.bibr:hover, .fig:hover, .table:hover, .suppl:hover {
+	background:#FEF1B5;
+	cursor:pointer;
+}
+
+.fig, .table, .suppl {
+	padding-left:2px;
+	padding-right:2px;
+	background:#DFF1FF;
+}

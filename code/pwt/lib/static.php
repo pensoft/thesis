@@ -2358,8 +2358,8 @@ function showCommentEditForm($pCommentId, $pCommentUsrId, $pDocumentId, $pVersio
 function showCommentPic($pPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserId) {
 	$lUserIsDisclosed = CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserId);
 	if($pPhotoId && $lUserIsDisclosed)
-		return '<img border="0" alt="" src="/showimg.php?filename=c27x27y_' . (int)$pPhotoId . '.jpg" />';
-	return '<img src="./i/user_no_img.png" alt="" style="height:27px;width:27px" />';
+		return '<img border="0" alt="" height="27" width="27" src="/showimg.php?filename=c27x27y_' . (int)$pPhotoId . '.jpg" />';
+	return '<img src="./i/user_no_img.png" alt="" height="27" width="27" />';
 }
 
 function displaySingleCommentInfo($pCommentId, $pRootId, $pUserPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName, $pCommentDate, $pCommentDateInSeconds, 
@@ -2376,7 +2376,7 @@ function displaySingleCommentInfo($pCommentId, $pRootId, $pUserPhotoId, $pIsDisc
 	$lResult = '			
 			<div class="P-Comments-Info">
 				' . ($pInRoot ? 
-					'<div class="P-Comment-Type-Icon"><img src="' . $lImgSrc . '" /></div>'
+					'<div class="P-Comment-Type-Icon"><img alt="" width="19" height="27" src="' . $lImgSrc . '" /></div>'
 					:
 					'' 
 				) . '
@@ -3195,7 +3195,7 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 	}
 // 	$lEnd = mktime(). substr((string)microtime(), 1, 6);
 // 	trigger_error('END XML Time ' .  ($lEnd - $lStart), E_USER_NOTICE);
-// 	var_dump($lDocumentXml);
+//	var_dump($lDocumentXml);
  	//~ var_dump($lDocumentXml);
 	$lXslParameters = array();
 	$lXslParameters[] = array(
@@ -3922,6 +3922,16 @@ function GetCKEditorExtraAllowedContent(){
 					styles : \'*\'
 				},
 				\'reference-citation\' : {
+					attributes : \'*\',
+					classes : \'*\',
+					styles : \'*\'
+				},
+				\'tn\' : {
+					attributes : \'*\',
+					classes : \'*\',
+					styles : \'*\'
+				},
+				\'tn-part\' : {
 					attributes : \'*\',
 					classes : \'*\',
 					styles : \'*\'
@@ -6412,9 +6422,28 @@ function  displayNewCommentBtn($pVersionIsReadonly){
 		return;
 	}
 
-	return '<div class="comment_btn floatLeft " id="P-Comment-Btn-General" onmousedown="submitPreviewNewComment(1);"return false></div>
-			<div class="comment_btn floatLeft P-Comment-Inline-Main-Btn " id="P-Comment-Btn-Inline" onmousedown="submitPreviewNewComment();return false"></div>
-			';
+	return '<div style="margin-right:8px" class="comment_btn floatLeft P-Comment-Inline-Main-Btn" id="P-Comment-Btn-Inline" onmousedown="submitPreviewNewComment();return false"></div>	
+			<div class="comment_btn floatLeft " id="P-Comment-Btn-General" title="Comment issues related to the whole manuscript." onmousedown="submitPreviewNewComment(1);return false"></div>';
+}
+
+function  displayCommentsHelp($pVersionIsReadonly){
+	if((int)$pVersionIsReadonly){
+		return;
+	}
+
+	return '<div class="P-Input-Help" style="float: left; left: 100px;">
+				<div class="P-Baloon-Holder" style="top: 22px; left: -87px; position: absolute; z-index: 999;">
+					<div class="P-Baloon-Arrow" style="top: -4px; background-image: url(\'/i/boloon_arrow_top.png\'); height: 13px; left: 42px; position: absolute; width: 22px;"></div>
+					<div class="P-Baloon-Top"></div>
+					<div class="P-Baloon-Middle" style="width:280px;">
+						<div class="P-Baloon-Content" style="font-weight:normal; color:#333;">
+							There are two kinds of comments you can make on a manuscript.<br><br><b>Inline comments</b> are linked to a text selected in an editable field  (orange/gray outline on click/hover), but not to selected template texts, such as titles of the manuscript sections.<br><br><b>General comments</b> should be associated with the whole manuscript and not with selected parts parts of it. 
+						</div>
+						<div class="P-Clear"></div>
+					</div>
+					<div class="P-Baloon-Bottom"></div>
+				</div>
+			</div>';
 }
 
 function displayPrevCommentVersionReadonlyClass($pVersionIsReadonly = false){

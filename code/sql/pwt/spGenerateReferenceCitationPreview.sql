@@ -1,4 +1,4 @@
-DROP TYPE ret_spGenerateReferenceCitationPreview CASCADE;
+﻿DROP TYPE ret_spGenerateReferenceCitationPreview CASCADE;
 
 CREATE TYPE ret_spGenerateReferenceCitationPreview AS (
 	citation_id bigint,
@@ -64,7 +64,7 @@ $BODY$
 			1 .. lCitatedReferencesCount
 		LOOP
 			
-			lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || lRecord.object_ids[lIter] || '"></xref>';
+			--lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || lRecord.object_ids[lIter] || '">';
 			SELECT INTO lRecord2 
 				* 
 			FROM spGetDocumentReferences(lRecord.document_id) 
@@ -91,11 +91,12 @@ $BODY$
 			
 			IF lIter > 1 THEN
 				IF lIter = lCitatedReferencesCount AND lRecord.citation_mode = 2 THEN
-					lTemp = coalesce(lTemp, '') || ' and ';
+					lTemp = coalesce(lTemp, '') || '</xref> and ';
 				ELSE
-					lTemp = coalesce(lTemp, '') || ', ';
+					lTemp = coalesce(lTemp, '') || '</xref>, ';
 				END IF;
 			END IF;
+			lTemp = coalesce(lTemp, '') || '<xref class="hide" type="bibr" rid="' || lRecord.object_ids[lIter] || '">';
 			
 			IF lRecord2.is_website_citation = 1 THEN
 				SELECT INTO lRecord3 fv.value_str 
@@ -236,6 +237,7 @@ $BODY$
 		-- Накрая добавяме xref-овете
 		lTemp = replace(lTemp, '&', '&amp;');
 		lTemp = coalesce(lTemp, '') || lXrefTemp;
+		lTemp = coalesce(lTemp, '') || '</xref>';
 		lRes.preview = lTemp;
 		RETURN lRes;		
 	END

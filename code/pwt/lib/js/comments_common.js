@@ -24,8 +24,8 @@ var gTextCommentIdAttribute = 'comment_id';
 var gPreviousPreviewSelection = false;
 var gPreviousPreviewSelectionStartNode = false;
 var gCurrentCommentSpecificPosition = false;
-var gUnavailableInlineText = 'You cannot comment on the current selection. Please change your selection and try again!';
-var gEmptySelectionInlineText = 'You have to make a section in order to comment on it.';
+var gUnavailableInlineText = 'Invalid selection! Inline comments can be associated only with selected editable text, but not to template texts, such as manuscript section titles, Darwin Core terms in occurrence data, etc.';
+var gEmptySelectionInlineText = 'Select a text in an editable field (orange/gray outline on click/hover) to create a comment.';
 /**
  * Попълваме позицията на коментара спрямо instance/field-а в който е направен
  */

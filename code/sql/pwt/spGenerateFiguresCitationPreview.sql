@@ -1,4 +1,4 @@
--- Function: spgeneratefigurescitationpreview(bigint)
+﻿-- Function: spgeneratefigurescitationpreview(bigint)
 
 -- DROP FUNCTION spgeneratefigurescitationpreview(bigint);
 
@@ -41,6 +41,7 @@ $BODY$
 		lFigPlateTypeId int = 2;
 		lPlatePartObjectIds bigint[] = ARRAY[225, 226, 227, 228, 229, 230]::bigint[];
 		lFigIsPlate int;
+		lFigIsPlateAttr text;
 	BEGIN		
 		
 		lXrefTemp = '';
@@ -104,6 +105,8 @@ $BODY$
 			IF lFigsIter > 1 THEN
 				lTemp = lTemp || ', ';
 			END IF;
+
+			
 			-- Избираме минималния елемент от двата масива
 			IF coalesce(array_upper(lWholeFigures, 1), 0) > 0 AND coalesce(array_upper(lPartPlates, 1), 0) > 0 THEN
 				IF lWholeFigures[1] < lPartPlates[1] THEN
@@ -126,7 +129,7 @@ $BODY$
 			lPartPlates = array_pop(lPartPlates, lCurrentFigNum);
 			
 			IF lCurrentFigIsPlate = true THEN				
-				lTemp = lTemp || lCurrentFigNum; -- № на плейта
+				--lTemp = lTemp || lCurrentFigNum; -- № на плейта
 				-- Работим с плейт - трябва да видим кои фигури от него са цитирани				
 				SELECT INTO lPlateId 
 					i.id
@@ -135,9 +138,10 @@ $BODY$
 				WHERE i.id = ANY(lRecord.object_ids) AND i.object_id = lFigObjectId AND i.is_confirmed = true AND f2.value_int = lCurrentFigNum
 				LIMIT 1;
 				
-				lXrefTemp = lXrefTemp || '<xref class="hide" isplate="1" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '" rid="' || coalesce(lPlateId::varchar, '') || '"></xref>';
-				
-				
+				lTemp = coalesce(lTemp, '')  || '<xref class="hide" type="fig" isplate="1" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '" rid="' || coalesce(lPlateId::varchar, '') || '">' ||
+									coalesce(lCurrentFigNum::varchar, '')    ||
+								'</xref>';
+
 				lCurrentPlateCitatedPics = ARRAY[]::bigint[];
 				<<lPlateFiguresLoop>>
 				FOR lRecord2 IN
@@ -149,122 +153,85 @@ $BODY$
 				LOOP
 					lCurrentPlateCitatedPics = array_append(lCurrentPlateCitatedPics, lRecord2.id);
 				END LOOP lPlateFiguresLoop;
-				
-				lIter = 1;
-				<<lPlateFiguresInnerLoop>>
-				WHILE coalesce(array_upper(lCurrentPlateCitatedPics, 1), 0) > 0 
+
+				FOR i in 1..array_upper(lCurrentPlateCitatedPics, 1)
 				LOOP
-					IF lIter > 1 THEN
+					IF i > 1 THEN
 						lTemp = lTemp || ', ';
 					END IF;
-					
-					lFigId = lCurrentPlateCitatedPics[1];	
-					lCurrentCitatedFigNumber = spGetPlatePartNumber(lCurrentPlateCitatedPics[1]);
-					lCurrentPlateCitatedPics = array_pop(lCurrentPlateCitatedPics, lCurrentPlateCitatedPics[1]);
-					lStartPos = lCurrentCitatedFigNumber;
-					lEndPos = lCurrentCitatedFigNumber;
-					
-					--RAISE NOTICE 'PlateId %, Plate %, lCurrentNum %', lPlateId, lFigId, lCurrentCitatedFigNumber;
-								
-					
-					lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || coalesce(lFigId::varchar, '') || '" parentfig="' || coalesce(lPlateId::varchar, '') || '"></xref>';
-					WHILE coalesce(array_upper(lCurrentPlateCitatedPics, 1), 0) > 0  AND spGetPlatePartNumber(lCurrentPlateCitatedPics[1]) = lCurrentCitatedFigNumber + 1
-					LOOP
-						lFigId = lCurrentPlateCitatedPics[1];	
-						lCurrentCitatedFigNumber = spGetPlatePartNumber(lCurrentPlateCitatedPics[1]);
-						lCurrentPlateCitatedPics = array_pop(lCurrentPlateCitatedPics, lCurrentPlateCitatedPics[1]);
-						lEndPos = lCurrentCitatedFigNumber;
-						
-						lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || coalesce(lFigId::varchar, '') || '" parentfig="' || coalesce(lPlateId::varchar, '') || '"></xref>';
-					END LOOP;
-					
-					
-					
-					IF lStartPos = lEndPos THEN -- Цитиран е само 1 елемент (няма група)
-						lTemp = lTemp || lSubPlatePositions[lStartPos];
-					ELSE -- Цитирана е група от картинки
-						IF lEndPos - lStartPos > 1 THEN
-							lTemp = lTemp || lSubPlatePositions[lStartPos] || '-' || lSubPlatePositions[lEndPos];
-						ELSE
-							lTemp = lTemp || lSubPlatePositions[lStartPos] || ', ' || lSubPlatePositions[lEndPos];
-						END IF;
-												
-					END IF;
-					lIter = lIter + 1;
-				END LOOP lPlateFiguresInnerLoop;
+					lTemp = coalesce(lTemp, '')  ||'<xref class="hide" type="fig" rid="' || coalesce(lCurrentPlateCitatedPics[i]::varchar, '') || '" parentfig="' || coalesce(lPlateId::varchar, '') || '">'||
+										lSubPlatePositions[ spGetPlatePartNumber(lCurrentPlateCitatedPics[i] )] ||
+									'</xref>';
+				END LOOP;
+
+				
+
+
+				
+				
+				
+				-- lIter = 1;
+-- 				<<lPlateFiguresInnerLoop>>
+-- 				WHILE coalesce(array_upper(lCurrentPlateCitatedPics, 1), 0) > 0 
+-- 				LOOP
+-- 					IF lIter > 1 THEN
+-- 						lTemp = lTemp || ', ';
+-- 					END IF;
+-- 					
+-- 					lFigId = lCurrentPlateCitatedPics[1];	
+-- 					lCurrentCitatedFigNumber = spGetPlatePartNumber(lCurrentPlateCitatedPics[1]);
+-- 					lCurrentPlateCitatedPics = array_pop(lCurrentPlateCitatedPics, lCurrentPlateCitatedPics[1]);
+-- 					--lStartPos = lCurrentCitatedFigNumber;
+-- 					--lEndPos = lCurrentCitatedFigNumber;
+-- 					
+-- 					--RAISE NOTICE 'PlateId %, Plate %, lCurrentNum %', lPlateId, lFigId, lCurrentCitatedFigNumber;
+-- 								
+-- 					
+-- 					lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || coalesce(lFigId::varchar, '') || '" parentfig="' || coalesce(lPlateId::varchar, '') || '"></xref>';
+-- 					WHILE coalesce(array_upper(lCurrentPlateCitatedPics, 1), 0) > 0  AND spGetPlatePartNumber(lCurrentPlateCitatedPics[1]) = lCurrentCitatedFigNumber + 1
+-- 					LOOP
+-- 						lFigId = lCurrentPlateCitatedPics[1];	
+-- 						lCurrentCitatedFigNumber = spGetPlatePartNumber(lCurrentPlateCitatedPics[1]);
+-- 						lCurrentPlateCitatedPics = array_pop(lCurrentPlateCitatedPics, lCurrentPlateCitatedPics[1]);
+-- 						lEndPos = lCurrentCitatedFigNumber;
+-- 						
+-- 						lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || coalesce(lFigId::varchar, '') || '" parentfig="' || coalesce(lPlateId::varchar, '') || '"></xref>';
+-- 					END LOOP;
+-- 					
+-- 					
+-- 					
+-- 					IF lStartPos = lEndPos THEN -- Цитиран е само 1 елемент (няма група)
+-- 						lTemp = lTemp || lSubPlatePositions[lStartPos];
+-- 					ELSE -- Цитирана е група от картинки
+-- 						IF lEndPos - lStartPos > 1 THEN
+-- 							lTemp = lTemp || lSubPlatePositions[lStartPos] || '-' || lSubPlatePositions[lEndPos];
+-- 						ELSE
+-- 							lTemp = lTemp || lSubPlatePositions[lStartPos] || ', ' || lSubPlatePositions[lEndPos];
+-- 						END IF;
+-- 												
+-- 					END IF;
+-- 					lIter = lIter + 1;
+-- 				END LOOP lPlateFiguresInnerLoop;
 			ELSE 
 				-- Работим с цяла фигура - трябва да гледаме дали имаме група
-				lStartPos = lCurrentFigNum;
-				lEndPos = lCurrentFigNum;
-				
-				SELECT INTO lFigId, lFigIsPlate 
-					i.id, CASE WHEN f.value_int = lFigPlateTypeId THEN 1 ELSE 0 END as is_plate
-				FROM pwt.document_object_instances i
-				JOIN pwt.instance_field_values f ON f.instance_id = i.id AND f.field_id = lFigTypeFieldId
-				JOIN pwt.instance_field_values f2 ON f2.instance_id = i.id AND f2.field_id = lFigNumberFieldId
-				WHERE f2.value_int =  lCurrentFigNum AND i.object_id = lFigObjectId AND i.is_confirmed = true AND i.id = ANY(lRecord.object_ids) AND i.document_id = lRecord.document_id
-				LIMIT 1;
-				
-				IF lFigIsPlate = 0 THEN
-					lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || coalesce(lFigId::varchar, '') || '" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '"></xref>';
-				ELSE
-					lXrefTemp = lXrefTemp || '<xref class="hide" isplate="1" rid="' || coalesce(lFigId::varchar, '') || '" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '"></xref>';
-					FOR lRecord3 IN 
-						SELECT i.*, spGetPlatePartNumber(i.id) as plate_num
-						FROM pwt.document_object_instances i
-						JOIN pwt.document_object_instances p ON  p.document_id = i.document_id AND p.pos = substring(i.pos, 1, char_length(p.pos))
-						WHERE i.document_id = lRecord.document_id AND p.id = lFigId AND p.id = lFigId AND i.object_id = ANY (lPlatePartObjectIds)
-						ORDER BY plate_num ASC
-					LOOP
-						lXrefTemp = lXrefTemp || '<xref class="hide" parentfig="' || coalesce(lFigId::varchar, '') || '" rid="' || coalesce(lRecord3.id::varchar, '') || '"></xref>';
-					END LOOP;
-				END IF;
-				
-				WHILE coalesce(array_upper(lWholeFigures, 1), 0) > 0  AND lWholeFigures[1] = lCurrentFigNum + 1
-				LOOP
-					lCurrentFigNum = lWholeFigures[1];
-					lWholeFigures = array_pop(lWholeFigures, lWholeFigures[1]);
-					lEndPos = lCurrentFigNum;
-					
-					SELECT INTO lFigId, lFigIsPlate 
-						i.id, CASE WHEN f.value_int = lFigPlateTypeId THEN 1 ELSE 0 END as is_plate
-					FROM pwt.document_object_instances i
-					JOIN pwt.instance_field_values f ON f.instance_id = i.id AND f.field_id = lFigTypeFieldId
-					JOIN pwt.instance_field_values f2 ON f2.instance_id = i.id AND f2.field_id = lFigNumberFieldId
-					WHERE f2.value_int =  lCurrentFigNum AND i.object_id = lFigObjectId AND i.is_confirmed = true AND i.id = ANY(lRecord.object_ids) AND i.document_id = lRecord.document_id
-					LIMIT 1;
-					
-					IF lFigIsPlate = 0 THEN
-						lXrefTemp = lXrefTemp || '<xref class="hide" rid="' || coalesce(lFigId::varchar, '') || '" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '"></xref>';
-					ELSE
-						lXrefTemp = lXrefTemp || '<xref class="hide" isplate="1" rid="' || coalesce(lFigId::varchar, '') || '" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '"></xref>';
-						FOR lRecord3 IN 
-							SELECT i.*, spGetPlatePartNumber(i.id) as plate_num
-							FROM pwt.document_object_instances i
-							JOIN pwt.document_object_instances p ON  p.document_id = i.document_id AND p.pos = substring(i.pos, 1, char_length(p.pos))
-							WHERE i.document_id = lRecord.document_id AND p.id = lFigId AND i.object_id = ANY (lPlatePartObjectIds)
-							ORDER BY plate_num ASC
-						LOOP
-							lXrefTemp = lXrefTemp || '<xref class="hide" parentfig="' || coalesce(lFigId::varchar, '') || '" rid="' || coalesce(lRecord3.id::varchar, '') || '"></xref>';
-						END LOOP;
-					END IF;
-				END LOOP;
-				IF lStartPos = lEndPos THEN -- Цитиран е само 1 фигура (няма група)
-					lTemp = lTemp || lStartPos;
-				ELSE -- Цитирана е група от картинки
-					IF lEndPos - lStartPos > 1 THEN
-						lTemp = lTemp || lStartPos || '-' || lEndPos;
-					ELSE
-						lTemp = lTemp || lStartPos || ', ' || lEndPos;
-					END IF;
-				END IF;
+				SELECT INTO lFigId, lFigIsPlateAttr 
+					i.id, CASE WHEN f.value_int = lFigPlateTypeId THEN ' isplate="1"'::text ELSE ''::text END as is_plate
+ 				FROM pwt.document_object_instances i
+ 				JOIN pwt.instance_field_values f ON f.instance_id = i.id AND f.field_id = lFigTypeFieldId
+ 				JOIN pwt.instance_field_values f2 ON f2.instance_id = i.id AND f2.field_id = lFigNumberFieldId
+ 				WHERE f2.value_int =  lCurrentFigNum AND i.object_id = lFigObjectId AND i.is_confirmed = true AND i.id = ANY(lRecord.object_ids) AND i.document_id = lRecord.document_id
+ 				LIMIT 1;
+ 	
+				lTemp = coalesce(lTemp, '') || '<xref class="hide" type="fig" rid="' || coalesce(lFigId::varchar, '') || '" fignumber="' || coalesce(lCurrentFigNum::varchar, '') || '" ' || lFigIsPlateAttr ||'>'||
+									coalesce(lCurrentFigNum::varchar, '') ||
+								'</xref>';
 			END IF;	
 
 			lFigsIter = lFigsIter + 1;
 		END LOOP;
 		
 		-- Накрая добавяме xref-овете
-		lTemp = coalesce(lTemp, '') || lXrefTemp;
+		--lTemp = coalesce(lTemp, '') || lXrefTemp;
 		lRes.preview = lTemp;
 		RETURN lRes;		
 	END
