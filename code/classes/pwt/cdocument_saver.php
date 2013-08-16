@@ -765,10 +765,10 @@ class cdocument_saver{
 					}
 
 				}
-// 				if($lFieldData['is_html']){
-// 					//Remove the comment start and end nodes
-// 					$this->m_fields[$lInstanceId][$lFieldId]['base_value'] = RemoveFieldCommentNodes($this->m_fields[$lInstanceId][$lFieldId]['base_value']);
-// 				}
+ 				if($lFieldData['is_html']){
+ 					//Remove the comment start and end nodes
+ 					$this->m_fields[$lInstanceId][$lFieldId]['base_value'] = RemoveFieldCommentNodes($this->m_fields[$lInstanceId][$lFieldId]['base_value']);
+ 				}
 			}
 		}
 

@@ -2750,7 +2750,7 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
 		return '
 			<div class="document_info_se">
 				<div class="document_info_bottom_info_right_left" style="width:71px;">
-					Subject Editor:
+					Subject editor:
 				</div>
 				<div class="document_info_bottom_info_right_right">
 					' . $pFirstName . ' ' . $pLastName . '
