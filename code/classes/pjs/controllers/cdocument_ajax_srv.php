@@ -501,9 +501,10 @@ class cDocument_Ajax_Srv extends cBase_Controller {
 			$lVersionId = $lVersionsModel->GetRoundUserIdVersionId($lRoundUserId);
 // 			var_dump(2);
 			$this->m_action_result = $lDocumentsModel->SaveReviewerDecision($lDocumentId, $lRoundUserId, $lDecisionId, $lDecisionNotes, $lUserId);
-			$lVersionsModel->SaveReviewerCachedVersion($lVersionId);
+			$lVersionsModel->SaveReviewerCachedVersion($lVersionId);			
 			//Accept all the reviewer changes
 			$lVersionsModel->PwtVersionAcceptAllChanges($lVersionId, $lUserId);
+			$lVersionsModel->ProcessVersionPwtChanges($lVersionId);
 			if($this->m_action_result['err_cnt']){
 				$this->m_errCnt = $this->m_action_result['err_cnt'];
 				$this->m_errMsgs = $this->m_action_result['err_msgs'];

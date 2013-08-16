@@ -820,6 +820,35 @@ class mVersions extends emBase_Model {
 	// @formatter:on
 	function GetRoundPwtReviewerModifiedFields($pRoundId, $pReviewerUID = 0, $pReviewerDocumentUserID = 0) {
 		$lCon = $this->m_con;
+		$lVersionIds = array();
+		$lSql = 'SELECT dv.id
+				FROM pjs.document_versions dv 
+				JOIN pjs.document_review_round_users rru ON rru.document_version_id = dv.id
+				JOIN pjs.document_users du ON du.id = rru.document_user_id
+				JOIN public.usr u ON u.id = du.uid
+				WHERE rru.round_id = ' . (int) $pRoundId . '
+				AND du.role_id IN (' . (int) DEDICATED_REVIEWER_ROLE . ', ' . (int) PUBLIC_REVIEWER_ROLE . ', ' . (int) COMMUNITY_REVIEWER_ROLE . ')
+				AND rru.decision_id IS NOT NULL
+				' . ($pReviewerUID ? 'AND du.uid = ' . $pReviewerUID : '') . '
+				' . ($pReviewerDocumentUserID ? 'AND du.id = ' . $pReviewerDocumentUserID : '');
+		$lCon->Execute($lSql);
+		while(!$lCon->Eof()){
+			$lVersionIds[] = (int)$lCon->mRs['id']; 
+			$lCon->MoveNext();
+		}
+// 		var_dump($lSql);
+		//Process all changes which are not processed
+		foreach ($lVersionIds as $lVersionId) {			
+			if($this->CheckIfVersionHasUnprocessedPwtChanges($lVersionId)){
+				$lProcession = $this->ProcessVersionPwtChanges($lVersionId);
+
+				if($lProcession['err_cnt']){
+					throw  new Exception($lProcession['err_msgs'][0]['err_msg']);
+				}
+			}
+		}
+		
+		
 		$lResult = array();
 		$lSql = 'SELECT vc.instance_id, vc.field_id, vc.value,
 				CASE WHEN dv.is_disclosed = false THEN dv.undisclosed_usr_id ELSE du.uid END as uid,
@@ -1258,6 +1287,7 @@ class mVersions extends emBase_Model {
 		$lReviewerChangesPatch = $lReviewerChangesPatches['field_patches'];
 		// Generate the patch for each field and usr and update the fields in
 		// the xml
+// 		file_put_contents('/tmp/merge.log', "Review round" . $pReviewRoundId . "\n\n", FILE_APPEND);
 		foreach($lReviewerChangesPatch as $lInstanceId => $lInstanceChanges){
 			foreach($lInstanceChanges as $lFieldId => $lFieldChanges){
 				$lOriginalFieldValue = $lFieldChanges['original_version'];
@@ -1267,7 +1297,14 @@ class mVersions extends emBase_Model {
 // 				var_dump($lOriginalFieldValue, $lPatch);
 				$lModifiedVersion = ProcessChanges($lOriginalFieldValue, $lPatch);
 				$lReviewerChangesPatch[$lInstanceId][$lFieldId]['modified_version'] = $lModifiedVersion;
-
+// 				$lContentsToPut = "\n\n\n\n\n\n";
+// 				$lContentsToPut .= var_export($lPatch, 1). "\n\n";
+// 				$lContentsToPut .= 'Inst: ' . $lInstanceId . ' Field: ' . $lFieldId . "\n\n";
+// 				$lContentsToPut .= 'Orig: ' . $lOriginalFieldValue. "\n\n";
+// 				$lContentsToPut .= 'Modified: ' . $lModifiedVersion. "\n\n";
+// 				file_put_contents('/tmp/merge.log', $lContentsToPut, FILE_APPEND);
+				
+				
 				$lNodeQuery = '/document/objects//*[@instance_id="' . $lInstanceId . '"]/fields/*[@id="' . $lFieldId . '"]/value';
 				$lNodeResult = $lXPath->query($lNodeQuery);
 				// var_dump($lVersionChanges);
