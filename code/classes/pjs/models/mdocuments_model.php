@@ -455,6 +455,41 @@ class mDocuments_Model extends emBase_Model {
 		}
 		return $lResult;
 	}
+	
+	/**
+	 * Confirms/cancels the reviewer invitation (self confirm/cancel is performed)
+	 * @param unknown_type $pInvitationId
+	 * @param unknown_type $pUid
+	 * @param unknown_type $pConfirm
+	 * @throws Exception
+	 */
+	function AutomaticallyCancelReviewerInvitation($pDocumentId, $pInvitationId){
+		$lResult = array(
+			'err_cnt' => 0,
+			'err_msgs' => array()
+		);
+		try{
+
+			$lCon = $this->m_con;
+			//The checks whether the current user is journal manager or the specified se is SE of the journal of the document are performed in the SP
+			// 			var_dump($pConfirm);
+			// 			$pConfirm = false;
+			$lSql = 'SELECT * FROM pjs."spAutomaticallyCancelReviewerInvitation"(' . (int)$pInvitationId . ', ' . (int)$pDocumentId . ');';
+			// 			var_dump($lSql);
+
+			if(!$lCon->Execute($lSql)){
+				throw new Exception($lCon->GetLastError());
+			} else {
+				$lResult['event_id'] = $lCon->mRs['event_id'];
+				$lResult['event_id_sec'] = $lCon->mRs['event_id_sec'];
+			}
+			$lResult['success_msg'] = getstr('pjs.actionSuccessfullyPerformed');
+		}catch(Exception $pException){
+			$lResult['err_cnt']++;
+			$lResult['err_msgs'][] = array('err_msg' => $pException->getMessage());
+		}
+		return $lResult;
+	}
 
 	function UndiscloseRoundUserVersionIfNecessary($pRoundUserId){
 		$lCon = $this->m_con;
