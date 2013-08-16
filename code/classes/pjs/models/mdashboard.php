@@ -257,8 +257,8 @@ class mDashboard extends emBase_Model {
 				$lSql = "
 				select * from(
 				SELECT $idTitleAuthors,
-					 (case when v.state = 3 then 'review round ' || r.round_number::text
-					       else s.name end) as status,
+					 (case when v.state in $this->inReviewStates then 'review<br> round ' || r.round_number::text
+					       else s.short end) as status,
 					 v.editor_notes,
 					 v.review_type as review_num, rt.name as review_type,
 					 r.round_number as reviewround, $role as role_id,
