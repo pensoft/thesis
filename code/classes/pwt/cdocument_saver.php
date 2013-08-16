@@ -247,6 +247,9 @@ class cdocument_saver{
 			if(!is_array($lBaseValue)){
 					$lBaseValue = stripslashes($lBaseValue);
 			}
+			if((int)$this->m_con->mRs['is_html']){
+				$lBaseValue = trim($lBaseValue);
+			}
 
 // 			if((int)$this->m_con->mRs['field_id'] == 20){
 // 				trigger_error('SQL VAL  ' . var_export($lBaseValue, 1));
@@ -571,7 +574,7 @@ class cdocument_saver{
 		$lBaseValue = $this->m_fields[$pInstanceId][$pFieldId]['base_value'];
 		$lFieldType = $this->m_fields[$pInstanceId][$pFieldId]['type'];
 		$lTagsToKeep = $this->m_fields[$pInstanceId][$pFieldId]['tags_to_keep'];
-		$lFieldValueColumn = $this->m_fields[$pInstanceId][$pFieldId]['value_column_name'];
+		$lFieldValueColumn = $this->m_fields[$pInstanceId][$pFieldId]['value_column_name'];		
 		if($lFieldValueColumn == 'value_str'){
 			$lTagsToKeepArr = explode(',', $lTagsToKeep);
 			$lAllowedTags = '';
@@ -765,10 +768,12 @@ class cdocument_saver{
 					}
 
 				}
-// 				if($lFieldData['is_html']){
-// 					//Remove the comment start and end nodes
-// 					$this->m_fields[$lInstanceId][$lFieldId]['base_value'] = RemoveFieldCommentNodes($this->m_fields[$lInstanceId][$lFieldId]['base_value']);
-// 				}
+				if($lFieldData['is_html']){
+					//Remove the comment start and end nodes
+// 					var_dump($this->m_fields[$lInstanceId][$lFieldId]['base_value']);
+					$this->m_fields[$lInstanceId][$lFieldId]['base_value'] = RemoveFieldCommentNodes($this->m_fields[$lInstanceId][$lFieldId]['base_value']);
+// 					var_dump($this->m_fields[$lInstanceId][$lFieldId]['base_value']);
+				}
 			}
 		}
 
