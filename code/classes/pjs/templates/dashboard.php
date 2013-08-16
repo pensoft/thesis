@@ -247,7 +247,7 @@ $gTemplArr = array(
   <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}" class="id right">{id}<br />{_editor_notes(editor_notes)}</td>
   <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}">{*pjs.submission}<br />{*dashboard.authors.all}</td>
   <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}" class="center">{*pjs.review-type}</td>
-  <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}" class="center">{status}</td>
+  <td onmouseover="javascript:s.insertRule(rule, 0)" onmouseout="javascript:s.deleteRule(0)" rowspan="{_count(who)}">{status}</td>
   {_merge_cells(action, who, schedule, days, late, remind)}
   </tr>
 </tbody>

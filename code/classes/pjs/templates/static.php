@@ -864,10 +864,15 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 				break;
 			case REVIEWER_CONFIRMED_STATE : // /view_version.php?version_id=1003&id=335&view_role=3&round=2&round_user_id=695!!!!!!!!!!!!!!!!!!!!!!!!!?version_id=1003&id='
 			                               // . $pDocumentId . '
+				
 				$lRes .= '
-					<span class="reviewer_act"><a href="javascript:openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')"><img title="'.getstr('pjs.tooltips.SE_reviewing_as_reviewer').'" src="../i/reviewing.png"></img></a></span>
 					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_cancel_reviewer_review_confirmation') . '\')"><img title="'.getstr('pjs.tooltips.cancel_review').'" src="../i/remove_reviewer.png"></img></a></span>
 				';
+				
+			/* 	$lRes .= '
+					<span class="reviewer_act"><a href="javascript:openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')"><img title="'.getstr('pjs.tooltips.SE_reviewing_as_reviewer').'" src="../i/reviewing.png"></img></a></span>
+					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_cancel_reviewer_review_confirmation') . '\')"><img title="'.getstr('pjs.tooltips.cancel_review').'" src="../i/remove_reviewer.png"></img></a></span>
+				'; */
 
 				$lToday = strtotime(date("d/m/Y"));
 				$lAssignedDate = strtotime($PreviewersAssignmentDuedate);
@@ -2750,7 +2755,7 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
 		return '
 			<div class="document_info_se">
 				<div class="document_info_bottom_info_right_left" style="width:71px;">
-					Subject Editor:
+					Subject editor:
 				</div>
 				<div class="document_info_bottom_info_right_right">
 					' . $pFirstName . ' ' . $pLastName . '

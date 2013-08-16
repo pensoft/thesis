@@ -768,12 +768,14 @@ class cdocument_saver{
 					}
 
 				}
+
 				if($lFieldData['is_html']){
 					//Remove the comment start and end nodes
 // 					var_dump($this->m_fields[$lInstanceId][$lFieldId]['base_value']);
 					$this->m_fields[$lInstanceId][$lFieldId]['base_value'] = RemoveFieldCommentNodes($this->m_fields[$lInstanceId][$lFieldId]['base_value']);
 // 					var_dump($this->m_fields[$lInstanceId][$lFieldId]['base_value']);
 				}
+
 			}
 		}
 

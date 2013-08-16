@@ -1274,7 +1274,8 @@ function SubmitFormByName(pName) {
 		async : false,
 		type : 'POST',
 		success : function(pAjaxResult) {
-			window.location.reload();
+			window.location = document.URL;
+			//window.location.reload();
 		}
 	});
 }
