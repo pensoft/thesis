@@ -911,36 +911,47 @@
 	<!-- Article of the future SINGLE ELEMENT PREVIEWS START -->
 	<!-- Article of the future preview template of a single figure -->
 	<xsl:template match="*" mode="article_preview_figure">
+		Single fig
+		<xsl:value-of select="./@instance_id" />
 		<!-- The node of the specific figure -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
 	<!-- Article of the future preview template of a single plate -->
 	<xsl:template match="*" mode="article_preview_plate">
+		Single plate
+		<xsl:value-of select="./@instance_id" />
 		<!-- The node of the specific plate part (i.e. that is na instance which has an object id IN (225, 226, 227, 228, 229, 230) -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
 	<!-- Article of the future preview template of a single table -->
 	<xsl:template match="*" mode="article_preview_table">
+		Single table
+		<xsl:value-of select="./@instance_id" />
 		<!-- The node of the specific table -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
 	<!-- Article of the future preview template of a single reference -->
 	<xsl:template match="*" mode="article_preview_reference">
+		Single ref
+		<xsl:value-of select="./@instance_id" />
 		<!-- The node of the specific reference -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
 	<!-- Article of the future preview template of a single sup file -->
 	<xsl:template match="*" mode="article_preview_sup_file">
+		Single sup
+		<xsl:value-of select="./@instance_id" />
 		<!-- The node of the specific sup file -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
 	<!-- Article of the future preview template of the figures list -->
 	<xsl:template match="*" mode="article_figures_list">
+		Figures list
 		<!-- The node of the figures holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
@@ -949,18 +960,21 @@
 	<!-- Article of the future LIST PREVIEWS START -->
 	<!-- Article of the future preview template of the tables list -->
 	<xsl:template match="*" mode="article_tables_list">
+		Tables list
 		<!-- The node of the tables holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
 	<!-- Article of the future preview template of the references list -->
 	<xsl:template match="*" mode="article_references_list">
+		Ref list
 		<!-- The node of the references holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
 	<!-- Article of the future preview template of the sup files list -->
 	<xsl:template match="*" mode="article_sup_files_list">
+		Sup files list
 		<!-- The node of the sup files holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
