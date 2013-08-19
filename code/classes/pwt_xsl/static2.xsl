@@ -17,20 +17,47 @@
 	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
 	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
 	
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="formatting">
-		<xsl:copy-of select="."/>
+	<xsl:template match="tn|tn-part|b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="formatting">
+		<xsl:choose>
+			<xsl:when test="$pInArticleMode = 0">
+				<xsl:copy-of select="."/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="get_node_text_template"> 
+				    <xsl:with-param name="pNode" select="."></xsl:with-param>
+				</xsl:call-template>
+			</xsl:otherwise>
+		</xsl:choose> 
 	</xsl:template>
 	
 	<xsl:template match="*" mode="formatting_output_escape">
 		<xsl:value-of select="." disable-output-escaping="yes"/>
 	</xsl:template>
 
-	<xsl:template match="b|i|u|strong|em|sup|sub|p|ul|ol|li|comment-start|comment-end|table|tr|td|tbody|th|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="table_formatting">
-		<xsl:copy-of select="."/>
+	<xsl:template match="tn|tn-part|b|i|u|strong|em|sup|sub|p|ul|ol|li|comment-start|comment-end|table|tr|td|tbody|th|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="table_formatting">
+		<xsl:choose>
+			<xsl:when test="$pInArticleMode = 0">
+				<xsl:copy-of select="."/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="get_node_text_template"> 
+				    <xsl:with-param name="pNode" select="."></xsl:with-param>
+				</xsl:call-template>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
-	<xsl:template match="b|i|u|strong|em|sup|sub|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="title">
-		<xsl:copy-of select="."/>
+	<xsl:template match="tn|tn-part|b|i|u|strong|em|sup|sub|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="title">
+		<xsl:choose>
+			<xsl:when test="$pInArticleMode = 0">
+				<xsl:copy-of select="."/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="get_node_text_template"> 
+				    <xsl:with-param name="pNode" select="."></xsl:with-param>
+				</xsl:call-template>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
 	<!-- Removes spaces -->
@@ -51,14 +78,28 @@
 		<xsl:if test="$pMarkContentEditableFields &gt; 0">
 			<xsl:variable name="lCheck" select="php:function('checkIfObjectFieldIsEditable', string($pObjectId), string($pFieldId))" />
 			<xsl:if test="$lCheck &gt; 0">
-				<xsl:attribute name="contenteditable">true</xsl:attribute>
+				<xsl:choose>
+					<xsl:when test="$pInArticleMode = 0">
+						<xsl:attribute name="contenteditable">true</xsl:attribute>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:attribute name="contenteditable">false</xsl:attribute>
+					</xsl:otherwise>
+				</xsl:choose> 
 			</xsl:if>
 		</xsl:if>
 	</xsl:template>
 	
 	<xsl:template name="markContentEditableFiguresAndTables">
 			<xsl:if test="$pTrackFigureAndTableChanges &gt; 0 and $pMarkContentEditableFields &gt; 0">
-				<xsl:attribute name="contenteditable">true</xsl:attribute>
+				<xsl:choose>
+					<xsl:when test="$pInArticleMode = 0">
+						<xsl:attribute name="contenteditable">true</xsl:attribute>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:attribute name="contenteditable">false</xsl:attribute>
+					</xsl:otherwise>
+				</xsl:choose> 
 			</xsl:if>
 	</xsl:template>
 
@@ -382,7 +423,26 @@
 		</xsl:if>
 	</xsl:template>
 	
-
+	<!-- Supplementary files -->
+	<xsl:template match="*[@object_id='56']" mode="articleBack">
+		<xsl:if test="count(./*[@object_id='55']) &gt; 0">
+			
+			<div class="P-Article-Preview-Block">
+				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+				
+				<h1 id="supplementary_files">Supplementary material<xsl:if test="count(./*[@object_id='55']) &gt; 1">s</xsl:if></h1>
+					
+					<xsl:for-each select="//*[@object_id='55']">
+						<div class="Supplemantary-Material">
+							<xsl:apply-templates select="." mode="singleSupplementaryMaterial">
+								
+							</xsl:apply-templates>
+						</div>
+					</xsl:for-each>
+			</div>
+		</xsl:if>
+	</xsl:template>
+	
 	<!-- Formatting uploaded files spaces -->
 	<xsl:template match="*" mode="formatting_uploaded_file">
 		<xsl:param name="lFileName"/>
@@ -402,54 +462,88 @@
 	</xsl:template>
 
 	
-
 	<!-- Single supplementary material -->
-	<xsl:template match="*" mode="singleSupplementaryMaterial">
-		<div class="Supplemantary-Material">
-			<xsl:choose>
-				<xsl:when test="./@id = 214">
-					<div class="Supplemantary-File-Title">
-						<xsl:call-template name="markContentEditableField">
-							<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
-							<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
-						</xsl:call-template>
-						<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
-						<xsl:attribute name="instance_id"><xsl:value-of select="../../@instance_id" /></xsl:attribute>
-						<xsl:apply-templates select="./value" mode="formatting"/>
-					</div>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:choose>
-						<xsl:when test="./@id = 222">
-							<span class="Supplemantary-File-Section-Label">
-								<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
-								<xsl:apply-templates select="./value" mode="formatting_uploaded_file">
-									<xsl:with-param name="lFileName" select="php:function('getFileNameById', string(./value))"></xsl:with-param>
-									<xsl:with-param name="lUploadedFileName" select="php:function('getUploadedFileNameById', string(./value))" />
-								</xsl:apply-templates>
-							</span>
-						</xsl:when>
-						<xsl:otherwise>
-							<span class="Supplemantary-File-Section-Label">
-								<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
-								<xsl:apply-templates select="./@field_name" mode="formatting"/>
-							</span>
-							<xsl:text>: </xsl:text>
-							<span class="Supplemantary-P-Inline">
-								<xsl:call-template name="markContentEditableField">
-									<xsl:with-param name="pObjectId" select="../../@object_id"></xsl:with-param>
-									<xsl:with-param name="pFieldId" select="./@id"></xsl:with-param>
-								</xsl:call-template>
-								<xsl:attribute name="instance_id"><xsl:value-of select="../../@instance_id" /></xsl:attribute>
-								<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
-								<xsl:apply-templates select="./value" mode="formatting"/>
-							</span>
-						</xsl:otherwise>
-					</xsl:choose>
+	<xsl:template match="*[@object_id='55']" mode="singleSupplementaryMaterial">
 
-				</xsl:otherwise>
-			</xsl:choose>
-		</div>
+		<xsl:variable name="instance" select="./@instance_id" />
+		
+		<xsl:if test="./fields/*[@id='214']/value != ''">
+			<div class="Supplemantary-File-Title">
+				<span>
+					<xsl:text>Suppl. file </xsl:text>
+					<xsl:for-each select="../*[@object_id='55']">
+						<xsl:if test="./@instance_id = $instance">
+							<xsl:value-of select="position()" />
+						</xsl:if>
+					</xsl:for-each>
+					<xsl:text>: </xsl:text>
+				</span>
+				<span field_id="214">
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId">55</xsl:with-param>
+						<xsl:with-param name="pFieldId">214</xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='214']/value" mode="formatting"/>
+				</span>
+			</div>
+		</xsl:if>
+			
+		<xsl:if test="./fields/*[@id='215']/value != '' or ./fields/*[@id='216']/value != '' or ./fields/*[@id='217']/value != '' or ./fields/*[@id='222']/value != ''">	
+			<div style="padding-left:20px;">
+				<xsl:if test="./fields/*[@id='215']/value != ''">
+					<div class="myfieldHolder">
+						<span class="fieldLabel">
+							<xsl:value-of select="./fields/*[@id='215']/@field_name" />:&#160;</span>
+						<span class="fieldValue" field_id="215">
+							<xsl:call-template name="markContentEditableField">
+								<xsl:with-param name="pObjectId">55</xsl:with-param>
+								<xsl:with-param name="pFieldId">215</xsl:with-param>
+							</xsl:call-template>
+							<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+							<xsl:apply-templates select="./fields/*[@id='215']/value" mode="formatting"/>
+						</span>
+					</div>
+				</xsl:if>
+				<xsl:if test="./fields/*[@id='216']/value != ''">
+					<div class="myfieldHolder">
+						<span class="fieldLabel">
+							<xsl:value-of select="./fields/*[@id='216']/@field_name" />:&#160;</span>
+						<span class="fieldValue" field_id="216">
+							<xsl:call-template name="markContentEditableField">
+								<xsl:with-param name="pObjectId">55</xsl:with-param>
+								<xsl:with-param name="pFieldId">216</xsl:with-param>
+							</xsl:call-template>
+							<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+							<xsl:apply-templates select="./fields/*[@id='216']/value" mode="formatting"/>
+						</span>
+					</div>
+				</xsl:if>
+				<xsl:if test="./fields/*[@id='217']/value != ''">
+					<div class="myfieldHolder">		
+						<span class="fieldLabel">							
+							<xsl:value-of select="./fields/*[@id='217']/@field_name" />:&#160;</span>
+						<div class="fieldValue" field_id="217">
+							<xsl:call-template name="markContentEditableField">
+								<xsl:with-param name="pObjectId">55</xsl:with-param>
+								<xsl:with-param name="pFieldId">217</xsl:with-param>
+							</xsl:call-template>
+							<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+							<xsl:apply-templates select="./fields/*[@id='217']/value" mode="formatting"/>
+						</div>
+					</div>
+				</xsl:if>
+				<xsl:if test="./fields/*[@id='222']/value != ''">
+					<span class="Supplemantary-File-Section-Label">
+						<xsl:attribute name="field_id"><xsl:value-of select="./fields/file/@id" /></xsl:attribute>
+						<xsl:apply-templates select="./fields/file/value" mode="formatting_uploaded_file">
+						<xsl:with-param name="lFileName" select="php:function('getFileNameById', string(./fields/file/value))"></xsl:with-param>
+							<xsl:with-param name="lUploadedFileName" select="php:function('getUploadedFileNameById', string(./fields/file/value))" />
+						</xsl:apply-templates>
+					</span>
+				</xsl:if>
+			</div>
+		</xsl:if>
 	</xsl:template>
 	
 	
@@ -861,9 +955,8 @@
 				<img src="/i/table_pic.png"/>
 			</div>
 			<div class="P-Block-Title-Holder">
-				<div class="P-Block-Title"><xsl:value-of select="./fields/*[@id='482']/value"/></div>
-				<div class="P-Clear"></div>
 				<div class="P-Figure-Num">Table <xsl:value-of select="./fields/*[@id='489']/value"/></div>
+				<div class="P-Figure-Desc"><xsl:copy-of select="./fields/*[@id='482']/value"/></div>
 			</div>	
 			<div class="P-Clear"></div>
 	</xsl:template>
@@ -908,7 +1001,65 @@
 			</div>
 	</xsl:template>
 	
+	<!-- Article of the future GENERAL REPLACE -->
+	<xsl:template name="get_node_text_template">
+	  <xsl:param name="pNode" />
+	  <xsl:variable name="lLocalName" ><xsl:value-of select="php:function('strtolower', local-name($pNode))" /></xsl:variable>
+	  <xsl:variable name="lNodeIsTextNode" select="$pNode/self::text()" />
+	  <xsl:variable name="lNodeIsElement" select="$pNode/self::*" />  
+	  <xsl:variable name="lChildContent">
+	   <xsl:for-each select="$pNode/child::node()" >
+	    <xsl:variable name="lCurrentNode" select="." />
+	    <xsl:call-template name="get_node_text_template"> 
+	     <xsl:with-param name="pNode" select="$lCurrentNode"></xsl:with-param>
+	    </xsl:call-template>
+	   </xsl:for-each>
+	  </xsl:variable>
+	  <xsl:choose>
+	   <xsl:when test="$lNodeIsTextNode"><xsl:value-of select="$pNode"/></xsl:when>
+	   <xsl:when test="$lNodeIsElement">
+	    <xsl:choose>
+	     <xsl:when test="$lLocalName='tn'">
+		      <span class="tn">
+		      	<xsl:copy-of select="$lChildContent"/>
+		      </span>
+	     </xsl:when>     
+	     <xsl:when test="$lLocalName='tn-part'">
+		      <span>
+		      	 <xsl:attribute name="class"><xsl:value-of select="./@type" /></xsl:attribute>
+		       	 <xsl:copy-of select="$lChildContent"/>
+		      </span>
+	     </xsl:when>
+	     <xsl:when test="$lLocalName='xref'">
+		      <span>
+		      	 <xsl:attribute name="class"><xsl:value-of select="./@type" /></xsl:attribute>
+		      	 <xsl:attribute name="rid"><xsl:value-of select="./@rid" /></xsl:attribute>
+		       	 <xsl:copy-of select="$lChildContent"/>
+		      </span>
+	     </xsl:when>
+	     <xsl:when test="$lLocalName='em'">
+		      <i>
+		       	 <xsl:copy-of select="$lChildContent"/>
+		      </i>
+	     </xsl:when>
+	     <xsl:when test="$lLocalName='reference-citation' or $lLocalName='fig-citation' or $lLocalName='tbls-citation' or $lLocalName='sup-files-citation'">
+		       	 <xsl:copy-of select="$lChildContent"/>
+	     </xsl:when>
+	     <xsl:otherwise>        
+			  <xsl:element name="{$lLocalName}">
+		       <xsl:for-each select="$pNode/attribute::*">
+		        <xsl:attribute name="{local-name(.)}"><xsl:value-of select="." /></xsl:attribute>
+		       </xsl:for-each>
+		       <xsl:copy-of select="$lChildContent"/>      
+		      </xsl:element>
+	     </xsl:otherwise>     
+	    </xsl:choose>
+	   </xsl:when>
+	  </xsl:choose>
+	 </xsl:template>
+	
 	<!-- Article of the future SINGLE ELEMENT PREVIEWS START -->
+	
 	<!-- Article of the future preview template of a single figure -->
 	<xsl:template match="*" mode="article_preview_figure">
 		<!-- The node of the specific figure -->
@@ -939,14 +1090,15 @@
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
+	<!-- Article of the future SINGLE ELEMENT PREVIEWS END -->
+	
+	<!-- Article of the future LIST PREVIEWS START -->
 	<!-- Article of the future preview template of the figures list -->
 	<xsl:template match="*" mode="article_figures_list">
 		<!-- The node of the figures holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
-	<!-- Article of the future SINGLE ELEMENT PREVIEWS END -->
 	
-	<!-- Article of the future LIST PREVIEWS START -->
 	<!-- Article of the future preview template of the tables list -->
 	<xsl:template match="*" mode="article_tables_list">
 		<!-- The node of the tables holder -->
@@ -964,5 +1116,6 @@
 		<!-- The node of the sup files holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
+	
 	<!-- Article of the future LIST PREVIEWS END -->
 </xsl:stylesheet>

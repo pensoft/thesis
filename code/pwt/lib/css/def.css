@@ -3658,6 +3658,7 @@ div.token-input-dropdown-facebook:after {
 	font-size: 12px;
 	font-family: Tahoma;
 	cursor: pointer;
+	font-weight: bold;
 }
 
 .P-Figure-Desc,td div.P-Figure-Desc {
