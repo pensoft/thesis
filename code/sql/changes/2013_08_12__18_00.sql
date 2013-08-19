@@ -42,6 +42,7 @@ CREATE TABLE pjs.article_figures(
 	id bigserial PRIMARY KEY,
 	instance_id bigint,
 	article_id int REFERENCES pjs.articles(id),
+	is_plate boolean DEFAULT false,
 	cache_id bigint REFERENCES pjs.article_cached_items(id)
 );
 GRANT ALL ON pjs.article_figures TO iusrpmt;
@@ -88,3 +89,22 @@ CREATE TABLE pjs.article_references(
 	reference_id bigint REFERENCES pjs.references(id)
 );
 GRANT ALL ON pjs.article_references TO iusrpmt;
+
+/* Stored procedures
+	pjs.spSaveArticleFigurePreview
+	pjs.spSaveArticleTablePreview
+	pjs.spSaveArticleSupFilePreview
+	pjs.spSaveArticlePlatePreview
+	pjs.spSaveArticleReferencePreview	
+	pjs.spSaveArticleTaxonPreview
+	pjs.spSaveArticleFiguresListPreview
+	pjs.spSaveArticleTablesListPreview
+	pjs.spSaveArticleReferencesListPreview
+	pjs.spSaveArticleSupFilesListPreview
+	pjs.spSaveArticleLocalitiesListPreview
+	pjs.spSaveArticleContentsListPreview
+	pjs.spSaveArticleTaxonListPreview
+	pjs.spSaveArticleAuthorsListPreview
+	pjs.spSaveArticlePreview
+	pjs.spSaveArticleXml
+*/

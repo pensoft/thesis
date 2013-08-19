@@ -1,4 +1,9 @@
 <?php
+
+function getCommit(){
+	return file_get_contents(dirname(__FILE__) . '/../../../../.git/refs/heads/master');
+}
+
 function sortLink($pViewMode, $pOrderByColumn, $pSortOrder, $pCurrentColumn, $pTitle) {
 
 	$lOrder = '';
@@ -68,11 +73,11 @@ function strip_invalid($str) {
 }
 
 function css_tag($css, $media = 'all') {
-	return '<link type="text/css" rel="stylesheet" href="/lib/' . $css . '.css" media="' . $media . '" />
+	return '<link type="text/css" rel="stylesheet" href="/lib/' . $css . '.css?v='. getCommit ().'"  media="' . $media . '" />
 	';
 }
 function js_tag($js) {
-	return '<script src="/lib/' . $js . '.js" type="text/javascript"></script>
+	return '<script src="/lib/' . $js . '.js?v='. getCommit ().'" type="text/javascript"></script>
 	';
 }
 function render_else($arg, $instead) {
