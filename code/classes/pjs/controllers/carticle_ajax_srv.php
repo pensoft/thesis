@@ -9,6 +9,7 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 	var $m_articlesModel;
 	var $m_tempPageView;
 	var $m_articleId;
+
 	function __construct() {
 		parent::__construct();
 		$pViewPageObjectsDataArray = array ();
@@ -45,15 +46,20 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 				case 'get_reference_element' :
 					$this->GetReferenceElement();
 					break;
+				case 'get_author_element' :
+					$this->GetAuthorElement();
+					break;
+					
 			}
 		}
 		$lResultArr = array_merge($this->m_action_result, array (
-				'err_cnt' => $this->m_errCnt,
-				'err_msg' => $this->m_errMsg 
+			'err_cnt' => $this->m_errCnt,
+			'err_msg' => $this->m_errMsg 
 		));
 		// var_dump($lResultArr);
 		$this->m_pageView = new epPage_Json_View($lResultArr);
 	}
+
 	function GetMainListElement() {
 		$lElementType = (int) $this->GetValueFromRequestWithoutChecks('element_type');
 		
@@ -81,9 +87,13 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 			case (int) ARTICLE_MENU_ELEMENT_TYPE_TAXON :
 				$lResult = $this->m_articlesModel->GetTaxonListHtml($this->m_articleId);
 				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_AUTHORS :
+				$lResult = $this->m_articlesModel->GetAuthorsListHtml($this->m_articleId);
+				break;
 		}
 		$this->m_action_result ['html'] = $lResult;
 	}
+
 	protected function GetElement($pElementType) {
 		$lElementId = (int) $this->GetValueFromRequestWithoutChecks('element_id');
 		$lElementName = trim($this->GetValueFromRequestWithoutChecks('element_name'));
@@ -120,24 +130,36 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 			case (int) ARTICLE_MENU_ELEMENT_TYPE_TAXON :
 				$lResult = $this->m_articlesModel->GetTaxonHtml($lElementName);
 				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_AUTHORS :
+				$lResult = $this->m_articlesModel->GetAuthorHtml($this->m_articleId, $lElementId);
+				break;
 		}
 		$this->m_action_result ['html'] = $lResult;
 		$this->m_action_result ['element_type'] = (int) $pElementType;
 	}
+
 	function GetFigureElement() {
 		$this->GetElement((int) ARTICLE_MENU_ELEMENT_TYPE_FIGURES);
 	}
+
 	function GetTableElement() {
 		$this->GetElement((int) ARTICLE_MENU_ELEMENT_TYPE_TABLES);
 	}
+
 	function GetReferenceElement() {
 		$this->GetElement((int) ARTICLE_MENU_ELEMENT_TYPE_REFERENCES);
 	}
+
 	function GetSupFileElement() {
 		$this->GetElement((int) ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES);
 	}
+
 	function GetTaxonElement() {
 		$this->GetElement((int) ARTICLE_MENU_ELEMENT_TYPE_TAXON);
+	}
+
+	function GetAuthorElement() {
+		$this->GetElement((int) ARTICLE_MENU_ELEMENT_TYPE_AUTHORS);
 	}
 }
 

@@ -89,6 +89,12 @@ function LoadTaxonInfo(pTaxonName){
 	LoadElementInfo('get_taxon_element', '', 'test');
 }
 
+function LoadAuthorInfo(pElementId){
+	LoadElementInfo('get_author_element', pElementId);
+	console.log('Author ' + pElementId);
+//	LoadElementInfo('get_author_element', 4);
+}
+
 function initArticlePreviewOnLoadEvents(){
 	resizePreviewIframe(gArticlePreviewIframeId);
 	PlaceTaxonNameEvents();

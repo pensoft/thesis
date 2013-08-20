@@ -72,6 +72,7 @@ $gTemplArr = array(
 						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES . '">Supp. files</li>
 						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_LOCALITIES . '">Localities</li>
 						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_TAXON . '">Taxa</li>
+						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_AUTHORS . '">Authors</li>
 					</ul>
 					<div class="P-Info-Content">
 				
