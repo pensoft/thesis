@@ -4,13 +4,13 @@
 body{overflow-y: hidden}
 .P-Article-Info-Bar {
 	top: 50px;
-	width: 480px;
+	width: 500px;
 	border-left: 1px solid #e2e2dc;
 	border-left: 1px solid #F4F4F1;
 	z-index: 0;
 	position: fixed; top: 60px; right: 0; bottom: 0; background-color: white;
 	overflow-y: scroll;
-	padding: 10px
+	font-family: Calibri;
 }
 
 .P-Article-Preview {
@@ -48,33 +48,94 @@ body{overflow-y: hidden}
 
 
 
-
-
-
-
-
-
+.P-table-tump-holder {
+    margin-right: 10px;
+    min-height: 75px;
+    width: 94px;
+    float: left;
+    background-color: white;
+    margin-bottom: 6px;
+}
 
 .P-Picture-Holder {
-	width: 120px;
-	min-height: 82px;
+	border: 1px solid #BBBBBB;
+    border-radius: 5px 5px 5px 5px;
+    margin-right: 10px;
+    min-height: 82px;
+    width: 103px;
+    float: left;
+    background-color: white;
+    margin-bottom: 6px;
 }
 
 .twocolumnminiholder{width: 51px; height: 51px; float: left;  text-align: center; display: table}
 .twocolumnmini{display: table-cell; vertical-align: middle; text-align: center; padding: 3px}
+.singlefigmini{vertical-align: middle; text-align: center; padding: 3px}
 
-.P-Figure-Num,td div.P-Figure-Num,.fig-label-RC {
+.fig-label-RC {
 	margin-bottom: 10px;
-	font-size: 12px;
-	font-family: Tahoma;
-	cursor: pointer;
+	font-size: 13px;
+	font-family: Helvetica;
 	font-weight: bold;
+	color:#333;
 }
 
 .item-holder-RC {
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-top: 10px;
-	margin-bottom: 10px;
+	padding-top: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+	min-height: 82px;
+	border-bottom: 1px solid #BBB; 
+}
+.item-holder-RC:hover{
+	cursor:pointer;
+	background-color: #EEECE5;
+}
+.item-holder-RC:last-child{
+	border-bottom: none;
 }
 
+.listline {
+	color:#BBB
+}
+
+.list-caption {
+	font-size: 11pt;
+	color:#333;
+}
+
+.list-caption p{
+	margin: 5px 0 0 0;
+}
+
+.list-caption-letter {
+	font-weight: bold;
+}
+
+
+.species, .genus, .subgenus, .subspecies, .variety, .form {
+	font-style:italic;	
+}
+
+.tn {
+	color:#006600;	
+}
+
+.tn .authority, .tn .basio-authority, .x {
+	color:black;	
+}
+
+.above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover {
+	background:#E3E3C7;
+	cursor:pointer;	
+}
+
+.taxalistAOF{
+	font-size: 12pt;
+	color:#006600;
+	padding-bottom: 6px;
+	padding-left: 15px;
+	padding-right: 15px;
+	
+}

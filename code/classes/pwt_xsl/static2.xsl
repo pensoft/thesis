@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tp="http://www.plazi.org/taxpub" xmlns:php="http://php.net/xsl" exclude-result-prefixes="php tp xlink xsl" >
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tp="http://www.plazi.org/taxpub" xmlns:php="http://php.net/xsl" xmlns:exslt="http://exslt.org/common" exclude-result-prefixes="php tp xlink xsl exslt" >
 	<xsl:param  name="gGenerateFullHtml">1</xsl:param>
 	<!--Whether to generate the whole HTML or just a fragment,
 		i.e. to add tags like html, head
@@ -857,12 +857,16 @@
 	
 	<!-- Plate type 2 image preview -->
 	<xsl:template match="*[@object_id='232']" mode="singleFigSmallPreview">
-		<img style="float: left;"  alt="">
-			<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=plateportraitmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-		</img>
-		<img style="float: left;"  alt="">
-			<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=plateportraitmini_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-		</img>
+		<div class="twocolumnmini">
+			<img style="float: left;"  alt="">
+				<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=plateportraitmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+			</img>
+		</div>
+		<div class="twocolumnmini">
+			<img style="float: left;"  alt="">
+				<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=plateportraitmini_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+			</img>
+		</div>
 	</xsl:template>
 	
 	<!-- Plate type 3 image preview -->
@@ -1103,71 +1107,90 @@
 	<!-- Article of the future LIST PREVIEWS START -->
 	<!-- Article of the future preview template of the figures list -->
 	<xsl:template match="*" mode="article_figures_list">
-		Figures list
 		<!-- The node of the figures holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 		
 			<xsl:for-each select="//figure">	
-			<div class="item-holder-RC">
-				<div class="fig-label-RC">
-					<span>
-						<xsl:value-of select="./@display_name"></xsl:value-of>
-							<xsl:text> </xsl:text>
-						<xsl:value-of select="./fields/figure_number"></xsl:value-of>
-					</span>
-				</div>				
-				<xsl:apply-templates select="image" mode="Figures" />
-				<xsl:apply-templates select="multiple_images_plate" mode="Figures" />
-			</div>	
-			<div class="P-Clear" />	
+				<div class="item-holder-RC">
+						<span class="fig-label-RC">
+							<xsl:value-of select="./@display_name"></xsl:value-of>
+								<xsl:text> </xsl:text>
+							<xsl:value-of select="./fields/figure_number"></xsl:value-of>
+						</span>
+					<xsl:apply-templates select="image" mode="Figures" />
+					<xsl:apply-templates select="multiple_images_plate" mode="Figures" />
+				</div>
+			<xsl:if test="position()!=last()">
+				<div class="P-Clear" />
+			</xsl:if>	
 			</xsl:for-each>
 	</xsl:template>
 	
-	<xsl:template match="image" mode="Figures">		
-			<div>
+	<xsl:template match="image" mode="Figures">
+			<div class="P-Picture-Holder">
+				<div class="singlefigmini">
+					<img alt="">
+						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./fields/photo_select/value"></xsl:value-of>.jpg</xsl:attribute> 
+					</img>
+				</div>	
+			</div>
+			<div class="list-caption">
 				<xsl:apply-templates select="./fields/figure_caption/value" mode="formatting"/>
-			</div>	
-			<img alt="">
-				<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./fields/photo_select/value"></xsl:value-of>.jpg</xsl:attribute> 
-			</img>
+			</div>
+			<div class="P-Clear" />	
 		</xsl:template>
 			
-		<xsl:template match="multiple_images_plate" mode="Figures">			
-				<div> 
-					<xsl:apply-templates select="./fields/plate_caption/value" mode="formatting"/>
-			
-					<xsl:for-each select="./plate_type_wrapper/*/*/fields">
-						<div> 
-							<span>
-								<xsl:choose>
-									<xsl:when test="../@object_id='225'">a</xsl:when>
-									<xsl:when test="../@object_id='226'">b</xsl:when>
-									<xsl:when test="../@object_id='227'">c</xsl:when>
-									<xsl:when test="../@object_id='228'">d</xsl:when>
-									<xsl:when test="../@object_id='229'">e</xsl:when>
-									<xsl:when test="../@object_id='230'">f</xsl:when>
-								</xsl:choose>
-								<xsl:text>: </xsl:text>
-							</span>	
-								<xsl:apply-templates select="./plate_desc" mode="formatting"/>
-						</div>
-					</xsl:for-each>
-				</div>
-				<div class="P-Picture-Holder" style="float:left">
+		<xsl:template match="multiple_images_plate" mode="Figures">
+				<div class="P-Picture-Holder">
 					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='231']" mode="singleFigSmallPreview" />
 					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='232']" mode="singleFigSmallPreview" />
 					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='233']" mode="singleFigSmallPreview" />
 					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='234']" mode="singleFigSmallPreview" />						
 				</div>			
+				<div class="list-caption">
+					<xsl:apply-templates select="./fields/plate_caption/value" mode="formatting"/>
+					<xsl:for-each select="./plate_type_wrapper/*/*/fields">
+						<span class="list-caption-letter">
+							<xsl:choose>
+								<xsl:when test="../@object_id='225'"> a</xsl:when>
+								<xsl:when test="../@object_id='226'"> b</xsl:when>
+								<xsl:when test="../@object_id='227'"> c</xsl:when>
+								<xsl:when test="../@object_id='228'"> d</xsl:when>
+								<xsl:when test="../@object_id='229'"> e</xsl:when>
+								<xsl:when test="../@object_id='230'"> f</xsl:when>
+							</xsl:choose>
+							<xsl:text>: </xsl:text>
+						</span>	
+							<xsl:apply-templates select="./plate_desc" mode="formatting"/>
+					</xsl:for-each>		
+				</div>
+				<div class="P-Clear" />					
 		</xsl:template>
 	
 	
 	
 	<!-- Article of the future preview template of the tables list -->
 	<xsl:template match="*" mode="article_tables_list">
-		Tables list
-		<!-- The node of the tables holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+		<!-- The node of the tables holder -->
+		<xsl:for-each select="table">
+			<div class="item-holder-RC">
+				<div class="P-table-tump-holder">
+					<img alt="">
+						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/i/table_pic.png</xsl:attribute> 
+					</img> 
+				</div>		
+					<span class="fig-label-RC">
+						<xsl:value-of select="./@display_name"></xsl:value-of>
+							<xsl:text> </xsl:text>
+						<xsl:value-of select="position()"></xsl:value-of>
+					</span>			
+				<div class="list-caption"> 
+					<xsl:apply-templates select="./fields/table_caption/value" mode="formatting"/>
+				</div>
+			</div>
+		</xsl:for-each>
+		
 	</xsl:template>
 	
 	<!-- Article of the future preview template of the references list -->
@@ -1186,10 +1209,198 @@
 	
 	<!-- Article of the future preview template of the taxon list -->
 	<xsl:template match="*" mode="article_taxon_list">
-		Taxon list
+
+		<xsl:variable name="lOutputFirst">
+			<xsl:apply-templates select="." mode="trans1" />	
+		</xsl:variable>		
+		<xsl:apply-templates select="exslt:node-set($lOutputFirst)" mode="trans2" />
+		
 		<!-- The document node -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
+	
+	<xsl:template match="*" mode="trans1">		
+		<xsl:for-each select="//*[@object_id=182 or @object_id=179 or @object_id=196 or @object_id=197 or @object_id=184 or @object_id=192 or @object_id=213 or @object_id=216]">
+			<div class="taxon" tnu="TT">
+				<xsl:apply-templates select="./*[@object_id='180' or @object_id='181']" mode="taxonTreatmentNameAOF"/>
+			</div>					
+		</xsl:for-each>
+				
+		<xsl:for-each select="//checklist_taxon">
+			<div class="taxon" tnu="CHK">
+				<xsl:apply-templates select="fields" mode="TaxaChecklistAOF"/>
+			</div>					
+		</xsl:for-each>
+		
+		<xsl:for-each select="//tn">
+			<div class="taxon" tnu="INL">
+				<xsl:apply-templates select="." mode="TaxaInline"/>
+			</div>		
+		</xsl:for-each>
+	</xsl:template>
+	
+	<xsl:template match="*" mode="TaxaInline">
+		<xsl:for-each select="tn-part">
+			<span>
+				 <xsl:attribute name="class"><xsl:value-of select="./@type" /></xsl:attribute>
+				 <xsl:value-of select="."/>
+			  </span>
+			  <xsl:if test="position() != last()">
+					 <xsl:text> </xsl:text>
+			  </xsl:if>
+		</xsl:for-each>			
+	</xsl:template>
+	
+	<!-- Taxon treatments -->
+	<xsl:template match="*[@object_id='180']" mode="taxonTreatmentNameAOF" xml:space="default">
+			<span class="genus">
+				<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting_nospace"/>
+			</span>
+			<xsl:if test="./fields/*[@id='417']/value != ''">
+				<xsl:text> </xsl:text>			
+				<span class="x">(</span>
+				<span class="subgenus">
+					<xsl:apply-templates select="./fields/*[@id='417']" mode="formatting_nospace"/>
+				</span>
+				<span class="x">)</span>
+			</xsl:if>
+			<xsl:text> </xsl:text>
+			<span class="species">
+				<xsl:apply-templates select="./fields/*[@id='49']" mode="formatting_nospace"/>
+			</span>
+	</xsl:template>	
+	
+	<xsl:template match="*[@object_id='181']" mode="taxonTreatmentName">
+			<span class="genus">
+					<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting"/>
+			</span>
+	</xsl:template>
+
+	<!-- checklist shits -->
+	<xsl:template match="fields" mode="TaxaChecklistAOF">
+		<xsl:variable name="lRankType" select="./*[@id='414']/value"></xsl:variable>					
+		<xsl:variable name="RankID">
+			<xsl:choose>
+				<xsl:when test="$lRankType = 'kingdom'">    <xsl:text>419</xsl:text></xsl:when>				
+				<xsl:when test="$lRankType = 'subkingdom'"> <xsl:text>420</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'phylum'">     <xsl:text>421</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'subphylum'">  <xsl:text>422</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'superclass'"> <xsl:text>423</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'class'">		<xsl:text>424</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'subclass'">   <xsl:text>425</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'superorder'"> <xsl:text>426</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'order'"> 		<xsl:text>427</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'suborder'"> 	<xsl:text>428</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'infraorder'"> <xsl:text>429</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'superfamily'"><xsl:text>430</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'family'"> 	<xsl:text>431</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'subfamily'">	<xsl:text>432</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'tribe'">		<xsl:text>433</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'subtribe'">	<xsl:text>434</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'genus'"> 		<xsl:text>48</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'subgenus'"> 	<xsl:text>417</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'species'"> 	<xsl:text>49</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'subspecies'"> <xsl:text>418</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'variety'"> 	<xsl:text>435</xsl:text></xsl:when>
+				<xsl:when test="$lRankType = 'form'"> 		<xsl:text>436</xsl:text></xsl:when>
+				<xsl:otherwise> </xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+	<xsl:variable name="lRankValue" select="./*[@id=$RankID]/value"></xsl:variable>
+		<!-- value -->
+		<xsl:if test="$lRankValue != ''">
+			<xsl:choose>
+				<xsl:when test="$lRankType = 'genus'">
+					<span class="genus">
+						<xsl:apply-templates select="$lRankValue" mode="formatting"/>
+					</span>
+				</xsl:when>
+				<xsl:when test="$lRankType = 'subgenus'">
+					<span class="subgenus">>
+						<xsl:apply-templates select="$lRankValue" mode="formatting"/>
+					</span>
+				</xsl:when>
+				<xsl:when test="$lRankType = 'species' or $lRankType = 'subspecies' or $lRankType = 'variety' or $lRankType = 'form'">	
+					<!-- $Genus-->
+					<span class="genus">
+						<xsl:apply-templates select="./*[@id='48']" mode="formatting_nospace"/>
+					</span>
+					<xsl:if test="./*[@id='417']/value != ''">	
+						<xsl:text> (</xsl:text>
+						<!-- $Subgenus-->
+						<span class="subgenus">
+							<xsl:apply-templates select="./*[@id='417']" mode="formatting_nospace"/>
+						</span><xsl:text>)</xsl:text>
+					</xsl:if>
+					<xsl:text> </xsl:text>
+					<!-- $Species -->
+					<span class="species">
+						<xsl:apply-templates select="./*[@id='49']" mode="formatting_nospace"/>
+					</span>
+					<xsl:if test="$lRankType = 'subspecies'"> subsp. 
+						<span class="subspecies">
+							<xsl:apply-templates select="./*[@id='418']" mode="formatting_nospace"/>
+						</span>
+					</xsl:if>
+					<xsl:if test="$lRankType = 'variety'"> 	 var.   
+						<span class="variety">
+							<xsl:apply-templates select="./*[@id='435']" mode="formatting_nospace"/>
+						</span>
+					</xsl:if>
+					<xsl:if test="$lRankType = 'form'">		 f.     
+						<span class="form">
+							<xsl:apply-templates select="./*[@id='436']" mode="formatting_nospace"/>
+						</span>
+					</xsl:if>	
+				 </xsl:when>	
+				<xsl:otherwise>	
+					<span>
+						<xsl:attribute name="class"><xsl:value-of select="$lRankType" /></xsl:attribute>
+						<xsl:apply-templates select="$lRankValue" mode="formatting"/>
+					</span>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>
+	</xsl:template>
+		
+	<xsl:key name="taxon" match="//div" use="." />
+			
+	<xsl:template match="/" mode="trans2">
+		  <xsl:for-each select="//div[generate-id()=generate-id(key('taxon',.))]">
+			<xsl:sort select="." order="ascending"></xsl:sort>
+			<div class="taxalistAOF">
+				<xsl:attribute name="tnu"><xsl:value-of select="./@tnu"/></xsl:attribute>
+				<xsl:if test="./@tnu = 'TT'">
+						<xsl:for-each select="span">
+							<xsl:copy-of select="."/>
+							  <xsl:if test="position() != last()">
+									 <xsl:text> </xsl:text>
+							  </xsl:if>
+						</xsl:for-each>
+						<span></span>
+				</xsl:if>
+				<xsl:if test="./@tnu = 'CHK'">
+						<xsl:for-each select="span">
+							<xsl:copy-of select="."/>
+							  <xsl:if test="position() != last()">
+									 <xsl:text> </xsl:text>
+							  </xsl:if>
+						</xsl:for-each>
+						<span></span>
+				</xsl:if>
+				<xsl:if test="./@tnu = 'INL'">
+						<xsl:for-each select="span">
+							<xsl:copy-of select="."/>
+							  <xsl:if test="position() != last()">
+									 <xsl:text> </xsl:text>
+							  </xsl:if>
+						</xsl:for-each>
+						<span></span>
+				</xsl:if>
+			</div>
+		</xsl:for-each>
+	</xsl:template>	
 
 	<!-- Article of the future LIST PREVIEWS END -->
 </xsl:stylesheet>

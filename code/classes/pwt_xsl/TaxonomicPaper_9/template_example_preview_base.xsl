@@ -561,7 +561,7 @@
 		</span>
 	</xsl:template>
 	<!-- Type species ICZN Taxon name species -->
-	<xsl:template match="*[@object_id='180']" mode="taxonTreatmentName" xml:space="strip">
+	<xsl:template match="*[@object_id='180']" mode="taxonTreatmentName" xml:space="default">
 		<span class="tn">
 		<span class="genus">
 			<xsl:call-template name="markContentEditableField">
@@ -573,7 +573,7 @@
 			<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting_nospace"/>
 		</span>
 		<xsl:if test="./fields/*[@id='417']/value != ''">
-			<xsl:text>&#160;</xsl:text>			
+			<xsl:text> </xsl:text>			
 			<span class="x">(</span>
 			<span class="subgenus">
 				<xsl:call-template name="markContentEditableField">
@@ -586,7 +586,7 @@
 			</span>
 			<span class="x">)</span>
 		</xsl:if>
-		<xsl:text>&#160;</xsl:text>
+		<xsl:text> </xsl:text>
 		<span class="species">
 			<xsl:call-template name="markContentEditableField">
 				<xsl:with-param name="pObjectId" select="./@object_id"/>
@@ -596,7 +596,7 @@
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id"/></xsl:attribute>
 			<xsl:apply-templates select="./fields/*[@id='49']" mode="formatting_nospace"/>
 		</span>
-		<xsl:text>&#160;</xsl:text>
+		<xsl:text> </xsl:text>
 		<xsl:apply-templates select="." mode="authors_and_year"/>
 		</span>
 	</xsl:template>

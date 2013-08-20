@@ -108,7 +108,7 @@ sub {
   line-height: 2em;
   margin-top: 1.5em;
   margin-bottom: 0.3em;
-  color: #333;
+  color: #111;
   font-weight: bold;
   margin-top: 24px;
   font-family:Helvetica;
@@ -389,6 +389,10 @@ td p, th p {
   font-size: 11pt;
 }
 
+.downloadmaterials{
+	font-size:0.8em;
+	font-weight: normal;
+}
 
 .tn {
 	color:#006600;	
@@ -417,5 +421,6 @@ td p, th p {
 	padding-right:2px;
 	background:#DFF1FF;
 }
+
 
 
