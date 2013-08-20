@@ -417,7 +417,7 @@ class carticle_preview_generator extends csimple {
 				u.photo_id, u.uname as email, u.website, u.id as usrid
 			FROM pjs.document_users du
 			JOIN public.usr u ON u.id = du.uid
-			WHERE du.document_id = ' . (int) $this->m_documentId . '
+			WHERE du.document_id = ' . (int) $this->m_documentId . ' AND role_id = ' . (int)PJS_AUTHOR_ROLE_ID . '
 		';
 		$this->m_con->Execute($lSql);
 		$lAuthorsArr = array ();

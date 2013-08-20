@@ -195,7 +195,7 @@ function DefObjTempl() {
 
 function showPicIfExists($pid, $pref, $class = false) {
 	if ($pid) {
-		return '<img src="' . SHOWIMG_URL .
+		return '<img src="' . SITE_URL . SHOWIMG_URL .
 		$pref . '_' . $pid . '.jpg" border="0" alt="" ' .
 		($class ? 'class="' . $class . '"' : '') . '/>';
 	}
