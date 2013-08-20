@@ -12,6 +12,7 @@ define('INSTANCE_WHOLE_PREVIEW_TYPE', 10);
 define('INSTANCE_TAXON_LIST_TYPE', 11);
 define('INSTANCE_AUTHOR_TYPE', 12);
 define('INSTANCE_AUTHORS_LIST_TYPE', 13);
+define('INSTANCE_CONTENTS_LIST_TYPE', 14);
 
 define('INSTANCE_WHOLE_PREVIEW_INSTANCE_ID', - 5);
 define('INSTANCE_FIGURES_LIST_INSTANCE_ID', - 1);
@@ -83,6 +84,9 @@ $gInstanceTypeDetails = array (
 	),
 	INSTANCE_AUTHORS_LIST_TYPE => array (
 		'preview_sql' => 'SELECT * FROM spSaveArticleAuthorsListPreview({article_id}, \'{preview}\');' 
+	),
+	INSTANCE_CONTENTS_LIST_TYPE => array (
+		'preview_sql' => 'SELECT * FROM spSaveArticleContentsListPreview({article_id}, \'{preview}\');' 
 	) 
 );
 class carticle_preview_generator extends csimple {
@@ -101,6 +105,7 @@ class carticle_preview_generator extends csimple {
 	var $m_wholeArticlePreview = '';
 	var $m_authorPreviews = array ();
 	var $m_authorsListPreview = '';
+	var $m_contentsListPreview = '';
 
 	function __construct($pFieldTempl) {
 		$this->m_instancesDetails = array ();
@@ -417,7 +422,7 @@ class carticle_preview_generator extends csimple {
 				u.photo_id, u.uname as email, u.website, u.id as usrid
 			FROM pjs.document_users du
 			JOIN public.usr u ON u.id = du.uid
-			WHERE du.document_id = ' . (int) $this->m_documentId . ' AND role_id = ' . (int)PJS_AUTHOR_ROLE_ID . '
+			WHERE du.document_id = ' . (int) $this->m_documentId . ' AND role_id = ' . (int) PJS_AUTHOR_ROLE_ID . '
 		';
 		$this->m_con->Execute($lSql);
 		$lAuthorsArr = array ();
@@ -453,6 +458,55 @@ class carticle_preview_generator extends csimple {
 		// exit;
 	}
 
+	protected function GenerateArticleContentsListPreview() {
+		$lSql = '
+			select * from (
+				SELECT DISTINCT ON (i.id)
+					i.display_name as object_name, i.pos as pos, i.id as instance_id
+				FROM pwt.document_object_instances i
+				LEFT JOIN pwt.document_object_instances i1 ON (i1.parent_id = i.id) AND i1.is_confirmed = TRUE
+				LEFT JOIN pwt.instance_field_values f ON (i.id = f.instance_id)
+				WHERE i.display_in_tree = true
+					AND char_length(i.pos) = 2
+					AND i.document_id = ' . $this->m_pwtDocumentId . '
+					AND i.object_id not in (236, 237) -- figures & tables
+					AND (
+						i1.id IS NOT NULL OR
+						(
+							f.value_str <> \'\' OR
+							value_int IS NOT NULL OR
+							array_upper(f.value_arr_int, 1) IS NOT NULL OR
+							array_upper(f.value_arr_str, 1) IS NOT NULL OR
+							value_date IS NOT NULL OR
+							array_upper(f.value_arr_date, 1) IS NOT NULL
+						)
+					)
+			
+					) as a
+			order by pos	
+		';
+// 		var_dump($lSql);
+		$lPreview = new crs(array(
+// 			'recursivecolumn'=>'parent_instance_id',
+// 			'templadd'=>'has_children',		
+// 			'sqlstr' => 'SELECT * FROM spGetDocumentTreeFast(' . $this->m_pwtDocumentId . ', 0);',
+			'sqlstr' => $lSql,
+			'templs' => array (
+				G_HEADER => 'article.contents_list_head',
+				G_FOOTER => 'article.contents_list_foot',
+				G_STARTRS => 'article.contents_list_start',
+				G_ENDRS => 'article.contents_list_end',
+				G_NODATA => 'article.contents_list_nodata',
+				G_ROWTEMPL => 'article.contents_list_row' 
+			),			
+			'document_id' => $this->m_pwtDocumentId,			
+		));
+		
+		$this->m_contentsListPreview = $lPreview->Display();
+// 		var_dump($this->m_contentsListPreview);
+// 		exit;
+	}
+
 	protected function ImportGeneratedPreviews() {
 		if ($this->m_errCnt) {
 			return;
@@ -465,33 +519,33 @@ class carticle_preview_generator extends csimple {
 			foreach ( $this->m_instancesDetails as $lInstanceId => $lInstanceDetails ) {
 				$lPreview = $this->GetInstancePreview($lInstanceId);
 				$lInstanceType = $lInstanceDetails ['instance_type'];
-				$lSql = $this->GetInstancePreviewSql($lInstanceId, $lInstanceType, $lPreview);
-				if (! $lCon->Execute($lSql)) {
-					throw new Exception($lCon->GetLastError());
-				}
+				$this->SaveElementPreview($lInstanceId, $lInstanceType, $lPreview);				
 			}
 			// Whole preview
-			$lSql = $this->GetInstancePreviewSql(INSTANCE_WHOLE_PREVIEW_INSTANCE_ID, INSTANCE_WHOLE_PREVIEW_TYPE, $this->m_wholeArticlePreview);
-			if (! $lCon->Execute($lSql)) {
-				throw new Exception($lCon->GetLastError());
-			}
+			$this->SaveElementPreview(INSTANCE_WHOLE_PREVIEW_INSTANCE_ID, INSTANCE_WHOLE_PREVIEW_TYPE, $this->m_wholeArticlePreview);			
 			// Author previews
-			foreach ($this->m_authorPreviews as $lAuthorId => $lPreview){
-				$lSql = $this->GetInstancePreviewSql($lAuthorId, INSTANCE_AUTHOR_TYPE, $lPreview);
-				if (! $lCon->Execute($lSql)) {
-					throw new Exception($lCon->GetLastError());
-				}
+			foreach ( $this->m_authorPreviews as $lAuthorId => $lPreview ) {
+				$this->SaveElementPreview($lAuthorId, INSTANCE_AUTHOR_TYPE, $lPreview);				
 			}
-			$lSql = $this->GetInstancePreviewSql(INSTANCE_AUTHORS_LIST_INSTANCE_ID, INSTANCE_AUTHORS_LIST_TYPE, $this->m_authorsListPreview);
-			if (! $lCon->Execute($lSql)) {
-				throw new Exception($lCon->GetLastError());
-			}
+			$this->SaveElementPreview(INSTANCE_AUTHORS_LIST_INSTANCE_ID, INSTANCE_AUTHORS_LIST_TYPE, $this->m_authorsListPreview);
+			
+			//Contents list previews
+			$this->SaveElementPreview(0, INSTANCE_CONTENTS_LIST_TYPE, $this->m_contentsListPreview);
+						
+			
 			if (! $lCon->Execute('COMMIT TRANSACTION;')) {
 				throw new Exception(getstr('pwt.couldNotBeginTransaction'));
 			}
 		} catch ( Exception $lException ) {
 			$lCon->Execute('ROLLBACK TRANSACTION;');
 			$this->SetError($lException->getMessage());
+		}
+	}
+	
+	protected function SaveElementPreview($pInstanceId, $pInstanceType, $pPreview){
+		$lSql = $this->GetInstancePreviewSql($pInstanceId, $pInstanceType, $pPreview);
+		if (! $this->m_con->Execute($lSql)) {
+			throw new Exception($this->m_con->GetLastError());
 		}
 	}
 
@@ -513,6 +567,7 @@ class carticle_preview_generator extends csimple {
 		$this->ProcessXsl();
 		$this->GenerateArticleWholePreview();
 		$this->GenerateArticleAuthorPreviews();
+		$this->GenerateArticleContentsListPreview();
 	}
 
 	function ReplaceHtmlFields($pStr) {
