@@ -423,6 +423,7 @@ class carticle_preview_generator extends csimple {
 		$this->RegisterAllInstances();
 		$this->GenerateXsl();
 		$this->ProcessXsl();
+		$this->GetArticleWholePreview();
 		$this->ImportGeneratedPreviews();
 		$this->m_dontGetData = true;
 	}
