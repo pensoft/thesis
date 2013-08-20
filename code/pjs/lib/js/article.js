@@ -60,27 +60,27 @@ function LoadElementInfo(pActionName, pElementId, pElementName){
 }
 
 function LoadFigureInfo(pElementId){
-//	LoadElementInfo('get_figure_element', pElementId);
+	LoadElementInfo('get_figure_element', pElementId);
 	console.log('Fig ' + pElementId);
-	LoadElementInfo('get_figure_element', 1);
+	//LoadElementInfo('get_figure_element', 1);
 }
 
 function LoadTableInfo(pElementId){
-//	LoadElementInfo('get_table_element', pElementId);
+	LoadElementInfo('get_table_element', pElementId);
 	console.log('Table ' + pElementId);
-	LoadElementInfo('get_table_element', 5);
+	//LoadElementInfo('get_table_element', 5);
 }
 
 function LoadSupFileInfo(pElementId){
-//	LoadElementInfo('get_sup_file_element', pElementId);
+	LoadElementInfo('get_sup_file_element', pElementId);
 	console.log('Sup file ' + pElementId);
-	LoadElementInfo('get_sup_file_element', 4);
+	//LoadElementInfo('get_sup_file_element', 4);
 }
 
 function LoadReferenceInfo(pElementId){
-//	LoadElementInfo('get_reference_element', pElementId);
+	LoadElementInfo('get_reference_element', pElementId);
 	console.log('Reference ' + pElementId);
-	LoadElementInfo('get_reference_element', 9);
+	//LoadElementInfo('get_reference_element', 9);
 }
 
 function LoadTaxonInfo(pTaxonName){

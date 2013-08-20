@@ -6,7 +6,7 @@
 	position: absolute;
 	top: 50px;
 	right: 0px;
-	width: 336px;
+	width: 500px;
 	border-left: 1px solid #e2e2dc;
 	height: 100%;
 	border-left: 1px solid #F4F4F1;
@@ -14,7 +14,7 @@
 }
 
 .P-Article-Preview {
-	margin-right: 336px;
+	margin-right: 500px;
 }
 
 .P-Article-Preview iframe {
@@ -41,5 +41,64 @@
 }
 
 .P-Info-Content{
-	margin-top:100px;
+	margin-top:120px;
 }
+
+
+
+
+
+.tn {
+	color:#006600;	
+}
+
+.tn .authority, .tn .basio-authority, .x {
+	color:black;	
+}
+
+.above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover {
+	background:#E3E3C7;
+	cursor:pointer;	
+}
+
+.bibr {
+	color:#0052CC;
+}
+
+.bibr:hover, .fig:hover, .table:hover, .suppl:hover {
+	background:#FEF1B5;
+	cursor:pointer;
+}
+
+.fig, .table, .suppl {
+	padding-left:2px;
+	padding-right:2px;
+	background:#DFF1FF;
+}
+
+
+
+
+.P-Picture-Holder {
+	width: 120px;
+	min-height: 82px;
+}
+
+.twocolumnminiholder{width: 51px; height: 51px; float: left;  text-align: center; display: table}
+.twocolumnmini{display: table-cell; vertical-align: middle; text-align: center; padding: 3px}
+
+.P-Figure-Num,td div.P-Figure-Num,.fig-label-RC {
+	margin-bottom: 10px;
+	font-size: 12px;
+	font-family: Tahoma;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.item-holder-RC {
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
