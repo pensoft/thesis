@@ -1,11 +1,10 @@
 a img {
   border: none;
 }
-* html {
+/* html {
   font-size: 75%;
-}
+} */
 html {
-  font-size: 12px;
   line-height: 1.5em;
 }
 .P-Article-Preview {
@@ -13,6 +12,8 @@ html {
   font-family: Tahoma;
   text-align: justify;
   margin: auto;
+  background-color: white;
+  padding: 0 20px;
 }
 .dcLabel {
   color: gray;
