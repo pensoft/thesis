@@ -10,6 +10,8 @@ define('INSTANCE_REFERENCES_LIST_TYPE', 8);
 define('INSTANCE_SUP_FILES_LIST_TYPE', 9);
 define('INSTANCE_WHOLE_PREVIEW_TYPE', 10);
 define('INSTANCE_TAXON_LIST_TYPE', 11);
+define('INSTANCE_AUTHOR_TYPE', 12);
+define('INSTANCE_AUTHORS_LIST_TYPE', 13);
 
 define('INSTANCE_WHOLE_PREVIEW_INSTANCE_ID', - 5);
 define('INSTANCE_FIGURES_LIST_INSTANCE_ID', - 1);
@@ -17,6 +19,7 @@ define('INSTANCE_TABLES_LIST_INSTANCE_ID', - 2);
 define('INSTANCE_REFERENCES_LIST_INSTANCE_ID', - 3);
 define('INSTANCE_SUP_FILES_LIST_INSTANCE_ID', - 4);
 define('INSTANCE_TAXON_LIST_INSTANCE_ID', - 6);
+define('INSTANCE_AUTHORS_LIST_INSTANCE_ID', - 7);
 
 global $gInstanceTypeDetails;
 $gInstanceTypeDetails = array (
@@ -44,6 +47,9 @@ $gInstanceTypeDetails = array (
 		'xpath' => '//*[@instance_id="{instance_id}"]',
 		'mode' => 'article_preview_sup_file',
 		'preview_sql' => 'SELECT * FROM spSaveArticleSupFilePreview({article_id}, {instance_id}, \'{preview}\');' 
+	),
+	INSTANCE_AUTHOR_TYPE => array (
+		'preview_sql' => 'SELECT * FROM spSaveArticleAuthorPreview({article_id}, {instance_id}, \'{preview}\');' 
 	),
 	INSTANCE_FIGURES_LIST_TYPE => array (
 		'xpath' => '//*[@object_id="' . FIGURE_HOLDER_OBJECT_ID . '"]',
@@ -74,6 +80,9 @@ $gInstanceTypeDetails = array (
 		'xpath' => '//document',
 		'mode' => 'article_taxon_list',
 		'preview_sql' => 'SELECT * FROM spSaveArticleTaxonListPreview({article_id}, \'{preview}\');' 
+	),
+	INSTANCE_AUTHORS_LIST_TYPE => array (
+		'preview_sql' => 'SELECT * FROM spSaveArticleAuthorsListPreview({article_id}, \'{preview}\');' 
 	) 
 );
 class carticle_preview_generator extends csimple {
@@ -90,6 +99,9 @@ class carticle_preview_generator extends csimple {
 	var $m_errCnt = 0;
 	var $m_errMsg = '';
 	var $m_wholeArticlePreview = '';
+	var $m_authorPreviews = array ();
+	var $m_authorsListPreview = '';
+
 	function __construct($pFieldTempl) {
 		$this->m_instancesDetails = array ();
 		$this->m_documentId = $pFieldTempl ['document_id'];
@@ -101,6 +113,7 @@ class carticle_preview_generator extends csimple {
 		$this->m_con->Open();
 		$this->LoadDocumentData();
 	}
+
 	function LoadDocumentData() {
 		$lSql = 'SELECT a.*, t.xsl_dir_name
 			FROM pjs.articles a
@@ -117,15 +130,19 @@ class carticle_preview_generator extends csimple {
 		$this->m_pwtDocumentId = (int) $this->m_con->mRs ['pwt_document_id'];
 		$this->m_templateXslDirName = $this->m_con->mRs ['xsl_dir_name'];
 	}
+
 	function SetDocumentId($pDocumentId) {
 		$this->m_documentId = $pDocumentId;
 	}
+
 	function SetDocumentXml($pDocumentXml) {
 		$this->m_documentXml = $pDocumentXml;
 	}
+
 	function SetTemplate($pTemplate) {
 		$this->m_templ = $pTemplate;
 	}
+
 	function LoadDocumentXml() {
 		$lSql = '
 			SELECT i.cached_val
@@ -136,6 +153,7 @@ class carticle_preview_generator extends csimple {
 		$this->m_con->Execute($lSql);
 		$this->m_documentXml = $this->m_con->mRs ['cached_val'];
 	}
+
 	protected function GetInstanceViewXPathAndMode($pInstanceType, $pInstanceId, $pReturnViewMode = false) {
 		global $gInstanceTypeDetails;
 		// var_dump($gInstanceTypeDetails);
@@ -147,6 +165,7 @@ class carticle_preview_generator extends csimple {
 		$lResult = str_replace('{instance_id}', $pInstanceId, $lResult);
 		return $lResult;
 	}
+
 	protected function GetInstancePreviewSql($pInstanceId, $pInstanceType, $pPreview) {
 		global $gInstanceTypeDetails;
 		$lResult = $gInstanceTypeDetails [$pInstanceType] ['preview_sql'];
@@ -155,7 +174,7 @@ class carticle_preview_generator extends csimple {
 		$lResult = str_replace('{preview}', q($pPreview), $lResult);
 		return $lResult;
 	}
-	
+
 	/**
 	 *
 	 * @param cdocument_instance $pInstanceObject        	
@@ -170,10 +189,12 @@ class carticle_preview_generator extends csimple {
 			'instance_type' => $pInstanceType 
 		);
 	}
+
 	function SetError($pErrMsg) {
 		$this->m_errCnt ++;
 		$this->m_errMsg = $pErrMsg;
 	}
+
 	function RegisterAllInstances() {
 		if ((int) $this->m_errCnt) {
 			return;
@@ -234,6 +255,7 @@ class carticle_preview_generator extends csimple {
 		$this->RegisterInstance((int) INSTANCE_SUP_FILES_LIST_INSTANCE_ID, (int) INSTANCE_SUP_FILES_LIST_TYPE);
 		$this->RegisterInstance((int) INSTANCE_TAXON_LIST_INSTANCE_ID, (int) INSTANCE_TAXON_LIST_TYPE);
 	}
+
 	protected function GenerateXsl() {
 		if ((int) $this->m_errCnt) {
 			return;
@@ -301,6 +323,7 @@ class carticle_preview_generator extends csimple {
 			$this->m_xslContent = $lDomDoc->saveXML();
 		}
 	}
+
 	protected function ProcessXsl() {
 		if ((int) $this->m_errCnt) {
 			return;
@@ -309,7 +332,7 @@ class carticle_preview_generator extends csimple {
 		// error_reporting(-1);
 		// ini_set('display_errors', 'on');
 		if ($this->m_documentXml && $this->m_xslContent) {
-// 			var_dump($this->m_xslContent);
+			// var_dump($this->m_xslContent);
 			// var_dump($this->m_documentXml);
 			$lXslParameters = array ();
 			$lXslParameters [] = array (
@@ -339,9 +362,10 @@ class carticle_preview_generator extends csimple {
 		
 		// var_dump($gInstancePreviews);
 		$this->m_instancePreviews = $gInstancePreviews;
-// 		var_dump($this->GetInstancePreview(INSTANCE_TAXON_LIST_INSTANCE_ID));
-// 		exit();
+		// var_dump($this->GetInstancePreview(INSTANCE_TAXON_LIST_INSTANCE_ID));
+		// exit();
 	}
+
 	function GetInstancePreview($pInstanceId) {
 		if (! array_key_exists($pInstanceId, $this->m_instancesDetails)) {
 			return '';
@@ -349,7 +373,8 @@ class carticle_preview_generator extends csimple {
 		$lResult = $this->m_instancePreviews [$pInstanceId];
 		return $lResult;
 	}
-	protected function GetArticleWholePreview() {
+
+	protected function GenerateArticleWholePreview() {
 		$lXslPath = PATH_XSL . '' . $this->m_templateXslDirName . '/template_example_preview_full.xsl';
 		$lXslParameters [] = array (
 			'namespace' => null,
@@ -384,6 +409,50 @@ class carticle_preview_generator extends csimple {
 			$this->m_wholeArticlePreview = $lDomHtml->saveHTML($lNode->item(0));
 		}
 	}
+
+	protected function GenerateArticleAuthorPreviews() {
+		$lSql = '
+			SELECT  du.first_name, du.middle_name, du.last_name, 
+				du.affiliation, du.city, du.country, 
+				u.photo_id, u.uname as email, u.website, u.id as usrid
+			FROM pjs.document_users du
+			JOIN public.usr u ON u.id = du.uid
+			WHERE du.document_id = ' . (int) $this->m_documentId . '
+		';
+		$this->m_con->Execute($lSql);
+		$lAuthorsArr = array ();
+		while ( ! $this->m_con->Eof() ) {
+			$lCurrentRow = $this->m_con->mRs;
+			$lAuthorsArr [] = $lCurrentRow;
+			$lAuthorId = $lCurrentRow ['usrid'];
+			$this->m_con->MoveNext();
+			$lPreview = new crs_display_array(array (
+				'input_arr' => array (
+					$lCurrentRow 
+				),
+				'templs' => array (
+					G_ROWTEMPL => 'article.single_author_preview_row' 
+				) 
+			));
+			$this->m_authorPreviews [$lAuthorId] = $lPreview->Display();
+		}
+		$lPreview = new crs_display_array(array (
+			'input_arr' => $lAuthorsArr,
+			'templs' => array (
+				G_HEADER => 'article.authors_preview_head',
+				G_FOOTER => 'article.authors_preview_foot',
+				G_STARTRS => 'article.authors_preview_start',
+				G_ENDRS => 'article.authors_preview_end',
+				G_NODATA => 'article.authors_preview_nodata',
+				G_ROWTEMPL => 'article.authors_preview_row' 
+			) 
+		));
+		
+		$this->m_authorsListPreview = $lPreview->Display();
+		// var_dump($this->m_authorPreviews, $this->m_authorsListPreview);
+		// exit;
+	}
+
 	protected function ImportGeneratedPreviews() {
 		if ($this->m_errCnt) {
 			return;
@@ -401,7 +470,19 @@ class carticle_preview_generator extends csimple {
 					throw new Exception($lCon->GetLastError());
 				}
 			}
+			// Whole preview
 			$lSql = $this->GetInstancePreviewSql(INSTANCE_WHOLE_PREVIEW_INSTANCE_ID, INSTANCE_WHOLE_PREVIEW_TYPE, $this->m_wholeArticlePreview);
+			if (! $lCon->Execute($lSql)) {
+				throw new Exception($lCon->GetLastError());
+			}
+			// Author previews
+			foreach ($this->m_authorPreviews as $lAuthorId => $lPreview){
+				$lSql = $this->GetInstancePreviewSql($lAuthorId, INSTANCE_AUTHOR_TYPE, $lPreview);
+				if (! $lCon->Execute($lSql)) {
+					throw new Exception($lCon->GetLastError());
+				}
+			}
+			$lSql = $this->GetInstancePreviewSql(INSTANCE_AUTHORS_LIST_INSTANCE_ID, INSTANCE_AUTHORS_LIST_TYPE, $this->m_authorsListPreview);
 			if (! $lCon->Execute($lSql)) {
 				throw new Exception($lCon->GetLastError());
 			}
@@ -413,6 +494,7 @@ class carticle_preview_generator extends csimple {
 			$this->SetError($lException->getMessage());
 		}
 	}
+
 	function GetData() {
 		if ($this->m_dontGetData) {
 			return;
@@ -420,20 +502,28 @@ class carticle_preview_generator extends csimple {
 		if ($this->m_documentXml == '') {
 			$this->LoadDocumentXml();
 		}
-		$this->RegisterAllInstances();
-		$this->GenerateXsl();
-		$this->ProcessXsl();
-		$this->GetArticleWholePreview();
+		$this->GeneratePreviews();
 		$this->ImportGeneratedPreviews();
 		$this->m_dontGetData = true;
 	}
+
+	protected function GeneratePreviews() {
+		$this->RegisterAllInstances();
+		$this->GenerateXsl();
+		$this->ProcessXsl();
+		$this->GenerateArticleWholePreview();
+		$this->GenerateArticleAuthorPreviews();
+	}
+
 	function ReplaceHtmlFields($pStr) {
 		return preg_replace("/\{%(.*?)%\}/e", "\$this->HtmlPrepare('\\1')", $pStr);
 	}
+
 	function HtmlPrepare($pInstanceId) {
 		// trigger_error('REP ' . date("Y/m/d H:i:s"). substr((string)microtime(), 1, 6), E_USER_NOTICE);
 		return $this->GetInstancePreview($pInstanceId);
 	}
+
 	function Display() {
 		if (! $this->m_dontGetData)
 			$this->GetData();
