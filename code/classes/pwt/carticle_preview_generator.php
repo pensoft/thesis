@@ -8,11 +8,16 @@ define('INSTANCE_FIGURES_LIST_TYPE', 6);
 define('INSTANCE_TABLES_LIST_TYPE', 7);
 define('INSTANCE_REFERENCES_LIST_TYPE', 8);
 define('INSTANCE_SUP_FILES_LIST_TYPE', 9);
+define('INSTANCE_WHOLE_PREVIEW_TYPE', 10);
+define('INSTANCE_TAXON_LIST_TYPE', 11);
 
+define('INSTANCE_WHOLE_PREVIEW_INSTANCE_ID', - 5);
 define('INSTANCE_FIGURES_LIST_INSTANCE_ID', - 1);
 define('INSTANCE_TABLES_LIST_INSTANCE_ID', - 2);
 define('INSTANCE_REFERENCES_LIST_INSTANCE_ID', - 3);
 define('INSTANCE_SUP_FILES_LIST_INSTANCE_ID', - 4);
+define('INSTANCE_TAXON_LIST_INSTANCE_ID', - 6);
+
 global $gInstanceTypeDetails;
 $gInstanceTypeDetails = array (
 	INSTANCE_FIGURE_TYPE => array (
@@ -59,6 +64,16 @@ $gInstanceTypeDetails = array (
 		'xpath' => '//*[@object_id="' . SUP_FILE_HOLDER_OBJECT_ID . '"]',
 		'mode' => 'article_sup_files_list',
 		'preview_sql' => 'SELECT * FROM spSaveArticleSupFilesListPreview({article_id}, \'{preview}\');' 
+	),
+	INSTANCE_WHOLE_PREVIEW_TYPE => array (
+		'xpath' => '/',
+		'mode' => '',
+		'preview_sql' => 'SELECT * FROM spSaveArticlePreview({article_id}, \'{preview}\');' 
+	),
+	INSTANCE_TAXON_LIST_TYPE => array (
+		'xpath' => '//document',
+		'mode' => 'article_taxon_list',
+		'preview_sql' => 'SELECT * FROM spSaveArticleTaxonListPreview({article_id}, \'{preview}\');' 
 	) 
 );
 class carticle_preview_generator extends csimple {
@@ -71,11 +86,12 @@ class carticle_preview_generator extends csimple {
 	var $m_dontGetData;
 	var $m_con;
 	var $m_documentId;
+	var $m_pwtDocumentId;
 	var $m_errCnt = 0;
 	var $m_errMsg = '';
+	var $m_wholeArticlePreview = '';
 	function __construct($pFieldTempl) {
 		$this->m_instancesDetails = array ();
-		$this->m_templateXslDirName = $pFieldTempl ['template_xsl_dirname'];
 		$this->m_documentId = $pFieldTempl ['document_id'];
 		$this->m_documentXml = $pFieldTempl ['document_xml'];
 		$this->m_templ = $pFieldTempl ['templ'];
@@ -83,15 +99,29 @@ class carticle_preview_generator extends csimple {
 		$this->m_dontGetData = false;
 		$this->m_con = new DBCn();
 		$this->m_con->Open();
+		$this->LoadDocumentData();
+	}
+	function LoadDocumentData() {
+		$lSql = 'SELECT a.*, t.xsl_dir_name
+			FROM pjs.articles a
+			JOIN pwt.documents d ON d.id = a.pwt_document_id
+			JOIN pwt.templates t ON t.id = d.template_id
+			WHERE a.id = ' . (int) $this->m_documentId . '
+		';
+		// var_dump($lSql);
+		$this->m_con->Execute($lSql);
+		if (! $this->m_con->mRs ['id']) {
+			$this->SetError(getstr('pwt.noSuchDocument'));
+			return;
+		}
+		$this->m_pwtDocumentId = (int) $this->m_con->mRs ['pwt_document_id'];
+		$this->m_templateXslDirName = $this->m_con->mRs ['xsl_dir_name'];
 	}
 	function SetDocumentId($pDocumentId) {
 		$this->m_documentId = $pDocumentId;
 	}
 	function SetDocumentXml($pDocumentXml) {
 		$this->m_documentXml = $pDocumentXml;
-	}
-	function SetTemplateXslDirName($pDirName) {
-		$this->m_templateXslDirName = $pDirName;
 	}
 	function SetTemplate($pTemplate) {
 		$this->m_templ = $pTemplate;
@@ -104,12 +134,12 @@ class carticle_preview_generator extends csimple {
 			WHERE a.id = ' . (int) $this->m_documentId . '
 		';
 		$this->m_con->Execute($lSql);
-		$this->m_documentXml = $this->m_con->mRs ['cached_val'];		
+		$this->m_documentXml = $this->m_con->mRs ['cached_val'];
 	}
 	protected function GetInstanceViewXPathAndMode($pInstanceType, $pInstanceId, $pReturnViewMode = false) {
 		global $gInstanceTypeDetails;
-// 		var_dump($gInstanceTypeDetails);
-// 		exit;
+		// var_dump($gInstanceTypeDetails);
+		// exit;
 		$lResult = $gInstanceTypeDetails [$pInstanceType] ['xpath'];
 		if ((int) $pReturnViewMode) {
 			$lResult = $gInstanceTypeDetails [$pInstanceType] ['mode'];
@@ -130,10 +160,10 @@ class carticle_preview_generator extends csimple {
 	 *
 	 * @param cdocument_instance $pInstanceObject        	
 	 */
-	function RegisterInstance($pInstanceId, $pInstanceType) {		
+	function RegisterInstance($pInstanceId, $pInstanceType) {
 		if (! (int) $pInstanceId || ! (int) $pInstanceType) {
 			return;
-		}		
+		}
 		$this->m_instancesDetails [$pInstanceId] = array (
 			'view_xpath' => $this->GetInstanceViewXPathAndMode($pInstanceType, $pInstanceId),
 			'view_mode' => $this->GetInstanceViewXPathAndMode($pInstanceType, $pInstanceId, 1),
@@ -145,6 +175,9 @@ class carticle_preview_generator extends csimple {
 		$this->m_errMsg = $pErrMsg;
 	}
 	function RegisterAllInstances() {
+		if ((int) $this->m_errCnt) {
+			return;
+		}
 		$lDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
 		if (! $lDom->loadXML($this->m_documentXml)) {
 			$this->SetError(getstr('pjs.couldNotLoadArticleXml'));
@@ -194,13 +227,17 @@ class carticle_preview_generator extends csimple {
 			$this->RegisterInstance($lInstanceId, (int) INSTANCE_REFERENCE_TYPE);
 		}
 		
-		// Register list instances
+		// // Register list instances
 		$this->RegisterInstance((int) INSTANCE_FIGURES_LIST_INSTANCE_ID, (int) INSTANCE_FIGURES_LIST_TYPE);
 		$this->RegisterInstance((int) INSTANCE_TABLES_LIST_INSTANCE_ID, (int) INSTANCE_TABLES_LIST_TYPE);
 		$this->RegisterInstance((int) INSTANCE_REFERENCES_LIST_INSTANCE_ID, (int) INSTANCE_REFERENCES_LIST_TYPE);
 		$this->RegisterInstance((int) INSTANCE_SUP_FILES_LIST_INSTANCE_ID, (int) INSTANCE_SUP_FILES_LIST_TYPE);
+		$this->RegisterInstance((int) INSTANCE_TAXON_LIST_INSTANCE_ID, (int) INSTANCE_TAXON_LIST_TYPE);
 	}
 	protected function GenerateXsl() {
+		if ((int) $this->m_errCnt) {
+			return;
+		}
 		if (file_exists(PATH_XSL . $this->m_templateXslDirName . "/template_example_preview_base.xsl") && file_exists(PATH_XSL . $this->m_templateXslDirName . "/template_example_preview_custom.xsl")) {
 			$docroot = getenv('DOCUMENT_ROOT');
 			require_once ($docroot . '/lib/static_xsl.php');
@@ -239,13 +276,15 @@ class carticle_preview_generator extends csimple {
 			foreach ( $this->m_instancesDetails as $lInstanceId => $lInstanceData ) {
 				$lXPathInstanceSelector = $lInstanceData ['view_xpath'];
 				$lMode = $lInstanceData ['view_mode'];
-// 				var_dump($lXPathInstanceSelector, $lMode);
-				if ($lXPathInstanceSelector && $lMode) {
+				// var_dump($lInstanceId, $lXPathInstanceSelector, $lMode);
+				if ($lXPathInstanceSelector) {
 					$lVariable = $lDomDoc->createElement("xsl:variable");
 					$lVariable->setAttribute('name', 'instance_id' . $lInstanceId);
 					$lTemplate = $lVariable->appendChild($lDomDoc->createElement("xsl:apply-templates"));
 					$lTemplate->setAttribute("select", replaceInstancePreviewField($lXPathInstanceSelector, $lInstanceId));
-					$lTemplate->setAttribute("mode", $lMode);
+					if ($lMode) {
+						$lTemplate->setAttribute("mode", $lMode);
+					}
 					$lFunctionCall = $lDomDoc->createElement("xsl:value-of");
 					$lFunctionCall->setAttribute('select', 'php:function(\'SaveInstancePreview\', ' . $lInstanceId . ', exslt:node-set($instance_id' . $lInstanceId . '))');
 					$lRootMatch->appendChild($lVariable);
@@ -263,6 +302,9 @@ class carticle_preview_generator extends csimple {
 		}
 	}
 	protected function ProcessXsl() {
+		if ((int) $this->m_errCnt) {
+			return;
+		}
 		global $gInstancePreviews;
 		// error_reporting(-1);
 		// ini_set('display_errors', 'on');
@@ -270,6 +312,16 @@ class carticle_preview_generator extends csimple {
 // 			var_dump($this->m_xslContent);
 			// var_dump($this->m_documentXml);
 			$lXslParameters = array ();
+			$lXslParameters [] = array (
+				'namespace' => null,
+				'name' => 'pDocumentId',
+				'value' => $this->m_pwtDocumentId 
+			);
+			$lXslParameters [] = array (
+				'namespace' => null,
+				'name' => 'pInArticleMode',
+				'value' => 1 
+			);
 			// error_reporting(-1);
 			// trigger_error('START ' . USE_PREPARED_STATEMENTS . ' ' . date("Y/m/d H:i:s"). substr((string)microtime(), 1, 6), E_USER_NOTICE);
 			$lHtml = transformXmlWithXsl($this->m_documentXml, $this->m_xslContent, $lXslParameters, 0);
@@ -287,6 +339,8 @@ class carticle_preview_generator extends csimple {
 		
 		// var_dump($gInstancePreviews);
 		$this->m_instancePreviews = $gInstancePreviews;
+// 		var_dump($this->GetInstancePreview(INSTANCE_TAXON_LIST_INSTANCE_ID));
+// 		exit();
 	}
 	function GetInstancePreview($pInstanceId) {
 		if (! array_key_exists($pInstanceId, $this->m_instancesDetails)) {
@@ -294,6 +348,41 @@ class carticle_preview_generator extends csimple {
 		}
 		$lResult = $this->m_instancePreviews [$pInstanceId];
 		return $lResult;
+	}
+	protected function GetArticleWholePreview() {
+		$lXslPath = PATH_XSL . '' . $this->m_templateXslDirName . '/template_example_preview_full.xsl';
+		$lXslParameters [] = array (
+			'namespace' => null,
+			'name' => 'pEditableHeaderReplacementText',
+			'value' => PREVIEW_EDITABLE_HEADER_REPLACEMENT_TEXT 
+		);
+		$lXslParameters [] = array (
+			'namespace' => null,
+			'name' => 'pDocumentId',
+			'value' => $this->m_pwtDocumentId 
+		);
+		$lXslParameters [] = array (
+			'namespace' => null,
+			'name' => 'pInArticleMode',
+			'value' => 1 
+		);
+		$lHtml = transformXmlWithXsl($this->m_documentXml, $lXslPath, $lXslParameters);
+		
+		$lDomHtml = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+		$lDomHtml->loadHTML($lHtml);
+		$lDomHtml->normalizeDocument();
+		$lDomHtml->preserveWhiteSpace = false;
+		$lDomHtml->formatOutput = false;
+		
+		$lHtml = posCitations($lDomHtml, $lHtml, $this->m_pwtDocumentId, 'figure_position', 'fig-citation', 'fignumber');
+		// позициониране на таблиците
+		$lHtml = posCitations($lDomHtml, $lHtml, $this->m_pwtDocumentId, 'table_position', 'tbls-citation', 'tblnumber');
+		
+		$lXPath = new DOMXPath($lDomHtml);
+		$lNode = $lXPath->query('//div[@class="P-Article-Preview"]');
+		if ($lNode->length) {
+			$this->m_wholeArticlePreview = $lDomHtml->saveHTML($lNode->item(0));
+		}
 	}
 	protected function ImportGeneratedPreviews() {
 		if ($this->m_errCnt) {
@@ -307,10 +396,14 @@ class carticle_preview_generator extends csimple {
 			foreach ( $this->m_instancesDetails as $lInstanceId => $lInstanceDetails ) {
 				$lPreview = $this->GetInstancePreview($lInstanceId);
 				$lInstanceType = $lInstanceDetails ['instance_type'];
-				$lSql = $this->GetInstancePreviewSql($lInstanceId, $lInstanceType, $lPreview);				
+				$lSql = $this->GetInstancePreviewSql($lInstanceId, $lInstanceType, $lPreview);
 				if (! $lCon->Execute($lSql)) {
 					throw new Exception($lCon->GetLastError());
 				}
+			}
+			$lSql = $this->GetInstancePreviewSql(INSTANCE_WHOLE_PREVIEW_INSTANCE_ID, INSTANCE_WHOLE_PREVIEW_TYPE, $this->m_wholeArticlePreview);
+			if (! $lCon->Execute($lSql)) {
+				throw new Exception($lCon->GetLastError());
 			}
 			if (! $lCon->Execute('COMMIT TRANSACTION;')) {
 				throw new Exception(getstr('pwt.couldNotBeginTransaction'));

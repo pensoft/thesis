@@ -1184,5 +1184,12 @@
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
+	<!-- Article of the future preview template of the taxon list -->
+	<xsl:template match="*" mode="article_taxon_list">
+		Taxon list
+		<!-- The document node -->
+		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+	</xsl:template>
+
 	<!-- Article of the future LIST PREVIEWS END -->
 </xsl:stylesheet>
