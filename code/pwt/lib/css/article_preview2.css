@@ -1,18 +1,19 @@
 a img {
   border: none;
 }
-* html {
+/* html {
   font-size: 75%;
-}
+} */
 html {
-  font-size: 12px;
   line-height: 1.5em;
 }
 .P-Article-Preview {
-  width: 60em;
-  font-family: Tahoma;
+  width: 50em;
+  font-family: Calibri;
   text-align: justify;
   margin: auto;
+  background-color: white;
+  padding: 0 20px;
 }
 .dcLabel {
   color: gray;
@@ -29,6 +30,7 @@ html {
 }
 body {
   margin: 0;
+  font-size: 12pt;
 }
 .P-Article-Preview-Base-Info-Block {
   margin-top: 10px;
@@ -41,11 +43,12 @@ body {
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px;
+  display:none;
 }
 .P-Article-Preview-Base-Info-Block .P-Article-Info-Block-Row {
-  padding: 5px 0px;
+  padding: 2px 0px;
   color: #535353;
-  font-size: 10px;
+  font-size: 9pt;
 }
 p {
   font-size: 1em;
@@ -60,26 +63,27 @@ a:hover {
   text-decoration: underline;
 }
 .P-Article-Preview-Antet {
-  font-size: 10px;
+  font-size: 9pt;
   color: #727272;
 }
 .P-Article-Preview-Title {
-  font-size: 1.83333em;
+  font-size: 1.65em;
   line-height: 1.63636em;
   line-height: 1.63636em;
   margin-top: 0em;
   color: #1f1f1f;
   font-weight: bold;
   text-align: left;
+  font-family:Helvetica;
 }
 .P-Article-Preview-Title p {
   margin: 0;
 }
 .P-Article-Preview-Names {
   margin-top: 1.5em;
+  font-size: 12pt;
 }
 .P-Article-Preview-Names a {
-  font-size: 12px;
   color: #0052cc;
 }
 sub, sup {
@@ -96,25 +100,33 @@ sub {
 }
 .P-Article-Preview-Addresses {
   margin-top: 5px;
-  font-size: 11px;
+  font-size: 9pt;
+  display:none;
 }
 .P-Article-Preview-Block-Title, h1 {
-  font-size: 1.5em;
+  font-size: 1.3em;
   line-height: 2em;
   margin-top: 1.5em;
-  margin-bottom: 0.75em;
-  color: #111111;
+  margin-bottom: 0.3em;
+  color: #333;
   font-weight: bold;
   margin-top: 24px;
+  font-family:Helvetica;
 }
 h2 {
-  font-size: 1.33333em;
+  font-size: 1.1em;
   line-height: 2.25em;
   margin-top: 1.5em;
   margin-bottom: 0.75em;
+  font-family:Helvetica;
+  color: #333;
+}
+h3 {
+  font-family:Helvetica;
+  color: #333;
 }
 .h-treatment {
-  font-size: 1.16667em;
+  font-size: 1.1em;
   line-height: 1.28571em;
   margin-top: 1.5em;
   margin-bottom: 0.75em;
@@ -135,7 +147,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 }
 .h-treatment-section {
   font-weight: bold;
-  font-size: 1em;
+  font-size:0.9em;
   line-height: 1.5em;
   margin-top: 1.5em;
   margin-bottom: 0.75em;
@@ -229,6 +241,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 .figure .description {
   border-top-left-radius: 0;
   margin-top: -4px;
+  line-height:1.2em;
 }
 .description {
   border: 1px solid #e2e2dc;
@@ -282,6 +295,8 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   float: left;
   color: #404040;
   font-weight: bold;
+  font-family:Helvetica;
+  font-size:0.9em;
 }
 .fieldLabel.no-float {
   float: none;
@@ -370,3 +385,37 @@ td p, th p {
 .species, .genus, .subgenus, .subspecies, .variety, .form {
 	font-style:italic;	
 }
+.figureCaption{
+  font-size: 11pt;
+}
+
+
+.tn {
+	color:#006600;	
+}
+
+.tn .authority, .tn .basio-authority, .x {
+	color:black;	
+}
+
+.above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover {
+	background:#E3E3C7;
+	cursor:pointer;	
+}
+
+.bibr {
+	color:#0052CC;
+}
+
+.bibr:hover, .fig:hover, .table:hover, .suppl:hover {
+	background:#FEF1B5;
+	cursor:pointer;
+}
+
+.fig, .table, .suppl {
+	padding-left:2px;
+	padding-right:2px;
+	background:#DFF1FF;
+}
+
+

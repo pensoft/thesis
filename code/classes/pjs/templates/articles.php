@@ -57,7 +57,7 @@ $gTemplArr = array(
 			{*articles.header}
 			<script>SetArticleId({id});</script>
 			<div class="Main-Content">
-				<div class="P-Article-Preview" style="height:1000px;overflow:scroll;">
+				<div class="P-Article-Preview">
 					<iframe src="/article_preview.php?id={id}" id="articleIframe"></iframe>
 					<script>
 						SetArticleOnLoadEvents();

@@ -30,38 +30,38 @@ $gTemplArr = array(
 			<meta name="robots" content="index, follow, all"/>
 
 			<link rel="SHORTCUT ICON" href="/favicon.ico" />
-			<link type="text/css" rel="stylesheet" href="/lib/def.css" media="all" title="default" />
-			<link type="text/css" rel="stylesheet" href="/lib/version_preview.css" media="all" title="default" />
-			<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css" media="all" title="default" />
-			<!--link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview.css" media="all" title="default"/-->
-			<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css" media="all" title="default"/>
-			<link type="text/css" rel="stylesheet" href="/lib/editor.css" media="all" />
-			<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/comments.css" media="all" />
+			<link type="text/css" rel="stylesheet" href="/lib/def.css?v={_getCommit()}" media="all" title="default" />
+			<link type="text/css" rel="stylesheet" href="/lib/version_preview.css?v={_getCommit()}" media="all" title="default" />
+			<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css?v={_getCommit()}" media="all" title="default" />
+			<!--link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview.css?v={_getCommit()}" media="all" title="default"/-->
+			<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css?v={_getCommit()}" media="all" title="default"/>
+			<link type="text/css" rel="stylesheet" href="/lib/editor.css?v={_getCommit()}" media="all" />
+			<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/comments.css?v={_getCommit()}" media="all" />
 			<style type="text/css">
 				{_IncludeVersionCss(users_with_changes)}
 			</style>
 
-			<script src="/lib/js/jquery.js" type="text/javascript"></script>
-			<script src="/lib/js/jquery_form.js" type="text/javascript"></script>
-			<script src="/lib/js/jquery.tokeninput.js" type="text/javascript" ></script>
-			<script src="/lib/js/jquery.dragsort.js" type="text/javascript" ></script>
-			<script src="' . PWT_URL . '/lib/js/jquery.ba-resize.js" type="text/javascript"></script>
+			<script src="/lib/js/jquery.js?v={_getCommit()}" type="text/javascript"></script>
+			<script src="/lib/js/jquery_form.js?v={_getCommit()}" type="text/javascript"></script>
+			<script src="/lib/js/jquery.tokeninput.js?v={_getCommit()}" type="text/javascript" ></script>
+			<script src="/lib/js/jquery.dragsort.js?v={_getCommit()}" type="text/javascript" ></script>
+			<script src="' . PWT_URL . '/lib/js/jquery.ba-resize.js?v={_getCommit()}" type="text/javascript"></script>
 
-			<script src="/lib/js/ajaxupload.3.5.js" type="text/javascript" ></script>
+			<script src="/lib/js/ajaxupload.3.5.js?v={_getCommit()}" type="text/javascript" ></script>
 			<!-- CKEditor BEGIN -->
-			<script type="text/javascript" src="/lib/ckeditor/ckeditor.js"></script>
-			<script type="text/javascript" src="/lib/ckeditor/adapters/jquery.js"></script>
-			<script src="/lib/js/def.js" type="text/javascript"></script>
+			<script type="text/javascript" src="/lib/ckeditor/ckeditor.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/ckeditor/adapters/jquery.js?v={_getCommit()}"></script>
+			<script src="/lib/js/def.js?v={_getCommit()}" type="text/javascript"></script>
 					
 					
-			<script src="' . PWT_URL . '/lib/js/comments_common.js" type="text/javascript"></script>
-			<script src="/lib/js/comments.js" type="text/javascript"></script>
-			<script src="' . PWT_URL . '/lib/js/changes_common.js" type="text/javascript"></script>
+			<script src="' . PWT_URL . '/lib/js/comments_common.js?v={_getCommit()}" type="text/javascript"></script>
+			<script src="/lib/js/comments.js?v={_getCommit()}" type="text/javascript"></script>
+			<script src="' . PWT_URL . '/lib/js/changes_common.js?v={_getCommit()}" type="text/javascript"></script>
 			
-			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js"></script>	
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js?v={_getCommit()}"></script>	
 
 			
 					
@@ -91,40 +91,40 @@ $gTemplArr = array(
 			<meta name="robots" content="index, follow, all"/>
 	
 			<link rel="SHORTCUT ICON" href="/favicon.ico" />
-			<link type="text/css" rel="stylesheet" href="/lib/version_preview.css" media="all" title="default" />
-			<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css" media="all" title="default" />
-			<!--link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview.css" media="all" title="default"/-->
-			<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css" media="all" title="default"/>
-			<link type="text/css" rel="stylesheet" href="/lib/editor.css" media="all" />
+			<link type="text/css" rel="stylesheet" href="/lib/version_preview.css?v={_getCommit()}" media="all" title="default" />
+			<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css?v={_getCommit()}" media="all" title="default" />
+			<!--link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview.css?v={_getCommit()}" media="all" title="default"/-->
+			<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css?v={_getCommit()}" media="all" title="default"/>
+			<link type="text/css" rel="stylesheet" href="/lib/editor.css?v={_getCommit()}" media="all" />
 			<style type="text/css">
 				{_IncludeVersionCss(users_with_changes)}
 			</style>
 				
 	
-			<script src="/lib/js/jquery.js" type="text/javascript"></script>
-			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js"></script>		
+			<script src="/lib/js/jquery.js?v={_getCommit()}" type="text/javascript"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js?v={_getCommit()}"></script>		
 					
 			
 			
 	
 			
 			
-			<script type="text/javascript" src="/lib/js/ice/ice.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/dom.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/icePlugin.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/icePluginManager.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/bookmark.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/selection.js"></script>
+			<script type="text/javascript" src="/lib/js/ice/ice.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/dom.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/icePlugin.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/icePluginManager.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/bookmark.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/selection.js?v={_getCommit()}"></script>
 				
 			
-			<script type="text/javascript" src="/lib/js/ice/plugins/IceAddTitlePlugin/IceAddTitlePlugin.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/plugins/IceCopyPastePlugin/IceCopyPastePlugin.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/plugins/IceEmdashPlugin/IceEmdashPlugin.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/plugins/IceSmartQuotesPlugin/IceSmartQuotesPlugin.js"></script>
-			<script src="/lib/js/version_preview.js" type="text/javascript"></script>
+			<script type="text/javascript" src="/lib/js/ice/plugins/IceAddTitlePlugin/IceAddTitlePlugin.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/plugins/IceCopyPastePlugin/IceCopyPastePlugin.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/plugins/IceEmdashPlugin/IceEmdashPlugin.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/plugins/IceSmartQuotesPlugin/IceSmartQuotesPlugin.js?v={_getCommit()}"></script>
+			<script src="/lib/js/version_preview.js?v={_getCommit()}" type="text/javascript"></script>
 			
 			
 			<script type="text/javascript">				
@@ -150,18 +150,18 @@ $gTemplArr = array(
 			<meta name="robots" content="index, follow, all"/>
 	
 			<link rel="SHORTCUT ICON" href="/favicon.ico" />
-			<link type="text/css" rel="stylesheet" href="/lib/def.css" media="all" title="default" />
-			<link type="text/css" rel="stylesheet" href="/lib/version_preview.css" media="all" title="default" />
-			<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css" media="all" title="default" />
-			<link type="text/css" rel="stylesheet" href="/lib/article.css" media="all" title="default" />		
+			<link type="text/css" rel="stylesheet" href="/lib/def.css?v={_getCommit()}" media="all" title="default" />
+			<link type="text/css" rel="stylesheet" href="/lib/version_preview.css?v={_getCommit()}" media="all" title="default" />
+			<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css?v={_getCommit()}" media="all" title="default" />
+			<link type="text/css" rel="stylesheet" href="/lib/article.css?v={_getCommit()}" media="all" title="default" />		
 	
-			<script src="/lib/js/jquery.js" type="text/javascript"></script>
-			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js"></script>
-			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js"></script>
-			<script type="text/javascript" src="/lib/js/def.js" type="text/javascript"></script>
-			<script type="text/javascript" src="/lib/js/article.js" type="text/javascript"></script>
+			<script src="/lib/js/jquery.js?v={_getCommit()}" type="text/javascript"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/def.js?v={_getCommit()}" type="text/javascript"></script>
+			<script type="text/javascript" src="/lib/js/article.js?v={_getCommit()}" type="text/javascript"></script>
 		
 		
 			<script type="text/javascript">
@@ -187,17 +187,17 @@ $gTemplArr = array(
 				<meta name="robots" content="index, follow, all"/>
 		
 				<link rel="SHORTCUT ICON" href="/favicon.ico" />
-				<link type="text/css" rel="stylesheet" href="/lib/version_preview.css" media="all" title="default" />
-				<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css" media="all" title="default" />
-				<!--link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview.css" media="all" title="default"/-->
-				<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css" media="all" title="default"/>
-				<link type="text/css" rel="stylesheet" href="/lib/editor.css" media="all" />
+				<link type="text/css" rel="stylesheet" href="/lib/version_preview.css?v={_getCommit()}" media="all" title="default" />
+				<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css?v={_getCommit()}" media="all" title="default" />
+				<!--link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview.css?v={_getCommit()}" media="all" title="default"/-->
+				<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css?v={_getCommit()}" media="all" title="default"/>
+				<link type="text/css" rel="stylesheet" href="/lib/editor.css?v={_getCommit()}" media="all" />
 		
-				<script src="/lib/js/jquery.js" type="text/javascript"></script>
-				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js"></script>
-				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js"></script>
-				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js"></script>
-				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js"></script>		
+				<script src="/lib/js/jquery.js?v={_getCommit()}" type="text/javascript"></script>
+				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js?v={_getCommit()}"></script>
+				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js?v={_getCommit()}"></script>
+				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js?v={_getCommit()}"></script>
+				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js?v={_getCommit()}"></script>		
 				
 				<script type="text/javascript">				
 					$(window).load(function(){
