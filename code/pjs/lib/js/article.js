@@ -89,6 +89,12 @@ function LoadTaxonInfo(pTaxonName){
 	LoadElementInfo('get_taxon_element', '', 'test');
 }
 
+function LoadAuthorInfo(pElementId){
+	LoadElementInfo('get_author_element', pElementId);
+	console.log('Author ' + pElementId);
+//	LoadElementInfo('get_author_element', 4);
+}
+
 function initArticlePreviewOnLoadEvents(){
 	resizePreviewIframe(gArticlePreviewIframeId);
 	PlaceTaxonNameEvents();
@@ -194,4 +200,13 @@ function PlaceReferencesEvents(){
 			LoadReferenceInfo($(pReferenceNode).attr('rid'));
 		});
 	});
+}
+
+function ScrollArticleToInstance(pInstanceId){
+	var lFirstInstanceElement = GetArticlePreviewContent().find('*[instance_id=' + pInstanceId + ']').first();
+	if(!lFirstInstanceElement.length){
+		return;
+	}
+	var lTopOffset = $(lFirstInstanceElement).offset().top;
+	$('.P-Article-Preview').scrollTop(lTopOffset);
 }

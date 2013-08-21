@@ -174,6 +174,23 @@ class mArticles extends emBase_Model {
 		return $this->m_con->mRs['cached_val'];
 	}
 	
+	/**
+	 * Single author preview
+	 * @param unknown $pArticleId
+	 * @param unknown $pAuthorUid
+	 */
+	function GetAuthorHtml($pArticleId, $pAuthorUid){
+		$lSql = '
+			SELECT i.cached_val
+			FROM pjs.article_authors a			
+			JOIN pjs.article_cached_items i ON i.id = a.cache_id
+			WHERE a.article_id = ' . (int)$pArticleId . ' AND a.author_uid = ' . (int)$pAuthorUid . '
+		';
+		// 		var_dump($lSql);
+		$this->m_con->Execute($lSql);
+		return $this->m_con->mRs['cached_val'];
+	}
+	
 }
 
 ?>

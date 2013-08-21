@@ -8,7 +8,8 @@ GRANT ALL ON pjs.article_cached_item_types TO iusrpmt;
 INSERT INTO pjs.article_cached_item_types(name) VALUES 
 	('Article xml'), ('Article html'), ('Reference html'), ('Figure html'), ('Table html'), ('Sup file html'), ('Taxon html'), ('Author html'),
 	('Article figures list html'), ('Article tables list html'), ('Article references list html'), ('Article taxon list html'), 
-	('Article authors list html'), ('Article sup files list html'), ('Article content html'), ('Article localities list html');
+	('Article authors list html'), ('Article sup files list html'), ('Article content html'), ('Article localities list html'),
+	('Article author html');
 
 CREATE TABLE pjs.article_cached_items(
 	id bigserial PRIMARY KEY,
@@ -32,7 +33,8 @@ CREATE TABLE pjs.articles(
 	xml_cache_id bigint REFERENCES pjs.article_cached_items(id),
 	preview_cache_id bigint REFERENCES pjs.article_cached_items(id),
 	localities_list_cache_id bigint REFERENCES pjs.article_cached_items(id),
-	createdate timestamp DEFAULT now()
+	createdate timestamp DEFAULT now(),
+	pwt_document_id int
 );
 GRANT ALL ON pjs.articles TO iusrpmt;
 
@@ -42,6 +44,7 @@ CREATE TABLE pjs.article_figures(
 	id bigserial PRIMARY KEY,
 	instance_id bigint,
 	article_id int REFERENCES pjs.articles(id),
+	is_plate boolean DEFAULT false,
 	cache_id bigint REFERENCES pjs.article_cached_items(id)
 );
 GRANT ALL ON pjs.article_figures TO iusrpmt;
@@ -61,6 +64,15 @@ CREATE TABLE pjs.article_sup_files(
 	cache_id bigint REFERENCES pjs.article_cached_items(id)
 );
 GRANT ALL ON pjs.article_sup_files TO iusrpmt;
+
+
+CREATE TABLE pjs.article_authors(
+	id bigserial PRIMARY KEY,
+	author_uid int REFERENCES public.usr(id),
+	article_id int REFERENCES pjs.articles(id),
+	cache_id bigint REFERENCES pjs.article_cached_items(id)
+);
+GRANT ALL ON pjs.article_authors TO iusrpmt;
 
 CREATE TABLE pjs.taxons(
 	id bigserial PRIMARY KEY,
@@ -88,3 +100,23 @@ CREATE TABLE pjs.article_references(
 	reference_id bigint REFERENCES pjs.references(id)
 );
 GRANT ALL ON pjs.article_references TO iusrpmt;
+
+/* Stored procedures
+	pjs.spSaveArticleFigurePreview
+	pjs.spSaveArticleTablePreview
+	pjs.spSaveArticleSupFilePreview
+	pjs.spSaveArticlePlatePreview
+	pjs.spSaveArticleReferencePreview	
+	pjs.spSaveArticleTaxonPreview
+	pjs.spSaveArticleFiguresListPreview
+	pjs.spSaveArticleTablesListPreview
+	pjs.spSaveArticleReferencesListPreview
+	pjs.spSaveArticleSupFilesListPreview
+	pjs.spSaveArticleLocalitiesListPreview
+	pjs.spSaveArticleContentsListPreview
+	pjs.spSaveArticleTaxonListPreview
+	pjs.spSaveArticleAuthorsListPreview
+	pjs.spSaveArticlePreview
+	pjs.spSaveArticleXml
+	pjs.spSaveArticleAuthorPreview
+*/

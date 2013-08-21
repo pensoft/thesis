@@ -57,7 +57,7 @@ $gTemplArr = array(
 			{*articles.header}
 			<script>SetArticleId({id});</script>
 			<div class="Main-Content">
-				<div class="P-Article-Preview" style="height:1000px;overflow:scroll;">
+				<div class="P-Article-Preview">
 					<iframe src="/article_preview.php?id={id}" id="articleIframe"></iframe>
 					<script>
 						SetArticleOnLoadEvents();
@@ -72,6 +72,7 @@ $gTemplArr = array(
 						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES . '">Supp. files</li>
 						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_LOCALITIES . '">Localities</li>
 						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_TAXON . '">Taxa</li>
+						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_AUTHORS . '">Authors</li>
 					</ul>
 					<div class="P-Info-Content">
 				
