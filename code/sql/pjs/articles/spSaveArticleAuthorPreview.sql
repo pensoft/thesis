@@ -22,7 +22,7 @@ $BODY$
 		WHERE ar.article_id = pArticleId AND ar.author_uid = pAuthorUid;
 		
 		IF lArticleElementId IS NULL THEN
-			INSERT INTO article_authors(article_id, author_uid)
+			INSERT INTO pjs.article_authors(article_id, author_uid)
 				VALUES (pArticleId, pAuthorUid);
 			lArticleElementId = currval('pjs.article_authors_id_seq'::regclass);
 						
