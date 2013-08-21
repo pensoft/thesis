@@ -13,10 +13,19 @@ class cPreview_Ajax_Srv extends cBase_Controller {
 	var $m_documentPwtId;
 	var $m_ReadOnlyPreview;
 	var $m_versionModel;
-
-	function __construct() {
+	var $m_mode = 0;
+	
+	/**
+	 * @param $pMode - if this preview is used for PDF or for HTML view
+	 * $pMode = 0 - HTML
+	 * $pMode = 1 - PDF
+	 * 
+	 * */
+	function __construct($pMode = 0) {
 		parent::__construct();
-		$this->RedirectIfNotLogged();
+		$this->m_mode = $pMode;
+		if(!$this->m_mode)
+			$this->RedirectIfNotLogged();
 
 		$pViewPageObjectsDataArray = array();
 		$this->m_versionId = (int)$this->GetValueFromRequestWithoutChecks('version_id');
@@ -84,7 +93,15 @@ class cPreview_Ajax_Srv extends cBase_Controller {
 
 	function GetDocumentPreview(){
 // 		var_dump($this->m_versionXml);
-		$lQueryResult = executeExternalQuery(PWT_VERSION_PREVIEW_URL, array('document_id' => $this->m_documentPwtId, 'xml' => $this->m_versionXml, 'readonly_preview' => $this->m_ReadOnlyPreview));
+		$lQueryResult = executeExternalQuery(
+			PWT_VERSION_PREVIEW_URL, 
+			array(
+				'document_id' => $this->m_documentPwtId, 
+				'xml' => $this->m_versionXml, 
+				'readonly_preview' => $this->m_ReadOnlyPreview,
+				'pdf_preview' => (int)$this->m_mode
+			)
+		);
 		$lQueryResult = json_decode($lQueryResult, true);
 // 		var_dump($lQueryResult['preview']);
 

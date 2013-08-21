@@ -1738,6 +1738,21 @@ class mDocuments_Model extends emBase_Model {
 		return $lResult;
 	}
 	
+	/**
+	 * This function returns metadata about the specified document (i.e author_id, document_source_id, creation_step etc.) for PDF preview
+	 * @param bigint $pDocumentId
+	 */
+	function GetDocumentInfoForPDF($pDocumentId){
+		$lCon = $this->m_con;
+		$lResult = array();
+
+		$lSql = 'SELECT * FROM pjs."spGetDocumentInfoForPDF"(' . (int)$pDocumentId . ')';
+		$lCon->Execute($lSql);
+		$lResult = $lCon->mRs;
+
+		return $lResult;
+	}
+	
 }
 
 ?>

@@ -8,6 +8,7 @@ require_once($docroot . '/lib/static.php');
 $gDocumentId = (int)$_REQUEST['document_id'];
 $gXml = $_REQUEST['xml'];
 $gReadOnlyPreview = (int)$_REQUEST['readonly_preview'];
+$lPDFPreview = (int)$_REQUEST['pdf_preview'];
 
 $lSql = 'SELECT xsl_dir_name
 FROM pwt.templates t
@@ -28,7 +29,7 @@ if($gDocumentId){
 	header("Content-type: text/html");
 // 	var_dump($gXml);
 	$lMarkContentEditableFields = $gReadOnlyPreview ? 0 : 1;
-	$lResult['preview'] = getDocumentPreview($gDocumentId, 0, $lXSLPath, $gXml, $lMarkContentEditableFields, false, false, false);
+	$lResult['preview'] = getDocumentPreview($gDocumentId, 0, $lXSLPath, $gXml, $lMarkContentEditableFields, false, false, false, false, (int)$lPDFPreview);
 
 }else{
 	$lResult['err_cnt']++;

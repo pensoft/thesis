@@ -1,0 +1,72 @@
+html, body {
+	background:none !important;
+}
+
+p {
+	font-size:10px !important;
+	orphans:5;
+	widows:4;
+}
+
+.P-Article-Preview-Block-Content {}
+
+h1 {
+	page-break-after:avoid;
+}
+
+img {
+	page-break-inside:avoid;
+	display:block;
+	margin-top:20px;
+}
+
+table {
+	page-break-inside:avoid;
+}
+
+/* styles for the first page START*/
+
+.logo_img {
+	width:50px !important;
+	height:25px !important;
+	text-align:right;
+}
+
+.first_page_header_container {
+	width:100%;
+}
+
+.first_page_header_left {
+	text-align:left;
+	width:100%;
+}
+
+.first_page_header_center {
+	text-align:center;
+	width:100%;
+}
+
+.first_page_header_right {
+	text-align:right;
+	width:100%;
+}
+
+.first_page_header_right img{
+	display:inline;
+}
+
+@page :first {
+	size: 165mm 240mm;
+	margin: 12mm 18.5mm 19mm 18.5mm;
+}
+/* styles for the first page END*/
+
+/* styles for all pages except first START*/
+
+@page {
+	size: 165mm 240mm;
+	margin: 22mm 18.5mm 50mm 18.5mm;
+}
+
+/* styles for all pages except first END*/
+
