@@ -1157,9 +1157,95 @@ $gTemplArr = array(
 		{contents}
 	',
 	
-	'global.generate_pdf' =>
-	'{*global.htmlonlyheader}
-		{contents}
-	{*global.htmlonlyfooter}',
+	'global.pdf_htmlonlyheader' =>
+	'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		{*global.metadata}
+	</head>
+	<body>',
+	
+		'global.pdf_htmlonlyfooter' =>
+	'</body>
+	</html>',
+	
+	'global.pdf_first_page_header' => '
+		<table class="first_page_header_container">
+			<colgroup>
+				<col width="25%"></col>
+				<col width="50%"></col>
+				<col width="25%"></col>
+			<colgroup>
+			<tr>
+				<td>
+					<div class="first_page_header_left">
+						BDJ / text <br>
+						doi: text <br>
+						url
+					</div>
+				</td>
+				<td>
+					<div class="first_page_header_center">
+						article_type
+					</div>
+				</td>
+				<td align="right">
+					<div class="first_page_header_right">
+						<img class="logo_img" src="/i/BDJLogo.jpg" alt="BDJ"></img>
+					</div>
+				</td>
+			</tr>
+		</table>
+	',
+	
+	'global.generate_pdf' => '
+	{*global.pdf_htmlonlyheader}
+		<style>
+			@page :first {
+				@bottom-center {
+					content: "Author_List + neshto si";	
+				}
+				@top-left {
+					content:none;
+				}
+				@top-center {
+					content:none;
+				}
+				@top-right {
+					content:none;
+				}
+			}
+			
+			@page {
+				@bottom-center {
+					content:none;	
+				}
+			}
+			
+			@page :left {
+				@top-center {
+					content: "Author_List / BDJ alabala";
+				}
+				@top-left {
+					content: counter(page);
+				}	
+			}
+			
+			@page :right {
+				@top-center {
+					content: "Article Title Here";
+				}
+				@top-right {
+					content: counter(page);
+				}	
+			}
+			
+		</style>
+		{*global.pdf_first_page_header}
+		<div id="docbody">
+			{contents}
+		</div>
+	{*global.pdf_htmlonlyfooter}',
 );
 ?>
