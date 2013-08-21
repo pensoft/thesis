@@ -220,6 +220,12 @@ class mVersions extends emBase_Model {
 		return (int) $this->m_con->mRs['pwt_id'];
 	}
 
+	function GetVersionDocumentPjsId($pVersionId) {
+		$lSql = 'SELECT document_id FROM pjs.document_versions WHERE id = ' . (int) $pVersionId;
+		$this->m_con->Execute($lSql);
+		return (int) $this->m_con->mRs['document_id'];
+	}
+
 	function GetRoundUserIdVersionId($pRoundUserId){
 		$lSql = 'SELECT ru.document_version_id
 		FROM pjs.document_review_round_users ru
