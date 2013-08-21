@@ -1096,19 +1096,7 @@
 	<xsl:template match="*" mode="article_preview_reference">
 		
 		<xsl:apply-templates select="." mode="articleBack"/>
-			
-		
-		<xsl:for-each select="./*/*/*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-			<xsl:choose>
-				<xsl:when test="$lAuthorshipType = 3">
-					<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-				</xsl:otherwise>
-			</xsl:choose>
-			<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-		</xsl:for-each>
+				
 		
 		<a> 
 			<xsl:text>
