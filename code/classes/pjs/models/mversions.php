@@ -1283,6 +1283,9 @@ class mVersions extends emBase_Model {
 
 
 		$lMergedComments = $this->m_commentsModel->GetReviewRoundMergedComments($pReviewRoundId);
+		if($lMergedComments['err_cnt']){
+			return false;
+		}
 		$lReviewerChangesPatches = $this->GetPwtReviewRoundReviewerChangesPatch($pReviewRoundId, 0, 0, $lMergedComments, true);
 		$lReviewerChangesPatch = $lReviewerChangesPatches['field_patches'];
 		// Generate the patch for each field and usr and update the fields in
@@ -1375,7 +1378,9 @@ class mVersions extends emBase_Model {
 			$lCon->Execute('ROLLBACK;');
 			return false;
 		}
-
+		
+// 		var_dump($lMergedComments);
+// 		exit;
 
 		if(!$this->m_commentsModel->ImportReviewVersionMergedComments($lSEVersionId, $lMergedComments, $this->m_con)){
 			$lCon->Execute('ROLLBACK;');

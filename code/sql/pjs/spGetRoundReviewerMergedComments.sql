@@ -56,9 +56,14 @@ $BODY$
 			RETURN;
 		END IF;
 		
-		CREATE TEMP TABLE msg_review(
-			LIKE pjs.msg			
-		);
+		BEGIN
+			CREATE TEMP TABLE msg_review(
+				LIKE pjs.msg			
+			);
+			EXCEPTION WHEN duplicate_table THEN			
+				TRUNCATE TABLE msg_review;
+		END;
+		
 		
 		-- Copy all the SE comments
 		INSERT INTO msg_review 
@@ -129,7 +134,7 @@ $BODY$
 			RETURN NEXT lRes;
 		END LOOP;
 			
-		DROP TABLE msg_review;
+		-- DROP TABLE msg_review;
 		
 		RETURN;
 	END

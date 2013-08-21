@@ -444,7 +444,12 @@ class mComments extends emBase_Model {
 		$lSql = 'SELECT *
 			FROM spGetRoundReviewerMergedComments(' . (int)$pReviewRoundId . ')
 			ORDER BY rootid ASC, (CASE WHEN id = rootid THEN 1 ELSE 0 END) DESC, original_mdate ASC, ord ASC';
-		$this->m_con->Execute($lSql);
+		if(!$this->m_con->Execute($lSql)){
+			return array(
+				'err_cnt' => 1,
+				'err_msg' => $this->m_con->GetLastError(),
+			);
+		}				
 		$lCommentsList = array();
 		$lFieldComments = array();
 		$lCommentRoots = array();
@@ -504,6 +509,8 @@ class mComments extends emBase_Model {
 			$this->m_con->MoveNext();
 		}
 		$lResult = array(
+			'err_cnt' => 0,
+			'err_msg' => '',
 			'comments_list' => $lCommentsList,
 			'field_comments' => $lFieldComments,
 			'comment_roots' => $lCommentRoots,
