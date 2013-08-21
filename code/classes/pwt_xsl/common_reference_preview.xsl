@@ -1,8 +1,7 @@
 <?xml version='1.0'?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:tp="http://www.plazi.org/taxpub"  xmlns:php="http://php.net/xsl" exclude-result-prefixes="php tp xlink xsl">
 
-	<!-- References
-	 -->
+	<!-- References -->
 	<xsl:template match="*[@object_id='21']" mode="articleBack">
 		<xsl:if test="count(./*[@object_id='95']) &gt; 0">
 			<xsl:variable name="lSecTitle">References</xsl:variable>
@@ -17,8 +16,7 @@
 		</xsl:if>
 	</xsl:template>
 
-	<!-- Single reference -OLD
-	 -->
+	<!-- Single reference OLD -->
 	<xsl:template match="*[@object_id='20']" mode="articleBack">
 		<xsl:variable name="lRefId" select="php:function('getReferenceId', string(./@instance_id))"></xsl:variable>
 		<li class="reference">
@@ -34,8 +32,7 @@
 		</li>
 	</xsl:template>
 
-	<!-- Single reference
-	 -->
+	<!-- Single reference -->
 	<xsl:template match="*[@object_id='95']" mode="articleBack">
 		<xsl:apply-templates select="./*[@object_id='97']/*[@object_id &gt; 0]" mode="articleBack"/>
 	</xsl:template>
@@ -43,7 +40,6 @@
 	<xsl:template match="*" mode="processSingleReferenceAuthor">
 		<xsl:variable name="lAuthorParsedName">
 			<!-- Last name -->
-
 			<xsl:value-of select="./fields/*[@id='252']/value"></xsl:value-of>
 			<xsl:text> </xsl:text>
 			<!-- Initials of first name -->
@@ -59,7 +55,7 @@
 	<xsl:template match="*" mode="processSingleReferenceYear">
 		<xsl:value-of select="php:function('getReferenceYearLetter', 0, string(/document/@id), 1)"></xsl:value-of>
 		<xsl:text> (</xsl:text>
-		<span>
+		<span class="ref-year">
 			<xsl:attribute name="field_id">254</xsl:attribute>
 			<xsl:apply-templates select="./fields/*[@id='254']/value" mode="formatting"/>
 		</span>
@@ -70,8 +66,7 @@
 
 	<xsl:template match="*" mode="processSingleReferenceAuthorFirstLast">
 		<xsl:variable name="lAuthorParsedName">
-			<!-- First and Last name -->
-			
+			<!-- First and Last name -->		
 			<xsl:value-of select="./fields/*[@id='250']/value"></xsl:value-of>
 		</xsl:variable>
 		<span>
@@ -80,8 +75,7 @@
 		</span>
 	</xsl:template>
 
-	<!-- Book biblio reference
-	 -->
+	<!-- Book biblio reference -->
 	<xsl:template match="*[@object_id='98']" mode="articleBack">
 		<xsl:variable name="lAuthorshipType">
 			<xsl:choose>
@@ -98,19 +92,21 @@
 		</xsl:variable>
 		<xsl:variable name="lVolume" select="./fields/*[@id='258']/value"></xsl:variable>
 
-		<li>
+		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-				<xsl:choose>
-					<xsl:when test="$lAuthorshipType = 3">
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-			</xsl:for-each>
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>	
 			<xsl:if test="normalize-space($lAuthorshipType)=$gAuthorshipEditorType">
 				<xsl:text> </xsl:text>
 				<xsl:choose>
@@ -125,7 +121,7 @@
 			<!-- Year -->
 			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			<!-- Book Title -->
-			<span>
+			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
 					<xsl:with-param name="pObjectId" select="./@object_id" />
 					<xsl:with-param name="pFieldId">255</xsl:with-param>
@@ -163,9 +159,13 @@
 					<xsl:apply-templates select="./fields/*[@id='256']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
+			
 			<!-- Volume -->
 			<xsl:if test="$lVolume != ''">
-				<xsl:text>, </xsl:text>
+				<xsl:if test="normalize-space(./fields/*[@id='256']/value) != ''">
+					<xsl:text>,</xsl:text>
+				</xsl:if>
+				<xsl:text> </xsl:text>
 				<span>
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
@@ -195,8 +195,9 @@
 			<!-- City -->
 			<xsl:if test="normalize-space(./fields/*[@id='260']/value) != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='259']/value) != ''">
-					<xsl:text>, </xsl:text>
-				</xsl:if>	
+					<xsl:text>,</xsl:text>
+				</xsl:if>
+				<xsl:text> </xsl:text>
 				<span>
 					<xsl:call-template name="markContentEditableField">
 							<xsl:with-param name="pObjectId" select="./@object_id" />
@@ -218,9 +219,9 @@
 				<xsl:text> </xsl:text>
 				<span>
 					<xsl:call-template name="markContentEditableField">
-							<xsl:with-param name="pObjectId" select="./@object_id" />
-							<xsl:with-param name="pFieldId">261</xsl:with-param>
-						</xsl:call-template>
+						<xsl:with-param name="pObjectId" select="./@object_id" />
+						<xsl:with-param name="pFieldId">261</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="field_id">261</xsl:attribute>
 					<xsl:apply-templates select="./fields/*[@id='261']/value" mode="formatting"/>
 				</span>
@@ -268,16 +269,7 @@
 				<xsl:text>].</xsl:text>
 			</xsl:if>
 			
-			<xsl:if test="normalize-space(./fields/*[@id='30']/value) != ''">
-				<!-- DOI -->
-				<xsl:text> DOI: </xsl:text>
-				<a>
-					<xsl:attribute name="field_id">30</xsl:attribute>
-					<xsl:attribute name="href"><xsl:text>http://dx.doi.org/</xsl:text><xsl:value-of select="./fields/*[@id='30']/value"></xsl:value-of></xsl:attribute>
-					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='30']/value" mode="formatting"/>
-				</a>
-			</xsl:if>
+			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 			
 		</li>
 	</xsl:template>
@@ -309,23 +301,25 @@
 		</xsl:variable>
 		<xsl:variable name="lVolume" select="./fields/*[@id='258']/value"></xsl:variable>
 
-		<li>
+		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-				<xsl:choose>
-					<xsl:when test="$lAuthorshipType = 3">
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-			</xsl:for-each>
+			<span class="authors-holder">
+				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+					<xsl:choose>
+						<xsl:when test="$lAuthorshipType = 3">
+							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+				</xsl:for-each>
+			</span>	
 			<!-- Year -->
 			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			<!-- Book chapter Title -->
-			<span>
+			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
 						<xsl:with-param name="pFieldId">271</xsl:with-param>
@@ -500,14 +494,7 @@
 				<xsl:text>].</xsl:text>
 			</xsl:if>
 			
-			<!-- DOI -->
-			<xsl:if test="normalize-space(./fields/*[@id='30']/value) != ''">
-				<xsl:text> DOI: </xsl:text>
-				<span>
-					<xsl:attribute name="field_id">30</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='30']/value" mode="formatting_nospace"/>
-				</span>
-			</xsl:if>
+			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 		</li>
 	</xsl:template>
 
@@ -530,24 +517,26 @@
 				</xsl:when>
 			</xsl:choose>
 		</xsl:variable>
-		<li>
+		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-				<xsl:choose>
-					<xsl:when test="$lAuthorshipType = 3">
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-			</xsl:for-each>
+			<span class="authors-holder">
+				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+					<xsl:choose>
+						<xsl:when test="$lAuthorshipType = 3">
+							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+				</xsl:for-each>
+			</span>	
 			<!-- Year -->
 			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			
 			<!-- Article Title -->
-			<span>
+			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
 						<xsl:with-param name="pFieldId">276</xsl:with-param>
@@ -652,16 +641,7 @@
 				</a>
 			</xsl:if>
 
-			<xsl:if test="normalize-space(./fields/*[@id='30']/value) != ''">
-				<!-- DOI -->
-				<xsl:text> DOI: </xsl:text>
-				<a>
-					<xsl:attribute name="href"><xsl:text>http://dx.doi.org/</xsl:text><xsl:value-of select="./fields/*[@id='30']/value"></xsl:value-of></xsl:attribute>
-					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:attribute name="field_id">30</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='30']/value" mode="formatting_nospace"/>
-				</a>
-			</xsl:if>
+			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 		</li>
 	</xsl:template>
 
@@ -691,24 +671,26 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="lVolume" select="./fields/*[@id='258']/value"></xsl:variable>
-		<li>
+		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-				<xsl:choose>
-					<xsl:when test="$lAuthorshipType = 3">
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-			</xsl:for-each>
+			<span class="authors-holder">
+				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+					<xsl:choose>
+						<xsl:when test="$lAuthorshipType = 3">
+							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+				</xsl:for-each>
+			</span>
 
 			<!-- Year -->
 			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			<!-- Title -->
-			<span>
+			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
 						<xsl:with-param name="pFieldId">26</xsl:with-param>
@@ -944,14 +926,7 @@
 				<xsl:text>].</xsl:text>
 			</xsl:if>
 			
-			<!-- DOI -->
-			<xsl:if test="normalize-space(./fields/*[@id='30']/value) != ''">
-				<xsl:text> DOI: </xsl:text>
-				<span>
-					<xsl:attribute name="field_id">30</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='30']/value" mode="formatting_nospace"/>
-				</span>
-			</xsl:if>
+			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 		</li>
 	</xsl:template>
 
@@ -975,19 +950,21 @@
 
 		<xsl:variable name="lVolume" select="./fields/*[@id='258']/value"></xsl:variable>
 
-		<li>
+		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-				<xsl:choose>
-					<xsl:when test="$lAuthorshipType = 3">
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-			</xsl:for-each>
+			<span class="authors-holder">
+				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+					<xsl:choose>
+						<xsl:when test="$lAuthorshipType = 3">
+							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+				</xsl:for-each>
+			</span>	
 
 			<xsl:if test="normalize-space($lAuthorshipType)=$gAuthorshipEditorType">
 				<xsl:text> </xsl:text>
@@ -1005,7 +982,7 @@
 			
 			<!-- Book title -->
 			<xsl:if test="normalize-space(./fields/*[@id='255']/value) != ''">
-				<span>
+				<span class="ref-title">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
 						<xsl:with-param name="pFieldId">255</xsl:with-param>
@@ -1201,14 +1178,7 @@
 				<xsl:text>].</xsl:text>
 			</xsl:if>
 			
-			<!-- DOI -->
-			<xsl:if test="normalize-space(./fields/*[@id='30']/value) != ''">
-				<xsl:text> DOI: </xsl:text>
-				<span>
-					<xsl:attribute name="field_id">30</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='30']/value" mode="formatting_nospace"/>
-				</span>
-			</xsl:if>
+			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 		</li>
 	</xsl:template>
 
@@ -1231,24 +1201,26 @@
 		</xsl:variable>
 		<xsl:variable name="lVolume" select="./fields/*[@id='258']/value"></xsl:variable>
 
-		<li>
+		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-				<xsl:choose>
-					<xsl:when test="$lAuthorshipType = 3">
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-			</xsl:for-each>
+			<span class="authors-holder">
+				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+					<xsl:choose>
+						<xsl:when test="$lAuthorshipType = 3">
+							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+				</xsl:for-each>
+			</span>
 			<!-- Year -->
 			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			<xsl:if test="normalize-space(./fields/*[@id='255']/value) != ''">
 				<!-- Book title -->
-				<span>
+				<span class="ref-title">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
 						<xsl:with-param name="pFieldId">255</xsl:with-param>
@@ -1365,14 +1337,7 @@
 				<xsl:text>].</xsl:text>
 			</xsl:if>
 			
-			<!-- DOI -->
-			<xsl:if test="normalize-space(./fields/*[@id='30']/value) != ''">
-				<xsl:text> DOI: </xsl:text>
-				<span>
-					<xsl:attribute name="field_id">30</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='30']/value" mode="formatting"/>
-				</span>
-			</xsl:if>
+			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 		</li>
 	</xsl:template>
 
@@ -1392,23 +1357,25 @@
 				</xsl:when>
 			</xsl:choose>
 		</xsl:variable>
-		<li>
+		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-				<xsl:choose>
-					<xsl:when test="$lAuthorshipType = 3">
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-			</xsl:for-each>
+			<span class="authors-holder">
+				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+					<xsl:choose>
+						<xsl:when test="$lAuthorshipType = 3">
+							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+				</xsl:for-each>
+			</span>	
 			<!-- Year -->
 			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			<!-- Title -->
-			<span>
+			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
 						<xsl:with-param name="pFieldId">26</xsl:with-param>
@@ -1472,14 +1439,14 @@
 		</li>
 	</xsl:template>
 
-	<!-- Website reference
-	 -->
+	<!-- Website reference -->
 	<xsl:template match="*[@object_id='108']" mode="articleBack">
-		<li>
+		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+			
 			<!-- Title -->
 			<xsl:if test="normalize-space(./fields/*[@id='26']/value) != ''">
-				<span>
+				<span class="ref-title">
 					<xsl:call-template name="markContentEditableField">
 							<xsl:with-param name="pObjectId" select="./@object_id" />
 							<xsl:with-param name="pFieldId">26</xsl:with-param>
@@ -1515,5 +1482,19 @@
 				<xsl:text>.</xsl:text>
 			</xsl:if>
 		</li>
+	</xsl:template>
+	
+	<xsl:template match="*" mode="DOI">
+		<xsl:if test="normalize-space(.) != ''">
+			<span class="ref-doi">
+				<xsl:text> DOI: </xsl:text>
+				<a>
+					<xsl:attribute name="field_id">30</xsl:attribute>
+					<xsl:attribute name="href"><xsl:text>http://dx.doi.org/</xsl:text><xsl:value-of select="."></xsl:value-of></xsl:attribute>
+					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
+					<xsl:apply-templates select="." mode="formatting"/>
+				</a>
+			</span>
+		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

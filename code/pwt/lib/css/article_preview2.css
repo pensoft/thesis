@@ -407,20 +407,25 @@ td p, th p {
 	cursor:pointer;	
 }
 
-.bibr {
+xref[type='bibr'] {
 	color:#0052CC;
 }
 
-.bibr:hover, .fig:hover, .table:hover, .suppl:hover {
+xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[type='suppl']:hover {
 	background:#FEF1B5;
 	cursor:pointer;
 }
 
-.fig, .table, .suppl {
+xref[type='fig'], xref[type='table'], xref[type='suppl'] {
 	padding-left:2px;
 	padding-right:2px;
 	background:#DFF1FF;
 }
 
+.suppl-section-holder {
+	padding-left:20px;
+}
 
+.123123123{
 
+}

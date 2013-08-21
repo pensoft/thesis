@@ -1,3 +1,7 @@
+p{
+	margin:0px;
+}
+
 .Main-Content{
 	margin-top:50px;
 }
@@ -49,8 +53,8 @@ body{overflow-y: hidden}
 
 .P-table-tump-holder {
     margin-right: 10px;
-    min-height: 75px;
-    width: 94px;
+    min-height: 48px;
+    width: 60px;
     float: left;
     background-color: white;
     margin-bottom: 6px;
@@ -68,12 +72,12 @@ body{overflow-y: hidden}
 }
 
 .twocolumnminiholder{width: 51px; height: 51px; float: left;  text-align: center; display: table}
-.twocolumnmini{display: table-cell; vertical-align: middle; text-align: center; padding: 3px}
-.singlefigmini{vertical-align: middle; text-align: center; padding: 3px}
+.twocolumnmini{display: table-cell; vertical-align: middle; text-align: center; padding: 3px; cursor:pointer;}
+.singlefigmini{vertical-align: middle; text-align: center; padding: 3px; cursor:pointer;}
 
 .fig-label-RC {
 	margin-bottom: 10px;
-	font-size: 13px;
+	font-size: 10.5pt;
 	font-family: Helvetica;
 	font-weight: bold;
 	color:#333;
@@ -84,11 +88,10 @@ body{overflow-y: hidden}
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-bottom: 15px;
-	min-height: 82px;
+	min-height: 48px;
 	border-bottom: 1px solid #BBB; 
 }
 .item-holder-RC:hover{
-	cursor:pointer;
 	background-color: #EEECE5;
 }
 .item-holder-RC:last-child{
@@ -112,7 +115,6 @@ body{overflow-y: hidden}
 	font-weight: bold;
 }
 
-
 .species, .genus, .subgenus, .subspecies, .variety, .form {
 	font-style:italic;	
 }
@@ -133,8 +135,69 @@ body{overflow-y: hidden}
 .taxalistAOF{
 	font-size: 12pt;
 	color:#006600;
-	padding-bottom: 6px;
+	padding-bottom: 8px;
+	padding-top: 8px;
 	padding-left: 15px;
 	padding-right: 15px;
+	border-bottom: 1px solid #BBB; 
+}
+
+.suppl-list-AOF{
+	font-size: 11pt;
+	padding-bottom: 6px;
+	font-family: Calibri;
+}
+
+.Supplemantary-File-Title{
+	font-weight: bold;
+	color:#333;
+	padding-top: 6px;
+	font-family: Helvetica;
+	font-size: 10.5pt;
+}
+.myfieldHolder{
+	clear: both;
+	padding-top: 6px;
+}
+.fieldValue p:first {
+  display: inline;
+  margin-top: 0px;
+}
+.fieldLabel {
+  float: left;
+  color: #404040;
+  font-weight: bold;
+  font-family:Helvetica;
+  font-size:0.9em;
+}
+
+.ref-list-AOF-holder {
+	font-size: 11pt;
+	padding-top: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #BBB; 
+}
+.ref-list-AOF-holder:hover{
+	background-color: #EEECE5;
+}
+.authors-holder{
 	
+}
+.ref-title{
+	display:block;
+	font-weight: bold;
+}
+.ref-doi{
+	display:block;
+}
+
+.ref-list-AOF-holder span {
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.ref-full-hidden{
+		
 }
