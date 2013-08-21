@@ -220,6 +220,12 @@ class mVersions extends emBase_Model {
 		return (int) $this->m_con->mRs['pwt_id'];
 	}
 
+	function GetVersionDocumentPjsId($pVersionId) {
+		$lSql = 'SELECT document_id FROM pjs.document_versions WHERE id = ' . (int) $pVersionId;
+		$this->m_con->Execute($lSql);
+		return (int) $this->m_con->mRs['document_id'];
+	}
+
 	function GetRoundUserIdVersionId($pRoundUserId){
 		$lSql = 'SELECT ru.document_version_id
 		FROM pjs.document_review_round_users ru
@@ -1283,6 +1289,9 @@ class mVersions extends emBase_Model {
 
 
 		$lMergedComments = $this->m_commentsModel->GetReviewRoundMergedComments($pReviewRoundId);
+		if($lMergedComments['err_cnt']){
+			return false;
+		}
 		$lReviewerChangesPatches = $this->GetPwtReviewRoundReviewerChangesPatch($pReviewRoundId, 0, 0, $lMergedComments, true);
 		$lReviewerChangesPatch = $lReviewerChangesPatches['field_patches'];
 		// Generate the patch for each field and usr and update the fields in
@@ -1375,7 +1384,9 @@ class mVersions extends emBase_Model {
 			$lCon->Execute('ROLLBACK;');
 			return false;
 		}
-
+		
+// 		var_dump($lMergedComments);
+// 		exit;
 
 		if(!$this->m_commentsModel->ImportReviewVersionMergedComments($lSEVersionId, $lMergedComments, $this->m_con)){
 			$lCon->Execute('ROLLBACK;');
@@ -1838,14 +1849,15 @@ class mVersions extends emBase_Model {
 		$lSql = '
 			SELECT pa.*, p.label
 			FROM pjs.document_review_round_users_form f
+			JOIN pjs.document_review_round_users drru ON drru.id = f.document_review_round_user_id
 			JOIN pjs.poll_answers pa ON pa.document_review_round_users_form_id = f.id
 			JOIN pjs.poll p ON p.id = pa.poll_id
 			WHERE f.round_id = ' . $pRoundId . ' 
-				AND f.decision_id IS NOT NULL 
+				AND drru.decision_id IS NOT NULL 
 				AND pa.answer_id IS NOT NULL
 			ORDER BY p.ord
 		';
-		
+
 		$lCon->Execute($lSql);
 		while (!$lCon->Eof()) {
 			$lResult[$lCon->mRs['poll_id']][$lCon->mRs['answer_id']]++;
@@ -1864,7 +1876,6 @@ class mVersions extends emBase_Model {
 			);
 			
 		}
-		
 		return $lFinalRes;
 	}
 

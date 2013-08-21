@@ -201,3 +201,12 @@ function PlaceReferencesEvents(){
 		});
 	});
 }
+
+function ScrollArticleToInstance(pInstanceId){
+	var lFirstInstanceElement = GetArticlePreviewContent().find('*[instance_id=' + pInstanceId + ']').first();
+	if(!lFirstInstanceElement.length){
+		return;
+	}
+	var lTopOffset = $(lFirstInstanceElement).offset().top;
+	$('.P-Article-Preview').scrollTop(lTopOffset);
+}

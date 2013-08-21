@@ -3165,7 +3165,7 @@ function checkIfPreviewCanBeEdited($pDocumentId, $pRevisionId = false){
 	return lockDocument($pDocumentId);
 }
 
-function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLPath = '', $pXml = '', $pMarkContentEditableFields = false, $pRevisionPreview = false, $pPutEditableJSAndCss = false, $pInsertCommentPositionNodes = true, $pTrackFigureChanges = false){
+function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLPath = '', $pXml = '', $pMarkContentEditableFields = false, $pRevisionPreview = false, $pPutEditableJSAndCss = false, $pInsertCommentPositionNodes = true, $pTrackFigureChanges = false, $pPDFPreviewMode = 0){
 // 	$docroot = getenv('DOCUMENT_ROOT');
 // 	require_once($docroot . '/lib/static_xsl_pmt.php');
 // 	$lPmtXml = getDocumentXml($pDocumentId);
@@ -3256,6 +3256,15 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 		'name' => 'pDocumentId',
 		'value' => $pDocumentId,
 	);
+	
+	if((int)$pPDFPreviewMode){
+		$lXslParameters[] = array(
+			'namespace' => null,
+			'name' => 'pPDFPreviewMode',
+			'value' => 1,
+		);
+	}
+	
 // 	error_reporting(-1);
 // 	 echo  $lDocumentXml;
 	//~ exit;

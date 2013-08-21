@@ -119,4 +119,5 @@ GRANT ALL ON pjs.article_references TO iusrpmt;
 	pjs.spSaveArticlePreview
 	pjs.spSaveArticleXml
 	pjs.spSaveArticleAuthorPreview
+	pjs.spGetArticleContentsInstances
 */

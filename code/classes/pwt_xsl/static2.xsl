@@ -11,6 +11,7 @@
 	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
 	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
 	<xsl:param  name="pSiteUrl"></xsl:param>
+	<xsl:param  name="pPDFPreviewMode">0</xsl:param>
 	<!-- This parameter will be passed when we generate the previews for article of the future -->
 	<xsl:param  name="pInArticleMode">0</xsl:param>
 	
@@ -111,25 +112,26 @@
 
 		<xsl:variable name="lJournalName" select="$pDocumentNode/journal_name" />
 		<xsl:variable name="lDocumentType" select="$pDocumentNode/document_type" />
-		<table cellpadding="0" cellspacing="0" width="100%">
-			<colgroup>
-				<col width="90%"></col>
-				<col width="10%"></col>
-			</colgroup>
-			<tr>
-				<td>
-					<div class="P-Article-Preview-Antet">
-						<xsl:value-of select="$lJournalName" /> : <xsl:value-of select="$lDocumentType" />
-					</div>
-				</td>
-				<td>
-					<div class="P-Article-Preview-Antet" style="text-align:right;font-size:12px;line-height:18px;">
-						<a href="javascript:void(0);" onclick="window.print()" style="background:transparent url('/i/printer.jpg') no-repeat 0px 0px; padding-left:20px;">Print</a>
-					</div>
-				</td>
-			</tr>
-		</table>
-		
+		<xsl:if test="$pPDFPreviewMode = 0">
+			<table cellpadding="0" cellspacing="0" width="100%">
+				<colgroup>
+					<col width="90%"></col>
+					<col width="10%"></col>
+				</colgroup>
+				<tr>
+					<td>
+						<div class="P-Article-Preview-Antet">
+							<xsl:value-of select="$lJournalName" /> : <xsl:value-of select="$lDocumentType" />
+						</div>
+					</td>
+					<td>
+						<div class="P-Article-Preview-Antet" style="text-align:right;font-size:12px;line-height:18px;">
+							<a href="javascript:void(0);" onclick="window.print()" style="background:transparent url('/i/printer.jpg') no-repeat 0px 0px; padding-left:20px;">Print</a>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</xsl:if>
 	</xsl:template>
 	
 	<!-- ARTICLE TITLE -->
@@ -147,54 +149,56 @@
 	<!-- AUTHORS -->
 	<xsl:template name="authors">
 		<xsl:param name="pDocumentNode" />
-		<div class="P-Article-Preview-Names">
-			<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']">
-				<xsl:apply-templates select="." mode="singleAuthor" />
-				<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-			</xsl:for-each>
-		</div>
-		<div class="P-Article-Preview-Addresses">
-			<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']/*[@object_id='5']">
-				<xsl:apply-templates select="." mode="singleAuthorAddress" />
-			</xsl:for-each>
-		</div>
-
-		<div class="P-Article-Preview-Base-Info-Block">
-			<table cellspacing="0" cellpadding="0" border="0" width="100%">
-				<tbody>
-					<tr>
-						<td>
-							<div class="P-Article-Info-Block-Row">
-								<xsl:text>Corresponding Author: </xsl:text>
-								<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8'][fields/*[@id='15']/value[@value_id='1']]">
-									<xsl:apply-templates select="." mode="singleCorrespondingAuthor" />
-									<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-								</xsl:for-each>
-							</div>
-							<div class="P-Article-Info-Block-Row">
-								Accepted by: <span>ACADEMIC EDITOR</span>
-							</div>
-							<div class="P-Article-Info-Block-Row">
-								Recieved <span>DATE RECEIVED</span> | accepted <span>DATE ACCEPTED</span> | published <span>DATE PUBLISHED</span>
-							</div>
-							<div class="P-Article-Info-Block-Row">
-								<xsl:text>© </xsl:text><xsl:value-of select="php:function('getYear')"/><xsl:text> </xsl:text>
-								<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']">
-									<xsl:apply-templates select="." mode="singleCorrespondingAuthorInLicense" />
-									<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-								</xsl:for-each>
-								<xsl:text>.</xsl:text> <br /><xsl:text>This is an open access article distributed under the terms of the </xsl:text>
-								<span>Creative Commons Attribution License 3.0 (CC-BY),</span> <br />
-								<xsl:text>which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</xsl:text>
-							</div>
-						</td>
-						<td width="95px" valign="middle" align="right">
-							<img src="/i/open_access.png" alt="Open Access" />
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<xsl:if test="$pPDFPreviewMode = 0">
+			<div class="P-Article-Preview-Names">
+				<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']">
+					<xsl:apply-templates select="." mode="singleAuthor" />
+					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+				</xsl:for-each>
+			</div>
+			<div class="P-Article-Preview-Addresses">
+				<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']/*[@object_id='5']">
+					<xsl:apply-templates select="." mode="singleAuthorAddress" />
+				</xsl:for-each>
+			</div>
+	
+			<div class="P-Article-Preview-Base-Info-Block">
+				<table cellspacing="0" cellpadding="0" border="0" width="100%">
+					<tbody>
+						<tr>
+							<td>
+								<div class="P-Article-Info-Block-Row">
+									<xsl:text>Corresponding Author: </xsl:text>
+									<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8'][fields/*[@id='15']/value[@value_id='1']]">
+										<xsl:apply-templates select="." mode="singleCorrespondingAuthor" />
+										<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+									</xsl:for-each>
+								</div>
+								<div class="P-Article-Info-Block-Row">
+									Accepted by: <span>ACADEMIC EDITOR</span>
+								</div>
+								<div class="P-Article-Info-Block-Row">
+									Recieved <span>DATE RECEIVED</span> | accepted <span>DATE ACCEPTED</span> | published <span>DATE PUBLISHED</span>
+								</div>
+								<div class="P-Article-Info-Block-Row">
+									<xsl:text>© </xsl:text><xsl:value-of select="php:function('getYear')"/><xsl:text> </xsl:text>
+									<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']">
+										<xsl:apply-templates select="." mode="singleCorrespondingAuthorInLicense" />
+										<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+									</xsl:for-each>
+									<xsl:text>.</xsl:text> <br /><xsl:text>This is an open access article distributed under the terms of the </xsl:text>
+									<span>Creative Commons Attribution License 3.0 (CC-BY),</span> <br />
+									<xsl:text>which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</xsl:text>
+								</div>
+							</td>
+							<td width="95px" valign="middle" align="right">
+								<img src="/i/open_access.png" alt="Open Access" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="*" mode="singleAuthor">
