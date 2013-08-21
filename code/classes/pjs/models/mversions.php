@@ -1843,14 +1843,15 @@ class mVersions extends emBase_Model {
 		$lSql = '
 			SELECT pa.*, p.label
 			FROM pjs.document_review_round_users_form f
+			JOIN pjs.document_review_round_users drru ON drru.id = f.document_review_round_user_id
 			JOIN pjs.poll_answers pa ON pa.document_review_round_users_form_id = f.id
 			JOIN pjs.poll p ON p.id = pa.poll_id
 			WHERE f.round_id = ' . $pRoundId . ' 
-				AND f.decision_id IS NOT NULL 
+				AND drru.decision_id IS NOT NULL 
 				AND pa.answer_id IS NOT NULL
 			ORDER BY p.ord
 		';
-		
+
 		$lCon->Execute($lSql);
 		while (!$lCon->Eof()) {
 			$lResult[$lCon->mRs['poll_id']][$lCon->mRs['answer_id']]++;
@@ -1869,7 +1870,6 @@ class mVersions extends emBase_Model {
 			);
 			
 		}
-		
 		return $lFinalRes;
 	}
 
