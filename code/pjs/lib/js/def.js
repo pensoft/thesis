@@ -1294,14 +1294,16 @@ function popupClosingAndReloadParent(pUrlAddParams) {
 function popupClose(){
 	window.close();
 }
-function openPopUp(pUrl, pWidth, pHeight){
-	if(typeof pWidth == "undefined")
+function openPopUp(pUrl, pWidth, pHeight, pWindowTitle){
+	if(typeof pWidth == "undefined" || pWidth == 0)
 		pWidth = '1350';
-	if(typeof pHeight == "undefined")
+	if(typeof pHeight == "undefined" || pHeight == 0)
 		pHeight = '850';
+	if(typeof pWindowTitle == "undefined")
+		pWindowTitle = "littleWindow";
 	var left = (screen.width/2)-(pWidth/2);
 	var top = (screen.height/2)-(pHeight/2);
-	var lOpenWindow = window.open(pUrl, "littleWindow", 'scrollbars=yes, location=no,width='+ pWidth +',height=' + pHeight + ', top='+top+', left='+left);
+	var lOpenWindow = window.open(pUrl, pWindowTitle, 'scrollbars=yes, location=no,width='+ pWidth +',height=' + pHeight + ', top='+top+', left='+left);
 	//~ console.log('open');
 	$(lOpenWindow).load(function() {
 		//~ $('#loading-image').hide();
@@ -1405,12 +1407,12 @@ function checkReviewersState(pRoundId, pUrl, pDocumentId, pMergeFlag, pReviewers
 						if (confirm(lMsgInvitedUsers + "\n" + lMsgSubmitedUsers) == true){
 							manageUserInvitationsAndReviews(pRoundId, pDocumentId, lInvitedUsersIds, lNonSubmitedUsersIds);
 							//disableInvitingUsers(pRoundId, pDocumentId, pUrl);
-							openPopUp(pUrl);
+							openPopUp(pUrl, 0, 0, 'ReviewersStateWindow');
 							window.location.reload();
 						}
 					} else {
 						//disableInvitingUsers(pRoundId, pDocumentId, pUrl);
-						openPopUp(pUrl);
+						openPopUp(pUrl, 0, 0, 'ReviewersStateWindow');
 						window.location.reload();
 					}
 				}
@@ -1429,12 +1431,12 @@ function confirmDocumentVersionsMergeEditor(pRoundId, pUrl, pDocumentId, pMergeF
 			success : function(pAjaxResult) {
 					if (pAjaxResult['err_cnt'] == 0){
 						//disableInvitingUsers(pRoundId, pDocumentId, pUrl);
-						openPopUp(pUrl);
+						openPopUp(pUrl, 0, 0, 'MergeEditorVersionWindow');
 					}
 				}
 		});
 	} else {
-		openPopUp(pUrl);
+		openPopUp(pUrl, 0, 0, 'MergeEditorVersionWindow');
 	}
 }
 /*

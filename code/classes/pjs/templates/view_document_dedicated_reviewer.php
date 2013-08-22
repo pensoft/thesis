@@ -247,7 +247,7 @@ $gTemplArr = array(
 												<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
 													<div class="invite_reviewer_btn_left"></div>
 													<div class="invite_reviewer_btn_middle" onclick="
-													openPopUp(\'/view_version.php?version_id={document_version_id}&view_role={view_role}&id={document_id}&round={round_number}&round_user_id={round_user_id}\')">Proceed with review</div>
+													openPopUp(\'/view_version.php?version_id={document_version_id}&view_role={view_role}&id={document_id}&round={round_number}&round_user_id={round_user_id}\', 0, 0, \'window_{document_version_id}\')">Proceed with review</div>
 													<div class="invite_reviewer_btn_right"></div>
 													<div class="P-Clear"></div>
 												</div>
@@ -299,7 +299,7 @@ $gTemplArr = array(
 										<td align="center">
 											<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
 												<div class="invite_reviewer_btn_left"></div>
-												<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id={document_version_id}&id={document_id}&view_role={view_role}&round={round_number}&round_user_id={round_user_id}\')">See review</div>
+												<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id={document_version_id}&id={document_id}&view_role={view_role}&round={round_number}&round_user_id={round_user_id}\', 0, 0, \'window_{document_version_id}\')">See review</div>
 												<div class="invite_reviewer_btn_right"></div>
 												<div class="P-Clear"></div>
 											</div>

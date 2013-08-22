@@ -16,7 +16,7 @@ $gTemplArr = array(
 					</div>
 					<div class="document_author_holder_rev_info_top_right">
 						<img src="../i/eye.png">
-						<a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id={author_version_id}\')">View manuscript</a>
+						<a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id={author_version_id}\', 0, 0, \'window_{author_version_id}\')">View manuscript</a>
 					</div>
 					<div class="P-Clear"></div>	
 				</div>
@@ -40,7 +40,7 @@ $gTemplArr = array(
 										<td align="center">
 											<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
 												<div class="invite_reviewer_btn_left"></div>
-												<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id={user_version_id}\');">{_getstr(pjs.view_ce_version_btn)}</div>
+												<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id={user_version_id}\', 0, 0, \'window_{user_version_id}\');">{_getstr(pjs.view_ce_version_btn)}</div>
 												<div class="invite_reviewer_btn_right"></div>
 												<div class="P-Clear"></div>
 											</div>
@@ -94,7 +94,7 @@ $gTemplArr = array(
 											<!-- <div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first" onclick="SaveCEDecision({round_user_id}, ' . (int)ROUND_COPY_EDITING_DECISION_ACCEPT . ')"> -->
 											<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
 												<div class="invite_reviewer_btn_left"></div>
-												<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id={user_version_id}\');">
+												<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id={user_version_id}\', 0, 0, \'window_{user_version_id}\');">
 													{_getstr(pjs.copy_editing_proceed_btn_text)}
 												</div>
 												<div class="invite_reviewer_btn_right"></div>
