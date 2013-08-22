@@ -190,8 +190,9 @@ $gTemplArr = array(
 				<link type="text/css" rel="stylesheet" href="/lib/version_preview.css?v={_getCommit()}" media="all" title="default" />
 				<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css?v={_getCommit()}" media="all" title="default" />
 				<!--link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview.css?v={_getCommit()}" media="all" title="default"/-->
-				<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css?v={_getCommit()}" media="all" title="default"/>
+				<!--link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css?v={_getCommit()}" media="all" title="default"/-->
 				<link type="text/css" rel="stylesheet" href="/lib/editor.css?v={_getCommit()}" media="all" />
+				<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/articleAOF.css?v={_getCommit()}" media="all" title="default" />	
 		
 				<script src="/lib/js/jquery.js?v={_getCommit()}" type="text/javascript"></script>
 				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js?v={_getCommit()}"></script>

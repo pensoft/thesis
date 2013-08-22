@@ -1212,16 +1212,17 @@
 					<xsl:apply-templates select=".//fields/*[@id='243']/value" mode="formatting_nospace"/>
 				</xsl:variable>
 				
-				
-				<a class="refinder-link" target="_blank"> 
-					<xsl:attribute name="href">
-						<xsl:text>http://192.168.83.8:5000/find?search=advanced&amp;author=</xsl:text><xsl:value-of select="$Authors" />
-						<xsl:text>&amp;year=</xsl:text><xsl:value-of select="$refYear" />
-						<xsl:text>&amp;title=</xsl:text><xsl:value-of select="$refTitle" />
-						<xsl:text>&amp;origin=</xsl:text><xsl:value-of select="$journal" />
-					</xsl:attribute>
-					ReFinder
-				</a>
+				<div class="refinder-link-holder">
+					<a class="refinder-link" target="_blank"> 
+						<xsl:attribute name="href">
+							<xsl:text>http://192.168.83.8:5000/find?search=advanced&amp;author=</xsl:text><xsl:value-of select="$Authors" />
+							<xsl:text>&amp;year=</xsl:text><xsl:value-of select="$refYear" />
+							<xsl:text>&amp;title=</xsl:text><xsl:value-of select="$refTitle" />
+							<xsl:text>&amp;origin=</xsl:text><xsl:value-of select="$journal" />
+						</xsl:attribute>
+						Search via ReFinder
+					</a>
+				</div>
 				
 			</xsl:template>	
 			
@@ -1325,7 +1326,7 @@
 		<xsl:for-each select="table">
 			<div class="item-holder-RC">
 				<div class="P-table-tump-holder">
-					<img alt="">
+					<img width="60" heigth="48" alt="">
 						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/i/table_pic-60.png</xsl:attribute> 
 					</img> 
 				</div>		
