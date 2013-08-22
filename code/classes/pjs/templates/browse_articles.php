@@ -18,7 +18,7 @@ $gTemplArr = array(
 				<div class="article" style="border-top: none;">
 					<div class="starHover"></div>
 					<div class="articleHeadline">
-						<a href="javascript: void(0)" onclick="openPopUp(\'/view_version.php?version_id={version_id}\')">
+						<a href="javascript: void(0)" onclick="openPopUp(\'/view_version.php?version_id={version_id}\', 0, 0, \'window_{version_id}\')">
 							{name}
 						</a>
 					</div>
