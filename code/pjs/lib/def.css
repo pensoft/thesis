@@ -6638,3 +6638,8 @@ table.no_bold_class td a {
 .review {
 	height:200px;
 }
+
+.poll_answer_err {
+	font-size: 12px !important;
+	color: #AB2D2A !important;
+}
