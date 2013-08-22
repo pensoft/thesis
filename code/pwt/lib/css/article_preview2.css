@@ -8,7 +8,7 @@ html {
   line-height: 1.5em;
 }
 .P-Article-Preview {
-  width: 50em;
+  /*width: 50em;*/
   font-family: Calibri;
   text-align: justify;
   margin: auto;
@@ -31,6 +31,7 @@ html {
 body {
   margin: 0;
   font-size: 12pt;
+  overflow-y: hidden;
 }
 .P-Article-Preview-Base-Info-Block {
   margin-top: 10px;
@@ -275,11 +276,13 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 .Table-Body table {
   border-collapse: collapse !important;
   width: 100% !important;
+  font-size: 11pt;
 }
 .Table-Body table td, .Table-Body table th {
   border: 1px solid #e2e2dc;
   padding: 6px;
   text-align: left;
+  vertical-align: top;
 }
 .myfieldHolder {
   clear: both;

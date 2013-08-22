@@ -187,7 +187,7 @@ function PlaceTableEvents(){
 }
 
 function PlaceSupFilesEvents(){
-	GetArticlePreviewContent().find('.sppl[rid]').each(function(pIdx, pSupFileNode){
+	GetArticlePreviewContent().find('.suppl[rid]').each(function(pIdx, pSupFileNode){
 		$(pSupFileNode).bind('click', function(){
 			LoadSupFileInfo($(pSupFileNode).attr('rid'));
 		});

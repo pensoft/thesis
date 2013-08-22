@@ -453,7 +453,7 @@
 			<xsl:value-of select="normalize-space($lUploadedFileName)"/><xsl:text> - </xsl:text>
 		</xsl:if>
 		<xsl:if test="$lFileName != ''">
-			<a target="_blank">
+			<a class="download" target="_blank">
 				<xsl:attribute name="href"><xsl:value-of select="normalize-space($pSiteUrl)"/><xsl:text>getfile.php?filename=</xsl:text><xsl:value-of select="normalize-space($lFileName)"/></xsl:attribute>
 				<xsl:attribute name="name"><xsl:value-of select="normalize-space($lFileName)"/></xsl:attribute>
 				<xsl:text>Download file</xsl:text>
@@ -1070,24 +1070,48 @@
 	
 	<!-- Article of the future preview template of a single figure -->
 	<xsl:template match="*" mode="article_preview_figure">
-		Single fig
-		<xsl:value-of select="./@instance_id" />
+		<xsl:for-each select=".">	
+			<div class="item-holder-RC">
+					<span class="fig-label-RC">
+						<xsl:value-of select="./@display_name"></xsl:value-of>
+							<xsl:text> </xsl:text>
+						<xsl:value-of select="./fields/figure_number"></xsl:value-of>
+					</span>
+				<xsl:apply-templates select="image" mode="Figures" />
+				<xsl:apply-templates select="multiple_images_plate" mode="Figures" />
+			</div>
+		<xsl:if test="position()!=last()">
+			<div class="P-Clear" />
+		</xsl:if>	
+		</xsl:for-each>
+			
 		<!-- The node of the specific figure -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
 	<!-- Article of the future preview template of a single plate -->
 	<xsl:template match="*" mode="article_preview_plate">
-		Single plate
-		<xsl:value-of select="./@instance_id" />
+		<xsl:for-each select=".">	
+			<div class="item-holder-RC">
+					<span class="fig-label-RC">
+						<xsl:value-of select="./@display_name"></xsl:value-of>
+							<xsl:text> </xsl:text>
+						<xsl:value-of select="./fields/figure_number"></xsl:value-of>
+					</span>
+				<xsl:apply-templates select="image" mode="Figures" />
+				<xsl:apply-templates select="multiple_images_plate" mode="Figures" />
+			</div>
+		<xsl:if test="position()!=last()">
+			<div class="P-Clear" />
+		</xsl:if>	
+		</xsl:for-each>
 		<!-- The node of the specific plate part (i.e. that is na instance which has an object id IN (225, 226, 227, 228, 229, 230) -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
 	<!-- Article of the future preview template of a single table -->
-	<xsl:template match="*" mode="article_preview_table">
-		Single table
-		<xsl:value-of select="./@instance_id" />
+	<xsl:template match="*" mode="article_preview_table">	
+		<xsl:apply-templates select="." mode="singleTableNormalPreview"/>
 		<!-- The node of the specific table -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
@@ -1096,8 +1120,10 @@
 	<xsl:template match="*" mode="article_preview_reference">
 		
 		<xsl:apply-templates select="." mode="articleBack"/>
-				
 		
+		<xsl:apply-templates select="." mode="RefinderLinks"/>
+		
+	
 		<a> 
 			<xsl:text>
 		http://192.168.83.8:5000/find?search=advanced&amp;author=
@@ -1111,19 +1137,69 @@
 			</xsl:text>	
 		</a>
 		
-		
 		<!-- The node of the specific reference -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
+		<xsl:template match="*" mode="RefinderLinks">
+			
+			
+				<xsl:variable name="lAuthorshipType">
+					<xsl:choose>
+						<xsl:when test="count(.//*[@object_id='92']) &gt; 0">
+							<xsl:value-of select=".//*[@object_id='92']/fields/*[@id='265']/value/@value_id"></xsl:value-of>
+						</xsl:when>
+						<xsl:when test="count(.//*[@object_id='100']) &gt; 0">
+							<xsl:value-of select="//*[@object_id='100']/fields/*[@id='281']/value/@value_id"></xsl:value-of>
+						</xsl:when>
+						<xsl:when test="count(.//*[@object_id='101']) &gt; 0">
+							<xsl:value-of select=".//*[@object_id='101']/fields/*[@id='282']/value/@value_id"></xsl:value-of>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
+					
+				<xsl:variable name="Authors">	
+					<xsl:for-each select=".//*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFullNames" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</xsl:variable>
+				
+				<xsl:value-of select="$Authors" />
+			
+			
+			
+			
+		</xsl:template>
+		
+		
+		<xsl:template match="*" mode="processSingleReferenceAuthorFullNames">
+			<xsl:variable name="lAuthorParsedName">
+				<!-- Last name -->
+				<xsl:value-of select="./fields/*[@id='252']/value"></xsl:value-of>
+				<xsl:text> </xsl:text>
+				<!-- Initials of first name -->
+				<xsl:value-of select="./fields/*[@id='251']/value"></xsl:value-of>
+			</xsl:variable>
+			<span>
+				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+				<xsl:value-of select="normalize-space($lAuthorParsedName)"></xsl:value-of>
+			</span>
+		</xsl:template>
 	
 			
 	<!-- Article of the future preview template of a single sup file -->
 	<xsl:template match="*" mode="article_preview_sup_file">
-		Single sup
-		<xsl:value-of select="./@instance_id" />
-		
-		
+		<div class="item-holder-RC">
+			<xsl:apply-templates select="." mode="singleSupplementaryMaterialAOF" />
+		</div>			
 		<!-- The node of the specific sup file -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>

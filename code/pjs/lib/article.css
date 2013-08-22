@@ -21,7 +21,6 @@ body{
 }
 
 .P-Article-Info-Bar {
-
 	width: 500px;
 	border-left: 1px solid #e2e2dc;
 	border-left: 1px solid #F4F4F1;
@@ -96,12 +95,11 @@ body{
 
 .fig-label-RC {
 	margin-bottom: 10px;
-	font-size: 10.5pt;
+	font-size: 11pt;
 	font-family: Helvetica;
 	font-weight: bold;
 	color:#333;
 }
-
 .item-holder-RC {
 	padding-top: 15px;
 	padding-left: 15px;
@@ -110,14 +108,12 @@ body{
 	min-height: 48px;
 	border-bottom: 1px solid #BBB; 
 }
-
 .item-holder-RC:hover{
 	background-color: #EEECE5;
 }
 .item-holder-RC:last-child{
 	border-bottom: none;
 }
-
 .listline {
 	color:#BBB
 }
@@ -126,7 +122,6 @@ body{
 	font-size: 11pt;
 	color:#333;
 }
-
 .list-caption p{
 	margin: 5px 0 0 0;
 }
@@ -134,24 +129,19 @@ body{
 .list-caption-letter {
 	font-weight: bold;
 }
-
 .species, .genus, .subgenus, .subspecies, .variety, .form {
 	font-style:italic;	
 }
-
 .tn {
 	color:#006600;	
 }
-
 .tn .authority, .tn .basio-authority, .x {
 	color:black;	
 }
-
 .above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover {
 	background:#E3E3C7;
 	cursor:pointer;	
 }
-
 .taxalistAOF{
 	font-size: 12pt;
 	color:#006600;
@@ -161,23 +151,25 @@ body{
 	padding-right: 15px;
 	border-bottom: 1px solid #BBB; 
 }
-
 .suppl-list-AOF{
 	font-size: 11pt;
 	padding-bottom: 6px;
 	font-family: Calibri;
 }
-
 .Supplemantary-File-Title{
 	font-weight: bold;
 	color:#333;
 	padding-top: 6px;
 	font-family: Helvetica;
-	font-size: 10.5pt;
+	font-size: 11pt;
 }
 .myfieldHolder{
 	clear: both;
 	padding-top: 6px;
+	font-size: 10pt;
+}
+div.myfieldHolder[field_id='222']{
+	font-size: 11pt;
 }
 .fieldValue p:first {
   display: inline;
@@ -190,7 +182,6 @@ body{
   font-family:Helvetica;
   font-size:0.9em;
 }
-
 .ref-list-AOF-holder {
 	font-size: 11pt;
 	padding-top: 15px;
@@ -212,13 +203,43 @@ body{
 .ref-doi{
 	display:block;
 }
-
 .ref-list-AOF-holder span {
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
-
 .ref-full-hidden{
 		
 }
+.description .name {
+	margin-bottom: 10px;
+	font-size: 11pt;
+	font-family: Helvetica;
+	font-weight: bold;
+	color:#333;
+}
+.P-Inline .tableCaption {
+	font-size: 11pt;
+	color:#333;
+}
+.Table-Body .tableCaption{
+	font-size: 10pt;
+	margin-top:15px;
+}
 
+.Table-Body table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+}
+.Table-Body table td, .Table-Body table th {
+  border: 1px solid #e2e2dc;
+  padding: 3px;
+  text-align: left;
+  vertical-align: top;
+}
+div.table{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+a.download{
+  font-weight:bold;
+}
