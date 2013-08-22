@@ -79,6 +79,7 @@ $BODY$
 					SELECT *
 					FROM pwt.document_object_instances i
 					WHERE parent_id = lRecord.id AND object_id IN (lChecklistObjectId, lTreatmentsObjectId, lIdentificationKeysObjectId) AND i.is_confirmed = true
+					ORDER BY pos ASC
 				LOOP
 					lRes.instance_id = lRecord2.id;
 					lRes.display_name = lRecord2.display_name;
@@ -120,6 +121,7 @@ $BODY$
 					SELECT *
 					FROM pwt.document_object_instances i
 					WHERE parent_id = lRecord.id AND object_id IN (lSubSectionObjectId) AND i.is_confirmed = true
+					ORDER BY pos ASC
 				LOOP
 					lRes.instance_id = lRecord2.id;
 					lRes.display_name = lRecord2.display_name;

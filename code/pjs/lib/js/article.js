@@ -208,5 +208,5 @@ function ScrollArticleToInstance(pInstanceId){
 		return;
 	}
 	var lTopOffset = $(lFirstInstanceElement).offset().top;
-	$('.P-Article-Preview').scrollTop(lTopOffset);
+	$('#article-preview').scrollTop(lTopOffset);
 }

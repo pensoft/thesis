@@ -345,13 +345,8 @@
 	
 	<!-- Treatment material field -->
  <xsl:template match="*" mode="treatmentMaterialFieldCustom">     
-   <span>
-    <xsl:attribute name="class">dcLabel</xsl:attribute>
-    <xsl:value-of select="./@field_name"></xsl:value-of><xsl:text>: </xsl:text>
-   </span> 
-   <!--<xsl:variable name="lId" select="./@id"></xsl:variable>-->
-   <!--<xsl:if test="($lId = 58) or ($lId = 60) or ($lId = 61) or ($lId = 114) or ($lId = 116)">-->
-		<span>
+   <xsl:variable name="lContent">
+   		<span>
 			<xsl:call-template name="markContentEditableField">
 				<xsl:with-param name="pObjectId"><xsl:value-of select="./@object_id" /></xsl:with-param>
 				<xsl:with-param name="pFieldId"><xsl:value-of select="./@id" /></xsl:with-param>
@@ -360,6 +355,40 @@
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 			<xsl:apply-templates select="./value" mode="formatting"/>
 		</span>
+   </xsl:variable>
+   <xsl:variable name="lFieldId"><xsl:value-of select="./@id" /></xsl:variable>
+   <span>
+    <xsl:attribute name="class">dcLabel</xsl:attribute>
+    <xsl:value-of select="./@field_name"></xsl:value-of><xsl:text>: </xsl:text>
+   </span> 
+   <xsl:choose>
+   		<xsl:when test="$pInArticleMode = 1 and ($lFieldId = 132 or $lFieldId = 133)">
+   			<!-- verbatimLocality or verbatimLongitude -->
+   			<xsl:choose>
+	   			<xsl:when test="count(../field[@id=132]) = 0 or count(../field[@id=133]) = 0">
+	   				<!-- Both longitude and latitude are present -->
+	   				<xsl:copy-of select="$lContent"></xsl:copy-of>
+	   			</xsl:when>
+	   			<xsl:otherwise>
+	   				<!-- Both longitude and latitude are present -->
+	   				<xsl:variable name="lLongitude"><xsl:value-of select="../field[@id=133]"/></xsl:variable>
+	   				<xsl:variable name="lLatitude"><xsl:value-of select="../field[@id=132]"/></xsl:variable>
+	   				<span class="locality-coordinate">
+				      	<xsl:attribute name="data-longitude"><xsl:value-of select="$lLongitude"></xsl:value-of></xsl:attribute>
+				      	<xsl:attribute name="data-latitude"><xsl:value-of select="$lLatitude"></xsl:value-of></xsl:attribute>
+				      	<xsl:attribute name="data-is-locality-coordinate">1</xsl:attribute>
+				      	<xsl:copy-of select="$lContent"/>
+				    </span>
+	   			</xsl:otherwise>
+   			</xsl:choose>
+   		</xsl:when>
+   		<xsl:otherwise>
+   			<xsl:copy-of select="$lContent"></xsl:copy-of>
+   		</xsl:otherwise>
+   </xsl:choose>
+   <!--<xsl:variable name="lId" select="./@id"></xsl:variable>-->
+   <!--<xsl:if test="($lId = 58) or ($lId = 60) or ($lId = 61) or ($lId = 114) or ($lId = 116)">-->
+		
    <!--</xsl:if>-->
  </xsl:template>
 		
@@ -1019,6 +1048,14 @@
 	   <xsl:when test="$lNodeIsTextNode"><xsl:value-of select="$pNode"/></xsl:when>
 	   <xsl:when test="$lNodeIsElement">
 	    <xsl:choose>
+	     <xsl:when test="$lLocalName='locality-coordinates'">
+		      <span class="locality-coordinate">
+		      	<xsl:attribute name="data-longitude"><xsl:value-of select="@longitude"></xsl:value-of></xsl:attribute>
+		      	<xsl:attribute name="data-latitude"><xsl:value-of select="@latitude"></xsl:value-of></xsl:attribute>
+		      	<xsl:attribute name="data-is-locality-coordinate">1</xsl:attribute>
+		      	<xsl:copy-of select="$lChildContent"/>
+		      </span>
+	     </xsl:when>    
 	     <xsl:when test="$lLocalName='tn'">
 		      <span class="tn">
 		      	<xsl:copy-of select="$lChildContent"/>
