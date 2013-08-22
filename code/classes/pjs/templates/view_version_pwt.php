@@ -7,7 +7,7 @@ function showPoll() {
 		foreach ($gQuestions as $key => $value) {
 			$lRes .= '
 			<tr>
-				<td>{*question' . $value . '}</td>
+				<td {_showPollAnswerErrClass(question' . $value . ', user_role)}>{*question' . $value . '}</td>
 				{question' . $value . '}
 			</tr>';
 		}
@@ -186,7 +186,6 @@ $gTemplArr = array(
 					$(\'#submit-view-version-form\').click(function(){
 						SubmitFormByName(\'document_review_form\');
 					});
-					{_scrollFormIfErrors(err_cnt)}
 				});
 				/*CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
 				CKEDITOR.config.language = \'en\';
@@ -250,7 +249,6 @@ $gTemplArr = array(
 					$(\'#submit-view-version-form\').click(function(){
 						SubmitFormByName(\'document_review_form\');
 					});
-					{_scrollFormIfErrors(err_cnt)}
 				});
 				/*CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
 				CKEDITOR.config.language = \'en\';
@@ -358,7 +356,6 @@ $gTemplArr = array(
 				$(\'#submit-view-version-form\').click(function(){
 					SubmitFormByName(\'document_review_form\');
 				});
-				{_scrollFormIfErrors(err_cnt)}
 			});
 			/*CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
 			CKEDITOR.config.language = \'en\';
