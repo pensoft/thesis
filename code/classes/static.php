@@ -67,16 +67,21 @@ function InsertCommentsInDocumentXml($pDocumentXml, $pComments){
 	foreach ($pComments as $lCurrentComment){
 		$lCommentNode = $lCommentsHolderNode->appendChild($lXmlDom->createElement('comment'));
 		$lCommentNode->setAttribute('id', (int)$lCurrentComment['id']);
-		$lMsgNode = $lCommentNode->appendChild($lXmlDom->createElement('msg', CustomHtmlEntitiesDecode($lCurrentComment['msg'])));
+		$lMsgNode = $lCommentNode->appendChild($lXmlDom->createElement('msg'));
+		$lMsgNode->appendChild($lXmlDom->createTextNode(CustomHtmlEntitiesDecode($lCurrentComment['msg'])));
 		$lRootIdNode = $lCommentNode->appendChild($lXmlDom->createElement('rootid', (int)$lCurrentComment['rootid']));
 		$lUsrIdNode = $lCommentNode->appendChild($lXmlDom->createElement('usr_id', (int)$lCurrentComment['usr_id']));
 		$lFlagsNode = $lCommentNode->appendChild($lXmlDom->createElement('flags', (int)$lCurrentComment['flags']));
-		$lCreateDateNode = $lCommentNode->appendChild($lXmlDom->createElement('createdate', CustomHtmlEntitiesDecode($lCurrentComment['mdate'])));
-		$lPosNode = $lCommentNode->appendChild($lXmlDom->createElement('pos', CustomHtmlEntitiesDecode($lCurrentComment['ord'])));
+		$lCreateDateNode = $lCommentNode->appendChild($lXmlDom->createElement('createdate'));
+		$lCreateDateNode->appendChild($lXmlDom->createTextNode(CustomHtmlEntitiesDecode($lCurrentComment['mdate'])));
+		
+		$lPosNode = $lCommentNode->appendChild($lXmlDom->createElement('pos'));
+		$lPosNode->appendChild($lXmlDom->createTextNode(CustomHtmlEntitiesDecode($lCurrentComment['ord'])));
 
 		$lIsResolvedNode = $lCommentNode->appendChild($lXmlDom->createElement('is_resolved', (int)$lCurrentComment['is_resolved']));
-		$lResolveUidNode = $lCommentNode->appendChild($lXmlDom->createElement('resolve_uid', (int)$lCurrentComment['resolve_uid']));
-		$lResolveDateNode = $lCommentNode->appendChild($lXmlDom->createElement('resolve_date', CustomHtmlEntitiesDecode($lCurrentComment['resolve_date'])));
+		$lResolveUidNode = $lCommentNode->appendChild($lXmlDom->createElement('resolve_uid', (int)$lCurrentComment['resolve_uid']));		
+		$lResolveDateNode = $lCommentNode->appendChild($lXmlDom->createElement('resolve_date'));
+		$lResolveDateNode->appendChild($lXmlDom->createTextNode(CustomHtmlEntitiesDecode($lCurrentComment['resolve_date'])));
 
 		$lStartInstanceIdNode = $lCommentNode->appendChild($lXmlDom->createElement('start_instance_id', (int)$lCurrentComment['start_instance_id']));
 		$lStartFieldIdNode = $lCommentNode->appendChild($lXmlDom->createElement('start_field_id', (int)$lCurrentComment['start_field_id']));
