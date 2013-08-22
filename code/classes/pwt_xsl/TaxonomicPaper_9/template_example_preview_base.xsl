@@ -330,6 +330,7 @@
 		<xsl:if test="./fields/*[@id='413']/value != ''">
 			<div class="P-Article-Preview-Block">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id"/></xsl:attribute>
+				<xsl:attribute name="data-is-checklist">1</xsl:attribute>
 				<xsl:variable name="checklistTitle" select="./fields/*[@id='413']"/>
 				<h1>
 					<xsl:call-template name="markContentEditableField">
@@ -386,6 +387,7 @@
 			</xsl:if>
 		</xsl:variable>
 		<div class="taxonTreatment">
+			<xsl:attribute name="data-is-taxon-treatment">1</xsl:attribute>
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id"/></xsl:attribute>
 			<h2 class="h-treatment">
 				<xsl:copy-of select="$lSecTitle"/>
