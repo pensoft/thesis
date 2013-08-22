@@ -931,8 +931,7 @@
 	</xsl:template>
 
 
-	<!-- Conference Proceedings biblio reference
-	 -->
+	<!-- Conference Proceedings biblio reference -->
 	<xsl:template match="*[@object_id='105']" mode="articleBack">
 		<xsl:variable name="lAuthorshipType">
 			<xsl:choose>

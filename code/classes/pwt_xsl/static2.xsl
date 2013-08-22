@@ -1122,29 +1122,57 @@
 		<xsl:apply-templates select="." mode="articleBack"/>
 		
 		<xsl:apply-templates select="." mode="RefinderLinks"/>
-		
-	
-		<a> 
-			<xsl:text>
-		http://192.168.83.8:5000/find?search=advanced&amp;author=
-			Hoffman%20R
-		&amp;year=
-			1978
-		&amp;title= 
-			Diplopoda%20from%20Papuan%20Caves%20(Zoological%20Results%20of%20the%20British%20Speleological%20Expedition%20to%20Papua%20New%20Guinea,%201975,%204)
-		&amp;origin=
-			International%20Journal%20of%20Speleology
-			</xsl:text>	
-		</a>
-		
+				
 		<!-- The node of the specific reference -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
 		<xsl:template match="*" mode="RefinderLinks">
+			<xsl:variable name="lArticleType">
+				<xsl:choose>
+					<xsl:when test="./*[@object_id='97']/*[@object_id='102']">1</xsl:when> <!-- Journal article -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='98']">2</xsl:when> <!-- Book -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='99']">3</xsl:when> <!-- Book chapter -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='103']">4</xsl:when> <!-- Conference paper -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='105']">5</xsl:when> <!-- Conference proceedings -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='106']">6</xsl:when> <!-- Thesis -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='107']">7</xsl:when> <!-- Software reference -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='108']">8</xsl:when> <!-- Website reference -->
+				</xsl:choose>
+			</xsl:variable>
+			
+			<xsl:choose>
+				<xsl:when test="$lArticleType = 1">
+					<xsl:apply-templates select="." mode="RefinderLinksAdvanced"/>	
+				</xsl:when>
+				<xsl:when test="$lArticleType = 2">
+					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>	
+				</xsl:when>
+				<xsl:when test="$lArticleType = 3">
+					Simple	
+				</xsl:when>
+				<xsl:when test="$lArticleType = 4">
+					Simple	
+				</xsl:when>
+				<xsl:when test="$lArticleType = 5">
+					Simple	
+				</xsl:when>
+				<xsl:when test="$lArticleType = 6">
+					Simple	
+				</xsl:when>
+				<xsl:when test="$lArticleType = 7">
+					Simple	
+				</xsl:when>
+			</xsl:choose>	
+		</xsl:template>
+		
+		<xsl:template match="*" mode="RefinderLinksSimple">
 			
 			
-				<xsl:variable name="lAuthorshipType">
+		</xsl:template>
+		
+		<xsl:template match="*" mode="RefinderLinksAdvanced">
+			<xsl:variable name="lAuthorshipType">
 					<xsl:choose>
 						<xsl:when test="count(.//*[@object_id='92']) &gt; 0">
 							<xsl:value-of select=".//*[@object_id='92']/fields/*[@id='265']/value/@value_id"></xsl:value-of>
@@ -1157,7 +1185,7 @@
 						</xsl:when>
 					</xsl:choose>
 				</xsl:variable>
-					
+						
 				<xsl:variable name="Authors">	
 					<xsl:for-each select=".//*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
 						<xsl:choose>
@@ -1172,12 +1200,31 @@
 					</xsl:for-each>
 				</xsl:variable>
 				
-				<xsl:value-of select="$Authors" />
+				<xsl:variable name="refTitle">
+					<xsl:apply-templates select=".//fields/*[@id='276' or @id='255']/value" mode="formatting_nospace"/>
+				</xsl:variable>
+				
+				<xsl:variable name="refYear">
+					<xsl:apply-templates select=".//fields/*[@id='254']/value" mode="formatting_nospace"/>
+				</xsl:variable>
+				
+				<xsl:variable name="journal">
+					<xsl:apply-templates select=".//fields/*[@id='243']/value" mode="formatting_nospace"/>
+				</xsl:variable>
+				
+				
+				<a class="refinder-link" target="_blank"> 
+					<xsl:attribute name="href">
+						<xsl:text>http://192.168.83.8:5000/find?search=advanced&amp;author=</xsl:text><xsl:value-of select="$Authors" />
+						<xsl:text>&amp;year=</xsl:text><xsl:value-of select="$refYear" />
+						<xsl:text>&amp;title=</xsl:text><xsl:value-of select="$refTitle" />
+						<xsl:text>&amp;origin=</xsl:text><xsl:value-of select="$journal" />
+					</xsl:attribute>
+					ReFinder
+				</a>
+				
+			</xsl:template>	
 			
-			
-			
-			
-		</xsl:template>
 		
 		
 		<xsl:template match="*" mode="processSingleReferenceAuthorFullNames">
