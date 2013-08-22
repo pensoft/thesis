@@ -23,7 +23,7 @@
 		<xsl:if test="count($lGroupedMaterials/materials/material_group) &gt; 0">
 			<div class="myfieldHolder otstapLeft">
 				<div class="fieldLabel no-float otstapBottom materialsTitle">Material<xsl:if test="count(./*[@object_id='37']) &gt; 1"><xsl:text>s</xsl:text></xsl:if>&#160;&#160;
-					<span style="font-weight:normal; font-size: 11px;">
+					<span class="downloadmaterials">
 						<a target="_blank">
 							<xsl:attribute name="href"><xsl:value-of select="$pSiteUrl"/>/lib/ajax_srv/csv_export_srv.php?action=export_materials_as_csv&amp;instance_id=<xsl:value-of select="./@instance_id" /></xsl:attribute>							
 							<xsl:text>Download as CSV&#160;</xsl:text>

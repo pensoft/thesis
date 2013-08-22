@@ -6,7 +6,7 @@ require_once(PATH_CLASSES . 'comments.php');
 
 session_write_close();
 
-//error_reporting(-1);
+//error_reporting(E_ALL ^ E_NOTICE);
 //ini_set('display_errors', 'On');
 
 //error_reporting(-1);

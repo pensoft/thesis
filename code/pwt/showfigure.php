@@ -34,7 +34,7 @@ $i = new cgetimage(array(
 			'-quality', 
 			'90',
 			'-thumbnail',
-			escapeshellarg('90x52>'),
+			escapeshellarg('96x80>'),
 		),
 		'twocolumnmini' => array(
 			'-quality', 

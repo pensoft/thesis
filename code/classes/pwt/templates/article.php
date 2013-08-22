@@ -64,14 +64,14 @@ $gTemplArr = array (
 	'article.contents_list_row0' => '
 			<li id="{instance_id}" >
 				<div class="{_displayDocumentTreeDivClass(11111, 0, level, has_children, 0, instance_id, document_id)}">
-					<a onclick="ScrollArticleToInstance({instance_id});return false;">{object_name}</a>
+					<a onclick="ScrollArticleToInstance({instance_id});return false;">{display_name}</a>
 				</div>
 			</li>
 	',
 	'article.contents_list_row1' => '
 			<li id="{instance_id}">
 				<div class="{_displayDocumentTreeDivClass(11111, 0, level, has_children, 0, instance_id, document_id)}">
-					<a onclick="ScrollArticleToInstance({instance_id});return false;">{object_name}</a>
+					<a onclick="ScrollArticleToInstance({instance_id});return false;">{display_name}</a>
 				</div>
 				<ul class="{_displayShowHideClass(instance_id)}">
 					{&}

@@ -460,35 +460,12 @@ class carticle_preview_generator extends csimple {
 
 	protected function GenerateArticleContentsListPreview() {
 		$lSql = '
-			select * from (
-				SELECT DISTINCT ON (i.id)
-					i.display_name as object_name, i.pos as pos, i.id as instance_id
-				FROM pwt.document_object_instances i
-				LEFT JOIN pwt.document_object_instances i1 ON (i1.parent_id = i.id) AND i1.is_confirmed = TRUE
-				LEFT JOIN pwt.instance_field_values f ON (i.id = f.instance_id)
-				WHERE i.display_in_tree = true
-					AND char_length(i.pos) = 2
-					AND i.document_id = ' . $this->m_pwtDocumentId . '
-					AND i.object_id not in (236, 237) -- figures & tables
-					AND (
-						i1.id IS NOT NULL OR
-						(
-							f.value_str <> \'\' OR
-							value_int IS NOT NULL OR
-							array_upper(f.value_arr_int, 1) IS NOT NULL OR
-							array_upper(f.value_arr_str, 1) IS NOT NULL OR
-							value_date IS NOT NULL OR
-							array_upper(f.value_arr_date, 1) IS NOT NULL
-						)
-					)
-			
-					) as a
-			order by pos	
+			SELECT * FROM spGetArticleContentsInstances(' . (int)$this->m_documentId . ');	
 		';
 // 		var_dump($lSql);
-		$lPreview = new crs(array(
-// 			'recursivecolumn'=>'parent_instance_id',
-// 			'templadd'=>'has_children',		
+		$lPreview = new crsrecursive(array(
+			'recursivecolumn'=>'parent_instance_id',
+			'templadd'=>'has_children',		
 // 			'sqlstr' => 'SELECT * FROM spGetDocumentTreeFast(' . $this->m_pwtDocumentId . ', 0);',
 			'sqlstr' => $lSql,
 			'templs' => array (
@@ -540,6 +517,20 @@ class carticle_preview_generator extends csimple {
 			$lCon->Execute('ROLLBACK TRANSACTION;');
 			$this->SetError($lException->getMessage());
 		}
+	}
+	
+	/**
+	 * Generate a list of all the localities in the preview,
+	 * mark all localities with their respective treatment/checklist (if they are in 1)
+	 * and generate the localities list preview
+	 */
+	protected function GenerateLocalitiesPreview(){
+		$lDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+		if(!$lDom->loadHTML($this->m_wholeArticlePreview)){
+			return;
+		}
+		$lXPath = new DOMXPath($lDom);
+		
 	}
 	
 	protected function SaveElementPreview($pInstanceId, $pInstanceType, $pPreview){
