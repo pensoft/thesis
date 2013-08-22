@@ -1303,7 +1303,8 @@ function openPopUp(pUrl, pWidth, pHeight, pWindowTitle){
 		pWindowTitle = "littleWindow";
 	var left = (screen.width/2)-(pWidth/2);
 	var top = (screen.height/2)-(pHeight/2);
-	var lOpenWindow = window.open(pUrl, pWindowTitle, 'scrollbars=yes, location=no,width='+ pWidth +',height=' + pHeight + ', top='+top+', left='+left);
+	//var lOpenWindow = window.open(pUrl, pWindowTitle, 'scrollbars=yes, location=no,width='+ pWidth +',height=' + pHeight + ', top='+top+', left='+left);
+	var lOpenWindow = window.open(pUrl, pWindowTitle, 'scrollbars=yes, location=no, fullscreen=yes');
 	//~ console.log('open');
 	$(lOpenWindow).load(function() {
 		//~ $('#loading-image').hide();
