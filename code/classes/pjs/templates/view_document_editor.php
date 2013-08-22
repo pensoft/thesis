@@ -829,7 +829,7 @@ $gTemplArr = array(
 							<div class="document_author_review_round_top_left document_author_review_round_top_left_editor">{_getstr(pjs.copyeditinground_label)}</div>
 						</td>
 						<td align="center">
-							<a href="#" onclick="openPopUp(\'/view_version.php?version_id={copy_editor_version_id}&id={document_id}&view_role=' . (int)CE_ROLE . '\')">View copyedited version</a>
+							<a href="#" onclick="openPopUp(\'/view_version.php?version_id={copy_editor_version_id}&id={document_id}&view_role=' . (int)CE_ROLE . '\', 0, 0, \'window_{copy_editor_version_id}\')">View copyedited version</a>
 						</td>
 						<td align="right">
 							<div><img src="../i/collapse_open.png"></img> <span class="collapse_text" onclick="Collapse(1, \'collapse_closed_ce\', \'collapse_opened_ce\')">Expand</span></div>
@@ -1618,7 +1618,7 @@ $gTemplArr = array(
 							<div class="document_author_review_round_top_left document_author_review_round_top_left_editor">{round_name} round {round_number}</div>
 						</td>
 						<td align="center">
-							<span class="middle_col_collapsed_label">{decision_round_name}</span>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id={se_version_id}&id={document_id}&view_role=' . (int)SE_ROLE . '\')">View reviews</a>
+							<span class="middle_col_collapsed_label">{decision_round_name}</span>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id={se_version_id}&id={document_id}&view_role=' . (int)SE_ROLE . '\', 0, 0, \'window_{se_version_id}\')">View reviews</a>
 						</td>
 						<td align="right">
 							<div><img src="../i/collapse_open.png"></img> <span class="collapse_text" onclick="Collapse(1, \'collapse_closed_review_round_{round_number}\', \'collapse_opened_review_round_{round_number}\')">Expand</span></div>
@@ -1660,7 +1660,7 @@ $gTemplArr = array(
 							<tr>
 								<td align="left"><span class="ed_decision_class_holder">Editor decision</span></td>
 								<td align="center"><span class="ed_decision_val_class_holder">{decision_round_name}</span></td>
-								<td align="right"><img src="../i/eye.png"></img> <a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id={se_version_id}&id={document_id}&view_role=' . (int)SE_ROLE . '\')">View reviews</a></td>
+								<td align="right"><img src="../i/eye.png"></img> <a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id={se_version_id}&id={document_id}&view_role=' . (int)SE_ROLE . '\', 0, 0, \'window_{se_version_id}\')">View reviews</a></td>
 							</tr>
 						</table>
 					</div>
@@ -1683,7 +1683,7 @@ $gTemplArr = array(
 							<div class="document_author_review_round_top_left document_author_review_round_top_left_editor">{_getstr(pjs.copyeditinground_label)} {rownum}</div>
 						</td>
 						<td align="center">
-							<a href="#" onclick="openPopUp(\'/view_version.php?version_id={copy_editor_version_id}&id={document_id}&view_role=' . (int)CE_ROLE . '\')">View copyedited version</a>
+							<a href="#" onclick="openPopUp(\'/view_version.php?version_id={copy_editor_version_id}&id={document_id}&view_role=' . (int)CE_ROLE . '\', 0, 0, \'window_{copy_editor_version_id}\')">View copyedited version</a>
 						</td>
 						<td align="right">
 							<div><img src="../i/collapse_open.png"></img> <span class="collapse_text" onclick="Collapse(1, \'collapse_closed_ce_round_{rownum}\', \'collapse_opened_ce_round_{rownum}\')">Expand</span></div>

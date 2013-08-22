@@ -594,7 +594,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 								' . ($lShowProceedBtn ? '
 								<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
 									<div class="invite_reviewer_btn_left"></div>
-									<div class="invite_reviewer_btn_middle" onclick="' . ((int) $pCheckInvited && $pDocumentReviewTypeId != DOCUMENT_NON_PEER_REVIEW ? 'checkReviewersState(' . $pRoundId . ', ' . $lUrl . ', ' . (int) $pDocumentId . ', ' . (int) $pMergeFlag . ', \'' . $pReviewersLock . '\')' : 'openPopUp(' . $lUrl . ')') . '">' . getstr('pjs.se_editiorial_decision_text') . '</div>
+									<div class="invite_reviewer_btn_middle" onclick="' . ((int) $pCheckInvited && $pDocumentReviewTypeId != DOCUMENT_NON_PEER_REVIEW ? 'checkReviewersState(' . $pRoundId . ', ' . $lUrl . ', ' . (int) $pDocumentId . ', ' . (int) $pMergeFlag . ', \'' . $pReviewersLock . '\')' : 'openPopUp(' . $lUrl . ', 0, 0, \'window_' . $pUserVersionId . '\')') . '">' . getstr('pjs.se_editiorial_decision_text') . '</div>
 									<div class="invite_reviewer_btn_right"></div>
 									<div class="P-Clear"></div>
 								</div>
@@ -645,7 +645,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 										' . ($lShowProceedBtn ? '
 										<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
 											<div class="invite_reviewer_btn_left"></div>
-											<div class="invite_reviewer_btn_middle" onclick="' . ((int) $pCheckInvited && $pDocumentReviewTypeId != DOCUMENT_NON_PEER_REVIEW ? 'checkReviewersState(' . $pRoundId . ', ' . $lUrl . ', ' . (int) $pDocumentId . ', ' . (int) $pMergeFlag . ', \'' . $pReviewersLock . '\')' : 'openPopUp(' . $lUrl . ')') . '">' . getstr('pjs.se_editiorial_decision_text') . '</div>
+											<div class="invite_reviewer_btn_middle" onclick="' . ((int) $pCheckInvited && $pDocumentReviewTypeId != DOCUMENT_NON_PEER_REVIEW ? 'checkReviewersState(' . $pRoundId . ', ' . $lUrl . ', ' . (int) $pDocumentId . ', ' . (int) $pMergeFlag . ', \'' . $pReviewersLock . '\')' : 'openPopUp(' . $lUrl . ', 0, 0, \'window_' . $pUserVersionId . '\')') . '">' . getstr('pjs.se_editiorial_decision_text') . '</div>
  											<div class="invite_reviewer_btn_right"></div>
 											<div class="P-Clear"></div>
 										</div>
@@ -839,7 +839,7 @@ function DisplayReviewIcon($pInvitationId, $pDecisionId, $pReviewerId, $pRoundId
 	if((int) $pDecisionId){
 		$lRes .= '
 			<span class="reviewer_act">
-				<img title="{_getstr(View review1)}" onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')" src="../i/review_ready.png"></img>
+				<img title="{_getstr(View review1)}" onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\', 0, 0, \'window_' . $pReviewerVersionId . '\')" src="../i/review_ready.png"></img>
 			</span>';
 		return $lRes;
 	}else{
@@ -852,7 +852,7 @@ function DisplayReviewIcon($pInvitationId, $pDecisionId, $pReviewerId, $pRoundId
 function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState, $pReviewerUsrState, $pDecisionId, $PreviewersAssignmentDuedate, $pReviewerId, $pRoundId, $pDocumentId, $pDocUsrId, $pRoundNumber, $pReviewerVersionId) {
 	$lRes = '';
 	if((int) $pDecisionId){
-		$lRes .= '<span class="reviewer_act"><img title="'.getstr('pjs.tooltips.view_review').'" onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')" src="../i/review_ready.png"></img></span>';
+		$lRes .= '<span class="reviewer_act"><img title="'.getstr('pjs.tooltips.view_review').'" onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\', 0, 0, \'window_' . $pReviewerVersionId . '\')" src="../i/review_ready.png"></img></span>';
 		return $lRes;
 	}
 	if(((int) $pReviewerUsrState != (int) REVIEWER_REMOVED || $pReviewerState == REVIEWER_CANCELLED_BY_SE_STATE || ((int) $pReviewerUsrState == (int) REVIEWER_REMOVED) && $pReviewerState == REVIEWER_INVITATION_NEW_STATE)){
@@ -1564,14 +1564,14 @@ function checkReviewRoundDateLinks($pRoundDueDate, $pUserVersionId, $pRole, $pRo
 		$lReviewersUrl = '/view_document.php?id=' . $pDocumentId . '&view_role=3&mode=1';
 
 		return (($pCanInviteReviewers != 'true' && $pCanInviteReviewers != 't') ? '<a style="cursor: pointer" onclick="window.location.href=\'' . $lReviewersUrl . '\'">Invite reviewers</a> |' : '') . '
-				<a style="cursor: pointer" onclick="' . ((int) $pCheckInvited && $pDocumentReviewTypeId != DOCUMENT_NON_PEER_REVIEW ? 'checkReviewersState(' . $pCurrentRoundId . ', \'' . $lUrl . '\', ' . (int) $pDocumentId . ', ' . (int) $pMergeFlag . ', \'' . $pCanInviteReviewers . '\')' : 'openPopUp(\'' . $lUrl . '\')') . '">Editorial decision</a>';
+				<a style="cursor: pointer" onclick="' . ((int) $pCheckInvited && $pDocumentReviewTypeId != DOCUMENT_NON_PEER_REVIEW ? 'checkReviewersState(' . $pCurrentRoundId . ', \'' . $lUrl . '\', ' . (int) $pDocumentId . ', ' . (int) $pMergeFlag . ', \'' . $pCanInviteReviewers . '\')' : 'openPopUp(\'' . $lUrl . '\', 0, 0, \'window_' . $pUserVersionId . '\')') . '">Editorial decision</a>';
 	}else{
 		$lUrl = '/view_version.php?version_id=' . $pUserVersionId . '&id=' . $pDocumentId . '&view_role=' . $pRole . '&round=' . $pRoundId . '&round_user_id=' . $pRoundUserId . '&duedate=' . $lDueDateArr["datediff_days"];
 		// ~ return '<a style="cursor: pointer"
 		// onclick="confirmDocumentVersionsMergeEditor(' . $pCurrentRoundId . ',
 		// \'' . $lUrl . '\', ' . (int)$pDocumentId . ')">Editorial
 		// decision</a>';
-		return '<a style="cursor: pointer" onclick="' . ((int) $pCheckInvited ? 'checkReviewersState(' . $pCurrentRoundId . ', \'' . $lUrl . '\', ' . (int) $pDocumentId . ', ' . (int) $pMergeFlag . ', \'' . $pCanInviteReviewers . '\')' : 'openPopUp(\'' . $lUrl . '\')') . '">Editorial decision</a>';
+		return '<a style="cursor: pointer" onclick="' . ((int) $pCheckInvited ? 'checkReviewersState(' . $pCurrentRoundId . ', \'' . $lUrl . '\', ' . (int) $pDocumentId . ', ' . (int) $pMergeFlag . ', \'' . $pCanInviteReviewers . '\')' : 'openPopUp(\'' . $lUrl . '\', 0, 0, \'window_' . $pUserVersionId . '\')') . '">Editorial decision</a>';
 		// ~ return '<a href="javascript:openPopUp(\''. $lUrl .'\');">Editorial
 	// decision</a>';
 		// ~ return '<a target="_blank" href="/view_version.php?version_id=' .
@@ -1745,7 +1745,7 @@ function showCurrentVersionAfterCopyEditing($pVersionNumber, $pStateId) {
 
 function showCurrentAuthorVersion($pVersionNumber, $pVersionId, $pDocumentId) {
 	if((int) $pVersionId){
-		$lAuthorVersionLinkStart = '<a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id=' . (int) $pVersionId . '&id=' . (int) $pDocumentId . '&view_role=' . (int) AUTHOR_ROLE . '\')">';
+		$lAuthorVersionLinkStart = '<a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id=' . (int) $pVersionId . '&id=' . (int) $pDocumentId . '&view_role=' . (int) AUTHOR_ROLE . '\', 0, 0, \'window_' . $pVersionId . '\')">';
 		return '
 				<div class="document_author_holder_rev_info_top">
 					<div class="document_author_holder_rev_info_top_left">
@@ -1783,7 +1783,7 @@ function showCurrentAuthorVersionCERound($pDocumentId, $pCEVersionId) {
 							</td>
 							<td align="center">&nbsp;</td>
 							<td align="right">
-								<a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id=' . (int) $pCEVersionId . '&id=' . (int) $pDocumentId . '&view_role=' . (int) CE_ROLE . '\')">View copyedited version</a>
+								<a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id=' . (int) $pCEVersionId . '&id=' . (int) $pDocumentId . '&view_role=' . (int) CE_ROLE . '\', 0, 0, \'window_' . $pCEVersionId . '\')">View copyedited version</a>
 							</td>
 						</tr>
 					</tbody></table>
@@ -2334,7 +2334,7 @@ function checkCommunityPublicDueDate($pReviewProcessType, $pPanelDueDate, $pPubl
 
 function showSeparatorReviewers($pFirstName, $pLastName, $pRecords, $pRownum, $pVersionId) {
 	if((int)$pVersionId) {
-		$lStartReviewer = '<a title="'.getstr('pjs.tooltips.view_review').'" href="javascript: void(0)" onclick="openPopUp(\'/view_version.php?version_id=' . (int)$pVersionId . '\')">';
+		$lStartReviewer = '<a title="'.getstr('pjs.tooltips.view_review').'" href="javascript: void(0)" onclick="openPopUp(\'/view_version.php?version_id=' . (int)$pVersionId . '\', 0, 0, \'window_' . $pVersionId . '\')">';
 		$lEndReviewer = '</a>';
 	}
 
@@ -2531,7 +2531,7 @@ function showReviewerRoundStateObjs($pDecisionId, $pInvitationState, $pUsrRoleNa
 						<td align="center">
 							<div class="invite_reviewer_btn invite_reviewer_btn_E invite_reviewer_btn_E_first">
 								<div class="invite_reviewer_btn_left"></div>
-								<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id=' . $pUsrVersionId . '&view_role=' . $pUsrRoleId . '&round=' . $pRoundNumber . '&round_user_id=' . $pRoundUsrId . '&id=' . $pDocumentId . '\')">See review</div>
+								<div class="invite_reviewer_btn_middle" onclick="openPopUp(\'/view_version.php?version_id=' . $pUsrVersionId . '&view_role=' . $pUsrRoleId . '&round=' . $pRoundNumber . '&round_user_id=' . $pRoundUsrId . '&id=' . $pDocumentId . '\', 0, 0, \'window_' . $pUsrVersionId . '\')">See review</div>
 								<div class="invite_reviewer_btn_right"></div>
 								<div class="P-Clear"></div>
 							</div>

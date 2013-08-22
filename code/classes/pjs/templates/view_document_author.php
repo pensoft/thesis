@@ -510,7 +510,7 @@ $gTemplArr = array(
 					<tbody><tr>
 						<td align="left"><span class="ed_decision_class_holder">Editorial decision</span></td>
 						<td align="center"><span class="ed_decision_val_class_holder">{decision}</span></td>
-						<td align="right"><img src="../i/eye.png"> <a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id={se_version_id}&id={document_id}&view_role=' . (int)SE_ROLE . '\')">{_getstr(pjs.se_version_author_text)}</a></td>
+						<td align="right"><img src="../i/eye.png"> <a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id={se_version_id}&id={document_id}&view_role=' . (int)SE_ROLE . '\', 0, 0, \'window_{se_version_id}\')">{_getstr(pjs.se_version_author_text)}</a></td>
 					</tr>
 				</tbody></table>
 			</div>
@@ -530,7 +530,7 @@ $gTemplArr = array(
 					<tbody><tr>
 						<td align="left"><span class="ed_decision_class_holder">Copy editor version</span></td>
 						<td align="center">&nbsp;</td>
-						<td align="right"><img src="../i/eye.png"> <a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id={copy_editor_version_id}\')">View review</a></td>
+						<td align="right"><img src="../i/eye.png"> <a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id={copy_editor_version_id}\', 0, 0, \'window_{copy_editor_version_id}\')">View review</a></td>
 					</tr>
 				</tbody></table>
 			</div>
@@ -579,7 +579,7 @@ $gTemplArr = array(
 							<tr>
 								<td align="left"><span class="ed_decision_class_holder">Editor decision</span></td>
 								<td align="center"><span class="ed_decision_val_class_holder">{decision_round_name}</span></td>
-								<td align="right"><img src="../i/eye.png"></img> <a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id={se_version_id}&id={document_id}&view_role=' . (int)SE_ROLE . '\')">{_getstr(pjs.se_version_author_text)}</a></td>
+								<td align="right"><img src="../i/eye.png"></img> <a href="javascript:void(0);" onclick="openPopUp(\'/view_version.php?version_id={se_version_id}&id={document_id}&view_role=' . (int)SE_ROLE . '\', 0, 0, \'window_{se_version_id}\')">{_getstr(pjs.se_version_author_text)}</a></td>
 							</tr>
 						</table>
 					</div>
