@@ -1644,6 +1644,7 @@ function scrollToForm(){
 	var lFormEl = $('#P-Version-PopUp-Form');
 	var lElemToScroll = $(lFormEl).find('.errstr:visible:first');
 	if(!lElemToScroll.length){
+		return;
 		lElemToScroll = lFormEl;
 		if(!lFormEl){
 			return;
@@ -2029,7 +2030,8 @@ function initPreviewIframeLoadEvents(pIframeId){
 		resizePreviewIframe(pIframeId);				
 		initPreviewSelectCommentEvent();	
 		fillCommentPos();
-		positionCommentsBase(true);	
+		positionCommentsBase(true);
+		scrollToForm();
 	});
 	window.onresize = function() {
 		resizePreviewIframe(pIframeId);
@@ -2065,7 +2067,7 @@ function GetPreviewSelection(){
 }
 
 function PerformReviewFormAutosaveTimeout(){
-	setTimeout("PerformReviewFormAutosave();PerformReviewFormAutosaveTimeout", 30 * 1000);
+	setTimeout("PerformReviewFormAutosave();PerformReviewFormAutosaveTimeout()", 30 * 1000);
 }
 
 function PerformReviewFormAutosave(){

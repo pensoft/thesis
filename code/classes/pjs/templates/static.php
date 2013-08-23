@@ -3211,4 +3211,11 @@ function stripHTML($pText) {
 	return trim(strip_tags($pText));
 }
 
+function showPollAnswerErrClass($pAnswer, $pUserRole) {
+	if(($_REQUEST['tAction'] == getstr('admin.article_versions.review')) && !$pAnswer && $pUserRole != COMMUNITY_REVIEWER_ROLE) {
+		return 'class="poll_answer_err"';
+	}
+	return '';
+}
+
 ?>
