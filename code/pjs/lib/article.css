@@ -250,14 +250,13 @@ div.table{
 a.download{
   font-weight:bold;
 }
-<<<<<<< HEAD
 
 .P-Localities-Map{
 	height:451px;
 	width:451px;
 	margin:0px auto;	
 }
-=======
+
 .refinder-link-holder{
 	margin-top:15px;
 	margin-left:15px;	
@@ -292,5 +291,3 @@ a.download{
 	background-color: #EEECE5;
 	cursor:pointer;
 }
-
->>>>>>> bd28a8f9e5529109ef705b316bd683397c4b088c
