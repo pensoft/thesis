@@ -291,3 +291,42 @@ a.download{
 	background-color: #EEECE5;
 	cursor:pointer;
 }
+.P-Localities-Menu{
+	margin:20px 15px 0 15px;
+}
+.P-Localities-Menu-Row{
+	margin-top:15px;
+	font-size: 12pt;
+	cursor:pointer;
+}
+.P-Localities-Menu-Row-taxa{
+	margin-top:15px;
+	margin-left:15px;
+	font-size: 12pt;
+	cursor:pointer;
+}
+.P-Localities-Menu-Row-Clear{
+	margin-top:15px;
+	font-weight: normal;
+	margin-left: 5px;
+	color:#0052CC;
+	font-size: 12pt;
+	cursor:pointer;
+}
+.AOF-Single-Author-Preview{
+	margin:15px;
+}
+.AOF-Author-Details{
+	margin-top:10px;
+}
+.AOF-Author-Name{
+	margin-top:10px;
+	font-size: 12pt;
+}
+.AOF-Author-Affiliation{
+	font-size: 10pt;
+	font-style: italic;
+}
+.AOF-Author-Site{
+	font-size: 10pt;
+}

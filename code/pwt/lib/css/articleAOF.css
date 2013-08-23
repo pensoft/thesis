@@ -414,7 +414,7 @@ xref[type='bibr'] {
 	color:#0052CC;
 }
 
-xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[type='suppl']:hover {
+xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[type='suppl']:hover, .locality-coordinate:hover {
 	background:#FEF1B5;
 	cursor:pointer;
 }
@@ -431,4 +431,7 @@ xref[type='fig'], xref[type='table'], xref[type='suppl'] {
 
 .citations-holder{
 
+}
+.locality-coordinate{
+	color:#0052CC;
 }
