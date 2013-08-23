@@ -530,24 +530,33 @@ class carticle_preview_generator extends csimple {
 		if(!count($lInstancesWithCoordinates)){
 			$lInstancesWithCoordinates[] = 0;
 		}
-		$lSql = '
-			SELECT id, display_name
-			FROM pwt.document_object_instances i
-			WHERE i.document_id = ' . (int)$this->m_pwtDocumentId . ' AND i.id IN (' . implode(',', $lInstancesWithCoordinates) . ')
-			ORDER BY i.pos ASC
-		';
-		$lPreview = new crs(array(			
-			'sqlstr' => $lSql,
-			'templs' => array (
-				G_HEADER => 'article.localities_list_head',
-				G_FOOTER => 'article.localities_list_foot',
-				G_STARTRS => 'article.localities_list_start',
-				G_ENDRS => 'article.localities_list_end',
-				G_NODATA => 'article.localities_list_nodata',
-				G_ROWTEMPL => 'article.localities_list_row'
-			),
-			'document_id' => $this->m_pwtDocumentId,
-		));
+		if(count($this->m_articleLocalities)){
+			$lSql = '
+				SELECT id, display_name
+				FROM pwt.document_object_instances i
+				WHERE i.document_id = ' . (int)$this->m_pwtDocumentId . ' AND i.id IN (' . implode(',', $lInstancesWithCoordinates) . ')
+				ORDER BY i.pos ASC
+			';
+			$lPreview = new crs(array(			
+				'sqlstr' => $lSql,
+				'templs' => array (
+					G_HEADER => 'article.localities_list_head',
+					G_FOOTER => 'article.localities_list_foot',
+					G_STARTRS => 'article.localities_list_start',
+					G_ENDRS => 'article.localities_list_end',
+					G_NODATA => 'article.localities_list_nodata',
+					G_ROWTEMPL => 'article.localities_list_row'
+				),
+				'document_id' => $this->m_pwtDocumentId,
+			));
+		}else{
+			$lPreview = new csimple(array(				
+				'templs' => array (
+					G_DEFAULT => 'article.localities_nolocalities',
+				),
+				'document_id' => $this->m_pwtDocumentId,
+			));
+		}
 		$this->m_localitiesListPreview = $lPreview->Display();
 		
 // 		var_dump($this->m_localitiesListPreview);

@@ -84,19 +84,21 @@ $gTemplArr = array (
 					<input type="checkbox" name="active-localities" value="-2"/> All 
 				</div>
 				<div class="P-Localities-Menu-Row">
-					<input type="checkbox" name="active-localities" value="-1"/> All taxa
+					<input type="checkbox" name="active-localities" value="-1"/>' . getstr('pjs.articleLocalitiesAllLocalities') . '
 				</div>
 	',
 		'article.localities_list_foot' => '
 				<div class="P-Localities-Menu-Row-Clear">
-					<span class="P-Clear-Localities">Clear all</span>
+					<span class="P-Clear-Localities">' . getstr('pjs.articleLocalitiesClear') . '</span>
 				</div>
 			</div>
 		</div>
 		<script>PlaceLocalitiesMenuEvents();</script>
 	',
 		'article.localities_list_start' => '
-	
+				<div class="P-Localities-Menu-Row">
+					<input type="checkbox" name="active-localities" value="-1"/>' . getstr('pjs.articleLocalitiesAllTaxa') . '
+				</div>
 	',
 		'article.localities_list_end' => '
 	
@@ -108,6 +110,17 @@ $gTemplArr = array (
 				<div class="P-Localities-Menu-Row-taxa">
 					<input type="checkbox" name="active-localities" value="{id}"/> {display_name}
 				</div>
+	',
+	
+	'article.localities_nolocalities' => '
+		<div class="P-Article-Structures">
+			<div class="P-Article-StructureHead">Localities</div>			
+			<div class="P-Localities-Menu">
+				<div class="P-Localities-Menu-Row">
+					<span class="P-Clear-Localities">' . getstr('pjs.articleNoLocalities') . '</span>
+				</div>
+			</div>
+		</div>
 	',
 )	
 ;

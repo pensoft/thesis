@@ -1,16 +1,15 @@
-
 p{
 	margin:0px;
 }
 
 
-body{
+html, body{
 	overflow-y: hidden;
-	background: linear-gradient(to bottom, rgb(223, 221, 221) 20%, rgb(241, 241, 241) 100%) no-repeat fixed 0 0 / 200% 600px rgb(241, 241, 241);
+	background: none repeat scroll 0 0 #B5B5AE;
 }
 
 .Main-Content{
-	margin-top:50px;
+	margin-top:70px;
 	/*background-color: #ccf;*/
 	width: 1360px;
 	position: fixed;
@@ -21,7 +20,7 @@ body{
 }
 
 .P-Info-Content{
-	
+	margin-top: 40px;
 }
 
 .P-Article-Info-Bar {
@@ -55,12 +54,12 @@ body{
 
 .P-Info-Menu {
 	position: fixed;
-	top: 50px;	
+	top: 70px;	
 	margin-top: 0px;
 	background: #E4E4DD;
 	z-index: 10;
 	width: 500px;
-	height: 25px;
+	height: 60px;
 	padding-top: 10px;
 	padding-left:0px;
 	padding-right:0px;  
