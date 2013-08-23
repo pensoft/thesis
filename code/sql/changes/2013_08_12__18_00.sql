@@ -115,6 +115,7 @@ CREATE TABLE pjs.article_instance_localities(
 );
 GRANT ALL ON pjs.article_instance_localities TO iusrpmt;
 
+ALTER TABLE pjs.document_users ADD COLUMN zoobank_id varchar;
 
 /* Stored procedures
 	pjs.spSaveArticleFigurePreview

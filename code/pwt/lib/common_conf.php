@@ -497,4 +497,5 @@ define('PENSOFT_MAIL_DISPLAY_DOCUMENT_SUBMISSION', 'preprint@pensoft.net');
 //define('PENSOFT_MAIL_ADDR_DOCUMENT_SUBMISSION', 'vic.penchev@gmail.com');
 //define('PENSOFT_MAIL_DISPLAY_DOCUMENT_SUBMISSION', 'vic.penchev@gmail.com');
 define('PJS_AUTHOR_ROLE_ID', 11);
+define('PJS_SE_ROLE_ID', 3);
 ?>

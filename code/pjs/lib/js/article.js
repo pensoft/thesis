@@ -170,8 +170,7 @@ function LoadAuthorInfo(pElementId){
 //	LoadElementInfo('get_author_element', 4);
 }
 
-function initArticlePreviewOnLoadEvents(){
-	LoadArticleMenuMainElement(gContentsMenuElementType);	
+function initArticlePreviewOnLoadEvents(){	
 	resizePreviewIframe(gArticlePreviewIframeId);	
 	PlaceTaxonNameEvents();
 	PlaceFigureEvents();
