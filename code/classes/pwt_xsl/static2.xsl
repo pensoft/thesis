@@ -1183,10 +1183,10 @@
 					<xsl:apply-templates select="." mode="RefinderLinksAdvanced"/>	
 				</xsl:when>
 				<xsl:when test="$lArticleType = 2">
-					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>	
+					<xsl:apply-templates select="." mode="RefinderLinksAdvanced"/>	
 				</xsl:when>
 				<xsl:when test="$lArticleType = 3">
-					Simple	
+					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>	
 				</xsl:when>
 				<xsl:when test="$lArticleType = 4">
 					Simple	
@@ -1209,6 +1209,19 @@
 		</xsl:template>
 		
 		<xsl:template match="*" mode="RefinderLinksAdvanced">
+			<xsl:variable name="lArticleType">
+				<xsl:choose>
+					<xsl:when test="./*[@object_id='97']/*[@object_id='102']">1</xsl:when> <!-- Journal article -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='98']">2</xsl:when> <!-- Book -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='99']">3</xsl:when> <!-- Book chapter -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='103']">4</xsl:when> <!-- Conference paper -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='105']">5</xsl:when> <!-- Conference proceedings -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='106']">6</xsl:when> <!-- Thesis -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='107']">7</xsl:when> <!-- Software reference -->
+					<xsl:when test="./*[@object_id='97']/*[@object_id='108']">8</xsl:when> <!-- Website reference -->
+				</xsl:choose>
+			</xsl:variable>
+			
 			<xsl:variable name="lAuthorshipType">
 					<xsl:choose>
 						<xsl:when test="count(.//*[@object_id='92']) &gt; 0">
@@ -1249,13 +1262,21 @@
 					<xsl:apply-templates select=".//fields/*[@id='243']/value" mode="formatting_nospace"/>
 				</xsl:variable>
 				
+				<xsl:variable name="refType">
+					<xsl:if test="$lArticleType = 1">
+						<xsl:text>article</xsl:text></xsl:if> 
+					<xsl:if test="$lArticleType = 2"><xsl:text>book</xsl:text></xsl:if>
+				</xsl:variable>
+				
 				<div class="refinder-link-holder">
 					<a class="refinder-link" target="_blank"> 
 						<xsl:attribute name="href">
-							<xsl:text>http://192.168.83.8:5000/find?search=advanced&amp;author=</xsl:text><xsl:value-of select="$Authors" />
-							<xsl:text>&amp;year=</xsl:text><xsl:value-of select="$refYear" />
-							<xsl:text>&amp;title=</xsl:text><xsl:value-of select="$refTitle" />
-							<xsl:text>&amp;origin=</xsl:text><xsl:value-of select="$journal" />
+							<xsl:text>http://192.168.83.8:5000/find?search=advanced</xsl:text>
+							<xsl:text>&amp;author=</xsl:text><xsl:value-of select="normalize-space($Authors)" />
+							<xsl:text>&amp;year=</xsl:text><xsl:value-of select="normalize-space($refYear)" />
+							<xsl:text>&amp;title=</xsl:text><xsl:value-of select="normalize-space($refTitle)" />
+							<xsl:text>&amp;origin=</xsl:text><xsl:value-of select="normalize-space($journal)" />
+							<xsl:text>&amp;refType=</xsl:text><xsl:value-of select="$refType" />
 						</xsl:attribute>
 						Search via ReFinder
 					</a>
@@ -1264,14 +1285,13 @@
 			</xsl:template>	
 			
 		
-		
 		<xsl:template match="*" mode="processSingleReferenceAuthorFullNames">
 			<xsl:variable name="lAuthorParsedName">
+				<!-- First name -->
+				<xsl:value-of select="./fields/*[@id='251']/value"></xsl:value-of>
+				<xsl:text> </xsl:text>
 				<!-- Last name -->
 				<xsl:value-of select="./fields/*[@id='252']/value"></xsl:value-of>
-				<xsl:text> </xsl:text>
-				<!-- Initials of first name -->
-				<xsl:value-of select="./fields/*[@id='251']/value"></xsl:value-of>
 			</xsl:variable>
 			<span>
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>

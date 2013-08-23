@@ -20,16 +20,21 @@ body{
 	bottom: 0;
 }
 
+.P-Info-Content{
+	
+}
+
 .P-Article-Info-Bar {
 	width: 500px;
 	border-left: 1px solid #e2e2dc;
 	border-left: 1px solid #F4F4F1;
 	z-index: 0;
 	position: absolute;
-	top: 0; bottom: 0; right: 20px;  background-color: white;
+	top: 0; bottom: 0; right: 20px;  background-color: #FEFBF3;
 	overflow-y: auto;
 	overflow-x: hidden;
 	font-family: Calibri;
+	margin-top:35px;
 }
  
 #article-preview {
@@ -49,25 +54,29 @@ body{
 }
 
 .P-Info-Menu {
-	position: fixed;	
+	position: fixed;
+	top: 50px;	
 	margin-top: 0px;
 	background: #E4E4DD;
 	z-index: 10;
+	width: 500px;
+	height: 25px;
+	padding-top: 10px;
+	padding-left:0px;
+	padding-right:0px;  
 }
 
 .P-Info-Menu li{
 	cursor:pointer;
+	display:inline;
+	font-size: 10.5pt;
+	padding: 8px 5px 7px 5px;
+	border-radius: 5px 5px 0px 0px;
 }
 
 .P-Info-Menu .P-Active-Menu{
 	background:white;
 }
-
-.P-Info-Content{
-	margin-top:130px;
-}
-
-
 .P-table-tump-holder {
     margin-right: 10px;
     min-height: 48px;
@@ -76,8 +85,6 @@ body{
     background-color: white;
     margin-bottom: 6px;
 }
-
-
 .P-Picture-Holder {
 	border: 1px solid #BBBBBB;
     border-radius: 5px 5px 5px 5px;
@@ -250,3 +257,31 @@ a.download{
 	font-weight: bold;
 	font-size: 12pt;
 }
+.AOF-Content-holder {
+    font-size: 12pt;
+}
+.AOF-Content-holder > ul {
+	padding:15px;
+	margin:15px;
+}
+#AOF-articleMenu{
+	padding: 0;
+}
+#AOF-articleMenu li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#AOF-articleMenu div {
+	padding: 5px 50px;
+	margin: 0 -50px;
+}
+#AOF-articleMenu ul {
+    padding:0 20px;
+}
+
+#AOF-articleMenu div:hover{
+	background-color: #EEECE5;
+	cursor:pointer;
+}
+

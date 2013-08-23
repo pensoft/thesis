@@ -202,7 +202,7 @@ function PlaceReferencesEvents(){
 	});
 }
 
-function ScrollArticleToInstance(pInstanceId){
+function ScrollArticleToInstance(pInstanceId){console.log(pInstanceId)
 	var lFirstInstanceElement = GetArticlePreviewContent().find('*[instance_id=' + pInstanceId + ']').first();
 	if(!lFirstInstanceElement.length){
 		return;

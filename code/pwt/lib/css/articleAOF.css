@@ -31,7 +31,7 @@ html {
 body {
   margin: 0;
   font-size: 12pt;
-  /*overflow-y: hidden;*/
+  overflow-y: hidden;
 }
 .P-Article-Preview-Base-Info-Block {
   margin-top: 10px;
