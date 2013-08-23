@@ -49,6 +49,9 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 				case 'get_author_element' :
 					$this->GetAuthorElement();
 					break;
+				case 'get_article_localities':
+					$this->GetArticleLocalities();
+					break;
 					
 			}
 		}
@@ -160,6 +163,10 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 
 	function GetAuthorElement() {
 		$this->GetElement((int) ARTICLE_MENU_ELEMENT_TYPE_AUTHORS);
+	}
+	
+	function GetArticleLocalities(){
+		$this->m_action_result ['localities'] = $this->m_articlesModel->GetLocalities($this->m_articleId);
 	}
 }
 

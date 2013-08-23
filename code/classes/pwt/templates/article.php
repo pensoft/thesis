@@ -78,7 +78,44 @@ $gTemplArr = array (
 				</ul>				
 			</li>
 	',
-)
+	
+	//Localities
+	'article.localities_list_head' => '
+		<div class="P-Article-Structures">
+			<div class="P-Article-StructureHead">Localities</div>
+			<div class="P-Localities-Map" id="localitiesMap"></div>			
+			<script>LoadMapScript()</script>
+			<div class="P-Localities-Menu">
+				<div class="P-Localities-Menu-Row">
+					<input type="checkbox" name="active-localities" value="-2"/>All
+				</div>
+				<div class="P-Localities-Menu-Row">
+					<input type="checkbox" name="active-localities" value="-1"/>All taxa
+				</div>
+	',
+		'article.localities_list_foot' => '
+				<div class="P-Localities-Menu-Row">
+					<span class="P-Clear-Localities">Clear</span>
+				</div>
+			</div>
+		</div>
+		<script>PlaceLocalitiesMenuEvents();</script>
+	',
+		'article.localities_list_start' => '
+	
+	',
+		'article.localities_list_end' => '
+	
+	',
+		'article.localities_list_nodata' => '
+	
+	',
+		'article.localities_list_row' => '
+				<div class="P-Localities-Menu-Row">
+					<input type="checkbox" name="active-localities" value="{id}"/>{display_name}
+				</div>
+	',
+)	
 ;
 
 ?>

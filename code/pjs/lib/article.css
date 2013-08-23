@@ -243,3 +243,9 @@ div.table{
 a.download{
   font-weight:bold;
 }
+
+.P-Localities-Map{
+	height:451px;
+	width:451px;
+	margin:0px auto;	
+}

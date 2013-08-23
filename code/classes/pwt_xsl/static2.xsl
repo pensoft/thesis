@@ -366,13 +366,13 @@
    			<!-- verbatimLocality or verbatimLongitude -->
    			<xsl:choose>
 	   			<xsl:when test="count(../field[@id=132]) = 0 or count(../field[@id=133]) = 0">
-	   				<!-- Both longitude and latitude are present -->
+	   				<!-- One of longitude and latitude is not present -->
 	   				<xsl:copy-of select="$lContent"></xsl:copy-of>
 	   			</xsl:when>
 	   			<xsl:otherwise>
 	   				<!-- Both longitude and latitude are present -->
-	   				<xsl:variable name="lLongitude"><xsl:value-of select="../field[@id=133]"/></xsl:variable>
-	   				<xsl:variable name="lLatitude"><xsl:value-of select="../field[@id=132]"/></xsl:variable>
+	   				<xsl:variable name="lLongitude"><xsl:value-of select="php:function('parseLocalityCoordinate', string(../field[@id=133]))"/></xsl:variable>
+	   				<xsl:variable name="lLatitude"><xsl:value-of select="php:function('parseLocalityCoordinate', string(../field[@id=132]))"/></xsl:variable>
 	   				<span class="locality-coordinate">
 				      	<xsl:attribute name="data-longitude"><xsl:value-of select="$lLongitude"></xsl:value-of></xsl:attribute>
 				      	<xsl:attribute name="data-latitude"><xsl:value-of select="$lLatitude"></xsl:value-of></xsl:attribute>
@@ -1050,8 +1050,8 @@
 	    <xsl:choose>
 	     <xsl:when test="$lLocalName='locality-coordinates'">
 		      <span class="locality-coordinate">
-		      	<xsl:attribute name="data-longitude"><xsl:value-of select="@longitude"></xsl:value-of></xsl:attribute>
-		      	<xsl:attribute name="data-latitude"><xsl:value-of select="@latitude"></xsl:value-of></xsl:attribute>
+		      	<xsl:attribute name="data-longitude"><xsl:value-of select="php:function('parseLocalityCoordinate', string(@longitude))"></xsl:value-of></xsl:attribute>
+		      	<xsl:attribute name="data-latitude"><xsl:value-of select="php:function('parseLocalityCoordinate', string(@latitude))"></xsl:value-of></xsl:attribute>
 		      	<xsl:attribute name="data-is-locality-coordinate">1</xsl:attribute>
 		      	<xsl:copy-of select="$lChildContent"/>
 		      </span>

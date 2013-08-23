@@ -2081,3 +2081,24 @@ function PerformReviewFormAutosave(){
 		}		
 	});
 }
+
+/**
+ * Returns an array containing all the elements of pArrayA which are not in pArrayB
+ * @param pArrayA
+ * @param pArrayB
+ */
+function arrayDiff(pArrayA, pArrayB) {
+	var lTemp = [], lResult = [];
+	for ( var i = 0; i < pArrayA.length; i++) {
+		lTemp[pArrayA[i]] = true;
+	}
+	for ( var i = 0; i < pArrayB.length; i++) {
+		if (lTemp[pArrayB[i]]) {
+			delete lTemp[pArrayB[i]];
+		}
+	}
+	for ( var k in lTemp) {
+		lResult.push(k);
+	}
+	return lResult;
+}

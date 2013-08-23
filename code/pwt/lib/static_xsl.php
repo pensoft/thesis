@@ -678,4 +678,92 @@ function GetInstancePreview($pInstanceId){
 // 	var_dump($gInstancePreviews, $pInstanceId);
 	return $gInstancePreviews[$pInstanceId];
 }
+
+/**
+ * Returns the coordinate in the decimal notation
+ * @param unknown $pCoordinate
+ */
+function parseLocalityCoordinate($pCoordString){
+	$lMinSymbol = '[’\'`]';
+	$lSecondsSymbol = '([’\'`]{2}|["])';
+	$lDegSymbol = '[°°]';
+	$lPatterns = array();
+	$lPatterns[] = '/'
+			. '(?P<coord_name1>[sewn])?\s*'
+			. '(?P<degs>[+-]?\d+(\.(\d)*)?)\s*' . $lDegSymbol .'\s*'
+			. '((?P<minutes>(\d)+(\.(\d)*)?)\s*' . $lMinSymbol . ')\s*'
+			. '((?P<seconds>(\d)+(\.(\d)*)?)\s*' . $lSecondsSymbol . ')\s*'
+			. '(?P<coord_name2>[sewn])?'
+			. '/iu';//1.Example 1: “36° 31' 21.4" N   (DMS)
+	$lPatterns[]  = '/'
+			. '(?P<coord_name1>[sewn])?\s*'
+			. '(?P<degs>[+-]?\d+(\.(\d)*)?)\s*' . $lDegSymbol .'\s*'
+			. '((?P<minutes>(\d)+(\.(\d)*)?)\s*' . $lMinSymbol . ')\s*'
+			. '(?P<seconds>(\d)+(\.(\d)*)?)\s*'
+			. '(?P<coord_name2>[sewn])?'
+			. '/iu';//1.Example 1: “36° 31' 21.4 N   (DMS)
+	$lPatterns[]  = '/'
+			. '(?P<coord_name1>[sewn])?\s*'
+			. '(?P<degs>[+-]?\d+(\.(\d)*)?)\s*' . $lDegSymbol .'\s*'
+			. '((?P<minutes>(\d)+(\.(\d)*)?)\s*' . $lMinSymbol . ')\s*'
+			. '(?P<coord_name2>[sewn])?'
+			. '/iu';//1.Example 1: “36° 31.5' N   (DM)
+	$lPatterns[]  = '/'
+			. '(?P<coord_name1>[sewn])?\s*'
+			. '(?P<degs>[+-]?\d+(\.(\d)*)?)\s*' . $lDegSymbol .'\s*'
+			. '((?P<minutes>(\d)+(\.(\d)*)?))\s*'
+			. '(?P<coord_name2>[sewn])?'
+			. '/iu';//1.Example 1: “36° 31.5N   (DM)
+	$lPatterns[]  = '/'
+			. '(?P<coord_name1>[sewn])?\s*'
+			. '(?P<degs>[+-]?\d+(\.(\d)*)?)\s*' . $lDegSymbol .'\s*'
+			. '(?P<coord_name2>[sewn])?'
+			. '/iu';//1.Example 1: “36.3° N   (D)
+	$lPatterns[]  = '/'
+			. '(?P<coord_name1>[sewn])?\s*'
+			. '(?P<degs>[+-]?\d+(\.(\d)*)?)\s*'
+			. '(?P<coord_name2>[sewn])?'
+			. '/iu';//1.Example 1: “36.3 N   (D)
+	/**
+	 Горния паттерн хваща следните формати (хваща и случаите когато полукълбото е отпред)
+	 1.Example 1: “36° 31' 21.4" N; 114° 09' 50.6" W“    (DMS)
+	 2. Example 2: “36° 31.4566’N; 114° 09.8433’W”        (DDM)
+	 3. Example 3: “36.524276° S; 114.164055° W”          (DD)
+	 */
+	foreach( $lPatterns as $lPattern ){
+		if( preg_match( $lPattern, $pCoordString, $lCoordData )){
+			//~ echo 1;
+			//~ var_dump($lPattern);
+			//~ var_dump($pCoordString);
+			//~ echo '<br/>';
+			$lHemisphere = $lCoordData['coord_name1'];
+			if( $lHemisphere == '' )
+				$lHemisphere = $lCoordData['coord_name2'];
+			$lDeg = (float)$lCoordData['degs'];
+			$lMin = (float)$lCoordData['minutes'];
+			$lSec = (float)$lCoordData['seconds'];
+			$lHemisphere = mb_strtolower($lHemisphere);
+			if( $lHemisphere != '' ){//Имаме полукълбо				
+				if( $lHemisphere == 's' || $lHemisphere == 'w' )//обръщаме резултата понеже е в обратното полукълбо
+					$lDeg = - $lDeg;
+			}
+			$lDDCoord = ConvertCoordinatesToDD($lDeg, $lMin, $lSec);
+			return (float)$lDDCoord;
+		}
+	}
+	/**
+	 Хващаме случая когато работим с DD (decimal degrees);
+	 Example 4: “−36.524276; −114.164055“
+	 */
+	return (float) $pCoordString;
+}
+
+function ConvertCoordinatesToDD($pDegs = 0, $pMinutes = 0, $pSeconds = 0){
+	$lResult = (float) $pDegs;
+	if( $lResult > 0 )
+		$lResult += (float)$pMinutes / 60 + (float) $pSeconds / 3600;
+	else
+		$lResult -= (float)$pMinutes / 60 + (float) $pSeconds / 3600;
+	return $lResult;
+}
 ?>
