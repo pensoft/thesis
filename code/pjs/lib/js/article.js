@@ -280,6 +280,7 @@ function PlaceReferencesEvents(){
 	});
 }
 
+
 function PlaceLocalitiesEvents(){
 	GetArticlePreviewContent().find('*[data-is-locality-coordinate]').each(function(pIdx, pLocalityNode){
 		$(pLocalityNode).bind('click', function(){

@@ -2,12 +2,12 @@
 $gTemplArr = array (
 	// Authors
 	'article.single_author_preview_row' => '
-		<div class="P-Single-Author-Preview">
-			<div class="P-Author-Pic">{_showPicIfExists(photo_id, c30x30y)}</div>
-			<div class="P-Author-Details">
-				<div class="P-Author-Name">{first_name} {middle_name} {last_name}</div>
-				<div class="P-Author-Affiliation">{affiliation} {city} {country}</div>
-				<div class="P-Author-Site">{website}</div>
+		<div class="AOF-Single-Author-Preview">
+			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, singlefigmini)}</div>
+			<div class="AOF-Author-Details">
+				<div class="AOF-Author-Name">{first_name} {middle_name} {last_name}</div>
+				<div class="AOF-Author-Affiliation">{affiliation} {city} {country}</div>
+				<div class="AOF-Author-Site">{website}</div>
 			</div>
 			<div class="P-Clear"></div>
 		</div>
@@ -36,9 +36,8 @@ $gTemplArr = array (
 	// Contents
 	
 	'article.contents_list_head' => '
-		<div class="P-Article-Structures">
-			<div class="P-Article-StructureHead">Contents</div>
-			<ul id="articleMenu">
+		<div class="AOF-Content-holder">
+			<ul id="AOF-articleMenu">
 	',
 	'article.contents_list_foot' => '
 			</ul>			
@@ -55,25 +54,19 @@ $gTemplArr = array (
 	',
 	'article.contents_list_row' => '
 			<li id="{instance_id}" >
-				<div class="{_displayDocumentTreeDivClass(11111, 0, level, has_children, 0, instance_id, document_id)}">
-					<a onclick="ScrollArticleToInstance({instance_id});return false;">{object_name}</a>
-				</div>
+				<div class="1" onclick="ScrollArticleToInstance({instance_id});return false;">{object_name}</div>
 			</li>
 	',
 	
 	'article.contents_list_row0' => '
 			<li id="{instance_id}" >
-				<div class="{_displayDocumentTreeDivClass(11111, 0, level, has_children, 0, instance_id, document_id)}">
-					<a onclick="ScrollArticleToInstance({instance_id});return false;">{display_name}</a>
-				</div>
+				<div class="2" onclick="ScrollArticleToInstance({instance_id});return false;">{display_name}</div>
 			</li>
 	',
 	'article.contents_list_row1' => '
-			<li id="{instance_id}">
-				<div class="{_displayDocumentTreeDivClass(11111, 0, level, has_children, 0, instance_id, document_id)}">
-					<a onclick="ScrollArticleToInstance({instance_id});return false;">{display_name}</a>
-				</div>
-				<ul class="{_displayShowHideClass(instance_id)}">
+			<li id="{instance_id}" >
+				<div class="3" onclick="ScrollArticleToInstance({instance_id});return false;">{display_name}</div>
+				<ul class="">
 					{&}
 				</ul>				
 			</li>

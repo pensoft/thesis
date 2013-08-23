@@ -7,6 +7,7 @@
  * @version 1.2.1
  * 
  */
+define('EVENT_ACTIONS_FLAG', 0);
 class cTask_Manager extends cBase_Controller {
 	
 	/**
@@ -316,8 +317,11 @@ class cTask_Manager extends cBase_Controller {
 		
 		$this->m_eventDataArr = $this->GetEventData();
 		
-		// exec event actions here 
-		$this->ExecEventActions();
+		// exec event actions here
+		if(EVENT_ACTIONS_FLAG == 1) {
+			//trigger_error('TEST: EVENTS!!!', E_USER_NOTICE);
+			$this->ExecEventActions();	
+		} 
 		
 		//trigger_error('ERRORS1: ' . $this->m_errCnt, E_USER_NOTICE);
 		//trigger_error('GetEventData() DEBUG POINT', E_USER_NOTICE);
