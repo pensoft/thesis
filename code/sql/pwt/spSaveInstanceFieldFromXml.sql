@@ -14,6 +14,7 @@ $BODY$
 DECLARE
 	lRes ret_spSaveInstanceFieldFromXml;
 	lTemp xml[];
+	lTempAttributes xml[];
 	
 	lFieldIntType int := 1;
 	lFieldIntArrType int := 6;
@@ -34,6 +35,8 @@ DECLARE
 	lValueStrArr text[];
 	lValueDate date;
 	lValueDateArr date[];
+	
+	lValueId int;
 	
 	lDefaultStrSeparator text := ',';
 	lTempIntArray int[];
@@ -58,6 +61,7 @@ DECLARE
 	
 BEGIN
 	
+	
 	RAISE NOTICE 'UPDATE FIELD InstanceId %, FieldId %, Xml %', pInstanceId, pFieldId, pFieldXml;
 	
 	SELECT INTO lRecord f.type, ofi.control_type, ofi.data_src_id, s.query, ct.is_html
@@ -71,23 +75,22 @@ BEGIN
 	lFieldIsHtml = lRecord.is_html;
 	
 	lTemp = xpath('/*/value/text()', pFieldXml);
+	lTempAttributes = xpath('/*/value/@value_id', pFieldXml);
 	
 	
 	IF lRecord.type = lFieldIntType THEN
 		IF lRecord.data_src_id IS NOT NULL THEN
 			lTempText2 = HtmlSpecialCharsDecode(lTemp[1]::text);
 			lTempText = lower(translate(lTempText2, ' ,.-*', ''));
-			IF coalesce(lTempText, '') <> '' THEN
+			SELECT INTO lValueId * FROM spConvertAnyToInt(lTempAttributes[1]);
+			
+			IF lValueId IS NOT NULL THEN
 				lSql = replace(lRecord.query, '{value}', quote_literal(lTempText2));
 				lSql = 'SELECT a.*, 1 as is_equal  
 					FROM (' || lSql || ')a 
-					WHERE lower(translate(a.name::text, '' ,.-*'', '''')) = ' ||quote_literal(lTempText) || '
+					WHERE a.id = ' ||quote_literal(lValueId) || '
 					';
-				-- RAISE NOTICE 'SQL %, query %', lSql, lRecord.query;
-				--OPEN lDataSrcCursor FOR EXECUTE replace(lRecord.query, '{value}', quote_literal(lTemp[1]::text));			
-				OPEN lDataSrcCursor FOR EXECUTE lSql;			
-				
-				
+				OPEN lDataSrcCursor FOR EXECUTE lSql;								
 				FETCH lDataSrcCursor INTO lTempRecord;
 				
 				-- RAISE NOTICE 'Query %, Record %, is not null %, text %', lRecord.query, lTempRecord, not(lTempRecord IS NULL), lTempText;
@@ -105,8 +108,40 @@ BEGIN
 					END IF;
 					FETCH lDataSrcCursor INTO lTempRecord;
 				END LOOP;
-				CLOSE lDataSrcCursor;			
-				
+				CLOSE lDataSrcCursor;	
+			END IF;
+			
+			IF lValueInt IS NULL THEN
+				IF coalesce(lTempText, '') <> '' THEN
+					lSql = replace(lRecord.query, '{value}', quote_literal(lTempText2));
+					lSql = 'SELECT a.*, 1 as is_equal  
+						FROM (' || lSql || ')a 
+						WHERE lower(translate(a.name::text, '' ,.-*'', '''')) = ' ||quote_literal(lTempText) || '
+						';					
+					-- RAISE NOTICE 'SQL %, query %', lSql, lRecord.query;
+					--OPEN lDataSrcCursor FOR EXECUTE replace(lRecord.query, '{value}', quote_literal(lTemp[1]::text));			
+					OPEN lDataSrcCursor FOR EXECUTE lSql;			
+					
+					
+					FETCH lDataSrcCursor INTO lTempRecord;
+					
+					-- RAISE NOTICE 'Query %, Record %, is not null %, text %', lRecord.query, lTempRecord, not(lTempRecord IS NULL), lTempText;
+					WHILE NOT(lTempRecord IS NULL)
+					LOOP
+						/*RAISE NOTICE 'name %, xml_name %', lTempRecord.name::character varying, lTempText;
+						IF lower(translate(lTempRecord.name, ' ,.-*', '')) = lTempText THEN
+							lValueInt = lTempRecord.id;
+							-- RAISE NOTICE 'Valint %', lValueInt;
+							EXIT;
+						END IF;*/
+						IF lTempRecord.is_equal = 1 THEN
+							lValueInt = lTempRecord.id;
+							EXIT;
+						END IF;
+						FETCH lDataSrcCursor INTO lTempRecord;
+					END LOOP;
+					CLOSE lDataSrcCursor;			
+				END IF;
 			END IF;
 		ELSE
 			SELECT INTO lValueInt * FROM spConvertAnyToInt(lTemp[1]);
