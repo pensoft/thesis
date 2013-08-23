@@ -191,6 +191,46 @@ class mArticles extends emBase_Model {
 		return $this->m_con->mRs['cached_val'];
 	}
 	
+	/**
+	 * Returns an array of all the localities in the article in the following format
+	 * 	locality_id => array(
+	 * 		id => locality_id
+	 * 		longitude => locality_longitude,
+	 * 		latitude => locality_latitude,
+	 * 		instance_ids => array containing the ids of all instances in which the locality is cited
+	 * )
+	 */
+	function GetLocalities($pArticleId){
+		$lResult = array();
+		$lSql = '
+			SELECT l.id, l.longitude, l.latitude, il.instance_id
+			FROM pjs.article_localities l
+			LEFT JOIN pjs.article_instance_localities il ON il.locality_id = l.id
+			WHERE l.article_id = ' . (int)$pArticleId . '
+			ORDER BY id ASC
+		';		
+// 		var_dump($lSql);
+		$this->m_con->Execute($lSql);
+		while(!$this->m_con->Eof()){
+			$lLocalityId = $this->m_con->mRs['id'];
+			if(!array_key_exists($lLocalityId, $lResult)){
+				$lResult[$lLocalityId] = array(
+					'id' => $lLocalityId,
+					'longitude' => (float)$this->m_con->mRs['longitude'],
+					'latitude' => (float)$this->m_con->mRs['latitude'],
+					'instance_ids' => array(),
+				);
+			}
+			$lInstanceId = (int)$this->m_con->mRs['instance_id'];
+			if($lInstanceId){
+				$lResult[$lLocalityId]['instance_ids'][] = $lInstanceId;
+			}
+			
+			$this->m_con->MoveNext();
+		}
+		return $lResult;
+	}
+	
 }
 
 ?>

@@ -13,6 +13,7 @@ define('INSTANCE_TAXON_LIST_TYPE', 11);
 define('INSTANCE_AUTHOR_TYPE', 12);
 define('INSTANCE_AUTHORS_LIST_TYPE', 13);
 define('INSTANCE_CONTENTS_LIST_TYPE', 14);
+define('INSTANCE_LOCALITIES_LIST_TYPE', 15);
 
 define('INSTANCE_WHOLE_PREVIEW_INSTANCE_ID', - 5);
 define('INSTANCE_FIGURES_LIST_INSTANCE_ID', - 1);
@@ -87,7 +88,10 @@ $gInstanceTypeDetails = array (
 	),
 	INSTANCE_CONTENTS_LIST_TYPE => array (
 		'preview_sql' => 'SELECT * FROM spSaveArticleContentsListPreview({article_id}, \'{preview}\');' 
-	) 
+	),
+	INSTANCE_LOCALITIES_LIST_TYPE => array (
+		'preview_sql' => 'SELECT * FROM spSaveArticleLocalitiesListPreview({article_id}, \'{preview}\');' 
+	),
 );
 class carticle_preview_generator extends csimple {
 	var $m_instancesDetails;
@@ -103,9 +107,12 @@ class carticle_preview_generator extends csimple {
 	var $m_errCnt = 0;
 	var $m_errMsg = '';
 	var $m_wholeArticlePreview = '';
+	var $m_wholePreviewDom;
 	var $m_authorPreviews = array ();
 	var $m_authorsListPreview = '';
 	var $m_contentsListPreview = '';
+	var $m_articleLocalities = array();
+	var $m_localitiesListPreview = '';
 
 	function __construct($pFieldTempl) {
 		$this->m_instancesDetails = array ();
@@ -399,6 +406,7 @@ class carticle_preview_generator extends csimple {
 		$lHtml = transformXmlWithXsl($this->m_documentXml, $lXslPath, $lXslParameters);
 		
 		$lDomHtml = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+		$this->m_wholePreviewDom = $lDomHtml;
 		$lDomHtml->loadHTML($lHtml);
 		$lDomHtml->normalizeDocument();
 		$lDomHtml->preserveWhiteSpace = false;
@@ -483,6 +491,78 @@ class carticle_preview_generator extends csimple {
 // 		var_dump($this->m_contentsListPreview);
 // 		exit;
 	}
+	
+	/**
+	 * Generate a list of all the localities in the preview,
+	 * mark all localities with their respective treatment/checklist (if they are in 1)
+	 * and generate the localities list preview
+	 */
+	protected function GenerateLocalitiesPreview(){
+		$lXPath = new DOMXPath($this->m_wholePreviewDom);
+		$lLocalitiesXPath = ('//*[@data-is-locality-coordinate]');
+		$lXPathResult = $lXPath->query($lLocalitiesXPath);
+		$lLocalitiesArr = array();
+		$this->m_articleLocalities = array();
+		foreach ($lXPathResult as $lCurrentLocality){
+			$lLatitude = $lCurrentLocality->getAttribute('data-latitude');
+			$lLongitude = $lCurrentLocality->getAttribute('data-longitude');
+			if(!is_array($this->m_articleLocalities[$lLatitude])){
+				$this->m_articleLocalities[$lLatitude] = array();
+			}
+			if(!is_array($this->m_articleLocalities[$lLatitude][$lLongitude])){
+				$this->m_articleLocalities[$lLatitude][$lLongitude] = array();
+			}
+			$lParentsQuery = './ancestor::*[@data-is-checklist]|./ancestor::*[@data-is-taxon-treatment]';
+			$lParentNode = $lXPath->query($lParentsQuery, $lCurrentLocality);
+			if($lParentNode->length){
+				$lParentInstanceId = (int)$lParentNode->item(0)->getAttribute('instance_id');
+				if($lParentInstanceId){
+					if(!in_array($lParentInstanceId, $this->m_articleLocalities[$lLatitude][$lLongitude])){
+						$this->m_articleLocalities[$lLatitude][$lLongitude][] = $lParentInstanceId;
+					}
+					$lInstancesWithCoordinates[] = $lParentInstanceId;
+				}
+			}
+		}
+// 		var_dump($this->m_articleLocalities);
+// 		exit;
+		$lInstancesWithCoordinates = array_unique($lInstancesWithCoordinates);
+		if(!count($lInstancesWithCoordinates)){
+			$lInstancesWithCoordinates[] = 0;
+		}
+		if(count($this->m_articleLocalities)){
+			$lSql = '
+				SELECT id, display_name
+				FROM pwt.document_object_instances i
+				WHERE i.document_id = ' . (int)$this->m_pwtDocumentId . ' AND i.id IN (' . implode(',', $lInstancesWithCoordinates) . ')
+				ORDER BY i.pos ASC
+			';
+			$lPreview = new crs(array(			
+				'sqlstr' => $lSql,
+				'templs' => array (
+					G_HEADER => 'article.localities_list_head',
+					G_FOOTER => 'article.localities_list_foot',
+					G_STARTRS => 'article.localities_list_start',
+					G_ENDRS => 'article.localities_list_end',
+					G_NODATA => 'article.localities_list_nodata',
+					G_ROWTEMPL => 'article.localities_list_row'
+				),
+				'document_id' => $this->m_pwtDocumentId,
+			));
+		}else{
+			$lPreview = new csimple(array(				
+				'templs' => array (
+					G_DEFAULT => 'article.localities_nolocalities',
+				),
+				'document_id' => $this->m_pwtDocumentId,
+			));
+		}
+		$this->m_localitiesListPreview = $lPreview->Display();
+		
+// 		var_dump($this->m_localitiesListPreview);
+// 		exit;
+	
+	}
 
 	protected function ImportGeneratedPreviews() {
 		if ($this->m_errCnt) {
@@ -508,7 +588,9 @@ class carticle_preview_generator extends csimple {
 			
 			//Contents list previews
 			$this->SaveElementPreview(0, INSTANCE_CONTENTS_LIST_TYPE, $this->m_contentsListPreview);
-						
+			//Localities list		
+			$this->SaveElementPreview(0, INSTANCE_LOCALITIES_LIST_TYPE, $this->m_localitiesListPreview);
+			$this->SaveArticleLocalities();
 			
 			if (! $lCon->Execute('COMMIT TRANSACTION;')) {
 				throw new Exception(getstr('pwt.couldNotBeginTransaction'));
@@ -519,24 +601,25 @@ class carticle_preview_generator extends csimple {
 		}
 	}
 	
-	/**
-	 * Generate a list of all the localities in the preview,
-	 * mark all localities with their respective treatment/checklist (if they are in 1)
-	 * and generate the localities list preview
-	 */
-	protected function GenerateLocalitiesPreview(){
-		$lDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
-		if(!$lDom->loadHTML($this->m_wholeArticlePreview)){
-			return;
-		}
-		$lXPath = new DOMXPath($lDom);
-		
-	}
-	
 	protected function SaveElementPreview($pInstanceId, $pInstanceType, $pPreview){
 		$lSql = $this->GetInstancePreviewSql($pInstanceId, $pInstanceType, $pPreview);
-		if (! $this->m_con->Execute($lSql)) {
+		$this->ExecuteTransactionalQuery($lSql);
+	}
+	
+	protected function ExecuteTransactionalQuery($pSql){
+		if (! $this->m_con->Execute($pSql)) {
 			throw new Exception($this->m_con->GetLastError());
+		}
+	} 
+	
+	protected function SaveArticleLocalities(){
+		foreach ($this->m_articleLocalities as $lLatitude => $lDetails){
+			foreach ($lDetails as $lLongitude => $lInstanceIds) {
+				$lInstanceIds = array_unique(array_map('intval', $lInstanceIds));
+				$lSql = 'SELECT * FROM spSaveArticleLocality(' . (int)$this->m_documentId . ', ' . (float) $lLatitude . ', ' . (float) $lLongitude 
+					. ', ARRAY[' . implode(',', $lInstanceIds) . ']::bigint[]);';
+				$this->ExecuteTransactionalQuery($lSql);
+			}
 		}
 	}
 
@@ -559,6 +642,7 @@ class carticle_preview_generator extends csimple {
 		$this->GenerateArticleWholePreview();
 		$this->GenerateArticleAuthorPreviews();
 		$this->GenerateArticleContentsListPreview();
+		$this->GenerateLocalitiesPreview();
 	}
 
 	function ReplaceHtmlFields($pStr) {

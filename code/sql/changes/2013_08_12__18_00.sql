@@ -101,6 +101,21 @@ CREATE TABLE pjs.article_references(
 );
 GRANT ALL ON pjs.article_references TO iusrpmt;
 
+CREATE TABLE pjs.article_localities(
+	id bigserial PRIMARY KEY,
+	article_id int REFERENCES pjs.articles(id),
+	latitude float,
+	longitude float
+);
+GRANT ALL ON pjs.article_localities TO iusrpmt;
+
+CREATE TABLE pjs.article_instance_localities(
+	instance_id bigint,
+	locality_id bigint REFERENCES pjs.article_localities(id)	
+);
+GRANT ALL ON pjs.article_instance_localities TO iusrpmt;
+
+
 /* Stored procedures
 	pjs.spSaveArticleFigurePreview
 	pjs.spSaveArticleTablePreview
@@ -120,4 +135,5 @@ GRANT ALL ON pjs.article_references TO iusrpmt;
 	pjs.spSaveArticleXml
 	pjs.spSaveArticleAuthorPreview
 	pjs.spGetArticleContentsInstances
+	pjs.spSaveArticleLocality
 */

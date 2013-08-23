@@ -500,8 +500,7 @@
 
 
 
-	<!-- Journal Article biblio reference
-	 -->
+	<!-- Journal Article biblio reference -->
 	<xsl:template match="*[@object_id='102']" mode="articleBack">
 		<xsl:variable name="lVolume" select="./fields/*[@id='258']/value"></xsl:variable>
 		<xsl:variable name="lAuthorshipType">

@@ -142,6 +142,7 @@ $gTemplArr = array(
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="bg" lang="bg">
 		<head>
 			<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+			<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 			<title>{pagetitle}</title>
 			<meta name="description" content="{description}" />
 			<meta name="keywords" content="{keywords}" />
@@ -162,8 +163,8 @@ $gTemplArr = array(
 			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js?v={_getCommit()}"></script>
 			<script type="text/javascript" src="/lib/js/def.js?v={_getCommit()}" type="text/javascript"></script>
 			<script type="text/javascript" src="/lib/js/article.js?v={_getCommit()}" type="text/javascript"></script>
-		
-		
+			<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>			
+			
 			<script type="text/javascript">
 				$(window).load(function(){
 					gWindowIsLoaded = true;
@@ -190,15 +191,16 @@ $gTemplArr = array(
 				<link type="text/css" rel="stylesheet" href="/lib/version_preview.css?v={_getCommit()}" media="all" title="default" />
 				<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css?v={_getCommit()}" media="all" title="default" />
 				<!--link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview.css?v={_getCommit()}" media="all" title="default"/-->
-				<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css?v={_getCommit()}" media="all" title="default"/>
+				<!--link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/article_preview2.css?v={_getCommit()}" media="all" title="default"/-->
 				<link type="text/css" rel="stylesheet" href="/lib/editor.css?v={_getCommit()}" media="all" />
+				<link type="text/css" rel="stylesheet" href="' . PWT_URL . '/lib/css/articleAOF.css?v={_getCommit()}" media="all" title="default" />	
 		
 				<script src="/lib/js/jquery.js?v={_getCommit()}" type="text/javascript"></script>
 				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js?v={_getCommit()}"></script>
 				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js?v={_getCommit()}"></script>
 				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js?v={_getCommit()}"></script>
 				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js?v={_getCommit()}"></script>		
-				
+								
 				<script type="text/javascript">				
 					$(window).load(function(){
 						gWindowIsLoaded = true;
