@@ -8,7 +8,7 @@ html, body{
 	background: none repeat scroll 0 0 #B5B5AE;
 }
 
-.Main-Content{
+.Main-Content{ 
 	margin-top:70px;
 	/*background-color: #ccf;*/
 	width: 1360px;
@@ -36,11 +36,33 @@ html, body{
  
 #article-preview {
 	position: absolute;
-	top: 0; bottom: 0; left: 20px; 
+	top: 58px;
+	bottom: 0; 
+	left: 20px; 
 	overflow-y: scroll;
 	overflow-x: hidden;
 	width: 816px;
 } 
+#article-head{
+	position: absolute;
+	top: 0; 
+	left: 20px;
+	width: 816px;
+	height: 58px;
+	background-color: #fff;
+	border-radius: 5px 5px 0 0;
+	padding: 10px 20px;
+	-moz-box-sizing: padding-box;
+	font-family: Helvetica, Arial, Verdana, sans-serif;
+}
+#article-head a{ 
+	font-size: 20px;
+	float: right;
+	margin-left: 20px;
+	margin-top: 4px;
+	color: black;
+		
+}
 
 #article-preview iframe {
 	border-top-width: 0px;
@@ -48,6 +70,14 @@ html, body{
 	border-bottom-width: 0px;
 	border-left-width: 0px;
 	width: 100%;
+}
+
+#bdj-eye{
+	float: left
+}
+#article-id{
+	margin-left: 20px;
+	float: left
 }
 
 .P-Info-Menu {
