@@ -14,7 +14,7 @@ $lInstanceId = (int)$_REQUEST['instance_id'];
 /* Това ми е за да имам имената на колоните + id-tata на филдовете */
 
 $lMaterialsColumnsArr = array(
-	'Type status' => 209,
+	'typeStatus' => 209,
 	'scientificName' => 83,
 	'originalNameUsage' => 86,
 	'originalNameUsageID' => 79,
