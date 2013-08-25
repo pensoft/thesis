@@ -427,7 +427,8 @@ class carticle_preview_generator extends csimple {
 		$lSql = '
 			SELECT  du.first_name, du.middle_name, du.last_name, 
 				du.affiliation, du.city, du.country, 
-				u.photo_id, u.uname as email, u.website, u.id as usrid
+				u.photo_id, u.uname as email, u.website, u.id as usrid,
+				du.co_author as is_corresponding, du.zoobank_id
 			FROM pjs.document_users du
 			JOIN public.usr u ON u.id = du.uid
 			WHERE du.document_id = ' . (int) $this->m_documentId . ' AND role_id = ' . (int) PJS_AUTHOR_ROLE_ID . '
@@ -449,7 +450,7 @@ class carticle_preview_generator extends csimple {
 			));
 			$this->m_authorPreviews [$lAuthorId] = $lPreview->Display();
 		}
-		$lPreview = new crs_display_array(array (
+		$lAuthorsPreview = new crs_display_array(array (
 			'input_arr' => $lAuthorsArr,
 			'templs' => array (
 				G_HEADER => 'article.authors_preview_head',
@@ -459,6 +460,47 @@ class carticle_preview_generator extends csimple {
 				G_NODATA => 'article.authors_preview_nodata',
 				G_ROWTEMPL => 'article.authors_preview_row' 
 			) 
+		));
+		
+		$lSql = '
+			SELECT  du.first_name, du.middle_name, du.last_name,
+				du.affiliation, du.city, du.country,
+				u.photo_id, u.uname as email, u.website, u.id as usrid,
+				0 as is_corresponding, du.zoobank_id
+			FROM pjs.document_users du
+			JOIN public.usr u ON u.id = du.uid
+			WHERE du.document_id = ' . (int) $this->m_documentId . ' AND role_id = ' . (int) PJS_SE_ROLE_ID . '
+		';		
+		$lSEPreview = new crs(array (
+			'sqlstr' => $lSql,
+			
+			'templs' => array (
+				G_HEADER => 'article.authors_se_preview_head',
+				G_FOOTER => 'article.authors_se_preview_foot',
+				G_STARTRS => 'article.authors_se_preview_start',
+				G_ENDRS => 'article.authors_se_preview_end',
+				G_NODATA => 'article.authors_se_preview_nodata',
+				G_ROWTEMPL => 'article.authors_se_preview_row'
+			)
+		));
+		$lSql = 'SELECT d.approve_date, d.publish_date, d.create_date,
+					j.name as journal_name, d.doi, d.start_page, d.end_page,
+					i."number" as issue_number
+			FROM pjs.documents d
+			LEFT JOIN pjs.journal_issues i ON i.id = d.issue_id
+			LEFT JOIN public.journals j ON j.id = i.journal_id
+			WHERE d.id = ' . (int)$this->m_documentId . '	
+		';
+		
+		$lPreview = new crs(array (
+			'sqlstr' => $lSql,	
+			'authors' => $lAuthorsPreview->Display(),
+			'se' => $lSEPreview->Display(),
+			
+			
+			'templs' => array (
+				G_HEADER => 'article.authors_list_template',				
+			)
 		));
 		
 		$this->m_authorsListPreview = $lPreview->Display();
