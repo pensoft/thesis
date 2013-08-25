@@ -75,23 +75,29 @@ $gTemplArr = array(
 					</script>
 				</div>
 				<div class="P-Article-Info-Bar">
-					<ul class="P-Info-Menu leftBar">						
-						<li class="P-Active-Menu" data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_CONTENTS . '">Contents</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_AUTHORS . '">Metadata</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_Citation . '">Citation</li>
+					<ul class="P-Info-Menu leftBar">' .
+						infoMenu(array(						
+							ARTICLE_MENU_ELEMENT_TYPE_CONTENTS   => 'Contents',
+							ARTICLE_MENU_ELEMENT_TYPE_AUTHORS   => 'Metadata',
+							ARTICLE_MENU_ELEMENT_TYPE_Citation   => 'Citation',
+						)) . '
 					</ul>
-					<ul class="P-Info-Menu rightBar">	
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_Related . '">Related</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_Metrics . '">Metrics</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_Share . '">Share</li>
+					<ul class="P-Info-Menu rightBar">' .
+						infoMenu(array(	
+							ARTICLE_MENU_ELEMENT_TYPE_Related  => 'Related',
+							ARTICLE_MENU_ELEMENT_TYPE_Metrics  => 'Metrics',
+							ARTICLE_MENU_ELEMENT_TYPE_Share  => 'Share',
+						)) . '
 					</ul>
-					<ul class="P-Info-Menu bottomBar">
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_FIGURES . '">Figures</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_TABLES . '">Tables</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_LOCALITIES . '">Map</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_TAXON . '">Taxa</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES . '">Suppl. materials</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_REFERENCES . '">References</li>
+					<ul class="P-Info-Menu bottomBar">' .
+						infoMenu(array(
+							ARTICLE_MENU_ELEMENT_TYPE_FIGURES => 'Figures',
+							ARTICLE_MENU_ELEMENT_TYPE_TABLES => 'Tables',
+							ARTICLE_MENU_ELEMENT_TYPE_LOCALITIES => 'Map',
+							ARTICLE_MENU_ELEMENT_TYPE_TAXON => 'Taxa',
+							ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES => 'Suppl. materials',
+							ARTICLE_MENU_ELEMENT_TYPE_REFERENCES => 'References',
+						)) . '
 					</ul>
 					<div class="P-Info-Content">
 						{contents_list}

@@ -156,10 +156,10 @@ $gTemplArr = array (
 			<script>LoadMapScript()</script>
 			<div class="P-Localities-Menu">
 				<div class="P-Localities-Menu-Row">
-					<input type="checkbox" name="active-localities" value="-2"/> All 
+					<input type="checkbox" name="active-localities" id="all" value="-2" /><label for="all">All</label> 
 				</div>
 				<div class="P-Localities-Menu-Row">
-					<input id="all" type="checkbox" name="active-localities" value="-1"/><label for="all"> ' . getstr('pjs.articleLocalitiesAllLocalities') . '</label>
+					<input type="checkbox" name="active-localities" id="all-inline" value="-3"/><label for="all-inline"> ' . getstr('pjs.articleLocalitiesAllLocalities') . '</label>
 				</div>
 	',
 		'article.localities_list_foot' => '
@@ -172,7 +172,7 @@ $gTemplArr = array (
 	',
 		'article.localities_list_start' => '
 				<div class="P-Localities-Menu-Row">
-					<input id="alltaxa" type="checkbox" name="active-localities" value="-1"/><label for="alltaxa"> ' . getstr('pjs.articleLocalitiesAllTaxa') . '</label>
+					<input type="checkbox" name="active-localities" id="alltaxa" value="-1"/><label for="alltaxa"> ' . getstr('pjs.articleLocalitiesAllTaxa') . '</label>
 				</div>
 	',
 		'article.localities_list_end' => '

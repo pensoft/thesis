@@ -8,6 +8,10 @@ html, body{
 	background: none repeat scroll 0 0 #B5B5AE;
 }
 
+a[href], label[for] {
+	cursor: pointer;
+}
+
 .Main-Content{ 
 	margin-top:70px;
 	/*background-color: #ccf;*/
@@ -72,6 +76,12 @@ html, body{
 	width: 100%;
 }
 
+.hidden-bold{
+	visibility: hidden;
+	font-weight: bold; color: #FFFFE0; position: static; z-index: 0;
+}
+.hyper { position: absolute; z-index: 1; }
+
 #bdj-eye{
 	float: left
 }
@@ -95,7 +105,9 @@ html, body{
 	padding:5px 5px; 
 	border-radius: 5px 5px 5px 5px; 
 }
-
+.P-Info-Menu.leftBar li{
+	border: 1px solid transparent;
+}
 .P-Info-Menu.leftBar li.P-Active-Menu{
 	background: #FEFBF3;
 	border: 1px solid #AAA;
@@ -156,7 +168,7 @@ html, body{
 .P-Info-Menu .P-Active-Menu{
 	background:#EEE;
 	font-weight: bold;
-	padding: 8px 6px 9px 6px;
+	/*padding: 8px 6px 9px 6px;*/
 }
 
 
@@ -380,13 +392,11 @@ a.download{
 .P-Localities-Menu-Row{
 	margin-top:15px;
 	font-size: 12pt;
-	cursor:pointer;
 }
 .P-Localities-Menu-Row-taxa{
 	margin-top:15px;
 	margin-left:15px;
 	font-size: 12pt;
-	cursor:pointer;
 }
 .P-Localities-Menu-Row-Clear{
 	margin-top:15px;
