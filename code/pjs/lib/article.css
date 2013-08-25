@@ -1,16 +1,15 @@
-
 p{
 	margin:0px;
 }
 
 
-body{
+html, body{
 	overflow-y: hidden;
-	background: linear-gradient(to bottom, rgb(223, 221, 221) 20%, rgb(241, 241, 241) 100%) no-repeat fixed 0 0 / 200% 600px rgb(241, 241, 241);
+	background: none repeat scroll 0 0 #B5B5AE;
 }
 
-.Main-Content{
-	margin-top:50px;
+.Main-Content{ 
+	margin-top:70px;
 	/*background-color: #ccf;*/
 	width: 1360px;
 	position: fixed;
@@ -26,24 +25,44 @@ body{
 
 .P-Article-Info-Bar {
 	width: 500px;
-	border-left: 1px solid #e2e2dc;
-	border-left: 1px solid #F4F4F1;
 	z-index: 0;
 	position: absolute;
 	top: 0; bottom: 0; right: 20px;  background-color: #FEFBF3;
 	overflow-y: auto;
 	overflow-x: hidden;
 	font-family: Calibri;
-	margin-top:35px;
+	margin-top: 90px;
 }
  
 #article-preview {
 	position: absolute;
-	top: 0; bottom: 0; left: 20px; 
+	top: 58px;
+	bottom: 0; 
+	left: 20px; 
 	overflow-y: scroll;
 	overflow-x: hidden;
 	width: 816px;
 } 
+#article-head{
+	position: absolute;
+	top: 0; 
+	left: 20px;
+	width: 816px;
+	height: 58px;
+	background-color: #fff;
+	border-radius: 5px 5px 0 0;
+	padding: 10px 20px;
+	-moz-box-sizing: padding-box;
+	font-family: Helvetica, Arial, Verdana, sans-serif;
+}
+#article-head a{ 
+	font-size: 20px;
+	float: right;
+	margin-left: 20px;
+	margin-top: 4px;
+	color: black;
+		
+}
 
 #article-preview iframe {
 	border-top-width: 0px;
@@ -53,14 +72,22 @@ body{
 	width: 100%;
 }
 
+#bdj-eye{
+	float: left
+}
+#article-id{
+	margin-left: 20px;
+	float: left
+}
+
 .P-Info-Menu {
 	position: fixed;
-	top: 50px;	
+	top: 70px;	
 	margin-top: 0px;
 	background: #E4E4DD;
 	z-index: 10;
 	width: 500px;
-	height: 25px;
+	height: 90px;
 	padding-top: 10px;
 	padding-left:0px;
 	padding-right:0px;  
@@ -69,9 +96,10 @@ body{
 .P-Info-Menu li{
 	cursor:pointer;
 	display:inline;
-	font-size: 10.5pt;
+	font-size: 12pt;
 	padding: 8px 5px 7px 5px;
-	border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 5px 5px;
+	line-height: 30pt;
 }
 
 .P-Info-Menu .P-Active-Menu{
@@ -290,4 +318,43 @@ a.download{
 #AOF-articleMenu div:hover{
 	background-color: #EEECE5;
 	cursor:pointer;
+}
+.P-Localities-Menu{
+	margin:20px 15px 0 15px;
+}
+.P-Localities-Menu-Row{
+	margin-top:15px;
+	font-size: 12pt;
+	cursor:pointer;
+}
+.P-Localities-Menu-Row-taxa{
+	margin-top:15px;
+	margin-left:15px;
+	font-size: 12pt;
+	cursor:pointer;
+}
+.P-Localities-Menu-Row-Clear{
+	margin-top:15px;
+	font-weight: normal;
+	margin-left: 5px;
+	color:#0052CC;
+	font-size: 12pt;
+	cursor:pointer;
+}
+.AOF-Single-Author-Preview{
+	margin:15px;
+}
+.AOF-Author-Details{
+	margin-top:10px;
+}
+.AOF-Author-Name{
+	margin-top:10px;
+	font-size: 12pt;
+}
+.AOF-Author-Affiliation{
+	font-size: 10pt;
+	font-style: italic;
+}
+.AOF-Author-Site{
+	font-size: 10pt;
 }

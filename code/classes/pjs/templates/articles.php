@@ -57,6 +57,17 @@ $gTemplArr = array(
 			{*articles.header}
 			<script>SetArticleId({id});</script>
 			<div class="Main-Content">
+				<div id="article-head">
+				<img alt="" src="/i/bdj-eye.png" id="bdj-eye" />
+				<div id="article-id">Biodiversity Data Journal 1:e957 (02.09.2013)<br />
+					 doi: 10.3975/BDJ.1:e957
+				</div>
+				<a href="">PRINT</a>
+				<a href="">PDF</a>
+				<a href="">XML</a>
+				<div class="P-Clear"></div>
+				<hr />
+				</div>
 				<div id="article-preview">
 					<iframe src="/article_preview.php?id={id}" id="articleIframe" style="height: 1600px;"></iframe>
 					<script>
