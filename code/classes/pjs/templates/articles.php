@@ -75,15 +75,23 @@ $gTemplArr = array(
 					</script>
 				</div>
 				<div class="P-Article-Info-Bar">
-					<ul class="P-Info-Menu">						
+					<ul class="P-Info-Menu leftBar">						
 						<li class="P-Active-Menu" data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_CONTENTS . '">Contents</li>
+						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_AUTHORS . '">Metadata</li>
+						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_Citation . '">Citation</li>
+					</ul>
+					<ul class="P-Info-Menu rightBar">	
+						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_Related . '">Related</li>
+						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_Metrics . '">Metrics</li>
+						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_Share . '">Share</li>
+					</ul>
+					<ul class="P-Info-Menu bottomBar">
 						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_FIGURES . '">Figures</li>
 						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_TABLES . '">Tables</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_REFERENCES . '">References</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES . '">Supp. files</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_LOCALITIES . '">Localities</li>
+						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_LOCALITIES . '">Map</li>
 						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_TAXON . '">Taxa</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_AUTHORS . '">Authors</li>
+						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES . '">Suppl. materials</li>
+						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_REFERENCES . '">References</li>
 					</ul>
 					<div class="P-Info-Content">
 						{contents_list}

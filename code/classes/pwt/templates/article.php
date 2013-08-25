@@ -159,12 +159,12 @@ $gTemplArr = array (
 					<input type="checkbox" name="active-localities" value="-2"/> All 
 				</div>
 				<div class="P-Localities-Menu-Row">
-					<input type="checkbox" name="active-localities" value="-1"/>' . getstr('pjs.articleLocalitiesAllLocalities') . '
+					<input id="all" type="checkbox" name="active-localities" value="-1"/><label for="all"> ' . getstr('pjs.articleLocalitiesAllLocalities') . '</label>
 				</div>
 	',
 		'article.localities_list_foot' => '
 				<div class="P-Localities-Menu-Row-Clear">
-					<span class="P-Clear-Localities">' . getstr('pjs.articleLocalitiesClear') . '</span>
+					<span class="P-Clear-Localities"> ' . getstr('pjs.articleLocalitiesClear') . '</span>
 				</div>
 			</div>
 		</div>
@@ -172,7 +172,7 @@ $gTemplArr = array (
 	',
 		'article.localities_list_start' => '
 				<div class="P-Localities-Menu-Row">
-					<input type="checkbox" name="active-localities" value="-1"/>' . getstr('pjs.articleLocalitiesAllTaxa') . '
+					<input id="alltaxa" type="checkbox" name="active-localities" value="-1"/><label for="alltaxa"> ' . getstr('pjs.articleLocalitiesAllTaxa') . '</label>
 				</div>
 	',
 		'article.localities_list_end' => '
@@ -183,7 +183,7 @@ $gTemplArr = array (
 	',
 		'article.localities_list_row' => '
 				<div class="P-Localities-Menu-Row-taxa">
-					<input type="checkbox" name="active-localities" value="{id}"/> {display_name}
+					<input type="checkbox" name="active-localities" value="{id}" id="xy{id}"/><label for="xy{id}"> {display_name}</label>
 				</div>
 	',
 	
@@ -192,7 +192,7 @@ $gTemplArr = array (
 			<div class="P-Article-StructureHead">Localities</div>			
 			<div class="P-Localities-Menu">
 				<div class="P-Localities-Menu-Row">
-					<span class="P-Clear-Localities">' . getstr('pjs.articleNoLocalities') . '</span>
+					<span class="P-Clear-Localities"> ' . getstr('pjs.articleNoLocalities') . '</span>
 				</div>
 			</div>
 		</div>
