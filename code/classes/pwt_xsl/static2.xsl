@@ -202,18 +202,21 @@
 	</xsl:template>
 
 	<xsl:template match="*" mode="singleAuthor">
-		<span field_id="6">
-			<xsl:apply-templates select="./fields/*[@id=6]" mode="formatting"/>
-		</span>
-		<xsl:text> </xsl:text>
-		<xsl:if test="count(./fields/*[@id=7]) &gt; 0">
-			<span field_id="7">
-				<xsl:apply-templates select="./fields/*[@id=7]" mode="formatting"/>
+		<span>
+			<xsl:attribute name="data-author-id"><xsl:value-of select="normalize-space(./fields/*[@id=13])" /></xsl:attribute>
+			<span field_id="6">
+				<xsl:apply-templates select="./fields/*[@id=6]" mode="formatting"/>
 			</span>
 			<xsl:text> </xsl:text>
-		</xsl:if>
-		<span field_id="8">
-			<xsl:apply-templates select="./fields/*[@id=8]" mode="formatting"/>
+			<xsl:if test="count(./fields/*[@id=7]) &gt; 0">
+				<span field_id="7">
+					<xsl:apply-templates select="./fields/*[@id=7]" mode="formatting"/>
+				</span>
+				<xsl:text> </xsl:text>
+			</xsl:if>
+			<span field_id="8">
+				<xsl:apply-templates select="./fields/*[@id=8]" mode="formatting"/>
+			</span>
 		</span>
 		<sup class="P-Current-Author-Addresses">
 			<xsl:for-each select="./*[@object_id='5']" >
