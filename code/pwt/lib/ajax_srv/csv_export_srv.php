@@ -492,6 +492,72 @@ if($lAction == 'export_materials_as_csv') {
 	print chr(239) . chr(187) . chr(191) . $lCsvStr;
 	exit;
 	
+} elseif ($lAction == 'export_table_as_csv') {
+	$lCon = new DBCn();
+	$lCon->Open();	
+	
+	$lTableDescriptionFieldId = 490;
+	$lSql = 'select value_str from pwt.instance_field_values where instance_id = ' . (int)$lInstanceId . ' AND field_id = ' . (int)$lTableDescriptionFieldId; 
+	$lCon->Execute($lSql);
+	
+	$lCon->MoveFirst();
+	
+	$lContent = strip_tags($lCon->mRs['value_str'], '<table><tr><th><td>');
+	// tova se slaga kogato imam prazno td, neznam za6to (ot kontrolkata e...)
+	$lContent = str_replace(chr(194), '', $lContent);
+	$lTableDescription = '<body>' . $lContent . '</body>'; 
+	
+	$lDoc = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+	$lDoc->loadHTML($lTableDescription);
+	
+	$lXpath = new DOMXPath($lDoc);
+	$lTable = $lXpath->query("//table[position() = 1]");
+	
+	$lHeader = $lXpath->query(".//th", $lTable->item(0));
+	//var_dump($lHeader);
+	$lHeaderArr = array();
+	
+	if($lHeader->length){
+		for($i = 0; $i < $lHeader->length; ++$i){
+			$lHeaderArr[] = $lHeader->item($i)->nodeValue;
+		}
+	}
+	
+	$lFileName = 'table_' . (int)$lInstanceId . '.csv';
+	header("Content-Disposition: attachment;filename=\"" . $lFileName . "\"");
+	
+	$file = fopen('/tmp/' . $lFileName,"w");
+	
+	if(count($lHeaderArr)){
+		fputcsv($file, $lHeaderArr);
+	}
+	
+	
+	$lRows = $lXpath->query(".//tr", $lTable->item(0));
+	
+	if($lRows->length){
+		for($i = 0; $i < $lRows->length; ++$i){
+			$lColsArr = array();
+			$lColumns = $lXpath->query(".//td", $lRows->item($i));
+			if($lColumns->length){
+				for($j = 0; $j < $lColumns->length; ++$j){
+					$lColsArr[] = trim($lColumns->item($j)->nodeValue);
+				}
+				fputcsv($file, $lColsArr);
+			}
+		}
+	}
+
+	fclose($file);
+	
+	$lContents = file_get_contents('/tmp/' . $lFileName);
+	unlink('/tmp/' . $lFileName);
+	
+	$lCsvStr = $lContents;
+	$lCsvStr = str_replace(array("\n"), "\r\n", $lCsvStr);
+	
+	print chr(239) . chr(187) . chr(191) . $lCsvStr;
+	exit;
 }
 
 function fixEmptyValues($pDocumentId, $pPos, $pTaxonRankFieldId, $pFieldIds) {

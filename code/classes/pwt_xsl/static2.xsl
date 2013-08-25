@@ -986,6 +986,16 @@
 			<div class="P-Block-Title-Holder">
 				<div class="P-Figure-Num">Table <xsl:value-of select="./fields/*[@id='489']/value"/></div>
 				<div class="P-Figure-Desc"><xsl:copy-of select="./fields/*[@id='482']/value"/></div>
+				<div class="P-Figure-Download-Link">
+					<a class="download-table-link" href="javascript:void(0)"> 
+						<xsl:attribute name="onclick">
+							<xsl:text>DownloadTable(</xsl:text>
+							<xsl:value-of select="./@instance_id" />
+							<xsl:text>)</xsl:text>
+						</xsl:attribute>
+						Download
+					</a>
+				</div>
 			</div>	
 			<div class="P-Clear"></div>
 	</xsl:template>
