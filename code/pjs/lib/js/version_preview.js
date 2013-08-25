@@ -156,6 +156,16 @@ function InitSingleNodeTracker(pNode) {
 				lNewTracker.disableChangeTracking();
 			}
 			var lEmptyChangeNodes = $(pNode).find(gAcceptedInsertChangeNodeName + ':empty,' + gAcceptedDeleteChangeNodeName + ':empty,' + gFakeInsertChangeNodeName + ':empty,' + gFakeDeleteChangeNodeName + ':empty,' + gDeleteChangeNodeName + ':empty,' + gInsertChangeNodeName + ':empty');
+			lEmptyChangeNodes = lEmptyChangeNodes.filter(function(pIdx){
+				var lClosestContentEditableParent = $(this).closest('*[contenteditable="true"][field_id]');
+				if(!lClosestContentEditableParent.length){
+					return false;
+				}
+				if(lClosestContentEditableParent[0] !== pNode){
+					return false;
+				}
+				return true;
+			});
 			if(lEmptyChangeNodes.length){
 				lEmptyChangeNodes.remove();
 				SaveNodeTrackerContents(pNode);

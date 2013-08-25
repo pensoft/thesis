@@ -92,7 +92,7 @@ if($lCommentForm->form->KforErrCnt()){
 				JOIN pwt.msg m2 ON (m1.id = m2.rootid)
 				JOIN usr u ON m2.usr_id = u.id
 				LEFT JOIN usr u2 ON m2.resolve_uid = u2.id
-				JOIN usr_titles ut ON ut.id = u.usr_title_id
+				LEFT JOIN usr_titles ut ON ut.id = u.usr_title_id
 				WHERE m2.rootid = ' .  (int)$lCommentId . '
 				ORDER BY m2.rootid, m2.mdate
 				LIMIT 1',
