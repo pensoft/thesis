@@ -102,10 +102,10 @@ $gTemplArr = array (
 			{se}
 			
 			
-			© 2013
-
-			This is an open access article distributed under the terms of the Creative Commons Attribution License 3.0 (CC-BY),
+			<div class="copyrights">
+			© 2013. This is an open access article distributed under the terms of the Creative Commons Attribution License 3.0 (CC-BY),
 			which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+			</div>
 		</div>
 	',
 	
@@ -156,10 +156,7 @@ $gTemplArr = array (
 			<script>LoadMapScript()</script>
 			<div class="P-Localities-Menu">
 				<div class="P-Localities-Menu-Row">
-					<input type="checkbox" name="active-localities" value="-2"/> All 
-				</div>
-				<div class="P-Localities-Menu-Row">
-					<input id="all" type="checkbox" name="active-localities" value="-1"/><label for="all"> ' . getstr('pjs.articleLocalitiesAllLocalities') . '</label>
+					<input type="checkbox" name="active-localities" id="all" value="-2" /><label for="all">All</label> 
 				</div>
 	',
 		'article.localities_list_foot' => '
@@ -172,7 +169,7 @@ $gTemplArr = array (
 	',
 		'article.localities_list_start' => '
 				<div class="P-Localities-Menu-Row">
-					<input id="alltaxa" type="checkbox" name="active-localities" value="-1"/><label for="alltaxa"> ' . getstr('pjs.articleLocalitiesAllTaxa') . '</label>
+					<input type="checkbox" name="active-localities" id="alltaxa" value="-1"/><label for="alltaxa"> ' . getstr('pjs.articleLocalitiesAllTaxa') . '</label>
 				</div>
 	',
 		'article.localities_list_end' => '

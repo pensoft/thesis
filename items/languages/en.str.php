@@ -2193,5 +2193,12 @@ $STRARRAY = array(
 	'pjs.articleLocalitiesAllLocalities' => 'All localities',
 	'pjs.articleLocalitiesAllTaxa' => 'All taxa',
 	'pjs.articleLocalitiesClear' => 'Clear',
+	'pjs.articleDateReceivedLabel' => 'Received: ',
+	'pjs.articleDateApprovedLabel' => 'Approved: ',
+	'pjs.articleDatePublishedLabel' => 'Published: ',
+	'pjs.articleDoiLabel' => 'doi: ',
+	'pjs.articleAuthorsLabel' => 'Authors: ',
+	'pjs.articleSELabel' => 'Academic editor: ',
+
 );
 ?>
