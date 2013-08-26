@@ -1120,28 +1120,29 @@
 	
 	<!-- Article of the future preview template of a single figure -->
 	<xsl:template match="*" mode="article_preview_figure">
-		<xsl:for-each select=".">	
-			<div class="item-holder-RC">
-					<span class="fig-label-RC">
-						<xsl:value-of select="./@display_name"></xsl:value-of>
-							<xsl:text> </xsl:text>
-						<xsl:value-of select="./fields/figure_number"></xsl:value-of>
-					</span>
-				<xsl:apply-templates select="image" mode="Figures" />
-				<xsl:apply-templates select="multiple_images_plate" mode="Figures" />
-			</div>
-		<xsl:if test="position()!=last()">
-			<div class="P-Clear" />
-		</xsl:if>	
-		</xsl:for-each>
-			
-		<!-- The node of the specific figure -->
-		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+		
+		
+		<div class="item-holder-RC">		
+			<div class="singlefig">
+				<img alt="">
+					<xsl:variable name="filename"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=gb_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg</xsl:variable>
+					<xsl:attribute name="src"   ><xsl:value-of select="$filename"/></xsl:attribute>
+					<xsl:attribute name="width" ><xsl:value-of select="php:function('getimageW', string($filename))" /></xsl:attribute>
+					<xsl:attribute name="height"><xsl:value-of select="php:function('getimageH', string($filename))" /></xsl:attribute>
+				</img>
+			</div>			
+			<span class="fig-label-RC">
+				<xsl:value-of select="./@display_name"></xsl:value-of>
+					<xsl:text> </xsl:text>
+				<xsl:value-of select="./fields/figure_number"></xsl:value-of>
+			</span>
+			<xsl:apply-templates select="./image/fields/figure_caption/value" mode="formatting"/>
+		</div>
+		
 	</xsl:template>
 	
 	<!-- Article of the future preview template of a single plate -->
 	<xsl:template match="*" mode="article_preview_plate">
-		<xsl:for-each select=".">	
 			<div class="item-holder-RC">
 					<span class="fig-label-RC">
 						<xsl:value-of select="./@display_name"></xsl:value-of>
@@ -1151,12 +1152,6 @@
 				<xsl:apply-templates select="image" mode="Figures" />
 				<xsl:apply-templates select="multiple_images_plate" mode="Figures" />
 			</div>
-		<xsl:if test="position()!=last()">
-			<div class="P-Clear" />
-		</xsl:if>	
-		</xsl:for-each>
-		<!-- The node of the specific plate part (i.e. that is na instance which has an object id IN (225, 226, 227, 228, 229, 230) -->
-		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
 	
 	<!-- Article of the future preview template of a single table -->
@@ -1347,18 +1342,18 @@
 	</xsl:template>
 	
 	<xsl:template match="image" mode="Figures">
-			<div class="P-Picture-Holder">
-				<div class="singlefigmini">
-					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./fields/photo_select/value"></xsl:value-of>.jpg</xsl:attribute> 
-					</img>
-				</div>	
-			</div>
-			<div class="list-caption">
-				<xsl:apply-templates select="./fields/figure_caption/value" mode="formatting"/>
-			</div>
-			<div class="P-Clear" />	
-		</xsl:template>
+		<div class="P-Picture-Holder">
+			<div class="singlefigmini">
+				<img alt="">
+					<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./fields/photo_select/value"></xsl:value-of>.jpg</xsl:attribute> 
+				</img>
+			</div>	
+		</div>
+		<div class="list-caption">
+			<xsl:apply-templates select="./fields/figure_caption/value" mode="formatting"/>
+		</div>
+		<div class="P-Clear" />	
+	</xsl:template>
 			
 		<xsl:template match="multiple_images_plate" mode="Figures">
 				<div class="P-Picture-Holder">

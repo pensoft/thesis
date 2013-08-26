@@ -50,7 +50,7 @@ $i = new cgetimage(array(
 		),
 		'gb' => array(
 			'-quality',
-			'60', 
+			'90', 
 			'-thumbnail',
 			escapeshellarg('450x450>'),
 		),
