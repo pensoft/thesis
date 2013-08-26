@@ -178,6 +178,7 @@ function initArticlePreviewOnLoadEvents(){
 	PlaceReferencesEvents();
 	PlaceSupFilesEvents();
 	PlaceLocalitiesEvents();
+	PlaceAuthorEvents();
 	LoadArticleLocalities();
 }
 
@@ -275,6 +276,14 @@ function PlaceReferencesEvents(){
 	GetArticlePreviewContent().find('.bibr[rid]').each(function(pIdx, pReferenceNode){
 		$(pReferenceNode).bind('click', function(){
 			LoadReferenceInfo($(pReferenceNode).attr('rid'));
+		});
+	});
+}
+
+function PlaceAuthorEvents(){
+	GetArticlePreviewContent().find('*[data-author-id]').each(function(pIdx, pAuthorNode){
+		$(pAuthorNode).bind('click', function(){
+			LoadAuthorInfo($(pAuthorNode).attr('data-author-id'));
 		});
 	});
 }

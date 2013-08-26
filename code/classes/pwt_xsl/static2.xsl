@@ -168,7 +168,7 @@
 						<tr>
 							<td>
 								<div class="P-Article-Info-Block-Row">
-									<xsl:text>Corresponding Author: </xsl:text>
+									<xsl:text>Corresponding author: </xsl:text>
 									<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8'][fields/*[@id='15']/value[@value_id='1']]">
 										<xsl:apply-templates select="." mode="singleCorrespondingAuthor" />
 										<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
@@ -202,18 +202,21 @@
 	</xsl:template>
 
 	<xsl:template match="*" mode="singleAuthor">
-		<span field_id="6">
-			<xsl:apply-templates select="./fields/*[@id=6]" mode="formatting"/>
-		</span>
-		<xsl:text> </xsl:text>
-		<xsl:if test="count(./fields/*[@id=7]) &gt; 0">
-			<span field_id="7">
-				<xsl:apply-templates select="./fields/*[@id=7]" mode="formatting"/>
+		<span>
+			<xsl:attribute name="data-author-id"><xsl:value-of select="normalize-space(./fields/*[@id=13])" /></xsl:attribute>
+			<span field_id="6">
+				<xsl:apply-templates select="./fields/*[@id=6]" mode="formatting"/>
 			</span>
 			<xsl:text> </xsl:text>
-		</xsl:if>
-		<span field_id="8">
-			<xsl:apply-templates select="./fields/*[@id=8]" mode="formatting"/>
+			<xsl:if test="count(./fields/*[@id=7]) &gt; 0">
+				<span field_id="7">
+					<xsl:apply-templates select="./fields/*[@id=7]" mode="formatting"/>
+				</span>
+				<xsl:text> </xsl:text>
+			</xsl:if>
+			<span field_id="8">
+				<xsl:apply-templates select="./fields/*[@id=8]" mode="formatting"/>
+			</span>
 		</span>
 		<sup class="P-Current-Author-Addresses">
 			<xsl:for-each select="./*[@object_id='5']" >
@@ -986,6 +989,16 @@
 			<div class="P-Block-Title-Holder">
 				<div class="P-Figure-Num">Table <xsl:value-of select="./fields/*[@id='489']/value"/></div>
 				<div class="P-Figure-Desc"><xsl:copy-of select="./fields/*[@id='482']/value"/></div>
+				<div class="P-Figure-Download-Link">
+					<a class="download-table-link" href="javascript:void(0)"> 
+						<xsl:attribute name="onclick">
+							<xsl:text>DownloadTable(</xsl:text>
+							<xsl:value-of select="./@instance_id" />
+							<xsl:text>)</xsl:text>
+						</xsl:attribute>
+						Download
+					</a>
+				</div>
 			</div>	
 			<div class="P-Clear"></div>
 	</xsl:template>
@@ -1271,7 +1284,7 @@
 				<div class="refinder-link-holder">
 					<a class="refinder-link" target="_blank"> 
 						<xsl:attribute name="href">
-							<xsl:text>http://192.168.83.8:5000/find?search=advanced</xsl:text>
+							<xsl:text>http://192.168.83.8:5000/?search=advanced</xsl:text>
 							<xsl:text>&amp;author=</xsl:text><xsl:value-of select="normalize-space($Authors)" />
 							<xsl:text>&amp;year=</xsl:text><xsl:value-of select="normalize-space($refYear)" />
 							<xsl:text>&amp;title=</xsl:text><xsl:value-of select="normalize-space($refTitle)" />

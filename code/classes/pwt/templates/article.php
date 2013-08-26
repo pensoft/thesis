@@ -3,8 +3,9 @@ $gTemplArr = array (
 	// Authors
 	'article.single_author_preview_row' => '
 		<div class="AOF-Single-Author-Preview">
-			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, singlefigmini)}</div>
+			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
+
 				<div class="AOF-Author-Name">{first_name} {middle_name} {last_name}</div>
 				<div class="AOF-Author-Email">{email}</div>
 				<div class="AOF-Author-ZooBankId">{zoobank_id}</div>			
@@ -16,7 +17,8 @@ $gTemplArr = array (
 	',
 	
 	'article.authors_preview_head' => '
-		<div class="P-Authors-List">			
+		<div class="P-Authors-List">		
+
 	',
 	'article.authors_preview_foot' => '
 		</div>
@@ -32,7 +34,7 @@ $gTemplArr = array (
 	',
 	'article.authors_preview_row' => '
 		<div class="AOF-Single-Author-Preview">
-			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, singlefigmini)}</div>
+			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
 				<div class="AOF-Author-Name">{first_name} {middle_name} {last_name}</div>
 				<div class="AOF-Author-Email">{email}</div>
@@ -62,7 +64,7 @@ $gTemplArr = array (
 	',
 		'article.authors_se_preview_row' => '
 		<div class="AOF-Single-Author-Preview AOF-Single-SE-Preview">
-			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, singlefigmini)}</div>
+			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
 				<div class="AOF-Author-Name">{first_name} {middle_name} {last_name}</div>
 				<div class="AOF-Author-Email">{email}</div>
@@ -98,10 +100,12 @@ $gTemplArr = array (
 			{authors}
 			<div class="P-SE-Label">' . getstr('pjs.articleSELabel') . '</div>
 			{se}
-			© 2013 {AUTHORS}
-
-			This is an open access article distributed under the terms of the Creative Commons Attribution License 3.0 (CC-BY),
+			
+			
+			<div class="copyrights">
+			© 2013. This is an open access article distributed under the terms of the Creative Commons Attribution License 3.0 (CC-BY),
 			which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+			</div>
 		</div>
 	',
 	
@@ -152,12 +156,12 @@ $gTemplArr = array (
 			<script>LoadMapScript()</script>
 			<div class="P-Localities-Menu">
 				<div class="P-Localities-Menu-Row">
-					<input type="checkbox" name="active-localities" value="-2"/>' . getstr('pjs.articleLocalitiesAllLocalities') . '
-				</div>				
+					<input type="checkbox" name="active-localities" id="all" value="-2" /><label for="all">All</label> 
+				</div>
 	',
 		'article.localities_list_foot' => '
-				<div class="P-Localities-Menu-Row">
-					<span class="P-Clear-Localities">' . getstr('pjs.articleLocalitiesClear') . '</span>
+				<div class="P-Localities-Menu-Row-Clear">
+					<span class="P-Clear-Localities"> ' . getstr('pjs.articleLocalitiesClear') . '</span>
 				</div>
 			</div>
 		</div>
@@ -165,7 +169,7 @@ $gTemplArr = array (
 	',
 		'article.localities_list_start' => '
 				<div class="P-Localities-Menu-Row">
-					<input type="checkbox" name="active-localities" value="-1"/>' . getstr('pjs.articleLocalitiesAllTaxa') . '
+					<input type="checkbox" name="active-localities" id="alltaxa" value="-1"/><label for="alltaxa"> ' . getstr('pjs.articleLocalitiesAllTaxa') . '</label>
 				</div>
 	',
 		'article.localities_list_end' => '
@@ -175,8 +179,8 @@ $gTemplArr = array (
 	
 	',
 		'article.localities_list_row' => '
-				<div class="P-Localities-Menu-Row">
-					<input type="checkbox" name="active-localities" value="{id}"/>{display_name}
+				<div class="P-Localities-Menu-Row-taxa">
+					<input type="checkbox" name="active-localities" value="{id}" id="xy{id}"/><label for="xy{id}"> {display_name}</label>
 				</div>
 	',
 	
@@ -185,7 +189,7 @@ $gTemplArr = array (
 			<div class="P-Article-StructureHead">Localities</div>			
 			<div class="P-Localities-Menu">
 				<div class="P-Localities-Menu-Row">
-					<span class="P-Clear-Localities">' . getstr('pjs.articleNoLocalities') . '</span>
+					<span class="P-Clear-Localities"> ' . getstr('pjs.articleNoLocalities') . '</span>
 				</div>
 			</div>
 		</div>

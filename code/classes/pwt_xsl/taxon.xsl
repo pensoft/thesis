@@ -35,12 +35,14 @@
 				</div>
 				<xsl:for-each select="$lGroupedMaterials/materials/material_group">
 					<div class="materialType">
-						<div class="MaterialType">
-							<i>
-								<xsl:value-of select="./value"/>
-								<xsl:if test="count(./*[@object_id='37']) &gt; 1"><xsl:text>s</xsl:text></xsl:if><xsl:text>: </xsl:text>
-							</i>	
-						</div>
+						<xsl:if test="count($lGroupedMaterials/materials/material_group) > 1 or ./@value_id != '5'">
+							<div class="MaterialType">
+								<i>
+									<xsl:value-of select="./value"/>
+									<xsl:if test="count(./*[@object_id='37']) &gt; 1"><xsl:text>s</xsl:text></xsl:if><xsl:text>: </xsl:text>
+								</i>	
+							</div>
+						</xsl:if>
 						<ol class="materialsHolder">
 							<xsl:for-each select="./*[@object_id='37']">
 							<li type="a">
