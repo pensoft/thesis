@@ -55,7 +55,7 @@ $gTemplArr = array(
 		',
 		'articles.contents' => '
 			{*articles.header}
-			<script>SetArticleId({id});</script>
+			<script type="text/javascript">SetArticleId({id});</script>
 			<div class="Main-Content">
 				<div id="article-head">
 				<img alt="" src="/i/bdj-eye.png" id="bdj-eye" />
@@ -70,7 +70,7 @@ $gTemplArr = array(
 				</div>
 				<div id="article-preview">
 					<iframe src="/article_preview.php?id={id}" id="articleIframe" style="height: 1600px;"></iframe>
-					<script>
+					<script type="text/javascript">
 						SetArticleOnLoadEvents();
 					</script>
 				</div>
@@ -104,7 +104,7 @@ $gTemplArr = array(
 					<div class="P-Info-Content">
 						{contents_list}
 					</div>
-					<script>InitArticleMenuEvents()</script>
+					<script type="text/javascript">InitArticleMenuEvents()</script>
 				</div>	
 			</div> 
 		',	
