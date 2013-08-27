@@ -2,6 +2,11 @@ p{
 	margin:0px;
 }
 
+table, td, tr, th{
+	height:auto;
+	width:auto;
+}
+
 
 html, body{
 	overflow-y: hidden;
@@ -581,8 +586,44 @@ a.download{
 	border: 1px solid #DDDDDD;	
 }
 
+.P-Taxon-Name{
+	font-size:20px;
+	font-weight:bold;
+}
+
+.P-Category{
+	margin-top:20px;
+}
+
+.P-Category-Title{
+	font-size:15px;
+	font-weight:bold;
+	margin-bottom:20px;
+}
+
 .line {
     border-top: 1px solid #999999;
     margin: 40px 0 0 0;
     background-color: white;
 }
+
+.P-Category .labelTitle, .P-Category th{
+	font-weight:bold;
+	font-size:12px;
+}
+
+.P-Categories-Menu{
+	margin:20px 0px;
+}
+
+.P-Categories-Menu-Element{
+	float:left;
+	margin-right:15px;
+	font-weight:bold;
+}
+
+.P-Category-Regular-Sites .P-Regular-Site-Info-Holder{
+	width:160px;
+	float:left;
+}
+
