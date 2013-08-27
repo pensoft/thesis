@@ -287,7 +287,7 @@ CREATE TABLE pjs.taxon_wikimedia_category_images(
 	url varchar,
 	lastmoddate timestamp DEFAULT now()
 );
-GRANT ALL ON pjs.taxon_wikimedia_categories TO iusrpmt;
+GRANT ALL ON pjs.taxon_wikimedia_category_images TO iusrpmt;
 
 INSERT INTO pjs.taxon_sites(name, picsrc, picsrc_no_results, display_title,
 			is_ubio_site, ubio_site_name, taxon_link, taxon_link_no_results, show_if_not_found,
@@ -676,4 +676,16 @@ INSERT INTO pjs.taxon_sites_match_expressions(site_id, expression, ord)
 	pjs.spSaveTaxonNCBIBaseData
 	pjs.spSaveTaxonNCBIRelatedLink
 	pjs.spSaveTaxonNCBIEntrezRecords
+	pjs.spSaveTaxonNCBILineage
+	pjs.spSaveTaxonGBIFBaseData
+	pjs.spSaveTaxonBHLBaseData
+	pjs.spSaveTaxonBHLTitle
+	pjs.spSaveTaxonBHLItem
+	pjs.spClearTaxonWikimediaCategories
+	pjs.spSaveTaxonWikimediaCategory
+	pjs.spSaveTaxonWikimediaPhoto
+	pjs.spSaveTaxonLiasBaseData
+	pjs.spSaveTaxonLiasDetail
+	pjs.spSaveTaxonUbioSiteResult
+	pjs.spSaveTaxonSiteResult
 */
