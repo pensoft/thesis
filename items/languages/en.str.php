@@ -2188,5 +2188,17 @@ $STRARRAY = array(
 	'pjs.youHaveToSelectChecklistNomenclatureFirst' => 'Please assign your checklist to the closest higher rank in the present classification',
 	
 	'pjs.se_version_author_text' => 'View merged editor\'s version',
+	
+	
+	'pjs.articleLocalitiesAllLocalities' => 'All localities',
+	'pjs.articleLocalitiesAllTaxa' => 'All taxa',
+	'pjs.articleLocalitiesClear' => 'Clear',
+	'pjs.articleDateReceivedLabel' => 'Received: ',
+	'pjs.articleDateApprovedLabel' => 'Approved: ',
+	'pjs.articleDatePublishedLabel' => 'Published: ',
+	'pjs.articleDoiLabel' => 'DOI: ',
+	'pjs.articleAuthorsLabel' => 'Author',
+	'pjs.articleSELabel' => 'Academic editor',
+
 );
 ?>

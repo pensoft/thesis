@@ -202,6 +202,16 @@ function showPicIfExists($pid, $pref, $class = false) {
 	return '';
 }
 
+function showPicIfExistsAOF($pid, $pref, $class = false) {
+	if ($pid) {
+		return '<img src="' . SITE_URL . SHOWIMG_URL .
+		$pref . '_' . $pid . '.jpg" border="0" alt="" ' .
+		($class ? 'class="' . $class . '"' : '') . '/>';
+	}
+	return '<img src="' . SITE_URL . '/i/no-photo-60.png" border="0" alt="" ' .
+		($class ? 'class="' . $class . '"' : '') . '/>';
+}
+
 function showItemIfExists ($item, $leftCont, $rightCont, $nl2br = false) {
 	return ($item ? $leftCont . ($nl2br ? nl2br($item) : $item) . $rightCont : '');
 }
@@ -6482,5 +6492,71 @@ function displayNewCommentForm($pVersionIsReadonly, $pForm){
 			</div>';
 }
 
+function ShowEntrezRecordsDbSubtreeLink($pTaxonName, $pTaxonId, $pDbName, $pCount){
+	if(!(int) $pCount ){
+		return '-';
+	}
+	return '<a href="' . ParseTaxonExternalLink($pTaxonName, NCBI_SUBTREE_LINK . '&term=txid' . $pTaxonId . '[Organism:exp]&db=' . $pDbName) . '">' . (int)$pCount . '</a>';
 
+}
+
+function bhl_showimage($pTaxonName, $pImgUrl, $pImg, $pNodata) {
+	if ($pNodata)
+		return '';
+	else
+		return '<a href="' . ParseTaxonExternalLink($pTaxonName, $pImgUrl) . '"><img border="0" align="right" src="' . $pImg . '"></img></a>';
+}
+
+function displayBHLItems($pItems, $pTaxonName){
+	$lItems = new crs_display_array(array(
+		'input_arr' => $pItems,
+		'taxon_name' => $pTaxonName,
+		'pagesize' => 1,
+		'templs' => array(
+			G_HEADER => 'article.bhl_items_head',
+			G_FOOTER => 'article.bhl_items_foot',
+			G_STARTRS => 'article.bhl_items_start',
+			G_ENDRS => 'article.bhl_items_end',
+			G_ROWTEMPL => 'article.bhl_items_row',
+			G_NODATA => 'article.bhl_items_nodata',
+		)
+	));
+	return $lItems->Display();
+}
+
+function displayBHLPages($pPages, $pTaxonName){
+	$lPages = new crs_display_array(array(
+		'input_arr' => $pPages,
+		'taxon_name' => $pTaxonName,
+		'templs' => array(
+			G_HEADER => 'article.bhl_pages_head',
+			G_FOOTER => 'article.bhl_pages_foot',
+			G_STARTRS => 'article.bhl_pages_start',
+			G_ENDRS => 'article.bhl_pages_end',
+			G_ROWTEMPL => 'article.bhl_pages_row',
+			G_NODATA => 'article.bhl_pages_nodata',
+		)
+	));
+	return $lPages->Display();
+}
+
+function bhl_showvolume($pVolume) {
+	if ($pVolume)
+		return $pVolume . ":";
+	else
+		return '';
+}
+
+function bhl_writecomma($pRownum, $pRecords){
+	if ($pRownum < $pRecords)
+		return ', ';
+	else
+		return '';
+}
+
+function showImageIfSrcExists($pSrc, $pClass = 'noBorder'){
+	if( trim($pSrc)){
+		return '<img class="' . $pClass . '" src="' . PTP_URL . $pSrc . '"></img>';
+	}
+}
 ?>

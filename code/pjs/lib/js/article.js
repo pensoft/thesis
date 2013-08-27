@@ -161,7 +161,7 @@ function LoadReferenceInfo(pElementId){
 function LoadTaxonInfo(pTaxonName){
 //	LoadElementInfo('get_taxon_element', '', pTaxonName);
 	console.log('Taxon ' + pTaxonName);
-	LoadElementInfo('get_taxon_element', '', 'test');
+	LoadElementInfo('get_taxon_element', '', pTaxonName);
 }
 
 function LoadAuthorInfo(pElementId){
@@ -375,6 +375,21 @@ function PlaceLocalitiesMenuEvents(){
 	});
 }
 
+function correctIframeLinks(pIframe, pLinkPrefix){
+	var lDocument = getIframeDocument(pIframe);
+	var lWindow = window.frames[gbifIframe];
+	if( !lDocument )
+		return;
+	evalIframe(pIframe.contentWindow, 'changeRootLocation = function(pLocation){parent.location.href = \'' + pLinkPrefix + '\' + encodeURIComponent(pLocation);}');
+	var lLinks = lDocument.getElementsByTagName('a');
+	for( var i = 0; i < lLinks.length; ++i ){
+		var lLink = lLinks[i];
+		var lLinkHref = lLink.getAttribute('href');
+		lLink.setAttribute('href', pLinkPrefix + encodeURIComponent(lLinkHref));
+	}
+}
+
+
 function GetActiveLocalitiesFromMenuSelection(){
 	var lSelectedInputs = $('input[name="active-localities"]:checked');
 	var lNewActiveLocalities = [];
@@ -441,4 +456,10 @@ function ClearActiveLocalities(){
 	var lInputs = $('input[name="active-localities"]');
 	lInputs.removeAttr('checked');
 	lInputs.removeAttr('disabled');
+}
+
+function ScrollToTaxonCategory(pCategoryName){
+	var lCategoryLink = $('#category_' + pCategoryName);
+	var lPosition = lCategoryLink.position().top;
+	$('.P-Article-Info-Bar').scrollTop($('.P-Article-Info-Bar').scrollTop() + lPosition);
 }

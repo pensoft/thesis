@@ -37,7 +37,7 @@ function executeExternalQuery($pURL, $pPostFields = false, $pCBF = '', $pTimeout
 
 function ParseTaxonExternalLink($pTaxonName, $pLink, $pAddTaxonNameToEnd = false, $pPostForm = false, $pPostFields = false){
 	$pTaxonName = rawurlencode($pTaxonName);
-	$lLink = TAXON_EXTERNAL_LINK_BASE_LINK . '?taxon_name=' . $pTaxonName . '&url=' . rawurlencode($pLink);
+	$lLink = TAXON_EXTERNAL_LINK_BASE_LINK . '?taxon_name=' . rawurlencode($pTaxonName) . '&url=' . rawurlencode($pLink);
 	if( $pAddTaxonNameToEnd )
 		$lLink .= $pTaxonName;
 	if( $pPostForm )

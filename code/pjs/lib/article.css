@@ -2,10 +2,19 @@ p{
 	margin:0px;
 }
 
+table, td, tr, th{
+	height:auto;
+	width:auto;
+}
+
 
 html, body{
 	overflow-y: hidden;
 	background: none repeat scroll 0 0 #B5B5AE;
+}
+
+a[href], label[for] {
+	cursor: pointer;
 }
 
 .Main-Content{ 
@@ -20,18 +29,20 @@ html, body{
 }
 
 .P-Info-Content{
-	
+	width: 500px;
+	-moz-box-sizing: padding-box;
 }
 
 .P-Article-Info-Bar {
 	width: 500px;
 	z-index: 0;
 	position: absolute;
-	top: 0; bottom: 0; right: 20px;  background-color: #FEFBF3;
+	top: 0; bottom: 0; right: 20px;  background-color: #FEFBF3; /*FEFBF3*/
 	overflow-y: auto;
 	overflow-x: hidden;
 	font-family: Calibri;
-	margin-top: 90px;
+	margin-top: 94px;
+	-moz-box-sizing: padding-box;
 }
  
 #article-preview {
@@ -54,9 +65,10 @@ html, body{
 	padding: 10px 20px;
 	-moz-box-sizing: padding-box;
 	font-family: Helvetica, Arial, Verdana, sans-serif;
+	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
 #article-head a{ 
-	font-size: 20px;
+	font-size: 12pt;
 	float: right;
 	margin-left: 20px;
 	margin-top: 4px;
@@ -72,39 +84,138 @@ html, body{
 	width: 100%;
 }
 
+.hidden-bold{
+	visibility: hidden;
+	font-weight: bold; color: #FFFFE0; position: static; z-index: 0;
+}
+.hyper { position: absolute; z-index: 1; select: none;}
+
 #bdj-eye{
 	float: left
 }
 #article-id{
 	margin-left: 20px;
-	float: left
+	float: left;
+	color: #333333;
 }
 
+.P-Article-Info-header{
+	background-image: linear-gradient(#B5B5AE 10%,#FEFBF3);
+	border-radius: 5px 5px 0px 0px;
+	width: 500px;
+	height: 94px;
+	position: fixed;
+    top: 70px;
+    border: 2px solid white;
+    border-bottom: 0px solid;
+    -moz-box-sizing: padding-box;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
 .P-Info-Menu {
 	position: fixed;
-	top: 70px;	
 	margin-top: 0px;
-	background: #E4E4DD;
-	z-index: 10;
+	z-index: 10; 
+}
+
+.P-Info-Menu.leftBar {
+	top: 70px;	
+	width: 249px;
+	height: 50px;
+	padding: 5px 5px 5px 6px; 
+	border-radius: 5px 5px 5px 5px;
+	text-align: center;
+	
+}
+
+.P-Info-Menu.leftBar li.P-Active-Menu, .P-Info-Menu.rightBar li.P-Active-Menu{
+	border: 1px solid #888;
+	background-image: linear-gradient(white, #FEFBF3);
+	color: #005e8d;
+	cursor: pointer;
+	
+}
+
+.P-Info-Menu.rightBar{
+	top: 70px;
+	right: 300px;	
+	width: 249px;
+	height: 50px;
+	padding:5px 5px;  
+	border-radius: 5px 5px 5px 5px;
+	text-align: right;
+	margin-right: 4px;
+
+}
+
+.P-Info-Menu.bottomBar {
+	top: 121px;	
 	width: 500px;
-	height: 90px;
-	padding-top: 10px;
-	padding-left:0px;
-	padding-right:0px;  
+	height: 41px;
+	padding:5px 5px 0px 5px;  
+	/*background: #B5B5AE;*/
+	border-bottom: 1px solid #BBB;
+	-moz-box-sizing: padding-box;
+	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+
+}
+
+.P-Info-Menu.bottomBar.P-Active-Menu {
+	border-bottom: 1px solid #BBB;
+}
+
+.P-Info-Menu.bottomBar li{
+	cursor:pointer;
+	display:inline;
+	font-size: 12pt;
+	padding: 5px 8px 4px 8px;
+	margin: 0px 3.5px;
+	border-radius: 5px 5px 0 0;
+	line-height: 30pt;
+	color: #666669;
+	border: 1px solid #B5B5AE;
+	border-bottom: 1px solid #BBB;
+	background-image: linear-gradient(#E0E0E0, white);
+	
+	
+}
+
+.P-Info-Menu.bottomBar li.P-Active-Menu{
+	border: 1px solid #888;
+	border-bottom: 1px solid #FEFBF3;
+	background-image: linear-gradient(white, #FEFBF3);
+
+	color: #005e8d;
 }
 
 .P-Info-Menu li{
 	cursor:pointer;
 	display:inline;
 	font-size: 12pt;
-	padding: 8px 5px 7px 5px;
+	padding: 5px 8px 6px 8px;
 	border-radius: 5px 5px 5px 5px;
 	line-height: 30pt;
+	color: #666669;
+	background-image: linear-gradient(#E0E0E0, white);
+	border: 1px solid #B5B5AE;
+	margin-right: 3px;
+
+}
+.P-Info-Menu.leftBar li:last-child{
+	margin-right: 0px;
+}
+
+
+.P-Info-Menu li:hover{
+	background-image: linear-gradient(#CFCFCF, white);
 }
 
 .P-Info-Menu .P-Active-Menu{
-	background:white;
+	background:#EEE;
+	font-weight: bold;
+	/*padding: 8px 6px 9px 6px;*/
 }
+
+
 .P-table-tump-holder {
     margin-right: 10px;
     min-height: 48px;
@@ -144,7 +255,7 @@ html, body{
 	border-bottom: 1px solid #BBB; 
 }
 .item-holder-RC:hover{
-	background-color: #EEECE5;
+	background-color: #F0EEE7; /*F0EEE7*/
 }
 .item-holder-RC:last-child{
 	border-bottom: none;
@@ -226,7 +337,7 @@ div.myfieldHolder[field_id='222']{
 	border-bottom: 1px solid #BBB; 
 }
 .ref-list-AOF-holder:hover{
-	background-color: #EEECE5;
+	background-color: #F0EEE7;
 }
 .authors-holder{
 	
@@ -245,8 +356,11 @@ div.myfieldHolder[field_id='222']{
 .ref-full-hidden{
 		
 }
+.description{
+	margin-top: 15px;
+}
 .description .name {
-	margin-bottom: 10px;
+	margin-bottom: 6px;
 	font-size: 11pt;
 	font-family: Helvetica;
 	font-weight: bold;
@@ -292,8 +406,37 @@ a.download{
 	font-weight: bold;
 	font-size: 12pt;
 }
+/* copy pasted from articleAOF.css; could be outdated */
+.figure .holder {
+  background-color: white;
+  border: 1px solid #e2e2dc;
+  position: relative;
+  padding: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  display: table;
+}
+
+.P-Article-Preview-Picture-Zoom-Small {
+  background: url('/i/zoom_icon_small.png');
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 15px;
+  right: 27px;
+  cursor: pointer;
+  display: block;
+}
+
+/* end of copy-paste */
+
+
 .AOF-Content-holder {
     font-size: 12pt;
+    margin: 15px;
 }
 .AOF-Content-holder > ul {
 	padding:15px;
@@ -301,22 +444,36 @@ a.download{
 }
 #AOF-articleMenu{
 	padding: 0;
+	color: #0C8ED0;
 }
-#AOF-articleMenu li {
+
+#AOF-articleMenu > li {
+    list-style: disc;
+}
+
+#AOF-articleMenu > li > ul > li{
     list-style: none;
-    padding: 0;
+    padding-left: 30px;
     margin: 0;
+	background-image: url('/i/AOF-cont.gif');
+	background-position: 0 0; 
+	background-repeat: no-repeat; 
+	background-color: transparent;
 }
+#AOF-articleMenu > li > ul > li:last-child{
+    background-image: url('/i/AOF-cont-last.gif');
+}
+
 #AOF-articleMenu div {
-	padding: 5px 50px;
-	margin: 0 -50px;
+	padding: 5px ;
+	margin: 0 ;
 }
 #AOF-articleMenu ul {
-    padding:0 20px;
+    padding:0 0;
 }
 
 #AOF-articleMenu div:hover{
-	background-color: #EEECE5;
+	background-color: #F0EEE7;
 	cursor:pointer;
 }
 .P-Localities-Menu{
@@ -325,13 +482,11 @@ a.download{
 .P-Localities-Menu-Row{
 	margin-top:15px;
 	font-size: 12pt;
-	cursor:pointer;
 }
 .P-Localities-Menu-Row-taxa{
 	margin-top:15px;
 	margin-left:15px;
 	font-size: 12pt;
-	cursor:pointer;
 }
 .P-Localities-Menu-Row-Clear{
 	margin-top:15px;
@@ -341,20 +496,134 @@ a.download{
 	font-size: 12pt;
 	cursor:pointer;
 }
-.AOF-Single-Author-Preview{
+.P-Authors-Whole-List{
 	margin:15px;
+	font-size: 11pt;
+}
+.AOF-Author-Pic{
+	float: left;
+	padding-top: 4px;
 }
 .AOF-Author-Details{
-	margin-top:10px;
+	width: 370px;
+	padding-left: 20px;
+	float: left;
 }
 .AOF-Author-Name{
-	margin-top:10px;
 	font-size: 12pt;
+    font-weight: bold;
+}
+.AOF-Author-Name a{
+	color: #0088CC;
+}
+.AOF-Author-Corr{
+	font-size: 10pt;
+	color:#666;
+	font-weight: normal;
+}
+.AOF-Single-Author-Preview a{
+	color:#0088CC;
+}
+.AOF-Single-Author-Preview{
+	padding: 10px 0;
+}
+.AOF-Author-Is-Corresponding{
+	font-size: 9pt;
 }
 .AOF-Author-Affiliation{
-	font-size: 10pt;
+	font-size: 9pt;
 	font-style: italic;
 }
-.AOF-Author-Site{
-	font-size: 10pt;
+.P-Date-Received{
+	margin-top:15px;
 }
+.P-Doi-Meta{
+	margin-top:6px;
+}
+.P-Date-holder{
+	margin:15px 0px;
+}
+.P-Date-Label{
+	color:#666;
+}
+.P-Date{
+	font-style: italic;
+}
+.P-Authors-Label, .P-SE-Label{
+	border-top: 1px solid #BBBBBB;
+    color: #666666;
+    font-family: Helvetica;
+    font-weight: bold;
+    padding-top: 25px;
+}
+.P-SE-Label{
+	margin-top: 25px;
+}
+.copyrights{
+	border-top: 1px solid #AAAAAA;
+    font-size: 9pt;
+    margin-top: 30px;
+    padding-top: 8px;
+}
+.AOF-Author-Site{
+	font-size: 9pt;
+}
+.AOF-Author-Site a, .copyrights a{
+	color: #0088CC;	
+}
+.AOF-Author-more{
+	color:#666;
+	font-size: 9pt;
+}
+.AOF-Author-more a{
+	color: #0088CC;
+	font-size: 9pt;
+} 
+.AOF-Single-Author-Holder{
+	 margin: 10px 15px 0px 15px;
+}
+.AOF-Author-Pic img{
+	border: 1px solid #DDDDDD;	
+}
+
+.P-Taxon-Name{
+	font-size:20px;
+	font-weight:bold;
+}
+
+.P-Category{
+	margin-top:20px;
+}
+
+.P-Category-Title{
+	font-size:15px;
+	font-weight:bold;
+	margin-bottom:20px;
+}
+
+.line {
+    border-top: 1px solid #999999;
+    margin: 40px 0 0 0;
+    background-color: white;
+}
+
+.P-Category .labelTitle, .P-Category th{
+	font-weight:bold;
+	font-size:12px;
+}
+
+.P-Categories-Menu{
+	margin:20px 0px;
+}
+
+.P-Categories-Menu-Element{
+	float:left;
+	margin-right:15px;
+	font-weight:bold;
+}
+
+.P-Category-Regular-Sites .P-Regular-Site-Info-Holder{
+	width:160px;
+	float:left;
+}
+

@@ -424,15 +424,17 @@ class carticle_preview_generator extends csimple {
 	}
 
 	protected function GenerateArticleAuthorPreviews() {
-		$lSql = '
+		$lSql = "
 			SELECT  du.first_name, du.middle_name, du.last_name, 
 				du.affiliation, du.city, du.country, 
 				u.photo_id, u.uname as email, u.website, u.id as usrid,
-				du.co_author as is_corresponding, du.zoobank_id
+				(case when du.co_author=1 then ' - Corresponding author'
+				else '' end) as is_corresponding, du.zoobank_id
 			FROM pjs.document_users du
 			JOIN public.usr u ON u.id = du.uid
-			WHERE du.document_id = ' . (int) $this->m_documentId . ' AND role_id = ' . (int) PJS_AUTHOR_ROLE_ID . '
-		';
+			WHERE du.document_id = " . (int) $this->m_documentId . " AND role_id = " . (int) PJS_AUTHOR_ROLE_ID . "
+		";
+		
 		$this->m_con->Execute($lSql);
 		$lAuthorsArr = array ();
 		while ( ! $this->m_con->Eof() ) {
@@ -483,7 +485,9 @@ class carticle_preview_generator extends csimple {
 				G_ROWTEMPL => 'article.authors_se_preview_row'
 			)
 		));
-		$lSql = 'SELECT d.approve_date, d.publish_date, d.create_date,
+		$lSql = 'SELECT to_char(d.approve_date, \'DD Mon YYYY\') as approve_date, 
+						to_char(d.publish_date, \'DD Mon YYYY\') as publish_date, 
+						to_char(d.create_date, \'DD Mon YYYY\') as create_date,
 					j.name as journal_name, d.doi, d.start_page, d.end_page,
 					i."number" as issue_number
 			FROM pjs.documents d
@@ -509,9 +513,14 @@ class carticle_preview_generator extends csimple {
 	}
 
 	protected function GenerateArticleContentsListPreview() {
-		$lSql = '
-			SELECT * FROM spGetArticleContentsInstances(' . (int)$this->m_documentId . ');	
-		';
+		$lSql = "
+			SELECT i.id as instance_id, replace(replace(display_name, 'Title & Authors', 'Article title'), 'Abstract & Keywords', 'Abstract') as display_name, 1 as level, pos, null as parent_instance_id, 0 as has_children 
+					FROM pwt.document_object_instances i 
+					JOIN pjs.articles a ON a.pwt_document_id = i.document_id 
+					WHERE i.object_id in (9, 153, 15) and a.id = " . (int)$this->m_documentId . "
+				UNION
+			SELECT * FROM spGetArticleContentsInstances(" . (int)$this->m_documentId . ") order by pos offset 1;
+		";
 // 		var_dump($lSql);
 		$lPreview = new crsrecursive(array(
 			'recursivecolumn'=>'parent_instance_id',

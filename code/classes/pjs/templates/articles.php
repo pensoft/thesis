@@ -55,40 +55,56 @@ $gTemplArr = array(
 		',
 		'articles.contents' => '
 			{*articles.header}
-			<script>SetArticleId({id});</script>
+			<script type="text/javascript">SetArticleId({id});</script>
 			<div class="Main-Content">
 				<div id="article-head">
-				<img alt="" src="/i/bdj-eye.png" id="bdj-eye" />
-				<div id="article-id">Biodiversity Data Journal 1:e957 (02.09.2013)<br />
-					 doi: 10.3975/BDJ.1:e957
-				</div>
-				<a href="">PRINT</a>
-				<a href="">PDF</a>
-				<a href="">XML</a>
-				<div class="P-Clear"></div>
-				<hr />
+					<img alt="" src="/i/bdj-eye.png" id="bdj-eye" />
+					<div id="article-id">Biodiversity Data Journal 1:e957 (02.09.2013)<br />
+						 doi: 10.3975/BDJ.1:e957
+					</div>
+					<a href=""><img alt="" src="/i/print-icon.png" /></a>
+					<a href=""><img alt="" src="/i/xml-icon.png" /></a>
+					<a href=""><img alt="" src="/i/pdf-icon.png" /></a>
+					<div class="line"></div>
+					<div class="P-Clear"></div>
 				</div>
 				<div id="article-preview">
 					<iframe src="/article_preview.php?id={id}" id="articleIframe" style="height: 1600px;"></iframe>
-					<script>
+					<script type="text/javascript">
 						SetArticleOnLoadEvents();
 					</script>
 				</div>
 				<div class="P-Article-Info-Bar">
-					<ul class="P-Info-Menu">						
-						<li class="P-Active-Menu" data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_CONTENTS . '">Contents</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_FIGURES . '">Figures</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_TABLES . '">Tables</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_REFERENCES . '">References</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES . '">Supp. files</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_LOCALITIES . '">Localities</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_TAXON . '">Taxa</li>
-						<li data-info-type="' . ARTICLE_MENU_ELEMENT_TYPE_AUTHORS . '">Authors</li>
-					</ul>
+					<div class="P-Article-Info-header">
+						<ul class="P-Info-Menu leftBar">' .
+							infoMenu(array(						
+								ARTICLE_MENU_ELEMENT_TYPE_CONTENTS   => 'Contents',
+								ARTICLE_MENU_ELEMENT_TYPE_AUTHORS   => 'Metadata',
+								ARTICLE_MENU_ELEMENT_TYPE_Citation   => 'Citation',
+							)) . '
+						</ul>
+						<ul class="P-Info-Menu rightBar">' .
+							infoMenu(array(	
+								ARTICLE_MENU_ELEMENT_TYPE_Related  => 'Related',
+								ARTICLE_MENU_ELEMENT_TYPE_Metrics  => 'Metrics',
+								ARTICLE_MENU_ELEMENT_TYPE_Share  => 'Share',
+							)) . '
+						</ul>
+						<ul class="P-Info-Menu bottomBar">' .
+							infoMenu(array(
+								ARTICLE_MENU_ELEMENT_TYPE_FIGURES => 'Figures',
+								ARTICLE_MENU_ELEMENT_TYPE_TABLES => 'Tables',
+								ARTICLE_MENU_ELEMENT_TYPE_LOCALITIES => 'Map',
+								ARTICLE_MENU_ELEMENT_TYPE_TAXON => 'Taxa',
+								ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES => 'Suppl. materials',
+								ARTICLE_MENU_ELEMENT_TYPE_REFERENCES => 'References',
+							)) . '
+						</ul>
+					</div>
 					<div class="P-Info-Content">
 						{contents_list}
 					</div>
-					<script>InitArticleMenuEvents()</script>
+					<script type="text/javascript">InitArticleMenuEvents()</script>
 				</div>	
 			</div> 
 		',	

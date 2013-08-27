@@ -4,6 +4,14 @@ function getCommit(){
 	return file_get_contents(dirname(__FILE__) . '/../../../../.git/refs/heads/master');
 }
 
+function infoMenu($items){
+	$result = '';
+	foreach ($items as $key => $value) {
+		$result .= '<li data-info-type="' . $key . '"><span class="hyper">'.$value.'</span><span class="hidden-bold">'.$value.'</span></li>';
+	}
+	return $result;
+}
+
 function sortLink($pViewMode, $pOrderByColumn, $pSortOrder, $pCurrentColumn, $pTitle) {
 
 	$lOrder = '';

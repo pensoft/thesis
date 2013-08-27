@@ -51,6 +51,11 @@ function getAjaxObject() {
 	return xmlhttp;
 }
 
+function DownloadTable(pInstanceId, pSiteUrl) {
+	document.location.href = pSiteUrl + '/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&instance_id=' + pInstanceId;
+	return;
+}
+
 function AjaxLoad(link, elementid) {
 	var element = document.getElementById(elementid);
 	if(!element)
