@@ -3,13 +3,13 @@ $gTemplArr = array (
 	// Authors
 	'article.single_author_preview_row' => '
 		<div class="AOF-Single-Author-Holder">
-			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, authors)}</div>
+			<div class="AOF-Author-Pic">{_showPicIfExistsAOF(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
 				<div class="AOF-Author-Name"><a class="AOF-Author-Email" target="_blank" href="mailto:{email}">{first_name} {middle_name} {last_name} <img src="i/mail.png" /></a><span class="AOF-Author-Corr">{is_corresponding}</span></div>
 				<div class="AOF-Author-Affiliation">{affiliation}, {city}, {country}</div>
 				<div class="AOF-Author-Site"><a target="_blank" href="{website}">{website}</a></div>
-				<div class="AOF-Author-more">Articles by this author in:&nbsp;&nbsp;
-					<span class="AOF-Author-more-link"><a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&term={last_name}%20{first_name}[au]&dispmax=50">PubMed</a></span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://scholar.google.com/scholar?q=%22author%3A{last_name}%20author%3A{first_name}.%22">Google Scholar</a></span>	
+				<div class="AOF-Author-more">Articles by this author in:&nbsp;
+					<span class="AOF-Author-more-link"><a target="_blank" href="http://search.labs.crossref.org/?q={first_name}+{last_name}">CrossRef</a></span>&nbsp;|&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&term={last_name}%20{first_name}[au]&dispmax=50">PubMed</a></span>&nbsp;|&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://scholar.google.com/scholar?q=%22author%3A{last_name}%20author%3A{first_name}.%22">Google Scholar</a></span>	
 				</div>
 			</div>
 			<div class="P-Clear"></div>
@@ -34,13 +34,13 @@ $gTemplArr = array (
 	',
 	'article.authors_preview_row' => '
 		<div class="AOF-Single-Author-Preview">
-			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, authors)}</div>
+			<div class="AOF-Author-Pic">{_showPicIfExistsAOF(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
 				<div class="AOF-Author-Name"><a class="AOF-Author-Email" target="_blank" href="mailto:{email}">{first_name} {middle_name} {last_name} <img src="i/mail.png" /></a><span class="AOF-Author-Corr">{is_corresponding}</span></div>
 				<div class="AOF-Author-Affiliation">{affiliation}, {city}, {country}</div>
 				<div class="AOF-Author-Site"><a target="_blank" href="{website}">{website}</a></div>
-				<div class="AOF-Author-more">Articles by this author in:&nbsp;&nbsp; 
-					<span class="AOF-Author-more-link"><a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&term={last_name}%20{first_name}[au]&dispmax=50">PubMed</a></span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://scholar.google.com/scholar?q=%22author%3A{last_name}%20author%3A{first_name}.%22">Google Scholar</a></span>	
+				<div class="AOF-Author-more">Articles by this author in:&nbsp; 
+					<span class="AOF-Author-more-link"><a target="_blank" href="http://search.labs.crossref.org/?q={first_name}+{last_name}">CrossRef</a></span>&nbsp;|&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&term={last_name}%20{first_name}[au]&dispmax=50">PubMed</a></span>&nbsp;|&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://scholar.google.com/scholar?q=%22author%3A{last_name}%20author%3A{first_name}.%22">Google Scholar</a></span>	
 				</div>
 			</div>
 			<div class="P-Clear"></div>
@@ -64,13 +64,13 @@ $gTemplArr = array (
 	',
 		'article.authors_se_preview_row' => '
 		<div class="AOF-Single-Author-Preview AOF-Single-SE-Preview">
-			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, authors)}</div>
+			<div class="AOF-Author-Pic">{_showPicIfExistsAOF(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
 				<div class="AOF-Author-Name"><a target="_blank" href="mailto:{email}">{first_name} {middle_name} {last_name} <img src="i/mail.png" /></a></div>
 				<div class="AOF-Author-Affiliation">{affiliation}, {city}, {country}</div>
 				<div class="AOF-Author-Site"><a target="_blank" href="{website}">{website}</a></div>
-				<div class="AOF-Author-more">Articles by the editor in:&nbsp;&nbsp;
-					<span class="AOF-Author-more-link"><a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&term={last_name}%20{first_name}[au]&dispmax=50">PubMed</a></span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://scholar.google.com/scholar?q=%22author%3A{last_name}%20author%3A{first_name}.%22">Google Scholar</a></span>	
+				<div class="AOF-Author-more">Articles by the editor in:&nbsp;
+					<span class="AOF-Author-more-link"><a target="_blank" href="http://search.labs.crossref.org/?q={first_name}+{last_name}">CrossRef</a></span>&nbsp;|&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&term={last_name}%20{first_name}[au]&dispmax=50">PubMed</a></span>&nbsp;|&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://scholar.google.com/scholar?q=%22author%3A{last_name}%20author%3A{first_name}.%22">Google Scholar</a></span>	
 				</div>
 			</div>
 			<div class="P-Clear"></div>

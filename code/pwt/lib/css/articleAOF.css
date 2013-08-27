@@ -451,7 +451,17 @@ span[data-author-id] {
 	cursor: pointer;
 	color:#0088CC;
 }
-
-.P-Current-Author-Single-Address{
+.P-Current-Author-Addresses{
 	display: none;
+}
+.PaperType {
+    align-self: center;
+    background-color: #006600;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    font-size: 11pt;
+    margin-right: 518px;
+    margin-top: 15px;
+    text-align: center;
+    vertical-align: middle;
 }
