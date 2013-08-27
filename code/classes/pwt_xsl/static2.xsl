@@ -15,7 +15,7 @@
 	<!-- This parameter will be passed when we generate the previews for article of the future -->
 	<xsl:param  name="pInArticleMode">0</xsl:param>
 	
-	<xsl:variable name="figBaseURL">http://teodor.pwt.pensoft.dev</xsl:variable>
+	<xsl:variable name="figBaseURL">http://jordan.pwt.pensoft.dev</xsl:variable>
 	
 	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
 	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
@@ -1116,20 +1116,39 @@
 	  </xsl:choose>
 	 </xsl:template>
 	
+	
+	<xsl:template name="goodIMG">
+		<xsl:param name="filename" />
+		<img alt="">
+			<xsl:attribute name="src"   ><xsl:value-of select="$filename"/></xsl:attribute>
+			<xsl:attribute name="width" ><xsl:value-of select="php:function('getimageW', string($filename))" /></xsl:attribute>
+			<xsl:attribute name="height"><xsl:value-of select="php:function('getimageH', string($filename))" /></xsl:attribute>
+		</img>
+	</xsl:template>
+	
 	<!-- Article of the future SINGLE ELEMENT PREVIEWS START -->
 	
 	<!-- Article of the future preview template of a single figure -->
 	<xsl:template match="*" mode="article_preview_figure">
-		
-		
 		<div class="item-holder-RC">		
-			<div class="singlefig">
-				<img alt="">
-					<xsl:variable name="filename"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=gb_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg</xsl:variable>
-					<xsl:attribute name="src"   ><xsl:value-of select="$filename"/></xsl:attribute>
-					<xsl:attribute name="width" ><xsl:value-of select="php:function('getimageW', string($filename))" /></xsl:attribute>
-					<xsl:attribute name="height"><xsl:value-of select="php:function('getimageH', string($filename))" /></xsl:attribute>
-				</img>
+			<div class="figure">
+				<div class="holder">
+					<xsl:call-template name="goodIMG">
+						<xsl:with-param name="filename"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=singlefigAOF_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg</xsl:with-param>
+					</xsl:call-template>
+					<!--<img alt="">
+						<xsl:variable name="filename"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=gb_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg</xsl:variable>
+						<xsl:attribute name="src"   ><xsl:value-of select="$filename"/></xsl:attribute>
+						<xsl:attribute name="width" ><xsl:value-of select="php:function('getimageW', string($filename))" /></xsl:attribute>
+						<xsl:attribute name="height"><xsl:value-of select="php:function('getimageH', string($filename))" /></xsl:attribute>
+					</img>-->
+				</div>
+				<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
+					<xsl:attribute name="href">
+						<xsl:value-of select="3"/><xsl:text>display_zoomed_figure.php?fig_id=</xsl:text>
+						<xsl:value-of select="3"/>
+					</xsl:attribute>
+				</a>	
 			</div>			
 			<span class="fig-label-RC">
 				<xsl:value-of select="./@display_name"></xsl:value-of>
