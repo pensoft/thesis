@@ -6482,5 +6482,12 @@ function displayNewCommentForm($pVersionIsReadonly, $pForm){
 			</div>';
 }
 
+function ShowEntrezRecordsDbSubtreeLink($pTaxonName, $pTaxonId, $pDbName, $pCount){
+	if(!(int) $pCount ){
+		return '-';
+	}
+	return '<a href="' . ParseTaxonExternalLink($pTaxonName, NCBI_SUBTREE_LINK . '&term=txid' . $pTaxonId . '[Organism:exp]&db=' . $pDbName) . '">' . (int)$pCount . '</a>';
+
+}
 
 ?>

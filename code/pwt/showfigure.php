@@ -48,9 +48,15 @@ $i = new cgetimage(array(
 			'-thumbnail',
 			escapeshellarg('45x90>'),
 		),
+		'singlefigAOF' => array(
+			'-quality',
+			'90', 
+			'-thumbnail',
+			escapeshellarg('400x400>'),
+		),
 		'gb' => array(
 			'-quality',
-			'60', 
+			'90', 
 			'-thumbnail',
 			escapeshellarg('450x450>'),
 		),

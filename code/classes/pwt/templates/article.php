@@ -127,18 +127,18 @@ $gTemplArr = array (
 	
 	',
 	'article.contents_list_row' => '
-			<li id="{instance_id}" >
+			<li id="i{instance_id}" >
 				<div class="1" onclick="ScrollArticleToInstance({instance_id});return false;">{object_name}</div>
 			</li>
 	',
 	
 	'article.contents_list_row0' => '
-			<li id="{instance_id}" >
+			<li id="i{instance_id}" >
 				<div class="2" onclick="ScrollArticleToInstance({instance_id});return false;">{display_name}</div>
 			</li>
 	',
 	'article.contents_list_row1' => '
-			<li id="{instance_id}" >
+			<li id="i{instance_id}" >
 				<div class="3" onclick="ScrollArticleToInstance({instance_id});return false;">{display_name}</div>
 				<ul class="">
 					{&}
@@ -189,6 +189,93 @@ $gTemplArr = array (
 				<div class="P-Localities-Menu-Row">
 					<span class="P-Clear-Localities"> ' . getstr('pjs.articleNoLocalities') . '</span>
 				</div>
+			</div>
+		</div>
+	',
+	
+	//Taxon previews
+	//NCBI
+	'article.ncbi_lineage_head' => '',
+	'article.ncbi_lineage_foot' => '',
+	'article.ncbi_lineage_start' => '
+			<div class="ncbiDetail">
+				<div class="label">Lineage:</div><br/>
+	',
+	'article.ncbi_lineage_end' => '
+			</div>
+	',
+	'article.ncbi_lineage_row' => '
+				<span class="ncbiLineageRow"><a href="{_ParseTaxonExternalLink(taxon_name, link)}">{scientific_name}</a></span>
+	',
+	'article.ncbi_lineage_nodata' => '',
+	
+	'article.ncbi_related_links_head' => '',
+	'article.ncbi_related_links_foot' => '',
+	'article.ncbi_related_links_start' => '
+				<div class="extLinksHolder">
+					<div class="extLinksTitle">Related links found in database</div>
+	',
+	'article.ncbi_related_links_end' => '
+					<div class="extLinksSeeAll">To get a complete list click <a href="{_ParseTaxonExternalLink(taxon_name, see_all_link)}">here</a>.</div>
+				</div>
+	',
+	'article.ncbi_related_links_row' => '
+					<div class="extLinkRow">
+						<a href="{_ParseTaxonExternalLink(taxon_name, link)}" title="{title}">{_CutText(title, 100)}</a>
+					</div>
+	',
+	'article.ncbi_related_links_nodata' => '',
+	
+	'article.ncbi_entrez_records_head' => '',
+	'article.ncbi_entrez_records_foot' => '',
+	'article.ncbi_entrez_records_start' => '
+		<div class="entrezRecordsHolder">
+			<table class="entrezRecordsTable">
+				<tr>
+					<th colspan="2">Entrez records</th>
+				</tr>
+				<tr>
+					<th>Database name</th>
+					<th>Subtree links</th>
+				</tr>		
+	',
+	'article.ncbi_entrez_records_end' => '
+			</table>
+		</div>
+	',
+	'article.ncbi_entrez_records_row' => '
+				<tr>
+					<td class="entrezDbName">{db_display_name}</td>
+					<td class="entrezSubtreeLink">{_ShowEntrezRecordsDbSubtreeLink(taxon_name, taxon_ncbi_id, db_name, records)}</td>
+				</tr>
+	',
+	'article.ncbi_entrez_records_nodata' => '',
+	
+	'article.ncbi' => '
+		<div class="contentSection imagesSection">
+			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<td class="labelImg" id="ncbiLink">
+						<a href="{_ParseTaxonExternalLink(taxon_name, ncbi_link)}"><img class="noBorder" src="' . PTP_URL . '/img/ext_details/ncbi_logo.jpg"></a>
+					</td>
+					<td><h2 class="labelTitle">Gene Sequences and PubMed links </h2></td>
+				</tr>
+			</table>
+			<div class="sectionBody">
+				<div class="ncbiDetails">
+					<div class="ncbiDetail"><span class="label">Inherited blast name:</span> {division}</div>
+					<div class="ncbiDetail"><span class="label">Rank:</span> {rank}</div>
+					{lineage}
+				</div>
+				<div class="ncbiEntrezRecords">
+					{entrez_records}
+				</div>
+				<div class="unfloat"></div>
+				<div class="pubMedLinks">{related_links}</div>			
+				<div class="ncbiDisclaimer">
+					Disclaimer: The NCBI taxonomy database is not an authoritative source for nomenclature or classification - please consult the relevant scientific literature for the most reliable information.
+				</div>
+				<div class="unfloat"></div>
 			</div>
 		</div>
 	',
