@@ -3267,12 +3267,6 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 		'value' => $pDocumentId,
 	);
 	
-	$lXslParameters[] = array(
-		'namespace' => null,
-		'name' => 'pPWTUrl',
-		'value' => AJAX_URL,
-	);
-	
 	if((int)$pPDFPreviewMode){
 		$lXslParameters[] = array(
 			'namespace' => null,
