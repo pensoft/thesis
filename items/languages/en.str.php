@@ -2196,9 +2196,9 @@ $STRARRAY = array(
 	'pjs.articleDateReceivedLabel' => 'Received: ',
 	'pjs.articleDateApprovedLabel' => 'Approved: ',
 	'pjs.articleDatePublishedLabel' => 'Published: ',
-	'pjs.articleDoiLabel' => 'doi: ',
-	'pjs.articleAuthorsLabel' => 'Authors: ',
-	'pjs.articleSELabel' => 'Academic editor: ',
+	'pjs.articleDoiLabel' => 'DOI: ',
+	'pjs.articleAuthorsLabel' => 'Author',
+	'pjs.articleSELabel' => 'Academic editor',
 
 );
 ?>

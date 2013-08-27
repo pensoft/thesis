@@ -18,6 +18,10 @@ function getContributorAffId($pInstanceId){
 	return $lAffUris[$pInstanceId];
 }
 
+function plural($n){
+		return $n > 1 ? 's': ''; 	
+}
+
 function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 	$lAllowed = array(
 		102 => array(258, 276, 27, 28, 29, 243, 262),
