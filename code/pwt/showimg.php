@@ -38,10 +38,7 @@ $i = new cgetimage(array(
 				'-thumbnail ' . escapeshellarg('27x27^').' -crop ' . escapeshellarg('27x27+0+0!')
 		),
 		'authors' => array(
-			'-quality', 
-			'90',
-			'-thumbnail',
-			escapeshellarg('96x100^'),
+				'-thumbnail ' . escapeshellarg('60x60^').' -crop ' . escapeshellarg('60x60+0+0!')
 		),
 		
 	),

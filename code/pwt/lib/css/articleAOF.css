@@ -10,7 +10,7 @@ html {
 }
 .P-Article-Preview {
   /*width: 50em;*/
-  font-family: Calibri;
+  font-family: Calibri; /*Ebrima */
   text-align: justify;
   margin: auto;
   background-color: white;
@@ -71,14 +71,14 @@ a:hover {
   display: none;
 }
 .P-Article-Preview-Title {
-  font-size: 1.65em;
+  font-size: 1.75em;
   line-height: 1.63636em;
   line-height: 1.63636em;
   margin-top: 0em;
   color: #333;
   font-weight: bold;
   text-align: left;
-  font-family:Helvetica;
+  font-family:HebarCond;
 }
 .P-Article-Preview-Title p {
   margin: 0;
@@ -286,6 +286,10 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   padding: 6px;
   text-align: left;
   vertical-align: top;
+  font-size: 11pt;
+}
+.P-Inline .tableCaption p{
+	margin-bottom: 8px;
 }
 .myfieldHolder {
   clear: both;
@@ -421,7 +425,7 @@ xref[type='bibr'] {
 	color:#0088CC;
 }
 
-xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[type='suppl']:hover, .locality-coordinate:hover {
+xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[type='suppl']:hover, .locality-coordinate:hover, span[data-author-id]:hover {
 	background:#FEF1B5;
 	cursor:pointer;
 }
@@ -441,4 +445,23 @@ xref[type='fig'], xref[type='table'], xref[type='suppl'] {
 }
 .locality-coordinate{
 	color:#0088CC;
+}
+
+span[data-author-id] {
+	cursor: pointer;
+	color:#0088CC;
+}
+.P-Current-Author-Addresses{
+	display: none;
+}
+.PaperType {
+    align-self: center;
+    background-color: #006600;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    font-size: 11pt;
+    margin-right: 518px;
+    margin-top: 15px;
+    text-align: center;
+    vertical-align: middle;
 }

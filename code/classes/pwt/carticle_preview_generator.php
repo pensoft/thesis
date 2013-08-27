@@ -424,15 +424,17 @@ class carticle_preview_generator extends csimple {
 	}
 
 	protected function GenerateArticleAuthorPreviews() {
-		$lSql = '
+		$lSql = "
 			SELECT  du.first_name, du.middle_name, du.last_name, 
 				du.affiliation, du.city, du.country, 
 				u.photo_id, u.uname as email, u.website, u.id as usrid,
-				du.co_author as is_corresponding, du.zoobank_id
+				(case when du.co_author=1 then ' - Corresponding author'
+				else '' end) as is_corresponding, du.zoobank_id
 			FROM pjs.document_users du
 			JOIN public.usr u ON u.id = du.uid
-			WHERE du.document_id = ' . (int) $this->m_documentId . ' AND role_id = ' . (int) PJS_AUTHOR_ROLE_ID . '
-		';
+			WHERE du.document_id = " . (int) $this->m_documentId . " AND role_id = " . (int) PJS_AUTHOR_ROLE_ID . "
+		";
+		
 		$this->m_con->Execute($lSql);
 		$lAuthorsArr = array ();
 		while ( ! $this->m_con->Eof() ) {
@@ -483,7 +485,9 @@ class carticle_preview_generator extends csimple {
 				G_ROWTEMPL => 'article.authors_se_preview_row'
 			)
 		));
-		$lSql = 'SELECT d.approve_date, d.publish_date, d.create_date,
+		$lSql = 'SELECT to_char(d.approve_date, \'DD Mon YYYY\') as approve_date, 
+						to_char(d.publish_date, \'DD Mon YYYY\') as publish_date, 
+						to_char(d.create_date, \'DD Mon YYYY\') as create_date,
 					j.name as journal_name, d.doi, d.start_page, d.end_page,
 					i."number" as issue_number
 			FROM pjs.documents d

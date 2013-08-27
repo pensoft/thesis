@@ -2,15 +2,15 @@
 $gTemplArr = array (
 	// Authors
 	'article.single_author_preview_row' => '
-		<div class="AOF-Single-Author-Preview">
-			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, authors)}</div>
+		<div class="AOF-Single-Author-Holder">
+			<div class="AOF-Author-Pic">{_showPicIfExistsAOF(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
-
-				<div class="AOF-Author-Name">{first_name} {middle_name} {last_name}</div>
-				<div class="AOF-Author-Email">{email}</div>
-				<div class="AOF-Author-ZooBankId">{zoobank_id}</div>			
-				<div class="AOF-Author-Affiliation">{affiliation} {city} {country}</div>				
-				<div class="AOF-Author-Site">{website}</div>
+				<div class="AOF-Author-Name"><a class="AOF-Author-Email" target="_blank" href="mailto:{email}">{first_name} {middle_name} {last_name} <img src="i/mail.png" /></a><span class="AOF-Author-Corr">{is_corresponding}</span></div>
+				<div class="AOF-Author-Affiliation">{affiliation}, {city}, {country}</div>
+				<div class="AOF-Author-Site"><a target="_blank" href="{website}">{website}</a></div>
+				<div class="AOF-Author-more">Articles by this author in:&nbsp;
+					<span class="AOF-Author-more-link"><a target="_blank" href="http://search.labs.crossref.org/?q={first_name}+{last_name}">CrossRef</a></span>&nbsp;|&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&term={last_name}%20{first_name}[au]&dispmax=50">PubMed</a></span>&nbsp;|&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://scholar.google.com/scholar?q=%22author%3A{last_name}%20author%3A{first_name}.%22">Google Scholar</a></span>	
+				</div>
 			</div>
 			<div class="P-Clear"></div>
 		</div>
@@ -34,14 +34,14 @@ $gTemplArr = array (
 	',
 	'article.authors_preview_row' => '
 		<div class="AOF-Single-Author-Preview">
-			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, authors)}</div>
+			<div class="AOF-Author-Pic">{_showPicIfExistsAOF(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
-				<div class="AOF-Author-Name">{first_name} {middle_name} {last_name}</div>
-				<div class="AOF-Author-Email">{email}</div>
-				<div class="AOF-Author-ZooBankId">{zoobank_id}</div>			
-				<div class="AOF-Author-Affiliation">{affiliation} {city} {country}</div>
-				<div class="AOF-Author-Is-Corresponding">{is_corresponding}</div>
-				<div class="AOF-Author-Site">{website}</div>
+				<div class="AOF-Author-Name"><a class="AOF-Author-Email" target="_blank" href="mailto:{email}">{first_name} {middle_name} {last_name} <img src="i/mail.png" /></a><span class="AOF-Author-Corr">{is_corresponding}</span></div>
+				<div class="AOF-Author-Affiliation">{affiliation}, {city}, {country}</div>
+				<div class="AOF-Author-Site"><a target="_blank" href="{website}">{website}</a></div>
+				<div class="AOF-Author-more">Articles by this author in:&nbsp; 
+					<span class="AOF-Author-more-link"><a target="_blank" href="http://search.labs.crossref.org/?q={first_name}+{last_name}">CrossRef</a></span>&nbsp;|&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&term={last_name}%20{first_name}[au]&dispmax=50">PubMed</a></span>&nbsp;|&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://scholar.google.com/scholar?q=%22author%3A{last_name}%20author%3A{first_name}.%22">Google Scholar</a></span>	
+				</div>
 			</div>
 			<div class="P-Clear"></div>
 		</div>
@@ -64,13 +64,14 @@ $gTemplArr = array (
 	',
 	'article.authors_se_preview_row' => '
 		<div class="AOF-Single-Author-Preview AOF-Single-SE-Preview">
-			<div class="AOF-Author-Pic">{_showPicIfExists(photo_id, authors)}</div>
+			<div class="AOF-Author-Pic">{_showPicIfExistsAOF(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
-				<div class="AOF-Author-Name">{first_name} {middle_name} {last_name}</div>
-				<div class="AOF-Author-Email">{email}</div>
-				<div class="AOF-Author-ZooBankId">{zoobank_id}</div>			
-				<div class="AOF-Author-Affiliation">{affiliation} {city} {country}</div>
-				<div class="AOF-Author-Site">{website}</div>
+				<div class="AOF-Author-Name"><a target="_blank" href="mailto:{email}">{first_name} {middle_name} {last_name} <img src="i/mail.png" /></a></div>
+				<div class="AOF-Author-Affiliation">{affiliation}, {city}, {country}</div>
+				<div class="AOF-Author-Site"><a target="_blank" href="{website}">{website}</a></div>
+				<div class="AOF-Author-more">Articles by the editor in:&nbsp;
+					<span class="AOF-Author-more-link"><a target="_blank" href="http://search.labs.crossref.org/?q={first_name}+{last_name}">CrossRef</a></span>&nbsp;|&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&term={last_name}%20{first_name}[au]&dispmax=50">PubMed</a></span>&nbsp;|&nbsp;<span class="AOF-Author-more-link"><a target="_blank" href="http://scholar.google.com/scholar?q=%22author%3A{last_name}%20author%3A{first_name}.%22">Google Scholar</a></span>	
+				</div>
 			</div>
 			<div class="P-Clear"></div>
 		</div>
@@ -84,26 +85,23 @@ $gTemplArr = array (
 			<div class="P-Doi-Meta">
 				<span class="P-Doi-Label">' . getstr('pjs.articleDoiLabel') . '</span> {doi}
 			</div>
-			<div class="P-Date-Received">
+			<div class="P-Date-holder">
 				<span class="P-Date-Label">' . getstr('pjs.articleDateReceivedLabel') . '</span>
-				{create_date}
-			</div>
-			<div class="P-Date-Approved">
+				<span class="P-Date"> {create_date}</span> | 
 				<span class="P-Date-Label">' . getstr('pjs.articleDateApprovedLabel') . '</span>
-				{approve_date}
-			</div>
-			<div class="P-Date-Published">
+				<span class="P-Date"> {approve_date}</span> | 
 				<span class="P-Date-Label">' . getstr('pjs.articleDatePublishedLabel') . '</span>
-				{publish_date}
+				<span class="P-Date"> {publish_date}</span>
 			</div>
-			<div class="P-Authors-Label">' . getstr('pjs.articleAuthorsLabel') . '</div>
+			
+			<div class="P-Authors-Label">' . getstr('pjs.articleAuthorsLabel') . '{_plural(records)}: </div>
 			{authors}
-			<div class="P-SE-Label">' . getstr('pjs.articleSELabel') . '</div>
+			<div class="P-SE-Label">' . getstr('pjs.articleSELabel') . ': </div>
 			{se}
 			
 			
 			<div class="copyrights">
-			© 2013. This is an open access article distributed under the terms of the Creative Commons Attribution License 3.0 (CC-BY),
+			© 2013. This is an open access article distributed under the terms of the <a border="0" target="_blank" href="http://creativecommons.org/licenses/by/3.0/" rel="license">Creative Commons Attribution 3.0 (CC-BY)</a>,
 			which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
 			</div>
 		</div>

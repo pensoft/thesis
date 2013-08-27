@@ -20,6 +20,10 @@ function getContributorAffId($pInstanceId){
 function getimageW($filename){ $a = getimagesize($filename); return $a[0];}
 function getimageH($filename){ $a = getimagesize($filename); return $a[1];}
 
+function plural($n){
+		return $n > 1 ? 's': ''; 	
+}
+
 function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 	$lAllowed = array(
 		102 => array(258, 276, 27, 28, 29, 243, 262),

@@ -132,7 +132,15 @@
 				</tr>
 			</table>
 		</xsl:if>
+		<xsl:if test="$pInArticleMode = 1">
+			<div class="PaperType">
+				<xsl:value-of select="$lDocumentType" />
+			</div>
+		</xsl:if>
 	</xsl:template>
+	
+	
+	
 	
 	<!-- ARTICLE TITLE -->
 	<xsl:template match="*" mode="articleTitle">
