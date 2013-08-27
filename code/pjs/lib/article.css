@@ -400,6 +400,34 @@ a.download{
 	font-weight: bold;
 	font-size: 12pt;
 }
+/* copy pasted from articleAOF.css; could be outdated */
+.figure .holder {
+  background-color: white;
+  border: 1px solid #e2e2dc;
+  position: relative;
+  padding: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  display: table;
+}
+
+.P-Article-Preview-Picture-Zoom-Small {
+  background: url('/i/zoom_icon_small.png');
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 15px;
+  right: 27px;
+  cursor: pointer;
+  display: block;
+}
+
+/* end of copy-paste */
+
+
 .AOF-Content-holder {
     font-size: 12pt;
     margin: 15px;

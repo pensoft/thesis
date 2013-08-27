@@ -129,18 +129,18 @@ $gTemplArr = array (
 	
 	',
 	'article.contents_list_row' => '
-			<li id="{instance_id}" >
+			<li id="i{instance_id}" >
 				<div class="1" onclick="ScrollArticleToInstance({instance_id});return false;">{object_name}</div>
 			</li>
 	',
 	
 	'article.contents_list_row0' => '
-			<li id="{instance_id}" >
+			<li id="i{instance_id}" >
 				<div class="2" onclick="ScrollArticleToInstance({instance_id});return false;">{display_name}</div>
 			</li>
 	',
 	'article.contents_list_row1' => '
-			<li id="{instance_id}" >
+			<li id="i{instance_id}" >
 				<div class="3" onclick="ScrollArticleToInstance({instance_id});return false;">{display_name}</div>
 				<ul class="">
 					{&}
