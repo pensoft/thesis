@@ -157,11 +157,7 @@ $gTemplArr = array(
 								var articleStructure = new articleMenu(\'articleMenu\', \'P-Right-Arrow\' , \'P-Down-Arrow\');
 							</script>
 						</div><!-- End P-Wrapper-Container-Left -->
-						<div class="P-Wrapper-Container-Right {_getContainerHideClass(2)}">
-							{*document.rightcol}
-							<div class="P-Container-Toggler-Btn-Right" onclick="toggleRightContainer();"></div>
-						</div><!-- End P-Wrapper-Container-Right -->
-						<div class="P-Wrapper-Container-Middle {_getContainerHideClass(1)} {_getContainerHideClass(2)}">
+						<div class="P-Wrapper-Container-Middle P-Wrapper-Container-Right-Hide">
 							{xml_validation}
 						</div><!-- End P-Wrapper-Container-Middle -->
 
