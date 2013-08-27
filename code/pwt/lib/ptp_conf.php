@@ -114,4 +114,5 @@ define('GBIF_SITE_ID', 1);
 define('NCBI_SITE_ID', 24);
 define('WIKIMEDIA_SITE_ID', 27);
 define('LIAS_SITE_ID', 38);
+define('BHL_SITE_ID', -1);
 ?>
