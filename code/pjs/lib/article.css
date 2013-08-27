@@ -91,6 +91,7 @@ a[href], label[for] {
 #article-id{
 	margin-left: 20px;
 	float: left;
+	color: #333333;
 }
 
 .P-Article-Info-header{
@@ -522,11 +523,10 @@ a.download{
 	padding: 10px 0;
 }
 .AOF-Author-Is-Corresponding{
-	font-size: 10pt;
+	font-size: 9pt;
 }
 .AOF-Author-Affiliation{
-	padding-top: 6px;
-	font-size: 10pt;
+	font-size: 9pt;
 	font-style: italic;
 }
 .P-Date-Received{
@@ -556,28 +556,33 @@ a.download{
 }
 .copyrights{
 	border-top: 1px solid #AAAAAA;
-    font-size: 10pt;
+    font-size: 9pt;
     margin-top: 30px;
     padding-top: 8px;
 }
 .AOF-Author-Site{
-	font-size: 10pt;
+	font-size: 9pt;
 }
 .AOF-Author-Site a, .copyrights a{
 	color: #0088CC;	
 }
 .AOF-Author-more{
 	color:#666;
-	font-size: 10pt;
-	padding-top: 6px;
+	font-size: 9pt;
 }
 .AOF-Author-more a{
 	color: #0088CC;
-	font-size: 11pt;
+	font-size: 9pt;
 } 
 .AOF-Single-Author-Holder{
 	 margin: 10px 15px 0px 15px;
 }
 .AOF-Author-Pic img{
 	border: 1px solid #DDDDDD;	
+}
+
+.line {
+    border-top: 1px solid #999999;
+    margin: 40px 0 0 0;
+    background-color: white;
 }

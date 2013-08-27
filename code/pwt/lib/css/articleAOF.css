@@ -260,7 +260,9 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   z-index: 2;
 }
 .description .name {
-  font-weight: bold;
+    font-family: helvetica;
+    font-size: 0.9em;
+    font-weight: bold;
 }
 .table {
   margin: 10px 0;
@@ -465,3 +467,4 @@ span[data-author-id] {
     text-align: center;
     vertical-align: middle;
 }
+

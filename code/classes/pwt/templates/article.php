@@ -17,6 +17,7 @@ $gTemplArr = array (
 	',
 	
 	'article.authors_preview_head' => '
+		<div class="P-Authors-Label">' . getstr('pjs.articleAuthorsLabel') . '{_plural(records)}: </div>
 		<div class="P-Authors-List">		
 
 	',
@@ -94,7 +95,7 @@ $gTemplArr = array (
 				<span class="P-Date"> {publish_date}</span>
 			</div>
 			
-			<div class="P-Authors-Label">' . getstr('pjs.articleAuthorsLabel') . '{_plural(records)}: </div>
+			
 			{authors}
 			<div class="P-SE-Label">' . getstr('pjs.articleSELabel') . ': </div>
 			{se}

@@ -3574,8 +3574,8 @@ function DownloadMaterialsAsCSV(pInstanceId) {
 	return;
 }
 
-function DownloadTable(pInstanceId) {
-	document.location.href = '/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&instance_id=' + pInstanceId;
+function DownloadTable(pInstanceId, pSiteUrl) {
+	document.location.href = pSiteUrl + '/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&instance_id=' + pInstanceId;
 	return;
 }
 

@@ -11,6 +11,7 @@
 	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
 	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
 	<xsl:param  name="pSiteUrl"></xsl:param>
+	<xsl:param  name="pPWTUrl"></xsl:param>
 	<xsl:param  name="pPDFPreviewMode">0</xsl:param>
 	<!-- This parameter will be passed when we generate the previews for article of the future -->
 	<xsl:param  name="pInArticleMode">0</xsl:param>
@@ -1002,7 +1003,9 @@
 						<xsl:attribute name="onclick">
 							<xsl:text>DownloadTable(</xsl:text>
 							<xsl:value-of select="./@instance_id" />
-							<xsl:text>)</xsl:text>
+							<xsl:text>, '</xsl:text>
+							<xsl:value-of select="$pPWTUrl" />
+							<xsl:text>')</xsl:text>
 						</xsl:attribute>
 						Download
 					</a>
@@ -1023,7 +1026,20 @@
 				<xsl:attribute name="table_position"><xsl:value-of select="$lFigNumber"/></xsl:attribute>
 				<xsl:attribute name="table_id"><xsl:value-of select="@instance_id"/></xsl:attribute>
 				<div class="description">
-					<div class="name">Table <xsl:value-of select="$lFigNumber" />.</div>
+					<div class="name">Table <xsl:value-of select="$lFigNumber" />.
+						<span class="P-Figure-Download-Link">
+							<a class="download-table-link" href="javascript:void(0)"> 
+								<xsl:attribute name="onclick">
+									<xsl:text>DownloadTable(</xsl:text>
+									<xsl:value-of select="./@instance_id" />
+									<xsl:text>, '</xsl:text>
+									<xsl:value-of select="$pPWTUrl" />
+									<xsl:text>')</xsl:text>
+								</xsl:attribute>
+								Download
+							</a>
+						</span>
+					</div>	
 					<div class="P-Inline">
 						<div class="tableCaption">
 							<xsl:call-template name="markContentEditableField">
