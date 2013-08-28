@@ -847,7 +847,7 @@ function DisplayReviewIcon($pInvitationId, $pDecisionId, $pReviewerId, $pRoundId
 	if((int) $pDecisionId){
 		$lRes .= '
 			<span class="reviewer_act">
-				<img title="{_getstr(View review1)}" onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\', 0, 0, \'window_' . $pReviewerVersionId . '\')" src="../i/review_ready.png"></img>
+				<img title="'.getstr('pjs.tooltips.view_review').'" onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\', 0, 0, \'window_' . $pReviewerVersionId . '\')" src="../i/review_ready.png"></img>
 			</span>';
 		return $lRes;
 	}else{
@@ -2756,7 +2756,7 @@ function showInviteReviewersButton($pCanInviteReviewers, $pDocumentId, $pRoundNu
 	return '';
 }
 
-function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
+function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName, $pJournalName) {
 	$lRole = $_GET['view_role'];
 	if($pUname && $pUname != 'se_uname'){
 
@@ -2764,7 +2764,9 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
 		if($lRole == E_ROLE){
 			$lChangeIcon = '<img src="../i/edit.png" title="'.getstr('pjs.tooltips.change_SE').'" onclick="window.location=\'/view_document.php?id=' . (int) $pDocumentId . '&view_role=' . E_ROLE . '&mode=1&suggested=1\'" class="ui-datepicker-trigger pointer">';
 		}
-
+		
+		$lAddSubjToEmail = '?subject=[' . $pJournalName . '] Inquiry regarding a manuscript ' . $pDocumentId;
+		
 		return '
 			<div class="document_info_se">
 				<div class="document_info_bottom_info_right_left" style="width:71px;">
@@ -2772,7 +2774,7 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
 				</div>
 				<div class="document_info_bottom_info_right_right">
 					' . $pFirstName . ' ' . $pLastName . '
-					<a href="mailto:' . $pUname . '"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a>
+					<a href="mailto:' . $pUname . $lAddSubjToEmail . '"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a>
 					' . $lChangeIcon . '
 				</div>
 			</div>
@@ -3224,6 +3226,21 @@ function showPollAnswerErrClass($pAnswer, $pUserRole) {
 		return 'class="poll_answer_err"';
 	}
 	return '';
+}
+
+function showAuthors($pAuthorNames, $pAuthorEmails, $pDocumentId, $pJournalName) {
+	$lAuthorNamesArr = explode(',', $pAuthorNames);
+	$lAuthorEmailsArr = explode(',', $pAuthorEmails);
+	$lRes = '';
+	
+	$lAddSubjToEmail = '?subject=[' . $pJournalName . '] Inquiry regarding a manuscript ' . $pDocumentId;
+	for ($i=0; $i < count($lAuthorNamesArr) ; $i++) { 
+		$lRes .= $lAuthorNamesArr[$i] . ' 
+			<a href="mailto:' . $lAuthorEmailsArr[$i] . $lAddSubjToEmail . '">
+				<img title="Send e-mail" src="../i/mail.png">
+			</a>' . ($i == count($lAuthorNamesArr) ? '' : ', '); 
+	}
+	return $lRes;
 }
 
 ?>

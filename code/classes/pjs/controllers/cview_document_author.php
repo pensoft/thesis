@@ -98,7 +98,8 @@ class cView_Document_Author extends cView_Document {
 			$lSEDecisionObj = new evSimple_Block_Display(array(
 				'controller_data' => $lSEDecisionData,
 				'name_in_viewobject' => 'se_decision',
-				'document_id' => $this->m_documentId
+				'document_id' => $this->m_documentId,
+				'journal_name' => $this->m_documentData['journal_name'],
 			));
 		}
 
@@ -118,7 +119,8 @@ class cView_Document_Author extends cView_Document {
 			$lCEObj = new evSimple_Block_Display(array(
 				'controller_data' => $this->m_documentData,
 				'name_in_viewobject' => 'ce_decision',
-				'document_id' => $this->m_documentId
+				'document_id' => $this->m_documentId,
+				'journal_name' => $this->m_documentData['journal_name'],
 			));
 		}
 //var_dump($lViewObjectName);
@@ -160,6 +162,7 @@ class cView_Document_Author extends cView_Document {
 				'decision_round_name' => $value['decision_name'],
 				'hide_reviewers_text' => 1,
 				'document_id' => $this->m_documentId,
+				'journal_name' => $this->m_documentData['journal_name'],
 			));
 			
 			if((int)$value['round_number'] == REVIEW_ROUND_ONE) {
@@ -194,6 +197,7 @@ class cView_Document_Author extends cView_Document {
 				'controller_data' => $lCEDecisionData, 
 				'name_in_viewobject' => 'document_ce_rounds',
 				'document_id' => $this->m_documentId,
+				'journal_name' => $this->m_documentData['journal_name'],
 			)); 
 		}
 		/* CE rounds object END*/
@@ -215,6 +219,7 @@ class cView_Document_Author extends cView_Document {
 			'has_round3' => $lHasRound3,
 			'has_se' => $lHasSE,
 			'has_ce' => $lHasCE,
+			'journal_name' => $this->m_documentData['journal_name'],
 		));
 		
 	}

@@ -700,6 +700,12 @@ function getDocumentXMLValidationTempls(){
 	);
 }
 
+function getDocumentXMLValidationTemplsNoComments(){
+	return array(
+		G_DEFAULT => 'document.xml_validation_wrapper_no_comments'
+	);
+}
+
 function getDocumentTreeDefaultTempls(){
 	return array(
 		G_HEADER => 'document.tree_head',
@@ -3265,12 +3271,6 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 		'namespace' => null,
 		'name' => 'pDocumentId',
 		'value' => $pDocumentId,
-	);
-	
-	$lXslParameters[] = array(
-		'namespace' => null,
-		'name' => 'pPWTUrl',
-		'value' => AJAX_URL,
 	);
 	
 	if((int)$pPDFPreviewMode){

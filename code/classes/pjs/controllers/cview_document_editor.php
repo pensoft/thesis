@@ -233,12 +233,14 @@ class cView_Document_Editor extends cView_Document {
 				'controller_data' => $lInvitedPanelData,
 				'name_in_viewobject' => 'invited_reviewers_obj_list',
 				'document_id' => $this->m_documentId,
+				'journal_name' => $this->m_documentData['journal_name'],
 			));
 			
 			$lReviewersReviewedDocObj = new evList_Display(array(
 				'controller_data' => $lReviewedPanelPublicData,
 				'name_in_viewobject' => 'reviewers_reviewed_document',
 				'document_id' => $this->m_documentId,
+				'journal_name' => $this->m_documentData['journal_name'],
 			));
 			
 			if(count($lInvitedPanelData) || count($lReviewedPanelPublicData)) {
@@ -262,6 +264,7 @@ class cView_Document_Editor extends cView_Document {
 				'controller_data' => $lRoundData,
 				'name_in_viewobject' => 'view_review_rounds',
 				'round_number' => $value['round_number'],
+				'journal_name' => $this->m_documentData['journal_name'],
 			));	
 				
 			$lHideReviewersText = 0;
@@ -311,6 +314,7 @@ class cView_Document_Editor extends cView_Document {
 				'document_id' => $this->m_documentId,
 				'check_invited_users' => $this->m_documentData['check_invited_users'],
 				'merge_flag' => $this->m_documentData['merge_flag'],
+				'journal_name' => $this->m_documentData['journal_name'],
 			));
 		
 			switch ((int)$this->m_documentState) {
@@ -363,6 +367,7 @@ class cView_Document_Editor extends cView_Document {
 							'reviwer_version_id' => $this->m_documentData['user_version_id'],
 							'check_invited_users' => $this->m_documentData['check_invited_users'],
 							'merge_flag' => $this->m_documentData['merge_flag'],
+							'journal_name' => $this->m_documentData['journal_name'],
 						));
 						$lShowBorder = 0;
 						//var_dump($lReviewRoundSECheck);
@@ -371,12 +376,14 @@ class cView_Document_Editor extends cView_Document {
 							'controller_data' => $lInvitedPanelData,
 							'name_in_viewobject' => 'invited_reviewers_obj_list',
 							'document_id' => $this->m_documentId,
+							'journal_name' => $this->m_documentData['journal_name'],
 						));
 						
 						$lReviewersReviewedDocObj = new evList_Display(array(
 							'controller_data' => $lReviewedPanelPublicData,
 							'name_in_viewobject' => 'reviewers_reviewed_document',
 							'document_id' => $this->m_documentId,
+							'journal_name' => $this->m_documentData['journal_name'],
 						));
 						
 						if(count($lInvitedPanelData) || count($lReviewedPanelPublicData)) {
@@ -448,7 +455,8 @@ class cView_Document_Editor extends cView_Document {
 							'role_id' => $this->m_viewingRole,
 							'userid' => $this->GetUserId(),
 							'round_user_id' => $lSEDocumentRoundUserId,
-							'can_invite_reviewers' => $lCanInviteUsers
+							'can_invite_reviewers' => $lCanInviteUsers,
+							'journal_name' => $this->m_documentData['journal_name'],
 						));	
 						
 					}
@@ -488,6 +496,7 @@ class cView_Document_Editor extends cView_Document {
 							'name_in_viewobject' => 'document_ce_rounds',
 							'document_id' => $this->m_documentId,
 							'author_version_id' => $this->m_documentData['author_version_id'],
+							'journal_name' => $this->m_documentData['journal_name'],
 						)); 
 					}
 				
@@ -506,6 +515,7 @@ class cView_Document_Editor extends cView_Document {
 						'check_invited_users' => $this->m_documentData['check_invited_users'],
 						'merge_flag' => $this->m_documentData['merge_flag'],
 						'ce_rounds_count' => $lCERoundsCount,
+						'journal_name' => $this->m_documentData['journal_name'],
 					)); 
 					
 					$this->m_contentObject = new evSimple_Block_Display(array(
@@ -528,6 +538,7 @@ class cView_Document_Editor extends cView_Document {
 							'name_in_viewobject' => 'document_ce_rounds',
 							'document_id' => $this->m_documentId,
 							'author_version_id' => $this->m_documentData['author_version_id'],
+							'journal_name' => $this->m_documentData['journal_name'],
 						)); 
 					}
 					
@@ -567,6 +578,7 @@ class cView_Document_Editor extends cView_Document {
 							'check_invited_users' => $this->m_documentData['check_invited_users'],
 							'merge_flag' => $this->m_documentData['merge_flag'],
 							'ce_rounds_count' => $lCERoundsCount,
+							'journal_name' => $this->m_documentData['journal_name'],
 						)); 
 					}
 					if(in_array($this->m_documentState, array(
@@ -606,6 +618,7 @@ class cView_Document_Editor extends cView_Document {
 							'document_id' => $this->m_documentId,
 							'version_num' => $this->m_documentData['version_num'],
 							'author_version_id' => $this->m_documentData['author_version_id'],
+							'journal_name' => $this->m_documentData['journal_name'],
 						)); 
 					}
 					
@@ -621,6 +634,7 @@ class cView_Document_Editor extends cView_Document {
 						'document_id' => $this->m_documentId,
 						'check_invited_users' => $this->m_documentData['check_invited_users'],
 						'merge_flag' => $this->m_documentData['merge_flag'],
+						'journal_name' => $this->m_documentData['journal_name'],
 					)); 
 					
 					$this->m_contentObject = new evSimple_Block_Display(array(
@@ -638,6 +652,7 @@ class cView_Document_Editor extends cView_Document {
 							'name_in_viewobject' => 'document_ce_rounds',
 							'document_id' => $this->m_documentId,
 							'author_version_id' => $this->m_documentData['author_version_id'],
+							'journal_name' => $this->m_documentData['journal_name'],
 						)); 
 					}
 					
@@ -654,6 +669,7 @@ class cView_Document_Editor extends cView_Document {
 						'document_id' => $this->m_documentId,
 						'check_invited_users' => $this->m_documentData['check_invited_users'],
 						'merge_flag' => $this->m_documentData['merge_flag'],
+						'journal_name' => $this->m_documentData['journal_name'],
 					)); 
 					
 					$this->m_contentObject = new evSimple_Block_Display(array(
@@ -760,7 +776,7 @@ class cView_Document_Editor extends cView_Document {
 						'journal_id' => $this->m_documentData['journal_id'],
 						'suggested' => $lFilterSuggestedViewMode == 1 ? 'current' : '',
 						'all' => !($lFilterSuggestedViewMode || $lFilterSearchViewModeLetterValue) ? 'current' : '',
-						
+						'journal_name' => $this->m_documentData['journal_name'],
 					));
 					//$this->m_pageView->SetVal('pagetitle', 'Assign subject editor');
 					
@@ -793,6 +809,7 @@ class cView_Document_Editor extends cView_Document {
 									'merge_flag' => $this->m_documentData['merge_flag'],
 					                'round_name' => $this->m_documentData['round_name'],
 									'current_round_id' => $this->m_documentData['current_round_id'],
+									'journal_name' => $this->m_documentData['journal_name'],
             ))));break;
 				
 				case DOCUMENT_READY_FOR_LAYOUT_STATE:
@@ -817,6 +834,7 @@ class cView_Document_Editor extends cView_Document {
                 				'round_name' => $this->m_documentData['round_name'],
 								'check_invited_users' => $this->m_documentData['check_invited_users'],
 								'merge_flag' => $this->m_documentData['merge_flag'],
+								'journal_name' => $this->m_documentData['journal_name'],
 								)))); break;
 				default:
 					break;
@@ -850,6 +868,7 @@ class cView_Document_Editor extends cView_Document {
 									'round_name' => $this->m_documentData['round_name'],
 									'check_invited_users' => $this->m_documentData['check_invited_users'],
 									'merge_flag' => $this->m_documentData['merge_flag'],
+									'journal_name' => $this->m_documentData['journal_name'],
 									)))); 
 					}
 					break;
