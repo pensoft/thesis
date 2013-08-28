@@ -607,7 +607,7 @@
 		<xsl:variable name="lContent">
 				<a target="_blank">
 					<xsl:attribute name="href">
-						<xsl:value-of select="$pSiteUrl"/><xsl:text>display_zoomed_figure.php?fig_id=</xsl:text>
+						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
 						<xsl:value-of select="$pInstanceId"/>
 					</xsl:attribute>
 					<img>
@@ -619,7 +619,7 @@
 				</a>
 				<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
 					<xsl:attribute name="href">
-						<xsl:value-of select="$pSiteUrl"/><xsl:text>display_zoomed_figure.php?fig_id=</xsl:text>
+						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
 						<xsl:value-of select="$pInstanceId"/>
 					</xsl:attribute>
 				</a>
@@ -1149,8 +1149,8 @@
 	
 	<!-- Article of the future preview template of a single figure -->
 	<xsl:template match="*" mode="article_preview_figure">
-		<div class="item-holder-RC">		
-			<div class="figure">
+		<xsl:if test="./fields/figure_type/value/@value_id = '1'">
+			<div class="figure">					
 				<div class="holder">
 					<xsl:call-template name="goodIMG">
 						<xsl:with-param name="filename"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=singlefigAOF_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg</xsl:with-param>
@@ -1158,32 +1158,63 @@
 				</div>
 				<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
 					<xsl:attribute name="href">
-						<xsl:value-of select="3"/><xsl:text>display_zoomed_figure.php?fig_id=</xsl:text>
-						<xsl:value-of select="3"/>
+						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text><xsl:value-of select="./image/@instance_id" />
 					</xsl:attribute>
 				</a>	
-			</div>			
-			<span class="fig-label-RC">
-				<xsl:value-of select="./@display_name"></xsl:value-of>
-					<xsl:text> </xsl:text>
-				<xsl:value-of select="./fields/figure_number"></xsl:value-of>
-			</span>
-			<xsl:apply-templates select="./image/fields/figure_caption/value" mode="formatting"/>
-		</div>
-		
+				<span class="fig-label-RC">
+					<xsl:value-of select="./@display_name"></xsl:value-of>
+						<xsl:text> </xsl:text>
+					<xsl:value-of select="./fields/figure_number"></xsl:value-of>
+				</span>
+				<xsl:apply-templates select="./image/fields/figure_caption/value" mode="formatting"/>
+			</div>
+		</xsl:if>		
+		<xsl:if test="./fields/figure_type/value/@value_id = '2'">
+			<xsl:apply-templates select="./multiple_images_plate" mode="singleFigNormalPreview" />
+		</xsl:if>
 	</xsl:template>
 	
-	<!-- Article of the future preview template of a single plate -->
+	<!-- Article of the future preview template of a single plate part -->
 	<xsl:template match="*" mode="article_preview_plate">
-			<div class="item-holder-RC">
-					<span class="fig-label-RC">
-						<xsl:value-of select="./@display_name"></xsl:value-of>
-							<xsl:text> </xsl:text>
-						<xsl:value-of select="./fields/figure_number"></xsl:value-of>
-					</span>
-				<xsl:apply-templates select="image" mode="Figures" />
-				<xsl:apply-templates select="multiple_images_plate" mode="Figures" />
+		<xsl:variable name="platePart">
+			<xsl:choose>
+				<xsl:when test="@object_id='225'">a</xsl:when>
+				<xsl:when test="@object_id='226'">b</xsl:when>
+				<xsl:when test="@object_id='227'">c</xsl:when>
+				<xsl:when test="@object_id='228'">d</xsl:when>
+				<xsl:when test="@object_id='229'">e</xsl:when>
+				<xsl:when test="@object_id='230'">f</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<div class="figure">
+			<div class="holder">				
+				<xsl:call-template name="goodIMG">
+					<xsl:with-param name="filename"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=singlefigAOF_<xsl:value-of select="./fields/image_id/value"/>.jpg</xsl:with-param>
+				</xsl:call-template>
 			</div>
+			<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
+				<xsl:attribute name="href">
+					<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text><xsl:value-of select="@instance_id"/>
+				</xsl:attribute>
+			</a>
+			<div class="Plate-part-letter"><xsl:value-of select="$platePart"/></div>
+
+			<div>
+				<span class="fig-label-RC">
+					Figure
+					<xsl:value-of select="../../../../fields/figure_number/value" /><xsl:text> </xsl:text>
+					<xsl:value-of select="$platePart"/>
+				</span>
+				<p><xsl:value-of select="./fields/plate_desc/value" /></p>
+			</div>
+			<div>
+				<a class="plate_link">
+					<xsl:attribute name="id"><xsl:value-of select="../../../../@instance_id" /></xsl:attribute>
+					See whole plate
+				</a>
+			</div>
+		</div>
 	</xsl:template>
 	
 	<!-- Article of the future preview template of a single table -->
