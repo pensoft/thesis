@@ -206,7 +206,7 @@ $gTemplArr = array (
 			</div>
 	',
 	'article.ncbi_lineage_row' => '
-				<span class="ncbiLineageRow"><a href="{_ParseTaxonExternalLink(taxon_name, link)}">{scientific_name}</a></span>
+				<span class="ncbiLineageRow"><a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, link)}">{scientific_name}</a></span>
 	',
 	'article.ncbi_lineage_nodata' => '',
 	
@@ -217,12 +217,12 @@ $gTemplArr = array (
 					<div class="extLinksTitle">Related links found in database</div>
 	',
 	'article.ncbi_related_links_end' => '
-					<div class="extLinksSeeAll">To get a complete list click <a href="{_ParseTaxonExternalLink(taxon_name, see_all_link)}">here</a>.</div>
+					<div class="extLinksSeeAll">To get a complete list click <a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, see_all_link)}">here</a>.</div>
 				</div>
 	',
 	'article.ncbi_related_links_row' => '
 					<div class="extLinkRow">
-						<a href="{_ParseTaxonExternalLink(taxon_name, link)}" title="{title}">{_CutText(title, 100)}</a>
+						<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, link)}" title="{title}">{_CutText(title, 100)}</a>
 					</div>
 	',
 	'article.ncbi_related_links_nodata' => '',
@@ -259,7 +259,7 @@ $gTemplArr = array (
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
 				<tr>
 					<td class="labelImg" id="ncbiLink">
-						<a href="{_ParseTaxonExternalLink(taxon_name, ncbi_link)}"><img class="noBorder" src="' . PTP_URL . '/img/ext_details/ncbi_logo.jpg"></a>
+						<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, ncbi_link)}"><img class="noBorder" src="' . PTP_URL . '/img/ext_details/ncbi_logo.jpg"></a>
 					</td>
 					<td><h2 class="labelTitle">Gene Sequences and PubMed links </h2></td>
 				</tr>
@@ -287,13 +287,13 @@ $gTemplArr = array (
 		<div class="contentSection generalInfoSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
 				<tr>
-					<td class="labelImg"> <a href="{_ParseTaxonExternalLink(taxon_name, gbif_link, postform, postfields)}"><img class="noBorder" src="' . PTP_URL . '/img/ext_details/gbif_logo.jpg"></img></a></td>
+					<td class="labelImg"> <a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, gbif_link, postform, postfields)}"><img class="noBorder" src="' . PTP_URL . '/img/ext_details/gbif_logo.jpg"></img></a></td>
 					<td><h2 class="labelTitle">Global Biodiversity Information Facility</h2></td>
 				</tr>
 			</table>
 			<div class="sectionBody">	
 				<iframe name="gbifIframe" scrolling="no" height="410" frameborder="0" vspace="1" hspace="1" src="' . IFRAME_PROXY_URL . '?url={_rawurlencode(map_iframe_src)}"  onload="correctIframeLinks(this, \'{link_prefix}\')"></iframe>
-				<div class="gbifLink">Click <a href="{_ParseTaxonExternalLink(taxon_name, gbif_link, postform, postfields)}">here</a> to go to the GBIF search results for this taxon</div>
+				<div class="gbifLink">Click <a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, gbif_link, postform, postfields)}">here</a> to go to the GBIF search results for this taxon</div>
 			</div>
 		</div>
 	',
@@ -305,7 +305,7 @@ $gTemplArr = array (
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="4" border="0">
 				<tr>
 					<td class="labelImg" id="biodevLink"> 
-						<a href="{_ParseTaxonExternalLink(taxon_name, bhl_link)}"><img class="noBorder" src="' . PTP_URL . '/img/ext_details/biodev_logo.jpg"></a>
+						<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, bhl_link)}"><img class="noBorder" src="' . PTP_URL . '/img/ext_details/biodev_logo.jpg"></a>
 					</td>
 					<td><h2 class="labelTitle">Biodiversity Heritage Library</h2></td>
 				</tr>
@@ -313,7 +313,7 @@ $gTemplArr = array (
 			<div class="sectionBody">	
 				<p>{_bhl_showimage(taxon_name, fullsize_img_url, thumbnail_url, nodata)}
 				<div class="BHLDetails_head">
-					<div class="BHLDetail"><span class="label">Bibliography for <span class="ncbiLineageRow"><a href="{_ParseTaxonExternalLink(taxon_name, bhl_link)}">{taxon_name}</a></span></span></div>
+					<div class="BHLDetail"><span class="label">Bibliography for <span class="ncbiLineageRow"><a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, bhl_link)}">{taxon_name}</a></span></span></div>
 				</div>
 				<br/>
 	',
@@ -384,7 +384,7 @@ $gTemplArr = array (
 	',
 	
 	'article.bhl_pages_row' => '
-				<span class="bhl_pageslink"><a href="{_ParseTaxonExternalLink(taxon_name, url)}">{number}</a>{_bhl_writecomma(rownum, records)}</span>
+				<span class="bhl_pageslink"><a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, url)}">{number}</a>{_bhl_writecomma(rownum, records)}</span>
 	',
 	
 	'article.bhl_pages_nodata' => '
@@ -409,7 +409,7 @@ $gTemplArr = array (
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
 				<tr>
 					<td class="labelImg" id="{icon_div_id}">
-						<a href="{_ParseTaxonExternalLink(taxon_name, wikimedia_link)}">
+						<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, wikimedia_link)}">
 							<img class="noBorder" src="' . PTP_URL . '/img/ext_details/wikimedia_logo.jpg">
 						</a>
 					</td>
@@ -437,7 +437,7 @@ $gTemplArr = array (
 	
 	'article.wikimedia_images_row' => '
 				<div class="imageRow">
-					<a href="{_ParseTaxonExternalLink(taxon_name, src)}"><img src="{src}" class="noBorder" alt="{name}" style="width: 134px;"></img></a>
+					<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, src)}"><img src="{src}" class="noBorder" alt="{name}" style="width: 134px;"></img></a>
 				</div>
 				
 	',
@@ -486,12 +486,12 @@ $gTemplArr = array (
 				<div class="P-Regular-Site-Info-Holder">
 					<table cellspacing="0" cellpadding="0" border="0" width="100%" height="100%">
 						<td class="leftMenuRowImage">
-							<a href="{_ParseTaxonExternalLink(taxon_name, taxon_link, 0, use_post_action, fields_to_post)}">
+							<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, taxon_link, 0, use_post_action, fields_to_post)}">
 								{_showImageIfSrcExists(picsrc)}
 							</a>
 						</td>
 						<td class="leftMenuRowLink">
-							<a href="{_ParseTaxonExternalLink(taxon_name, taxon_link, 0, use_post_action, fields_to_post)}">
+							<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, taxon_link, 0, use_post_action, fields_to_post)}">
 								{display_title}
 							</a>
 						</td>

@@ -996,13 +996,11 @@
 				<div class="P-Figure-Num">Table <xsl:value-of select="./fields/*[@id='489']/value"/></div>
 				<div class="P-Figure-Desc"><xsl:copy-of select="./fields/*[@id='482']/value"/></div>
 				<div class="P-Figure-Download-Link">
-					<a class="download-table-link" href="javascript:void(0)"> 
-						<xsl:attribute name="onclick">
-							<xsl:text>DownloadTable(</xsl:text>
-							<xsl:value-of select="./@instance_id" />
-							<xsl:text>, '</xsl:text>
+					<a class="download-table-link"> 
+						<xsl:attribute name="href">
 							<xsl:value-of select="$pSiteUrl" />
-							<xsl:text>')</xsl:text>
+							<xsl:text>/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&amp;instance_id=</xsl:text>
+							<xsl:value-of select="./@instance_id" />
 						</xsl:attribute>
 						Download
 					</a>
@@ -1032,6 +1030,14 @@
 									<xsl:value-of select="./@instance_id" />
 								</xsl:attribute>
 								Download
+							</a>
+							<a class="download-table-link"> 
+								<xsl:attribute name="href">
+									<xsl:value-of select="$pSiteUrl" />
+									<xsl:text>/lib/ajax_srv/csv_export_srv.php?action=export_materials_as_csv&amp;document_id=</xsl:text>
+									<xsl:value-of select="$pDocumentId" />
+								</xsl:attribute>
+								Download DwC
 							</a>
 						</span>
 					</div>	
@@ -1717,6 +1723,9 @@
 			</div>
 		</xsl:for-each>
 	</xsl:template>	
+	
+	
+		
 
 	<!-- Article of the future LIST PREVIEWS END -->
 </xsl:stylesheet>

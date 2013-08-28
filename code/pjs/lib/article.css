@@ -100,7 +100,7 @@ a[href], label[for] {
 }
 
 .P-Article-Info-header{
-	background-image: linear-gradient(#B5B5AE 10%,#FEFBF3);
+	background-image: linear-gradient(#B5B5AE 10%, #FEFBF3);
 	border-radius: 5px 5px 0px 0px;
 	width: 500px;
 	height: 94px;
@@ -589,16 +589,11 @@ a.download{
 .P-Taxon-Name{
 	font-size:20px;
 	font-weight:bold;
+	color: #0088CC;
 }
 
 .P-Category{
 	margin-top:20px;
-}
-
-.P-Category-Title{
-	font-size:15px;
-	font-weight:bold;
-	margin-bottom:20px;
 }
 
 .line {
@@ -612,32 +607,93 @@ a.download{
 	font-size:12px;
 }
 
-.P-Categories-Menu{
-	margin:20px 0px;
+.P-Categories-Menu-Element:hover{
+	background-color: #BBB;
 }
 
-.P-Categories-Menu-Element{
-	float:left;
-	margin-right:15px;
-	font-weight:bold;
+.P-Categories-Menu-Element a{
+	color: #333;
 }
 
-.P-Category-Regular-Sites .P-Regular-Site-Info-Holder{
-	width:160px;
-	float:left;
-}
 .P-Taxon{
 	padding: 15px;
 }
 .ptp-menu-holder{
-	background-color: #808080;
+	background-color: #FEFBF3;
     position: fixed;
     top: 162px;
-    width: 500px;
+    width: 484px;
+    height: 60px;
+    border-bottom: 2px solid #999999;
     margin-left: -15px;
     -moz-box-sizing: padding-box;
 	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
-.P-Taxon-Name{
-	padding: 10px;
+.P-Categories-List{
+	margin-top: 56px;
 }
+
+.P-Taxon-Name{
+	padding: 7px 0px 0px 15px;
+}
+
+.P-Categories-Menu{
+	padding:3px 0px 10px 15px;
+}
+
+.P-Categories-Menu-Element{
+	float:left;
+	font-weight:bold;
+	padding: 3px 13px;
+}
+
+.P-Category-Title{
+	padding-left: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    height: 20px;
+    background-image: linear-gradient(90deg, gold, #FEFBF3);
+}
+
+.contentSectionLabel td, .contentSectionLabel tr, .contentSectionLabel th{
+	padding: 0 4px;
+}
+.P-Regular-Site-Info-Holder table, .P-Regular-Site-Info-Holder td, .P-Regular-Site-Info-Holder tr, .P-Regular-Site-Info-Holder th{
+	padding: 0 4px;
+	height: 32px;
+}
+
+td.labelImg, td.leftMenuRowImage{
+	padding:0px;	
+}
+
+
+.P-Category-Regular-Sites{
+	margin: 10px 0px 0px 0px;
+}
+
+.P-Regular-Site-Info-Holder{
+	padding: 6px 0;
+    width: 220px;
+    float: left;
+}
+
+
+.entrezRecordsTable td, .entrezRecordsTable th {
+    padding: 0 8px 0 0;
+}
+
+.leftMenuRowLink{
+	
+}
+
+.bhl-img {
+    width: 140px;
+    margin: 20px;
+}
+
+div.sectionBody iframe{
+	width: 450px; 
+	height: 244px;
+}
+
