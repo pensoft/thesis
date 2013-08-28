@@ -149,7 +149,7 @@ class mArticles extends emBase_Model {
 			SELECT i.cached_val
 			FROM pjs.taxons a
 			JOIN pjs.article_cached_items i ON i.id = a.cache_id
-			WHERE lower(translate(a.name::text, \' ,.-*\', \'\'\'\')) = lower(translate(\'' . q($pTaxonName) . '\', \' ,.-*\', \'\'\'\'))
+			JOIN spGetTaxonId(\'' . q($pTaxonName) . '\') s ON s.id  = a.id			
 		';
 // 				var_dump($lSql);
 		$this->m_con->Execute($lSql);

@@ -252,7 +252,7 @@ $gTemplArr = array (
 	',
 	'article.ncbi_entrez_records_nodata' => '',
 	
-	'article.ncbi_nodata' => '',
+	'article.ncbi_no_data' => '',
 	
 	'article.ncbi' => '
 		<div class="contentSection imagesSection">
@@ -298,7 +298,7 @@ $gTemplArr = array (
 		</div>
 	',
 	
-	'article.gbif_nodata' => '',
+	'article.gbif_no_data' => '',
 	
 	'article.bhl_head' => '
 		<div class="contentSection generalInfoSection">

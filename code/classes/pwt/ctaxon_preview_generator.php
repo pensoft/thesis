@@ -125,8 +125,7 @@ class ctaxon_preview_generator extends csimple {
 	function LoadTaxonData() {
 		$lSql = '
 			SELECT id
-			FROM pjs.taxons a
-			WHERE lower(translate(a.name::text, \' ,.-*\', \'\'\'\')) = lower(translate(\'' . q($this->m_taxonName) . '\', \' ,.-*\', \'\'\'\'))
+			FROM spGetTaxonId(\'' . q($this->m_taxonName) . '\');
 		';
 		$this->m_con->Execute($lSql);
 		$this->m_taxonId = (int) $this->m_con->mRs ['id'];
@@ -266,7 +265,7 @@ class ctaxon_preview_generator extends csimple {
 			'gbif_link' => $lGbifLinkData ['taxon_link'],
 			'gbif_taxon_id' => $lGBIFData ['gbif_taxon_id'],
 			'map_iframe_src' => $lGBIFData ['map_iframe_src'],
-			'link_prefix' => addslashes(ParseTaxonExternalLink($this->m_taxonName)),
+			'link_prefix' => addslashes(ParseTaxonExternalLink($this->m_taxonName, '')),
 			'taxon_name' => $this->m_taxonName 
 		));
 		$this->m_gbifPreview = $lPreview->Display();

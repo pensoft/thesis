@@ -28,8 +28,7 @@ class ctaxon_data_generator extends csimple {
 	function LoadTaxonData() {
 		$lSql = '
 			SELECT id
-			FROM pjs.taxons a
-			WHERE lower(translate(a.name::text, \' ,.-*\', \'\'\'\')) = lower(translate(\'' . q($this->m_taxonName) . '\', \' ,.-*\', \'\'\'\'))
+			FROM spGetTaxonId(\'' . q($this->m_taxonName) . '\');
 		';
 		$this->m_con->Execute($lSql);
 		$this->m_taxonId = (int) $this->m_con->mRs ['id'];
