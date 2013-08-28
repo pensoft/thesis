@@ -4,6 +4,13 @@ $gDontRedirectToLogin = 1;
 require_once($docroot . '/lib/static.php');
 ini_set('display_errors', 'off');
 
+define('CSV_SPECIES_TAXON_TREATMENT_RANKID', 1);
+define('CSV_SPECIES_TAXON_CHECKLIST_RANKID', 19);
+define('CSV_SUBSPECIES_TAXON_CHECKLIST_RANKID', 20);
+define('CSV_VARIETY_TAXON_CHECKLIST_RANKID', 21);
+define('CSV_FORM_TAXON_CHECKLIST_RANKID', 22);
+define('CSV_CHECKLIST_OBJECT_ID', 204);
+
 $lAction = $_REQUEST['action'];
 $lInstanceId = (int)$_REQUEST['instance_id'];
 $lDocumentId = (int)$_REQUEST['document_id'];
@@ -378,7 +385,8 @@ if($lAction == 'export_materials_as_csv') {
 		SELECT 
 			doi.id, 
 			doi.document_id,
-			doi3.display_name as treatment_name
+			doi3.display_name as treatment_name,
+			doi3.object_id
 		FROM pwt.document_object_instances doi
 		JOIN pwt.document_object_instances doi1 ON doi1.id = doi.parent_id
 		JOIN pwt.document_object_instances doi2 ON doi2.id = doi1.parent_id
@@ -408,6 +416,7 @@ if($lAction == 'export_materials_as_csv') {
 			$lMaterialInstanceId = $mval['id'];
 			$lMaterialDocumentId = $mval['document_id'];
 			$lTreatmentName = $mval['treatment_name'];
+			$lObjectId = $mval['object_id'];
 			
 			$lGetMaterialDarwinCorePosSql = 'SELECT pos FROM pwt.document_object_instances where parent_id = ' . $lMaterialInstanceId . ' AND object_id = ' . DARWINCORE_OBJECT_ID;
 			//var_dump($lGetMaterialDarwinCorePosSql);
@@ -424,7 +433,7 @@ if($lAction == 'export_materials_as_csv') {
 			$lCon->Execute('
 				SELECT ifv.*
 				FROM pwt.document_object_instances doi
-				JOIN pwt.v_instance_fields ifv ON ifv.instance_id = doi.id 
+				JOIN pwt.v_instance_fields_eml ifv ON ifv.instance_id = doi.id 
 				WHERE doi.pos like \'' . $lPos . '%\' AND document_id = ' . $lMaterialDocumentId . '
 					AND field_id NOT IN (' . $lForbiddenFields . ')
 			');
@@ -436,7 +445,7 @@ if($lAction == 'export_materials_as_csv') {
 				// WHERE doi.pos like \'' . $lPos . '%\' AND document_id = ' . $lMaterialDocumentId . '
 					// AND field_id NOT IN (' . $lForbiddenFields . ')
 			// ');
-			 // exit;
+			 //exit;
 			$lMaterialsFieldValuesArr[$lMaterialInstanceId] = $lMaterialsFieldsArr;
 			$lMaterialFieldsArr = array();
 			while(!$lCon->Eof()){
@@ -470,24 +479,116 @@ if($lAction == 'export_materials_as_csv') {
 					$lHeaderAdd[$fldval['field_id']] = $lLabel;
 				}
 			}
+			// var_dump($fldval['object_id']);
+			// exit;
 			
-			if(
-				!$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] &&
-				!$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] &&
-				!$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] &&
-				!$lMaterialsFieldValuesArr[$lMaterialInstanceId][101]
-			) {
-				$lArrVals = fixEmptyValues($lMaterialDocumentId, $lPos, 42, $lArrToFillValsIfEmpty);
-				if(count($lArrVals)) {
-					$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] = $lArrVals[48];
-					$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] = $lArrVals[417];
-					$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] = $lArrVals[49];
-					$lMaterialsFieldValuesArr[$lMaterialInstanceId][101] = $lArrVals[50];
+			/**
+			 * fix empty values by object id
+			 * */
+			if($lObjectId == CSV_CHECKLIST_OBJECT_ID) {
+				$lTaxonRank = checkTaxonRank($lObjectId, $lMaterialDocumentId, $lPos, 414);
+				switch ($lTaxonRank) {
+					case CSV_SPECIES_TAXON_CHECKLIST_RANKID:
+						if(
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][101]
+						) {
+							$lArrToFillValsIfEmpty = array(48, 417, 49, 236);
+							$lArrVals = fixEmptyValues($lMaterialDocumentId, $lPos, 42, $lArrToFillValsIfEmpty);
+							if(count($lArrVals)) {
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] = $lArrVals[48];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] = $lArrVals[417];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] = $lArrVals[49];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][101] = $lArrVals[236];
+							}
+						}	
+						break;
+					case CSV_SUBSPECIES_TAXON_CHECKLIST_RANKID:
+						if(
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][101] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][98]
+						) {
+							$lArrToFillValsIfEmpty = array(48, 417, 49, 236, 418);
+							$lArrVals = fixEmptyValues($lMaterialDocumentId, $lPos, 42, $lArrToFillValsIfEmpty);
+							if(count($lArrVals)) {
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] = $lArrVals[48];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] = $lArrVals[417];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] = $lArrVals[49];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][101] = $lArrVals[236];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][98] = $lArrVals[418];
+							}
+						}	
+						break;
+					case CSV_VARIETY_TAXON_CHECKLIST_RANKID:
+						if(
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][101] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][98]
+						) {
+							$lArrToFillValsIfEmpty = array(48, 417, 49, 236, 435);
+							$lArrVals = fixEmptyValues($lMaterialDocumentId, $lPos, 42, $lArrToFillValsIfEmpty);
+							if(count($lArrVals)) {
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] = $lArrVals[48];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] = $lArrVals[417];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] = $lArrVals[49];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][101] = $lArrVals[236];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][98] = $lArrVals[435];
+							}
+						}
+						break;
+					case CSV_FORM_TAXON_CHECKLIST_RANKID:
+						if(
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][101] &&
+							!$lMaterialsFieldValuesArr[$lMaterialInstanceId][98]
+						) {
+							
+							$lArrToFillValsIfEmpty = array(48, 417, 49, 236, 436);
+							$lArrVals = fixEmptyValues($lMaterialDocumentId, $lPos, 42, $lArrToFillValsIfEmpty);
+							if(count($lArrVals)) {
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] = $lArrVals[48];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] = $lArrVals[417];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] = $lArrVals[49];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][101] = $lArrVals[236];
+								$lMaterialsFieldValuesArr[$lMaterialInstanceId][98] = $lArrVals[436];
+							}
+						}
+						break;
+					default:
+						break;
+				}
+			} else {
+				$lTaxonRank = checkTaxonRank($lObjectId, $lMaterialDocumentId, $lPos, 42);
+				if($lTaxonRank = CSV_SPECIES_TAXON_TREATMENT_RANKID) {
+					if(
+						!$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] &&
+						!$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] &&
+						!$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] &&
+						!$lMaterialsFieldValuesArr[$lMaterialInstanceId][101]
+					) {
+						$lArrVals = fixEmptyValues($lMaterialDocumentId, $lPos, 42, $lArrToFillValsIfEmpty);
+						if(count($lArrVals)) {
+							$lMaterialsFieldValuesArr[$lMaterialInstanceId][95] = $lArrVals[48];
+							$lMaterialsFieldValuesArr[$lMaterialInstanceId][96] = $lArrVals[417];
+							$lMaterialsFieldValuesArr[$lMaterialInstanceId][97] = $lArrVals[49];
+							$lMaterialsFieldValuesArr[$lMaterialInstanceId][101] = $lArrVals[50];
+						}
+					}	
 				}
 			}
 			$gHeader++;
 		}
 	}
+//exit;
 	
 	if($lDocumentId) {
 		$lFileName = 'occurrence.txt';
@@ -667,7 +768,34 @@ function fixEmptyValues($pDocumentId, $pPos, $pTaxonRankFieldId, $pFieldIds) {
 	$lResArr = array();
 	$lConSec = new DBCn();
 	$lConSec->Open();
-	$lPosMain = substr($pPos, 0, 4);
+	$lPosInner = substr($pPos, 0, 6);
+
+	$lConSec->Execute('
+		SELECT ifv.*
+		FROM pwt.document_object_instances doi
+		JOIN pwt.v_instance_fields ifv ON ifv.instance_id = doi.id 
+		WHERE doi.pos like \'' . $lPosInner . '%\' AND document_id = ' . $pDocumentId . '
+			AND field_id IN (' . implode(',', $pFieldIds) . ')'
+	);
+	$lConSec->MoveFirst();
+	while(!$lConSec->Eof()){
+		$lResArr[$lConSec->mRs['field_id']] = $lConSec->mRs['value_str']; 
+		$lConSec->MoveNext();
+	}
+	$lConSec->Close();
+	
+	return $lResArr;
+	
+}
+
+function checkTaxonRank($pObjectId, $pDocumentId, $pPos, $pTaxonRankFieldId){
+	$lConSec = new DBCn();
+	$lConSec->Open();
+	if($pObjectId == CSV_CHECKLIST_OBJECT_ID) {
+		$lPosMain = substr($pPos, 0, 6);
+	} else {
+		$lPosMain = substr($pPos, 0, 4);
+	}
 	
 	$lConSec->Execute('
 		SELECT ifv.value_int
@@ -677,34 +805,10 @@ function fixEmptyValues($pDocumentId, $pPos, $pTaxonRankFieldId, $pFieldIds) {
 			AND field_id = ' . $pTaxonRankFieldId
 	);
 	$lConSec->MoveFirst();
-	// var_dump('
-		// SELECT ifv.value_int
-		// FROM pwt.document_object_instances doi
-		// JOIN pwt.v_instance_fields ifv ON ifv.instance_id = doi.id 
-		// WHERE doi.pos = \'' . $lPosMain . '\' AND document_id = ' . $pDocumentId . '
-			// AND field_id = ' . $pTaxonRankFieldId);
 	$lRank = (int)$lConSec->mRs['value_int'];
-	
-	$lPosInner = substr($pPos, 0, 6);
-
-	if($lRank == 1) {
-		$lConSec->Execute('
-			SELECT ifv.*
-			FROM pwt.document_object_instances doi
-			JOIN pwt.v_instance_fields ifv ON ifv.instance_id = doi.id 
-			WHERE doi.pos like \'' . $lPosInner . '%\' AND document_id = ' . $pDocumentId . '
-				AND field_id IN (' . implode(',', $pFieldIds) . ')'
-		);
-		$lConSec->MoveFirst();
-		while(!$lConSec->Eof()){
-			$lResArr[$lConSec->mRs['field_id']] = $lConSec->mRs['value_str']; 
-			$lConSec->MoveNext();
-		}
-	}
 	$lConSec->Close();
 	
-	return $lResArr;
-	
+	return $lRank;
 }
 
 function SearchArray($pArr, $pVal) {
