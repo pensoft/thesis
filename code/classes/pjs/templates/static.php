@@ -847,7 +847,7 @@ function DisplayReviewIcon($pInvitationId, $pDecisionId, $pReviewerId, $pRoundId
 	if((int) $pDecisionId){
 		$lRes .= '
 			<span class="reviewer_act">
-				<img title="{_getstr(View review1)}" onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\', 0, 0, \'window_' . $pReviewerVersionId . '\')" src="../i/review_ready.png"></img>
+				<img title="'.getstr('pjs.tooltips.view_review').'" onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\', 0, 0, \'window_' . $pReviewerVersionId . '\')" src="../i/review_ready.png"></img>
 			</span>';
 		return $lRes;
 	}else{
