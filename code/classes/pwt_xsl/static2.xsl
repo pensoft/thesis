@@ -11,7 +11,6 @@
 	<xsl:param  name="pPutEditableJSAndCss">0</xsl:param>
 	<xsl:param  name="pTrackFigureAndTableChanges">0</xsl:param>
 	<xsl:param  name="pSiteUrl"></xsl:param>
-	<xsl:param  name="pPWTUrl"></xsl:param>
 	<xsl:param  name="pPDFPreviewMode">0</xsl:param>
 	<!-- This parameter will be passed when we generate the previews for article of the future -->
 	<xsl:param  name="pInArticleMode">0</xsl:param>
@@ -1004,7 +1003,7 @@
 							<xsl:text>DownloadTable(</xsl:text>
 							<xsl:value-of select="./@instance_id" />
 							<xsl:text>, '</xsl:text>
-							<xsl:value-of select="$pPWTUrl" />
+							<xsl:value-of select="$pSiteUrl" />
 							<xsl:text>')</xsl:text>
 						</xsl:attribute>
 						Download
@@ -1028,13 +1027,11 @@
 				<div class="description">
 					<div class="name">Table <xsl:value-of select="$lFigNumber" />.
 						<span class="P-Figure-Download-Link">
-							<a class="download-table-link" href="javascript:void(0)"> 
-								<xsl:attribute name="onclick">
-									<xsl:text>DownloadTable(</xsl:text>
+							<a class="download-table-link"> 
+								<xsl:attribute name="href">
+									<xsl:value-of select="$pSiteUrl" />
+									<xsl:text>/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&amp;instance_id=</xsl:text>
 									<xsl:value-of select="./@instance_id" />
-									<xsl:text>, '</xsl:text>
-									<xsl:value-of select="$pPWTUrl" />
-									<xsl:text>')</xsl:text>
 								</xsl:attribute>
 								Download
 							</a>

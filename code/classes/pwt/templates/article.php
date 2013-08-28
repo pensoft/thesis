@@ -559,8 +559,10 @@ $gTemplArr = array (
 	
 	'article.taxon_preview' => '
 			<div class="P-Taxon">
-				<div class="P-Taxon-Name">{taxon_name}</div>
-				{categories_menu}
+				<div class="ptp-menu-holder">
+					<div class="P-Taxon-Name">{taxon_name}</div>
+					{categories_menu}
+				</div>	
 				{categories_list}
 			</div>
 	',

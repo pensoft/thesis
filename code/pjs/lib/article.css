@@ -626,4 +626,18 @@ a.download{
 	width:160px;
 	float:left;
 }
-
+.P-Taxon{
+	padding: 15px;
+}
+.ptp-menu-holder{
+	background-color: #808080;
+    position: fixed;
+    top: 162px;
+    width: 500px;
+    margin-left: -15px;
+    -moz-box-sizing: padding-box;
+	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.P-Taxon-Name{
+	padding: 10px;
+}
