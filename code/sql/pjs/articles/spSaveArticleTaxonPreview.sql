@@ -21,13 +21,13 @@ $BODY$
 		FROM pjs.article_taxons ar
 		JOIN pjs.taxons r ON r.id = ar.taxon_id
 		WHERE ar.article_id = pArticleId 
-			AND lower(translate(r.name::text, ' ,.-*', '')) = lower(translate(pTaxonName, ' ,.-*', ''));
+			AND spNormalizeTaxonName(r.name) = spNormalizeTaxonName(pTaxonName);
 		
 		IF lArticleElementId IS NULL THEN
 			SELECT INTO lArticleElementId, lCacheId
 				ar.taxon_id, r.cache_id
 			FROM pjs.taxons r 
-			WHERE lower(translate(r.name::text, ' ,.-*', '')) = lower(translate(pTaxonName, ' ,.-*', ''));
+			WHERE spNormalizeTaxonName(r.name::text) = spNormalizeTaxonName(pTaxonName);
 			
 			IF lArticleElementId IS NULL THEN 
 				INSERT INTO pjs.taxons(name)

@@ -649,7 +649,15 @@ INSERT INTO pjs.taxon_sites_match_expressions(site_id, expression, ord)
 		
 		
 
+CREATE TABLE pjs.taxon_preview_generation_errors(
+	id bigserial PRIMARY KEY,
+	taxon_id bigint REFERENCES pjs.taxons(id) NOT NULL,
+	err_msg varchar,
+	processed boolean DEFAULT false,
+	createdate timestamp DEFAULT now()
+);
 
+GRANT ALL ON pjs.taxon_preview_generation_errors TO iusrpmt;
 
 
 /* Stored procedures
@@ -689,4 +697,11 @@ INSERT INTO pjs.taxon_sites_match_expressions(site_id, expression, ord)
 	pjs.spSaveTaxonUbioSiteResult
 	pjs.spSaveTaxonSiteResult
 	pjs.spSaveTaxonPreview
+	pjs.spClearArticleTaxa
+	pjs.spSaveArticleTaxon
+	pjs.spNormalizeTaxonName
+	pjs.spGetTaxonId 
+	The following line should be added to the pwt conf
+	require_once('ptp_conf.php');
+	also the PTP_URL should be set to the correct url of ptp
 */

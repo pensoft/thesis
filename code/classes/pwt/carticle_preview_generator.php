@@ -113,6 +113,7 @@ class carticle_preview_generator extends csimple {
 	var $m_contentsListPreview = '';
 	var $m_articleLocalities = array();
 	var $m_localitiesListPreview = '';
+	var $m_taxaList = array();
 
 	function __construct($pFieldTempl) {
 		$this->m_instancesDetails = array ();
@@ -546,8 +547,7 @@ class carticle_preview_generator extends csimple {
 	protected function GenerateLocalitiesPreview(){
 		$lXPath = new DOMXPath($this->m_wholePreviewDom);
 		$lLocalitiesXPath = ('//*[@data-is-locality-coordinate]');
-		$lXPathResult = $lXPath->query($lLocalitiesXPath);
-		$lLocalitiesArr = array();
+		$lXPathResult = $lXPath->query($lLocalitiesXPath);		
 		$this->m_articleLocalities = array();
 		foreach ($lXPathResult as $lCurrentLocality){
 			$lLatitude = $lCurrentLocality->getAttribute('data-latitude');
@@ -609,6 +609,109 @@ class carticle_preview_generator extends csimple {
 // 		exit;
 	
 	}
+	
+	protected function GetTaxaList(){
+		$lXPath = new DOMXPath($this->m_wholePreviewDom);
+		$lTaxaXPath = ('//*[@class="tn"]');
+		$lXPathResult = $lXPath->query($lTaxaXPath);
+		$this->m_taxaList = array();
+		$lAttributeNameThatHoldsPartType = 'class';
+		$lAttributeNameThatHoldsPartValue = 'part-value';
+		$lPartsThatLeadToSelf = array (
+			'kingdom',
+			'subkingdom',
+			'phylum',
+			'subphylum',
+			'superclass',
+			'class',
+			'subclass',
+			'superorder',
+			'order',
+			'suborder',
+			'infraorder',
+			'superfamily',
+			'family',
+			'subfamily',
+			'tribe',
+			'subtribe',
+			'genus',
+			'subgenus',
+			'above-genus' 
+		);
+		$lPartsThatDontLeadToSelf = array (
+			'species' => array (
+				'genus',
+				'species' 
+			),
+			'subspecies' => array (
+				'genus',
+				'species',
+				'subspecies' 
+			),
+			'variety' => array (
+				'genus',
+				'species',
+				'variety' 
+			),
+			'form' => array (
+				'genus',
+				'species',
+				'form' 
+			) 
+		);
+		$lPartsThatLeadToSelfQuery = '';
+		foreach ($lPartsThatLeadToSelf as $lPartName) {
+			if($lPartsThatLeadToSelfQuery != ''){
+				$lPartsThatLeadToSelfQuery .= '|';
+			}
+			$lPartsThatLeadToSelfQuery .= './/*[@' . $lAttributeNameThatHoldsPartType . '="' . $lPartName . '"]';
+		}
+		$lPartsThatDontLeadToSelfQuery = '';
+		foreach ($lPartsThatDontLeadToSelf as $lPartName => $lData) {
+			if($lPartsThatDontLeadToSelfQuery != ''){
+				$lPartsThatDontLeadToSelfQuery .= '|';
+			}
+			$lPartsThatDontLeadToSelfQuery .= './/*[@' . $lAttributeNameThatHoldsPartType . '="' . $lPartName . '"]';
+		}
+// 		var_dump($lXPathResult->length);
+		foreach ($lXPathResult as $lCurrentTaxonNode){
+			$lPartsLeadingToSelfNodes = $lXPath->query($lPartsThatLeadToSelfQuery, $lCurrentTaxonNode);
+			foreach ($lPartsLeadingToSelfNodes as $lPart){
+				$lTaxonName = trim($lPart->getAttribute($lAttributeNameThatHoldsPartValue));
+				if($lTaxonName == ''){
+					$lTaxonName = trim($lPart->textContent);
+				}
+				$this->m_taxaList[] = $lTaxonName;
+			}
+			$lPartsNotLeadingToSelfNodes = $lXPath->query($lPartsThatDontLeadToSelfQuery, $lCurrentTaxonNode);
+			foreach ($lPartsNotLeadingToSelfNodes as $lPart){
+				$lTaxonName = '';
+				$lPartType = $lPart->getAttribute($lAttributeNameThatHoldsPartType);
+				foreach ($lPartsThatDontLeadToSelf[$lPartType] as $lNecessaryPartType) {
+					$lNecessaryPartQuery = './/*[@' . $lAttributeNameThatHoldsPartType . '="' . $lNecessaryPartType . '"]';
+					$lNecessaryPartNodes = $lXPath->query($lNecessaryPartQuery, $lCurrentTaxonNode);
+					$lPartValue = '';
+					if($lNecessaryPartNodes->length){
+						$lNode = $lNecessaryPartNodes->item(0);
+						$lPartValue = trim($lNode->getAttribute($lAttributeNameThatHoldsPartValue));
+						if($lPartValue == ''){
+							$lPartValue = trim($lNode->textContent);
+						}						
+					}
+					if($lPartValue != ''){
+						if($lTaxonName != ''){
+							$lTaxonName .= ' ';
+						}
+						$lTaxonName .= $lPartValue;
+					}
+				}				
+				$this->m_taxaList[] = trim($lTaxonName);
+			}
+		}
+		$this->m_taxaList = array_unique($this->m_taxaList);
+// 		var_dump($this->m_taxaList);
+// 		exit;
+	}
 
 	protected function ImportGeneratedPreviews() {
 		if ($this->m_errCnt) {
@@ -637,6 +740,7 @@ class carticle_preview_generator extends csimple {
 			//Localities list		
 			$this->SaveElementPreview(0, INSTANCE_LOCALITIES_LIST_TYPE, $this->m_localitiesListPreview);
 			$this->SaveArticleLocalities();
+			$this->SaveArticleTaxa();
 			
 			if (! $lCon->Execute('COMMIT TRANSACTION;')) {
 				throw new Exception(getstr('pwt.couldNotBeginTransaction'));
@@ -668,6 +772,14 @@ class carticle_preview_generator extends csimple {
 			}
 		}
 	}
+	
+	protected function SaveArticleTaxa(){
+		$this->ExecuteTransactionalQuery('SELECT * FROM spClearArticleTaxa(' . (int)$this->m_documentId . ')');
+		foreach ($this->m_taxaList as $lTaxonName){
+			$lSql = 'SELECT * FROM spSaveArticleTaxon(' . (int)$this->m_documentId . ', \'' . q($lTaxonName) . '\');';
+			$this->ExecuteTransactionalQuery($lSql);
+		}
+	}
 
 	function GetData() {
 		if ($this->m_dontGetData) {
@@ -689,6 +801,7 @@ class carticle_preview_generator extends csimple {
 		$this->GenerateArticleAuthorPreviews();
 		$this->GenerateArticleContentsListPreview();
 		$this->GenerateLocalitiesPreview();
+		$this->GetTaxaList();
 	}
 
 	function ReplaceHtmlFields($pStr) {
