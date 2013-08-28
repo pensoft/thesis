@@ -16,8 +16,6 @@
 	<!-- This parameter will be passed when we generate the previews for article of the future -->
 	<xsl:param  name="pInArticleMode">0</xsl:param>
 	
-	<xsl:variable name="figBaseURL">http://jordan.pwt.pensoft.dev</xsl:variable>
-	
 	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
 	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
 	
@@ -829,7 +827,7 @@
 		<div class="P-Picture-Holder" style="float:left">
 				<div class="pointerLink">
 				<img style="float: left;"  alt="">
-					<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./fields/*[@id='483']/value"></xsl:value-of>.jpg</xsl:attribute>
+					<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./fields/*[@id='483']/value"></xsl:value-of>.jpg</xsl:attribute>
 				</img>
 				<div class="P-Clear"></div>
 			</div>
@@ -881,7 +879,7 @@
 		<div style="text-align: center; display: table; width: 90px">
 			<div class="twocolumnmini">
 				<img alt="">
-					<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+					<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 				</img>
 			</div>
 		</div>
@@ -898,12 +896,12 @@
 	<xsl:template match="*[@object_id='232']" mode="singleFigSmallPreview">
 		<div class="twocolumnmini">
 			<img style="float: left;"  alt="">
-				<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=plateportraitmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+				<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=plateportraitmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 			</img>
 		</div>
 		<div class="twocolumnmini">
 			<img style="float: left;"  alt="">
-				<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=plateportraitmini_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+				<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=plateportraitmini_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 			</img>
 		</div>
 	</xsl:template>
@@ -914,28 +912,28 @@
 			<div class="twocolumnminiholder">
 				<div class="twocolumnmini">
 					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 					</img>
 				</div>
 			</div>
 			<div class="twocolumnminiholder">
 				<div class="twocolumnmini">
 					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 					</img>
 				</div>
 			</div>
 			<div class="twocolumnminiholder">
 				<div class="twocolumnmini">
 					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='227']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='227']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 					</img>
 				</div>
 			</div>
 			<div class="twocolumnminiholder">
 				<div class="twocolumnmini">
 					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='228']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='228']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 					</img>
 				</div>
 			</div>
@@ -948,42 +946,42 @@
 			<div class="twocolumnminiholder">
 				<div class="twocolumnmini">
 					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 					</img>
 				</div>
 			</div>
 			<div class="twocolumnminiholder">
 				<div class="twocolumnmini">
 					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 					</img>
 				</div>
 			</div>
 			<div class="twocolumnminiholder">
 				<div class="twocolumnmini">
 					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='227']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='227']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 					</img>
 				</div>
 			</div>
 			<div class="twocolumnminiholder">
 				<div class="twocolumnmini">
 					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='228']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='228']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 					</img>
 				</div>
 			</div>
 			<div class="twocolumnminiholder">
 				<div class="twocolumnmini">
 					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='229']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='229']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 					</img>
 				</div>
 			</div>
 			<div class="twocolumnminiholder">
 				<div class="twocolumnmini">
 					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='230']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='230']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
 					</img>
 				</div>
 			</div>
@@ -1158,14 +1156,8 @@
 			<div class="figure">
 				<div class="holder">
 					<xsl:call-template name="goodIMG">
-						<xsl:with-param name="filename"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=singlefigAOF_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg</xsl:with-param>
+						<xsl:with-param name="filename"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=singlefigAOF_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg</xsl:with-param>
 					</xsl:call-template>
-					<!--<img alt="">
-						<xsl:variable name="filename"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=gb_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg</xsl:variable>
-						<xsl:attribute name="src"   ><xsl:value-of select="$filename"/></xsl:attribute>
-						<xsl:attribute name="width" ><xsl:value-of select="php:function('getimageW', string($filename))" /></xsl:attribute>
-						<xsl:attribute name="height"><xsl:value-of select="php:function('getimageH', string($filename))" /></xsl:attribute>
-					</img>-->
 				</div>
 				<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
 					<xsl:attribute name="href">
@@ -1388,7 +1380,7 @@
 		<div class="P-Picture-Holder">
 			<div class="singlefigmini">
 				<img alt="">
-					<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./fields/photo_select/value"></xsl:value-of>.jpg</xsl:attribute> 
+					<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./fields/photo_select/value"></xsl:value-of>.jpg</xsl:attribute> 
 				</img>
 			</div>	
 		</div>
@@ -1435,7 +1427,7 @@
 			<div class="item-holder-RC">
 				<div class="P-table-tump-holder">
 					<img width="60" heigth="48" alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$figBaseURL"/>/i/table_pic-60.png</xsl:attribute> 
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/table_pic-60.png</xsl:attribute> 
 					</img> 
 				</div>		
 					<span class="fig-label-RC">
