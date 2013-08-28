@@ -553,7 +553,7 @@ $gTemplArr = array(
 					<div class="document_author_review_round_top_left document_author_review_round_top_left_editor">Subject Editor</div>
 				</td>
 				<td align="center">
-					<span class="subj_editor_name_class">{first_name} {last_name}</span> <a href="mailto:{uname}"><img src="../i/mail.png" /></a>
+					<span class="subj_editor_name_class">{first_name} {last_name}</span> <a href="mailto:{uname}?subject=[{journal_name}] Inquiry regarding a manuscript {document_id}"><img src="../i/mail.png" /></a>
 				</td>
 				<td align="right">
 					<img src="../i/edit.png"/> <a href="/view_document.php?id={document_id}&amp;view_role=2&amp;mode=1&suggested=1">Change</a>
@@ -739,7 +739,7 @@ $gTemplArr = array(
 
 	'view_document_editor.dedicatedReviewerAssignedListRow' => '
 		<tr>
-			<td align="left">{first_name} {last_name} <a href="mailto:{uname}"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a></td>
+			<td align="left">{first_name} {last_name} <a href="mailto:{uname}?subject=[{journal_name}] Inquiry regarding a manuscript {document_id}"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a></td>
 			<td align="left">
 				{_DisplaySETextAboutDedicatedReviewer(invitation_state, usr_state, decision_id, due_date, decision_name, review_usr_due_date, round_id, id, reviwer_id)}
 			</td>
@@ -1160,7 +1160,7 @@ $gTemplArr = array(
 			{first_name} {last_name}
 		</td>
 		<td align="left">
-			<a href="mailto:{uname}">{uname}</a>
+			<a href="mailto:{uname}?subject=[{journal_name}] Inquiry regarding a manuscript {document_id}">{uname}</a>
 		</td>
 		<td align="center">
 			{_showCEAddEvent(document_id, id, assigned_ce_uid, current_round_id)}
@@ -1208,7 +1208,7 @@ $gTemplArr = array(
 			{first_name} {last_name}
 		</td>
 		<td align="left">
-			<a href="mailto:{uname}">{uname}</a>
+			<a href="mailto:{uname}?subject=[{journal_name}] Inquiry regarding a manuscript {document_id}">{uname}</a>
 		</td>
 		<td align="center">
 			{_showLEAddEvent(document_id, id, assigned_le_uid)}
@@ -1290,7 +1290,7 @@ $gTemplArr = array(
 
 	'view_document_editor.dedicatedReviewerAssignedOldListRow' => '
 		<tr>
-			<td align="left">{first_name} {last_name} <a href="mailto:{uname}"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a></td>
+			<td align="left">{first_name} {last_name} <a href="mailto:{uname}?subject=[{journal_name}] Inquiry regarding a manuscript {document_id}"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a></td>
 			<td align="left">
 				{_DisplaySETextAboutDedicatedReviewer(invitation_state, usr_state, decision_id, due_date, decision_name, review_usr_due_date)}
 			</td>
