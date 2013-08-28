@@ -96,6 +96,7 @@ a[href], label[for] {
 #article-id{
 	margin-left: 20px;
 	float: left;
+	color: #333333;
 }
 
 .P-Article-Info-header{
@@ -527,11 +528,10 @@ a.download{
 	padding: 10px 0;
 }
 .AOF-Author-Is-Corresponding{
-	font-size: 10pt;
+	font-size: 9pt;
 }
 .AOF-Author-Affiliation{
-	padding-top: 6px;
-	font-size: 10pt;
+	font-size: 9pt;
 	font-style: italic;
 }
 .P-Date-Received{
@@ -561,24 +561,23 @@ a.download{
 }
 .copyrights{
 	border-top: 1px solid #AAAAAA;
-    font-size: 10pt;
+    font-size: 9pt;
     margin-top: 30px;
     padding-top: 8px;
 }
 .AOF-Author-Site{
-	font-size: 10pt;
+	font-size: 9pt;
 }
 .AOF-Author-Site a, .copyrights a{
 	color: #0088CC;	
 }
 .AOF-Author-more{
 	color:#666;
-	font-size: 10pt;
-	padding-top: 6px;
+	font-size: 9pt;
 }
 .AOF-Author-more a{
 	color: #0088CC;
-	font-size: 11pt;
+	font-size: 9pt;
 } 
 .AOF-Single-Author-Holder{
 	 margin: 10px 15px 0px 15px;
@@ -602,6 +601,12 @@ a.download{
 	margin-bottom:20px;
 }
 
+.line {
+    border-top: 1px solid #999999;
+    margin: 40px 0 0 0;
+    background-color: white;
+}
+
 .P-Category .labelTitle, .P-Category th{
 	font-weight:bold;
 	font-size:12px;
@@ -620,4 +625,19 @@ a.download{
 .P-Category-Regular-Sites .P-Regular-Site-Info-Holder{
 	width:160px;
 	float:left;
+}
+.P-Taxon{
+	padding: 15px;
+}
+.ptp-menu-holder{
+	background-color: #808080;
+    position: fixed;
+    top: 162px;
+    width: 500px;
+    margin-left: -15px;
+    -moz-box-sizing: padding-box;
+	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.P-Taxon-Name{
+	padding: 10px;
 }

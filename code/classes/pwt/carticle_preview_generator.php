@@ -514,9 +514,14 @@ class carticle_preview_generator extends csimple {
 	}
 
 	protected function GenerateArticleContentsListPreview() {
-		$lSql = '
-			SELECT * FROM spGetArticleContentsInstances(' . (int)$this->m_documentId . ');	
-		';
+		$lSql = "
+			SELECT i.id as instance_id, replace(replace(display_name, 'Title & Authors', 'Article title'), 'Abstract & Keywords', 'Abstract') as display_name, 1 as level, pos, null as parent_instance_id, 0 as has_children 
+					FROM pwt.document_object_instances i 
+					JOIN pjs.articles a ON a.pwt_document_id = i.document_id 
+					WHERE i.object_id in (9, 153, 15) and a.id = " . (int)$this->m_documentId . "
+				UNION
+			SELECT * FROM spGetArticleContentsInstances(" . (int)$this->m_documentId . ") order by pos offset 1;
+		";
 // 		var_dump($lSql);
 		$lPreview = new crsrecursive(array(
 			'recursivecolumn'=>'parent_instance_id',

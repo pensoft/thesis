@@ -700,6 +700,12 @@ function getDocumentXMLValidationTempls(){
 	);
 }
 
+function getDocumentXMLValidationTemplsNoComments(){
+	return array(
+		G_DEFAULT => 'document.xml_validation_wrapper_no_comments'
+	);
+}
+
 function getDocumentTreeDefaultTempls(){
 	return array(
 		G_HEADER => 'document.tree_head',
