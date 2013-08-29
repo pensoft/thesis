@@ -29,6 +29,9 @@ define('BHL_TAXON_LINK', 'http://www.biodiversitylibrary.org/api2/httpquery.ashx
 define('BHL_MORPHBANK_LINK', 'http://services.morphbank.net/mb/request?method=search&objecttype=Image&geolocated=true&firstResult=0&user=&group=&change=&lastDateChanged=&numChangeDays=1&id=&format=svc&keywords=');
 define('BHL_TAXON_EXTERNAL_LINK', 'http://biodiversitylibrary.org/name/');
 
+define('EOL_API_LINK_SEARCH', 'http://eol.org/api/search/1.0.xml?page=1&exact=true&q=');
+define('EOL_API_LINK_GET_IMAGES', 'http://eol.org/api/pages/1.0/{taxon_eol_id}.xml?images=5&iucn=true&subjects=overview&licenses=all&details=true&common_names=false&synonyms=false&references=false&vetted=0');
+
 define('CP1251CONVERT', 0);
 
 define('UBIO_FIND_URL', 'http://www.ubio.org/webservices/service.php');
@@ -111,6 +114,7 @@ define('PENSOFT_SITE_URL', 'http://www.pensoft.net/');
 define('CACHE_TIMEOUT_LENGTH', 14 * 24 * 3600);
 //~ define('CACHE_TIMEOUT_LENGTH', 1);
 define('GBIF_SITE_ID', 1);
+define('EOL_SITE_ID', 2);
 define('NCBI_SITE_ID', 24);
 define('WIKIMEDIA_SITE_ID', 27);
 define('LIAS_SITE_ID', 38);

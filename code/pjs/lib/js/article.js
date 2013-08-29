@@ -3,9 +3,11 @@ var gArticleId = 0;
 var gActiveMenuClass = 'P-Active-Menu';
 var gArticlePreviewIframeId = 'articleIframe';
 var gMapHolderId = 'localitiesMap';
+var gBaloonId = 'ArticleBaloon';
 var gArticleMap = false;
 var gContentsMenuElementType = 1;
 var gLocalitiesMenuElementType = 6;
+var gReferencesMenuElementType = 4;
 var gMenuActiveElementType = false;
 
 var gLocalitiesList = {};
@@ -37,6 +39,13 @@ Locality.prototype.hideMarker = function(){
 
 function SetArticleId(pArticleId){
 	gArticleId = pArticleId;
+}
+
+function initArticlePreviewOnLoadEvents(){	
+	resizePreviewIframe(gArticlePreviewIframeId);	
+	InitContentsCustomElementsEvents(1);
+	LoadArticleLocalities();
+	LoadArticleReferences();
 }
 
 function InitArticleMenuEvents(){
@@ -116,6 +125,44 @@ function LoadArticleLocalities(){
 	});
 }
 
+function LoadArticleReferences(){
+	$.ajax({
+		url : gArticleAjaxSrvUrl,
+		async : false,
+		data : {
+			action : 'get_main_list_element',
+			element_type : gReferencesMenuElementType,
+			article_id : gArticleId
+		},
+		success : function(pAjaxResult) {
+			if(pAjaxResult['err_cnt']){			
+				return;
+			}
+			$('.P-Article-References-For-Baloon').html(pAjaxResult['html']);	
+		}
+	});
+	GetArticlePreviewContent().find('.bibr[rid]').each(function(pIdx, pReferenceNode){
+		var lReferenceId = $(pReferenceNode).attr('rid'); 
+		var lBaloon = $('#' + gBaloonId);
+		var lReferenceContent = $('.P-Article-References-For-Baloon').find('.bibr[rid="' + lReferenceId + '"]');
+		if(!lReferenceContent.length){
+			return;
+		}
+		$(pReferenceNode).hover(function(pEvent){
+			lBaloon.html(lReferenceContent.html());
+			var lReferenceOffsetTop = $(pReferenceNode).offset().top + $(pReferenceNode).outerHeight();
+			var lReferenceOffsetLeft = $(pReferenceNode).offset().left;
+			lBaloon.css('top', lReferenceOffsetTop);
+			lBaloon.css('left', lReferenceOffsetLeft);
+			lBaloon.show();
+		},
+		function(pEvent){
+			lBaloon.hide();
+		}
+		);
+	});	
+}
+
 function LoadElementInfo(pActionName, pElementId, pElementName){
 	$.ajax({
 		url : gArticleAjaxSrvUrl,
@@ -180,12 +227,6 @@ function InitContentsCustomElementsEvents(pInPreviewIframe){
 	PlaceSupFilesEvents(pInPreviewIframe);
 	PlaceLocalitiesEvents(pInPreviewIframe);
 	PlaceAuthorEvents(pInPreviewIframe);
-}
-
-function initArticlePreviewOnLoadEvents(){	
-	resizePreviewIframe(gArticlePreviewIframeId);	
-	InitContentsCustomElementsEvents(1);
-	LoadArticleLocalities();
 }
 
 function SetArticleOnLoadEvents(){

@@ -786,6 +786,18 @@ img.bhl-img {
     margin: 0 10px 10px;
 }
 
+.P-Article-References-For-Baloon{
+	display:none;
+}
+
+.P-Baloon{
+	position:absolute;
+	display:none;
+	background:white;
+	padding:10px;
+	border: 1px solid black;
+}
+
 div.sectionBody iframe{
 	height: 244px;
     width: 432px;
