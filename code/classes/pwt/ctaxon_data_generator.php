@@ -353,7 +353,7 @@ class ctaxon_data_generator extends csimple {
 			SELECT r.*, d.display_name as db_display_name, d.entrez_name
 			FROM pjs.taxon_ncbi_entrez_records r
 			JOIN pjs.taxon_ncbi_entrez_databases d ON d.id = r.db_id
-			WHERE r.ncbi_data_id = ' . (int) $pNCBIId . '
+			WHERE r.ncbi_data_id = ' . (int) $pNCBIId . ' and d.id not in (3, 4) 
 		';
 		$lCon->Execute($lSql);
 		while(!$lCon->Eof()){

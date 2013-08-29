@@ -7,6 +7,9 @@ table, td, tr, th{
 	width:auto;
 }
 
+a{
+	color: #0088CC;	
+}
 
 html, body{
 	overflow-y: hidden;
@@ -43,6 +46,10 @@ a[href], label[for] {
 	font-family: Calibri;
 	margin-top: 94px;
 	-moz-box-sizing: padding-box;
+}
+
+.P-Article-Info-Bar.ST{
+	overflow-x: auto;
 }
  
 #article-preview {
@@ -137,7 +144,7 @@ a[href], label[for] {
 
 .P-Info-Menu.rightBar{
 	position: relative;
-	left: 228px
+	left: 228px;
 	width: 249px;
 	height: 50px;
 	padding:5px 5px;  
@@ -239,7 +246,9 @@ a[href], label[for] {
 .twocolumnminiholder{width: 51px; height: 51px; float: left;  text-align: center; display: table}
 .twocolumnmini{display: table-cell; vertical-align: middle; text-align: center; padding: 3px; cursor:pointer;}
 .singlefigmini{vertical-align: middle; text-align: center; padding: 3px; cursor:pointer;}
-
+.twocolumnmini.fig{
+	padding:1px;
+}
 .fig-label-RC {
 	margin-bottom: 10px;
 	font-size: 11pt;
@@ -258,6 +267,10 @@ a[href], label[for] {
 .item-holder-RC:hover{
 	background-color: #F0EEE7; /*F0EEE7*/
 }
+.item-holder-RC.table{
+	cursor: pointer;
+}
+
 .item-holder-RC:last-child{
 	border-bottom: none;
 }
@@ -357,8 +370,9 @@ div.myfieldHolder[field_id='222']{
 .ref-full-hidden{
 		
 }
-.description{
-	/*margin-top: 15px;*/
+.figure .description{
+	margin-top: 10px;
+	font-size: 11pt;
 }
 .description .name {
 	margin-bottom: 6px;
@@ -378,7 +392,7 @@ div.myfieldHolder[field_id='222']{
 
 .Table-Body table {
   border-collapse: collapse !important;
-  width: 100% !important;
+  /*width: 100% !important;*/
 }
 .Table-Body table td, .Table-Body table th {
   border: 1px solid #e2e2dc;
@@ -670,14 +684,6 @@ a.download{
 	font-size:12px;
 }
 
-.P-Categories-Menu-Element:hover{
-	background-color: #BBB;
-}
-
-.P-Categories-Menu-Element a{
-	color: #333;
-}
-
 .P-Taxon{
 	padding: 15px;
 }
@@ -707,7 +713,15 @@ a.download{
 .P-Categories-Menu-Element{
 	float:left;
 	font-weight:bold;
-	padding: 3px 13px;
+	padding: 3px 7px;
+}
+
+.P-Categories-Menu-Element:hover{
+	background-color: #BBB;
+}
+
+.P-Categories-Menu-Element a{
+	color: #333;
 }
 
 .P-Category-Title{
@@ -715,7 +729,7 @@ a.download{
     font-size: 15px;
     font-weight: bold;
     height: 20px;
-    background-image: linear-gradient(90deg, gold, #FEFBF3);
+    background-image: linear-gradient(90deg, #E3E3C7, #FEFBF3);
 }
 
 .contentSectionLabel td, .contentSectionLabel tr, .contentSectionLabel th{
@@ -723,7 +737,7 @@ a.download{
 }
 .P-Regular-Site-Info-Holder table, .P-Regular-Site-Info-Holder td, .P-Regular-Site-Info-Holder tr, .P-Regular-Site-Info-Holder th{
 	padding: 0 4px;
-	height: 32px;
+	height: 36px;
 }
 
 td.labelImg, td.leftMenuRowImage{
@@ -732,15 +746,32 @@ td.labelImg, td.leftMenuRowImage{
 
 
 .P-Category-Regular-Sites{
-	margin: 10px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
 }
 
 .P-Regular-Site-Info-Holder{
-	padding: 6px 0;
-    width: 220px;
+    border: 1px solid #CCC;
     float: left;
+    font-size: 10pt;
+    padding: 6px 0;
+    width: 226px;
+    background-color: #FEFBF3; 
+    margin: 0 -1px -1px 0;
 }
 
+.P-Regular-Site-Info-Holder:hover{
+    background-color: #F8F8E3; 
+}
+
+.P-Category-Special-Sites{
+	border: 1px solid #BBBBBB;
+    padding: 6px;
+    width: 455px;
+    background-color: #FEFBF3;
+    margin: 0px 0px -1px 0px; 
+	-moz-box-sizing: padding-box;
+	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
 
 .entrezRecordsTable td, .entrezRecordsTable th {
     padding: 0 8px 0 0;
@@ -750,9 +781,9 @@ td.labelImg, td.leftMenuRowImage{
 	
 }
 
-.bhl-img {
+img.bhl-img {
     width: 140px;
-    margin: 20px;
+    margin: 0 10px 10px;
 }
 
 .P-Article-References-For-Baloon{
@@ -768,7 +799,26 @@ td.labelImg, td.leftMenuRowImage{
 }
 
 div.sectionBody iframe{
-	width: 450px; 
 	height: 244px;
+    width: 432px;
+    margin: 0px 0px 8px;
+}
+.BHLDetails{
+	font-size: 8pt;
+}
+.DwC{
+	padding: 15px;
+	border-bottom: 1px solid #BBBBBB;
+	font-weight:bold;
+	color: #0088CC;
+}
+.plate_link{
+	padding-top: 10px;
+	cursor: pointer;
 }
 
+.twocolumnmini.fig:hover{
+	-moz-box-sizing: border-box;
+    border: 1px solid red;
+    padding: 0px;
+}
