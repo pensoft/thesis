@@ -1434,7 +1434,7 @@ function bhl_showimage($pTaxonName, $pImgUrl, $pImg, $pNodata) {
 	if ($pNodata)
 		return '';
 	else
-		return '<a class="bhl-img" href="' . ParseTaxonExternalLink($pTaxonName, $pImgUrl) . '"><img border="0" align="right" src="' . $pImg . '"></img></a>';
+		return '<a href="' . ParseTaxonExternalLink($pTaxonName, $pImgUrl) . '"><img class="bhl-img" border="0" align="right" src="' . $pImg . '"></img></a>';
 }
 
 function GetFormattedXml($pXml, $pReplaceBrSymbol = 0){	

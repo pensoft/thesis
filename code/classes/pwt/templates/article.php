@@ -233,10 +233,7 @@ $gTemplArr = array (
 		<div class="entrezRecordsHolder">
 			<table class="entrezRecordsTable">
 				<tr>
-					<th colspan="2">Entrez records</th>
-				</tr>
-				<tr>
-					<th>Database name</th>
+					<td>Database name</td>
 					<th>Subtree links</th>
 				</tr>		
 	',
@@ -261,24 +258,14 @@ $gTemplArr = array (
 					<td class="labelImg" id="ncbiLink">
 						<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, ncbi_link)}"><img class="noBorder" src="' . PTP_URL . '/img/ext_details/ncbi_logo.jpg"></a>
 					</td>
-					<td><h2 class="labelTitle">Gene Sequences and PubMed links </h2></td>
+					<td><h2 class="labelTitle">Gene Sequences</h2></td>
 				</tr>
 			</table>
 			<div class="sectionBody">
-				<div class="ncbiDetails">
-					<div class="ncbiDetail"><span class="label">Inherited blast name:</span> {division}</div>
-					<div class="ncbiDetail"><span class="label">Rank:</span> {rank}</div>
-					{lineage}
-				</div>
 				<div class="ncbiEntrezRecords">
 					{entrez_records}
 				</div>
-				<div class="unfloat"></div>
-				<div class="pubMedLinks">{related_links}</div>			
-				<div class="ncbiDisclaimer">
-					Disclaimer: The NCBI taxonomy database is not an authoritative source for nomenclature or classification - please consult the relevant scientific literature for the most reliable information.
-				</div>
-				<div class="unfloat"></div>
+				<div class="P-Clear"></div>
 			</div>
 		</div>
 	',
@@ -292,8 +279,19 @@ $gTemplArr = array (
 				</tr>
 			</table>
 			<div class="sectionBody">	
-				<iframe name="gbifIframe" scrolling="no" height="410" frameborder="0" vspace="1" hspace="1" src="' . IFRAME_PROXY_URL . '?url={_rawurlencode(map_iframe_src)}"  onload="correctIframeLinks(this, \'{link_prefix}\')"></iframe>
-				<div class="gbifLink">Click <a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, gbif_link, postform, postfields)}">here</a> to go to the GBIF search results for this taxon</div>
+				<script type="text/javascript">
+					 function resizeGbifMap(){
+						 var iframe = document.getElementById("gbifIframe");
+						 var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+						 var mapi;
+						 if (iframeDocument) {
+						  mapi = iframeDocument.getElementById("map");
+						  mapi.style.width="200px";
+						  mapi.style.height="150px";
+						 }
+					 }
+				</script>
+				<iframe id="gbifIframe" name="gbifIframe" scrolling="no" height="410" frameborder="0" vspace="1" hspace="1" src="' . IFRAME_PROXY_URL . '?url={_rawurlencode(map_iframe_src)}"  onload="resizeGbifMap(); correctIframeLinks(this, \'{link_prefix}\')"></iframe>
 			</div>
 		</div>
 	',
@@ -320,6 +318,7 @@ $gTemplArr = array (
 	
 	'article.bhl_foot' => '
 			<div class="unfloat"></div>
+			<br/>
 			<p class="extLinksSeeAll">To get a complete list click <a  href="{_ParseTaxonExternalLink(taxon_name, bhl_link)}">here</a></p>
 			</div>
 		</div>

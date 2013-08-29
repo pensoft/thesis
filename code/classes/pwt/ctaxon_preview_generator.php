@@ -38,7 +38,7 @@ class ctaxon_preview_generator extends csimple {
 				),
 				'regular_sites' => array (),
 				'is_empty' => true,
-				'display_name' => 'Distribution',
+				'display_name' => 'Occurrences',
 				'preview' => '' 
 			),
 			'genomics' => array (
@@ -64,6 +64,15 @@ class ctaxon_preview_generator extends csimple {
 				'display_name' => 'Nomenclature',
 				'preview' => '' 
 			),
+			'treatments' => array (
+				'special_sites' => array (),
+				'regular_sites' => array (
+					35 //Plazi
+				),
+				'is_empty' => true,
+				'display_name' => 'Treatments',
+				'preview' => '' 
+			),
 			'literature' => array (
 				'special_sites' => array (
 					BHL_SITE_ID 
@@ -86,15 +95,6 @@ class ctaxon_preview_generator extends csimple {
 				),
 				'is_empty' => true,
 				'display_name' => 'Images',
-				'preview' => '' 
-			),
-			'treatments' => array (
-				'special_sites' => array (),
-				'regular_sites' => array (
-					35 //Plazi
-				),
-				'is_empty' => true,
-				'display_name' => 'Treatments',
 				'preview' => '' 
 			),
 			'other' => array (
