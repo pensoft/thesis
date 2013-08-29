@@ -55,8 +55,7 @@ class ctaxon_preview_generator extends csimple {
 				'preview' => '' 
 			),
 			'nomenclature' => array (
-				'special_sites' => array (
-					EOL_SITE_ID,//Eol
+				'special_sites' => array (					
 				),
 				'regular_sites' => array (
 					17,//ZooBank
@@ -74,7 +73,9 @@ class ctaxon_preview_generator extends csimple {
 				),
 				'regular_sites' => array (
 					31,//Pubmed
-					30 //Google scholar
+					30, //Google scholar
+					41, //PMC
+					42, //Crossref
 				),
 				'is_empty' => true,
 				'display_name' => 'Literature',
@@ -92,7 +93,9 @@ class ctaxon_preview_generator extends csimple {
 				'preview' => '' 
 			),
 			'treatments' => array (
-				'special_sites' => array (),
+				'special_sites' => array (
+					EOL_SITE_ID,//Eol
+				),
 				'regular_sites' => array (
 					35 //Plazi
 				),

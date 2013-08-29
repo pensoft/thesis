@@ -10,9 +10,11 @@ class ctaxon_data_generator extends csimple {
 	var $m_taxonId;
 	var $m_relatedLinksCount = 5;
 	var $m_ncbiRelatedLinksDb = 'pubmed';
+	var $m_forcefulDataGeneration = false;
 
 	function __construct($pFieldTempl) {
 		$this->m_taxonName = $pFieldTempl ['taxon_name'];
+		$this->m_forcefulDataGeneration = (int)$pFieldTempl['forceful_data_generation'];
 		$this->m_encodedTaxonName = urlencode($this->m_taxonName);
 		$this->m_templ = $pFieldTempl ['templ'];
 		$this->m_dontGetData = false;
@@ -46,7 +48,7 @@ class ctaxon_data_generator extends csimple {
 			AND lastmoddate > now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval 					
 		';
 		$lCon->Execute($lSql);
-		if (! $lCon->mRs ['id']) {
+		if (! $lCon->mRs ['id'] || $this->m_forcefulDataGeneration) {
 			return $this->GenerateNCBIData();
 		}
 		return $this->GetNCBIDataFromDB($lCon->mRs['id']);
@@ -403,7 +405,7 @@ class ctaxon_data_generator extends csimple {
 			AND lastmoddate > now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval
 		';
 		$lCon->Execute($lSql);
-		if (! $lCon->mRs ['id']) {
+		if (! $lCon->mRs ['id'] || $this->m_forcefulDataGeneration) {
 			return $this->GenerateGBIFData();
 		}
 		return $this->GetGBIFDataFromDB($lCon->mRs['id']);
@@ -499,7 +501,7 @@ class ctaxon_data_generator extends csimple {
 			AND lastmoddate > now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval
 		';
 		$lCon->Execute($lSql);
-		if (! $lCon->mRs ['id']) {
+		if (! $lCon->mRs ['id'] || $this->m_forcefulDataGeneration) {
 			return $this->GenerateEOLData();
 		}
 		return $this->GetEOLDataFromDB($lCon->mRs['id']);
@@ -637,7 +639,7 @@ class ctaxon_data_generator extends csimple {
 			AND lastmoddate > now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval
 		';
 		$lCon->Execute($lSql);
-		if (! $lCon->mRs ['id']) {
+		if (! $lCon->mRs ['id'] || $this->m_forcefulDataGeneration) {
 			return $this->GenerateBHLData();
 		}
 		return $this->GetBHLDataFromDB($lCon->mRs['id']);
@@ -875,7 +877,7 @@ class ctaxon_data_generator extends csimple {
 			AND lastmoddate > now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval
 		';
 		$lCon->Execute($lSql);
-		if (! $lCon->mRs ['id']) {
+		if (! $lCon->mRs ['id'] || $this->m_forcefulDataGeneration) {
 			return $this->GenerateWikimediaData();
 		}
 		return $this->GetWikimediaDataFromDB();
@@ -1040,7 +1042,7 @@ class ctaxon_data_generator extends csimple {
 			AND lastmoddate > now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval
 		';
 		$lCon->Execute($lSql);
-		if (! $lCon->mRs ['id']) {
+		if (! $lCon->mRs ['id'] || $this->m_forcefulDataGeneration) {
 			return $this->GenerateLiasData();
 		}
 		return $this->GetLiasDataFromDB($lCon->mRs ['id']);
@@ -1209,7 +1211,7 @@ class ctaxon_data_generator extends csimple {
 			AND lastmoddate > now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval
 		';
 		$lCon->Execute($lSql);
-		if (! $lCon->mRs ['id']) {
+		if (! $lCon->mRs ['id'] || $this->m_forcefulDataGeneration) {
 			return $this->GenerateSiteData($pSiteId);
 		}
 		return $this->GetSiteDataFromDb($pSiteId);
@@ -1262,11 +1264,13 @@ class ctaxon_data_generator extends csimple {
 		$lResultFound = false;		
 			
 		if( $lSiteResponse ){
-			//~ var_dump($lSiteResponse);
+// 			var_dump($lSiteResponse);
+// 			var_dump($lSiteMetaData['match_expressions']);
 			if( is_array( $lSiteMetaData['match_expressions'] )){//Masiv s reg expove, koito ako matchnat vsichki - nqma rezultat
 				foreach( $lSiteMetaData['match_expressions']  as $lSingleRegExpPattern ){	
 					$lSingleRegExpPattern = $this->ReplaceText($lSingleRegExpPattern);				
 					$lSingleRegExpPattern = '/' . $lSingleRegExpPattern . '/im';
+// 					var_dump(preg_match( $lSingleRegExpPattern, $lSiteResponse));
 					if( !preg_match( $lSingleRegExpPattern, $lSiteResponse)){//Ima match
 						$lResultFound = true;		
 						break;
