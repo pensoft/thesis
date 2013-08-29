@@ -64,7 +64,7 @@ function LoadArticleMenuMainElement(pElementType){
 			}
 			ClearActiveLocalities();
 			gMenuActiveElementType = pElementType;
-			LoadInfoContent(pAjaxResult['html'], pElementType);			
+			LoadInfoContent(pAjaxResult['html'], pElementType);					
 		}
 	});
 }
@@ -73,6 +73,7 @@ function LoadInfoContent(pContent, pActiveMenuType){
 	$('.P-Info-Content').html(pContent);
 	$('.P-Info-Menu li.' + gActiveMenuClass).removeClass(gActiveMenuClass);
 	$('.P-Info-Menu li[data-info-type="' + pActiveMenuType + '"]').addClass(gActiveMenuClass);
+	InitContentsCustomElementsEvents();
 }
 
 function LoadArticleLocalities(){
@@ -159,6 +160,7 @@ function LoadReferenceInfo(pElementId){
 }
 
 function LoadTaxonInfo(pTaxonName){
+	pTaxonName = PrepareTaxonName(pTaxonName);
 //	LoadElementInfo('get_taxon_element', '', pTaxonName);
 	console.log('Taxon ' + pTaxonName);
 	LoadElementInfo('get_taxon_element', '', pTaxonName);
@@ -170,15 +172,19 @@ function LoadAuthorInfo(pElementId){
 //	LoadElementInfo('get_author_element', 4);
 }
 
+function InitContentsCustomElementsEvents(pInPreviewIframe){
+	PlaceTaxonNameEvents(pInPreviewIframe);
+	PlaceFigureEvents(pInPreviewIframe);
+	PlaceTableEvents(pInPreviewIframe);
+	PlaceReferencesEvents(pInPreviewIframe);
+	PlaceSupFilesEvents(pInPreviewIframe);
+	PlaceLocalitiesEvents(pInPreviewIframe);
+	PlaceAuthorEvents(pInPreviewIframe);
+}
+
 function initArticlePreviewOnLoadEvents(){	
 	resizePreviewIframe(gArticlePreviewIframeId);	
-	PlaceTaxonNameEvents();
-	PlaceFigureEvents();
-	PlaceTableEvents();
-	PlaceReferencesEvents();
-	PlaceSupFilesEvents();
-	PlaceLocalitiesEvents();
-	PlaceAuthorEvents();
+	InitContentsCustomElementsEvents(1);
 	LoadArticleLocalities();
 }
 
@@ -190,7 +196,16 @@ function GetArticlePreviewContent(){
 	return $('#' + gArticlePreviewIframeId).contents();
 }
 
-function PlaceTaxonNameEvents(){
+
+function GetCustomElementsContents(pInPreviewIframe){
+	if(pInPreviewIframe){
+		return GetArticlePreviewContent();
+	}
+	return $('.P-Article-Info-Bar');
+}
+
+
+function PlaceTaxonNameEvents(pInPreviewIframe){
 	var lPartsThatLeadToSelf = [
 		'kingdom', 
 		'subkingdom', 
@@ -219,9 +234,10 @@ function PlaceTaxonNameEvents(){
 		'form' : ['genus', 'species', 'form']
 	};
 	var lPartsThatLeadToSelfSelector = '.' + lPartsThatLeadToSelf.join(',.');
-	GetArticlePreviewContent().find('.tn').each(function(pIdx, pTaxonNode){
+	GetCustomElementsContents(pInPreviewIframe).find('.tn').each(function(pIdx, pTaxonNode){
 		$(pTaxonNode).find(lPartsThatLeadToSelfSelector).each(function(pIdx1, pTaxonNamePartNode){
-			$(pTaxonNamePartNode).bind('click', function(){
+			$(pTaxonNamePartNode).bind('click', function(pEvent){
+				pEvent.stopPropagation();
 				LoadTaxonInfo($(pTaxonNamePartNode).text());
 			});
 		});
@@ -239,7 +255,8 @@ function PlaceTaxonNameEvents(){
 					lTaxonName += lCurrentPartText;
 				}
 				lParts.each(function(pIdx1, pTaxonNamePartNode){
-					$(pTaxonNamePartNode).bind('click', function(){
+					$(pTaxonNamePartNode).bind('click', function(pEvent){
+						pEvent.stopPropagation();
 						LoadTaxonInfo(lTaxonName);
 					});
 				});
@@ -248,50 +265,66 @@ function PlaceTaxonNameEvents(){
 	});
 }
 
-function PlaceFigureEvents(){
-	GetArticlePreviewContent().find('.fig[rid]').each(function(pIdx, pFigureNode){
-		$(pFigureNode).bind('click', function(){
+/**
+ * Strips and removes multiple whitespaces from the taxon name
+ * @param pTaxonName
+ */
+function PrepareTaxonName(pTaxonName){
+	pTaxonName = $.trim(pTaxonName);
+	pTaxonName = pTaxonName.replace(/\s+/, ' ');
+	return pTaxonName;
+}
+
+function PlaceFigureEvents(pInPreviewIframe){
+	GetCustomElementsContents(pInPreviewIframe).find('.fig[rid]').each(function(pIdx, pFigureNode){
+		$(pFigureNode).bind('click', function(pEvent){
+			pEvent.stopPropagation();
 			LoadFigureInfo($(pFigureNode).attr('rid'));
 		});
 	});
 }
 
-function PlaceTableEvents(){
-	GetArticlePreviewContent().find('.table[rid]').each(function(pIdx, pTableNode){
-		$(pTableNode).bind('click', function(){
+function PlaceTableEvents(pInPreviewIframe){
+	GetCustomElementsContents(pInPreviewIframe).find('.table[rid]').each(function(pIdx, pTableNode){
+		$(pTableNode).bind('click', function(pEvent){
+			pEvent.stopPropagation();
 			LoadTableInfo($(pTableNode).attr('rid'));
 		});
 	});
 }
 
-function PlaceSupFilesEvents(){
-	GetArticlePreviewContent().find('.suppl[rid]').each(function(pIdx, pSupFileNode){
-		$(pSupFileNode).bind('click', function(){
+function PlaceSupFilesEvents(pInPreviewIframe){
+	GetCustomElementsContents(pInPreviewIframe).find('.suppl[rid]').each(function(pIdx, pSupFileNode){
+		$(pSupFileNode).bind('click', function(pEvent){
+			pEvent.stopPropagation();
 			LoadSupFileInfo($(pSupFileNode).attr('rid'));
 		});
 	});
 }
 
-function PlaceReferencesEvents(){
-	GetArticlePreviewContent().find('.bibr[rid]').each(function(pIdx, pReferenceNode){
-		$(pReferenceNode).bind('click', function(){
+function PlaceReferencesEvents(pInPreviewIframe){
+	GetCustomElementsContents(pInPreviewIframe).find('.bibr[rid]').each(function(pIdx, pReferenceNode){
+		$(pReferenceNode).bind('click', function(pEvent){
+			pEvent.stopPropagation();
 			LoadReferenceInfo($(pReferenceNode).attr('rid'));
 		});
-	});
+	});	
 }
 
-function PlaceAuthorEvents(){
-	GetArticlePreviewContent().find('*[data-author-id]').each(function(pIdx, pAuthorNode){
-		$(pAuthorNode).bind('click', function(){
+function PlaceAuthorEvents(pInPreviewIframe){
+	GetCustomElementsContents(pInPreviewIframe).find('*[data-author-id]').each(function(pIdx, pAuthorNode){
+		$(pAuthorNode).bind('click', function(pEvent){
+			pEvent.stopPropagation();
 			LoadAuthorInfo($(pAuthorNode).attr('data-author-id'));
 		});
 	});
 }
 
 
-function PlaceLocalitiesEvents(){
-	GetArticlePreviewContent().find('*[data-is-locality-coordinate]').each(function(pIdx, pLocalityNode){
-		$(pLocalityNode).bind('click', function(){
+function PlaceLocalitiesEvents(pInPreviewIframe){
+	GetCustomElementsContents(pInPreviewIframe).find('*[data-is-locality-coordinate]').each(function(pIdx, pLocalityNode){
+		$(pLocalityNode).bind('click', function(pEvent){
+			pEvent.stopPropagation();
 			ShowSingleCoordinate($(pLocalityNode).attr('data-latitude'), $(pLocalityNode).attr('data-longitude'));
 		});
 	});
@@ -375,13 +408,11 @@ function PlaceLocalitiesMenuEvents(){
 	});
 }
 
-function correctIframeLinks(pIframe, pLinkPrefix){
-	var lDocument = getIframeDocument(pIframe);
-	var lWindow = window.frames[gbifIframe];
-	if( !lDocument )
-		return;
-	evalIframe(pIframe.contentWindow, 'changeRootLocation = function(pLocation){parent.location.href = \'' + pLinkPrefix + '\' + encodeURIComponent(pLocation);}');
-	var lLinks = lDocument.getElementsByTagName('a');
+function correctIframeLinks(pIframeId, pLinkPrefix){
+	document.getElementById(pIframeId).contentWindow.changeRootLocation = function(pLocation){
+		parent.location.href = pLinkPrefix + encodeURIComponent(pLocation);
+	};	
+	var lLinks = $('#' + pIframeId).contents().find('a');
 	for( var i = 0; i < lLinks.length; ++i ){
 		var lLink = lLinks[i];
 		var lLinkHref = lLink.getAttribute('href');

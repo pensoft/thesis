@@ -181,6 +181,10 @@ class carticle_preview_generator extends csimple {
 
 	protected function GetInstancePreviewSql($pInstanceId, $pInstanceType, $pPreview) {
 		global $gInstanceTypeDetails;
+// 		if($pInstanceType == INSTANCE_SUPFILE_TYPE){
+// 			var_dump($pPreview);
+// 			exit;
+// 		}
 		$lResult = $gInstanceTypeDetails [$pInstanceType] ['preview_sql'];
 		$lResult = str_replace('{article_id}', $this->m_documentId, $lResult);
 		$lResult = str_replace('{instance_id}', $pInstanceId, $lResult);

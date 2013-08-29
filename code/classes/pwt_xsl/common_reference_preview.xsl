@@ -34,7 +34,21 @@
 
 	<!-- Single reference -->
 	<xsl:template match="*[@object_id='95']" mode="articleBack">
-		<xsl:apply-templates select="./*[@object_id='97']/*[@object_id &gt; 0]" mode="articleBack"/>
+		<xsl:variable name="lContent">
+			<xsl:apply-templates select="./*[@object_id='97']/*[@object_id &gt; 0]" mode="articleBack"/>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$pInArticleMode = 1">
+				<div class="bibr">
+					<xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute>
+					<xsl:copy-of select="$lContent"></xsl:copy-of>			
+				</div>	
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:copy-of select="$lContent"></xsl:copy-of>
+			</xsl:otherwise>
+		</xsl:choose>
+		
 	</xsl:template>
 
 	<xsl:template match="*" mode="processSingleReferenceAuthor">
