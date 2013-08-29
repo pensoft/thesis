@@ -754,6 +754,18 @@ td.labelImg, td.leftMenuRowImage{
     margin: 20px;
 }
 
+.P-Article-References-For-Baloon{
+	display:none;
+}
+
+.P-Baloon{
+	position:absolute;
+	display:none;
+	background:white;
+	padding:10px;
+	border: 1px solid black;
+}
+
 div.sectionBody iframe{
 	width: 450px; 
 	height: 244px;

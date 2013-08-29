@@ -73,6 +73,7 @@ $gTemplArr = array(
 					<script type="text/javascript">
 						SetArticleOnLoadEvents();
 					</script>
+					<div class="P-Baloon" id="ArticleBaloon"></div>
 				</div>
 				<div class="P-Article-Info-Bar">
 					<div class="P-Article-Info-header">
@@ -107,6 +108,9 @@ $gTemplArr = array(
 					<script type="text/javascript">InitArticleMenuEvents()</script>
 				</div>	
 			</div> 
+			<div class="P-Article-References-For-Baloon">
+			</div>								
+						
 		',	
 		
 );
