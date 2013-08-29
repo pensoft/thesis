@@ -217,10 +217,24 @@ class ctaxon_preview_generator extends csimple {
 				G_NODATA => 'article.ncbi_related_links_nodata' 
 			) 
 		));
+		$lEntrezRecordsTitle = new crs_display_array(array (
+			'input_arr' => $lNCBIData ['entrez_records'],
+			'taxon_name' => $this->m_taxonName,
+			'taxon_ncbi_id' => $lNCBIData ['ncbi_taxon_id'],
+			'templs' => array (
+				G_HEADER => 'article.ncbi_entrez_records_title_head',
+				G_FOOTER => 'article.ncbi_entrez_records_title_foot',
+				G_STARTRS => 'article.ncbi_entrez_records_title_start',
+				G_ENDRS => 'article.ncbi_entrez_records_title_end',
+				G_ROWTEMPL => 'article.ncbi_entrez_records_title_row',
+				G_NODATA => 'article.ncbi_entrez_records_title_nodata'
+			)
+		));
 		$lEntrezRecords = new crs_display_array(array (
 			'input_arr' => $lNCBIData ['entrez_records'],
 			'taxon_name' => $this->m_taxonName,
 			'taxon_ncbi_id' => $lNCBIData ['ncbi_taxon_id'],
+			'title' => $lEntrezRecordsTitle,
 			'templs' => array (
 				G_HEADER => 'article.ncbi_entrez_records_head',
 				G_FOOTER => 'article.ncbi_entrez_records_foot',

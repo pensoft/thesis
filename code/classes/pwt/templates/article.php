@@ -226,6 +226,18 @@ $gTemplArr = array (
 					</div>
 	',
 	'article.ncbi_related_links_nodata' => '',
+	//Entrez records
+	'article.ncbi_entrez_records_title_head' => '',
+	'article.ncbi_entrez_records_title_foot' => '',
+	'article.ncbi_entrez_records_title_start' => '
+				<th>Database name</th>
+	',
+	'article.ncbi_entrez_records_title_end' => '
+	',
+	'article.ncbi_entrez_records_title_row' => '
+				<th class="entrezDbName">{db_display_name}</th>					
+	',
+	'article.ncbi_entrez_records_title_nodata' => '',
 	
 	'article.ncbi_entrez_records_head' => '',
 	'article.ncbi_entrez_records_foot' => '',
@@ -233,19 +245,18 @@ $gTemplArr = array (
 		<div class="entrezRecordsHolder">
 			<table class="entrezRecordsTable">
 				<tr>
-					<th>Database name</th>
-					<th>Subtree links</th>
+					{title}					
 				</tr>		
+				<tr>
+					<td>Subtree links</td>
 	',
 	'article.ncbi_entrez_records_end' => '
+				</tr>
 			</table>
 		</div>
 	',
 	'article.ncbi_entrez_records_row' => '
-				<tr>
-					<td class="entrezDbName">{db_display_name}</td>
-					<td class="entrezSubtreeLink">{_ShowEntrezRecordsDbSubtreeLink(taxon_name, taxon_ncbi_id, db_name, records)}</td>
-				</tr>
+				<td class="entrezSubtreeLink">{_ShowEntrezRecordsDbSubtreeLink(taxon_name, taxon_ncbi_id, db_name, records)}</td>
 	',
 	'article.ncbi_entrez_records_nodata' => '',
 	
@@ -269,7 +280,7 @@ $gTemplArr = array (
 			</div>
 		</div>
 	',
-	
+	// GBIF
 	'article.gbif' => '
 		<div class="contentSection generalInfoSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
@@ -297,7 +308,7 @@ $gTemplArr = array (
 	',
 	
 	'article.gbif_no_data' => 'NO GBIF',
-	
+	// BHL
 	'article.bhl_head' => '
 		<div class="contentSection generalInfoSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="4" border="0">
@@ -401,7 +412,7 @@ $gTemplArr = array (
 		{titles}
 		{*article.bhl_foot}
 	',
-	
+	// Wikimedia
 	'article.wikimedia_no_data' => '',
 	'article.wikimedia' => '
 		<div class="contentSection imagesSection">
@@ -444,7 +455,7 @@ $gTemplArr = array (
 	'article.wikimedia_images_nodata' => 'NO WIKI IMAGES
 	',
 	
-	//EOL
+	// EOL
 	'article.eol_no_data' => '',
 	'article.eol' => '
 		<div class="contentSection imagesSection">
@@ -505,8 +516,8 @@ $gTemplArr = array (
 	',
 	
 	'article.category_special_sites_nodata' => '
-	' ,
-	//Regular sites
+	',
+	// Regular sites
 	'article.category_regular_sites_head' => '
 	',
 	
@@ -551,7 +562,7 @@ $gTemplArr = array (
 				{regular_sites}
 			</div>
 	',
-	//Categories menu
+	// Categories menu
 	'article.categories_menu_head' => '
 			<div class="P-Categories-Menu">
 	',
@@ -605,7 +616,7 @@ $gTemplArr = array (
 				</div>	
 				{categories_list}
 			</div>
-	',
+	' 
 );
 
 ?>
