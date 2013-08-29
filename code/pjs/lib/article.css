@@ -100,7 +100,7 @@ a[href], label[for] {
 }
 
 .P-Article-Info-header{
-	background-image: linear-gradient(#B5B5AE 10%,#FEFBF3);
+	background-image: linear-gradient(#B5B5AE 10%, #FEFBF3);
 	border-radius: 5px 5px 0px 0px;
 	width: 500px;
 	height: 94px;
@@ -136,8 +136,8 @@ a[href], label[for] {
 }
 
 .P-Info-Menu.rightBar{
-	top: 70px;
-	right: 300px;	
+	position: relative;
+	left: 228px
 	width: 249px;
 	height: 50px;
 	padding:5px 5px;  
@@ -357,7 +357,7 @@ div.myfieldHolder[field_id='222']{
 		
 }
 .description{
-	margin-top: 15px;
+	/*margin-top: 15px;*/
 }
 .description .name {
 	margin-bottom: 6px;
@@ -385,9 +385,8 @@ div.myfieldHolder[field_id='222']{
   text-align: left;
   vertical-align: top;
 }
-div.table{
-  padding-left: 15px;
-  padding-right: 15px;
+.table, .figure{
+  padding: 15px;
 }
 a.download{
   font-weight:bold;
@@ -418,6 +417,46 @@ a.download{
   -o-border-radius: 5px;
   border-radius: 5px;
   display: table;
+  text-align: center;
+  width: 400px;
+}
+.singlePlatePhoto{
+	background-color: white
+}
+.figure .singlePlatePhoto {
+  max-width: 663px;
+  min-height: 70px;
+}
+.figure .plate2column {
+  width: 50%;
+  float: left;
+}
+.figure .plate2column .singlePlatePhoto {
+  display: table;
+  width: 180px;
+  height: 180px;
+}
+.figure .plate2column .singlePlatePhoto a {
+  display: table-cell;
+  vertical-align: middle;
+}
+.figure .plate2column .singlePlatePhoto img {
+  max-width: 180px;
+  max-height: 180px;
+}
+.figure .singlePlatePhoto {
+  margin-top: 10px;
+  border: 1px solid #e2e2dc;
+  position: relative;
+  padding: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+
 }
 
 .P-Article-Preview-Picture-Zoom-Small {
@@ -429,6 +468,29 @@ a.download{
   right: 27px;
   cursor: pointer;
   display: block;
+}
+.singlePlatePhoto .P-Article-Preview-Picture-Zoom-Small{
+	top: 0;
+	right: -37px;
+}
+.Plate-part-letter {
+    background: none repeat scroll 0 0 rgb(127, 127, 127);
+    border-radius: 4px 4px 4px 4px;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    font-weight: bold;
+    height: 30px;
+    line-height: 2.1em;
+    position: absolute;
+    right: 27px;
+    text-align: center;
+    top: 50px;
+    vertical-align: middle;
+    width: 30px;
+}
+.singlePlatePhoto .Plate-part-letter{
+	top: 35px;
+	right: -37px;
 }
 
 /* end of copy-paste */
@@ -589,16 +651,11 @@ a.download{
 .P-Taxon-Name{
 	font-size:20px;
 	font-weight:bold;
+	color: #0088CC;
 }
 
 .P-Category{
 	margin-top:20px;
-}
-
-.P-Category-Title{
-	font-size:15px;
-	font-weight:bold;
-	margin-bottom:20px;
 }
 
 .line {
@@ -612,32 +669,93 @@ a.download{
 	font-size:12px;
 }
 
-.P-Categories-Menu{
-	margin:20px 0px;
+.P-Categories-Menu-Element:hover{
+	background-color: #BBB;
 }
 
-.P-Categories-Menu-Element{
-	float:left;
-	margin-right:15px;
-	font-weight:bold;
+.P-Categories-Menu-Element a{
+	color: #333;
 }
 
-.P-Category-Regular-Sites .P-Regular-Site-Info-Holder{
-	width:160px;
-	float:left;
-}
 .P-Taxon{
 	padding: 15px;
 }
 .ptp-menu-holder{
-	background-color: #808080;
+	background-color: #FEFBF3;
     position: fixed;
     top: 162px;
-    width: 500px;
+    width: 484px;
+    height: 60px;
+    border-bottom: 2px solid #999999;
     margin-left: -15px;
     -moz-box-sizing: padding-box;
 	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
-.P-Taxon-Name{
-	padding: 10px;
+.P-Categories-List{
+	margin-top: 56px;
 }
+
+.P-Taxon-Name{
+	padding: 7px 0px 0px 15px;
+}
+
+.P-Categories-Menu{
+	padding:3px 0px 10px 15px;
+}
+
+.P-Categories-Menu-Element{
+	float:left;
+	font-weight:bold;
+	padding: 3px 13px;
+}
+
+.P-Category-Title{
+	padding-left: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    height: 20px;
+    background-image: linear-gradient(90deg, gold, #FEFBF3);
+}
+
+.contentSectionLabel td, .contentSectionLabel tr, .contentSectionLabel th{
+	padding: 0 4px;
+}
+.P-Regular-Site-Info-Holder table, .P-Regular-Site-Info-Holder td, .P-Regular-Site-Info-Holder tr, .P-Regular-Site-Info-Holder th{
+	padding: 0 4px;
+	height: 32px;
+}
+
+td.labelImg, td.leftMenuRowImage{
+	padding:0px;	
+}
+
+
+.P-Category-Regular-Sites{
+	margin: 10px 0px 0px 0px;
+}
+
+.P-Regular-Site-Info-Holder{
+	padding: 6px 0;
+    width: 220px;
+    float: left;
+}
+
+
+.entrezRecordsTable td, .entrezRecordsTable th {
+    padding: 0 8px 0 0;
+}
+
+.leftMenuRowLink{
+	
+}
+
+.bhl-img {
+    width: 140px;
+    margin: 20px;
+}
+
+div.sectionBody iframe{
+	width: 450px; 
+	height: 244px;
+}
+

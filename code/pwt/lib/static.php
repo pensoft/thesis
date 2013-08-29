@@ -6510,7 +6510,7 @@ function bhl_showimage($pTaxonName, $pImgUrl, $pImg, $pNodata) {
 	if ($pNodata)
 		return '';
 	else
-		return '<a href="' . ParseTaxonExternalLink($pTaxonName, $pImgUrl) . '"><img border="0" align="right" src="' . $pImg . '"></img></a>';
+		return '<a class="bhl-img" href="' . ParseTaxonExternalLink($pTaxonName, $pImgUrl) . '"><img border="0" align="right" src="' . $pImg . '"></img></a>';
 }
 
 function displayBHLItems($pItems, $pTaxonName){
