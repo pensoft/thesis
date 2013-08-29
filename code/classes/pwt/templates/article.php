@@ -5,7 +5,7 @@ $gTemplArr = array (
 		<div class="AOF-Single-Author-Holder">
 			<div class="AOF-Author-Pic">{_showPicIfExistsAOF(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
-				<div class="AOF-Author-Name"><a class="AOF-Author-Email" target="_blank" href="mailto:{email}">{first_name} {middle_name} {last_name} <img src="i/mail.png" /></a><span class="AOF-Author-Corr">{is_corresponding}</span></div>
+				<div class="AOF-Author-Name"><a class="AOF-Author-Email" target="_blank" href="mailto:{email}">{first_name} {middle_name} {last_name} <img src="i/mail.png" /></a></div>
 				<div class="AOF-Author-Affiliation">{affiliation}, {city}, {country}</div>
 				<div class="AOF-Author-Site"><a target="_blank" href="{website}">{website}</a></div>
 				<div class="AOF-Author-more">Articles by this author in:&nbsp;
@@ -34,7 +34,7 @@ $gTemplArr = array (
 	
 	',
 	'article.authors_preview_row' => '
-		<div class="AOF-Single-Author-Preview">
+		<div class="AOF-Single-Author-Preview" data-author-id="{usrid}">
 			<div class="AOF-Author-Pic">{_showPicIfExistsAOF(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
 				<div class="AOF-Author-Name"><a class="AOF-Author-Email" target="_blank" href="mailto:{email}">{first_name} {middle_name} {last_name} <img src="i/mail.png" /></a><span class="AOF-Author-Corr">{is_corresponding}</span></div>
@@ -292,7 +292,7 @@ $gTemplArr = array (
 				</tr>
 			</table>
 			<div class="sectionBody">	
-				<iframe name="gbifIframe" scrolling="no" height="410" frameborder="0" vspace="1" hspace="1" src="' . IFRAME_PROXY_URL . '?url={_rawurlencode(map_iframe_src)}"  onload="correctIframeLinks(this, \'{link_prefix}\')"></iframe>
+				<iframe id="gbifIframe" name="gbifIframe" scrolling="no" height="410" frameborder="0" vspace="1" hspace="1" src="' . IFRAME_PROXY_URL . '?url={_rawurlencode(map_iframe_src)}"  onload="correctIframeLinks(\'gbifIframe\', \'{link_prefix}\')"></iframe>
 				<div class="gbifLink">Click <a href="{_ParseTaxonExternalLink(taxon_name, gbif_link, postform, postfields)}">here</a> to go to the GBIF search results for this taxon</div>
 			</div>
 		</div>
