@@ -92,7 +92,7 @@ define('AJAX_ENTREZ_RECORDS_SRV', AJAX_SERVERS_PATH . 'ajax_ctaxon_entrezrecords
 define('XML_FIGURES_AND_TABLES_NODE_NAME', 'article_figs_and_tables');
 define('ARTICLE_PHOTOS_PROPID', 20);
 
-define('IFRAME_PROXY_URL', PTP_URL . '/displayIframe.php');
+define('IFRAME_PROXY_URL', '/displayIframe.php');
 define('NCBI_TAXON_URL', 'http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&lvl=3&lin=f&keep=1&srchmode=1&unlock&id=');
 
 define('MORPHBANK_AJAX_CHECK_URL', 'http://morphbank10.sc.fsu.edu/MyManager/image.php?id=imageTab&numPerPage=20&keywords=');

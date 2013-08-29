@@ -1379,7 +1379,7 @@
 			
 	<!-- Article of the future preview template of a single sup file -->
 	<xsl:template match="*" mode="article_preview_sup_file">
-		<div class="item-holder-RC">
+		<div class="item-holder-RC">			
 			<xsl:apply-templates select="." mode="singleSupplementaryMaterialAOF" />
 		</div>			
 		<!-- The node of the specific sup file -->
@@ -1395,12 +1395,13 @@
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 		
 			<xsl:for-each select="//figure">	
-				<div class="item-holder-RC">
-						<span class="fig-label-RC">
-							<xsl:value-of select="./@display_name"></xsl:value-of>
-								<xsl:text> </xsl:text>
-							<xsl:value-of select="./fields/figure_number"></xsl:value-of>
-						</span>
+				<div class="item-holder-RC fig">
+					<xsl:attribute name="rid"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<span class="fig-label-RC">
+						<xsl:value-of select="./@display_name"></xsl:value-of>
+							<xsl:text> </xsl:text>
+						<xsl:value-of select="./fields/figure_number"></xsl:value-of>
+					</span>
 					<xsl:apply-templates select="image" mode="Figures" />
 					<xsl:apply-templates select="multiple_images_plate" mode="Figures" />
 				</div>
@@ -1458,7 +1459,8 @@
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 		<!-- The node of the tables holder -->
 		<xsl:for-each select="table">
-			<div class="item-holder-RC">
+			<div class="item-holder-RC table">
+				<xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute>
 				<div class="P-table-tump-holder">
 					<img width="60" heigth="48" alt="">
 						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/table_pic-60.png</xsl:attribute> 
@@ -1488,9 +1490,10 @@
 	<xsl:template match="*" mode="article_sup_files_list">
 		<div class="suppl-list-AOF">
 			<xsl:for-each select="//*[@object_id='55']">
-				<div class="item-holder-RC">
+				<div class="item-holder-RC suppl">
+					<xsl:attribute name="rid"><xsl:value-of select="./@instance_id"></xsl:value-of></xsl:attribute>
 					<xsl:apply-templates select="." mode="singleSupplementaryMaterialAOF" />
-				</div>
+				</div>		
 			</xsl:for-each>
 		</div>
 		<!-- The node of the sup files holder -->
@@ -1722,7 +1725,7 @@
 	<xsl:template match="/" mode="trans2">
 		  <xsl:for-each select="//div[generate-id()=generate-id(key('taxon',.))]">
 			<xsl:sort select="." order="ascending"></xsl:sort>
-			<div class="taxalistAOF">
+			<div class="taxalistAOF tn">
 				<xsl:attribute name="tnu"><xsl:value-of select="./@tnu"/></xsl:attribute>
 				<xsl:if test="./@tnu = 'TT'">
 						<xsl:for-each select="span">

@@ -5,7 +5,7 @@ $gTemplArr = array (
 		<div class="AOF-Single-Author-Holder">
 			<div class="AOF-Author-Pic">{_showPicIfExistsAOF(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
-				<div class="AOF-Author-Name"><a class="AOF-Author-Email" target="_blank" href="mailto:{email}">{first_name} {middle_name} {last_name} <img src="i/mail.png" /></a><span class="AOF-Author-Corr">{is_corresponding}</span></div>
+				<div class="AOF-Author-Name"><a class="AOF-Author-Email" target="_blank" href="mailto:{email}">{first_name} {middle_name} {last_name} <img src="i/mail.png" /></a></div>
 				<div class="AOF-Author-Affiliation">{affiliation}, {city}, {country}</div>
 				<div class="AOF-Author-Site"><a target="_blank" href="{website}">{website}</a></div>
 				<div class="AOF-Author-more">Articles by this author in:&nbsp;
@@ -34,7 +34,7 @@ $gTemplArr = array (
 	
 	',
 	'article.authors_preview_row' => '
-		<div class="AOF-Single-Author-Preview">
+		<div class="AOF-Single-Author-Preview" data-author-id="{usrid}">
 			<div class="AOF-Author-Pic">{_showPicIfExistsAOF(photo_id, authors)}</div>
 			<div class="AOF-Author-Details">
 				<div class="AOF-Author-Name"><a class="AOF-Author-Email" target="_blank" href="mailto:{email}">{first_name} {middle_name} {last_name} <img src="i/mail.png" /></a><span class="AOF-Author-Corr">{is_corresponding}</span></div>
