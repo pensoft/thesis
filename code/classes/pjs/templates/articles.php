@@ -74,7 +74,7 @@ $gTemplArr = array(
 						SetArticleOnLoadEvents();
 					</script>
 				</div>
-				<div class="P-Article-Info-Bar">
+				<div class="P-Article-Info-Bar" id="P-Article-Info-Bar">
 					<div class="P-Article-Info-header">
 						<ul class="P-Info-Menu leftBar">' .
 							infoMenu(array(						
@@ -96,7 +96,7 @@ $gTemplArr = array(
 								ARTICLE_MENU_ELEMENT_TYPE_TABLES => 'Tables',
 								ARTICLE_MENU_ELEMENT_TYPE_LOCALITIES => 'Map',
 								ARTICLE_MENU_ELEMENT_TYPE_TAXON => 'Taxa',
-								ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES => 'Suppl. materials',
+								ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES => 'Data',
 								ARTICLE_MENU_ELEMENT_TYPE_REFERENCES => 'References',
 							)) . '
 						</ul>

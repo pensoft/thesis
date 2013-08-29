@@ -7,6 +7,9 @@ table, td, tr, th{
 	width:auto;
 }
 
+a{
+	color: #0088CC;	
+}
 
 html, body{
 	overflow-y: hidden;
@@ -43,6 +46,10 @@ a[href], label[for] {
 	font-family: Calibri;
 	margin-top: 94px;
 	-moz-box-sizing: padding-box;
+}
+
+.P-Article-Info-Bar.ST{
+	overflow-x: auto;
 }
  
 #article-preview {
@@ -137,7 +144,7 @@ a[href], label[for] {
 
 .P-Info-Menu.rightBar{
 	position: relative;
-	left: 228px
+	left: 228px;
 	width: 249px;
 	height: 50px;
 	padding:5px 5px;  
@@ -239,7 +246,9 @@ a[href], label[for] {
 .twocolumnminiholder{width: 51px; height: 51px; float: left;  text-align: center; display: table}
 .twocolumnmini{display: table-cell; vertical-align: middle; text-align: center; padding: 3px; cursor:pointer;}
 .singlefigmini{vertical-align: middle; text-align: center; padding: 3px; cursor:pointer;}
-
+.twocolumnmini.fig{
+padding:1px;
+}
 .fig-label-RC {
 	margin-bottom: 10px;
 	font-size: 11pt;
@@ -258,6 +267,10 @@ a[href], label[for] {
 .item-holder-RC:hover{
 	background-color: #F0EEE7; /*F0EEE7*/
 }
+.item-holder-RC.table{
+	cursor: pointer;
+}
+
 .item-holder-RC:last-child{
 	border-bottom: none;
 }
@@ -357,8 +370,9 @@ div.myfieldHolder[field_id='222']{
 .ref-full-hidden{
 		
 }
-.description{
-	/*margin-top: 15px;*/
+.figure .description{
+	margin-top: 10px;
+	font-size: 11pt;
 }
 .description .name {
 	margin-bottom: 6px;
@@ -378,7 +392,7 @@ div.myfieldHolder[field_id='222']{
 
 .Table-Body table {
   border-collapse: collapse !important;
-  width: 100% !important;
+  /*width: 100% !important;*/
 }
 .Table-Body table td, .Table-Body table th {
   border: 1px solid #e2e2dc;
@@ -779,4 +793,20 @@ div.sectionBody iframe{
 }
 .BHLDetails{
 	font-size: 8pt;
+}
+.DwC{
+	padding: 15px;
+	border-bottom: 1px solid #BBBBBB;
+	font-weight:bold;
+	color: #0088CC;
+}
+.plate_link{
+	padding-top: 10px;
+	cursor: pointer;
+}
+
+.twocolumnmini.fig:hover{
+	-moz-box-sizing: border-box;
+    border: 1px solid red;
+    padding: 0px;
 }

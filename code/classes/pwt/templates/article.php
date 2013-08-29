@@ -233,7 +233,7 @@ $gTemplArr = array (
 		<div class="entrezRecordsHolder">
 			<table class="entrezRecordsTable">
 				<tr>
-					<td>Database name</td>
+					<th>Database name</th>
 					<th>Subtree links</th>
 				</tr>		
 	',
@@ -286,8 +286,8 @@ $gTemplArr = array (
 						 var mapi;
 						 if (iframeDocument) {
 						  mapi = iframeDocument.getElementById("map");
-						  mapi.style.width="200px";
-						  mapi.style.height="150px";
+						  mapi.style.width="424px";
+						  mapi.style.height="236px";
 						 }
 					 }
 				</script>
