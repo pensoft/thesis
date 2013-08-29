@@ -247,7 +247,7 @@ a[href], label[for] {
 .twocolumnmini{display: table-cell; vertical-align: middle; text-align: center; padding: 3px; cursor:pointer;}
 .singlefigmini{vertical-align: middle; text-align: center; padding: 3px; cursor:pointer;}
 .twocolumnmini.fig{
-padding:1px;
+	padding:1px;
 }
 .fig-label-RC {
 	margin-bottom: 10px;
