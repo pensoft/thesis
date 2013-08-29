@@ -19,6 +19,8 @@ class ctaxon_preview_generator extends csimple {
 	var $m_wikimediaHasResults = false;
 	var $m_wholePreview = '';
 	var $m_categories = array ();
+	var $m_eolPreview;
+	var $m_eolHasResults = false;
 
 	function __construct($pFieldTempl) {
 		$this->m_taxonName = $pFieldTempl ['taxon_name'];
@@ -53,7 +55,9 @@ class ctaxon_preview_generator extends csimple {
 				'preview' => '' 
 			),
 			'nomenclature' => array (
-				'special_sites' => array (),
+				'special_sites' => array (
+					EOL_SITE_ID,//Eol
+				),
 				'regular_sites' => array (
 					17,//ZooBank
 					12,//IPNI
@@ -80,8 +84,7 @@ class ctaxon_preview_generator extends csimple {
 				'special_sites' => array (
 					WIKIMEDIA_SITE_ID 
 				),
-				'regular_sites' => array (
-					2,//Eol
+				'regular_sites' => array (					
 					26 //Morphbank
 				),
 				'is_empty' => true,
@@ -271,7 +274,52 @@ class ctaxon_preview_generator extends csimple {
 		$this->m_gbifPreview = $lPreview->Display();
 		return $this->m_gbifPreview;
 	}
-
+	
+	protected function GenerateEOLPreview() {
+		$lEOLData = $this->m_dataGenerator->GetEOLData();
+		$lEolLinkData = $this->m_dataGenerator->GetSiteData(EOL_SITE_ID);
+		if (! $lEOLData ['eol_taxon_id']) {
+			$lPreview = new csimple(array (
+				'templs' => array (
+					G_DEFAULT => 'article.eol_no_data'
+				),
+				'eol_link' => $lEolLinkData ['taxon_link'],
+				'taxon_name' => $this->m_taxonName
+			));
+			$this->m_eolPreview = $lPreview->Display();
+			return $this->m_eolPreview;
+		}
+		$this->m_eolHasResults = true;
+		$lImages = new crs_display_array(array (
+			'input_arr' => $lEOLData ['images'],
+			'taxon_name' => $this->m_taxonName,
+			'pagesize' => 6,
+			'templs' => array (
+				G_HEADER => 'article.eol_images_head',
+				G_FOOTER => 'article.eol_images_foot',
+				G_STARTRS => 'article.eol_images_start',
+				G_ENDRS => 'article.eol_images_end',
+				G_ROWTEMPL => 'article.eol_images_row',
+				G_NODATA => 'article.eol_images_nodata'
+			)
+		));
+	
+		$lPreview = new csimple(array (
+			'templs' => array (
+				G_DEFAULT => 'article.eol'
+			),
+			'images' => $lImages,
+			'postform' => $lEolLinkData ['postform'],
+			'postfields' => $lEolLinkData ['postfields'],
+			'eol_link' => $lEolLinkData ['taxon_link'],
+			'eol_taxon_id' => $lEOLData ['eol_taxon_id'],			
+			'taxon_name' => $this->m_taxonName
+		));
+		$this->m_eolPreview = $lPreview->Display();
+		return $this->m_eolPreview;
+	}
+	
+	
 	protected function GenerateBHLPreview() {
 		$lBHLData = $this->m_dataGenerator->GetBHLData();
 		$lBHLLink = BHL_TAXON_EXTERNAL_LINK . $this->m_encodedTaxonName;
@@ -370,7 +418,7 @@ class ctaxon_preview_generator extends csimple {
 		} else {
 			$lPreview = new csimple(array (
 				'templs' => array (
-					G_DEFAULT => 'article.wikimedia_nodata' 
+					G_DEFAULT => 'article.wikimedia_no_data' 
 				),
 				'images' => $lImages,
 				'wikimedia_link' => $lWikimediaLink,
@@ -393,11 +441,9 @@ class ctaxon_preview_generator extends csimple {
 				}
 			}
 			foreach ( $lCategoryData ['special_sites'] as $lSiteId ) {							
-				if ($this->CheckIfSpecialSiteHasResults($lSiteId)) {
-					$lSpecialSitesData [$lSiteId] = array(
-						'preview' => $this->GetSpecialSitePreview($lSiteId),
-					);
-				}
+				$lSpecialSitesData [$lSiteId] = array(
+					'preview' => $this->GetSpecialSitePreview($lSiteId),
+				);
 			}
 			if(count($lRegularSitesData) || count($lSpecialSitesData)){
 				$this->m_categories['is_empty'] = false;
@@ -494,6 +540,8 @@ class ctaxon_preview_generator extends csimple {
 				return $this->m_wikimediaHasResults;
 			case (int) BHL_SITE_ID :
 				return $this->m_bhlHasResults;
+			case (int) EOL_SITE_ID :
+				return $this->m_eolHasResults;
 		}
 	}
 	
@@ -509,6 +557,8 @@ class ctaxon_preview_generator extends csimple {
 				return $this->m_wikimediaPreview;
 			case (int) BHL_SITE_ID :
 				return $this->m_bhlPreview;
+			case (int) EOL_SITE_ID :
+				return $this->m_eolPreview;
 		}
 	}
 
@@ -518,7 +568,9 @@ class ctaxon_preview_generator extends csimple {
 		$this->GenerateGBIFPreview();
 		$this->GenerateBHLPreview();
 		$this->GenerateWikimediaPreview();
+		$this->GenerateEOLPreview();
 		$this->GenerateCategoriesPreview();
+		
 		return $this->m_wholePreview;
 		
 	}

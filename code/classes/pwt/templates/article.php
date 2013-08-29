@@ -252,7 +252,7 @@ $gTemplArr = array (
 	',
 	'article.ncbi_entrez_records_nodata' => '',
 	
-	'article.ncbi_no_data' => '',
+	'article.ncbi_no_data' => 'NO NCBI',
 	
 	'article.ncbi' => '
 		<div class="contentSection imagesSection">
@@ -298,7 +298,7 @@ $gTemplArr = array (
 		</div>
 	',
 	
-	'article.gbif_no_data' => '',
+	'article.gbif_no_data' => 'NO GBIF',
 	
 	'article.bhl_head' => '
 		<div class="contentSection generalInfoSection">
@@ -403,7 +403,7 @@ $gTemplArr = array (
 		{*article.bhl_foot}
 	',
 	
-	'article.wikimedia_nodata' => '',
+	'article.wikimedia_no_data' => '',
 	'article.wikimedia' => '
 		<div class="contentSection imagesSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
@@ -442,7 +442,48 @@ $gTemplArr = array (
 				
 	',
 	
-	'article.wikimedia_images_nodata' => '
+	'article.wikimedia_images_nodata' => 'NO WIKI IMAGES
+	',
+	
+	//EOL
+	'article.eol_no_data' => '',
+	'article.eol' => '
+		<div class="contentSection imagesSection">
+			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<td class="labelImg" id="{icon_div_id}">
+						<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, eol_link)}">
+							<img class="noBorder" src="' . PTP_URL . '/img/ext_details/eol_logo.jpg">
+						</a>
+					</td>
+					<td><h2 class="labelTitle">Images from EOL</h2></td>
+				</tr>
+			</table>
+			<div class="sectionBody">
+				{images}
+				<div class="unfloat"></div>
+			</div>
+		</div>
+	',
+	'article.eol_images_head' => '
+	',
+	
+	'article.eol_images_foot' => '
+	',
+	
+	'article.eol_images_start' => '
+	',
+	
+	'article.eol_images_end' => '
+	',
+	
+	'article.eol_images_row' => '
+				<div class="imageRow">
+					<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, url)}"><img src="{url}" class="noBorder" alt="" style="width: 134px;"></img></a>
+				</div>	
+	',
+	
+	'article.eol_images_nodata' => '
 	',
 	
 	// Categories

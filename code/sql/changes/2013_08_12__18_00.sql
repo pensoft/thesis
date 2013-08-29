@@ -659,6 +659,22 @@ CREATE TABLE pjs.taxon_preview_generation_errors(
 
 GRANT ALL ON pjs.taxon_preview_generation_errors TO iusrpmt;
 
+CREATE TABLE pjs.taxon_eol_data(
+	id bigserial PRIMARY KEY,
+	taxon_id bigint REFERENCES pjs.taxons(id) NOT NULL,
+	eol_taxon_id varchar,
+	lastmoddate timestamp DEFAULT now()
+);
+GRANT ALL ON pjs.taxon_eol_data TO iusrpmt;
+
+CREATE TABLE pjs.taxon_eol_images(
+	id bigserial PRIMARY KEY,
+	eol_data_id bigint REFERENCES pjs.taxon_eol_data(id) NOT NULL,	
+	url varchar
+);
+GRANT ALL ON pjs.taxon_eol_images TO iusrpmt;
+
+
 
 /* Stored procedures
 	pjs.spSaveArticleFigurePreview
@@ -701,6 +717,9 @@ GRANT ALL ON pjs.taxon_preview_generation_errors TO iusrpmt;
 	pjs.spSaveArticleTaxon
 	pjs.spNormalizeTaxonName
 	pjs.spGetTaxonId 
+	pjs.spSaveTaxonEOLBaseData
+	pjs.spSaveTaxonEOLImage
+	
 	The following line should be added to the pwt conf
 	require_once('ptp_conf.php');
 	also the PTP_URL should be set to the correct url of ptp

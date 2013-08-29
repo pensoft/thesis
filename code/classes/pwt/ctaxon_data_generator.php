@@ -490,6 +490,144 @@ class ctaxon_data_generator extends csimple {
 		return $lResult;
 	}
 	
+	function GetEOLData() {
+		$lCon = $this->m_con;
+		$lSql = '
+			SELECT *
+			FROM pjs.taxon_eol_data a
+			WHERE taxon_id = ' . (int) $this->m_taxonId . '
+			AND lastmoddate > now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval
+		';
+		$lCon->Execute($lSql);
+		if (! $lCon->mRs ['id']) {
+			return $this->GenerateEOLData();
+		}
+		return $this->GetEOLDataFromDB($lCon->mRs['id']);
+	}
+	
+	protected function GenerateEOLData(){
+		$lUrl = EOL_API_LINK_SEARCH . $this->m_encodedTaxonName;
+		$lQueryResult = executeExternalQuery($lUrl);
+		$lTaxonId = '';
+		$lImages = array();
+		if( $lQueryResult ){
+			$lDom = new DOMDocument();
+			if($lDom->loadXML($lQueryResult)){
+				$lXpath = new DOMXPath($lDom);
+				$lXpath->registerNamespace('def', 'http://www.w3.org/2005/Atom');
+				$lXpathQuery = '/def:feed/def:entry/def:id';
+				$lXPathResult = $lXpath->query($lXpathQuery);
+				if( $lXPathResult->length ){
+					$lTaxonId = $lXPathResult->item(0)->nodeValue;
+					$lImages = $this->GetEOLImages($lTaxonId);
+				}				
+			}
+		}
+		$lResult = array(
+			'images' => $lImages,
+			'eol_taxon_id' => $lTaxonId,
+		);
+		$this->StoreGBIFData($lResult);
+		return $lResult;
+	}
+	
+	protected function GetEOLImages($pTaxonId){
+		$lResult = array();
+		$lUrl = str_replace('{taxon_eol_id}', $pTaxonId, EOL_API_LINK_GET_IMAGES);
+		$lQueryResult = executeExternalQuery($lUrl);		
+		if( $lQueryResult ){
+			$lDom = new DOMDocument();
+			if($lDom->loadXML($lQueryResult)){
+				$lXpath = new DOMXPath($lDom);
+				$lXpath->registerNamespace('def', 'http://www.eol.org/transfer/content/1.0');
+				$lXpathQuery = '/def:response/def:dataObject';
+				$lXPathResult = $lXpath->query($lXpathQuery);
+				foreach ($lXPathResult as $lImageNode){
+					$lDataTypeQuery = './def:dataType';
+					$lDataTypeResult = $lXpath->query($lDataTypeQuery, $lImageNode);
+					if(!$lDataTypeResult->length){
+						continue;
+					}
+					$lDataType = $lDataTypeResult->item(0)->nodeValue;
+					if($lDataType != 'http://purl.org/dc/dcmitype/StillImage'){
+						continue;
+					}
+					$lUrlQuery = './def:mediaURL';
+					$lUrlResult = $lXpath->query($lUrlQuery, $lImageNode);
+					if(!$lUrlResult->length){
+						continue;
+					}
+					$lUrl = trim($lUrlResult->item(0)->nodeValue);
+					if(!$lUrl){
+						continue;
+					}
+					$lResult[] = array(
+						'url' => $lUrl
+					);				
+				}				
+			}
+		}
+		return $lResult;
+	}
+	
+	protected function StoreEOLData($pData){
+		$lCon = $this->m_con;
+		$lSql = '
+				SELECT * FROM spSaveTaxonEOLBaseData(' . (int)$this->m_taxonId . ', \'' . q($pData['eol_taxon_id']) . '\')
+		';
+		if(!$lCon->Execute($lSql)){
+			$this->SetError($lCon->GetLastError());
+			return;
+		}
+		$lEolId = (int)$lCon->mRs['id'];
+		foreach ($pData['images'] as $lImage){
+			$lSql = '
+				SELECT * FROM spSaveTaxonEOLImage(' . (int)$lEolId . ', \'' . q($lImage['url']) . '\')
+			';
+			if(!$lCon->Execute($lSql)){
+				$this->SetError($lCon->GetLastError());
+				return;
+			}	
+		}
+	}
+	
+	protected function GetEOLDataFromDB($pEOLId){
+		$lCon = $this->m_con;
+		$lResult = array(
+			'images' => array(),
+			'eol_taxon_id' => '',
+		);
+		$lSql = '
+			SELECT *
+			FROM pjs.taxon_eol_data a
+			WHERE id = ' . (int) $pEOLId . '
+		';
+		if(!$lCon->Execute($lSql)){
+			$this->SetError($lCon->GetLastError());
+			return $lResult;
+		}		
+		$lResult['eol_taxon_id'] = $lCon->mRs['eol_taxon_id'];
+		$lSql = '
+			SELECT i.*
+			FROM pjs.taxon_eol_data a
+			JOIN pjs.taxon_eol_images i ON i.eol_data_id = a.id
+			WHERE a.id = ' . (int) $pEOLId . '
+		';
+		if(!$lCon->Execute($lSql)){
+			$this->SetError($lCon->GetLastError());
+			return $lResult;
+		}
+		while(!$lCon->Eof()){
+			$lImageArr = array(
+				'url' => $lCon->mRs['url']
+			);
+			$lResult['images'][] = $lImageArr;
+			$lCon->MoveNext();
+		}
+	
+		return $lResult;
+	}
+	
 	function GetBHLData() {
 		$lCon = $this->m_con;
 		$lSql = '
