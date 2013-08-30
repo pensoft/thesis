@@ -413,7 +413,7 @@ $gTemplArr = array (
 		{*article.bhl_foot}
 	',
 	// Wikimedia
-	'article.wikimedia_no_data' => '',
+	'article.wikimedia_no_data' => 'No wikimedia',
 	'article.wikimedia' => '
 		<div class="contentSection imagesSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">

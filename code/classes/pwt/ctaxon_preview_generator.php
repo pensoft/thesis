@@ -262,6 +262,7 @@ class ctaxon_preview_generator extends csimple {
 
 	protected function GenerateGBIFPreview() {
 		$lGBIFData = $this->m_dataGenerator->GetGBIFData();
+// 		var_dump($lGBIFData);
 		$lGbifLinkData = $this->m_dataGenerator->GetSiteData(GBIF_SITE_ID);
 		if (! $lGBIFData ['gbif_taxon_id']) {
 			$lPreview = new csimple(array (

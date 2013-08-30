@@ -712,7 +712,7 @@ GRANT ALL ON pjs.taxon_eol_images TO iusrpmt;
 	pjs.spSaveArticleTablePreview
 	pjs.spSaveArticleSupFilePreview
 	pjs.spSaveArticlePlatePreview
-	pjs.spSaveArticleReferencePreview	
+	pjs.spSaveArticleReferencePreview
 	pjs.spSaveArticleTaxonPreview
 	pjs.spSaveArticleFiguresListPreview
 	pjs.spSaveArticleTablesListPreview
@@ -747,7 +747,7 @@ GRANT ALL ON pjs.taxon_eol_images TO iusrpmt;
 	pjs.spClearArticleTaxa
 	pjs.spSaveArticleTaxon
 	pjs.spNormalizeTaxonName
-	pjs.spGetTaxonId 
+	pjs.spGetTaxonId
 	pjs.spSaveTaxonEOLBaseData
 	pjs.spSaveTaxonEOLImage
 	

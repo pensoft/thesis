@@ -406,8 +406,8 @@ class ctaxon_data_generator extends csimple {
 		';
 		$lCon->Execute($lSql);
 		if (! $lCon->mRs ['id'] || $this->m_forcefulDataGeneration) {
-			return $this->GenerateGBIFData();
-		}
+			return $this->GenerateGBIFData();			
+		}		
 		return $this->GetGBIFDataFromDB($lCon->mRs['id']);
 	}
 	
@@ -458,7 +458,7 @@ class ctaxon_data_generator extends csimple {
 		}		
 	}
 	
-	protected function StoreGBIFData($pData){
+	protected function StoreGBIFData($pData){		
 		$lCon = $this->m_con;
 		$lSql = '
 				SELECT * FROM spSaveTaxonGBIFBaseData(' . (int)$this->m_taxonId . ', \'' . q($pData['map_iframe_src']) . '\', \'' . q($pData['gbif_taxon_id']) . '\')
@@ -471,7 +471,7 @@ class ctaxon_data_generator extends csimple {
 		$this->StoreSiteData(GBIF_SITE_ID, $lResultFound, GBIF_TAXON_LINK . $pData['gbif_taxon_id']);
 	}
 	
-	protected function GetGBIFDataFromDB($pGBIFId){
+	protected function GetGBIFDataFromDB($pGBIFId){		
 		$lCon = $this->m_con;
 		$lResult = array(
 			'map_iframe_src' => '',
@@ -529,7 +529,7 @@ class ctaxon_data_generator extends csimple {
 			'images' => $lImages,
 			'eol_taxon_id' => $lTaxonId,
 		);
-		$this->StoreGBIFData($lResult);
+		$this->StoreEOLData($lResult);
 		return $lResult;
 	}
 	
