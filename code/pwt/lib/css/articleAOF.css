@@ -25,7 +25,7 @@ html {
 }
 .subsection {
   font-weight: bold;
-  font-size: 1.16667em;
+  font-size: 1.1em;
   line-height: 1.28571em;
   margin-top: 1.5em;
   margin-bottom: 0.75em;
@@ -413,7 +413,43 @@ td p, th p {
 	color:black;	
 }
 
-.above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover {
+
+.kingdom:hover, 
+.regnum:hover,
+.subkingdom:hover,
+.subregnum:hover,
+.division:hover,
+.phylum:hover,
+.subdivision:hover,
+.subphylum:hover, 
+.superclass:hover,
+.superclassis:hover,
+.class:hover,
+.classis:hover,
+.subclass:hover,
+.subclassis:hover,
+.superorder:hover,
+.superordo:hover,
+.order:hover, 
+.ordo:hover, 
+.suborder:hover,
+.subordo:hover,
+.infraorder:hover,
+.infraordo:hover,
+.superfamily:hover,
+.superfamilia:hover,
+.family:hover, 
+.familia:hover, 
+.subfamily:hover, 
+.subfamilia:hover, 
+.tribe:hover, 
+.tribus:hover, 
+.subtribe:hover,
+.subtribus:hover,
+.genus:hover, 
+.subgenus:hover,
+.above-genus:hover,
+.species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover  {
 	background:#E3E3C7;
 	cursor:pointer;	
 }

@@ -1075,6 +1075,7 @@
 						<xsl:apply-templates select="./fields/*[@id='490']/value" mode="table_formatting"/>
 					</div>
 				</div>
+				<div class="P-Clear"></div>
 			</div>
 	</xsl:template>
 	
