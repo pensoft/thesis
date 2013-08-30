@@ -299,7 +299,7 @@ function PlaceTaxonNameEvents(pInPreviewIframe){
 			$(pTaxonNamePartNode).bind('click', function(pEvent){
 				pEvent.stopPropagation();
 				var lTaxonName = $(pTaxonNamePartNode).attr(lAttributeThatHoldsPartFullName);
-				if(lTaxonName == ''){
+				if(typeof lTaxonName === 'undefined' || lTaxonName == ''){
 					lTaxonName = $(pTaxonNamePartNode).text();
 				}
 				LoadTaxonInfo(lTaxonName);
@@ -313,7 +313,7 @@ function PlaceTaxonNameEvents(pInPreviewIframe){
 				for(var i = 0; i < lNamePartsOrder.length; ++i){
 					var lCurrentPart = lNamePartsOrder[i];					
 					var lCurrentPartText = $(pTaxonNode).find('.' + lCurrentPart).attr(lAttributeThatHoldsPartFullName);
-					if(lCurrentPartText == ''){
+					if(typeof lCurrentPartText === 'undefined' || lCurrentPartText == ''){
 						lCurrentPartText = $(pTaxonNode).find('.' + lCurrentPart).text();
 					}
 					if(lTaxonName != ''){
