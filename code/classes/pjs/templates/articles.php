@@ -80,7 +80,7 @@ $gTemplArr = array(
 						<ul class="P-Info-Menu leftBar">' .
 							infoMenu(array(						
 								ARTICLE_MENU_ELEMENT_TYPE_CONTENTS   => 'Contents',
-								ARTICLE_MENU_ELEMENT_TYPE_AUTHORS   => 'Metadata',
+								ARTICLE_MENU_ELEMENT_TYPE_AUTHORS   => 'Article info',
 								ARTICLE_MENU_ELEMENT_TYPE_Citation   => 'Citation',
 							)) . '
 						</ul>

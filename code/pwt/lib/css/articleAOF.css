@@ -14,7 +14,7 @@ html {
   text-align: justify;
   margin: auto;
   background-color: white;
-  padding: 0 60px;
+  padding: 0 60px 20px;
   border-radius: 0;
 }
 .dcLabel {
@@ -405,11 +405,6 @@ td p, th p {
   margin-bottom: 4px;
 }
 
-.downloadmaterials{
-	font-size:0.8em;
-	font-weight: normal;
-}
-
 .tn {
 	color:#006600;	
 }
@@ -467,4 +462,10 @@ span[data-author-id] {
     text-align: center;
     vertical-align: middle;
 }
-
+.downloadmaterials{
+	font-size:0.8em;
+	font-weight: normal;
+}
+.downloadmaterials img{
+	vertical-align: top;
+}

@@ -108,32 +108,34 @@
 
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<span class="authors-holder">
-					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-						<xsl:choose>
-							<xsl:when test="$lAuthorshipType = 3">
-								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-							</xsl:otherwise>
-						</xsl:choose>
-						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-					</xsl:for-each>
-				</span>	
-			<xsl:if test="normalize-space($lAuthorshipType)=$gAuthorshipEditorType">
-				<xsl:text> </xsl:text>
-				<xsl:choose>
-					<xsl:when test="count(./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']) &gt; 1">
-						<xsl:text>(Ed.)</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>(Eds)</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:if>
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			<span class="authors-year">
+					<span class="authors-holder">
+						<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+							<xsl:choose>
+								<xsl:when test="$lAuthorshipType = 3">
+									<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+								</xsl:otherwise>
+							</xsl:choose>
+							<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+						</xsl:for-each>
+					</span>	
+				<xsl:if test="normalize-space($lAuthorshipType)=$gAuthorshipEditorType">
+					<xsl:text> </xsl:text>
+					<xsl:choose>
+						<xsl:when test="count(./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']) &gt; 1">
+							<xsl:text>(Ed.)</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>(Eds)</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear" />
+			</span>
 			<!-- Book Title -->
 			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
@@ -317,21 +319,23 @@
 
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-holder">
-				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-					<xsl:choose>
-						<xsl:when test="$lAuthorshipType = 3">
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-				</xsl:for-each>
-			</span>	
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			<span class="authors-year">			
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>	
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			</span>
 			<!-- Book chapter Title -->
 			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
@@ -532,22 +536,23 @@
 		</xsl:variable>
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-holder">
-				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-					<xsl:choose>
-						<xsl:when test="$lAuthorshipType = 3">
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-				</xsl:for-each>
-			</span>	
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
-			
+			<span class="authors-year">
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>	
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			</span>
 			<!-- Article Title -->
 			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
@@ -686,22 +691,24 @@
 		<xsl:variable name="lVolume" select="./fields/*[@id='258']/value"></xsl:variable>
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-holder">
-				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-					<xsl:choose>
-						<xsl:when test="$lAuthorshipType = 3">
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-				</xsl:for-each>
-			</span>
-
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			<span class="authors-year">
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>
+	
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			</span>	
 			<!-- Title -->
 			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
@@ -964,34 +971,35 @@
 
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-holder">
-				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+			<span class="authors-year">
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>	
+	
+				<xsl:if test="normalize-space($lAuthorshipType)=$gAuthorshipEditorType">
+					<xsl:text> </xsl:text>
 					<xsl:choose>
-						<xsl:when test="$lAuthorshipType = 3">
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+						<xsl:when test="count(./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']) &gt; 1">
+							<xsl:text>(Ed.)</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							<xsl:text>(Eds)</xsl:text>
 						</xsl:otherwise>
 					</xsl:choose>
-					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-				</xsl:for-each>
-			</span>	
-
-			<xsl:if test="normalize-space($lAuthorshipType)=$gAuthorshipEditorType">
-				<xsl:text> </xsl:text>
-				<xsl:choose>
-					<xsl:when test="count(./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']) &gt; 1">
-						<xsl:text>(Ed.)</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>(Eds)</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:if>
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
-			
+				</xsl:if>
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear" />
+			</span>
 			<!-- Book title -->
 			<xsl:if test="normalize-space(./fields/*[@id='255']/value) != ''">
 				<span class="ref-title">
@@ -1215,21 +1223,23 @@
 
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-holder">
-				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-					<xsl:choose>
-						<xsl:when test="$lAuthorshipType = 3">
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-				</xsl:for-each>
+			<span class="authors-year">
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			</span>
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			<xsl:if test="normalize-space(./fields/*[@id='255']/value) != ''">
 				<!-- Book title -->
 				<span class="ref-title">
@@ -1371,21 +1381,23 @@
 		</xsl:variable>
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-holder">
-				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-					<xsl:choose>
-						<xsl:when test="$lAuthorshipType = 3">
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-				</xsl:for-each>
-			</span>	
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			<span class="authors-year">
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>	
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			</span>
 			<!-- Title -->
 			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
