@@ -1016,7 +1016,7 @@ function filterAuthors(pAffiliationInpId, pJournalId, pInputLetterId){
 }
 function filterAuthorsLetter(pAffiliationInpId, pJournalId, pLetter){
 	window.location.href = '/browse_journal_authors.php?journal_id=' + pJournalId +
-							'&affiliation=' + document.getElementById(pAffiliationInpId).value +
+							//'&affiliation=' + document.getElementById(pAffiliationInpId).value +
 							'&author_letter=' + pLetter;
 }
 function ChangeRejectBtn(pTextArea, pBtn1Id, pBtn2Id, pBtn1Active, pBtn2Active) {

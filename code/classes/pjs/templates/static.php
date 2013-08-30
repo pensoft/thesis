@@ -316,6 +316,27 @@ function getProfilePic($pPhotoId, $pViewMode = 0) {
 	return $lRet;
 }
 
+function getProfilePicWithLink($pPhotoId, $pJournalId, $pId, $pViewMode = 0) {
+	$lRet = '';
+
+	if((int) $pPhotoId){
+		$lRet = '<div class="Prof-Photo"> 
+					<a href="/browse_journal_articles_by_author.php?journal_id=' . $pJournalId . '&user_id=' . $pId . '">
+						<img class="P-Prof-Pic" width="67" height="70" src="/showimg.php?filename=c67x70y_' . (int) $pPhotoId . '.jpg" alt="Profile picture" />
+					</a>
+				</div>
+				' . ((int) $pViewMode ? "" : getstr('pwt.changeProfilePicture'));
+	}else{
+		$lRet = '<div class="Prof-Photo">
+					<a href="/browse_journal_articles_by_author.php?journal_id=' . $pJournalId . '&user_id=' . $pId . '">
+						<img src="i/add_photo.png" width="67" height="70" alt="Profile picture" />
+					</a>
+				</div>
+				' . ((int) $pViewMode ? "" : getstr('pwt.addProfilePicture'));
+	}
+	return $lRet;
+}
+
 function getProfilePicSmall($pPhotoId) {
 	$lRet = '';
 
@@ -1543,7 +1564,7 @@ function getUserPictureIfExist($pPreviewPicId) {
 
 function getYourTasksBtn($pShow, $pJournalId) {
 	if((int) $pShow){
-		return '<a href="/dashboard.php?view_mode=5&amp;journal_id=' . (int) $pJournalId . '" id="tasks">' . getstr('pjs.your_tasks') . '</a>';
+		return '<button class="button_red button_tasks" onclick="window.location = \'/dashboard.php?view_mode=5&amp;journal_id=' . (int) $pJournalId . '\'"><span>' . getstr('pjs.your_tasks') . '</span></button>';
 	}
 }
 
@@ -2147,19 +2168,19 @@ function displayFilterCriteria($pIssue, $pYear, $pLetter, $pAffiliation) {
 function displayArticlesFilterCriteria($pTaxon, $pSubject, $pGeographical, $pChronical, $pFromdate, $pToDate, $pSectionType, $pFoundingAgency) {
 	$lResult = '';
 	if($pTaxon)
-		$lResult .= '[' . $pTaxon . ']';
+		$lResult .= 'Taxon=[' . $pTaxon . ']';
 	if($pSubject)
-		$lResult .= '[' . $pSubject . ']';
+		$lResult .= ($pTaxon ? ' AND ' : '') . 'Subject=[' . $pSubject . ']';
 	if($pGeographical)
-		$lResult .= '[' . $pGeographical . ']';
+		$lResult .= ($pTaxon || $pSubject ? ' AND ' : '') . 'Geographical region=[' . $pGeographical . ']';
 	if($pChronical)
-		$lResult .= '[' . $pChronical . ']';
+		$lResult .= ($pTaxon || $pSubject || $pGeographical ? ' AND ' : '') . 'Chronological region=[' . $pChronical . ']';
 	if($pFromdate)
-		$lResult .= '[' . $pFromdate . ' to ' . $pToDate . ']';
+		$lResult .= ($pTaxon || $pSubject || $pGeographical || $pChronical ? ' AND ' : '') . 'Publication date=[' . $pFromdate . ' to ' . $pToDate . ']';
 	if($pSectionType)
-		$lResult .= '[' . $pSectionType . ']';
+		$lResult .= ($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate ? ' AND ' : '') . 'Section=[' . $pSectionType . ']';
 	if($pFoundingAgency)
-		$lResult .= '[' . $pFoundingAgency . ']';
+		$lResult .= ($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate || $pSectionType ? ' AND ' : '') . 'Funding agency=[' . $pFoundingAgency . ']';
 	if($lResult)
 		return '<div class="filterCriteria">' . $lResult . '</div>';
 }
