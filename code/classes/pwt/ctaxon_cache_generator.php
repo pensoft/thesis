@@ -84,6 +84,7 @@ class ctaxon_cache_generator {
 				return;
 			}
 			echo(date("Y-m-d H:i:s") . ' ' . $lTaxonName . " cache generation end \n");
+// 			exit;
 			$lCon->MoveNext();
 		}
 	}

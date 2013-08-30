@@ -24,7 +24,8 @@ class pBrowse_Articles_Page_View extends pBase_Page_View {
 				G_ROWTEMPL => 'browse_articles.row',
 				G_ENDRS => 'browse_articles.endrs',
 				G_NODATA => 'browse_articles.empty',
-				
+				G_HEADER => 'browse_articles.header',
+				G_FOOTER => 'browse_articles.footer',
 				G_PAGEING_STARTRS => 'pageing.startrs_nomargin',
 			)
 		);

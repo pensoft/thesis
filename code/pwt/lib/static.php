@@ -5853,9 +5853,9 @@ function showDashboardAdminFilter($pShowAll){
 			<table class="P-Data-Resources-Head" cellspacing="0" cellpadding="0">
 				<tbody>
 					<tr>
-					<td class="P-Data-Resources-Head-Text">' . ((int)$pShowAll ? '<a href="/">' : '') . getstr('dashboard.my_manuscripts') . ((int)$pShowAll ? '</a>' : '') .'</td>
+					<td class="P-Data-Resources-Head-Text">' . ((int)$pShowAll ? '<a href="/dashboard.php">' : '') . getstr('dashboard.my_manuscripts') . ((int)$pShowAll ? '</a>' : '') .'</td>
 					<td class="P-Data-Resources-Head-Text">|</td>
-					<td class="P-Data-Resources-Head-Text">' . (!(int)$pShowAll ? '<a href="/index.php?showall=1">' : '') . getstr('dashboard.all_manuscripts') . (!(int)$pShowAll ? '</a>' : '') . '</td>
+					<td class="P-Data-Resources-Head-Text">' . (!(int)$pShowAll ? '<a href="/dashboard.php?showall=1">' : '') . getstr('dashboard.all_manuscripts') . (!(int)$pShowAll ? '</a>' : '') . '</td>
 					</tr>
 				</tbody>
 			</table>

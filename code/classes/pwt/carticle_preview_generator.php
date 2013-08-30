@@ -625,27 +625,43 @@ class carticle_preview_generator extends csimple {
 		$lXPathResult = $lXPath->query($lTaxaXPath);
 		$this->m_taxaList = array();
 		$lAttributeNameThatHoldsPartType = 'class';
-		$lAttributeNameThatHoldsPartValue = 'part-value';
+		$lAttributeNameThatHoldsPartValue = 'full-name';
 		$lPartsThatLeadToSelf = array (
-			'kingdom',
+			'kingdom', 
+			'regnum',
 			'subkingdom',
+			'subregnum',
+			'division',
 			'phylum',
-			'subphylum',
+			'subdivision',
+			'subphylum', 
 			'superclass',
+			'superclassis',
 			'class',
+			'classis',
 			'subclass',
+			'subclassis',
 			'superorder',
-			'order',
+			'superordo',
+			'order', 
+			'ordo', 
 			'suborder',
+			'subordo',
 			'infraorder',
+			'infraordo',
 			'superfamily',
-			'family',
-			'subfamily',
-			'tribe',
+			'superfamilia',
+			'family', 
+			'familia', 
+			'subfamily', 
+			'subfamilia', 
+			'tribe', 
+			'tribus', 
 			'subtribe',
-			'genus',
+			'subtribus',
+			'genus', 
 			'subgenus',
-			'above-genus' 
+			'above-genus'
 		);
 		$lPartsThatDontLeadToSelf = array (
 			'species' => array (
@@ -656,17 +672,27 @@ class carticle_preview_generator extends csimple {
 				'genus',
 				'species',
 				'subspecies' 
-			),
+			),			
 			'variety' => array (
 				'genus',
 				'species',
 				'variety' 
 			),
+			'varietas' => array (
+				'genus',
+				'species',
+				'varietas'
+			),
 			'form' => array (
 				'genus',
 				'species',
 				'form' 
-			) 
+			),
+			'forma' => array (
+				'genus',
+				'species',
+				'forma'
+			),
 		);
 		$lPartsThatLeadToSelfQuery = '';
 		foreach ($lPartsThatLeadToSelf as $lPartName) {
@@ -706,6 +732,11 @@ class carticle_preview_generator extends csimple {
 						if($lPartValue == ''){
 							$lPartValue = trim($lNode->textContent);
 						}						
+// 						if($lPartValue == 'kathanus'){
+// 							var_dump($lNode->ownerDocument->saveXML($lCurrentTaxonNode));
+// 							var_dump($lTaxonName);
+// 							exit;
+// 						}
 					}
 					if($lPartValue != ''){
 						if($lTaxonName != ''){
@@ -717,9 +748,7 @@ class carticle_preview_generator extends csimple {
 				$this->m_taxaList[] = trim($lTaxonName);
 			}
 		}
-		$this->m_taxaList = array_unique($this->m_taxaList);
-// 		var_dump($this->m_taxaList);
-// 		exit;
+		$this->m_taxaList = array_unique($this->m_taxaList);		
 	}
 
 	protected function ImportGeneratedPreviews() {

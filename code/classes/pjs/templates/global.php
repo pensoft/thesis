@@ -249,8 +249,9 @@ $gTemplArr = array(
 							</div>
 							<div class="wrapper">
 								<div id="button">
+									<button class="button_green" onclick=\'window.open("' . PWT_URL . '", "_blank");\'>Start a manuscript</button>
 									{_getYourTasksBtn(show_your_tasks, journal_id)}
-									<button onclick=\'window.open("http://pwt.pensoft.net/", "_blank");\'>Submit a manuscript</button>
+									<a href="/about#Howitworks">How it works?</a>
 								</div>
 
 								{journal_menu}
@@ -982,13 +983,11 @@ $gTemplArr = array(
 	'{*global.htmlstartcontent}
 		{*global.sidebar_left}
 		<div id="dashboard-content" class="withoutHeader">
-			<div style="margin: 10px;">
-				{contents}
-			</div>
+			{contents}
 			' . //{*global.right_sidebar}
 			'<div class="P-Clear"></div>
 		</div>
-		{*global.footer}
+		{*global.journal_footer_page}
 	{*global.htmlendcontent}',
 
 	'global.dashboard' =>
@@ -1072,6 +1071,21 @@ $gTemplArr = array(
 	 						<span class="bold">{_getstr(pjs.footer.copyright)}</span> |
 							<a href="http://www.pensoft.net/contact_us.php">{_getstr(pjs.footer.contact)}</a></p></div>',
 
+	'global.journal_footer_page' => '
+		<div id="footer">
+	        <ul class="link_list clearfix">
+	            <li>
+	                <a href="http://vbrant.eu/" target="_blank"><img src="i/logo_vibrant.png"></a>
+	            </li>
+	            <li>
+	                <a href="http://www.pensoft.net/" target="_blank"><img src="i/logo_pensoft.png"></a>
+	            </li>
+	            <li>
+	                <a href="http://cordis.europa.eu/fp7/home_en.html" target="_blank"><img src="i/logo_sfp.png"></a>
+	            </li>
+	        </ul>
+	    </div>
+	',
 
 	'global.document_edit' =>
 	'{*global.htmlonlyheader}

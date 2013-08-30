@@ -1836,7 +1836,7 @@ $STRARRAY = array(
 
 	'pjs.ready_text' => 'Ready',
 
-	'pjs.your_tasks' => 'Your Tasks',
+	'pjs.your_tasks' => 'Your tasks',
 
 	'pjs.documentCreate.next' => 'Next',
 	'pjs.documentCreate.back' => 'Back',
@@ -2199,6 +2199,9 @@ $STRARRAY = array(
 	'pjs.articleDoiLabel' => 'DOI: ',
 	'pjs.articleAuthorsLabel' => 'Author',
 	'pjs.articleSELabel' => 'Academic editor',
+	
+	'pwt.index_list_head_text' => 'My recent manuscripts',
+	'pjs.bygeochronocal' => 'by Chronological region',
 
 );
 ?>

@@ -29,7 +29,7 @@ $gTemplArr = array(
 							</div>
 	',
 	
-	'menu.journal-row0' => '<a class="menu_btn" href="{href}">{name}</a>',
+	'menu.journal-row0' => '<a class="menu_btn menu_btn_large" href="{href}">{name}</a>',
 );
 
 ?>
