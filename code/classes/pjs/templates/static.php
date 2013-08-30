@@ -2042,7 +2042,7 @@ function displayGroupName($pGroupTitle, $pSubtitle) {
 			$lResult .= '<h3 class="dashboard-title withoutBorder groupSubtitle" >&nbsp;' . $pSubtitle . '</h3>';
 
 	}else{
-		$lResult .= '<h1 class="dashboard-title withoutBorder">' . getstr('pjs.subject_editors') . '</h1><h3></h3>';
+		$lResult .= '<h1 class="dashboard-title withoutBorder">' . getstr('pjs.subject_editors') . '</h1><a target="_blank" href="http://www.pensoft.net/journals/bdj/editor_form.html"><span style="color: rgb(128,0,0); padding-left: 17px"><b>Editor application form</b></span></a>';
 	}
 	return $lResult;
 }
