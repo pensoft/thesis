@@ -22,11 +22,91 @@ class mJournal_Documents_Model extends emBase_Model {
 		return $lResult;
 	}
 	
+	function ConvertFilterValues($pTaxonCats, $pSubjectCats, $pGeographicalCats, $pChronologicalCats, $pSectionType) {
+		$pTaxonCats = str_replace('t', '', $pTaxonCats);
+		$pSubjectCats = str_replace('s', '', $pSubjectCats);
+		$pGeographicalCats = str_replace('c', '', $pGeographicalCats);
+		$pChronologicalCats = str_replace('g', '', $pChronologicalCats);
+		$pSectionType = implode(',', $pSectionType);
+		
+		$lResult = array(
+			'taxon' => '',
+			'subject' => '',
+			'geographical' => '',
+			'chronical' => '',
+			'sectionType' => '',
+		);
+		
+		$lCon = $this->m_con;
+		if(strlen($pTaxonCats) > 0){
+			$lSql = "SELECT name FROM taxon_categories WHERE id IN ($pTaxonCats)";
+			
+			$lCon->Execute($lSql);
+			$i = 1;
+			while(!$lCon->Eof()){
+				
+				$lResult['taxon'] .= $lCon->mRs['name'] . ($lCon->RecordCount() == $i ? '' : ','); 
+				$i++;
+				$lCon->MoveNext();
+			}
+		}
+		if(strlen($pSubjectCats) > 0){
+			$lSql = "SELECT name FROM subject_categories WHERE id IN ($pSubjectCats)";
+			$lCon->Execute($lSql);
+			$i = 1;
+			while(!$lCon->Eof()){
+				$lResult['subject'] .= $lCon->mRs['name'] . ($lCon->RecordCount() == $i ? '' : ','); 
+				$i++;
+				$lCon->MoveNext();
+			}
+		}
+		if(strlen($pGeographicalCats) > 0){
+			$lSql = "SELECT name FROM geographical_categories WHERE id IN ($pGeographicalCats)";
+			$lCon->Execute($lSql);
+			$i = 1;
+			while(!$lCon->Eof()){
+				$lResult['geographical'] .= $lCon->mRs['name'] . ($lCon->RecordCount() == $i ? '' : ','); 
+				$i++;
+				$lCon->MoveNext();
+			}
+		}
+		if(strlen($pChronologicalCats) > 0){
+			$lSql = "SELECT name FROM chronological_categories WHERE id IN ($pChronologicalCats)";
+			$lCon->Execute($lSql);
+			$i = 1;
+			while(!$lCon->Eof()){
+				$lResult['chronical'] .= $lCon->mRs['name'] . ($lCon->RecordCount() == $i ? '' : ','); 
+				$i++;
+				$lCon->MoveNext();
+			}
+		}
+		
+		if($pSectionType){
+			$lSql = "SELECT title FROM pjs.journal_sections WHERE id IN ($pSectionType)";
+			$lCon->Execute($lSql);
+			$i = 1;
+			while(!$lCon->Eof()){
+				$lResult['sectionType'] .= $lCon->mRs['title'] . ($lCon->RecordCount() == $i ? '' : ','); 
+				$i++;
+				$lCon->MoveNext();
+			}
+		}
+		
+		return $lResult;
+		
+	}
+	
 	function GetJournalArticles($pJournalId, $pPage, $pSectionTypesArr, $pTaxon, $pSubject, $pChronological, $pGeographical, $pFromDate, $pToDate) {
-		$pTaxon = substr($pTaxon, 1);
+		/*$pTaxon = substr($pTaxon, 1);
 		$pSubject = substr($pSubject, 1);
 		$pChronological = substr($pChronological, 1);
 		$pGeographical = substr($pGeographical, 1);
+		 * 
+		 */
+		$pTaxon = str_replace('t', '', $pTaxon);
+		$pSubject = str_replace('s', '', $pSubject);
+		$pChronological = str_replace('c', '', $pChronological);
+		$pGeographical = str_replace('g', '', $pGeographical);
 		
 		$lResult = array();
 		$lAnd = '';
@@ -56,15 +136,22 @@ class mJournal_Documents_Model extends emBase_Model {
 		}
 			
 		$lCon = $this->m_con;
-		$lSql = 'SELECT d.*, du.authors as document_authors, js.title as journal_section_name, du.doi as doi
+		$lSql = 'SELECT d.*, js.title as journal_section_name, dv.id as layout_version_id,
+					(SELECT 
+						aggr_concat_coma(du.first_name || \' \' || du.last_name) as author_name 
+					FROM pjs.document_users du 
+					WHERE du.document_id = d.id AND du.role_id = ' . AUTHOR_ROLE . ' AND du.state_id = 1 
+					GROUP BY du.ord
+					ORDER BY du.ord 
+					) as authors_list
 					FROM pjs.documents d
-					JOIN pjs.v_getdocumentsandauthors du ON du.doc_id = d.id
 					LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id
+					LEFT JOIN pjs.document_versions dv ON dv.document_id = d.id AND dv.version_type_id = ' . DOCUMENT_VERSION_LE_TYPE . '
 					WHERE d.journal_id = ' . (int)$pJournalId . '
 						AND d.is_published = TRUE
 						' . $lAnd . '
 					ORDER BY d.publish_date DESC';
-		//~ var_dump($lSql);
+		//var_dump($lSql);
 		$lCon->Execute($lSql);
 		
 		$lCon->SetPage(DEFAULT_PAGE_SIZE, $pPage);
@@ -89,14 +176,30 @@ class mJournal_Documents_Model extends emBase_Model {
 		$lAnd = '';
 			
 		$lCon = $this->m_con;
-		$lSql = 'SELECT d.*, du.authors as document_authors, js.title as journal_section_name, du.doi as doi
+		$lSql = 'SELECT d.*, js.title as journal_section_name, dv.id as layout_version_id,
+					(SELECT 
+						aggr_concat_coma(du.first_name || \' \' || du.last_name) as author_name 
+					FROM pjs.document_users du 
+					WHERE du.document_id = d.id AND du.role_id = ' . AUTHOR_ROLE . ' AND du.state_id = 1 
+					GROUP BY du.ord
+					ORDER BY du.ord 
+					) as authors_list
+					FROM pjs.documents d
+					JOIN pjs.document_users dou ON dou.document_id = d.id AND dou.uid = ' . (int)$pAuthorId . ' AND role_id = ' . AUTHOR_ROLE . '
+					LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id
+					LEFT JOIN pjs.document_versions dv ON dv.document_id = d.id AND dv.version_type_id = ' . DOCUMENT_VERSION_LE_TYPE . '
+					WHERE d.journal_id = ' . (int)$pJournalId . '
+						AND d.is_published = TRUE
+					ORDER BY d.publish_date DESC';
+		
+		/*$lSql = 'SELECT d.*, du.authors as document_authors, js.title as journal_section_name, du.doi as doi
 					FROM pjs.documents d
 					JOIN pjs.document_users dou ON dou.document_id = d.id AND dou.uid = ' . (int)$pAuthorId . ' AND role_id = ' . AUTHOR_ROLE . '
 					JOIN pjs.v_getdocumentsandauthors du ON du.doc_id = d.id
 					LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id
 					WHERE d.journal_id = ' . (int)$pJournalId . '
 						AND d.is_published = TRUE
-					ORDER BY d.publish_date DESC';
+					ORDER BY d.publish_date DESC';*/
 		//var_dump($lSql);
 		$lCon->Execute($lSql);
 		

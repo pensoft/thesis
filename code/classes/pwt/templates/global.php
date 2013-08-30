@@ -377,6 +377,28 @@ $gTemplArr = array(
 	',
 
 	'global.index_page' =>
+		   '{*index.htmlstartcontent}
+				<div class="P-Wrapper-Container-Middle Dashboar-Container-Middle">
+					<div class="P-Add-New-Manuscript-Btn-Holder">
+						<span>
+							<div class="P-Green-Btn-Holder" onclick="window.location=\'create_document.php\'">
+								<div class="P-Green-Btn-Left"></div>
+								<div class="P-Green-Btn-Middle">' . getstr('dashboard.write_new_manuscript') . '</div>
+								<div class="P-Green-Btn-Right"></div>
+							</div>
+						</span>
+						<div class="P-Clear"></div>
+					</div>
+					<div class="P-Content-Dashboard-Holder">
+						{content}
+					</div>
+					<div class="P-Clear"></div>
+				</div>
+				<div class="P-Clear"></div>
+			{*global.htmlendcontent}
+	',
+	
+	'global.dashboard_page' =>
 		   '{*dashboard.htmlstartcontent}
 				{*dashboard.content}
 			{*global.htmlendcontent}
