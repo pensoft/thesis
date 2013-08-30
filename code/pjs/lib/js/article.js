@@ -249,21 +249,37 @@ function GetCustomElementsContents(pInPreviewIframe){
 function PlaceTaxonNameEvents(pInPreviewIframe){
 	var lPartsThatLeadToSelf = [
 		'kingdom', 
-		'subkingdom', 
-		'phylum', 
+		'regnum',
+		'subkingdom',
+		'subregnum',
+		'division',
+		'phylum',
+		'subdivision',
 		'subphylum', 
-		'superclass', 
-		'class', 
-		'subclass', 
-		'superorder', 
+		'superclass',
+		'superclassis',
+		'class',
+		'classis',
+		'subclass',
+		'subclassis',
+		'superorder',
+		'superordo',
 		'order', 
-		'suborder', 
-		'infraorder', 
-		'superfamily', 
+		'ordo', 
+		'suborder',
+		'subordo',
+		'infraorder',
+		'infraordo',
+		'superfamily',
+		'superfamilia',
 		'family', 
+		'familia', 
 		'subfamily', 
+		'subfamilia', 
 		'tribe', 
-		'subtribe', 
+		'tribus', 
+		'subtribe',
+		'subtribus',
 		'genus', 
 		'subgenus',
 		'above-genus'
@@ -272,14 +288,21 @@ function PlaceTaxonNameEvents(pInPreviewIframe){
 		'species' : ['genus', 'species'],
 		'subspecies' : ['genus', 'species', 'subspecies'],
 		'variety' : ['genus', 'species', 'variety'],
-		'form' : ['genus', 'species', 'form']
+		'varietas' : ['genus', 'species', 'varietas'],
+		'form' : ['genus', 'species', 'form'],
+		'forma' : ['genus', 'species', 'forma']
 	};
 	var lPartsThatLeadToSelfSelector = '.' + lPartsThatLeadToSelf.join(',.');
+	var lAttributeThatHoldsPartFullName = 'full-name';
 	GetCustomElementsContents(pInPreviewIframe).find('.tn').each(function(pIdx, pTaxonNode){
 		$(pTaxonNode).find(lPartsThatLeadToSelfSelector).each(function(pIdx1, pTaxonNamePartNode){
 			$(pTaxonNamePartNode).bind('click', function(pEvent){
 				pEvent.stopPropagation();
-				LoadTaxonInfo($(pTaxonNamePartNode).text());
+				var lTaxonName = $(pTaxonNamePartNode).attr(lAttributeThatHoldsPartFullName);
+				if(lTaxonName == ''){
+					lTaxonName = $(pTaxonNamePartNode).text();
+				}
+				LoadTaxonInfo(lTaxonName);
 			});
 		});
 		for(var lPartName in lPartsThatDontLeadToSelf){
@@ -288,8 +311,11 @@ function PlaceTaxonNameEvents(pInPreviewIframe){
 			if(lParts.length > 0){
 				var lTaxonName = '';
 				for(var i = 0; i < lNamePartsOrder.length; ++i){
-					var lCurrentPart = lNamePartsOrder[i];
-					var lCurrentPartText = $(pTaxonNode).find('.' + lCurrentPart).text();
+					var lCurrentPart = lNamePartsOrder[i];					
+					var lCurrentPartText = $(pTaxonNode).find('.' + lCurrentPart).attr(lAttributeThatHoldsPartFullName);
+					if(lCurrentPartText == ''){
+						lCurrentPartText = $(pTaxonNode).find('.' + lCurrentPart).text();
+					}
 					if(lTaxonName != ''){
 						lTaxonName += ' ';
 					}

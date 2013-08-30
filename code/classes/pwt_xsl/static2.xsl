@@ -1108,6 +1108,7 @@
 	     <xsl:when test="$lLocalName='tn-part'">
 		      <span>
 		      	 <xsl:attribute name="class"><xsl:value-of select="./@type" /></xsl:attribute>
+		      	 <xsl:attribute name="full-name"><xsl:value-of select="./@full-name" /></xsl:attribute>
 		       	 <xsl:copy-of select="$lChildContent"/>
 		      </span>
 	     </xsl:when>

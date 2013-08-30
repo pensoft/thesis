@@ -302,7 +302,7 @@ $gTemplArr = array (
 						 }
 					 }
 				</script>
-				<iframe id="gbifIframe" name="gbifIframe" scrolling="no" height="410" frameborder="0" vspace="1" hspace="1" src="' . IFRAME_PROXY_URL . '?url={_rawurlencode(map_iframe_src)}"  onload="resizeGbifMap(); correctIframeLinks(this, \'{link_prefix}\')"></iframe>
+				<iframe id="gbifIframe" name="gbifIframe" scrolling="no" height="410" frameborder="0" vspace="1" hspace="1" src="' . IFRAME_PROXY_URL . '?url={_rawurlencode(map_iframe_src)}"  onload="resizeGbifMap(); correctIframeLinks(\'gbifIframe\', \'{link_prefix}\')"></iframe>
 			</div>
 		</div>
 	',
@@ -456,7 +456,7 @@ $gTemplArr = array (
 	',
 	
 	// EOL
-	'article.eol_no_data' => '',
+	'article.eol_no_data' => 'No EOL images',
 	'article.eol' => '
 		<div class="contentSection imagesSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
