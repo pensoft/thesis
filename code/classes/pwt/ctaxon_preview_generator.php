@@ -19,6 +19,8 @@ class ctaxon_preview_generator extends csimple {
 	var $m_wikimediaHasResults = false;
 	var $m_wholePreview = '';
 	var $m_categories = array ();
+	var $m_eolPreview;
+	var $m_eolHasResults = false;
 
 	function __construct($pFieldTempl) {
 		$this->m_taxonName = $pFieldTempl ['taxon_name'];
@@ -38,7 +40,7 @@ class ctaxon_preview_generator extends csimple {
 				),
 				'regular_sites' => array (),
 				'is_empty' => true,
-				'display_name' => 'Distribution',
+				'display_name' => 'Occurrences',
 				'preview' => '' 
 			),
 			'genomics' => array (
@@ -53,7 +55,8 @@ class ctaxon_preview_generator extends csimple {
 				'preview' => '' 
 			),
 			'nomenclature' => array (
-				'special_sites' => array (),
+				'special_sites' => array (					
+				),
 				'regular_sites' => array (
 					17,//ZooBank
 					12,//IPNI
@@ -64,13 +67,26 @@ class ctaxon_preview_generator extends csimple {
 				'display_name' => 'Nomenclature',
 				'preview' => '' 
 			),
+			'treatments' => array (
+				'special_sites' => array (
+					EOL_SITE_ID,//Eol
+				),
+				'regular_sites' => array (
+					35 //Plazi
+				),
+				'is_empty' => true,
+				'display_name' => 'Treatments',
+				'preview' => '' 
+			),
 			'literature' => array (
 				'special_sites' => array (
 					BHL_SITE_ID 
 				),
 				'regular_sites' => array (
 					31,//Pubmed
-					30 //Google scholar
+					30, //Google scholar
+					41, //PMC
+					42, //Crossref
 				),
 				'is_empty' => true,
 				'display_name' => 'Literature',
@@ -80,21 +96,11 @@ class ctaxon_preview_generator extends csimple {
 				'special_sites' => array (
 					WIKIMEDIA_SITE_ID 
 				),
-				'regular_sites' => array (
-					2,//Eol
+				'regular_sites' => array (					
 					26 //Morphbank
 				),
 				'is_empty' => true,
 				'display_name' => 'Images',
-				'preview' => '' 
-			),
-			'treatments' => array (
-				'special_sites' => array (),
-				'regular_sites' => array (
-					35 //Plazi
-				),
-				'is_empty' => true,
-				'display_name' => 'Treatments',
 				'preview' => '' 
 			),
 			'other' => array (
@@ -211,10 +217,24 @@ class ctaxon_preview_generator extends csimple {
 				G_NODATA => 'article.ncbi_related_links_nodata' 
 			) 
 		));
+		$lEntrezRecordsTitle = new crs_display_array(array (
+			'input_arr' => $lNCBIData ['entrez_records'],
+			'taxon_name' => $this->m_taxonName,
+			'taxon_ncbi_id' => $lNCBIData ['ncbi_taxon_id'],
+			'templs' => array (
+				G_HEADER => 'article.ncbi_entrez_records_title_head',
+				G_FOOTER => 'article.ncbi_entrez_records_title_foot',
+				G_STARTRS => 'article.ncbi_entrez_records_title_start',
+				G_ENDRS => 'article.ncbi_entrez_records_title_end',
+				G_ROWTEMPL => 'article.ncbi_entrez_records_title_row',
+				G_NODATA => 'article.ncbi_entrez_records_title_nodata'
+			)
+		));
 		$lEntrezRecords = new crs_display_array(array (
 			'input_arr' => $lNCBIData ['entrez_records'],
 			'taxon_name' => $this->m_taxonName,
 			'taxon_ncbi_id' => $lNCBIData ['ncbi_taxon_id'],
+			'title' => $lEntrezRecordsTitle,
 			'templs' => array (
 				G_HEADER => 'article.ncbi_entrez_records_head',
 				G_FOOTER => 'article.ncbi_entrez_records_foot',
@@ -242,6 +262,7 @@ class ctaxon_preview_generator extends csimple {
 
 	protected function GenerateGBIFPreview() {
 		$lGBIFData = $this->m_dataGenerator->GetGBIFData();
+// 		var_dump($lGBIFData);
 		$lGbifLinkData = $this->m_dataGenerator->GetSiteData(GBIF_SITE_ID);
 		if (! $lGBIFData ['gbif_taxon_id']) {
 			$lPreview = new csimple(array (
@@ -271,7 +292,52 @@ class ctaxon_preview_generator extends csimple {
 		$this->m_gbifPreview = $lPreview->Display();
 		return $this->m_gbifPreview;
 	}
-
+	
+	protected function GenerateEOLPreview() {
+		$lEOLData = $this->m_dataGenerator->GetEOLData();
+		$lEolLinkData = $this->m_dataGenerator->GetSiteData(EOL_SITE_ID);
+		if (! $lEOLData ['eol_taxon_id']) {
+			$lPreview = new csimple(array (
+				'templs' => array (
+					G_DEFAULT => 'article.eol_no_data'
+				),
+				'eol_link' => $lEolLinkData ['taxon_link'],
+				'taxon_name' => $this->m_taxonName
+			));
+			$this->m_eolPreview = $lPreview->Display();
+			return $this->m_eolPreview;
+		}
+		$this->m_eolHasResults = true;
+		$lImages = new crs_display_array(array (
+			'input_arr' => $lEOLData ['images'],
+			'taxon_name' => $this->m_taxonName,
+			'pagesize' => 6,
+			'templs' => array (
+				G_HEADER => 'article.eol_images_head',
+				G_FOOTER => 'article.eol_images_foot',
+				G_STARTRS => 'article.eol_images_start',
+				G_ENDRS => 'article.eol_images_end',
+				G_ROWTEMPL => 'article.eol_images_row',
+				G_NODATA => 'article.eol_images_nodata'
+			)
+		));
+	
+		$lPreview = new csimple(array (
+			'templs' => array (
+				G_DEFAULT => 'article.eol'
+			),
+			'images' => $lImages,
+			'postform' => $lEolLinkData ['postform'],
+			'postfields' => $lEolLinkData ['postfields'],
+			'eol_link' => $lEolLinkData ['taxon_link'],
+			'eol_taxon_id' => $lEOLData ['eol_taxon_id'],			
+			'taxon_name' => $this->m_taxonName
+		));
+		$this->m_eolPreview = $lPreview->Display();
+		return $this->m_eolPreview;
+	}
+	
+	
 	protected function GenerateBHLPreview() {
 		$lBHLData = $this->m_dataGenerator->GetBHLData();
 		$lBHLLink = BHL_TAXON_EXTERNAL_LINK . $this->m_encodedTaxonName;
@@ -370,7 +436,7 @@ class ctaxon_preview_generator extends csimple {
 		} else {
 			$lPreview = new csimple(array (
 				'templs' => array (
-					G_DEFAULT => 'article.wikimedia_nodata' 
+					G_DEFAULT => 'article.wikimedia_no_data' 
 				),
 				'images' => $lImages,
 				'wikimedia_link' => $lWikimediaLink,
@@ -393,11 +459,9 @@ class ctaxon_preview_generator extends csimple {
 				}
 			}
 			foreach ( $lCategoryData ['special_sites'] as $lSiteId ) {							
-				if ($this->CheckIfSpecialSiteHasResults($lSiteId)) {
-					$lSpecialSitesData [$lSiteId] = array(
-						'preview' => $this->GetSpecialSitePreview($lSiteId),
-					);
-				}
+				$lSpecialSitesData [$lSiteId] = array(
+					'preview' => $this->GetSpecialSitePreview($lSiteId),
+				);
 			}
 			if(count($lRegularSitesData) || count($lSpecialSitesData)){
 				$this->m_categories['is_empty'] = false;
@@ -494,6 +558,8 @@ class ctaxon_preview_generator extends csimple {
 				return $this->m_wikimediaHasResults;
 			case (int) BHL_SITE_ID :
 				return $this->m_bhlHasResults;
+			case (int) EOL_SITE_ID :
+				return $this->m_eolHasResults;
 		}
 	}
 	
@@ -509,6 +575,8 @@ class ctaxon_preview_generator extends csimple {
 				return $this->m_wikimediaPreview;
 			case (int) BHL_SITE_ID :
 				return $this->m_bhlPreview;
+			case (int) EOL_SITE_ID :
+				return $this->m_eolPreview;
 		}
 	}
 
@@ -518,7 +586,9 @@ class ctaxon_preview_generator extends csimple {
 		$this->GenerateGBIFPreview();
 		$this->GenerateBHLPreview();
 		$this->GenerateWikimediaPreview();
+		$this->GenerateEOLPreview();
 		$this->GenerateCategoriesPreview();
+		
 		return $this->m_wholePreview;
 		
 	}

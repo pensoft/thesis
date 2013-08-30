@@ -226,6 +226,18 @@ $gTemplArr = array (
 					</div>
 	',
 	'article.ncbi_related_links_nodata' => '',
+	//Entrez records
+	'article.ncbi_entrez_records_title_head' => '',
+	'article.ncbi_entrez_records_title_foot' => '',
+	'article.ncbi_entrez_records_title_start' => '
+				<th>Database name</th>
+	',
+	'article.ncbi_entrez_records_title_end' => '
+	',
+	'article.ncbi_entrez_records_title_row' => '
+				<th class="entrezDbName">{db_display_name}</th>					
+	',
+	'article.ncbi_entrez_records_title_nodata' => '',
 	
 	'article.ncbi_entrez_records_head' => '',
 	'article.ncbi_entrez_records_foot' => '',
@@ -233,26 +245,22 @@ $gTemplArr = array (
 		<div class="entrezRecordsHolder">
 			<table class="entrezRecordsTable">
 				<tr>
-					<th colspan="2">Entrez records</th>
-				</tr>
-				<tr>
-					<th>Database name</th>
-					<th>Subtree links</th>
+					{title}					
 				</tr>		
+				<tr>
+					<td>Subtree links</td>
 	',
 	'article.ncbi_entrez_records_end' => '
+				</tr>
 			</table>
 		</div>
 	',
 	'article.ncbi_entrez_records_row' => '
-				<tr>
-					<td class="entrezDbName">{db_display_name}</td>
-					<td class="entrezSubtreeLink">{_ShowEntrezRecordsDbSubtreeLink(taxon_name, taxon_ncbi_id, db_name, records)}</td>
-				</tr>
+				<td class="entrezSubtreeLink">{_ShowEntrezRecordsDbSubtreeLink(taxon_name, taxon_ncbi_id, db_name, records)}</td>
 	',
 	'article.ncbi_entrez_records_nodata' => '',
 	
-	'article.ncbi_no_data' => '',
+	'article.ncbi_no_data' => 'NO NCBI',
 	
 	'article.ncbi' => '
 		<div class="contentSection imagesSection">
@@ -261,28 +269,18 @@ $gTemplArr = array (
 					<td class="labelImg" id="ncbiLink">
 						<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, ncbi_link)}"><img class="noBorder" src="' . PTP_URL . '/img/ext_details/ncbi_logo.jpg"></a>
 					</td>
-					<td><h2 class="labelTitle">Gene Sequences and PubMed links </h2></td>
+					<td><h2 class="labelTitle">Gene Sequences</h2></td>
 				</tr>
 			</table>
 			<div class="sectionBody">
-				<div class="ncbiDetails">
-					<div class="ncbiDetail"><span class="label">Inherited blast name:</span> {division}</div>
-					<div class="ncbiDetail"><span class="label">Rank:</span> {rank}</div>
-					{lineage}
-				</div>
 				<div class="ncbiEntrezRecords">
 					{entrez_records}
 				</div>
-				<div class="unfloat"></div>
-				<div class="pubMedLinks">{related_links}</div>			
-				<div class="ncbiDisclaimer">
-					Disclaimer: The NCBI taxonomy database is not an authoritative source for nomenclature or classification - please consult the relevant scientific literature for the most reliable information.
-				</div>
-				<div class="unfloat"></div>
+				<div class="P-Clear"></div>
 			</div>
 		</div>
 	',
-	
+	// GBIF
 	'article.gbif' => '
 		<div class="contentSection generalInfoSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
@@ -292,14 +290,25 @@ $gTemplArr = array (
 				</tr>
 			</table>
 			<div class="sectionBody">	
-				<iframe id="gbifIframe" name="gbifIframe" scrolling="no" height="410" frameborder="0" vspace="1" hspace="1" src="' . IFRAME_PROXY_URL . '?url={_rawurlencode(map_iframe_src)}"  onload="correctIframeLinks(\'gbifIframe\', \'{link_prefix}\')"></iframe>
-				<div class="gbifLink">Click <a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, gbif_link, postform, postfields)}">here</a> to go to the GBIF search results for this taxon</div>
+				<script type="text/javascript">
+					 function resizeGbifMap(){
+						 var iframe = document.getElementById("gbifIframe");
+						 var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+						 var mapi;
+						 if (iframeDocument) {
+						  mapi = iframeDocument.getElementById("map");
+						  mapi.style.width="424px";
+						  mapi.style.height="236px";
+						 }
+					 }
+				</script>
+				<iframe id="gbifIframe" name="gbifIframe" scrolling="no" height="410" frameborder="0" vspace="1" hspace="1" src="' . IFRAME_PROXY_URL . '?url={_rawurlencode(map_iframe_src)}"  onload="resizeGbifMap(); correctIframeLinks(this, \'{link_prefix}\')"></iframe>
 			</div>
 		</div>
 	',
 	
-	'article.gbif_no_data' => '',
-	
+	'article.gbif_no_data' => 'NO GBIF',
+	// BHL
 	'article.bhl_head' => '
 		<div class="contentSection generalInfoSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="4" border="0">
@@ -320,6 +329,7 @@ $gTemplArr = array (
 	
 	'article.bhl_foot' => '
 			<div class="unfloat"></div>
+			<br/>
 			<p class="extLinksSeeAll">To get a complete list click <a  href="{_ParseTaxonExternalLink(taxon_name, bhl_link)}">here</a></p>
 			</div>
 		</div>
@@ -402,8 +412,8 @@ $gTemplArr = array (
 		{titles}
 		{*article.bhl_foot}
 	',
-	
-	'article.wikimedia_nodata' => '',
+	// Wikimedia
+	'article.wikimedia_no_data' => 'No wikimedia',
 	'article.wikimedia' => '
 		<div class="contentSection imagesSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
@@ -442,7 +452,48 @@ $gTemplArr = array (
 				
 	',
 	
-	'article.wikimedia_images_nodata' => '
+	'article.wikimedia_images_nodata' => 'NO WIKI IMAGES
+	',
+	
+	// EOL
+	'article.eol_no_data' => '',
+	'article.eol' => '
+		<div class="contentSection imagesSection">
+			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<td class="labelImg" id="{icon_div_id}">
+						<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, eol_link)}">
+							<img class="noBorder" src="' . PTP_URL . '/img/ext_details/eol_logo.jpg">
+						</a>
+					</td>
+					<td><h2 class="labelTitle">Images from EOL</h2></td>
+				</tr>
+			</table>
+			<div class="sectionBody">
+				{images}
+				<div class="unfloat"></div>
+			</div>
+		</div>
+	',
+	'article.eol_images_head' => '
+	',
+	
+	'article.eol_images_foot' => '
+	',
+	
+	'article.eol_images_start' => '
+	',
+	
+	'article.eol_images_end' => '
+	',
+	
+	'article.eol_images_row' => '
+				<div class="imageRow">
+					<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, url)}"><img src="{url}" class="noBorder" alt="" style="width: 134px;"></img></a>
+				</div>	
+	',
+	
+	'article.eol_images_nodata' => '
 	',
 	
 	// Categories
@@ -465,8 +516,8 @@ $gTemplArr = array (
 	',
 	
 	'article.category_special_sites_nodata' => '
-	' ,
-	//Regular sites
+	',
+	// Regular sites
 	'article.category_regular_sites_head' => '
 	',
 	
@@ -511,7 +562,7 @@ $gTemplArr = array (
 				{regular_sites}
 			</div>
 	',
-	//Categories menu
+	// Categories menu
 	'article.categories_menu_head' => '
 			<div class="P-Categories-Menu">
 	',
@@ -565,7 +616,7 @@ $gTemplArr = array (
 				</div>	
 				{categories_list}
 			</div>
-	',
+	' 
 );
 
 ?>

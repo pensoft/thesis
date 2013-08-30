@@ -486,9 +486,28 @@ INSERT INTO pjs.taxon_sites(name, picsrc, picsrc_no_results, display_title,
 			('diptera', '/img/ext_details/diptera_logo.jpg', '/img/ext_details/diptera_logo_BW.jpg', 'Diptera',
 			0::boolean, '', 'http://130.225.211.25/diptera/names/FMPro?-db=names.fp5&-format=nomenclatorresult.html&-lay=www%20detail&-sortfield=unsorted&-op=cn&Name={encoded_taxon_name}&-max=10&-find=&-lop=and', 'http://130.225.211.25/diptera/names/FMPro?-db=names.fp5&-format=nomenclatorresult.html&-lay=www%20detail&-sortfield=unsorted&-op=cn&Name={encoded_taxon_name}&-max=10&-find=&-lop=and', 0::boolean,
 			0::boolean, 0::boolean, '', ''   
-			);
-
-
+			),
+			
+			('ion', '/img/ext_details/ion_logo.jpg', '/img/ext_details/ion_logo_BW.jpg', 'ION',
+			0::boolean, '', 'http://www.organismnames.com/query.htm?q={encoded_taxon_name}', 'http://www.organismnames.com/query.htm?q={encoded_taxon_name}', 1::boolean,
+			0::boolean, 0::boolean, '', ''   
+			),
+			
+			('pmc', '/img/ext_details/pmc_logo.jpg', '/img/ext_details/pmc_logo_BW.jpg', 'PMC',
+			0::boolean, '', 'http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Search&dopt=DocSum&db=PMC&term={encoded_taxon_name}', 'http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Search&dopt=DocSum&db=PMC&term={encoded_taxon_name}', 1::boolean,
+			0::boolean, 0::boolean, '', ''   
+			),
+			
+			('crossref', '/img/ext_details/crossref_logo.jpg', '/img/ext_details/crossref_logo_BW.jpg', 'CrossRef',
+			0::boolean, '', 'http://search.labs.crossref.org/?q={encoded_taxon_name}', 'http://search.labs.crossref.org/?q={encoded_taxon_name}', 1::boolean,
+			0::boolean, 0::boolean, '', ''   
+			)
+			;
+/*
+			pjs.taxon_sites(name, picsrc, picsrc_no_results, display_title,
+			is_ubio_site, ubio_site_name, taxon_link, taxon_link_no_results, show_if_not_found,
+			use_post_action, use_post_action_no_results, fields_to_post, fields_to_post_no_results)
+*/
 
 INSERT INTO pjs.taxon_sites_match_expressions(site_id, expression, ord)
 			SELECT id, '\<span\s+class\="moreMatches"\>No\s+scientific\s+names\s+matching\s+\<span\s+class\="subject"\>"{taxon_name}"\<\/span\>\<\/span\>', 1
@@ -646,6 +665,18 @@ INSERT INTO pjs.taxon_sites_match_expressions(site_id, expression, ord)
 			SELECT id, 'Your\s+search\s+\-\s+\<b\>{taxon_name}\<\/b\>\s+\-\s+did\s+not\s+match\s+any\s+documents\.', 1
 			FROM pjs.taxon_sites 
 			WHERE name = 'invasive';
+		INSERT INTO pjs.taxon_sites_match_expressions(site_id, expression, ord)
+			SELECT id, 'Page\s+1\s+of\s+0\s+\(\<b\>0\<\/b\>\s+names\)', 1
+			FROM pjs.taxon_sites 
+			WHERE name = 'ion';
+		INSERT INTO pjs.taxon_sites_match_expressions(site_id, expression, ord)
+			SELECT id, '"No\s+items\s+found"', 1
+			FROM pjs.taxon_sites 
+			WHERE name = 'pmc';
+		INSERT INTO pjs.taxon_sites_match_expressions(site_id, expression, ord)
+			SELECT id, 'Page\s+1\s+of\s+0\s+results', 1
+			FROM pjs.taxon_sites 
+			WHERE name = 'crossref';
 		
 		
 
@@ -659,13 +690,29 @@ CREATE TABLE pjs.taxon_preview_generation_errors(
 
 GRANT ALL ON pjs.taxon_preview_generation_errors TO iusrpmt;
 
+CREATE TABLE pjs.taxon_eol_data(
+	id bigserial PRIMARY KEY,
+	taxon_id bigint REFERENCES pjs.taxons(id) NOT NULL,
+	eol_taxon_id varchar,
+	lastmoddate timestamp DEFAULT now()
+);
+GRANT ALL ON pjs.taxon_eol_data TO iusrpmt;
+
+CREATE TABLE pjs.taxon_eol_images(
+	id bigserial PRIMARY KEY,
+	eol_data_id bigint REFERENCES pjs.taxon_eol_data(id) NOT NULL,	
+	url varchar
+);
+GRANT ALL ON pjs.taxon_eol_images TO iusrpmt;
+
+
 
 /* Stored procedures
 	pjs.spSaveArticleFigurePreview
 	pjs.spSaveArticleTablePreview
 	pjs.spSaveArticleSupFilePreview
 	pjs.spSaveArticlePlatePreview
-	pjs.spSaveArticleReferencePreview	
+	pjs.spSaveArticleReferencePreview
 	pjs.spSaveArticleTaxonPreview
 	pjs.spSaveArticleFiguresListPreview
 	pjs.spSaveArticleTablesListPreview
@@ -700,7 +747,10 @@ GRANT ALL ON pjs.taxon_preview_generation_errors TO iusrpmt;
 	pjs.spClearArticleTaxa
 	pjs.spSaveArticleTaxon
 	pjs.spNormalizeTaxonName
-	pjs.spGetTaxonId 
+	pjs.spGetTaxonId
+	pjs.spSaveTaxonEOLBaseData
+	pjs.spSaveTaxonEOLImage
+	
 	The following line should be added to the pwt conf
 	require_once('ptp_conf.php');
 	also the PTP_URL should be set to the correct url of ptp
