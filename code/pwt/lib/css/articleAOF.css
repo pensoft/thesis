@@ -35,6 +35,10 @@ body {
   font-size: 12pt;
   overflow-y: hidden;
 }
+
+table{
+	float:none;
+}
 .P-Article-Preview-Base-Info-Block {
   margin-top: 10px;
   margin-bottom: 25px;
