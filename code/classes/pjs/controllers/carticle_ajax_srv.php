@@ -93,6 +93,9 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 			case (int) ARTICLE_MENU_ELEMENT_TYPE_AUTHORS :
 				$lResult = $this->m_articlesModel->GetAuthorsListHtml($this->m_articleId);
 				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_CITATION :
+				$lResult = $this->m_articlesModel->GetCitationListHtml($this->m_articleId);
+				break;				
 		}
 		$this->m_action_result ['html'] = $lResult;
 	}
