@@ -141,7 +141,7 @@ function LoadArticleReferences(){
 			$('.P-Article-References-For-Baloon').html(pAjaxResult['html']);	
 		}
 	});
-	GetArticlePreviewContent().find('.bibr[rid]').each(function(pIdx, pReferenceNode){
+	GetArticlePreviewContent().find('xref.bibr[rid]').each(function(pIdx, pReferenceNode){
 		var lReferenceId = $(pReferenceNode).attr('rid'); 
 		var lBaloon = $('#' + gBaloonId);
 		var lReferenceContent = $('.P-Article-References-For-Baloon').find('.bibr[rid="' + lReferenceId + '"]');
