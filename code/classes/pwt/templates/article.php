@@ -260,7 +260,7 @@ $gTemplArr = array (
 	',
 	'article.ncbi_entrez_records_nodata' => '',
 	
-	'article.ncbi_no_data' => 'NO NCBI',
+	'article.ncbi_no_data' => 'No data on this taxon',
 	
 	'article.ncbi' => '
 		<div class="contentSection imagesSection">
@@ -302,12 +302,12 @@ $gTemplArr = array (
 						 }
 					 }
 				</script>
-				<iframe id="gbifIframe" name="gbifIframe" scrolling="no" height="410" frameborder="0" vspace="1" hspace="1" src="' . IFRAME_PROXY_URL . '?url={_rawurlencode(map_iframe_src)}"  onload="resizeGbifMap(); correctIframeLinks(this, \'{link_prefix}\')"></iframe>
+				<iframe id="gbifIframe" name="gbifIframe" scrolling="no" height="410" frameborder="0" vspace="1" hspace="1" src="' . IFRAME_PROXY_URL . '?url={_rawurlencode(map_iframe_src)}"  onload="resizeGbifMap(); correctIframeLinks(\'gbifIframe\', \'{link_prefix}\')"></iframe>
 			</div>
 		</div>
 	',
 	
-	'article.gbif_no_data' => 'NO GBIF',
+	'article.gbif_no_data' => 'No data on this taxon',
 	// BHL
 	'article.bhl_head' => '
 		<div class="contentSection generalInfoSection">
@@ -321,16 +321,11 @@ $gTemplArr = array (
 			</table>
 			<div class="sectionBody">	
 				<p>{_bhl_showimage(taxon_name, fullsize_img_url, thumbnail_url, nodata)}
-				<div class="BHLDetails_head">
-					<div class="BHLDetail"><span class="label">Bibliography for <span class="ncbiLineageRow"><a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, bhl_link)}">{taxon_name}</a></span></span></div>
-				</div>
-				<br/>
 	',
 	
 	'article.bhl_foot' => '
-			<div class="unfloat"></div>
-			<br/>
-			<p class="extLinksSeeAll">To get a complete list click <a  href="{_ParseTaxonExternalLink(taxon_name, bhl_link)}">here</a></p>
+			<div class="P-Clear"></div>
+			<p class="extLinksSeeAll">To get a complete list click <a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, bhl_link)}">here</a></p>
 			</div>
 		</div>
 	',
@@ -452,11 +447,10 @@ $gTemplArr = array (
 				
 	',
 	
-	'article.wikimedia_images_nodata' => 'NO WIKI IMAGES
-	',
+	'article.wikimedia_images_nodata' => 'No data on this taxon',
 	
 	// EOL
-	'article.eol_no_data' => '',
+	'article.eol_no_data' => 'No EOL images',
 	'article.eol' => '
 		<div class="contentSection imagesSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
@@ -471,7 +465,7 @@ $gTemplArr = array (
 			</table>
 			<div class="sectionBody">
 				{images}
-				<div class="unfloat"></div>
+				<div class="P-Clear"></div>
 			</div>
 		</div>
 	',

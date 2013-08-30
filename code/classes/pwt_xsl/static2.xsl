@@ -1016,7 +1016,7 @@
 							<xsl:text>/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&amp;instance_id=</xsl:text>
 							<xsl:value-of select="./@instance_id" />
 						</xsl:attribute>
-						Download
+						Download as CSV
 					</a>
 				</div>
 			</div>	
@@ -1036,14 +1036,18 @@
 				<xsl:attribute name="table_id"><xsl:value-of select="@instance_id"/></xsl:attribute>
 				<div class="description">
 					<div class="name">Table <xsl:value-of select="$lFigNumber" />.
-						<span class="P-Figure-Download-Link">
-							<a class="download-table-link"> 
+						<span class="downloadmaterials">
+							<a class="download-table-link">
 								<xsl:attribute name="href">
 									<xsl:value-of select="$pSiteUrl" />
 									<xsl:text>/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&amp;instance_id=</xsl:text>
 									<xsl:value-of select="./@instance_id" />
 								</xsl:attribute>
-								Download
+								<xsl:text>Download as CSV&#160;</xsl:text>
+								<img width="22" heigth="22" alt="" title="Download table">
+									<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download_materials_icon.png</xsl:attribute> 
+								</img>
+								
 							</a>
 						</span>
 					</div>	
@@ -1108,6 +1112,7 @@
 	     <xsl:when test="$lLocalName='tn-part'">
 		      <span>
 		      	 <xsl:attribute name="class"><xsl:value-of select="./@type" /></xsl:attribute>
+		      	 <xsl:attribute name="full-name"><xsl:value-of select="./@full-name" /></xsl:attribute>
 		       	 <xsl:copy-of select="$lChildContent"/>
 		      </span>
 	     </xsl:when>
@@ -1172,13 +1177,17 @@
 					<xsl:attribute name="href">
 						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text><xsl:value-of select="./image/@instance_id" />
 					</xsl:attribute>
-				</a>	
-				<span class="fig-label-RC">
-					<xsl:value-of select="./@display_name"></xsl:value-of>
-						<xsl:text> </xsl:text>
-					<xsl:value-of select="./fields/figure_number"></xsl:value-of>
-				</span>
-				<xsl:apply-templates select="./image/fields/figure_caption/value" mode="formatting"/>
+				</a>
+				<div class="description">	
+					<span class="fig-label-RC">
+						<xsl:value-of select="./@display_name"></xsl:value-of>
+							<xsl:text> </xsl:text>
+						<xsl:value-of select="./fields/figure_number"></xsl:value-of>
+					</span>
+					<div class="list-caption">
+						<xsl:apply-templates select="./image/fields/figure_caption/value" mode="formatting"/>
+					</div>	
+				</div>
 			</div>
 		</xsl:if>		
 		<xsl:if test="./fields/figure_type/value/@value_id = '2'">
@@ -1218,7 +1227,9 @@
 					<xsl:value-of select="../../../../fields/figure_number/value" /><xsl:text> </xsl:text>
 					<xsl:value-of select="$platePart"/>
 				</span>
-				<p><xsl:value-of select="./fields/plate_desc/value" /></p>
+				<div class="list-caption">
+					<p><xsl:value-of select="./fields/plate_desc/value" /></p>
+				</div>
 			</div>
 			<div class="plate_link">
 				<a class="plate_link fig">
@@ -1232,11 +1243,12 @@
 	<!-- Article of the future preview template of a single table -->
 	<xsl:template match="*" mode="article_preview_table">	
 		<xsl:apply-templates select="." mode="singleTableNormalPreview"/>		
-		<script type="text/javascript">
+		<!-- <script type="text/javascript">
 			<![CDATA[
 			document.getElementById("P-Article-Info-Bar").className +=" ST";
 			]]> 
-		</script>
+			</script> -->
+			
 		<!-- The node of the specific table -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
@@ -1515,7 +1527,6 @@
 			</xsl:if>
 			<xsl:for-each select="//*[@object_id='55']">
 				<div class="item-holder-RC suppl">
-					<xsl:attribute name="rid"><xsl:value-of select="./@instance_id"></xsl:value-of></xsl:attribute>
 					<xsl:apply-templates select="." mode="singleSupplementaryMaterialAOF" />
 				</div>		
 			</xsl:for-each>
@@ -1528,7 +1539,8 @@
 		<xsl:variable name="instance" select="./@instance_id" />	
 			
 			<xsl:if test="./fields/*[@id='214']/value != ''">
-					<span class="fig-label-RC">
+					<span class="fig-label-RC suppl">
+						<xsl:attribute name="rid"><xsl:value-of select="./@instance_id"></xsl:value-of></xsl:attribute>
 						<xsl:text>Supplementary material </xsl:text>
 						<xsl:for-each select="../*[@object_id='55']">
 							<xsl:if test="./@instance_id = $instance">

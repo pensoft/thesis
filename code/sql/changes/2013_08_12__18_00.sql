@@ -508,6 +508,9 @@ INSERT INTO pjs.taxon_sites(name, picsrc, picsrc_no_results, display_title,
 			is_ubio_site, ubio_site_name, taxon_link, taxon_link_no_results, show_if_not_found,
 			use_post_action, use_post_action_no_results, fields_to_post, fields_to_post_no_results)
 */
+			
+UPDATE pjs.taxon_sites SET 
+	show_if_not_found = true;
 
 INSERT INTO pjs.taxon_sites_match_expressions(site_id, expression, ord)
 			SELECT id, '\<span\s+class\="moreMatches"\>No\s+scientific\s+names\s+matching\s+\<span\s+class\="subject"\>"{taxon_name}"\<\/span\>\<\/span\>', 1
@@ -727,6 +730,7 @@ GRANT ALL ON pjs.taxon_eol_images TO iusrpmt;
 	pjs.spSaveArticleAuthorPreview
 	pjs.spGetArticleContentsInstances
 	pjs.spSaveArticleLocality
+	pjs.spCreateArticle
 	
 	pjs.spSaveTaxonNCBIBaseData
 	pjs.spSaveTaxonNCBIRelatedLink
@@ -736,6 +740,7 @@ GRANT ALL ON pjs.taxon_eol_images TO iusrpmt;
 	pjs.spSaveTaxonBHLBaseData
 	pjs.spSaveTaxonBHLTitle
 	pjs.spSaveTaxonBHLItem
+	pjs.spSaveTaxonBHLPage
 	pjs.spClearTaxonWikimediaCategories
 	pjs.spSaveTaxonWikimediaCategory
 	pjs.spSaveTaxonWikimediaPhoto
@@ -749,7 +754,7 @@ GRANT ALL ON pjs.taxon_eol_images TO iusrpmt;
 	pjs.spNormalizeTaxonName
 	pjs.spGetTaxonId
 	pjs.spSaveTaxonEOLBaseData
-	pjs.spSaveTaxonEOLImage
+	pjs.spSaveTaxonEOLImage	
 	
 	The following line should be added to the pwt conf
 	require_once('ptp_conf.php');
