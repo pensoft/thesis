@@ -365,8 +365,7 @@
 					</xsl:choose>
 				</xsl:if>
 			</xsl:if>
-
-			<xsl:text>. </xsl:text>
+			<xsl:text> </xsl:text>
 			<!-- Book Title -->
 			<xsl:if test="normalize-space(./fields/*[@id='255']/value) != ''">
 				<!-- Book title -->

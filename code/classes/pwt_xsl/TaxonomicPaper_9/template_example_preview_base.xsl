@@ -398,7 +398,7 @@
 				</div>
 			</xsl:if>
 			<xsl:if test="count(.//*[@object_id='39'])">
-				<ul>
+				<ul class="treatment-external-links">
 					<xsl:apply-templates select=".//*[@object_id='39']" mode="TTExternalLinks"/>
 				</ul>
 			</xsl:if>
