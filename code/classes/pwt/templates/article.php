@@ -215,6 +215,21 @@ $gTemplArr = array (
 		</div>
 	',
 	
+	//Taxa list
+	'article.taxa_list_head' => '
+	',
+	'article.taxa_list_foot' => '
+	',
+	'article.taxa_list_start' => '				
+	',
+	'article.taxa_list_end' => '	
+	',
+	'article.taxa_list_nodata' => 'No taxa	
+	',
+	'article.taxa_list_row' => '
+				<div class="taxalistAOF" tnu="INL">{html}</div>
+	',
+	
 	// Taxon previews
 	// NCBI
 	'article.ncbi_lineage_head' => '',
