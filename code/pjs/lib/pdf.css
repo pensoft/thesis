@@ -3,7 +3,6 @@ html, body {
 }
 
 p {
-	font-size:10px !important;
 	orphans:5;
 	widows:4;
 }
@@ -14,7 +13,7 @@ h1 {
 	page-break-after:avoid;
 }
 
-img {
+img, .figure {
 	page-break-inside:avoid;
 	display:block;
 	margin-top:20px;
@@ -89,142 +88,6 @@ table {
 
 
 /* Article preview CSS START */
-*[contenteditable="true"] {
-	/* background-color: white;
-		background-image: url(img/icons/edit_icon.png);
-	background-repeat: no-repeat;
-	background-position: 0px 8px; 
-	border-left: 4px solid #fff;
-	border-right: 4px solid #fff;
-	padding: 0 4 0 4px;
-	* */
- 	
-	/* white-space: pre-wrap; */
-	/* http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#best-practices-for-in-page-editors */
-}
-
-#cke_bottom_notes_to_author {
-	display: none;
-}
-
-#cke_bottom_notes_to_editor {
-	display: none;
-}
-
-*[contenteditable="true"] {
-	/* overflow:visible; */
-}
-
-*[contenteditable="true"]:hover {
-	/* background-image: url(../i/edit_icon.png);
-	background-position: 0 15px; 
-	background-color: #FFFFBE;
-	border-left: 4px solid #f1ca7f;
-	border-right: 4px solid #f1ca7f;
-	padding:0px;
-	margin:0px;
-	*/
-	outline: #D4D5CE solid 2px;
-
-}
-
-*[contenteditable="true"]:focus {
-	outline: #f1ca7f solid 2px;
-}
-
-.P-Article-Preview {
-	border-radius: 10px;
-	padding: 0 10px
-}
-
-.P-Article-Preview-Hint {
-	margin-right: 10px;
-	display: none;
-}
-
-.P-Article-Preview-Title {
-	margin-top: 20px !important;
-}
-
-.P-Article-Preview-Picture-Desc {
-	background-position: 0px 3px;
-}
-
-.P-Article-Preview-Block-Subsection-Title {
-	margin-top: 12px;
-	margin-left: 6px
-}
-
-.ins {
-	border-bottom: 1px dashed #007F0C;
-}
-
-.ins {
-	background: #DDFFBE;
-	color: #000000;
-}
-
-.ins.P-Active-Change{
-	background: #8dcb54;
-}
-
-.del {
-	border-bottom: none;
-}
-
-.del {
-	background: #FFE8E8;
-	color: #BC0000;
-}
-
-.del.P-Active-Change{
-	background: #eaafaf;
-}
-
-.hideChanges .ins, fake-insert.ins {
-	color: inherit!important;
-	text-decoration: inherit!important;
-	background:none !important;
-	border:none !important;
-}
-
-.hideChanges .del, fake-delete.del {
-	display: none
-}
-
-#changeContextMenu {
-	position: absolute;
-	z-index: 20;
-	background: white;
-	display: none;
-	border: 1px solid black;
-	padding:5px;
-	font-size:15px;
-}
-
-#changeContextMenu a {
-	display: block;
-}
-
-.P-Version-User-Legend {
-	margin: 20px;
-}
-
-.P-Version-User-Legend-Title {
-	margin: 10px 0px;
-	font-size: 20px;
-	font-weight: bold;
-}
-
-.P-Author-Version .unacceptedChange{
-	opacity: .5;
-	filter: alpha(opacity=50);
-}
-
-accepted-delete{
-	display:none!important;
-}
-
 a img {
   border: none;
 }
@@ -233,14 +96,16 @@ a img {
 } */
 html {
   line-height: 1.5em;
+  color: #333;
 }
 .P-Article-Preview {
-  width: 60em;
-  font-family: Tahoma;
+  /*width: 50em;*/
+  font-family: Calibri; /*Ebrima */
   text-align: justify;
   margin: auto;
   background-color: white;
-  padding: 0 20px;
+  border-radius: 0;
+
 }
 .dcLabel {
   color: gray;
@@ -250,13 +115,19 @@ html {
 }
 .subsection {
   font-weight: bold;
-  font-size: 1.16667em;
+  font-size: 1.1em;
   line-height: 1.28571em;
   margin-top: 1.5em;
   margin-bottom: 0.75em;
 }
 body {
   margin: 0;
+  font-size: 10pt;
+  overflow-y: hidden;
+}
+
+table{
+	float:none;
 }
 .P-Article-Preview-Base-Info-Block {
   margin-top: 10px;
@@ -269,11 +140,12 @@ body {
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px;
+  display:none;
 }
 .P-Article-Preview-Base-Info-Block .P-Article-Info-Block-Row {
-  padding: 5px 0px;
+  padding: 2px 0px;
   color: #535353;
-  font-size: 10px;
+  font-size: 9pt;
 }
 p {
   font-size: 1em;
@@ -281,34 +153,36 @@ p {
   margin-top: 0em;
 }
 a {
-  color: #0052cc;
+  color: #0088CC;
   text-decoration: none;
 }
 a:hover {
   text-decoration: underline;
 }
 .P-Article-Preview-Antet {
-  font-size: 10px;
+  font-size: 9pt;
   color: #727272;
+  display: none;
 }
 .P-Article-Preview-Title {
-  font-size: 1.83333em;
+  font-size: 1.75em;
   line-height: 1.63636em;
   line-height: 1.63636em;
   margin-top: 0em;
-  color: #1f1f1f;
+  color: #333;
   font-weight: bold;
   text-align: left;
+  font-family:HebarCond;
 }
 .P-Article-Preview-Title p {
   margin: 0;
 }
 .P-Article-Preview-Names {
   margin-top: 1.5em;
+  font-size: 12pt;
 }
 .P-Article-Preview-Names a {
-  font-size: 12px;
-  color: #0052cc;
+  color: #0088CC;
 }
 sub, sup {
   font-size: 75%;
@@ -324,25 +198,33 @@ sub {
 }
 .P-Article-Preview-Addresses {
   margin-top: 5px;
-  font-size: 11px;
+  font-size: 9pt;
+  display:none;
 }
 .P-Article-Preview-Block-Title, h1 {
-  font-size: 1.5em;
+  font-size: 1.3em;
   line-height: 2em;
   margin-top: 1.5em;
-  margin-bottom: 0.75em;
-  color: #111111;
+  margin-bottom: 0.3em;
+  color: #333;
   font-weight: bold;
   margin-top: 24px;
+  font-family:Helvetica;
 }
 h2 {
-  font-size: 1.33333em;
+  font-size: 1.1em;
   line-height: 2.25em;
   margin-top: 1.5em;
   margin-bottom: 0.75em;
+  font-family:Helvetica;
+  color: #333;
+}
+h3 {
+  font-family:Helvetica;
+  color: #333;
 }
 .h-treatment {
-  font-size: 1.16667em;
+  font-size: 1.1em;
   line-height: 1.28571em;
   margin-top: 1.5em;
   margin-bottom: 0.75em;
@@ -363,7 +245,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 }
 .h-treatment-section {
   font-weight: bold;
-  font-size: 1em;
+  font-size:0.9em;
   line-height: 1.5em;
   margin-top: 1.5em;
   margin-bottom: 0.75em;
@@ -403,6 +285,8 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 }
 .figure {
   margin: 10px 0 20px 0;
+  
+  
 }
 .figure .holder {
   margin-top: 20px;
@@ -418,7 +302,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 }
 .figure img {
   max-width: 663px;
-  max-height: 400px;
+  max-height: 224px;
 }
 .figure .singlePlatePhoto {
   max-width: 663px;
@@ -430,16 +314,16 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 }
 .figure .plate2column .singlePlatePhoto {
   display: table;
-  width: 296px;
-  height: 296px;
+  width: 224px;
+  height: 224px;
 }
 .figure .plate2column .singlePlatePhoto a {
   display: table-cell;
   vertical-align: middle;
 }
 .figure .plate2column .singlePlatePhoto img {
-  max-width: 296px;
-  max-height: 296px;
+  max-width: 224px;
+  max-height: 224px;
 }
 .figure .singlePlatePhoto {
   margin-top: 10px;
@@ -457,6 +341,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 .figure .description {
   border-top-left-radius: 0;
   margin-top: -4px;
+  line-height:1.2em;
 }
 .description {
   border: 1px solid #e2e2dc;
@@ -471,7 +356,9 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   z-index: 2;
 }
 .description .name {
-  font-weight: bold;
+    font-family: helvetica;
+    font-size: 0.9em;
+    font-weight: bold;
 }
 .table {
   margin: 10px 0;
@@ -490,11 +377,17 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 .Table-Body table {
   border-collapse: collapse !important;
   width: 100% !important;
+  font-size: 11pt;
 }
 .Table-Body table td, .Table-Body table th {
   border: 1px solid #e2e2dc;
   padding: 6px;
   text-align: left;
+  vertical-align: top;
+  font-size: 11pt;
+}
+.P-Inline .tableCaption p{
+	margin-bottom: 8px;
 }
 .myfieldHolder {
   clear: both;
@@ -510,6 +403,8 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   float: left;
   color: #404040;
   font-weight: bold;
+  font-family:Helvetica;
+  font-size:0.9em;
 }
 .fieldLabel.no-float {
   float: none;
@@ -541,7 +436,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   text-align: justify;
 }
 .Supplemantary-File-Title {
-  font-size: 1.16667em;
+  font-size: 1.1em;
   line-height: 1.28571em;
   margin-top: 1.5em;
   margin-bottom: 0.75em;
@@ -549,7 +444,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   text-align: left;
 }
 .Supplemantary-File-Section-Label {
-  font-weight: bold;
+  font-weight: normal;
 }
 .Supplemantary-P-Inline p {
   display: inline;
@@ -595,8 +490,126 @@ td p, th p {
 	padding-left: 20px;
 }
 
-.species, .genus, .subgenus, .subspecies, .variety, .form {
+.species, .genus, .subgenus, .subspecies, .variety, .form, .varietas, .forma
+{
 	font-style:italic;	
+}
+.figureCaption{
+  font-size: 11pt;
+}
+
+.figureCaption p{
+  margin-bottom: 4px;
+}
+
+.tn {
+	color:#006600;	
+}
+
+.tn .authority, .tn .basio-authority, .x {
+	color:black;	
+}
+
+.kingdom:hover, 
+.regnum:hover,
+.subkingdom:hover,
+.subregnum:hover,
+.division:hover,
+.phylum:hover,
+.subdivision:hover,
+.subphylum:hover, 
+.superclass:hover,
+.superclassis:hover,
+.class:hover,
+.classis:hover,
+.subclass:hover,
+.subclassis:hover,
+.superorder:hover,
+.superordo:hover,
+.order:hover, 
+.ordo:hover, 
+.suborder:hover,
+.subordo:hover,
+.infraorder:hover,
+.infraordo:hover,
+.superfamily:hover,
+.superfamilia:hover,
+.family:hover, 
+.familia:hover, 
+.subfamily:hover, 
+.subfamilia:hover, 
+.tribe:hover, 
+.tribus:hover, 
+.subtribe:hover,
+.subtribus:hover,
+.genus:hover, 
+.subgenus:hover,
+.above-genus:hover,
+.species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover{  
+
+/*
+.above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover,
+.kingdom:hover, .regnum:hover, .subkingdom:hover, .subregnum:hover, .division:hover, .phylum:hover, .subdivision:hover,
+.subphylum:hover, .superclass:hover, .superclassis:hover, .class:hover, .classis:hover, .subclass:hover, .subclassis:hover,
+.superorder:hover, .superordo:hover, .order:hover, .ordo:hover, .suborder:hover, .subordo:hover, .infraorder:hover,
+.infraordo:hover, .superfamily:hover, .superfamilia:hover, .family:hover, .familia:hover, .subfamily:hover, .subfamilia:hover,
+.tribe:hover, .tribus:hover, .subtribe:hover, .subtribus:hover, .varietas:hover, .forma:hover */
+
+	background:#E3E3C7;
+	cursor:pointer;	
+}
+
+xref[type='bibr'] {
+	color:#0088CC;
+}
+
+xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[type='suppl']:hover, .locality-coordinate:hover, span[data-author-id]:hover {
+	background:#FEF1B5;
+	cursor:pointer;
+}
+
+xref[type='fig'], xref[type='table'], xref[type='suppl'] {
+	padding-left:2px;
+	padding-right:2px;
+	background:#DFF1FF;
+}
+
+.suppl-section-holder {
+	padding-left:20px;
+}
+
+.citations-holder{
+
+}
+.locality-coordinate{
+	color:#0088CC;
+}
+
+span[data-author-id] {
+	cursor: pointer;
+	color:#0088CC;
+}
+.P-Current-Author-Addresses{
+	display: none;
+}
+.PaperType {
+    align-self: center;
+    background-color: #006600;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    font-size: 11pt;
+    margin-right: 518px;
+    margin-top: 15px;
+    text-align: center;
+    vertical-align: middle;
+}
+.downloadmaterials{
+	font-size:0.8em;
+	font-weight: normal;
+	float: right;
+}
+.downloadmaterials img{
+	vertical-align: top;
 }
 
 /* Article preview CSS END */
