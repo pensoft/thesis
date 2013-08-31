@@ -636,7 +636,7 @@ class carticle_preview_generator extends csimple {
 			if(!is_array($this->m_articleLocalities[$lLatitude][$lLongitude])){
 				$this->m_articleLocalities[$lLatitude][$lLongitude] = array();
 			}
-			$lParentsQuery = './ancestor::*[@data-is-checklist]|./ancestor::*[@data-is-taxon-treatment]';
+			$lParentsQuery = './ancestor::*[@data-is-checklist-taxon]|./ancestor::*[@data-is-taxon-treatment]';
 			$lParentNode = $lXPath->query($lParentsQuery, $lCurrentLocality);
 			if($lParentNode->length){
 				$lParentInstanceId = (int)$lParentNode->item(0)->getAttribute('instance_id');

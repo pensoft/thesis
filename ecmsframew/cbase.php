@@ -79,7 +79,7 @@ abstract class cbase {
 			return '';
 		}
 		$lFuncname = $lMas[1];
-		$lFuncParams = split(',', stripslashes($lMas[2]));
+		$lFuncParams = explode(',', stripslashes($lMas[2]));
 		
 		$lStrFuncParams = '';
 		
