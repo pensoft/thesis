@@ -519,3 +519,7 @@ span[data-author-id] {
 .downloadmaterials img{
 	vertical-align: top;
 }
+
+.treatment-external-links {
+    text-align: left;
+}

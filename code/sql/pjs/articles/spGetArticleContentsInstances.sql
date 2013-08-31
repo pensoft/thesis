@@ -1,4 +1,4 @@
-DROP TYPE ret_spGetArticleContentsInstances CASCADE;
+﻿DROP TYPE ret_spGetArticleContentsInstances CASCADE;
 CREATE TYPE ret_spGetArticleContentsInstances AS (
 	instance_id bigint,
 	display_name varchar,
@@ -30,6 +30,7 @@ $BODY$
 		
 		lSubSectionObjectId bigint = 50;
 		lChildrenCount int = 0;
+		cSubsectionTitleFieldId CONSTANT int = 211;
 	BEGIN		
 		<<lMainInstancesLoop>>
 		FOR lRecord IN 
@@ -62,7 +63,7 @@ $BODY$
 				SELECT INTO lChildrenCount 
 					count(*)
 				FROM pwt.document_object_instances i
-				WHERE parent_id = lRecord.id AND object_id IN (lChecklistObjectId, lTreatmentsObjectId, lIdentificationKeysObjectId) AND i.is_confirmed = true;
+				WHERE parent_id = lRecord.id AND object_id IN (lChecklistObjectId, lIdentificationKeysObjectId) AND i.is_confirmed = true;
 				
 				IF lChildrenCount <> 1 THEN
 					lRes.instance_id = lRecord.id;
@@ -120,11 +121,12 @@ $BODY$
 				FOR lRecord2 IN
 					SELECT *
 					FROM pwt.document_object_instances i
-					WHERE parent_id = lRecord.id AND object_id IN (lSubSectionObjectId) AND i.is_confirmed = true
+					JOIN pwt.instance_field_values ifv on i.id = ifv.instance_id
+					WHERE parent_id = lRecord.id AND object_id IN (lSubSectionObjectId) AND i.is_confirmed = true AND field_id = cSubsectionTitleFieldId
 					ORDER BY pos ASC
 				LOOP
 					lRes.instance_id = lRecord2.id;
-					lRes.display_name = lRecord2.display_name;
+					lRes.display_name = lRecord2.value_str;
 					lRes.pos = lRecord2.pos;
 					lRes.level = char_length(lRecord2.pos) / 2;		
 					lRes.parent_instance_id = lRecord.id;		

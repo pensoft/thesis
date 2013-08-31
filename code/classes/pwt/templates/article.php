@@ -118,12 +118,10 @@ $gTemplArr = array (
 	
 	'article.citation' => '
 			<div class="P-Citation">
-				<div class="P-Label">
-					Citation
-				</div>
+				
 				<div class="P-Citation-Content">
 					{author_names} ({pubyear}) {_GetArticleTitleForCitation(article_title)}
-					{journal_name} {issue_number}: {start_page}-{end_page}.
+					{journal_name} {issue_number}: {start_page}.
 					DOI: {doi}										
 				</div>
 			</div>
@@ -213,6 +211,21 @@ $gTemplArr = array (
 				</div>
 			</div>
 		</div>
+	',
+	
+	//Taxa list
+	'article.taxa_list_head' => '
+	',
+	'article.taxa_list_foot' => '
+	',
+	'article.taxa_list_start' => '				
+	',
+	'article.taxa_list_end' => '	
+	',
+	'article.taxa_list_nodata' => 'No taxa	
+	',
+	'article.taxa_list_row' => '
+				<div class="taxalistAOF" tnu="INL">{html}</div>
 	',
 	
 	// Taxon previews

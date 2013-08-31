@@ -158,8 +158,8 @@
 		<xsl:if test="$pPDFPreviewMode = 0">
 			<div class="P-Article-Preview-Names">
 				<a onclick="toogleArticleInfo()">
-					<img alt="expand article info" id="arrow">
-						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/arrowRightBig.png</xsl:attribute>
+					<img style="padding-right:6px" alt="expand article info" id="arrow">
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/arrow-down-icon.png</xsl:attribute>
 					</img>
 				</a>
 				<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']">
@@ -396,6 +396,29 @@
 	   			</xsl:otherwise>
    			</xsl:choose>
    		</xsl:when>
+   		
+   		<xsl:when test="$pInArticleMode = 1 and ($lFieldId = 136 or $lFieldId = 137)">
+   			<!-- verbatimLocality or verbatimLongitude -->
+   			<xsl:choose>
+	   			<xsl:when test="count(../field[@id=136]) = 0 or count(../field[@id=137]) = 0">
+	   				<!-- One of longitude and latitude is not present -->
+	   				<xsl:copy-of select="$lContent"></xsl:copy-of>
+	   			</xsl:when>
+	   			<xsl:otherwise>
+	   				<!-- Both longitude and latitude are present -->
+	   				<xsl:variable name="lLongitude"><xsl:value-of select="php:function('parseLocalityCoordinate', string(../field[@id=137]))"/></xsl:variable>
+	   				<xsl:variable name="lLatitude"><xsl:value-of select="php:function('parseLocalityCoordinate', string(../field[@id=136]))"/></xsl:variable>
+	   				<span class="locality-coordinate">
+				      	<xsl:attribute name="data-longitude"><xsl:value-of select="$lLongitude"></xsl:value-of></xsl:attribute>
+				      	<xsl:attribute name="data-latitude"><xsl:value-of select="$lLatitude"></xsl:value-of></xsl:attribute>
+				      	<xsl:attribute name="data-is-locality-coordinate">1</xsl:attribute>
+				      	<xsl:copy-of select="$lContent"/>
+				    </span>
+	   			</xsl:otherwise>
+   			</xsl:choose>
+   		</xsl:when>
+   		
+   		
    		<xsl:otherwise>
    			<xsl:copy-of select="$lContent"></xsl:copy-of>
    		</xsl:otherwise>
@@ -1234,6 +1257,7 @@
 					<xsl:value-of select="$platePart"/>
 				</span>
 				<div class="list-caption">
+					<xsl:apply-templates select="../../../../multiple_images_plate/fields/plate_caption/value" mode="formatting"/>
 					<p><xsl:value-of select="./fields/plate_desc/value" /></p>
 				</div>
 			</div>

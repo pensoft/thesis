@@ -10,12 +10,13 @@ class cArticles extends cBase_Controller {
 		$pViewPageObjectsDataArray = array();
 		$this->m_articlesModel = new mArticles();
 		$this->m_articleId = (int)$this->GetValueFromRequestWithoutChecks('id');
-		
+		$lObjectExistence = $this->m_articlesModel->GetObjectExistenceFields($this->m_articleId);
 		
 	
 		$lResultArr = array(
 				'contents' => array(
 					'ctype' => 'evSimple_Block_Display',
+					'object_existence' => $lObjectExistence,
 					'name_in_viewobject' => 'contents',
 					'id' => $this->m_articleId,	
 					'contents_list' => $this->m_articlesModel->GetContentsListHtml($this->m_articleId),			

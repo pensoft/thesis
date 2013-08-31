@@ -298,12 +298,7 @@ a[href], label[for] {
 .list-caption-letter {
 	font-weight: bold;
 }
-.species, .genus, .subgenus, .subspecies, .variety, .form,
-.kingdom:hover, .regnum:hover, .subkingdom:hover, .subregnum:hover, .division:hover, .phylum:hover, .subdivision:hover,
-.subphylum:hover, .superclass:hover, .superclassis:hover, .class:hover, .classis:hover, .subclass:hover, .subclassis:hover,
-.superorder:hover, .superordo:hover, .order:hover, .ordo:hover, .suborder:hover, .subordo:hover, .infraorder:hover,
-.infraordo:hover, .superfamily:hover, .superfamilia:hover, .family:hover, .familia:hover, .subfamily:hover, .subfamilia:hover,
-.tribe:hover, .tribus:hover, .subtribe:hover, .subtribus:hover, .varietas:hover, .forma:hover
+.species, .genus, .subgenus, .subspecies, .variety, .form, .varietas, .forma
 {
 	font-style:italic;	
 }
@@ -896,3 +891,8 @@ xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[
 .entrezRecordsTable{
 	width: 70%;
 }
+.P-Citation{
+	font-size: 11pt;
+    padding: 15px;
+}
+.P-Label
