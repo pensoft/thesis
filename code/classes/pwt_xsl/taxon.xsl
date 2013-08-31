@@ -357,6 +357,7 @@
 
 		<xsl:variable name="lRankValue" select="./fields/*[@id=$RankID]/value"></xsl:variable>
 		<div class="P-Article-Preview-Block-Content">
+			<xsl:attribute name="data-checklist-taxon-title">1</xsl:attribute>
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 
 			<!-- label -->

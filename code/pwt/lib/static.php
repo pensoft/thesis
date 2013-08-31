@@ -6575,6 +6575,34 @@ function displayCitationsAuthorSeparator($pRecords, $pRownum, $pSeparator = ', '
 		return $pSeparator;
 	}
 }
+
+function showTaxaNameUsage($pUsage){
+	$lResult = '';
+	foreach ($pUsage as $lUsage){
+		if($lResult){
+			$lResult .= ',';
+		}
+		switch($lUsage){
+			case TAXON_NAME_USAGE_FIGURE:
+				$lResult .= 'Figure';
+				break;
+			case TAXON_NAME_USAGE_TREATMENT :
+				$lResult .= 'Treatment';
+				break;
+			case TAXON_NAME_USAGE_CHECKLIST_TREATMENT :
+				$lResult .= 'Checklist treatment';
+				break;
+			case TAXON_NAME_USAGE_ID_KEY :
+				$lResult .= 'Id. key';
+				break;
+			case TAXON_NAME_USAGE_INLINE:
+				$lResult .= 'Inline';
+				break;
+		}
+	}
+	return $lResult;
+}
+
 function GetArticleTitleForCitation($pTitle){
 	$pTitle = trim(strip_tags($pTitle));
 	$lLastSymbol = mb_substr($pTitle, -1);

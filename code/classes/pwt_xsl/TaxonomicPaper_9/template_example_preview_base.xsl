@@ -221,6 +221,7 @@
 						<xsl:with-param name="pFieldId">36</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">36</xsl:attribute>
+					<xsl:attribute name="data-id-key-taxon-name">1</xsl:attribute>
 					<xsl:apply-templates select="$pNode/fields/*[@id='36']" mode="formatting"/>
 				</xsl:if>
 			</td>
@@ -563,7 +564,7 @@
 	</xsl:template>
 	<!-- Type species ICZN Taxon name species -->
 	<xsl:template match="*[@object_id='180']" mode="taxonTreatmentName" xml:space="default">
-		<span class="tn">
+		<span class="tn" data-taxon-treatment-title="1">
 		<span class="genus">
 			<xsl:call-template name="markContentEditableField">
 				<xsl:with-param name="pObjectId" select="./@object_id"/>
@@ -664,7 +665,7 @@
 	</xsl:template>
 	<!-- Taxon name Genus -->
 	<xsl:template match="*[@object_id='181']" mode="taxonTreatmentName">
-		<span class="tn">
+		<span class="tn" data-taxon-treatment-title="1">
 			<span class="genus">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id"/>

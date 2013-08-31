@@ -499,4 +499,10 @@ define('PENSOFT_MAIL_DISPLAY_DOCUMENT_SUBMISSION', 'preprint@pensoft.net');
 //define('PENSOFT_MAIL_DISPLAY_DOCUMENT_SUBMISSION', 'vic.penchev@gmail.com');
 define('PJS_AUTHOR_ROLE_ID', 11);
 define('PJS_SE_ROLE_ID', 3);
+
+define('TAXON_NAME_USAGE_INLINE', 1);
+define('TAXON_NAME_USAGE_FIGURE', 2);
+define('TAXON_NAME_USAGE_TREATMENT', 3);
+define('TAXON_NAME_USAGE_CHECKLIST_TREATMENT', 4);
+define('TAXON_NAME_USAGE_ID_KEY', 5);
 ?>

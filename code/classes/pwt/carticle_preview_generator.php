@@ -837,6 +837,21 @@ class carticle_preview_generator extends csimple {
 				$lCurrentTaxonNames[] = $lTaxonName;
 				$this->m_taxaList[] = trim($lTaxonName);
 			}			
+			
+			$lTaxonUsage = (int)TAXON_NAME_USAGE_INLINE;
+			$lParentQueries = array(
+				'./ancestor-or-self::*[@class="figure"]' => (int)TAXON_NAME_USAGE_FIGURE,
+				'./ancestor-or-self::*[@data-checklist-taxon-title]' => (int)TAXON_NAME_USAGE_CHECKLIST_TREATMENT,
+				'./ancestor-or-self::*[@data-taxon-treatment-title]' => (int)TAXON_NAME_USAGE_TREATMENT,
+				'./ancestor-or-self::*[@data-id-key-taxon-name]' => (int)TAXON_NAME_USAGE_ID_KEY,			
+			);
+			foreach ($lParentQueries as $lQuery => $lUsage){
+				if($lXPath->query($lQuery, $lCurrentTaxonNode)->length){
+					$lTaxonUsage = $lUsage;
+					break;
+				}
+			}
+			
 			$lCurrentTaxonNodeClone = $lCurrentTaxonNode->cloneNode(true);
 			foreach ($lXPath->query($lPartsQuery, $lCurrentTaxonNodeClone) as $lCurrentPart){				
 				$lPartValue = trim($lCurrentPart->getAttribute($lAttributeNameThatHoldsPartValue));
@@ -851,7 +866,7 @@ class carticle_preview_generator extends csimple {
 				'html' => $lTaxonHtml,
 				'text' => $lTaxonText,
 				'names' => $lCurrentTaxonNames,
-				'usage' => array(),
+				'usage' => array($lTaxonUsage),
 			);
 			if(!$this->CheckIfTaxonIsInArrayForListPreview($lTaxaForListPreview, $lTaxonForListPreview)){
 				$lTaxaForListPreview[] = $lTaxonForListPreview;
@@ -902,7 +917,7 @@ class carticle_preview_generator extends csimple {
 					continue 2;
 				}
 			}
-			$pArrayForList[$lKey]['usage'] = array_merge($pArrayForList[$lKey]['usage'], $pTaxon['usage']);
+			$pArrayForList[$lKey]['usage'] = array_unique(array_merge($pArrayForList[$lKey]['usage'], $pTaxon['usage']));
 			return true;
 		}
 		return false;
