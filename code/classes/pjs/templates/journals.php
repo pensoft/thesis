@@ -170,6 +170,13 @@ $gTemplArr = array(
 				</ul>
 			</div>
 		</div>
+		<script>
+			$(document).ready(function() {
+			  if({show_login_warning} == 1) {
+			  	showLoginWarningMessage(\'{redirurl}\', \'{login_warning_text}\');
+			  }
+			});
+		</script>
 	',
 );
 ?>

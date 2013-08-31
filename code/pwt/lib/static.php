@@ -6565,4 +6565,22 @@ function showImageIfSrcExists($pSrc, $pClass = 'noBorder'){
 		return '<img class="' . $pClass . '" src="' . PTP_URL . $pSrc . '"></img>';
 	}
 }
+
+function GetAuthorFirstNameFirstLetter($pFirstName){
+	return strtoupper(mb_substr(($pFirstName), 0, 1));
+}
+
+function displayCitationsAuthorSeparator($pRecords, $pRownum, $pSeparator = ', '){	
+	if((int)$pRecords > (int)$pRownum){
+		return $pSeparator;
+	}
+}
+function GetArticleTitleForCitation($pTitle){
+	$pTitle = trim(strip_tags($pTitle));
+	$lLastSymbol = mb_substr($pTitle, -1);
+	if(!in_array($lLastSymbol, array('.', '?', '!'))){
+		$pTitle .= '.';
+	}
+	return $pTitle;
+}
 ?>

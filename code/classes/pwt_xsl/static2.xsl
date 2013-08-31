@@ -1421,7 +1421,8 @@
 			<xsl:for-each select="//figure">	
 				<div class="item-holder-RC">
 					<xsl:attribute name="rid"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-					<span class="fig-label-RC">
+					<span class="fig-label-RC fig">
+						<xsl:attribute name="rid"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 						<xsl:value-of select="./@display_name"></xsl:value-of>
 							<xsl:text> </xsl:text>
 						<xsl:value-of select="./fields/figure_number"></xsl:value-of>
@@ -1506,7 +1507,9 @@
 	
 	<!-- Article of the future preview template of the references list -->
 	<xsl:template match="*" mode="article_references_list">
-		<xsl:apply-templates select="*[@object_id='95']" mode="articleBack"/>
+		<div class="AOF-ref-list">
+			<xsl:apply-templates select="*[@object_id='95']" mode="articleBack"/>
+		</div>	
 		<!-- The node of the references holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
@@ -1514,7 +1517,8 @@
 	<!-- Article of the future preview template of the sup files list -->
 	<xsl:template match="*" mode="article_sup_files_list">
 		<div class="suppl-list-AOF">
-			<xsl:if test="1=1">
+			
+			<xsl:if test="count(//*[@object_id='37']) > 0">
 				<div class="DwC">
 					<a class="download-table-link"> 
 						<xsl:attribute name="href">
@@ -1522,10 +1526,14 @@
 							<xsl:text>/lib/ajax_srv/csv_export_srv.php?action=export_materials_as_csv&amp;document_id=</xsl:text>
 							<xsl:value-of select="$pDocumentId" />
 						</xsl:attribute>
+						<img width="18" heigth="18" alt="" style="vertical-align: top;">
+							<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download-icon-small-18.png</xsl:attribute> 
+						</img>
 						Download all occurrences as DwC-Archive
 					</a>
 				</div>
 			</xsl:if>
+			
 			<xsl:for-each select="//*[@object_id='55']">
 				<div class="item-holder-RC suppl">
 					<xsl:apply-templates select="." mode="singleSupplementaryMaterialAOF" />

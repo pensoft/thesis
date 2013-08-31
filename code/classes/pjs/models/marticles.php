@@ -96,6 +96,14 @@ class mArticles extends emBase_Model {
 	}
 	
 	/**
+	 * Preview of the citation of the article
+	 * @param unknown $pArticleId
+	 */
+	function GetCitationListHtml($pArticleId){
+		return $this->GetElementWithColumnInArticlesHtml('citation_list_cache_id', $pArticleId);
+	}
+	
+	/**
 	 * Retrieves the preview of an instance element for the specific article
 	 * @param unknown $pTableName - the name of the table in which data is being stored for this types of elements
 	 * @param unknown $pArticleId - the id of the article

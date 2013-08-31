@@ -33,7 +33,7 @@ a[href], label[for] {
 
 .P-Info-Content{
 	width: 500px;
-	-moz-box-sizing: padding-box;
+	-moz-box-sizing: padding-box; 
 }
 
 .P-Article-Info-Bar {
@@ -256,27 +256,33 @@ a[href], label[for] {
 	font-weight: bold;
 	color:#333;
 }
+
 .fig-label-RC.suppl:hover{
 	cursor: pointer;
 }
 .item-holder-RC {
 	padding-top: 15px;
 	padding-left: 15px;
-	padding-right: 15px;
+	padding-right: 30px;
 	padding-bottom: 15px;
 	min-height: 48px;
 	border-bottom: 1px solid #BBB; 
 }
+
 .item-holder-RC:hover{
 	background-color: #F0EEE7; /*F0EEE7*/
 }
 .item-holder-RC.table{
 	cursor: pointer;
 }
-
 .item-holder-RC:last-child{
 	border-bottom: none;
 }
+.P-Info-Content > .item-holder-RC:hover{
+		background-color: #F0EEE7; 
+}
+
+
 .listline {
 	color:#BBB
 }
@@ -292,7 +298,13 @@ a[href], label[for] {
 .list-caption-letter {
 	font-weight: bold;
 }
-.species, .genus, .subgenus, .subspecies, .variety, .form {
+.species, .genus, .subgenus, .subspecies, .variety, .form,
+.kingdom:hover, .regnum:hover, .subkingdom:hover, .subregnum:hover, .division:hover, .phylum:hover, .subdivision:hover,
+.subphylum:hover, .superclass:hover, .superclassis:hover, .class:hover, .classis:hover, .subclass:hover, .subclassis:hover,
+.superorder:hover, .superordo:hover, .order:hover, .ordo:hover, .suborder:hover, .subordo:hover, .infraorder:hover,
+.infraordo:hover, .superfamily:hover, .superfamilia:hover, .family:hover, .familia:hover, .subfamily:hover, .subfamilia:hover,
+.tribe:hover, .tribus:hover, .subtribe:hover, .subtribus:hover, .varietas:hover, .forma:hover
+{
 	font-style:italic;	
 }
 .tn {
@@ -301,7 +313,13 @@ a[href], label[for] {
 .tn .authority, .tn .basio-authority, .x {
 	color:black;	
 }
-.above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover {
+.above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover,
+.kingdom:hover, .regnum:hover, .subkingdom:hover, .subregnum:hover, .division:hover, .phylum:hover, .subdivision:hover,
+.subphylum:hover, .superclass:hover, .superclassis:hover, .class:hover, .classis:hover, .subclass:hover, .subclassis:hover,
+.superorder:hover, .superordo:hover, .order:hover, .ordo:hover, .suborder:hover, .subordo:hover, .infraorder:hover,
+.infraordo:hover, .superfamily:hover, .superfamilia:hover, .family:hover, .familia:hover, .subfamily:hover, .subfamilia:hover,
+.tribe:hover, .tribus:hover, .subtribe:hover, .subtribus:hover, .varietas:hover, .forma:hover
+{
 	background:#E3E3C7;
 	cursor:pointer;	
 }
@@ -349,21 +367,21 @@ div.myfieldHolder[field_id='222']{
 	font-size: 11pt;
 	padding-top: 15px;
 	padding-left: 15px;
-	padding-right: 15px;
+	padding-right: 30px;
 	padding-bottom: 15px;
 	border-bottom: 1px solid #BBB; 
 	list-style: none;
 }
-.ref-list-AOF-holder:hover{
+.AOF-ref-list > .bibr > .ref-list-AOF-holder:hover{
 	background-color: #F0EEE7;
 }
 .ref-title{
-	display:block;
 	font-weight: bold;
 }
-.ref-doi{
+.ref-doi, .ref-url, .authors-year{
 	display:block;
 }
+
 .ref-list-AOF-holder span {
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -402,7 +420,7 @@ div.myfieldHolder[field_id='222']{
   vertical-align: top;
 }
 .table, .figure{
-  padding: 15px;
+  padding: 15px 30px 15px 15px;
 }
 a.download{
   font-weight:bold;
@@ -811,9 +829,6 @@ img.bhl-img {
 	padding: 0px;
 }
 
-.P-Baloon .authors-year{
-	
-}
 .P-Baloon .ref-title{
 	font-weight: normal;
 	display: inline;
@@ -824,7 +839,7 @@ img.bhl-img {
 	color: #1F1F1F;
 }
 
-.P-Baloon .ref-doi{
+.P-Baloon .ref-doi, .ref-url, .authors-year{
 	display: inline;
 }
 
@@ -866,4 +881,17 @@ div.sectionBody iframe{
 }
 .downloadmaterials img{
 	vertical-align: top;
+}
+
+xref[type='fig'], xref[type='table'], xref[type='suppl'] {
+	padding-left:2px;
+	padding-right:2px;
+	background:#DFF1FF;
+}
+xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[type='suppl']:hover, .locality-coordinate:hover, span[data-author-id]:hover {
+	background:#FEF1B5;
+	cursor:pointer;
+}
+.entrezRecordsTable{
+	width: 70%;
 }
