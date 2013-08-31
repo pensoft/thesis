@@ -101,6 +101,7 @@ class carticle_preview_generator extends csimple {
 	var $m_instancesDetails;
 	var $m_templateXslDirName;
 	var $m_documentXml;
+	var $m_xmlDomDocument;
 	var $m_xslContent;
 	var $m_instancePreviews;
 	var $m_templ;
@@ -119,6 +120,12 @@ class carticle_preview_generator extends csimple {
 	var $m_localitiesListPreview = '';
 	var $m_citationListPreview = '';
 	var $m_taxaList = array();
+	var $m_hasFigures = false;
+	var $m_hasTables = false;
+	var $m_hasLocalities = false;
+	var $m_hasTaxa = false;
+	var $m_hasData = false;
+	var $m_hasReferences = false;
 
 	function __construct($pFieldTempl) {
 		$this->m_instancesDetails = array ();
@@ -205,6 +212,20 @@ class carticle_preview_generator extends csimple {
 		if (! (int) $pInstanceId || ! (int) $pInstanceType) {
 			return;
 		}
+		switch($pInstanceType){
+			case (int)INSTANCE_FIGURE_TYPE:
+				$this->m_hasFigures = true;
+				break;
+			case (int) INSTANCE_TABLE_TYPE :
+				$this->m_hasTables = true;
+				break;
+			case (int) INSTANCE_SUPFILE_TYPE :
+				$this->m_hasData = true;
+				break;
+			case (int) INSTANCE_REFERENCE_TYPE :
+				$this->m_hasReferences = true;
+				break;			
+		}
 		$this->m_instancesDetails [$pInstanceId] = array (
 			'view_xpath' => $this->GetInstanceViewXPathAndMode($pInstanceType, $pInstanceId),
 			'view_mode' => $this->GetInstanceViewXPathAndMode($pInstanceType, $pInstanceId, 1),
@@ -221,7 +242,8 @@ class carticle_preview_generator extends csimple {
 		if ((int) $this->m_errCnt) {
 			return;
 		}
-		$lDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+		$this->m_xmlDomDocument = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+		$lDom = $this->m_xmlDomDocument;
 		if (! $lDom->loadXML($this->m_documentXml)) {
 			$this->SetError(getstr('pjs.couldNotLoadArticleXml'));
 			return;
@@ -632,6 +654,7 @@ class carticle_preview_generator extends csimple {
 			$lInstancesWithCoordinates[] = 0;
 		}
 		if(count($this->m_articleLocalities)){
+			$this->m_hasLocalities = true;
 			$lSql = '
 				SELECT id, display_name
 				FROM pwt.document_object_instances i
@@ -794,7 +817,10 @@ class carticle_preview_generator extends csimple {
 				$this->m_taxaList[] = trim($lTaxonName);
 			}
 		}
-		$this->m_taxaList = array_unique($this->m_taxaList);		
+		$this->m_taxaList = array_unique($this->m_taxaList);	
+		if(count($this->m_taxaList)){
+			$this->m_hasTaxa = true;
+		}	
 	}
 
 	protected function ImportGeneratedPreviews() {
@@ -827,6 +853,7 @@ class carticle_preview_generator extends csimple {
 			$this->SaveElementPreview(0, INSTANCE_LOCALITIES_LIST_TYPE, $this->m_localitiesListPreview);
 			$this->SaveArticleLocalities();
 			$this->SaveArticleTaxa();
+			$this->SaveArticleElementsExistence();
 			
 			if (! $lCon->Execute('COMMIT TRANSACTION;')) {
 				throw new Exception(getstr('pwt.couldNotBeginTransaction'));
@@ -866,6 +893,20 @@ class carticle_preview_generator extends csimple {
 			$this->ExecuteTransactionalQuery($lSql);
 		}
 	}
+	
+	protected function SaveArticleElementsExistence(){
+		$lSql = '
+			UPDATE pjs.articles SET
+				has_figures = ' . (int)$this->m_hasFigures . '::boolean,
+				has_tables = ' . (int)$this->m_hasTables . '::boolean,
+				has_localities = ' . (int)$this->m_hasLocalities . '::boolean,
+				has_taxa = ' . (int)$this->m_hasTaxa . '::boolean,
+				has_data = ' . (int)$this->m_hasData . '::boolean,
+				has_references = ' . (int)$this->m_hasReferences . '::boolean
+			WHERE id = ' . (int)$this->m_documentId . '
+		';
+		$this->ExecuteTransactionalQuery($lSql);
+	}
 
 	function GetData() {
 		if ($this->m_dontGetData) {
@@ -878,6 +919,19 @@ class carticle_preview_generator extends csimple {
 		$this->ImportGeneratedPreviews();
 		$this->m_dontGetData = true;
 	}
+	
+	protected function CheckIfArticleHasData(){
+		if($this->m_errCnt || $this->m_hasData){
+			return;
+		}
+		$lXPath = new DOMXPath($this->m_xmlDomDocument);
+		$lMaterialsQuery = '//*[@object_id=' . MATERIAL_OBJECT_ID . ']';
+		if($lXPath->query($lMaterialsQuery)->length){
+			$this->m_hasData = true;
+			return;
+		}
+		
+	}
 
 	protected function GeneratePreviews() {
 		$this->RegisterAllInstances();
@@ -889,6 +943,7 @@ class carticle_preview_generator extends csimple {
 		$this->GenerateArticleCitationListPreview();
 		$this->GenerateLocalitiesPreview();
 		$this->GetTaxaList();
+		$this->CheckIfArticleHasData();
 	}
 
 	function ReplaceHtmlFields($pStr) {

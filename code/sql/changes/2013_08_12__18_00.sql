@@ -35,7 +35,13 @@ CREATE TABLE pjs.articles(
 	localities_list_cache_id bigint REFERENCES pjs.article_cached_items(id),
 	citation_list_cache_id bigint REFERENCES pjs.article_cached_items(id),
 	createdate timestamp DEFAULT now(),
-	pwt_document_id int
+	pwt_document_id int,
+	has_figures boolean DEFAULT true,
+	has_tables boolean DEFAULT true,
+	has_localities boolean DEFAULT true,
+	has_taxa boolean DEFAULT true,
+	has_data boolean DEFAULT true,
+	has_references boolean DEFAULT true
 );
 GRANT ALL ON pjs.articles TO iusrpmt;
 

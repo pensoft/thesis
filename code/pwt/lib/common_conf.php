@@ -15,6 +15,7 @@ define('ERR_EMPTY_FIELD', getstr('kfor.emptyField'));
 define('ERR_CAPTCHA_WRONG_CODE', getstr('form.errorWrongCaptchaCode'));
 
 define('METADATA_OBJECT_ID', 14);
+define('MATERIAL_OBJECT_ID', 37);
 define('PLATE_WRAPPER_OBJECT_ID', 235);
 define('METADATA_OBJECT_IDS_FOR_DIFFERENT_TEMPLATES', '14,152');
 define('DATA_PAPER_RESOURCES_DATA_SET_OBJECT_ID', 141);
