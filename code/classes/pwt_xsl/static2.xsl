@@ -157,6 +157,11 @@
 		<xsl:param name="pDocumentNode" />
 		<xsl:if test="$pPDFPreviewMode = 0">
 			<div class="P-Article-Preview-Names">
+				<a onclick="toogleArticleInfo()">
+					<img alt="expand article info" id="arrow">
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/arrowRightBig.png</xsl:attribute>
+					</img>
+				</a>
 				<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']">
 					<xsl:apply-templates select="." mode="singleAuthor" />
 					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
