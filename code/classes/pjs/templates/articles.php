@@ -30,16 +30,16 @@ $gTemplArr = array(
 									</div>
 									<div class="userloggedmenuSep"></div>
 									<div class="userLoggedMenuLink">
-										<a id="userLoggedMenuLink_2" href="#" onclick="LayerProfEditFrm(\'P-Registration-Content\', 2, 3);">Subscription</a>&nbsp;Name, Pictures, URL, ...
+										<a id="userLoggedMenuLink_3" href="#" onclick="LayerProfEditFrm(\'P-Registration-Content\', 2, 3);">Subscription</a>&nbsp;Name, Pictures, URL, ...
 									</div>
 									<div class="userloggedmenuSep"></div>
 									<div class="userLoggedMenuLink">
-										<a id="userLoggedMenuLink_2" href="/inbox.php">Messages</a>&nbsp;Inbox, Messages, ...
+										<a id="userLoggedMenuLink_4" href="/inbox.php">Messages</a>&nbsp;Inbox, Messages, ...
 										<div class="P-Clear"></div>
 									</div>
 									<div class="userloggedmenuSep"></div>
 									<div class="userLoggedMenuLink">
-										<a id="userLoggedMenuLink_2" href="/login.php?logout=1">Logout</a>
+										<a id="userLoggedMenuLink_5" href="/login.php?logout=1">Logout</a>
 										<div class="P-Clear"></div>
 									</div>
 									<div class="P-Clear"></div>
