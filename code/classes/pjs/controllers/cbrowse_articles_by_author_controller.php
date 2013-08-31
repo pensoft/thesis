@@ -15,8 +15,12 @@ class cBrowse_Articles_By_Author_Controller extends cBase_Controller {
 		
 		$this->m_models['mEdit_Model'] = new mEdit_model();
 		
-		if(!$lJournalId || 
+		/*if(!$lJournalId || 
 		   !$this->m_models['mEdit_Model']->CheckUserRight($lAuthorId, $lJournalId, AUTHOR_ROLE)){
+			header('Location: /index.php');
+		}*/
+		   
+		if(!$lJournalId){
 			header('Location: /index.php');
 		}
 		
