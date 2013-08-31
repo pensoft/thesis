@@ -252,7 +252,7 @@ $gTemplArr = array(
 								<div id="button">
 									<button class="button_green" onclick=\'window.open("' . PWT_URL . '", "_blank");\'>Start a manuscript</button>
 									{_getYourTasksBtn(show_your_tasks, journal_id)}
-									<a href="/about#Howitworks">How it works?</a>
+									<a href="/about#Howitworks">How it works</a>
 								</div>
 
 								{journal_menu}
