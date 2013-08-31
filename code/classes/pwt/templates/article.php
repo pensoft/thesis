@@ -118,12 +118,10 @@ $gTemplArr = array (
 	
 	'article.citation' => '
 			<div class="P-Citation">
-				<div class="P-Label">
-					Citation
-				</div>
+				
 				<div class="P-Citation-Content">
 					{author_names} ({pubyear}) {_GetArticleTitleForCitation(article_title)}
-					{journal_name} {issue_number}: {start_page}-{end_page}.
+					{journal_name} {issue_number}: {start_page}.
 					DOI: {doi}										
 				</div>
 			</div>
