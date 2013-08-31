@@ -37,11 +37,12 @@ $lPageArray = array(
 	'content' => array(
 			'ctype' => 'crs', 
 			'templs'=> array(
-				G_HEADER   => 'global.empty',
-				G_STARTRS => 'index.content_head',
-				G_ROWTEMPL => 'index.content_row',
-				G_FOOTER   => 'index.content_foot',
-				G_NODATA   => 'index.no_manuscripts',
+				G_HEADER   	=> 'index.content_head',
+				G_STARTRS 	=> 'index.content_startrs',
+				G_ROWTEMPL 	=> 'index.content_row',
+				G_ENDRS 	=> 'index.content_endrs',
+				G_FOOTER   	=> 'index.content_foot',
+				G_NODATA   	=> 'index.no_manuscripts',
 			),
 			'pagesize' => $lPageSize,
 			'usecustompn' => 1,

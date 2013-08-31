@@ -89,7 +89,9 @@ if(CheckIfLoginFormCaptchaShouldBeDisplayed()){
 
 $reg->GetData();
 
-
+if(($reg->KforAction() == 'login' || $reg->KforAction() == 'send') && $reg->KforErrCnt()){
+	$reg->SetKforVal('errs', 1);
+}
 if ($reg->KforAction() == 'login' && $reg->KforErrCnt() == 0) {
 	$lUsername = $reg->GetKforVal('username');
 	$lPassword = $reg->GetKforVal('password');

@@ -6583,4 +6583,12 @@ function GetArticleTitleForCitation($pTitle){
 	}
 	return $pTitle;
 }
+
+function showTextIfErrors($pArr) {
+	if(!$pArr['errs']) {
+		return '<p class="message">If you are already registered with a Pensoft journal, please use your credentials to sign in.</p>';
+	}	
+	return '';
+}
+
 ?>

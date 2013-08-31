@@ -2,7 +2,25 @@
 
 $gTemplArr = array(
 
-	'loginform.form' => '{back_uri}
+	'loginform.form' => '{back_uri}{errs}
+					{_showTextIfErrors}
+                    <div class="input_box">
+                        <label for="username">{*username} <span>*</span></label>
+                        {username}
+                    </div>
+                    <div class="input_box">
+                        <label for="password">{*password} <span>*</span></label>
+                        {password}
+                    </div>
+                    {_GetLoginFormCaptchaTemplate}
+                    <div class="input_box input_box_margin">
+                        <a href="javascript: void(0);" onclick="LayerRegFrm(\'P-Registration-Content\', 1);" class="button_yellow">Sign up</a>
+                        {login}
+                    </div>
+                    <a href="/fpass.php">Lost your password?</a>
+	',
+
+	'loginform.form1' => '{back_uri}
 			<div class="loginFormLeftCol">
 				<div class="loginFormLogo">
 					<a href="/"><img src="' . PENSOFT_LOGO_IMG . '" alt="" /></a>
@@ -68,75 +86,105 @@ $gTemplArr = array(
 	',
 
 	'loginform.fpassform' => '
-			<div class="loginFormLeftCol">
-				<div class="loginFormLogo">
-					<a href="/"><img src="' . PENSOFT_LOGO_IMG . '" alt="" /></a>
-					<div class="P-Clear"></div>
-				</div>
-				<div class="loginFormTxt"></div>
-				<div class="loginFormLinksHolder">
-					<a href="#" onclick="LayerRegFrm(\'P-Registration-Content\', 1);" style="font-size: 12px">Sign up</a> for a Pensoft account
-				</div>
-				<div class="P-Clear"></div>
-			</div>
-			<div class="loginFormRightCol">
-				<div class="loginFormErrHolder fpassErrHolder">{$email}</div>
-				<div class="loginFormRowHolder">
-					<div class="loginFormLabel">{*email} <span>*</span></div>
-					<div class="P-Input-Full-Width">
-						<div class="P-Input-Inner-Wrapper">
-							<div class="P-Input-Holder">
-								<div class="P-Input-Left"></div>
-								<div class="P-Input-Middle">
-									{email}
-								</div>
-								<div class="P-Input-Right"></div>
-								<div class="P-Clear"></div>
+					{errs}
+                    <div class="input_box fpass_wrapper">
+                        <label for="username">{*email} <span>*</span></label>
+                        {email}
+                    </div>
+                     <div class="loginFormRowHolder" style="margin-bottom: 10px;">
+						<div class="capholder">
+							<div class="capcode">
+								<img src="/lib/frmcaptcha.php" id="cappic" border="0" alt="" /><br/>
+								<a href="javascript: void(0);" onclick="return reloadCaptcha();">' . getstr('register.php.generatenew') . '</a>
 							</div>
 						</div>
 					</div>
-					<div class="P-Clear"></div>
-				</div>
-				<div class="P-Clear"></div>
-				<div class="loginFormRowHolder" style="margin-bottom: 10px;">
-					<div class="capholder">
-						<div class="capcode">
-							<img src="/lib/frmcaptcha.php" id="cappic" border="0" alt="" /><br/>
-							<a href="javascript: void(0);" onclick="return reloadCaptcha();">' . getstr('register.php.generatenew') . '</a>
-						</div>
-					</div>
-				</div>
-				<div class="loginFormRowHolder">
-					<div class="loginFormErrHolder" style="height: 20px;">{$captcha}</div>
-					<div class="loginFormLabel">' . getstr('register.php.spamconfirm') . '<span>*</span></div>
-					<div class="P-Input-Full-Width">
-						<div class="P-Input-Inner-Wrapper">
-							<div class="P-Input-Holder">
-								<div class="P-Input-Left"></div>
-								<div class="P-Input-Middle">
-									{captcha}
-									<!-- <input type="text" name="captcha" id="captcha" class="input" /> -->
-								<div class="P-Input-Right"></div>
-								<div class="P-Clear"></div>
-							</div>
-						</div>
-					</div>
-					<div class="P-Clear"></div>
-					<script type="text/javascript">
+                    <div class="input_box fpass_wrapper">
+                        <label for="password">' . getstr('register.php.spamconfirm') . ' <span>*</span></label>
+                        {captcha}
+                    </div>
+                    <div class="input_box input_box_margin">
+                        <a href="javascript: void(0);" onclick="LayerRegFrm(\'P-Registration-Content\', 1);" class="button_yellow">Sign up</a>
+                        {send}
+                    </div>
+                    <a href="/fpass.php">Lost your password?</a>
+                    <script type="text/javascript">
 						$(function(){
 							$(\'#captcha\').attr(\'value\', \'\');
 						});
 					</script>
+	',
+
+	'loginform.fpass_old' => '
+		<div class="loginFormLeftCol">
+			<div class="loginFormLogo">
+				<a href="/"><img src="' . PENSOFT_LOGO_IMG . '" alt="" /></a>
+				<div class="P-Clear"></div>
+			</div>
+			<div class="loginFormTxt"></div>
+			<div class="loginFormLinksHolder">
+				<a href="#" onclick="LayerRegFrm(\'P-Registration-Content\', 1);" style="font-size: 12px">Sign up</a> for a Pensoft account
+			</div>
+			<div class="P-Clear"></div>
+		</div>
+		<div class="loginFormRightCol">
+			<div class="loginFormErrHolder fpassErrHolder">{$email}</div>
+			<div class="loginFormRowHolder">
+				<div class="loginFormLabel">{*email} <span>*</span></div>
+				<div class="P-Input-Full-Width">
+					<div class="P-Input-Inner-Wrapper">
+						<div class="P-Input-Holder">
+							<div class="P-Input-Left"></div>
+							<div class="P-Input-Middle">
+								{email}
+							</div>
+							<div class="P-Input-Right"></div>
+							<div class="P-Clear"></div>
+						</div>
+					</div>
+				</div>
+				<div class="P-Clear"></div>
+			</div>
+			<div class="P-Clear"></div>
+			<div class="loginFormRowHolder" style="margin-bottom: 10px;">
+				<div class="capholder">
+					<div class="capcode">
+						<img src="/lib/frmcaptcha.php" id="cappic" border="0" alt="" /><br/>
+						<a href="javascript: void(0);" onclick="return reloadCaptcha();">' . getstr('register.php.generatenew') . '</a>
+					</div>
 				</div>
 			</div>
-			<div class="P-Green-Btn-Holder">
-					<div class="P-Green-Btn-Left"></div>
-					<div class="P-Green-Btn-Middle">
-						{send}
+			<div class="loginFormRowHolder">
+				<div class="loginFormErrHolder" style="height: 20px;">{$captcha}</div>
+				<div class="loginFormLabel">' . getstr('register.php.spamconfirm') . '<span>*</span></div>
+				<div class="P-Input-Full-Width">
+					<div class="P-Input-Inner-Wrapper">
+						<div class="P-Input-Holder">
+							<div class="P-Input-Left"></div>
+							<div class="P-Input-Middle">
+								{captcha}
+								<!-- <input type="text" name="captcha" id="captcha" class="input" /> -->
+							<div class="P-Input-Right"></div>
+							<div class="P-Clear"></div>
+						</div>
 					</div>
-					<div class="P-Green-Btn-Right"></div>
 				</div>
-			<div class="P-Clear"></div>
+				<div class="P-Clear"></div>
+				<script type="text/javascript">
+					$(function(){
+						$(\'#captcha\').attr(\'value\', \'\');
+					});
+				</script>
+			</div>
+		</div>
+		<div class="P-Green-Btn-Holder">
+				<div class="P-Green-Btn-Left"></div>
+				<div class="P-Green-Btn-Middle">
+					{send}
+				</div>
+				<div class="P-Green-Btn-Right"></div>
+			</div>
+		<div class="P-Clear"></div>
 	',
 
 	'loginform.form_copy' => '
@@ -204,11 +252,7 @@ $gTemplArr = array(
 				<!-- end of login form -->
 	',
 
-	'loginform.loginformwrapper' => '
-	<div class="loginFormWrapper loginpage1">
-		{form}
-	</div>
-	',
+	'loginform.loginformwrapper' => '{form}',
 
 	'loginform.loginformwrapperfpasssucess' => '
 		<div class="loginFormWrapper">
