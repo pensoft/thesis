@@ -118,6 +118,7 @@ class carticle_preview_generator extends csimple {
 	var $m_contentsListPreview = '';
 	var $m_articleLocalities = array();
 	var $m_localitiesListPreview = '';
+	var $m_taxaListPreview = '';
 	var $m_citationListPreview = '';
 	var $m_taxaList = array();
 	var $m_hasFigures = false;
@@ -297,7 +298,7 @@ class carticle_preview_generator extends csimple {
 		$this->RegisterInstance((int) INSTANCE_TABLES_LIST_INSTANCE_ID, (int) INSTANCE_TABLES_LIST_TYPE);
 		$this->RegisterInstance((int) INSTANCE_REFERENCES_LIST_INSTANCE_ID, (int) INSTANCE_REFERENCES_LIST_TYPE);
 		$this->RegisterInstance((int) INSTANCE_SUP_FILES_LIST_INSTANCE_ID, (int) INSTANCE_SUP_FILES_LIST_TYPE);
-		$this->RegisterInstance((int) INSTANCE_TAXON_LIST_INSTANCE_ID, (int) INSTANCE_TAXON_LIST_TYPE);
+// 		$this->RegisterInstance((int) INSTANCE_TAXON_LIST_INSTANCE_ID, (int) INSTANCE_TAXON_LIST_TYPE);
 	}
 
 	protected function GenerateXsl() {
@@ -694,7 +695,8 @@ class carticle_preview_generator extends csimple {
 		$lXPathResult = $lXPath->query($lTaxaXPath);
 		$this->m_taxaList = array();
 		$lAttributeNameThatHoldsPartType = 'class';
-		$lAttributeNameThatHoldsPartValue = 'full-name';
+		$lAttributeNameThatHoldsPartValue = 'full-name';		
+		
 		$lPartsThatLeadToSelf = array (
 			'kingdom', 
 			'regnum',
@@ -762,7 +764,22 @@ class carticle_preview_generator extends csimple {
 				'species',
 				'forma'
 			),
-		);
+		);		
+		$lPartsQuery = '';
+		foreach ($lPartsThatLeadToSelf as $lPartName) {
+			if($lPartsQuery != ''){
+				$lPartsQuery .= '|';
+			}
+			$lPartsQuery .= './/*[@' . $lAttributeNameThatHoldsPartType . '="' . $lPartName . '"]';
+		}
+		foreach ($lPartsThatDontLeadToSelf as $lPartName => $lData) {
+			if($lPartsQuery != ''){
+				$lPartsQuery .= '|';
+			}
+			$lPartsQuery .= './/*[@' . $lAttributeNameThatHoldsPartType . '="' . $lPartName . '"]';
+		}
+		
+		
 		$lPartsThatLeadToSelfQuery = '';
 		foreach ($lPartsThatLeadToSelf as $lPartName) {
 			if($lPartsThatLeadToSelfQuery != ''){
@@ -777,14 +794,17 @@ class carticle_preview_generator extends csimple {
 			}
 			$lPartsThatDontLeadToSelfQuery .= './/*[@' . $lAttributeNameThatHoldsPartType . '="' . $lPartName . '"]';
 		}
+		$lTaxaForListPreview = array();
 // 		var_dump($lXPathResult->length);
 		foreach ($lXPathResult as $lCurrentTaxonNode){
+			$lCurrentTaxonNames = array();
 			$lPartsLeadingToSelfNodes = $lXPath->query($lPartsThatLeadToSelfQuery, $lCurrentTaxonNode);
 			foreach ($lPartsLeadingToSelfNodes as $lPart){
 				$lTaxonName = trim($lPart->getAttribute($lAttributeNameThatHoldsPartValue));
 				if($lTaxonName == ''){
 					$lTaxonName = trim($lPart->textContent);
 				}
+				$lCurrentTaxonNames[] = $lTaxonName;
 				$this->m_taxaList[] = $lTaxonName;
 			}
 			$lPartsNotLeadingToSelfNodes = $lXPath->query($lPartsThatDontLeadToSelfQuery, $lCurrentTaxonNode);
@@ -813,14 +833,79 @@ class carticle_preview_generator extends csimple {
 						}
 						$lTaxonName .= $lPartValue;
 					}
-				}				
+				}			
+				$lCurrentTaxonNames[] = $lTaxonName;
 				$this->m_taxaList[] = trim($lTaxonName);
+			}			
+			$lCurrentTaxonNodeClone = $lCurrentTaxonNode->cloneNode(true);
+			foreach ($lXPath->query($lPartsQuery, $lCurrentTaxonNodeClone) as $lCurrentPart){				
+				$lPartValue = trim($lCurrentPart->getAttribute($lAttributeNameThatHoldsPartValue));
+				if($lPartValue != ''){
+					$lCurrentPart->nodeValue = $lPartValue;
+				}							
+			}			
+			$lTaxonHtml = $lCurrentTaxonNodeClone->ownerDocument->saveXML($lCurrentTaxonNodeClone);
+			$lTaxonText = $lCurrentTaxonNodeClone->textContent;
+			
+			$lTaxonForListPreview = array(
+				'html' => $lTaxonHtml,
+				'text' => $lTaxonText,
+				'names' => $lCurrentTaxonNames,
+				'usage' => array(),
+			);
+			if(!$this->CheckIfTaxonIsInArrayForListPreview($lTaxaForListPreview, $lTaxonForListPreview)){
+				$lTaxaForListPreview[] = $lTaxonForListPreview;
 			}
 		}
+		usort($lTaxaForListPreview, function($pTaxon1, $pTaxon2){
+			return strcmp($pTaxon1['text'], $pTaxon2['text']);
+		});
+		
+		$lPreview = new crs_display_array(array (
+			'input_arr' => $lTaxaForListPreview,
+			'templs' => array (
+				G_HEADER => 'article.taxa_list_head',
+				G_FOOTER => 'article.taxa_list_foot',
+				G_STARTRS => 'article.taxa_list_start',
+				G_ENDRS => 'article.taxa_list_end',
+				G_NODATA => 'article.taxa_list_nodata',
+				G_ROWTEMPL => 'article.taxa_list_row'
+			)
+		));
+		
+		$this->m_taxaListPreview = $lPreview->Display();
+// 		var_dump($this->m_taxaListPreview);
+// 		exit;
 		$this->m_taxaList = array_unique($this->m_taxaList);	
 		if(count($this->m_taxaList)){
 			$this->m_hasTaxa = true;
 		}	
+	}
+	
+	protected function CheckIfTaxonIsInArrayForListPreview(&$pArrayForList, &$pTaxon){
+		$lDebug = 0;
+		if($pTaxon['text'] == 'Acanthocephala'){
+			$lDebug = 1;
+		}
+		foreach ($pArrayForList as $lKey => $lCurrentTaxon){
+// 			if($lDebug){
+// 				var_dump($lCurrentTaxon);
+// 			}
+			if(count($lCurrentTaxon['names']) != count($pTaxon['names'])){
+				continue;
+			}
+// 			if($lDebug){
+// 				var_dump($lCurrentTaxon['parts']);
+// 			}
+			foreach ($lCurrentTaxon['names'] as $lName){
+				if(!in_array($lName, $pTaxon['names'])){
+					continue 2;
+				}
+			}
+			$pArrayForList[$lKey]['usage'] = array_merge($pArrayForList[$lKey]['usage'], $pTaxon['usage']);
+			return true;
+		}
+		return false;
 	}
 
 	protected function ImportGeneratedPreviews() {
@@ -852,7 +937,11 @@ class carticle_preview_generator extends csimple {
 			//Localities list		
 			$this->SaveElementPreview(0, INSTANCE_LOCALITIES_LIST_TYPE, $this->m_localitiesListPreview);
 			$this->SaveArticleLocalities();
+			//Taxa
+			$this->SaveElementPreview(0, INSTANCE_TAXON_LIST_TYPE, $this->m_taxaListPreview);
 			$this->SaveArticleTaxa();
+			
+			
 			$this->SaveArticleElementsExistence();
 			
 			if (! $lCon->Execute('COMMIT TRANSACTION;')) {
