@@ -239,6 +239,31 @@ class mArticles extends emBase_Model {
 		return $lResult;
 	}
 	
+	/**
+	 * Returns whether the article has figures/tables/localities/taxa/references/data objects
+	 * @param unknown $pArticleId
+	 * @return multitype:unknown Ambigous <>
+	 */
+	function GetObjectExistenceFields($pArticleId){
+		$lSql = '
+			SELECT has_figures::int as has_figures, has_tables::int as has_tables, has_localities::int as has_localities, has_taxa::int as has_taxa,
+				has_data::int as has_data, has_references::int as has_references
+			FROM pjs.articles 
+			WHERE id = ' . (int)$pArticleId . '
+		';
+		$this->m_con->Execute($lSql);
+		$lRow = $this->m_con->mRs;
+		$lResult = array(
+			'has_figures' => $lRow['has_figures'],
+			'has_tables' => $lRow['has_tables'],
+			'has_localities' => $lRow['has_localities'],
+			'has_taxa' => $lRow['has_taxa'],
+			'has_data' => $lRow['has_data'],
+			'has_references' => $lRow['has_references'],
+		);
+		return $lResult;
+		
+	}
 }
 
 ?>

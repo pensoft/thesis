@@ -91,16 +91,7 @@ $gTemplArr = array(
 								ARTICLE_MENU_ELEMENT_TYPE_Share  => 'Share',
 							)) . '
 						</ul>
-						<ul class="P-Info-Menu bottomBar">' .
-							infoMenu(array(
-								ARTICLE_MENU_ELEMENT_TYPE_FIGURES => 'Figures',
-								ARTICLE_MENU_ELEMENT_TYPE_TABLES => 'Tables',
-								ARTICLE_MENU_ELEMENT_TYPE_LOCALITIES => 'Map',
-								ARTICLE_MENU_ELEMENT_TYPE_TAXON => 'Taxa',
-								ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES => 'Data',
-								ARTICLE_MENU_ELEMENT_TYPE_REFERENCES => 'References',
-							)) . '
-						</ul>
+						{_createArticleObjectMenu(object_existence)}					
 					</div>
 					<div class="P-Info-Content">
 						{contents_list}
