@@ -35,6 +35,10 @@ body {
   font-size: 12pt;
   overflow-y: hidden;
 }
+
+table{
+	float:none;
+}
 .P-Article-Preview-Base-Info-Block {
   margin-top: 10px;
   margin-bottom: 25px;
@@ -394,7 +398,13 @@ td p, th p {
 	padding-left: 20px;
 }
 
-.species, .genus, .subgenus, .subspecies, .variety, .form {
+.species, .genus, .subgenus, .subspecies, .variety, .form,
+.kingdom, .regnum, .subkingdom, .subregnum, .division, .phylum, .subdivision,
+.subphylum, .superclass, .superclassis, .class, .classis, .subclass, .subclassis,
+.superorder, .superordo, .order, .ordo, .suborder, .subordo, .infraorder,
+.infraordo, .superfamily, .superfamilia, .family, .familia, .subfamily, .subfamilia,
+.tribe, .tribus, .subtribe, .subtribus, .varietas, .forma
+{
 	font-style:italic;	
 }
 .figureCaption{
@@ -413,7 +423,13 @@ td p, th p {
 	color:black;	
 }
 
-.above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover {
+.above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover,
+.kingdom:hover, .regnum:hover, .subkingdom:hover, .subregnum:hover, .division:hover, .phylum:hover, .subdivision:hover,
+.subphylum:hover, .superclass:hover, .superclassis:hover, .class:hover, .classis:hover, .subclass:hover, .subclassis:hover,
+.superorder:hover, .superordo:hover, .order:hover, .ordo:hover, .suborder:hover, .subordo:hover, .infraorder:hover,
+.infraordo:hover, .superfamily:hover, .superfamilia:hover, .family:hover, .familia:hover, .subfamily:hover, .subfamilia:hover,
+.tribe:hover, .tribus:hover, .subtribe:hover, .subtribus:hover, .varietas:hover, .forma:hover
+{
 	background:#E3E3C7;
 	cursor:pointer;	
 }

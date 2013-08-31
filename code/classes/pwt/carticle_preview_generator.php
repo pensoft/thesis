@@ -14,6 +14,7 @@ define('INSTANCE_AUTHOR_TYPE', 12);
 define('INSTANCE_AUTHORS_LIST_TYPE', 13);
 define('INSTANCE_CONTENTS_LIST_TYPE', 14);
 define('INSTANCE_LOCALITIES_LIST_TYPE', 15);
+define('INSTANCE_CITATION_LIST_TYPE', 16);
 
 define('INSTANCE_WHOLE_PREVIEW_INSTANCE_ID', - 5);
 define('INSTANCE_FIGURES_LIST_INSTANCE_ID', - 1);
@@ -89,6 +90,9 @@ $gInstanceTypeDetails = array (
 	INSTANCE_CONTENTS_LIST_TYPE => array (
 		'preview_sql' => 'SELECT * FROM spSaveArticleContentsListPreview({article_id}, \'{preview}\');' 
 	),
+	INSTANCE_CITATION_LIST_TYPE => array (
+		'preview_sql' => 'SELECT * FROM spSaveArticleCitationListPreview({article_id}, \'{preview}\');' 
+	),
 	INSTANCE_LOCALITIES_LIST_TYPE => array (
 		'preview_sql' => 'SELECT * FROM spSaveArticleLocalitiesListPreview({article_id}, \'{preview}\');' 
 	),
@@ -113,6 +117,7 @@ class carticle_preview_generator extends csimple {
 	var $m_contentsListPreview = '';
 	var $m_articleLocalities = array();
 	var $m_localitiesListPreview = '';
+	var $m_citationListPreview = '';
 	var $m_taxaList = array();
 
 	function __construct($pFieldTempl) {
@@ -427,11 +432,11 @@ class carticle_preview_generator extends csimple {
 			$this->m_wholeArticlePreview = $lDomHtml->saveHTML($lNode->item(0));
 		}
 	}
-
-	protected function GenerateArticleAuthorPreviews() {
+	
+	protected function GetAuthorsSql(){
 		$lSql = "
-			SELECT  du.first_name, du.middle_name, du.last_name, 
-				du.affiliation, du.city, du.country, 
+			SELECT  du.first_name, du.middle_name, du.last_name,
+				du.affiliation, du.city, du.country,
 				u.photo_id, u.uname as email, u.website, u.id as usrid,
 				(case when du.co_author=1 then ' - Corresponding author'
 				else '' end) as is_corresponding, du.zoobank_id
@@ -439,6 +444,29 @@ class carticle_preview_generator extends csimple {
 			JOIN public.usr u ON u.id = du.uid
 			WHERE du.document_id = " . (int) $this->m_documentId . " AND role_id = " . (int) PJS_AUTHOR_ROLE_ID . "
 		";
+// 		var_dump($lSql);
+		return $lSql;
+	}
+	
+	protected function GetMetadataSql(){
+		$lSql = 'SELECT to_char(d.approve_date, \'DD Mon YYYY\') as approve_date, 
+						to_char(d.publish_date, \'DD Mon YYYY\') as publish_date, 
+						to_char(d.create_date, \'DD Mon YYYY\') as create_date,
+					EXTRACT(year FROM d.publish_date) as pubyear,
+					j.name as journal_name, d.doi, d.start_page, d.end_page,
+					d.name as article_title,
+					i."number" as issue_number
+			FROM pjs.documents d
+			LEFT JOIN pjs.journal_issues i ON i.id = d.issue_id
+			LEFT JOIN public.journals j ON j.id = i.journal_id
+			WHERE d.id = ' . (int)$this->m_documentId . '	
+		';
+// 		var_dump($lSql);
+		return $lSql;
+	}
+
+	protected function GenerateArticleAuthorPreviews() {
+		$lSql = $this->GetAuthorsSql();
 		
 		$this->m_con->Execute($lSql);
 		$lAuthorsArr = array ();
@@ -490,16 +518,7 @@ class carticle_preview_generator extends csimple {
 				G_ROWTEMPL => 'article.authors_se_preview_row'
 			)
 		));
-		$lSql = 'SELECT to_char(d.approve_date, \'DD Mon YYYY\') as approve_date, 
-						to_char(d.publish_date, \'DD Mon YYYY\') as publish_date, 
-						to_char(d.create_date, \'DD Mon YYYY\') as create_date,
-					j.name as journal_name, d.doi, d.start_page, d.end_page,
-					i."number" as issue_number
-			FROM pjs.documents d
-			LEFT JOIN pjs.journal_issues i ON i.id = d.issue_id
-			LEFT JOIN public.journals j ON j.id = i.journal_id
-			WHERE d.id = ' . (int)$this->m_documentId . '	
-		';
+		$lSql = $this->GetMetadataSql();
 		
 		$lPreview = new crs(array (
 			'sqlstr' => $lSql,	
@@ -546,6 +565,33 @@ class carticle_preview_generator extends csimple {
 		$this->m_contentsListPreview = $lPreview->Display();
 // 		var_dump($this->m_contentsListPreview);
 // 		exit;
+	}
+	
+	protected function GenerateArticleCitationListPreview() {
+		$lSql = $this->GetAuthorsSql();		
+		$lAuthorsPreview = new crs(array (
+			'sqlstr' => $lSql,
+			'templs' => array (
+				G_HEADER => 'article.citations_authors_preview_head',
+				G_FOOTER => 'article.citations_authors_preview_foot',
+				G_STARTRS => 'article.citations_authors_preview_start',
+				G_ENDRS => 'article.citations_authors_preview_end',
+				G_NODATA => 'article.citations_authors_preview_nodata',
+				G_ROWTEMPL => 'article.citations_authors_preview_row'
+			)
+		));
+			
+		// 		var_dump($lSql);
+		$lPreview = new crs(array(
+			'sqlstr' => $this->GetMetadataSql(),
+			'templs' => array (
+				G_HEADER => 'article.citation',				
+			),
+			'author_names' => $lAuthorsPreview,
+			'document_id' => $this->m_pwtDocumentId,
+		));
+	
+		$this->m_citationListPreview = $lPreview->Display();		
 	}
 	
 	/**
@@ -775,6 +821,8 @@ class carticle_preview_generator extends csimple {
 			
 			//Contents list previews
 			$this->SaveElementPreview(0, INSTANCE_CONTENTS_LIST_TYPE, $this->m_contentsListPreview);
+			//Citation list previews
+			$this->SaveElementPreview(0, INSTANCE_CITATION_LIST_TYPE, $this->m_citationListPreview);
 			//Localities list		
 			$this->SaveElementPreview(0, INSTANCE_LOCALITIES_LIST_TYPE, $this->m_localitiesListPreview);
 			$this->SaveArticleLocalities();
@@ -838,6 +886,7 @@ class carticle_preview_generator extends csimple {
 		$this->GenerateArticleWholePreview();
 		$this->GenerateArticleAuthorPreviews();
 		$this->GenerateArticleContentsListPreview();
+		$this->GenerateArticleCitationListPreview();
 		$this->GenerateLocalitiesPreview();
 		$this->GetTaxaList();
 	}

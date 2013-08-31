@@ -108,6 +108,27 @@ $gTemplArr = array (
 		</div>
 	',
 	
+	//Citation
+	'article.citations_authors_preview_head' => '',
+	'article.citations_authors_preview_foot' => '',
+	'article.citations_authors_preview_start' => '',
+	'article.citations_authors_preview_end' => '',
+	'article.citations_authors_preview_nodata' => '',
+	'article.citations_authors_preview_row' => '{last_name} {_GetAuthorFirstNameFirstLetter(first_name)}{_displayCitationsAuthorSeparator(records, rownum)}',
+	
+	'article.citation' => '
+			<div class="P-Citation">
+				<div class="P-Label">
+					Citation
+				</div>
+				<div class="P-Citation-Content">
+					{author_names} ({pubyear}) {_GetArticleTitleForCitation(article_title)}
+					{journal_name} {issue_number}: {start_page}-{end_page}.
+					DOI: {doi}										
+				</div>
+			</div>
+	',
+	
 	// Contents
 	
 	'article.contents_list_head' => '

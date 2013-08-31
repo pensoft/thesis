@@ -9,7 +9,7 @@ INSERT INTO pjs.article_cached_item_types(name) VALUES
 	('Article xml'), ('Article html'), ('Reference html'), ('Figure html'), ('Table html'), ('Sup file html'), ('Taxon html'), ('Author html'),
 	('Article figures list html'), ('Article tables list html'), ('Article references list html'), ('Article taxon list html'), 
 	('Article authors list html'), ('Article sup files list html'), ('Article content html'), ('Article localities list html'),
-	('Article author html');
+	('Article author html'), ('Citation list html');
 
 CREATE TABLE pjs.article_cached_items(
 	id bigserial PRIMARY KEY,
@@ -33,6 +33,7 @@ CREATE TABLE pjs.articles(
 	xml_cache_id bigint REFERENCES pjs.article_cached_items(id),
 	preview_cache_id bigint REFERENCES pjs.article_cached_items(id),
 	localities_list_cache_id bigint REFERENCES pjs.article_cached_items(id),
+	citation_list_cache_id bigint REFERENCES pjs.article_cached_items(id),
 	createdate timestamp DEFAULT now(),
 	pwt_document_id int
 );
@@ -731,6 +732,7 @@ GRANT ALL ON pjs.taxon_eol_images TO iusrpmt;
 	pjs.spGetArticleContentsInstances
 	pjs.spSaveArticleLocality
 	pjs.spCreateArticle
+	pjs.spSaveArticleCitationListPreview
 	
 	pjs.spSaveTaxonNCBIBaseData
 	pjs.spSaveTaxonNCBIRelatedLink
