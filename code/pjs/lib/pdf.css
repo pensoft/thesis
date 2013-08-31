@@ -23,6 +23,8 @@ table {
 	page-break-inside:avoid;
 }
 
+.downloadmaterials{display: none}
+
 /* styles for the first page START*/
 
 .logo_img {
@@ -38,6 +40,8 @@ table {
 .first_page_header_left {
 	text-align:left;
 	width:100%;
+	font-size: 5pt;
+	line-height: 1.5;
 }
 
 .first_page_header_center {
@@ -154,11 +158,9 @@ p {
 }
 a {
   color: #0088CC;
-  text-decoration: none;
-}
-a:hover {
   text-decoration: underline;
 }
+
 .P-Article-Preview-Antet {
   font-size: 9pt;
   color: #727272;
@@ -455,9 +457,6 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 .P-Preview-Comment.Active-Comment-Text {
   background: none repeat scroll 0 0 #FFE03F;
 }
-.P-References-Citation-Holder, .P-Figure-Citation-Holder, .P-Tables-Citation-Holder, .P-SupFiles-Citation-Holder {
-  background-color: #dddddd;
-}
 .references {
   text-align: left;
   padding-left: 20px;
@@ -502,87 +501,12 @@ td p, th p {
   margin-bottom: 4px;
 }
 
-.tn {
-	color:#006600;	
-}
-
-.tn .authority, .tn .basio-authority, .x {
-	color:black;	
-}
-
-.kingdom:hover, 
-.regnum:hover,
-.subkingdom:hover,
-.subregnum:hover,
-.division:hover,
-.phylum:hover,
-.subdivision:hover,
-.subphylum:hover, 
-.superclass:hover,
-.superclassis:hover,
-.class:hover,
-.classis:hover,
-.subclass:hover,
-.subclassis:hover,
-.superorder:hover,
-.superordo:hover,
-.order:hover, 
-.ordo:hover, 
-.suborder:hover,
-.subordo:hover,
-.infraorder:hover,
-.infraordo:hover,
-.superfamily:hover,
-.superfamilia:hover,
-.family:hover, 
-.familia:hover, 
-.subfamily:hover, 
-.subfamilia:hover, 
-.tribe:hover, 
-.tribus:hover, 
-.subtribe:hover,
-.subtribus:hover,
-.genus:hover, 
-.subgenus:hover,
-.above-genus:hover,
-.species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover{  
-
-/*
-.above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover,
-.kingdom:hover, .regnum:hover, .subkingdom:hover, .subregnum:hover, .division:hover, .phylum:hover, .subdivision:hover,
-.subphylum:hover, .superclass:hover, .superclassis:hover, .class:hover, .classis:hover, .subclass:hover, .subclassis:hover,
-.superorder:hover, .superordo:hover, .order:hover, .ordo:hover, .suborder:hover, .subordo:hover, .infraorder:hover,
-.infraordo:hover, .superfamily:hover, .superfamilia:hover, .family:hover, .familia:hover, .subfamily:hover, .subfamilia:hover,
-.tribe:hover, .tribus:hover, .subtribe:hover, .subtribus:hover, .varietas:hover, .forma:hover */
-
-	background:#E3E3C7;
-	cursor:pointer;	
-}
-
-xref[type='bibr'] {
-	color:#0088CC;
-}
-
-xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[type='suppl']:hover, .locality-coordinate:hover, span[data-author-id]:hover {
-	background:#FEF1B5;
-	cursor:pointer;
-}
-
-xref[type='fig'], xref[type='table'], xref[type='suppl'] {
-	padding-left:2px;
-	padding-right:2px;
-	background:#DFF1FF;
-}
-
 .suppl-section-holder {
 	padding-left:20px;
 }
 
 .citations-holder{
 
-}
-.locality-coordinate{
-	color:#0088CC;
 }
 
 span[data-author-id] {
@@ -602,14 +526,6 @@ span[data-author-id] {
     margin-top: 15px;
     text-align: center;
     vertical-align: middle;
-}
-.downloadmaterials{
-	font-size:0.8em;
-	font-weight: normal;
-	float: right;
-}
-.downloadmaterials img{
-	vertical-align: top;
 }
 
 /* Article preview CSS END */

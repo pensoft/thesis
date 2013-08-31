@@ -3215,31 +3215,9 @@ function ShowHideAuthorAction($pCreateUid, $pPWTid) {
 	}
 }
 
-function GenerateAuthorListForPDF($pAuthorList) {
-	$lAuthorsArr = explode(',', $pAuthorList);
-	$lAuthorsList = '';
-	$i = 1;
-	foreach ($lAuthorsArr as $key => $value) {
-		$lAuthorFirstLastName = array();
-		$lAuthorFirstLastName = explode(' ', $value);
-		$lAuthorFirstName = $lAuthorFirstLastName[0];
-		$lAuthorLastName = $lAuthorFirstLastName[1];
-		
-		if($lAuthorLastName) {
-			$lAuthorFirstName = mb_substr($lAuthorFirstName, 0, 1);
-			$lAuthorsList .= ($i != count($lAuthorsArr) ? $lAuthorLastName . ' ' . $lAuthorFirstName . ', ' : $lAuthorLastName . ' ' . $lAuthorFirstName);
-		} else {
-			$lAuthorsList .= ($i != count($lAuthorsArr) ? $lAuthorFirstName . ', ' : $lAuthorFirstName);
-		}
-		
-		$i++;
-	}
-
-	return $lAuthorsList;
-}
-
-function stripHTML($pText) {
-	return trim(strip_tags($pText));
+function shortTitle($pText) {
+	$text = trim(strip_tags($pText));
+	return mb_substr($text, 0, strpos($text, ' ', 100)); 
 }
 
 function showPollAnswerErrClass($pAnswer, $pUserRole) {
