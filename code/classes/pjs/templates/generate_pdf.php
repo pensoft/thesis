@@ -3,17 +3,12 @@
 $gTemplArr = array(
 	'generate_pdf.pdf_first_page_header' => '
 		<table class="first_page_header_container">
-			<colgroup>
-				<col width="25%"></col>
-				<col width="50%"></col>
-				<col width="25%"></col>
-			<colgroup>
 			<tr>
 				<td>
 					<div class="first_page_header_left">
-						BDJ / text <br>
-						doi: text <br>
-						url
+						{idtext}<br>
+						doi: {doi} <br>
+						www.pensoft.net/journals/bdj/
 					</div>
 				</td>
 				<td>
@@ -35,7 +30,9 @@ $gTemplArr = array(
 		<style>
 			@page :first {
 				@bottom-center {
-					content: "{_GenerateAuthorListForPDF(author_list)} + neshto si";	
+					content: "© {author_list_short}. This is an open access article distributed under the terms of the Creative Commons Attribution License 3.0 (CC-BY), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.";
+					font-size: 5pt;
+					
 				}
 				@top-left {
 					content:none;
@@ -56,19 +53,25 @@ $gTemplArr = array(
 			
 			@page :left {
 				@top-center {
-					content: "{_GenerateAuthorListForPDF(author_list)} / BDJ alabala";
+					content: "{author_list_short} / {idtext}";
+					font-size: 6pt;
+					font-style: italic;
 				}
 				@top-left {
 					content: counter(page);
+					font-size: 6pt;
 				}	
 			}
 			
 			@page :right {
 				@top-center {
-					content: "{_stripHTML(document_title)}";
+					content: "{_shortTitle(document_title)}";
+					font-size: 6pt;
+					font-style: italic;
 				}
 				@top-right {
 					content: counter(page);
+					font-size: 6pt;
 				}	
 			}
 			
