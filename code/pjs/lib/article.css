@@ -892,5 +892,7 @@ xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[
 	width: 70%;
 }
 .P-Citation{
-	
+	font-size: 11pt;
+    padding: 15px;
 }
+.P-Label
