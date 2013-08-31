@@ -878,6 +878,7 @@ div.sectionBody iframe{
 .downloadmaterials{
 	font-size:0.8em;
 	font-weight: normal;
+	float: right;
 }
 .downloadmaterials img{
 	vertical-align: top;
