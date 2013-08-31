@@ -137,13 +137,13 @@ class mJournal_Documents_Model extends emBase_Model {
 			
 		$lCon = $this->m_con;
 		$lSql = 'SELECT d.*, js.title as journal_section_name, dv.id as layout_version_id,
-					(SELECT 
-						aggr_concat_coma(du.first_name || \' \' || du.last_name) as author_name 
-					FROM pjs.document_users du 
-					WHERE du.document_id = d.id AND du.role_id = ' . AUTHOR_ROLE . ' AND du.state_id = 1 
-					GROUP BY du.ord
-					ORDER BY du.ord 
-					) as authors_list
+					(SELECT aggr_concat_coma(a.author_name)
+						FROM (
+							SELECT (du.first_name || \' \' || du.last_name) as author_name 
+							FROM pjs.document_users du
+							WHERE du.document_id = d.id AND du.role_id = ' . AUTHOR_ROLE . ' AND du.state_id = 1
+							ORDER BY du.ord
+						) a) as authors_list
 					FROM pjs.documents d
 					LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id
 					LEFT JOIN pjs.document_versions dv ON dv.document_id = d.id AND dv.version_type_id = ' . DOCUMENT_VERSION_LE_TYPE . '
@@ -177,13 +177,13 @@ class mJournal_Documents_Model extends emBase_Model {
 			
 		$lCon = $this->m_con;
 		$lSql = 'SELECT d.*, js.title as journal_section_name, dv.id as layout_version_id,
-					(SELECT 
-						aggr_concat_coma(du.first_name || \' \' || du.last_name) as author_name 
-					FROM pjs.document_users du 
-					WHERE du.document_id = d.id AND du.role_id = ' . AUTHOR_ROLE . ' AND du.state_id = 1 
-					GROUP BY du.ord
-					ORDER BY du.ord 
-					) as authors_list
+					(SELECT aggr_concat_coma(a.author_name)
+						FROM (
+							SELECT (du.first_name || \' \' || du.last_name) as author_name 
+							FROM pjs.document_users du
+							WHERE du.document_id = d.id AND du.role_id = ' . AUTHOR_ROLE . ' AND du.state_id = 1
+							ORDER BY du.ord
+						) a) as authors_list
 					FROM pjs.documents d
 					JOIN pjs.document_users dou ON dou.document_id = d.id AND dou.uid = ' . (int)$pAuthorId . ' AND role_id = ' . AUTHOR_ROLE . '
 					LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id
