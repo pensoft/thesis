@@ -2006,9 +2006,9 @@ function getNextNode(pNode){
 	return null;
 }
 
-function GeneratePDFPreview(pVersionId) {
+function GeneratePDFPreview(pDocumentId) {
 	$('#P-Ajax-Loading-Image-Main').show();
-	document.location.href = gGeneratePDFAjaxSrv + '?version_id=' + pVersionId + '&readonly_preview=1';
+	document.location.href = gGeneratePDFAjaxSrv + '?document_id=' + pDocumentId + '&readonly_preview=1';
 	$('#P-Ajax-Loading-Image-Main').hide();
 	return;
 }

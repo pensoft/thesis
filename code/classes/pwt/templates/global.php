@@ -455,13 +455,14 @@ $gTemplArr = array(
 		                    </div>
 		                    <div class="white_list">
 		                        <h2>Getting started</h2>
-		                        <div>
+		                        <div style="height:155px;">
 		                            <ul>
 		                                <li>Write a manuscript online</li>
 		                                <li>Submit it at the click of a button</li>
 		                                <li>Easy online revisions and editing</li>
 		                            </ul>
 		                        </div>
+		                        <div class="pwt_free_homepage_text">Free to use</div>
 		                    </div>
 		                    <div class="blue_list">
 		                        <h2>Data and text publishing integrated</h2>
@@ -649,13 +650,14 @@ $gTemplArr = array(
 	                    </div>
 	                    <div class="white_list">
 	                        <h2>Getting started</h2>
-	                        <div>
+	                        <div style="height:155px;">
 	                            <ul>
 	                                <li>Write a manuscript online</li>
 	                                <li>Submit it at the click of a button</li>
 	                                <li>Easy online revisions and editing</li>
 	                            </ul>
 	                        </div>
+	                        <div class="pwt_free_homepage_text">Free to use</div>
 	                    </div>
 	                    <div class="blue_list">
 	                        <h2>Data and text publishing integrated</h2>

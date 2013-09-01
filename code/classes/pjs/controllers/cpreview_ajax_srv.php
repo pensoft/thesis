@@ -14,6 +14,7 @@ class cPreview_Ajax_Srv extends cBase_Controller {
 	var $m_ReadOnlyPreview;
 	var $m_versionModel;
 	var $m_mode = 0;
+	var $m_documentId;
 	
 	/**
 	 * @param $pMode - if this preview is used for PDF or for HTML view
@@ -29,47 +30,60 @@ class cPreview_Ajax_Srv extends cBase_Controller {
 
 		$pViewPageObjectsDataArray = array();
 		$this->m_versionId = (int)$this->GetValueFromRequestWithoutChecks('version_id');
+		$this->m_documentId = (int)$this->GetValueFromRequestWithoutChecks('document_id');
 		
 		$this->m_ReadOnlyPreview = 0;
 
 		$this->m_versionModel = new mVersions();
-		$lIsReadonly = $this->m_versionModel->CheckIfVersionIsReadonly($this->m_versionId);		
-		if($lIsReadonly) {
+		
+		if($this->m_documentId && $pMode) {
+				
+			$lXmlData = $this->m_versionModel->GetArticleXml($this->m_documentId);
+			$this->m_versionXml = $lXmlData['xml'];	
 			$this->m_ReadOnlyPreview = 1;
-		}
-		$this->m_documentPwtId = $this->m_versionModel->GetVersionDocumentPwtId($this->m_versionId);
-
-		try{
-			if($this->m_versionModel->CheckIfVersionHasUnprocessedPwtChanges($this->m_versionId)){
-				$lProcession = $this->m_versionModel->ProcessVersionPwtChanges($this->m_versionId);
-
-				if($lProcession['err_cnt']){
-					throw  new Exception($lProcession['err_msgs'][0]['err_msg']);
+			$this->m_documentPwtId = $lXmlData['pwt_id'];
+			
+		} else {
+			$lIsReadonly = $this->m_versionModel->CheckIfVersionIsReadonly($this->m_versionId);		
+			if($lIsReadonly) {
+				$this->m_ReadOnlyPreview = 1;
+			}
+			$this->m_documentPwtId = $this->m_versionModel->GetVersionDocumentPwtId($this->m_versionId);
+	
+			try{
+				if($this->m_versionModel->CheckIfVersionHasUnprocessedPwtChanges($this->m_versionId)){
+					$lProcession = $this->m_versionModel->ProcessVersionPwtChanges($this->m_versionId);
+	
+					if($lProcession['err_cnt']){
+						throw  new Exception($lProcession['err_msgs'][0]['err_msg']);
+					}
 				}
+				$lXmlData = $this->m_versionModel->GetVersionPwtXml($this->m_versionId);
+	// 			var_dump($lXmlData);
+				if($lXmlData['err_cnt']){
+					throw new Exception($lProcession['err_msgs'][0]['err_msg']);
+				}
+				$this->m_versionXml = $lXmlData['xml'];			
+				if(!$lXmlData['is_cached']){
+					$lCommentsModel = new mComments();
+					$lInstanceComments = $lCommentsModel->GetVersionInstanceComments($this->m_versionId);
+					$this->m_versionXml = InsertDocumentCommentPositionNodes($this->m_versionXml, $lInstanceComments);				
+				}
+	// 			var_dump($this->m_versionXml);
+	
+			}catch(Exception $pException){
+				$this->m_errCnt++;
+				$this->m_errMsgs[] = array('err_msg' => $pException->getMessage());
 			}
-			$lXmlData = $this->m_versionModel->GetVersionPwtXml($this->m_versionId);
-// 			var_dump($lXmlData);
-			if($lXmlData['err_cnt']){
-				throw new Exception($lProcession['err_msgs'][0]['err_msg']);
-			}
-			$this->m_versionXml = $lXmlData['xml'];			
-			if(!$lXmlData['is_cached']){
-				$lCommentsModel = new mComments();
-				$lInstanceComments = $lCommentsModel->GetVersionInstanceComments($this->m_versionId);
-				$this->m_versionXml = InsertDocumentCommentPositionNodes($this->m_versionXml, $lInstanceComments);				
-			}
-// 			var_dump($this->m_versionXml);
-
-		}catch(Exception $pException){
-			$this->m_errCnt++;
-			$this->m_errMsgs[] = array('err_msg' => $pException->getMessage());
 		}
 
 		$this->GetDocumentPreview();
 		
-		$lVersionUidChanges = $this->m_versionModel->GetVersionPwtChangeUserIds($this->m_versionId);
 		$pViewPageObjectsDataArray = array();
-		$pViewPageObjectsDataArray['users_with_changes'] = $lVersionUidChanges;
+		if(!$this->m_documentId || !$pMode) {
+			$lVersionUidChanges = $this->m_versionModel->GetVersionPwtChangeUserIds($this->m_versionId);
+			$pViewPageObjectsDataArray['users_with_changes'] = $lVersionUidChanges;
+		}
 		global $user;		
 		if($this->m_errCnt){
 			$pViewPageObjectsDataArray['contents'] = array(

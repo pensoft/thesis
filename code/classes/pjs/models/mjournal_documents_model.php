@@ -25,8 +25,8 @@ class mJournal_Documents_Model extends emBase_Model {
 	function ConvertFilterValues($pTaxonCats, $pSubjectCats, $pGeographicalCats, $pChronologicalCats, $pSectionType) {
 		$pTaxonCats = str_replace('t', '', $pTaxonCats);
 		$pSubjectCats = str_replace('s', '', $pSubjectCats);
-		$pGeographicalCats = str_replace('c', '', $pGeographicalCats);
-		$pChronologicalCats = str_replace('g', '', $pChronologicalCats);
+		$pGeographicalCats = str_replace('g', '', $pGeographicalCats);
+		$pChronologicalCats = str_replace('c', '', $pChronologicalCats);
 		$pSectionType = implode(',', $pSectionType);
 		
 		$lResult = array(
@@ -36,7 +36,7 @@ class mJournal_Documents_Model extends emBase_Model {
 			'chronical' => '',
 			'sectionType' => '',
 		);
-		
+
 		$lCon = $this->m_con;
 		if(strlen($pTaxonCats) > 0){
 			$lSql = "SELECT name FROM taxon_categories WHERE id IN ($pTaxonCats)";

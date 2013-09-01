@@ -169,7 +169,6 @@ $gTemplArr = array (
 	// Localities
 	'article.localities_list_head' => '
 		<div class="P-Article-Structures">
-			<div class="P-Article-StructureHead">Localities</div>
 			<div class="P-Localities-Map" id="localitiesMap"></div>			
 			<script>LoadMapScript()</script>
 			<div class="P-Localities-Menu">
@@ -204,7 +203,7 @@ $gTemplArr = array (
 	
 	'article.localities_nolocalities' => '
 		<div class="P-Article-Structures">
-			<div class="P-Article-StructureHead">Localities</div>			
+					
 			<div class="P-Localities-Menu">
 				<div class="P-Localities-Menu-Row">
 					<span class="P-Clear-Localities"> ' . getstr('pjs.articleNoLocalities') . '</span>

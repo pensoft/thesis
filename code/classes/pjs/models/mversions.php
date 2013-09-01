@@ -1954,5 +1954,32 @@ class mVersions extends emBase_Model {
 		return $lResult;
 	}
 
+	function GetArticleXml($pDocumentId) {
+		$lResult = array(
+			'pwt_id' => 0,
+			'xml' => ''
+		);
+		$lCon = $this->m_con;
+
+		$lSql = '
+			SELECT 
+				pd.pwt_id,
+				aci.cached_val
+			FROM pjs.pwt_documents pd
+			JOIN pjs.articles a ON a.pwt_document_id = pd.pwt_id
+			JOIN pjs.article_cached_items aci ON aci.article_id = a.id AND aci.item_type = 1
+			WHERE pd.document_id = ' . (int)$pDocumentId . '
+			LIMIT 1
+		';
+		file_put_contents('/tmp/test11.log', $lSql);
+		// var_dump($lSql);
+		// exit;
+		$lCon->Execute($lSql);
+		$lResult['pwt_id'] = $lCon->mRs['pwt_id'];
+		$lResult['xml'] = $lCon->mRs['cached_val'];
+
+		return $lResult;
+	}
+
 }
 ?>

@@ -16,21 +16,25 @@ class mMenu_Model extends emBase_Model {
 	 *        	level contents of the menu will be returned
 	 */
 	function GetMenuContentsList($pMenuId, $pLanguage, $pGoRecursively = 1) {
+		global $user;
 		$lResult = array();
-		$lCon = $this->m_con;
-		$lSql = 'SELECT id, ' . getsqlang('name', $pLanguage) . ', ' . getsqlang('href', $pLanguage) . ',' . getsqlang('img', $pLanguage) . ', type, parentid
-			FROM getMenuContents(' . (int)$pMenuId . ', 0,' . (int)CMS_SITEID . ',' . $pLanguage . ')';
-
-		if(!$pGoRecursively){
-			$lSql .= 'WHERE parentid = ' . (int)$pMenuId;
+		if($user->id && $user->staff) {
+			$lCon = $this->m_con;
+			$lSql = 'SELECT id, ' . getsqlang('name', $pLanguage) . ', ' . getsqlang('href', $pLanguage) . ',' . getsqlang('img', $pLanguage) . ', type, parentid
+				FROM getMenuContents(' . (int)$pMenuId . ', 0,' . (int)CMS_SITEID . ',' . $pLanguage . ')';
+	
+			if(!$pGoRecursively){
+				$lSql .= 'WHERE parentid = ' . (int)$pMenuId;
+			}
+	
+	// 		var_dump($lSql);
+			$lCon->Execute($lSql);
+			while(! $lCon->Eof()){
+				$lResult[] = $lCon->mRs;
+				$lCon->MoveNext();
+			}
 		}
-
-// 		var_dump($lSql);
-		$lCon->Execute($lSql);
-		while(! $lCon->Eof()){
-			$lResult[] = $lCon->mRs;
-			$lCon->MoveNext();
-		}
+		
 // 		var_dump($lResult);
 		return $lResult;
 	}

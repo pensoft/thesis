@@ -9,11 +9,11 @@ ini_set('display_errors', 'off');
 
 header("Content-Type: application/pdf");
 
-$lVersionid = (int)$_REQUEST['version_id'];
+$lDocumentid = (int)$_REQUEST['document_id'];
 $lReadonly = (int)$_REQUEST['readonly_preview'];
 
-$lURLDocVersion = SITE_URL .  'generate_pdf.php?version_id=' . (int)$lVersionid . '&readonly_preview=' . (int)$lReadonly;
-$lFileName = 'pdf_preview_' . $lVersionid . '.pdf';
+$lURLDocVersion = SITE_URL .  'generate_pdf.php?document_id=' . (int)$lDocumentid . '&readonly_preview=' . (int)$lReadonly;
+$lFileName = 'pdf_preview_' . $lDocumentid . '.pdf';
 
 // load stylesheets
 $lArgs = '-s ' . escapeshellarg($docroot . '/lib/pdf.css');

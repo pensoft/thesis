@@ -6599,29 +6599,43 @@ function displayCitationsAuthorSeparator($pRecords, $pRownum, $pSeparator = ', '
 }
 
 function showTaxaNameUsage($pUsage){
-	$lResult = '';
+	$lResult = '<span class="taxon-usage-holder">
+					<span class="taxon-usage-caption">&nbsp;&nbsp;</span>';
+	$lRow = 0;
+	sort($pUsage);
 	foreach ($pUsage as $lUsage){
-		if($lResult){
-			$lResult .= ',';
+		if($lRow++){
+			$lResult .= ' | ';
 		}
 		switch($lUsage){
-			case TAXON_NAME_USAGE_FIGURE:
-				$lResult .= 'Figure';
-				break;
 			case TAXON_NAME_USAGE_TREATMENT :
-				$lResult .= 'Treatment';
+				$lResult .= '<span class="taxon-usage" title="Taxon treatment">
+								<img width="30" heigth="18" alt="" src="/i/TTR.png" style="vertical-align: middle;" />
+							</span>';
 				break;
 			case TAXON_NAME_USAGE_CHECKLIST_TREATMENT :
-				$lResult .= 'Checklist treatment';
+				$lResult .= '<span class="taxon-usage" title="Checklist">
+								<img width="30" heigth="18" alt="" src="/i/CHL.png" style="vertical-align: middle;" />
+							</span>';
 				break;
 			case TAXON_NAME_USAGE_ID_KEY :
-				$lResult .= 'Id. key';
+				$lResult .= '<span class="taxon-usage" title="Identification key">
+								<img width="30" heigth="18" alt="" src="/i/IKey.png" style="vertical-align: middle;" />
+							</span>';
+				break;
+			case TAXON_NAME_USAGE_FIGURE:
+				$lResult .= '<span class="taxon-usage" title="Figure">
+								<img width="30" heigth="18" alt="" src="/i/FI.png" style="vertical-align: middle;" />
+							</span>';
 				break;
 			case TAXON_NAME_USAGE_INLINE:
-				$lResult .= 'Inline';
+				$lResult .= '<span class="taxon-usage" title="In text">
+								<img width="30" heigth="18" alt="" src="/i/InText.png" style="vertical-align: middle;" />
+							</span>';
 				break;
 		}
 	}
+	$lResult .= '</span>';
 	return $lResult;
 }
 

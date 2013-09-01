@@ -327,6 +327,10 @@ a[href], label[for] {
 	padding-right: 15px;
 	border-bottom: 1px solid #BBB; 
 }
+.taxalistAOF .tn .authority{
+	display: none;
+}
+
 .suppl-list-AOF{
 	font-size: 11pt;
 	padding-bottom: 6px;
@@ -834,7 +838,7 @@ img.bhl-img {
 	color: #1F1F1F;
 }
 
-.P-Baloon .ref-doi, .ref-url, .authors-year{
+.P-Baloon .ref-doi, .P-Baloon .ref-url, .P-Baloon .authors-year{
 	display: inline;
 }
 
@@ -895,4 +899,42 @@ xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[
 	font-size: 11pt;
     padding: 15px;
 }
-.P-Label
+img.noBorderP{
+ 	max-height: 90px;
+    max-width: 134px;
+}
+
+
+.taxon-usage-holder {
+    display: inline-block;
+    float: right;
+    padding-right: 15px;
+}
+
+.taxon-usage {
+    text-align: center;
+    width: 30px !important;
+}
+.P-Aritlce-Share{
+	padding: 15px;
+}
+.P-Article-Share-Row{
+	padding: 0 0 15px;
+}
+
+.P-Article-Share-Row-Icon{
+	font-size: 11pt;
+	padding-left: 10px;
+}
+.P-Article-Metrics, .P-Related-Articles{
+	padding: 15px;
+	font-size: 11pt;
+}
+.P-Article-Metrics-Row, .P-Related-Articles-Row{
+	padding-bottom: 15px;
+}
+.P-Metric-Label{
+	display: inline-block;
+    width: 112px; 
+}
+

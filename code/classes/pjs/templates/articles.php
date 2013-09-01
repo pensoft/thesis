@@ -123,49 +123,49 @@ $gTemplArr = array(
 		
 		'articles.metrics' => '
 			<div class="P-Article-Metrics">
-				<div class="P-Article-Metrics-Row>
-					<div class="P-Metric-Label">Total HTML views:</div>
-					<div class="P-Metrics-Value">1023</div>
+				<div class="P-Article-Metrics-Row">
+					<span class="P-Metric-Label">Total HTML views:</span>
+					<span class="P-Metrics-Value">1023</span>
 				</div>
-				<div class="P-Article-Metrics-Row>
-					<div class="P-Metric-Label">Total PDF views:</div>
-					<div class="P-Metrics-Value">121</div>
+				<div class="P-Article-Metrics-Row">
+					<span class="P-Metric-Label">Total PDF views:</span>
+					<span class="P-Metrics-Value">121</span>
 				</div>
-				<div class="P-Article-Metrics-Row>
-					<div class="P-Metric-Label">Total XML views:</div>
-					<div class="P-Metrics-Value">37</div>
+				<div class="P-Article-Metrics-Row">
+					<span class="P-Metric-Label">Total XML views:</span>
+					<span class="P-Metrics-Value">37</span>
 				</div>
-				<div class="P-Article-Metrics-Row>
-					<div class="P-Metric-Label">Total views:</div>
-					<div class="P-Metrics-Value">1161</div>
+				<div class="P-Article-Metrics-Row">
+					<span class="P-Metric-Label">Total views:</span>
+					<span class="P-Metrics-Value">1161</span>
 				</div>
-			<div>
+			</div>
 		',
 		
 		'articles.share' => '
 			<div class="P-Aritlce-Share">
 				<div class="P-Article-Share-Row">
 					<div class="P-Article-Share-Row-Icon">
-						<img src="http://www.pensoft.net/img/facebook.gif" />
-					</div>
-					<div class="P-Article-Share-Row-Icon">
-						Share with Facebook
-					</div>
-				</div>
-				<div class="P-Article-Share-Row">
-					<div class="P-Article-Share-Row-Icon">
-						<img src="http://www.pensoft.net/img/twitter.png" />
-					</div>
-					<div class="P-Article-Share-Row-Icon">
-						Share with Twitter
+						<img src="i/fb.png" />
+						<span class="P-Article-Share-Row-Icon">
+							Share with Facebook
+						</span>
 					</div>
 				</div>
 				<div class="P-Article-Share-Row">
 					<div class="P-Article-Share-Row-Icon">
-						<img src="https://ssl.gstatic.com/images/icons/gplus-16.png" />
+						<img src="i/tw.png" />
+						<span class="P-Article-Share-Row-Icon">
+							Share with Twitter
+						</span>
 					</div>
+				</div>
+				<div class="P-Article-Share-Row">
 					<div class="P-Article-Share-Row-Icon">
-						Share with Google+
+						<img src="i/gplus.png" />
+						<span class="P-Article-Share-Row-Icon">
+							Share with Google+
+						</span>
 					</div>
 				</div>
 			</div>

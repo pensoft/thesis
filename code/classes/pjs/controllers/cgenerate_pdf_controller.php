@@ -9,9 +9,10 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 		$lDocumentPreview = $lPreviewController->m_action_result['preview'];
 		
 		$lVersionId = (int)$this->GetValueFromRequestWithoutChecks('version_id');
+		$lDocumentId = (int)$this->GetValueFromRequestWithoutChecks('document_id');
 		
 		$lVersionModel = new mVersions();
-		$lDocumentId = $lVersionModel->GetVersionDocumentPjsId($lVersionId);
+		//$lDocumentId = $lVersionModel->GetVersionDocumentPjsId($lVersionId);
 		
 		$lDocumentModel = new mDocuments_Model();
 		$lDocumentData = $lDocumentModel->GetDocumentInfoForPDF($lDocumentId);

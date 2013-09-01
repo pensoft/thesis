@@ -82,7 +82,7 @@ a:hover {
   color: #333;
   font-weight: bold;
   text-align: left;
-  font-family:HebarCond;
+  font-family:Helvetica;
 }
 .P-Article-Preview-Title p {
   margin: 0;
@@ -93,6 +93,7 @@ a:hover {
 }
 .P-Article-Preview-Names a {
   color: #0088CC;
+  cursor: pointer;
 }
 sub, sup {
   font-size: 75%;
