@@ -29,10 +29,10 @@ $gTemplArr = array(
 							<div class="filterBlockTitle">' . getstr('pjs.byalphabet') . '</div>
 							<div class="filterBlockContent">
 								<input id="author_first_letter" type="hidden" name="author_letter" value="{author_letter}" />
-								<a href="javascript: filterAuthorsLetter(\'affiliation_input\', {journal_id}, \'\')" class="green letter">All</a>&nbsp;&nbsp;&nbsp;<span style="color: #b0ada2;">|</span>
-								<div class="lettersHolder">
+								<a href="javascript: filterAuthorsLetter(\'affiliation_input\', {journal_id}, \'\')" class="green letter">All</a><span style="color: #b0ada2;">&nbsp;&nbsp;|&nbsp;</span>
+								<span class="lettersHolder">
 									{_getLetters(journal_id, \'affiliation_input\')}
-								</div>
+								</span>
 							</div>
 							<div class="P-Clear"></div>
 						</div>
