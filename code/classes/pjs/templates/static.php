@@ -1336,8 +1336,7 @@ function getLastFiveYears($pJournalId, $pSpecial, $pCntYears) {
 function getLetters($pJournalId, $pAffiliationId) {
 	$lRet = '';
 	foreach(range('A', 'Z') as $letter){
-		$lRet .= '
-					<a class="green letter" href="javascript: filterAuthorsLetter(' . $pAffiliationId . ', ' . (int) $pJournalId . ', \'' . $letter . '\')"> ' . $letter . '</a>';
+		$lRet .= '<a class="green letter" href="javascript: filterAuthorsLetter(' . $pAffiliationId . ', ' . (int) $pJournalId . ', \'' . $letter . '\')">' . $letter . '</a>';
 	}
 	return $lRet;
 }

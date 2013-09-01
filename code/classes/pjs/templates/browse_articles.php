@@ -40,7 +40,7 @@ $gTemplArr = array(
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
 							<a href="#">XML</a>
-							<a href="javascript: void(0)" onclick="GeneratePDFPreview({layout_version_id})" class="clearBorder">PDF</a>
+							<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})" class="clearBorder">PDF</a>
 						</div>
 					</div>
 				</div>
@@ -369,7 +369,7 @@ $gTemplArr = array(
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
 							<a href="#">XML</a>
-							<a href="javascript: void(0)" onclick="GeneratePDFPreview({layout_version_id})" class="clearBorder">PDF</a>
+							<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})" class="clearBorder">PDF</a>
 						</div>
 					</div>
 				</div>
