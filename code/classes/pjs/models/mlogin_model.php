@@ -84,6 +84,7 @@ class mLogin_Model extends emBase_Model {
 		$lResult['fax'] = $lCon->mRs['fax'];
 		$lResult['homepage'] = $lCon->mRs['homepage'];
 		$lResult['photo_id'] = (int)$lCon->mRs['photo_id'];
+		$lResult['staff'] = (int)$lCon->mRs['staff'];
 		$lResult['journals'] = array();
 
 	//~ $lResult['journals'] = array(
@@ -186,7 +187,7 @@ class mLogin_Model extends emBase_Model {
 		$lResult['phone'] = $lCon->mRs['phone'];
 		$lResult['fax'] = $lCon->mRs['fax'];
 		$lResult['homepage'] = $lCon->mRs['homepage'];
-
+		$lResult['staff'] = (int)$lCon->mRs['staff'];
 		$lResult['photo_id'] = (int)$lCon->mRs['photo_id'];
 		$lResult['journals'] = array();
 

@@ -156,6 +156,7 @@ $gTemplArr = array(
 						</ul>
 					</li>
 				</ul>
+				<div class="bdj_free_homepage_text">Free of charge in launch phase</div>
 			</div>
 			<div class="article_footer">
 				<img src="i/frog.png">

@@ -5365,4 +5365,13 @@ header .content_in {
 	margin-bottom:0px !important;
 }
 
+.pwt_free_homepage_text {
+	text-align: center;
+	color: rgb(128,0,0);
+	width:100% !important;
+	display: block !important;
+	margin-bottom:15px;
+	font-weight: bold !important;
+	height:auto !important
+}
 /* home page new styles END */
