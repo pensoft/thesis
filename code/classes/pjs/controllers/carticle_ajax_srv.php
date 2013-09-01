@@ -16,7 +16,7 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 		$this->m_action = $this->GetValueFromRequestWithoutChecks('action');
 		$this->m_action_result = array ();
 		$this->m_articlesModel = new mArticles();
-		$this->m_tempPageView = new pPage_Comments_Ajax_View();
+		$this->m_tempPageView = new pArticles_Ajax_Srv();
 		$this->m_articleId = (int) $this->GetValueFromRequestWithoutChecks('article_id');
 		
 		if (! $this->m_articleId) {
@@ -60,7 +60,7 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 			'err_msg' => $this->m_errMsg 
 		));
 		// var_dump($lResultArr);
-		$this->m_pageView = new epPage_Json_View($lResultArr);
+		$this->m_pageView = new pArticles_Ajax_Srv($lResultArr);
 	}
 
 	function GetMainListElement() {
@@ -95,7 +95,16 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 				break;
 			case (int) ARTICLE_MENU_ELEMENT_TYPE_CITATION :
 				$lResult = $this->m_articlesModel->GetCitationListHtml($this->m_articleId);
-				break;				
+				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_RELATED :
+				$lResult = $this->GetRelatedList();
+				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_METRICS :
+				$lResult = $this->GetMetricsList();
+				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_SHARE :
+				$lResult = $this->GetShareList();
+				break;
 		}
 		$this->m_action_result ['html'] = $lResult;
 	}
@@ -170,6 +179,30 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 	
 	function GetArticleLocalities(){
 		$this->m_action_result ['localities'] = $this->m_articlesModel->GetLocalities($this->m_articleId);
+	}
+	
+	function GetRelatedList(){
+		$lResult = new evSimple_Block_Display(array(
+			'name_in_viewobject' => 'related_list',
+			'view_object' => $this->m_tempPageView,
+		));
+		return $lResult->Display();
+	}
+	
+	function GetMetricsList(){
+		$lResult = new evSimple_Block_Display(array(
+			'name_in_viewobject' => 'metrics_list',
+			'view_object' => $this->m_tempPageView,
+		));
+		return $lResult->Display();
+	}
+	
+	function GetShareList(){
+		$lResult = new evSimple_Block_Display(array(
+			'name_in_viewobject' => 'share_list',
+			'view_object' => $this->m_tempPageView,
+		));
+		return $lResult->Display();
 	}
 }
 
