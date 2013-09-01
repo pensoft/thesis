@@ -86,9 +86,9 @@ $gTemplArr = array(
 						</ul>
 						<ul class="P-Info-Menu rightBar">' .
 							infoMenu(array(	
-								ARTICLE_MENU_ELEMENT_TYPE_Related  => 'Related',
-								ARTICLE_MENU_ELEMENT_TYPE_Metrics  => 'Metrics',
-								ARTICLE_MENU_ELEMENT_TYPE_Share  => 'Share',
+								ARTICLE_MENU_ELEMENT_TYPE_RELATED  => 'Related',
+								ARTICLE_MENU_ELEMENT_TYPE_METRICS  => 'Metrics',
+								ARTICLE_MENU_ELEMENT_TYPE_SHARE  => 'Share',
 							)) . '
 						</ul>
 						{_createArticleObjectMenu(object_existence)}					
@@ -103,6 +103,73 @@ $gTemplArr = array(
 			</div>								
 						
 		',	
+		
+		'articles.related' => '
+			<div class="P-Related-Articles">
+				<div class="P-Related-Articles-Row">
+					<a href="#">Article 1</a>
+				</div>
+				<div class="P-Related-Articles-Row">
+					<a href="#">Article 2</a>
+				</div>
+				<div class="P-Related-Articles-Row">
+					<a href="#">Article 3</a>
+				</div>
+				<div class="P-Related-Articles-Row">
+					<a href="#">Article 4</a>
+				</div>
+			</div>
+		',
+		
+		'articles.metrics' => '
+			<div class="P-Article-Metrics">
+				<div class="P-Article-Metrics-Row>
+					<div class="P-Metric-Label">Total HTML views:</div>
+					<div class="P-Metrics-Value">1023</div>
+				</div>
+				<div class="P-Article-Metrics-Row>
+					<div class="P-Metric-Label">Total PDF views:</div>
+					<div class="P-Metrics-Value">121</div>
+				</div>
+				<div class="P-Article-Metrics-Row>
+					<div class="P-Metric-Label">Total XML views:</div>
+					<div class="P-Metrics-Value">37</div>
+				</div>
+				<div class="P-Article-Metrics-Row>
+					<div class="P-Metric-Label">Total views:</div>
+					<div class="P-Metrics-Value">1161</div>
+				</div>
+			<div>
+		',
+		
+		'articles.share' => '
+			<div class="P-Aritlce-Share">
+				<div class="P-Article-Share-Row">
+					<div class="P-Article-Share-Row-Icon">
+						<img src="http://www.pensoft.net/img/facebook.gif" />
+					</div>
+					<div class="P-Article-Share-Row-Icon">
+						Share with Facebook
+					</div>
+				</div>
+				<div class="P-Article-Share-Row">
+					<div class="P-Article-Share-Row-Icon">
+						<img src="http://www.pensoft.net/img/twitter.png" />
+					</div>
+					<div class="P-Article-Share-Row-Icon">
+						Share with Twitter
+					</div>
+				</div>
+				<div class="P-Article-Share-Row">
+					<div class="P-Article-Share-Row-Icon">
+						<img src="https://ssl.gstatic.com/images/icons/gplus-16.png" />
+					</div>
+					<div class="P-Article-Share-Row-Icon">
+						Share with Google+
+					</div>
+				</div>
+			</div>
+		',
 		
 );
 

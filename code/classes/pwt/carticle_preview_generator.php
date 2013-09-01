@@ -898,20 +898,10 @@ class carticle_preview_generator extends csimple {
 	}
 	
 	protected function CheckIfTaxonIsInArrayForListPreview(&$pArrayForList, &$pTaxon){
-		$lDebug = 0;
-		if($pTaxon['text'] == 'Acanthocephala'){
-			$lDebug = 1;
-		}
-		foreach ($pArrayForList as $lKey => $lCurrentTaxon){
-// 			if($lDebug){
-// 				var_dump($lCurrentTaxon);
-// 			}
+		foreach ($pArrayForList as $lKey => $lCurrentTaxon){ 		
 			if(count($lCurrentTaxon['names']) != count($pTaxon['names'])){
 				continue;
 			}
-// 			if($lDebug){
-// 				var_dump($lCurrentTaxon['parts']);
-// 			}
 			foreach ($lCurrentTaxon['names'] as $lName){
 				if(!in_array($lName, $pTaxon['names'])){
 					continue 2;
