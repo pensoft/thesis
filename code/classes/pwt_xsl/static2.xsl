@@ -155,13 +155,15 @@
 	<!-- AUTHORS -->
 	<xsl:template name="authors">
 		<xsl:param name="pDocumentNode" />
-		<xsl:if test="$pPDFPreviewMode = 0">
-			<div class="P-Article-Preview-Names">
+		
+		<div class="P-Article-Preview-Names">
+			<xsl:if test="$pInArticleMode = 1">
 				<a onclick="toogleArticleInfo()">
 					<img style="padding-right:6px" alt="expand article info" id="arrow">
 						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/arrow-down-icon.png</xsl:attribute>
 					</img>
 				</a>
+			</xsl:if>
 				<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']">
 					<xsl:apply-templates select="." mode="singleAuthor" />
 					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
@@ -209,7 +211,6 @@
 					</tbody>
 				</table>
 			</div>
-		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="*" mode="singleAuthor">

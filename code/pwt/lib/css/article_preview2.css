@@ -267,6 +267,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   border: 1px solid #e2e2dc;
   padding: 6px;
   text-align: left;
+  vertical-align: top;
 }
 .myfieldHolder {
   clear: both;
