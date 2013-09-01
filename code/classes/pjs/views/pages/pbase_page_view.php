@@ -21,7 +21,9 @@ class pBase_Page_View extends epPage_View {
 		$this->m_objectsMetadata['journal_menu'] = array(
 			'templs' => array(
 				G_HEADER => 'menu.journal-head',
+				G_STARTRS => 'menu.journal-startrs',
 				G_ROWTEMPL => 'menu.journal-row',
+				G_ENDRS => 'menu.journal-endrs',
 				G_FOOTER => 'menu.journal-foot'
 			)
 		);

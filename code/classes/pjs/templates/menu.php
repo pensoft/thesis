@@ -18,15 +18,21 @@ $gTemplArr = array(
 	// PJS Journal Menu
 	
 	'menu.journal-head' => '
+	',
+	
+	'menu.journal-startrs' => '
 							<div id="subMenuWrapper">
 								<!--<img src="i/subMenuRight.png" alt="RIghe Line" />-->
 								<div id="subMenu">
 	',
 	
-	'menu.journal-foot' => '
+	'menu.journal-endrs' => '
 								</div>
 								<img src="i/subMenuLeft.png" alt="Left Line" />
 							</div>
+	',
+	
+	'menu.journal-foot' => '
 	',
 	
 	'menu.journal-row0' => '<a class="menu_btn menu_btn_large" href="{href}">{name}</a>',

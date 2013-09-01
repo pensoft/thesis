@@ -24,7 +24,8 @@ class mUser{
 		$this->firstname = $pData['firstname'];
 		$this->middlename = $pData['middlename'];
 		$this->lastname = $pData['lastname'];
-
+		$this->staff = $pData['staff'];
+		
 		$this->about = $pData['about'];
 		$this->phone = $pData['phone'];
 		$this->fax = $pData['fax'];
