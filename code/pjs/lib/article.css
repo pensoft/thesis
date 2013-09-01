@@ -915,3 +915,26 @@ img.noBorderP{
     text-align: center;
     width: 30px !important;
 }
+.P-Aritlce-Share{
+	padding: 15px;
+}
+.P-Article-Share-Row{
+	padding: 0 0 15px;
+}
+
+.P-Article-Share-Row-Icon{
+	font-size: 11pt;
+	padding-left: 10px;
+}
+.P-Article-Metrics, .P-Related-Articles{
+	padding: 15px;
+	font-size: 11pt;
+}
+.P-Article-Metrics-Row, .P-Related-Articles-Row{
+	padding-bottom: 15px;
+}
+.P-Metric-Label{
+	display: inline-block;
+    width: 112px; 
+}
+
