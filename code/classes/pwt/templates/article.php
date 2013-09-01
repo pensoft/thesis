@@ -169,7 +169,6 @@ $gTemplArr = array (
 	// Localities
 	'article.localities_list_head' => '
 		<div class="P-Article-Structures">
-			<div class="P-Article-StructureHead">Localities</div>
 			<div class="P-Localities-Map" id="localitiesMap"></div>			
 			<script>LoadMapScript()</script>
 			<div class="P-Localities-Menu">
@@ -204,7 +203,7 @@ $gTemplArr = array (
 	
 	'article.localities_nolocalities' => '
 		<div class="P-Article-Structures">
-			<div class="P-Article-StructureHead">Localities</div>			
+					
 			<div class="P-Localities-Menu">
 				<div class="P-Localities-Menu-Row">
 					<span class="P-Clear-Localities"> ' . getstr('pjs.articleNoLocalities') . '</span>
@@ -457,7 +456,7 @@ $gTemplArr = array (
 			</table>
 			<div class="sectionBody">
 				{images}
-				<div class="unfloat"></div>
+				<div class="P-Clear"></div>
 			</div>
 		</div>
 	',
@@ -562,7 +561,7 @@ $gTemplArr = array (
 	',
 	
 	'article.category_regular_sites_row' => '
-				<div class="P-Regular-Site-Info-Holder">
+				<div class="P-Regular-Site-Info-Holder {_displayRegularSiteHasResultsClass(has_results)} {_displayRegularSiteLastRowClass(rownum, records, items_on_row)}">
 					<table cellspacing="0" cellpadding="0" border="0" width="100%" height="100%">
 						<td class="leftMenuRowImage">
 							<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, taxon_link, 0, use_post_action, fields_to_post)}">

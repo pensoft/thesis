@@ -85,7 +85,7 @@ $BODY$
 					lRes.instance_id = lRecord2.id;
 					lRes.display_name = lRecord2.display_name;
 					lRes.has_children = 0;
-					IF lChildrenCount > 1 THEN 
+					IF lChildrenCount > 1 or lRecord2.object_id = lTreatmentsObjectId THEN 
 						lRes.pos = lRecord2.pos;
 						lRes.level = char_length(lRecord2.pos) / 2;		
 						lRes.parent_instance_id = lRecord.id;					
