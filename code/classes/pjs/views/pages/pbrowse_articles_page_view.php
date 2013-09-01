@@ -18,6 +18,8 @@ class pBrowse_Articles_Page_View extends pBase_Page_View {
 			);
 		}
 
+		$this->m_defTempls[G_FORM_CHECKBOX_ROW] = 'form.checkbox_input_row_filer_articles';
+
 		$this->m_objectsMetadata['browse_articles_list_templs'] = array(
 			'templs' => array(
 				G_STARTRS => 'browse_articles.startrs',

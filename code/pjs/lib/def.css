@@ -6898,3 +6898,15 @@ button.button_tasks span {
 .authorInfoHolder .Prof-Photo {
 	width:70px;
 }
+
+.filterBlockContent input[type="checkbox"] {
+	width:15px !important;
+}
+
+.fund_ag {
+	width:100% !important;
+}
+
+.fund_ag input{
+	margin-right: 0px !important;
+}

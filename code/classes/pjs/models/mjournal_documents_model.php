@@ -96,7 +96,7 @@ class mJournal_Documents_Model extends emBase_Model {
 		
 	}
 	
-	function GetJournalArticles($pJournalId, $pPage, $pSectionTypesArr, $pTaxon, $pSubject, $pChronological, $pGeographical, $pFromDate, $pToDate) {
+	function GetJournalArticles($pJournalId, $pPage, $pSectionTypesArr, $pTaxon, $pSubject, $pChronological, $pGeographical, $pFromDate, $pToDate, $pFundingAgency) {
 		/*$pTaxon = substr($pTaxon, 1);
 		$pSubject = substr($pSubject, 1);
 		$pChronological = substr($pChronological, 1);
@@ -134,6 +134,10 @@ class mJournal_Documents_Model extends emBase_Model {
 		if(strlen($pToDate) > 0){
 			$lAnd .= ' AND d.publish_date < \'' . $pToDate . '\'::timestamp ';
 		}
+		if(strlen($pFundingAgency) > 0){
+			$lAnd .= ' AND ((d.supporting_agencies_texts like \'%' . $pFundingAgency . '%\') OR ';
+			$lAnd .= ' (ARRAY(select id from supporting_agencies where title like \'%' . $pFundingAgency . '%\') && (d.supporting_agencies_ids))) ';
+		}
 			
 		$lCon = $this->m_con;
 		$lSql = 'SELECT d.*, js.title as journal_section_name, dv.id as layout_version_id,
@@ -151,7 +155,7 @@ class mJournal_Documents_Model extends emBase_Model {
 						AND d.is_published = TRUE
 						' . $lAnd . '
 					ORDER BY d.publish_date DESC';
-		//var_dump($lSql);
+		// var_dump($lSql);
 		$lCon->Execute($lSql);
 		
 		$lCon->SetPage(DEFAULT_PAGE_SIZE, $pPage);
