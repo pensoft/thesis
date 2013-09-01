@@ -6684,7 +6684,7 @@ table.no_bold_class td a {
 }
 
 .landing_wrap .content_article > ul {
-    padding: 50px 0 30px;
+    padding: 50px 0 15px;
 }
 
 .landing_wrap .content_article > ul > li {
@@ -6915,4 +6915,13 @@ button.button_tasks span {
 
 .green.letter:hover{
 	 background: url("../i/menuHover.png") repeat-x scroll 0 0 transparent;
+}
+
+.bdj_free_homepage_text {
+	text-align: center;
+	color: rgb(128,0,0);
+	width:100%;
+	display: block;
+	margin-bottom:15px;
+	font-weight: bold;
 }
