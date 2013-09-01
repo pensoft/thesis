@@ -196,7 +196,7 @@ $gTemplArr = array(
 					<div class="P-Bread-Crumbs {_showLockedErrorClass(document_is_locked, document_lock_usr_id, without_warning)} {_showValidationErrorClass(xml_errors, xml_validation)}">
 						{_showDocumentLockWarning(document_is_locked, document_lock_usr_id, without_warning)}						
 						{_showValidationErrorDiv(xml_errors, xml_validation)}
-						<div class="P-Path"><a href="/index.php"><img class="pathHomeImg" src="./i/home_path.png" alt="My manuscripts"/></a>{path}</div>
+						<div class="P-Path"><a href="/dashboard.php"><img class="pathHomeImg" src="./i/home_path.png" alt="My manuscripts"/></a>{path}</div>
 						<div class="P-SavePreview-Btns">
 							<div class="P-RevHistory"><a href="/preview_revisions.php?document_id={document_id}">Revision History</a></div>
 							{_displayTopRightButtons( document_is_locked, preview_mode, document_id)}
@@ -213,7 +213,7 @@ $gTemplArr = array(
 					<div class="P-Bread-Crumbs {_showLockedErrorClass(document_is_locked, document_lock_usr_id, without_warning, preview_is_readonly)} {_showValidationErrorClass(xml_errors, xml_validation)}">
 						{_showDocumentLockWarning(document_is_locked, document_lock_usr_id, without_warning, preview_is_readonly)}
 						{_showValidationErrorDiv(xml_errors, xml_validation)}
-						<div class="P-Path"><a href="/index.php"><img class="pathHomeImg" src="./i/home_path.png" alt="My manuscripts"/></a>{path}</div>
+						<div class="P-Path"><a href="/dashboard.php"><img class="pathHomeImg" src="./i/home_path.png" alt="My manuscripts"/></a>{path}</div>
 						<div class="P-SavePreview-Btns">
 							<div class="P-RevHistory"><a href="/preview_revisions.php?document_id={document_id}">Revision History</a></div>
 							{_displayTopRightButtons( document_is_locked, preview_mode, document_id)}

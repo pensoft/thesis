@@ -214,6 +214,8 @@ $gTemplArr = array(
 									for ( var i = 0; i < lSelectedCats.length; i++) {
 										$("#alerts_chronical_cats_autocomplete").tokenInput("add", lSelectedCats[i]);
 									}
+									initComplete = true;
+									gFormToSubmit = \'filter_articles\';
 									//]]>
 								</script>
 							</div>
@@ -246,7 +248,7 @@ $gTemplArr = array(
 											buttonImageOnly: true,
 											dateFormat: \'dd/mm/yy\',
 											onSelect: function(dateStr) {
-												
+												$(\'#filter_articles\').submit();
 											}
 										});
 									});
@@ -268,20 +270,21 @@ $gTemplArr = array(
 								' . getstr('pjs.byfundingagency') . '
 							</div>
 							<div class="filterBlockContent">
-								<div class="fieldHolder bigColField">
+								<div class="fieldHolder bigColField fund_ag">
 									{funding_agency}
 								</div>
 								<div class="P-Clear"></div>
 							</div>
 						</div>
 						<div class="buttonsHolder">
-							<div class="P-Green-Btn-Holder">
+							<!--<div class="P-Green-Btn-Holder">
 								<div class="P-Green-Btn-Left"></div>
 								<div class="P-Green-Btn-Middle P-80">
+								-->
 										{Filter}
-								</div>
+								<!-- </div>
 								<div class="P-Green-Btn-Right"></div>
-							</div>
+							</div>-->
 							<div class="P-Grey-Btn-Holder">
 								<div class="P-Grey-Btn-Left"></div>
 								<a class="P-Grey-Btn-Middle" href="/browse_journal_articles.php?journal_id={@journal_id}">' . getstr('pjs.clear_filters') . '</a>

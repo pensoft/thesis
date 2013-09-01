@@ -132,7 +132,7 @@ $gTemplArr = array(
 							if (typeof initComplete == "boolean" && initComplete)
 							{
 								//console.log("Init is complete; this is a user add");
-								$("#filter_groups").submit();
+								$(\'#\' + gFormToSubmit).submit();
 							}
 						},
 						onDelete: function(item){
@@ -141,7 +141,7 @@ $gTemplArr = array(
 								$("#tree{html_identifier}").dynatree("getTree").getNodeByKey(item.id).select(false);
 								$("#tree{html_identifier}").dynatree("getTree").getNodeByKey(item.id).deactivate();
 							}
-							$("#filter_groups").submit();
+							$(\'#\' + gFormToSubmit).submit();
 						}
 					}
 				);

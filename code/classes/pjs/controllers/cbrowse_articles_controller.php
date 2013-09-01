@@ -157,12 +157,20 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 					'VType' => 'string',
 					'AllowNulls' => true,
 					'DisplayName' => '',
+					'AddTags' => array(
+						'onblur' => '$(\'#filter_articles\').submit()',
+						'style' => 'width:100% !important',
+						'class' => 'fund_ag',
+					),
 				),
 				'Filter' => array(
 					'CType' => 'action',
 					//'SQL' => 'SELECT 1',
 					'DisplayName' => getstr('pjs.filter'),
 					'ActionMask' =>  ACTION_CHECK | ACTION_CCHECK | ACTION_SHOW,
+					'AddTags' => array(
+						'style' => 'display:none'
+					),
 				),
 				'showedit' => array(
 					'CType' => 'action',
@@ -181,7 +189,8 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 				'js_validation' => 0,
 				'form_name' => 'filter_articles',
 				'dont_close_session' => true,
-				'fields_metadata' => $lFieldsMetadataTempl
+				'fields_metadata' => $lFieldsMetadataTempl,
+				'htmlformid' => 'filter_articles',
 			);
 			
 			$lTrees = array_merge( 
@@ -208,7 +217,8 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 				$lForm->wGetFieldValue('alerts_chronical_cats'),
 				$lForm->wGetFieldValue('alerts_geographical_cats'),
 				$lForm->wGetFieldValue('from_date'),
-				$lForm->wGetFieldValue('to_date')
+				$lForm->wGetFieldValue('to_date'),
+				$lForm->wGetFieldValue('funding_agency')
 			);
 			//var_dump($lTrees);
 			//var_dump($lForm->wGetFieldValue('section_type'));
