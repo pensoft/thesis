@@ -5678,8 +5678,7 @@ td.categories {
 }
 
 .lettersHolder {
-	float: right;
-	width: 300px;
+	width: 290px;
 }
 
 .authorInfoHolder {
@@ -6670,7 +6669,7 @@ table.no_bold_class td a {
     margin: 0;
     padding: 0 0 0 28px;
     font-style:italic;
-    background: url(/i/quote_1.png) no-repeat;
+    /*background: url(/i/quote_1.png) no-repeat;*/
     text-shadow:1px 1px 0px rgb(56,79,54);
 }
 
@@ -6909,4 +6908,11 @@ button.button_tasks span {
 
 .fund_ag input{
 	margin-right: 0px !important;
+}
+.green.letter{
+	padding: 5px 1.5px;
+}
+
+.green.letter:hover{
+	 background: url("../i/menuHover.png") repeat-x scroll 0 0 transparent;
 }
