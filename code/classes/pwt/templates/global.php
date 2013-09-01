@@ -437,7 +437,7 @@ $gTemplArr = array(
 		                    </header>
 		                    <div class="content_in">
 		                        <div class="info_block">
-		                            <a href="#"><img src="/i/content/info_block.png" /></a>
+		                            <a href="' . PJS_SITE_URL . '/about#Howitworks" target="_blank"><img src="/i/content/info_block.png" /></a>
 		                        </div>
 		                    </div>
 		                    {content}
@@ -506,6 +506,7 @@ $gTemplArr = array(
 		                </ul>
 		            </footer>
 				</div>
+				<div id="P-Registration-Content" style="display: none;"></div>
 			{*global.htmlendcontent}
 	',
 	
@@ -627,7 +628,7 @@ $gTemplArr = array(
                     </header>
                     <div class="content_in">
                         <div class="info_block">
-                            <a href="#"><img src="/i/content/info_block.png" /></a>
+                            <a href="' . PJS_SITE_URL . '/about#Howitworks" target="_blank"><img src="/i/content/info_block.png" /></a>
                         </div>
                     </div>
                     <div class="sidebar">
