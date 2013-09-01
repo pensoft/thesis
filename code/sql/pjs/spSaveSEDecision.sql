@@ -102,6 +102,13 @@ $BODY$
 		
 		-- Change document state
 		IF pDecisionId = lAcceptDecisionId THEN
+		
+			UPDATE pjs.documents 
+				SET 
+					is_approved = TRUE, 
+					approve_date = now() 
+			WHERE id = lDocumentId;
+			
 			IF EXISTS (
 				SELECT * 
 				FROM pjs.documents
