@@ -184,38 +184,38 @@ function LoadElementInfo(pActionName, pElementId, pElementName){
 
 function LoadFigureInfo(pElementId){
 	LoadElementInfo('get_figure_element', pElementId);
-	console.log('Fig ' + pElementId);
+//	console.log('Fig ' + pElementId);
 	//LoadElementInfo('get_figure_element', 1);
 }
 
 function LoadTableInfo(pElementId){
 	LoadElementInfo('get_table_element', pElementId);
-	console.log('Table ' + pElementId);
+//	console.log('Table ' + pElementId);
 	//LoadElementInfo('get_table_element', 5);
 }
 
 function LoadSupFileInfo(pElementId){
 	LoadElementInfo('get_sup_file_element', pElementId);
-	console.log('Sup file ' + pElementId);
+//	console.log('Sup file ' + pElementId);
 	//LoadElementInfo('get_sup_file_element', 4);
 }
 
 function LoadReferenceInfo(pElementId){
 	LoadElementInfo('get_reference_element', pElementId);
-	console.log('Reference ' + pElementId);
+//	console.log('Reference ' + pElementId);
 	//LoadElementInfo('get_reference_element', 9);
 }
 
 function LoadTaxonInfo(pTaxonName){
 	pTaxonName = PrepareTaxonName(pTaxonName);
 //	LoadElementInfo('get_taxon_element', '', pTaxonName);
-	console.log('Taxon ' + pTaxonName);
+//	console.log('Taxon ' + pTaxonName);
 	LoadElementInfo('get_taxon_element', '', pTaxonName);
 }
 
 function LoadAuthorInfo(pElementId){
 	LoadElementInfo('get_author_element', pElementId);
-	console.log('Author ' + pElementId);
+//	console.log('Author ' + pElementId);
 //	LoadElementInfo('get_author_element', 4);
 }
 

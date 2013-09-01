@@ -6619,4 +6619,19 @@ function showTextIfErrors($pArr) {
 	return '';
 }
 
+function displayRegularSiteHasResultsClass($pSiteHasResults){
+	if(!(int)$pSiteHasResults){
+		return ' P-Regular-Site-Row-Without-Results';
+	}
+}
+
+function displayRegularSiteLastRowClass($pRownum, $pRecords, $pItemsOnRow){
+	if((int)$pRecords != (int)$pRownum){
+		return;
+	}
+	if($pRownum % $pItemsOnRow != 0){//The row contains less rows than it has capacity for
+		return ' P-Regular-Site-Row-Last-Larger';
+	}
+	return ' P-Regular-Site-Row-Last-Regular';
+}
 ?>
