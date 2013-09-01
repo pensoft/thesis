@@ -6580,6 +6580,7 @@ function showTaxaNameUsage($pUsage){
 	$lResult = '<span class="taxon-usage-holder">
 					<span class="taxon-usage-caption">&nbsp;&nbsp;</span>';
 	$lRow = 0;
+	sort($pUsage);
 	foreach ($pUsage as $lUsage){
 		if($lRow++){
 			$lResult .= ' | ';
@@ -6597,17 +6598,17 @@ function showTaxaNameUsage($pUsage){
 				break;
 			case TAXON_NAME_USAGE_ID_KEY :
 				$lResult .= '<span class="taxon-usage" title="Identification key">
-								<img width="18" heigth="18" alt="" src="/i/download-icon-small-18.png" style="vertical-align: middle;" />IdK
+								<img width="30" heigth="18" alt="" src="/i/IKey.png" style="vertical-align: middle;" />
 							</span>';
 				break;
 			case TAXON_NAME_USAGE_FIGURE:
 				$lResult .= '<span class="taxon-usage" title="Figure">
-								<img width="18" heigth="18" alt="" src="/i/download-icon-small-18.png" style="vertical-align: middle;" />F 
+								<img width="30" heigth="18" alt="" src="/i/FI.png" style="vertical-align: middle;" />
 							</span>';
 				break;
 			case TAXON_NAME_USAGE_INLINE:
 				$lResult .= '<span class="taxon-usage" title="In text">
-								<img width="18" heigth="18" alt="" src="/i/download-icon-small-18.png" style="vertical-align: middle;" />InT
+								<img width="30" heigth="18" alt="" src="/i/InText.png" style="vertical-align: middle;" />
 							</span>';
 				break;
 		}
