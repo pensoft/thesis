@@ -71,14 +71,14 @@ function LoadArticleMenuMainElement(pElementType){
 				alert(pAjaxResult['err_msg']);
 				return;
 			}
-			ClearActiveLocalities();
-			gMenuActiveElementType = pElementType;
+			ClearActiveLocalities();			
 			LoadInfoContent(pAjaxResult['html'], pElementType);					
 		}
 	});
 }
 
 function LoadInfoContent(pContent, pActiveMenuType){
+	gMenuActiveElementType = pActiveMenuType;
 	$('.P-Info-Content').html(pContent);
 	$('.P-Info-Menu li.' + gActiveMenuClass).removeClass(gActiveMenuClass);
 	$('.P-Info-Menu li[data-info-type="' + pActiveMenuType + '"]').addClass(gActiveMenuClass);
