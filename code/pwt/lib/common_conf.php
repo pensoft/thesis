@@ -15,6 +15,7 @@ define('ERR_EMPTY_FIELD', getstr('kfor.emptyField'));
 define('ERR_CAPTCHA_WRONG_CODE', getstr('form.errorWrongCaptchaCode'));
 
 define('METADATA_OBJECT_ID', 14);
+define('MATERIAL_OBJECT_ID', 37);
 define('PLATE_WRAPPER_OBJECT_ID', 235);
 define('METADATA_OBJECT_IDS_FOR_DIFFERENT_TEMPLATES', '14,152');
 define('DATA_PAPER_RESOURCES_DATA_SET_OBJECT_ID', 141);
@@ -498,4 +499,10 @@ define('PENSOFT_MAIL_DISPLAY_DOCUMENT_SUBMISSION', 'preprint@pensoft.net');
 //define('PENSOFT_MAIL_DISPLAY_DOCUMENT_SUBMISSION', 'vic.penchev@gmail.com');
 define('PJS_AUTHOR_ROLE_ID', 11);
 define('PJS_SE_ROLE_ID', 3);
+
+define('TAXON_NAME_USAGE_INLINE', 1);
+define('TAXON_NAME_USAGE_FIGURE', 2);
+define('TAXON_NAME_USAGE_TREATMENT', 3);
+define('TAXON_NAME_USAGE_CHECKLIST_TREATMENT', 4);
+define('TAXON_NAME_USAGE_ID_KEY', 5);
 ?>

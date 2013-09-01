@@ -350,6 +350,7 @@ $gTemplArr = array(
 								$("#alerts_geographical_cats_autocomplete").tokenInput("add", lSelectedCats[i]);
 							}
 							initComplete = true;
+							gFormToSubmit = \'filter_groups\';
 							//]]>
 						</script>
 						<!-- Tree #4 END -->

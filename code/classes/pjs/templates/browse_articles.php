@@ -4,50 +4,50 @@
 $gTemplArr = array(
 	// Browse Journal Articles List Templates
 	
-	'browse_articles.startrs' => '
+	'browse_articles.header' => '
 			<h1 class="dashboard-title withoutBorder">{records} ' . getstr('pjs.articles_matching_your_criteria') . '</h1>
 			<div style="margin: 10px;">
-				{_displayArticlesFilterCriteria(pTaxon, pSubject, pGeographical, pChronical, fromdate, todate, pSectionType, fundingagency)}
+				{_displayArticlesFilterCriteria(taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
 				<p style="font-size: 14px;">' . getstr('pjs.refine_filters_in_the_left_panel') . '</p>
 				<div style="border-top: 1px solid #EEECE5; border-bottom: 1px solid #EEECE5; margin-top: 20px; margin-bottom: 15px;">
 					{nav}
 				</div>
-				
 	',
+	
+	'browse_articles.startrs' => '',
+	
 	'browse_articles.row' => '
 				<div class="article" style="border-top: none;">
 					<div class="starHover"></div>
 					<div class="articleHeadline">
-						<a href="javascript: void(0)" onclick="openPopUp(\'/view_version.php?version_id={version_id}\', 0, 0, \'window_{version_id}\')">
+						<a href="/articles.php?id={id}" target="_blank">
 							{name}
 						</a>
 					</div>
-					<p>
-						{editors_names}
-					</p>
+					<div class="authors_list_holder">
+						{authors_list}
+					</div>
 					<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
 					<div class="research">
 						{journal_section_name}
-						{type}
 					</div>
 					<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
 					&nbsp;&nbsp;&nbsp;
 					<a href="#" class="subLink">{_showDoiLinkIfExist(doi)}</a>
-					{_showArticlePriceIfExist(price_state)}
 					<div class="info">
-						<span><img src="i/paper.png" alt="paper"></img> {start_page}-{end_page}</span>
 						<span><img src="i/articleCalendar.png" alt="Calendar"></img> {_getOnlyDatePart(publish_date)}</span>
 						<span><img src="i/eye.png" alt="eye"></img> 465</span>
 						<div>
-							<a href="#">Abstract</a>
-							<a href="#">HTML</a>
+							<a href="/articles.php?id={id}" target="_blank">HTML</a>
 							<a href="#">XML</a>
-							<a href="#" class="clearBorder">PDF</a>
+							<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})" class="clearBorder">PDF</a>
 						</div>
 					</div>
 				</div>
 	',
-	'browse_articles.endrs' => '
+	'browse_articles.endrs' => '',
+	
+	'browse_articles.footer' => '
 				<div>
 			{nav}
 			<div class="h10"></div>
@@ -56,6 +56,7 @@ $gTemplArr = array(
 		</div>
 	</div>
 	',
+	
 	'browse_articles.empty' => '
 		<div class="h10"></div>
 		<div class="h10"></div>
@@ -72,10 +73,10 @@ $gTemplArr = array(
 								<span></span>
 								<span class="content">' . getstr('pjs.articles') . '</span>
 							</a>
-							<a class="link" href="/browse_journal_issues.php?journal_id={journal_id}">
+							<!-- <a class="link" href="/browse_journal_issues.php?journal_id={journal_id}">
 								<span></span>
 								<span class="content">' . getstr('pjs.issues') . '</span>
-							</a>
+							</a> -->
 							<a class="link" href="/browse_journal_authors.php?journal_id={journal_id}">
 								<span></span>
 								<span class="content">' . getstr('pjs.authors') . '</span>
@@ -113,8 +114,8 @@ $gTemplArr = array(
 									// Тук популираме първоначално инпута със селектнатите стойности или ако има грешка при сейв със селектнатите + новоселектнатите преди сейв
 									var lSelectedCats =  new Array();
 									lSelectedCats = {_json_encode(taxon_selected_vals)};
-									if(!lSelectedCats.length)
-										toggleBlock(\'taxon_arrow\', \'taxon_tree\');
+									/*if(!lSelectedCats.length)
+										toggleBlock(\'taxon_arrow\', \'taxon_tree\');*/
 									var InputVal = new Array();
 									for ( var i = 0; i < lSelectedCats.length; i++) {
 										$("#alerts_taxon_cats_autocomplete").tokenInput("add", lSelectedCats[i]);
@@ -146,8 +147,8 @@ $gTemplArr = array(
 									var lSelectedCats =  new Array();
 									lSelectedCats = {_json_encode(subject_selected_vals)};
 									var InputVal = new Array();
-									if(!lSelectedCats.length)
-										toggleBlock(\'subject_arrow\', \'subject_tree\');
+									/*if(!lSelectedCats.length)
+										toggleBlock(\'subject_arrow\', \'subject_tree\');*/
 									for ( var i = 0; i < lSelectedCats.length; i++) {
 										$("#alerts_subject_cats_autocomplete").tokenInput("add", lSelectedCats[i]);
 									}
@@ -181,7 +182,7 @@ $gTemplArr = array(
 									for ( var i = 0; i < lSelectedCats.length; i++) {
 										$("#alerts_geographical_cats_autocomplete").tokenInput("add", lSelectedCats[i]);
 									}
-									]]>
+									//]]>
 								</script>
 								<!-- Tree #4 END -->
 							</div>
@@ -189,7 +190,7 @@ $gTemplArr = array(
 						
 						<div class="filterBlock category">
 							<div class="filterBlockTitle">
-								' . getstr('pjs.bygeographical') . '
+								' . getstr('pjs.bygeochronocal') . '
 								<a id="chronological_arrow" class="blockUpArrow tree" href="javascript:void(0);" onclick="toggleBlock(\'chronological_arrow\', \'chronological_tree\')"></a>
 							</div>
 							<div class="filterBlockContent" id="chronological_tree">
@@ -213,7 +214,9 @@ $gTemplArr = array(
 									for ( var i = 0; i < lSelectedCats.length; i++) {
 										$("#alerts_chronical_cats_autocomplete").tokenInput("add", lSelectedCats[i]);
 									}
-									]]>
+									initComplete = true;
+									gFormToSubmit = \'filter_articles\';
+									//]]>
 								</script>
 							</div>
 						</div>
@@ -245,7 +248,7 @@ $gTemplArr = array(
 											buttonImageOnly: true,
 											dateFormat: \'dd/mm/yy\',
 											onSelect: function(dateStr) {
-												
+												$(\'#filter_articles\').submit();
 											}
 										});
 									});
@@ -267,21 +270,22 @@ $gTemplArr = array(
 								' . getstr('pjs.byfundingagency') . '
 							</div>
 							<div class="filterBlockContent">
-								<div class="fieldHolder bigColField">
+								<div class="fieldHolder bigColField fund_ag">
 									{funding_agency}
 								</div>
 								<div class="P-Clear"></div>
 							</div>
 						</div>
 						<div class="buttonsHolder">
-							<div class="P-Green-Btn-Holder">
+							<!--<div class="P-Green-Btn-Holder">
 								<div class="P-Green-Btn-Left"></div>
 								<div class="P-Green-Btn-Middle P-80">
+								-->
 										{Filter}
-								</div>
+								<!-- </div>
 								<div class="P-Green-Btn-Right"></div>
-							</div>
-							<div class="P-Grey-Btn-Holder" style="margin-top: 31px;">
+							</div>-->
+							<div class="P-Grey-Btn-Holder">
 								<div class="P-Grey-Btn-Left"></div>
 								<a class="P-Grey-Btn-Middle" href="/browse_journal_articles.php?journal_id={@journal_id}">' . getstr('pjs.clear_filters') . '</a>
 								<div class="P-Grey-Btn-Right"></div>
@@ -317,10 +321,11 @@ $gTemplArr = array(
 								<span></span>
 								<span class="content">' . getstr('pjs.articles') . '</span>
 							</a>
-							<a class="link" href="/browse_journal_issues.php?journal_id={journal_id}">
+							<!-- <a class="link" href="/browse_journal_issues.php?journal_id={journal_id}">
 								<span></span>
 								<span class="content">' . getstr('pjs.issues') . '</span>
 							</a>
+							-->
 							<a class="link" href="/browse_journal_authors.php?journal_id={journal_id}">
 								<span></span>
 								<span class="content">' . getstr('pjs.authors') . '</span>
@@ -333,7 +338,7 @@ $gTemplArr = array(
 	
 	
 	'browse_articles.by_author_startrs' => '
-			<h1 class="dashboard-title withoutBorder">{records} ' . getstr('pjs.browse_articles_by_author') . '</h1>
+			<h1 class="dashboard-title withoutBorder">{records} ' . getstr('pjs.articles_matching_your_criteria') . '</h1>
 			<div style="margin: 10px;">
 				<div style="border-top: 1px solid #EEECE5; border-bottom: 1px solid #EEECE5; margin-top: 20px; margin-bottom: 15px;">
 					{nav}
@@ -344,30 +349,27 @@ $gTemplArr = array(
 				<div class="article" style="border-top: none;">
 					<div class="starHover"></div>
 					<div class="articleHeadline">
-						<a href="javascript: void(0);">
+						<a href="/articles.php?id={id}" target="_blank">
 							{name}
 						</a>
 					</div>
-					<p>
-						{editors_names}
-					</p>
+					<div class="authors_list_holder">
+						{authors_list}
+					</div>
 					<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
 					<div class="research">
 						{journal_section_name}
 					</div>
 					<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
 					&nbsp;&nbsp;&nbsp;
-					<a href="#" class="subLink">doi: {doi}</a>
-					<span class="price"><span>Reprint price:</span> <b>&euro; {price}</b> <img src="i/cart.png" alt="cart"></img></span>
+					<a href="#" class="subLink">{_showDoiLinkIfExist(doi)}</a>
 					<div class="info">
-						<span><img src="i/paper.png" alt="paper"></img> {start_page}-{end_page}</span>
 						<span><img src="i/articleCalendar.png" alt="Calendar"></img> {_getOnlyDatePart(publish_date)}</span>
 						<span><img src="i/eye.png" alt="eye"></img> 465</span>
 						<div>
-							<a href="#">Abstract</a>
-							<a href="#">HTML</a>
+							<a href="/articles.php?id={id}" target="_blank">HTML</a>
 							<a href="#">XML</a>
-							<a href="#" class="clearBorder">PDF</a>
+							<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})" class="clearBorder">PDF</a>
 						</div>
 					</div>
 				</div>

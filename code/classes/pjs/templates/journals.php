@@ -117,5 +117,66 @@ $gTemplArr = array(
 				</script>
 	',
 	'journals.journal_documents_empty' => 'No Documents.',
+	
+	'journals.journal_document' => '
+		<div class="landing_wrap">
+			<div class="article_header">
+				<img src="i/journal.png">
+				<h1>Resolving the publishing bottleneck for biodiversity</h1>
+				<blockquote>Science is a combination of gathering facts and making theories; neither can progress on its own. In the history of science, the laborious accumulation of facts is the dominant mode, not a novelty.</blockquote>
+				<p>Peter Norvig</p>
+			</div>
+			<div class="content_article">
+				<ul class="clearfix">
+					<li>
+						<img src="i/icon_data.png">
+						<h2>Making “small” data big</h2>
+						<ul>
+							<li>No lower/upper limit of manuscript size</li>
+							<li>Publish all kinds of biodiversity related data</li>
+							<li>Reduced page charges affordable by all</li>
+						</ul>
+					</li>
+					<li>
+						<img src="i/icon_more.png">
+						<h2>More than just data journal!</h2>
+						<ul>
+							<li>Integrated text and data publishing</li>
+							<li>Completely online revisions and editing</li>
+							<li>Community ownership of data</li>
+						</ul>
+					</li>
+					<li>
+						<img src="i/icon_community.png">
+						<h2>Community peer-review</h2>
+						<ul>
+							<li>7 weeks from submission to decision</li>
+							<li>3 days from acceptance to publication</li>
+							<li>Public peer-review on author’s choice</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="article_footer">
+				<img src="i/frog.png">
+				<h2>Why publish my data?</h2>
+				<ul>
+					<li>Citable publication</li>
+					<li>Increase collaboration</li>
+					<li>Re-use and multiply effect</li>
+					<li>Establish scientific priority</li>
+					<li>Link data to a bigger network</li>
+					<li>Respond to funding requirements</li>
+				</ul>
+			</div>
+		</div>
+		<script>
+			$(document).ready(function() {
+			  if({show_login_warning} == 1) {
+			  	showLoginWarningMessage(\'{redirurl}\', \'{login_warning_text}\');
+			  }
+			});
+		</script>
+	',
 );
 ?>

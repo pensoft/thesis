@@ -51,6 +51,11 @@ function getAjaxObject() {
 	return xmlhttp;
 }
 
+function DownloadTable(pInstanceId, pSiteUrl) {
+	document.location.href = pSiteUrl + '/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&instance_id=' + pInstanceId;
+	return;
+}
+
 function AjaxLoad(link, elementid) {
 	var element = document.getElementById(elementid);
 	if(!element)
@@ -1011,7 +1016,7 @@ function filterAuthors(pAffiliationInpId, pJournalId, pInputLetterId){
 }
 function filterAuthorsLetter(pAffiliationInpId, pJournalId, pLetter){
 	window.location.href = '/browse_journal_authors.php?journal_id=' + pJournalId +
-							'&affiliation=' + document.getElementById(pAffiliationInpId).value +
+							//'&affiliation=' + document.getElementById(pAffiliationInpId).value +
 							'&author_letter=' + pLetter;
 }
 function ChangeRejectBtn(pTextArea, pBtn1Id, pBtn2Id, pBtn1Active, pBtn2Active) {
@@ -2001,9 +2006,9 @@ function getNextNode(pNode){
 	return null;
 }
 
-function GeneratePDFPreview(pVersionId) {
+function GeneratePDFPreview(pDocumentId) {
 	$('#P-Ajax-Loading-Image-Main').show();
-	document.location.href = gGeneratePDFAjaxSrv + '?version_id=' + pVersionId + '&readonly_preview=1';
+	document.location.href = gGeneratePDFAjaxSrv + '?document_id=' + pDocumentId + '&readonly_preview=1';
 	$('#P-Ajax-Loading-Image-Main').hide();
 	return;
 }

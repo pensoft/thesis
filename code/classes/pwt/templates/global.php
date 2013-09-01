@@ -196,7 +196,7 @@ $gTemplArr = array(
 					<div class="P-Bread-Crumbs {_showLockedErrorClass(document_is_locked, document_lock_usr_id, without_warning)} {_showValidationErrorClass(xml_errors, xml_validation)}">
 						{_showDocumentLockWarning(document_is_locked, document_lock_usr_id, without_warning)}						
 						{_showValidationErrorDiv(xml_errors, xml_validation)}
-						<div class="P-Path"><a href="/index.php"><img class="pathHomeImg" src="./i/home_path.png" alt="My manuscripts"/></a>{path}</div>
+						<div class="P-Path"><a href="/dashboard.php"><img class="pathHomeImg" src="./i/home_path.png" alt="My manuscripts"/></a>{path}</div>
 						<div class="P-SavePreview-Btns">
 							<div class="P-RevHistory"><a href="/preview_revisions.php?document_id={document_id}">Revision History</a></div>
 							{_displayTopRightButtons( document_is_locked, preview_mode, document_id)}
@@ -213,7 +213,7 @@ $gTemplArr = array(
 					<div class="P-Bread-Crumbs {_showLockedErrorClass(document_is_locked, document_lock_usr_id, without_warning, preview_is_readonly)} {_showValidationErrorClass(xml_errors, xml_validation)}">
 						{_showDocumentLockWarning(document_is_locked, document_lock_usr_id, without_warning, preview_is_readonly)}
 						{_showValidationErrorDiv(xml_errors, xml_validation)}
-						<div class="P-Path"><a href="/index.php"><img class="pathHomeImg" src="./i/home_path.png" alt="My manuscripts"/></a>{path}</div>
+						<div class="P-Path"><a href="/dashboard.php"><img class="pathHomeImg" src="./i/home_path.png" alt="My manuscripts"/></a>{path}</div>
 						<div class="P-SavePreview-Btns">
 							<div class="P-RevHistory"><a href="/preview_revisions.php?document_id={document_id}">Revision History</a></div>
 							{_displayTopRightButtons( document_is_locked, preview_mode, document_id)}
@@ -377,6 +377,140 @@ $gTemplArr = array(
 	',
 
 	'global.index_page' =>
+		   '{*global.htmlonlyheader}
+				<div class="page_wrap">
+            		<div class="wrap">
+            			<div class="clearfix">
+		                    <header class="clearfix">
+		                        <div class="content_in">                     
+		                            <a class="logo" href="#"><img src="/i/logo.png" /></a>
+		                        </div>
+		                        <div class="P-Head-Profile-Menu">
+									<div class="userloggedmenu">
+										<a class="userloggedimageA" href="/">
+											{_showProfilePic()}
+										</a>
+										<div class="userloggedimage">
+											<div class="username_left"></div>
+											<div class="username">{_getUserName()}</div>
+											<div class="username_right"></div>
+										</div>
+										<div onmouseout="" onmouseover="" id="userLoggedMenu" class="userloggedmenulinks">
+											<div class="userloggedmenulinksTop"></div>
+											<div class="userloggedmenulinksMainInner">
+												<div class="userLoggedMenuLink">
+													<a id="userLoggedMenuLink_1" href="#" onclick="LayerProfEditFrm(\'P-Registration-Content\', 2, 1);">Account settings</a>&nbsp;Login, Password
+												</div>
+												<div class="userloggedmenuSep"></div>
+												<div class="userLoggedMenuLink">
+													<a id="userLoggedMenuLink_2" href="#" onclick="LayerProfEditFrm(\'P-Registration-Content\', 2, 2);">Profile</a>&nbsp;Name, Pictures, URL, ...
+												</div>
+												<div class="userloggedmenuSep"></div>
+												<div class="userLoggedMenuLink">
+													<a id="userLoggedMenuLink_3" href="#" onclick="LayerProfEditFrm(\'P-Registration-Content\', 2, 3);">Email/RSS alerts</a>&nbsp;Name, Pictures ...
+												</div>
+												<div class="userloggedmenuSep"></div>
+												<div class="userLoggedMenuLink">
+													<a id="userLoggedMenuLink_5" href="/inbox.php">Messages</a>&nbsp;Inbox, Messages, ...
+													<div class="P-Clear"></div>
+												</div>
+												<div class="userloggedmenuSep"></div>
+												<div class="userLoggedMenuLink">
+													<a id="userLoggedMenuLink_6" href="/login.php?logout=1">Logout</a>
+													<div class="P-Clear"></div>
+												</div>
+												<div class="P-Clear"></div>
+												<div class="userloggedmenuSep h15"></div>
+												<div class="P-Clear"></div>
+											</div>
+											<div class="userloggedmenulinksBottom"></div>
+										</div>
+									</div>
+								</div>
+								<script type="text/javascript">
+									//<![CDATA[
+										$(document).ready(function(){
+											ShowHideProfileMenu();
+										});
+									//]]>
+								</script>
+		                    </header>
+		                    <div class="content_in">
+		                        <div class="info_block">
+		                            <a href="' . PJS_SITE_URL . '/about#Howitworks" target="_blank"><img src="/i/content/info_block.png" /></a>
+		                        </div>
+		                    </div>
+		                    {content}
+		                </div>
+						<div class="clearfix">
+		                    <div class="blue_list">
+		                        <h2>Online manuscript authoring</h2>
+		                        <div>
+		                            <ul>
+		                                <li>Collaborate online with coauthors and peers</li>
+		                                <li>No author guidelines, the tool guides you</li>
+		                                <li>Easy to use, flexible article templates</li>
+		                            </ul>
+		                        </div>
+		                    </div>
+		                    <div class="white_list">
+		                        <h2>Getting started</h2>
+		                        <div>
+		                            <ul>
+		                                <li>Write a manuscript online</li>
+		                                <li>Submit it at the click of a button</li>
+		                                <li>Easy online revisions and editing</li>
+		                            </ul>
+		                        </div>
+		                    </div>
+		                    <div class="blue_list">
+		                        <h2>Data and text publishing integrated</h2>
+		                        <div>
+		                            <ul>
+		                                <li>Gateway to the Biodiversity Data Journal</li>
+		                                <li>Data into text conversion and vice versa</li>
+		                                <li>Novel workflow reduces publication costs</li>
+		                            </ul>
+		                        </div>
+		                    </div>
+		                </div>
+		                <div class="question_wrap">
+		                    <h2>Why publish my data?</h2>
+		                    <div class="clearfix">
+		                        <ul>
+		                            <li>Citable publication</li>
+		                            <li>Establish scientific priority</li>
+		                        </ul>
+		                        <ul>
+		                            <li>Link data to a bigger network</li>
+		                            <li>Re-use and multiply effect</li>
+		                        </ul>
+		                        <ul>
+		                            <li>Increase collaboration</li>
+		                            <li>Respond to funding requirements</li>
+		                        </ul>
+		                    </div>
+		                </div>
+					</div>
+					<footer>
+		                <ul class="wrap clearfix">
+		                    <li>
+		                        <a href="http://vbrant.eu/" target="_blank"><img src="/i/logo_vibrant.png" /></a>
+		                    </li>
+		                    <li>
+		                        <a href="http://www.pensoft.net/" target="_blank"><img src="/i/logo_pensoft.png" /></a>
+		                    </li>
+		                    <li>
+		                        <a href="http://cordis.europa.eu/fp7/home_en.html" target="_blank"><img src="/i/logo_sfp.png" /></a>
+		                    </li>
+		                </ul>
+		            </footer>
+				</div>
+				<div id="P-Registration-Content" style="display: none;"></div>
+			{*global.htmlendcontent}
+	',
+	
+	'global.dashboard_page' =>
 		   '{*dashboard.htmlstartcontent}
 				{*dashboard.content}
 			{*global.htmlendcontent}
@@ -480,9 +614,94 @@ $gTemplArr = array(
 
 	'global.loginpage' =>
 	   '{*global.htmlonlyheader}
-				{contents}
-				<div id="P-Registration-Content" style="display: none;"></div>
-		{*global.htmlonlyfooter_login}
+			<div class="page_wrap">
+				<div class="wrap">
+					<header class="clearfix">
+                        <div class="content_in">                     
+                            <a class="logo" href="/"><img src="/i/logo.png" /></a>
+                        </div>
+                        <div class="sidebar">
+                            <div class="user_wrap">
+
+                            </div>
+                        </div>
+                    </header>
+                    <div class="content_in">
+                        <div class="info_block">
+                            <a href="' . PJS_SITE_URL . '/about#Howitworks" target="_blank"><img src="/i/content/info_block.png" /></a>
+                        </div>
+                    </div>
+                    <div class="sidebar">
+                		<div class="form_wrap">
+							{contents}
+						</div>
+					</div>
+					<div class="clearfix">
+	                    <div class="blue_list">
+	                        <h2>Online manuscript authoring</h2>
+	                        <div>
+	                            <ul>
+	                                <li>Collaborate online with coauthors and peers</li>
+	                                <li>No author guidelines, the tool guides you</li>
+	                                <li>Easy to use, flexible article templates</li>
+	                            </ul>
+	                        </div>
+	                    </div>
+	                    <div class="white_list">
+	                        <h2>Getting started</h2>
+	                        <div>
+	                            <ul>
+	                                <li>Write a manuscript online</li>
+	                                <li>Submit it at the click of a button</li>
+	                                <li>Easy online revisions and editing</li>
+	                            </ul>
+	                        </div>
+	                    </div>
+	                    <div class="blue_list">
+	                        <h2>Data and text publishing integrated</h2>
+	                        <div>
+	                            <ul>
+	                                <li>Gateway to the Biodiversity Data Journal</li>
+	                                <li>Data into text conversion and vice versa</li>
+	                                <li>Novel workflow reduces publication costs</li>
+	                            </ul>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="question_wrap">
+	                    <h2>Why publish my data?</h2>
+	                    <div class="clearfix">
+	                        <ul>
+	                            <li>Citable publication</li>
+	                            <li>Establish scientific priority</li>
+	                        </ul>
+	                        <ul>
+	                            <li>Link data to a bigger network</li>
+	                            <li>Re-use and multiply effect</li>
+	                        </ul>
+	                        <ul>
+	                            <li>Increase collaboration</li>
+	                            <li>Respond to funding requirements</li>
+	                        </ul>
+	                    </div>
+	                </div>
+				</div>
+				<footer>
+	                <ul class="wrap clearfix">
+	                    <li>
+	                        <a href="http://vbrant.eu/" target="_blank"><img src="/i/logo_vibrant.png" /></a>
+	                    </li>
+	                    <li>
+	                        <a href="http://www.pensoft.net/" target="_blank"><img src="/i/logo_pensoft.png" /></a>
+	                    </li>
+	                    <li>
+	                        <a href="http://cordis.europa.eu/fp7/home_en.html" target="_blank"><img src="/i/logo_sfp.png" /></a>
+	                    </li>
+	                </ul>
+	            </footer>
+            </div>
+            <div id="P-Registration-Content" style="display: none;"></div>
+		</body>
 	',
 
 

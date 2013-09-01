@@ -17,7 +17,7 @@ class cJournals_Controller extends cBase_Controller {
 			// echo '/login.php?redirurl=' . urlencode($lRedirUrl) . '&force_logout=1&u_autolog_hash=' . $lAutologinHash;
 		// exit;
 			$this->m_models['mJournal_Documents_Model'] = new mJournal_Documents_Model();
-			$lViewPageObjectsDataArray['contents'] = array(
+			/*$lViewPageObjectsDataArray['contents'] = array(
 				'ctype' => 'evList_Display',
 				'name_in_viewobject' => 'journal_page',
 				'controller_data' => $this->m_models['mJournal_Documents_Model']->GetJournalHomeArticles($lJournalId),
@@ -25,7 +25,16 @@ class cJournals_Controller extends cBase_Controller {
 				'login_warning_text' => q(getstr('pjs.login_warning_text')),
 				'redirurl' => '/login.php?redirurl=' . urlencode($lRedirUrl) . '&force_logout=1&u_autolog_hash=' . $lAutologinHash . '&document_id=' . $lDocumentId . '&view_role=' . $lViewRole,
 			);
+			*/
 			
+			$lViewPageObjectsDataArray['contents'] = array(
+				'ctype' => 'evSimple_Block_Display',
+				'name_in_viewobject' => 'journal_page',
+				'controller_data' => $this->m_models['mJournal_Documents_Model']->GetJournalHomeArticles($lJournalId),
+				'show_login_warning' => (int)$lShowLoginWarning,
+				'login_warning_text' => q(getstr('pjs.login_warning_text')),
+				'redirurl' => '/login.php?redirurl=' . urlencode($lRedirUrl) . '&force_logout=1&u_autolog_hash=' . $lAutologinHash . '&document_id=' . $lDocumentId . '&view_role=' . $lViewRole,
+			);
 			$lViewPageObjectsDataArray['journal_features'] = array(
 				'ctype' => 'evList_Display',
 				'name_in_viewobject' => 'journal_features_templates',

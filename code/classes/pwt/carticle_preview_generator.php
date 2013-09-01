@@ -14,6 +14,7 @@ define('INSTANCE_AUTHOR_TYPE', 12);
 define('INSTANCE_AUTHORS_LIST_TYPE', 13);
 define('INSTANCE_CONTENTS_LIST_TYPE', 14);
 define('INSTANCE_LOCALITIES_LIST_TYPE', 15);
+define('INSTANCE_CITATION_LIST_TYPE', 16);
 
 define('INSTANCE_WHOLE_PREVIEW_INSTANCE_ID', - 5);
 define('INSTANCE_FIGURES_LIST_INSTANCE_ID', - 1);
@@ -89,6 +90,9 @@ $gInstanceTypeDetails = array (
 	INSTANCE_CONTENTS_LIST_TYPE => array (
 		'preview_sql' => 'SELECT * FROM spSaveArticleContentsListPreview({article_id}, \'{preview}\');' 
 	),
+	INSTANCE_CITATION_LIST_TYPE => array (
+		'preview_sql' => 'SELECT * FROM spSaveArticleCitationListPreview({article_id}, \'{preview}\');' 
+	),
 	INSTANCE_LOCALITIES_LIST_TYPE => array (
 		'preview_sql' => 'SELECT * FROM spSaveArticleLocalitiesListPreview({article_id}, \'{preview}\');' 
 	),
@@ -97,6 +101,7 @@ class carticle_preview_generator extends csimple {
 	var $m_instancesDetails;
 	var $m_templateXslDirName;
 	var $m_documentXml;
+	var $m_xmlDomDocument;
 	var $m_xslContent;
 	var $m_instancePreviews;
 	var $m_templ;
@@ -113,6 +118,15 @@ class carticle_preview_generator extends csimple {
 	var $m_contentsListPreview = '';
 	var $m_articleLocalities = array();
 	var $m_localitiesListPreview = '';
+	var $m_taxaListPreview = '';
+	var $m_citationListPreview = '';
+	var $m_taxaList = array();
+	var $m_hasFigures = false;
+	var $m_hasTables = false;
+	var $m_hasLocalities = false;
+	var $m_hasTaxa = false;
+	var $m_hasData = false;
+	var $m_hasReferences = false;
 
 	function __construct($pFieldTempl) {
 		$this->m_instancesDetails = array ();
@@ -180,6 +194,10 @@ class carticle_preview_generator extends csimple {
 
 	protected function GetInstancePreviewSql($pInstanceId, $pInstanceType, $pPreview) {
 		global $gInstanceTypeDetails;
+// 		if($pInstanceType == INSTANCE_SUPFILE_TYPE){
+// 			var_dump($pPreview);
+// 			exit;
+// 		}
 		$lResult = $gInstanceTypeDetails [$pInstanceType] ['preview_sql'];
 		$lResult = str_replace('{article_id}', $this->m_documentId, $lResult);
 		$lResult = str_replace('{instance_id}', $pInstanceId, $lResult);
@@ -194,6 +212,20 @@ class carticle_preview_generator extends csimple {
 	function RegisterInstance($pInstanceId, $pInstanceType) {
 		if (! (int) $pInstanceId || ! (int) $pInstanceType) {
 			return;
+		}
+		switch($pInstanceType){
+			case (int)INSTANCE_FIGURE_TYPE:
+				$this->m_hasFigures = true;
+				break;
+			case (int) INSTANCE_TABLE_TYPE :
+				$this->m_hasTables = true;
+				break;
+			case (int) INSTANCE_SUPFILE_TYPE :
+				$this->m_hasData = true;
+				break;
+			case (int) INSTANCE_REFERENCE_TYPE :
+				$this->m_hasReferences = true;
+				break;			
 		}
 		$this->m_instancesDetails [$pInstanceId] = array (
 			'view_xpath' => $this->GetInstanceViewXPathAndMode($pInstanceType, $pInstanceId),
@@ -211,7 +243,8 @@ class carticle_preview_generator extends csimple {
 		if ((int) $this->m_errCnt) {
 			return;
 		}
-		$lDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+		$this->m_xmlDomDocument = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+		$lDom = $this->m_xmlDomDocument;
 		if (! $lDom->loadXML($this->m_documentXml)) {
 			$this->SetError(getstr('pjs.couldNotLoadArticleXml'));
 			return;
@@ -265,7 +298,7 @@ class carticle_preview_generator extends csimple {
 		$this->RegisterInstance((int) INSTANCE_TABLES_LIST_INSTANCE_ID, (int) INSTANCE_TABLES_LIST_TYPE);
 		$this->RegisterInstance((int) INSTANCE_REFERENCES_LIST_INSTANCE_ID, (int) INSTANCE_REFERENCES_LIST_TYPE);
 		$this->RegisterInstance((int) INSTANCE_SUP_FILES_LIST_INSTANCE_ID, (int) INSTANCE_SUP_FILES_LIST_TYPE);
-		$this->RegisterInstance((int) INSTANCE_TAXON_LIST_INSTANCE_ID, (int) INSTANCE_TAXON_LIST_TYPE);
+// 		$this->RegisterInstance((int) INSTANCE_TAXON_LIST_INSTANCE_ID, (int) INSTANCE_TAXON_LIST_TYPE);
 	}
 
 	protected function GenerateXsl() {
@@ -422,17 +455,42 @@ class carticle_preview_generator extends csimple {
 			$this->m_wholeArticlePreview = $lDomHtml->saveHTML($lNode->item(0));
 		}
 	}
-
-	protected function GenerateArticleAuthorPreviews() {
-		$lSql = '
-			SELECT  du.first_name, du.middle_name, du.last_name, 
-				du.affiliation, du.city, du.country, 
+	
+	protected function GetAuthorsSql(){
+		$lSql = "
+			SELECT  du.first_name, du.middle_name, du.last_name,
+				du.affiliation, du.city, du.country,
 				u.photo_id, u.uname as email, u.website, u.id as usrid,
-				du.co_author as is_corresponding, du.zoobank_id
+				(case when du.co_author=1 then ' - Corresponding author'
+				else '' end) as is_corresponding, du.zoobank_id
 			FROM pjs.document_users du
 			JOIN public.usr u ON u.id = du.uid
-			WHERE du.document_id = ' . (int) $this->m_documentId . ' AND role_id = ' . (int) PJS_AUTHOR_ROLE_ID . '
+			WHERE du.document_id = " . (int) $this->m_documentId . " AND role_id = " . (int) PJS_AUTHOR_ROLE_ID . "
+		";
+// 		var_dump($lSql);
+		return $lSql;
+	}
+	
+	protected function GetMetadataSql(){
+		$lSql = 'SELECT to_char(d.approve_date, \'DD Mon YYYY\') as approve_date, 
+						to_char(d.publish_date, \'DD Mon YYYY\') as publish_date, 
+						to_char(d.create_date, \'DD Mon YYYY\') as create_date,
+					EXTRACT(year FROM d.publish_date) as pubyear,
+					j.name as journal_name, d.doi, d.start_page, d.end_page,
+					d.name as article_title,
+					i."number" as issue_number
+			FROM pjs.documents d
+			LEFT JOIN pjs.journal_issues i ON i.id = d.issue_id
+			LEFT JOIN public.journals j ON j.id = i.journal_id
+			WHERE d.id = ' . (int)$this->m_documentId . '	
 		';
+// 		var_dump($lSql);
+		return $lSql;
+	}
+
+	protected function GenerateArticleAuthorPreviews() {
+		$lSql = $this->GetAuthorsSql();
+		
 		$this->m_con->Execute($lSql);
 		$lAuthorsArr = array ();
 		while ( ! $this->m_con->Eof() ) {
@@ -483,14 +541,7 @@ class carticle_preview_generator extends csimple {
 				G_ROWTEMPL => 'article.authors_se_preview_row'
 			)
 		));
-		$lSql = 'SELECT d.approve_date, d.publish_date, d.create_date,
-					j.name as journal_name, d.doi, d.start_page, d.end_page,
-					i."number" as issue_number
-			FROM pjs.documents d
-			LEFT JOIN pjs.journal_issues i ON i.id = d.issue_id
-			LEFT JOIN public.journals j ON j.id = i.journal_id
-			WHERE d.id = ' . (int)$this->m_documentId . '	
-		';
+		$lSql = $this->GetMetadataSql();
 		
 		$lPreview = new crs(array (
 			'sqlstr' => $lSql,	
@@ -509,9 +560,14 @@ class carticle_preview_generator extends csimple {
 	}
 
 	protected function GenerateArticleContentsListPreview() {
-		$lSql = '
-			SELECT * FROM spGetArticleContentsInstances(' . (int)$this->m_documentId . ');	
-		';
+		$lSql = "
+			SELECT i.id as instance_id, replace(replace(display_name, 'Title & Authors', 'Article title'), 'Abstract & Keywords', 'Abstract') as display_name, 1 as level, pos, null as parent_instance_id, 0 as has_children 
+					FROM pwt.document_object_instances i 
+					JOIN pjs.articles a ON a.pwt_document_id = i.document_id 
+					WHERE i.object_id in (9, 153, 15) and a.id = " . (int)$this->m_documentId . "
+				UNION
+			SELECT * FROM spGetArticleContentsInstances(" . (int)$this->m_documentId . ") order by pos offset 1;
+		";
 // 		var_dump($lSql);
 		$lPreview = new crsrecursive(array(
 			'recursivecolumn'=>'parent_instance_id',
@@ -534,6 +590,33 @@ class carticle_preview_generator extends csimple {
 // 		exit;
 	}
 	
+	protected function GenerateArticleCitationListPreview() {
+		$lSql = $this->GetAuthorsSql();		
+		$lAuthorsPreview = new crs(array (
+			'sqlstr' => $lSql,
+			'templs' => array (
+				G_HEADER => 'article.citations_authors_preview_head',
+				G_FOOTER => 'article.citations_authors_preview_foot',
+				G_STARTRS => 'article.citations_authors_preview_start',
+				G_ENDRS => 'article.citations_authors_preview_end',
+				G_NODATA => 'article.citations_authors_preview_nodata',
+				G_ROWTEMPL => 'article.citations_authors_preview_row'
+			)
+		));
+			
+		// 		var_dump($lSql);
+		$lPreview = new crs(array(
+			'sqlstr' => $this->GetMetadataSql(),
+			'templs' => array (
+				G_HEADER => 'article.citation',				
+			),
+			'author_names' => $lAuthorsPreview,
+			'document_id' => $this->m_pwtDocumentId,
+		));
+	
+		$this->m_citationListPreview = $lPreview->Display();		
+	}
+	
 	/**
 	 * Generate a list of all the localities in the preview,
 	 * mark all localities with their respective treatment/checklist (if they are in 1)
@@ -542,8 +625,7 @@ class carticle_preview_generator extends csimple {
 	protected function GenerateLocalitiesPreview(){
 		$lXPath = new DOMXPath($this->m_wholePreviewDom);
 		$lLocalitiesXPath = ('//*[@data-is-locality-coordinate]');
-		$lXPathResult = $lXPath->query($lLocalitiesXPath);
-		$lLocalitiesArr = array();
+		$lXPathResult = $lXPath->query($lLocalitiesXPath);		
 		$this->m_articleLocalities = array();
 		foreach ($lXPathResult as $lCurrentLocality){
 			$lLatitude = $lCurrentLocality->getAttribute('data-latitude');
@@ -554,7 +636,7 @@ class carticle_preview_generator extends csimple {
 			if(!is_array($this->m_articleLocalities[$lLatitude][$lLongitude])){
 				$this->m_articleLocalities[$lLatitude][$lLongitude] = array();
 			}
-			$lParentsQuery = './ancestor::*[@data-is-checklist]|./ancestor::*[@data-is-taxon-treatment]';
+			$lParentsQuery = './ancestor::*[@data-is-checklist-taxon]|./ancestor::*[@data-is-taxon-treatment]';
 			$lParentNode = $lXPath->query($lParentsQuery, $lCurrentLocality);
 			if($lParentNode->length){
 				$lParentInstanceId = (int)$lParentNode->item(0)->getAttribute('instance_id');
@@ -573,6 +655,7 @@ class carticle_preview_generator extends csimple {
 			$lInstancesWithCoordinates[] = 0;
 		}
 		if(count($this->m_articleLocalities)){
+			$this->m_hasLocalities = true;
 			$lSql = '
 				SELECT id, display_name
 				FROM pwt.document_object_instances i
@@ -605,6 +688,230 @@ class carticle_preview_generator extends csimple {
 // 		exit;
 	
 	}
+	
+	protected function GetTaxaList(){
+		$lXPath = new DOMXPath($this->m_wholePreviewDom);
+		$lTaxaXPath = ('//*[@class="tn"]');
+		$lXPathResult = $lXPath->query($lTaxaXPath);
+		$this->m_taxaList = array();
+		$lAttributeNameThatHoldsPartType = 'class';
+		$lAttributeNameThatHoldsPartValue = 'full-name';		
+		
+		$lPartsThatLeadToSelf = array (
+			'kingdom', 
+			'regnum',
+			'subkingdom',
+			'subregnum',
+			'division',
+			'phylum',
+			'subdivision',
+			'subphylum', 
+			'superclass',
+			'superclassis',
+			'class',
+			'classis',
+			'subclass',
+			'subclassis',
+			'superorder',
+			'superordo',
+			'order', 
+			'ordo', 
+			'suborder',
+			'subordo',
+			'infraorder',
+			'infraordo',
+			'superfamily',
+			'superfamilia',
+			'family', 
+			'familia', 
+			'subfamily', 
+			'subfamilia', 
+			'tribe', 
+			'tribus', 
+			'subtribe',
+			'subtribus',
+			'genus', 
+			'subgenus',
+			'above-genus'
+		);
+		$lPartsThatDontLeadToSelf = array (
+			'species' => array (
+				'genus',
+				'species' 
+			),
+			'subspecies' => array (
+				'genus',
+				'species',
+				'subspecies' 
+			),			
+			'variety' => array (
+				'genus',
+				'species',
+				'variety' 
+			),
+			'varietas' => array (
+				'genus',
+				'species',
+				'varietas'
+			),
+			'form' => array (
+				'genus',
+				'species',
+				'form' 
+			),
+			'forma' => array (
+				'genus',
+				'species',
+				'forma'
+			),
+		);		
+		$lPartsQuery = '';
+		foreach ($lPartsThatLeadToSelf as $lPartName) {
+			if($lPartsQuery != ''){
+				$lPartsQuery .= '|';
+			}
+			$lPartsQuery .= './/*[@' . $lAttributeNameThatHoldsPartType . '="' . $lPartName . '"]';
+		}
+		foreach ($lPartsThatDontLeadToSelf as $lPartName => $lData) {
+			if($lPartsQuery != ''){
+				$lPartsQuery .= '|';
+			}
+			$lPartsQuery .= './/*[@' . $lAttributeNameThatHoldsPartType . '="' . $lPartName . '"]';
+		}
+		
+		
+		$lPartsThatLeadToSelfQuery = '';
+		foreach ($lPartsThatLeadToSelf as $lPartName) {
+			if($lPartsThatLeadToSelfQuery != ''){
+				$lPartsThatLeadToSelfQuery .= '|';
+			}
+			$lPartsThatLeadToSelfQuery .= './/*[@' . $lAttributeNameThatHoldsPartType . '="' . $lPartName . '"]';
+		}
+		$lPartsThatDontLeadToSelfQuery = '';
+		foreach ($lPartsThatDontLeadToSelf as $lPartName => $lData) {
+			if($lPartsThatDontLeadToSelfQuery != ''){
+				$lPartsThatDontLeadToSelfQuery .= '|';
+			}
+			$lPartsThatDontLeadToSelfQuery .= './/*[@' . $lAttributeNameThatHoldsPartType . '="' . $lPartName . '"]';
+		}
+		$lTaxaForListPreview = array();
+// 		var_dump($lXPathResult->length);
+		foreach ($lXPathResult as $lCurrentTaxonNode){
+			$lCurrentTaxonNames = array();
+			$lPartsLeadingToSelfNodes = $lXPath->query($lPartsThatLeadToSelfQuery, $lCurrentTaxonNode);
+			foreach ($lPartsLeadingToSelfNodes as $lPart){
+				$lTaxonName = trim($lPart->getAttribute($lAttributeNameThatHoldsPartValue));
+				if($lTaxonName == ''){
+					$lTaxonName = trim($lPart->textContent);
+				}
+				$lCurrentTaxonNames[] = $lTaxonName;
+				$this->m_taxaList[] = $lTaxonName;
+			}
+			$lPartsNotLeadingToSelfNodes = $lXPath->query($lPartsThatDontLeadToSelfQuery, $lCurrentTaxonNode);
+			foreach ($lPartsNotLeadingToSelfNodes as $lPart){
+				$lTaxonName = '';
+				$lPartType = $lPart->getAttribute($lAttributeNameThatHoldsPartType);
+				foreach ($lPartsThatDontLeadToSelf[$lPartType] as $lNecessaryPartType) {
+					$lNecessaryPartQuery = './/*[@' . $lAttributeNameThatHoldsPartType . '="' . $lNecessaryPartType . '"]';
+					$lNecessaryPartNodes = $lXPath->query($lNecessaryPartQuery, $lCurrentTaxonNode);
+					$lPartValue = '';
+					if($lNecessaryPartNodes->length){
+						$lNode = $lNecessaryPartNodes->item(0);
+						$lPartValue = trim($lNode->getAttribute($lAttributeNameThatHoldsPartValue));
+						if($lPartValue == ''){
+							$lPartValue = trim($lNode->textContent);
+						}						
+// 						if($lPartValue == 'kathanus'){
+// 							var_dump($lNode->ownerDocument->saveXML($lCurrentTaxonNode));
+// 							var_dump($lTaxonName);
+// 							exit;
+// 						}
+					}
+					if($lPartValue != ''){
+						if($lTaxonName != ''){
+							$lTaxonName .= ' ';
+						}
+						$lTaxonName .= $lPartValue;
+					}
+				}			
+				$lCurrentTaxonNames[] = $lTaxonName;
+				$this->m_taxaList[] = trim($lTaxonName);
+			}			
+			
+			$lTaxonUsage = (int)TAXON_NAME_USAGE_INLINE;
+			$lParentQueries = array(
+				'./ancestor-or-self::*[@class="figure"]' => (int)TAXON_NAME_USAGE_FIGURE,
+				'./ancestor-or-self::*[@data-checklist-taxon-title]' => (int)TAXON_NAME_USAGE_CHECKLIST_TREATMENT,
+				'./ancestor-or-self::*[@data-taxon-treatment-title]' => (int)TAXON_NAME_USAGE_TREATMENT,
+				'./ancestor-or-self::*[@data-id-key-taxon-name]' => (int)TAXON_NAME_USAGE_ID_KEY,			
+			);
+			foreach ($lParentQueries as $lQuery => $lUsage){
+				if($lXPath->query($lQuery, $lCurrentTaxonNode)->length){
+					$lTaxonUsage = $lUsage;
+					break;
+				}
+			}
+			
+			$lCurrentTaxonNodeClone = $lCurrentTaxonNode->cloneNode(true);
+			foreach ($lXPath->query($lPartsQuery, $lCurrentTaxonNodeClone) as $lCurrentPart){				
+				$lPartValue = trim($lCurrentPart->getAttribute($lAttributeNameThatHoldsPartValue));
+				if($lPartValue != ''){
+					$lCurrentPart->nodeValue = $lPartValue;
+				}							
+			}			
+			$lTaxonHtml = $lCurrentTaxonNodeClone->ownerDocument->saveXML($lCurrentTaxonNodeClone);
+			$lTaxonText = $lCurrentTaxonNodeClone->textContent;
+			
+			$lTaxonForListPreview = array(
+				'html' => $lTaxonHtml,
+				'text' => $lTaxonText,
+				'names' => $lCurrentTaxonNames,
+				'usage' => array($lTaxonUsage),
+			);
+			if(!$this->CheckIfTaxonIsInArrayForListPreview($lTaxaForListPreview, $lTaxonForListPreview)){
+				$lTaxaForListPreview[] = $lTaxonForListPreview;
+			}
+		}
+		usort($lTaxaForListPreview, function($pTaxon1, $pTaxon2){
+			return strcmp($pTaxon1['text'], $pTaxon2['text']);
+		});
+		
+		$lPreview = new crs_display_array(array (
+			'input_arr' => $lTaxaForListPreview,
+			'templs' => array (
+				G_HEADER => 'article.taxa_list_head',
+				G_FOOTER => 'article.taxa_list_foot',
+				G_STARTRS => 'article.taxa_list_start',
+				G_ENDRS => 'article.taxa_list_end',
+				G_NODATA => 'article.taxa_list_nodata',
+				G_ROWTEMPL => 'article.taxa_list_row'
+			)
+		));
+		
+		$this->m_taxaListPreview = $lPreview->Display();
+// 		var_dump($this->m_taxaListPreview);
+// 		exit;
+		$this->m_taxaList = array_unique($this->m_taxaList);	
+		if(count($this->m_taxaList)){
+			$this->m_hasTaxa = true;
+		}	
+	}
+	
+	protected function CheckIfTaxonIsInArrayForListPreview(&$pArrayForList, &$pTaxon){
+		foreach ($pArrayForList as $lKey => $lCurrentTaxon){ 		
+			if(count($lCurrentTaxon['names']) != count($pTaxon['names'])){
+				continue;
+			}
+			foreach ($lCurrentTaxon['names'] as $lName){
+				if(!in_array($lName, $pTaxon['names'])){
+					continue 2;
+				}
+			}
+			$pArrayForList[$lKey]['usage'] = array_unique(array_merge($pArrayForList[$lKey]['usage'], $pTaxon['usage']));
+			return true;
+		}
+		return false;
+	}
 
 	protected function ImportGeneratedPreviews() {
 		if ($this->m_errCnt) {
@@ -630,9 +937,17 @@ class carticle_preview_generator extends csimple {
 			
 			//Contents list previews
 			$this->SaveElementPreview(0, INSTANCE_CONTENTS_LIST_TYPE, $this->m_contentsListPreview);
+			//Citation list previews
+			$this->SaveElementPreview(0, INSTANCE_CITATION_LIST_TYPE, $this->m_citationListPreview);
 			//Localities list		
 			$this->SaveElementPreview(0, INSTANCE_LOCALITIES_LIST_TYPE, $this->m_localitiesListPreview);
 			$this->SaveArticleLocalities();
+			//Taxa
+			$this->SaveElementPreview(0, INSTANCE_TAXON_LIST_TYPE, $this->m_taxaListPreview);
+			$this->SaveArticleTaxa();
+			
+			
+			$this->SaveArticleElementsExistence();
 			
 			if (! $lCon->Execute('COMMIT TRANSACTION;')) {
 				throw new Exception(getstr('pwt.couldNotBeginTransaction'));
@@ -655,6 +970,7 @@ class carticle_preview_generator extends csimple {
 	} 
 	
 	protected function SaveArticleLocalities(){
+		$this->ExecuteTransactionalQuery('SELECT * FROM spClearArticleLocalities(' . (int)$this->m_documentId . ')');
 		foreach ($this->m_articleLocalities as $lLatitude => $lDetails){
 			foreach ($lDetails as $lLongitude => $lInstanceIds) {
 				$lInstanceIds = array_unique(array_map('intval', $lInstanceIds));
@@ -663,6 +979,28 @@ class carticle_preview_generator extends csimple {
 				$this->ExecuteTransactionalQuery($lSql);
 			}
 		}
+	}
+	
+	protected function SaveArticleTaxa(){
+		$this->ExecuteTransactionalQuery('SELECT * FROM spClearArticleTaxa(' . (int)$this->m_documentId . ')');
+		foreach ($this->m_taxaList as $lTaxonName){
+			$lSql = 'SELECT * FROM spSaveArticleTaxon(' . (int)$this->m_documentId . ', \'' . q($lTaxonName) . '\');';
+			$this->ExecuteTransactionalQuery($lSql);
+		}
+	}
+	
+	protected function SaveArticleElementsExistence(){
+		$lSql = '
+			UPDATE pjs.articles SET
+				has_figures = ' . (int)$this->m_hasFigures . '::boolean,
+				has_tables = ' . (int)$this->m_hasTables . '::boolean,
+				has_localities = ' . (int)$this->m_hasLocalities . '::boolean,
+				has_taxa = ' . (int)$this->m_hasTaxa . '::boolean,
+				has_data = ' . (int)$this->m_hasData . '::boolean,
+				has_references = ' . (int)$this->m_hasReferences . '::boolean
+			WHERE id = ' . (int)$this->m_documentId . '
+		';
+		$this->ExecuteTransactionalQuery($lSql);
 	}
 
 	function GetData() {
@@ -676,6 +1014,19 @@ class carticle_preview_generator extends csimple {
 		$this->ImportGeneratedPreviews();
 		$this->m_dontGetData = true;
 	}
+	
+	protected function CheckIfArticleHasData(){
+		if($this->m_errCnt || $this->m_hasData){
+			return;
+		}
+		$lXPath = new DOMXPath($this->m_xmlDomDocument);
+		$lMaterialsQuery = '//*[@object_id=' . MATERIAL_OBJECT_ID . ']';
+		if($lXPath->query($lMaterialsQuery)->length){
+			$this->m_hasData = true;
+			return;
+		}
+		
+	}
 
 	protected function GeneratePreviews() {
 		$this->RegisterAllInstances();
@@ -684,7 +1035,10 @@ class carticle_preview_generator extends csimple {
 		$this->GenerateArticleWholePreview();
 		$this->GenerateArticleAuthorPreviews();
 		$this->GenerateArticleContentsListPreview();
+		$this->GenerateArticleCitationListPreview();
 		$this->GenerateLocalitiesPreview();
+		$this->GetTaxaList();
+		$this->CheckIfArticleHasData();
 	}
 
 	function ReplaceHtmlFields($pStr) {

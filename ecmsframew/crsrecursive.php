@@ -29,7 +29,7 @@ class crsrecursive extends crs {
 				*/
 				if (in_array($this->m_pubdata[$this->m_pubdata['recursivecolumn']], $varr)) return $lRet; //krai na rekursia
 				
-				$objTemplateArr=split("\{\&\}",$objTemplate);
+				$objTemplateArr=explode("{&}",$objTemplate);
 				if (count($objTemplateArr) > 1) {
 					$objResArr=array();
 					foreach($objTemplateArr as $k=>$v) {

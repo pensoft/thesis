@@ -12,14 +12,19 @@ $gFormFields =  array(
 			'DisplayName' => 'back_uri',
 			'AllowNulls' => true,
 		),
+		'errs' => array(
+			'CType' => 'hidden',
+			'VType' => 'int',
+			'AllowNulls' => true,
+		),
 		'username' => array(
 			'CType' => 'text',
 			'VType' => 'string',
-			'DisplayName' => getstr('loginform.username'),
+			'DisplayName' => 'Username / E-mail ',
 			'AllowNulls' => false,
 			'AddTags' => array(
-				'onfocus' => 'changeFocus(1, this);',
-				'onblur'  => 'changeFocus(2, this);',
+				//'onfocus' => 'changeFocus(1, this);',
+				//'onblur'  => 'changeFocus(2, this);',
 				'class'   => 'P-Input',
 				//'fldattr'  => '0',
 				'id' => 'P-Login-Username',
@@ -47,8 +52,8 @@ $gFormFields =  array(
 			'error_js' => 'addErrorClassById(\'P-Login-Password\', \'loginErrors\', \'null\', \'P-Input-Inner-Wrapper\')',
 			'valid_js' => 'removeErrorClass(\'P-Login-Password\', \'loginErrors\', \'null\', \'P-Input-Inner-Wrapper\')',
 			'AddTags' => array(
-				'onfocus' => 'changeFocus(1, this);',
-				'onblur'  => 'changeFocus(2, this);',
+				//'onfocus' => 'changeFocus(1, this);',
+				//'onblur'  => 'changeFocus(2, this);',
 				//'fldattr'  => '0',
 				'id' => 'P-Login-Password',
 				'tabindex'  => '2'
@@ -57,20 +62,26 @@ $gFormFields =  array(
 		// <input value="LOGIN" type="submit" class=""/>
 		'login' => array(
 			'CType' => 'action',
-			'DisplayName' => getstr('loginform.loginbut'),
+			'DisplayName' => 'Login',
 			'SQL' => '{username}, {password}, {back_uri}',
 			'AddTags' => array(
 				'tabindex'  => '3',
+				'class' => 'button_green'
 			),
 			'ActionMask' => ACTION_CHECK   | ACTION_SHOW,
 		),
 		'confirmedtxt' => $Dummy,
 	),
 	'loginfpass_templ_fields' => array(
+		'errs' => array(
+			'CType' => 'hidden',
+			'VType' => 'int',
+			'AllowNulls' => true,
+		),
 		'email' => array(
 			'CType' => 'text',
 			'VType' => 'string',
-			'DisplayName' => getstr('regprof.email'),
+			'DisplayName' => 'Username / E-mail ',
 			'AllowNulls' => false,
 			'error_class' => 'aaa', // fld_error_notify //optional
 			'error_templ' => 'div', //optional
@@ -114,7 +125,8 @@ $gFormFields =  array(
 			'DisplayName' => 'Send',
 			'SQL' => '{email}, {captcha}',
 			'AddTags' => array(
-				'class' => 'coolbut',
+				//'class' => 'coolbut',
+				'class' => 'button_green'
 			),
 			'ActionMask' => ACTION_CHECK | ACTION_CCHECK | ACTION_SHOW,
 		),

@@ -1,5 +1,6 @@
 DROP TYPE IF EXISTS ret_spGetDocumentInfo CASCADE;
 CREATE TYPE ret_spGetDocumentInfo AS (
+	journal_name varchar,
 	document_id bigint,
 	createuid bigint,
 	state_id int,
@@ -43,7 +44,8 @@ CREATE TYPE ret_spGetDocumentInfo AS (
 	waitnominatedflag boolean,
 	waitpanelflag boolean,
 	caninvitenominatedflag boolean,
-	reviews int
+	reviews int,
+	author_email varchar
 );
 
 CREATE OR REPLACE FUNCTION spGetDocumentInfo(
@@ -102,7 +104,7 @@ $BODY$
 		
 		-- document info
 		SELECT INTO lRes 
-			d.id, d.submitting_author_id, d.state_id, d.document_source_id, d.creation_step, 
+			j.name, d.id, d.submitting_author_id, d.state_id, d.document_source_id, d.creation_step, 
 			d.name, d.abstract, d.keywords, d.journal_id, d.editor_notes, d.layout_notes, d.document_review_type_id, null,
 			dv.version_num, dvt.name, js.title, null, null, null, null, d.notes_to_editor, null, d.submitted_date, null, null, null, d.panel_duedate, d.current_round_id, 
 			null, null, null, dv.id as author_version_id, null, null, null, pd.pwt_id, null, null, null, d.public_duedate
@@ -113,6 +115,7 @@ $BODY$
 		LEFT JOIN pjs.document_types dt ON dt.id = d.document_type_id
 		LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id
 		LEFT JOIN pjs.pwt_documents pd ON pd.document_id = d.id
+		LEFT JOIN public.journals j ON j.id = d.journal_id
 		WHERE d.id = pDocumentId;
 		
 		-- selecting SE data
@@ -236,10 +239,11 @@ $BODY$
 		GROUP BY du.document_id, du.ord
 		ORDER BY du.document_id, du.ord;
 		*/
-		SELECT INTO lRes.author_name aggr_concat_coma(a.author_name)
+		SELECT INTO lRes.author_name, lRes.author_email aggr_concat_coma(a.author_name), aggr_concat_coma(a.uname) 
 		FROM (
-			SELECT (du.first_name || ' ' || du.last_name) as author_name 
+			SELECT (du.first_name || ' ' || du.last_name) as author_name, u.uname
 			FROM pjs.document_users du
+			JOIN usr u ON u.id = du.uid
 			WHERE du.document_id = pDocumentId AND du.role_id = lARoleType AND du.state_id = 1
 			ORDER BY du.ord
 		) a;

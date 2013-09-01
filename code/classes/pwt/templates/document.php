@@ -167,7 +167,22 @@ $gTemplArr = array(
 
 						{*tables.tables_popup}
 	',
-		
+	
+	'document.xml_validation_wrapper_no_comments' => '
+						<div class="P-Wrapper-Container-Left {_getContainerHideClass(1)}">
+							{document_structure}
+							<div class="P-Container-Toggler-Btn-Left" onclick="toggleLeftContainer();"></div>
+							<script type="text/javascript">
+								var articleStructure = new articleMenu(\'articleMenu\', \'P-Right-Arrow\' , \'P-Down-Arrow\');
+							</script>
+						</div><!-- End P-Wrapper-Container-Left -->
+						<div class="P-Wrapper-Container-Middle P-Wrapper-Container-Right-Hide">
+							{xml_validation}
+						</div><!-- End P-Wrapper-Container-Middle -->
+
+						{*tables.tables_popup}
+	',
+	
 	'document.tree_ajax_wrapper' => '
 						<div id="document_tree_holder">
 							<script>LoadDocumentTree(\'document_tree_holder\', {document_id}, {instance_id});</script>

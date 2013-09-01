@@ -202,6 +202,16 @@ function showPicIfExists($pid, $pref, $class = false) {
 	return '';
 }
 
+function showPicIfExistsAOF($pid, $pref, $class = false) {
+	if ($pid) {
+		return '<img src="' . SITE_URL . SHOWIMG_URL .
+		$pref . '_' . $pid . '.jpg" border="0" alt="" ' .
+		($class ? 'class="' . $class . '"' : '') . '/>';
+	}
+	return '<img src="' . SITE_URL . '/i/no-photo-60.png" border="0" alt="" ' .
+		($class ? 'class="' . $class . '"' : '') . '/>';
+}
+
 function showItemIfExists ($item, $leftCont, $rightCont, $nl2br = false) {
 	return ($item ? $leftCont . ($nl2br ? nl2br($item) : $item) . $rightCont : '');
 }
@@ -687,6 +697,12 @@ function getDocumentTablesTempls(){
 function getDocumentXMLValidationTempls(){
 	return array(
 		G_DEFAULT => 'document.xml_validation_wrapper'
+	);
+}
+
+function getDocumentXMLValidationTemplsNoComments(){
+	return array(
+		G_DEFAULT => 'document.xml_validation_wrapper_no_comments'
 	);
 }
 
@@ -5837,9 +5853,9 @@ function showDashboardAdminFilter($pShowAll){
 			<table class="P-Data-Resources-Head" cellspacing="0" cellpadding="0">
 				<tbody>
 					<tr>
-					<td class="P-Data-Resources-Head-Text">' . ((int)$pShowAll ? '<a href="/">' : '') . getstr('dashboard.my_manuscripts') . ((int)$pShowAll ? '</a>' : '') .'</td>
+					<td class="P-Data-Resources-Head-Text">' . ((int)$pShowAll ? '<a href="/dashboard.php">' : '') . getstr('dashboard.my_manuscripts') . ((int)$pShowAll ? '</a>' : '') .'</td>
 					<td class="P-Data-Resources-Head-Text">|</td>
-					<td class="P-Data-Resources-Head-Text">' . (!(int)$pShowAll ? '<a href="/index.php?showall=1">' : '') . getstr('dashboard.all_manuscripts') . (!(int)$pShowAll ? '</a>' : '') . '</td>
+					<td class="P-Data-Resources-Head-Text">' . (!(int)$pShowAll ? '<a href="/dashboard.php?showall=1">' : '') . getstr('dashboard.all_manuscripts') . (!(int)$pShowAll ? '</a>' : '') . '</td>
 					</tr>
 				</tbody>
 			</table>
@@ -6482,5 +6498,153 @@ function displayNewCommentForm($pVersionIsReadonly, $pForm){
 			</div>';
 }
 
+function ShowEntrezRecordsDbSubtreeLink($pTaxonName, $pTaxonId, $pDbName, $pCount){
+	if(!(int) $pCount ){
+		return '-';
+	}
+	return '<a href="' . ParseTaxonExternalLink($pTaxonName, NCBI_SUBTREE_LINK . '&term=txid' . $pTaxonId . '[Organism:exp]&db=' . $pDbName) . '">' . (int)$pCount . '</a>';
 
+}
+
+function bhl_showimage($pTaxonName, $pImgUrl, $pImg, $pNodata) {
+	if ($pNodata)
+		return '';
+	else
+		return '<a href="' . ParseTaxonExternalLink($pTaxonName, $pImgUrl) . '"><img class="bhl-img" border="0" align="right" src="' . $pImg . '"></img></a>';
+}
+
+function displayBHLItems($pItems, $pTaxonName){
+	$lItems = new crs_display_array(array(
+		'input_arr' => $pItems,
+		'taxon_name' => $pTaxonName,
+		'pagesize' => 1,
+		'templs' => array(
+			G_HEADER => 'article.bhl_items_head',
+			G_FOOTER => 'article.bhl_items_foot',
+			G_STARTRS => 'article.bhl_items_start',
+			G_ENDRS => 'article.bhl_items_end',
+			G_ROWTEMPL => 'article.bhl_items_row',
+			G_NODATA => 'article.bhl_items_nodata',
+		)
+	));
+	return $lItems->Display();
+}
+
+function displayBHLPages($pPages, $pTaxonName){
+	$lPages = new crs_display_array(array(
+		'input_arr' => $pPages,
+		'taxon_name' => $pTaxonName,
+		'templs' => array(
+			G_HEADER => 'article.bhl_pages_head',
+			G_FOOTER => 'article.bhl_pages_foot',
+			G_STARTRS => 'article.bhl_pages_start',
+			G_ENDRS => 'article.bhl_pages_end',
+			G_ROWTEMPL => 'article.bhl_pages_row',
+			G_NODATA => 'article.bhl_pages_nodata',
+		)
+	));
+	return $lPages->Display();
+}
+
+function bhl_showvolume($pVolume) {
+	if ($pVolume)
+		return $pVolume . ":";
+	else
+		return '';
+}
+
+function bhl_writecomma($pRownum, $pRecords){
+	if ($pRownum < $pRecords)
+		return ', ';
+	else
+		return '';
+}
+
+function showImageIfSrcExists($pSrc, $pClass = 'noBorder'){
+	if( trim($pSrc)){
+		return '<img class="' . $pClass . '" src="' . PTP_URL . $pSrc . '"></img>';
+	}
+}
+
+function GetAuthorFirstNameFirstLetter($pFirstName){
+	return strtoupper(mb_substr(($pFirstName), 0, 1));
+}
+
+function displayCitationsAuthorSeparator($pRecords, $pRownum, $pSeparator = ', '){	
+	if((int)$pRecords > (int)$pRownum){
+		return $pSeparator;
+	}
+}
+
+function showTaxaNameUsage($pUsage){
+	$lResult = '<span class="taxon-usage-holder">
+					<span class="taxon-usage-caption">&nbsp;&nbsp;</span>';
+	$lRow = 0;
+	foreach ($pUsage as $lUsage){
+		if($lRow++){
+			$lResult .= ' | ';
+		}
+		switch($lUsage){
+			case TAXON_NAME_USAGE_TREATMENT :
+				$lResult .= '<span class="taxon-usage" title="Taxon treatment">
+								<img width="30" heigth="18" alt="" src="/i/TTR.png" style="vertical-align: middle;" />
+							</span>';
+				break;
+			case TAXON_NAME_USAGE_CHECKLIST_TREATMENT :
+				$lResult .= '<span class="taxon-usage" title="Checklist">
+								<img width="30" heigth="18" alt="" src="/i/CHL.png" style="vertical-align: middle;" />
+							</span>';
+				break;
+			case TAXON_NAME_USAGE_ID_KEY :
+				$lResult .= '<span class="taxon-usage" title="Identification key">
+								<img width="18" heigth="18" alt="" src="/i/download-icon-small-18.png" style="vertical-align: middle;" />IdK
+							</span>';
+				break;
+			case TAXON_NAME_USAGE_FIGURE:
+				$lResult .= '<span class="taxon-usage" title="Figure">
+								<img width="18" heigth="18" alt="" src="/i/download-icon-small-18.png" style="vertical-align: middle;" />F 
+							</span>';
+				break;
+			case TAXON_NAME_USAGE_INLINE:
+				$lResult .= '<span class="taxon-usage" title="In text">
+								<img width="18" heigth="18" alt="" src="/i/download-icon-small-18.png" style="vertical-align: middle;" />InT
+							</span>';
+				break;
+		}
+	}
+	$lResult .= '</span>';
+	return $lResult;
+}
+
+function GetArticleTitleForCitation($pTitle){
+	$pTitle = trim(strip_tags($pTitle));
+	$lLastSymbol = mb_substr($pTitle, -1);
+	if(!in_array($lLastSymbol, array('.', '?', '!'))){
+		$pTitle .= '.';
+	}
+	return $pTitle;
+}
+
+function showTextIfErrors($pArr) {
+	if(!$pArr['errs']) {
+		return '<p class="message">If you are already registered with a Pensoft journal, please use your credentials to sign in.</p>';
+	}	
+	return '';
+}
+
+function displayRegularSiteHasResultsClass($pSiteHasResults){
+	if(!(int)$pSiteHasResults){
+		return ' P-Regular-Site-Row-Without-Results';
+	}
+}
+
+function displayRegularSiteLastRowClass($pRownum, $pRecords, $pItemsOnRow){
+	if((int)$pRecords != (int)$pRownum){
+		return;
+	}
+	if($pRownum % $pItemsOnRow != 0){//The row contains less rows than it has capacity for
+		return ' P-Regular-Site-Row-Last-Larger';
+	}
+	return ' P-Regular-Site-Row-Last-Regular';
+}
 ?>

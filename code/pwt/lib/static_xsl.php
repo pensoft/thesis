@@ -17,6 +17,12 @@ function getContributorAffId($pInstanceId){
 
 	return $lAffUris[$pInstanceId];
 }
+function getimageW($filename){ $a = getimagesize($filename); return $a[0];}
+function getimageH($filename){ $a = getimagesize($filename); return $a[1];}
+
+function plural($n){
+		return $n > 1 ? 's': ''; 	
+}
 
 function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 	$lAllowed = array(

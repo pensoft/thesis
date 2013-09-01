@@ -96,6 +96,14 @@ class mArticles extends emBase_Model {
 	}
 	
 	/**
+	 * Preview of the citation of the article
+	 * @param unknown $pArticleId
+	 */
+	function GetCitationListHtml($pArticleId){
+		return $this->GetElementWithColumnInArticlesHtml('citation_list_cache_id', $pArticleId);
+	}
+	
+	/**
 	 * Retrieves the preview of an instance element for the specific article
 	 * @param unknown $pTableName - the name of the table in which data is being stored for this types of elements
 	 * @param unknown $pArticleId - the id of the article
@@ -149,7 +157,7 @@ class mArticles extends emBase_Model {
 			SELECT i.cached_val
 			FROM pjs.taxons a
 			JOIN pjs.article_cached_items i ON i.id = a.cache_id
-			WHERE lower(translate(a.name::text, \' ,.-*\', \'\'\'\')) = lower(translate(\'' . q($pTaxonName) . '\', \' ,.-*\', \'\'\'\'))
+			JOIN spGetTaxonId(\'' . q($pTaxonName) . '\') s ON s.id  = a.id			
 		';
 // 				var_dump($lSql);
 		$this->m_con->Execute($lSql);
@@ -231,6 +239,31 @@ class mArticles extends emBase_Model {
 		return $lResult;
 	}
 	
+	/**
+	 * Returns whether the article has figures/tables/localities/taxa/references/data objects
+	 * @param unknown $pArticleId
+	 * @return multitype:unknown Ambigous <>
+	 */
+	function GetObjectExistenceFields($pArticleId){
+		$lSql = '
+			SELECT has_figures::int as has_figures, has_tables::int as has_tables, has_localities::int as has_localities, has_taxa::int as has_taxa,
+				has_data::int as has_data, has_references::int as has_references
+			FROM pjs.articles 
+			WHERE id = ' . (int)$pArticleId . '
+		';
+		$this->m_con->Execute($lSql);
+		$lRow = $this->m_con->mRs;
+		$lResult = array(
+			'has_figures' => $lRow['has_figures'],
+			'has_tables' => $lRow['has_tables'],
+			'has_localities' => $lRow['has_localities'],
+			'has_taxa' => $lRow['has_taxa'],
+			'has_data' => $lRow['has_data'],
+			'has_references' => $lRow['has_references'],
+		);
+		return $lResult;
+		
+	}
 }
 
 ?>

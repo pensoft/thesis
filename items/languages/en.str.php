@@ -1836,7 +1836,7 @@ $STRARRAY = array(
 
 	'pjs.ready_text' => 'Ready',
 
-	'pjs.your_tasks' => 'Your Tasks',
+	'pjs.your_tasks' => 'Your tasks',
 
 	'pjs.documentCreate.next' => 'Next',
 	'pjs.documentCreate.back' => 'Back',
@@ -2188,5 +2188,20 @@ $STRARRAY = array(
 	'pjs.youHaveToSelectChecklistNomenclatureFirst' => 'Please assign your checklist to the closest higher rank in the present classification',
 	
 	'pjs.se_version_author_text' => 'View merged editor\'s version',
+	
+	
+	'pjs.articleLocalitiesAllLocalities' => 'All localities',
+	'pjs.articleLocalitiesAllTaxa' => 'All taxa',
+	'pjs.articleLocalitiesClear' => 'Clear',
+	'pjs.articleDateReceivedLabel' => 'Received: ',
+	'pjs.articleDateApprovedLabel' => 'Approved: ',
+	'pjs.articleDatePublishedLabel' => 'Published: ',
+	'pjs.articleDoiLabel' => 'DOI: ',
+	'pjs.articleAuthorsLabel' => 'Author',
+	'pjs.articleSELabel' => 'Academic editor',
+	
+	'pwt.index_list_head_text' => 'My recent manuscripts',
+	'pjs.bygeochronocal' => 'by Chronological region',
+
 );
 ?>

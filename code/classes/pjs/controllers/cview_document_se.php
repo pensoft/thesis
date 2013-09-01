@@ -137,6 +137,7 @@ class cView_Document_SE extends cView_Document {
 							'review_process_type'	=> $this->m_documentData['document_review_type_id'],
 							'author_version_id' => $this->m_documentData['author_version_id'],
 							'view_role' 			=> ((int)$this->GetValueFromRequestWithoutChecks('view_role') ? (int)$this->GetValueFromRequestWithoutChecks('view_role') : $this->m_viewingRole),
+							'journal_name'			=> $this->m_documentData['journal_name'],
 						));
 						if($lCanTakeDecision == 'true'){
 							$lDecisionObject = new evSimple_Block_Display(array(
@@ -219,6 +220,7 @@ class cView_Document_SE extends cView_Document {
 								'check_invited_users' => $this->m_documentData['check_invited_users'],
 								'merge_flag' => $this->m_documentData['merge_flag'],
 								'reviewers_lock_flag' => $lCanInviteUsers,
+								'journal_name'			=> $this->m_documentData['journal_name'],
 							));
 							
 							$lInvitedReviewers = new evList_Display(array(
@@ -390,12 +392,14 @@ class cView_Document_SE extends cView_Document {
 				'controller_data' => $lInvitedPanelData,
 				'name_in_viewobject' => 'invited_reviewers_obj_list',
 				'document_id' => $this->m_documentId,
+				'journal_name' => $this->m_documentData['journal_name'],
 			));
 			
 			$lReviewersReviewedDocObj = new evList_Display(array(
 				'controller_data' => $lReviewedPanelPublicData,
 				'name_in_viewobject' => 'reviewers_reviewed_document',
 				'document_id' => $this->m_documentId,
+				'journal_name' => $this->m_documentData['journal_name'],
 			));
 			
 			if(count($lInvitedPanelData) || count($lReviewedPanelPublicData)) {
@@ -413,6 +417,7 @@ class cView_Document_SE extends cView_Document {
 				'controller_data' => $lRoundData,
 				'name_in_viewobject' => 'view_review_rounds',
 				'round_number' => $value['round_number'],
+				'journal_name' => $this->m_documentData['journal_name'],
 			));	
 				
 			$lHideReviewersText = 0;

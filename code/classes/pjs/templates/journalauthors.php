@@ -11,10 +11,10 @@ $gTemplArr = array(
 								<span></span>
 								<span class="content">' . getstr('pjs.articles') . '</span>
 							</a>
-							<a class="link" href="/browse_journal_issues.php?journal_id={journal_id}">
+							<!-- <a class="link" href="/browse_journal_issues.php?journal_id={journal_id}">
 								<span></span>
 								<span class="content">' . getstr('pjs.issues') . '</span>
-							</a>
+							</a> -->
 							<a class="link active" href="/browse_journal_authors.php?journal_id={journal_id}">
 								<span></span>
 								<span class="content">' . getstr('pjs.authors') . '</span>
@@ -29,13 +29,14 @@ $gTemplArr = array(
 							<div class="filterBlockTitle">' . getstr('pjs.byalphabet') . '</div>
 							<div class="filterBlockContent">
 								<input id="author_first_letter" type="hidden" name="author_letter" value="{author_letter}" />
-								<a href="javascript: filterAuthorsLetter(\'affiliation_input\', {journal_id}, \'\')" class="green letter">All</a>&nbsp;&nbsp;&nbsp;<span style="color: #b0ada2;">|</span>
-								<div class="lettersHolder">
+								<a href="javascript: filterAuthorsLetter(\'affiliation_input\', {journal_id}, \'\')" class="green letter">All</a><span style="color: #b0ada2;">&nbsp;&nbsp;|&nbsp;</span>
+								<span class="lettersHolder">
 									{_getLetters(journal_id, \'affiliation_input\')}
-								</div>
+								</span>
 							</div>
 							<div class="P-Clear"></div>
 						</div>
+						<!--
 						<div class="filterBlock">
 							<div class="filterBlockTitle">' . getstr('pjs.byaffiliation') . '</div>
 							<div class="filterBlockContent">
@@ -45,6 +46,7 @@ $gTemplArr = array(
 							</div>
 							<div class="P-Clear"></div>
 						</div>
+						-->
 						
 						<div class="buttonsHolder">
 							<div class="P-Green-Btn-Holder">
@@ -76,8 +78,8 @@ $gTemplArr = array(
 	',
 	'journalauthors.authors_row' => '
 			<div class="authorInfoHolder">
-				<a href="/browse_journal_articles_by_author.php?journal_id={journal_id}&user_id={id}">{_getProfilePic(previewpicid, 1)}</a>
-				<div style="float: left; margin-left: 10px;">
+				{_getProfilePicWithLink(previewpicid, journal_id, id, 1)}
+				<div style="float: left; margin-left: 10px; width: 65%;">
 					<a href="/browse_journal_articles_by_author.php?journal_id={journal_id}&user_id={id}" class="green" style="line-height: 24px;">{author_names}</a><br/>
 					<div class="greenDesc">{affiliation}</div>
 				</div>

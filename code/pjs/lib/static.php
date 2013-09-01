@@ -731,4 +731,46 @@ function CustomHtmlEntitiesDoubleEncode($pXml){
 	return $pXml;
 }
 
+function createArticleObjectMenu($pObjectExistence){
+	$lCheck = array(
+		'has_figures' => array(
+			'item_id' => ARTICLE_MENU_ELEMENT_TYPE_FIGURES,
+			'display_name' => 'Figures',
+		),
+		'has_tables' => array(
+			'item_id' => ARTICLE_MENU_ELEMENT_TYPE_TABLES,
+			'display_name' => 'Tables',
+		),
+		'has_localities' => array(
+			'item_id' => ARTICLE_MENU_ELEMENT_TYPE_LOCALITIES,
+			'display_name' => 'Map',
+		),
+		'has_taxa' => array(
+			'item_id' => ARTICLE_MENU_ELEMENT_TYPE_TAXON,
+			'display_name' => 'Taxa',
+		),
+		'has_data' => array(
+			'item_id' => ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES,
+			'display_name' => 'Data',
+		),
+		'has_references' => array(
+			'item_id' => ARTICLE_MENU_ELEMENT_TYPE_REFERENCES,
+			'display_name' => 'References',
+		),
+	);
+	$lInfoMenu = array();
+	foreach ($lCheck as $lFieldToCheck => $lFieldData){		
+		if(!(int)$pObjectExistence[$lFieldToCheck]){
+			continue;			
+		}
+		$lInfoMenu[$lFieldData['item_id']] = $lFieldData['display_name'];
+	}	
+	if(!count($lInfoMenu)){
+		return;
+	}
+	return '
+				<ul class="P-Info-Menu bottomBar">' .
+							infoMenu($lInfoMenu) . '
+				</ul>';
+}
 ?>

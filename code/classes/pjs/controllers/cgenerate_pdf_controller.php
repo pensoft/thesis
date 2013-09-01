@@ -9,9 +9,10 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 		$lDocumentPreview = $lPreviewController->m_action_result['preview'];
 		
 		$lVersionId = (int)$this->GetValueFromRequestWithoutChecks('version_id');
+		$lDocumentId = (int)$this->GetValueFromRequestWithoutChecks('document_id');
 		
 		$lVersionModel = new mVersions();
-		$lDocumentId = $lVersionModel->GetVersionDocumentPjsId($lVersionId);
+		//$lDocumentId = $lVersionModel->GetVersionDocumentPjsId($lVersionId);
 		
 		$lDocumentModel = new mDocuments_Model();
 		$lDocumentData = $lDocumentModel->GetDocumentInfoForPDF($lDocumentId);
@@ -23,7 +24,10 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 			'document_title' => $lDocumentData['document_title'],
 			'document_id' => $lDocumentData['document_id'],
 			'author_list' => $lDocumentData['author_list'],
+			'author_list_short' => $lDocumentData['author_list_short'],
 			'document_type_name' => $lDocumentData['document_type_name'],
+			'doi' => $lDocumentData['doi'],
+			'idtext' => $lDocumentData['idtext'],
 		));
 		
 		$this->m_pageView = new pGenerate_PDF_Page_View(array_merge($this->m_commonObjectsDefinitions, $lViewPageObjectsDataArray));

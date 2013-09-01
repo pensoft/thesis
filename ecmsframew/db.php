@@ -150,7 +150,7 @@ class DBCn {
 	function ParseResultArray($p) {
 		for ($i = $this->DB->ResultStartIter(); $i < $this->DB->Num_Fields($this->mhRs); $i++) {
 			if ($this->DB->Field_Type($this->mhRs, $i)=='bool') {
-				if (array_key_exists($i, $p)) {
+				if (is_array($p) && array_key_exists($i, $p)) {
 					if ($p[$i]=='t') {
 						$p[$i] = 'true';
 						$p[$this->DB->Field_Name($this->mhRs, $i)] = 'true';

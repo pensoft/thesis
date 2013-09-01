@@ -157,12 +157,20 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 					'VType' => 'string',
 					'AllowNulls' => true,
 					'DisplayName' => '',
+					'AddTags' => array(
+						'onblur' => '$(\'#filter_articles\').submit()',
+						'style' => 'width:100% !important',
+						'class' => 'fund_ag',
+					),
 				),
 				'Filter' => array(
 					'CType' => 'action',
 					//'SQL' => 'SELECT 1',
 					'DisplayName' => getstr('pjs.filter'),
 					'ActionMask' =>  ACTION_CHECK | ACTION_CCHECK | ACTION_SHOW,
+					'AddTags' => array(
+						'style' => 'display:none'
+					),
 				),
 				'showedit' => array(
 					'CType' => 'action',
@@ -181,7 +189,8 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 				'js_validation' => 0,
 				'form_name' => 'filter_articles',
 				'dont_close_session' => true,
-				'fields_metadata' => $lFieldsMetadataTempl
+				'fields_metadata' => $lFieldsMetadataTempl,
+				'htmlformid' => 'filter_articles',
 			);
 			
 			$lTrees = array_merge( 
@@ -199,26 +208,43 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 				'journal_id' => $lJournalId
 			));
 			//echo $lForm->wGetFieldValue('from_date');
+			
 			$lJournalArticles = $this->m_models['mJournal_Documents_Model']->GetJournalArticles(
-																				$lJournalId, (int)$this->GetValueFromRequestWithoutChecks('p'),
-																				$lForm->wGetFieldValue('section_type'),
-																				$lForm->wGetFieldValue('alerts_taxon_cats'),
-																				$lForm->wGetFieldValue('alerts_subject_cats'),
-																				$lForm->wGetFieldValue('alerts_chronical_cats'),
-																				$lForm->wGetFieldValue('alerts_geographical_cats'),
-																				$lForm->wGetFieldValue('from_date'),
-																				$lForm->wGetFieldValue('to_date')
-																			);
+				$lJournalId, (int)$this->GetValueFromRequestWithoutChecks('p'),
+				$lForm->wGetFieldValue('section_type'),
+				$lForm->wGetFieldValue('alerts_taxon_cats'),
+				$lForm->wGetFieldValue('alerts_subject_cats'),
+				$lForm->wGetFieldValue('alerts_chronical_cats'),
+				$lForm->wGetFieldValue('alerts_geographical_cats'),
+				$lForm->wGetFieldValue('from_date'),
+				$lForm->wGetFieldValue('to_date'),
+				$lForm->wGetFieldValue('funding_agency')
+			);
+			//var_dump($lTrees);
+			//var_dump($lForm->wGetFieldValue('section_type'));
+			$lConvertedFilterValues = $this->m_models['mJournal_Documents_Model']->ConvertFilterValues(
+				$lForm->wGetFieldValue('alerts_taxon_cats'),
+				$lForm->wGetFieldValue('alerts_subject_cats'),
+				$lForm->wGetFieldValue('alerts_geographical_cats'),
+				$lForm->wGetFieldValue('alerts_chronical_cats'),
+				$lForm->wGetFieldValue('section_type')
+			);
+			//var_dump($lConvertedFilterValues['sectionType']);
 			$pViewPageObjectsDataArray['contents'] = array(
 				'ctype' => 'evList_Display',
 				'name_in_viewobject' => 'browse_articles_list_templs',
 				'controller_data' => $lJournalArticles,
 				'journal_id' => $lJournalId,
-				'fromdate' => $lFromDate,
-				'todate' => $lToDate,
+				'fromdate' => $lForm->wGetFieldValue('from_date'),
+				'todate' => $lForm->wGetFieldValue('to_date'),
 				'fundingagency' => $lFundingAgency,
 				'default_page_size' => DEFAULT_PAGE_SIZE,
 				'page_parameter_name' => 'p',
+				'taxon' => $lConvertedFilterValues['taxon'], 
+				'subject' => $lConvertedFilterValues['subject'], 
+				'geographical' => $lConvertedFilterValues['geographical'], 
+				'chronical' => $lConvertedFilterValues['chronical'], 
+				'sectiontype' => $lConvertedFilterValues['sectionType'],
 			);		
 			$pViewPageObjectsDataArray['journal_id'] = $lJournalId;
 		}

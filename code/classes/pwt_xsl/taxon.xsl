@@ -3,18 +3,23 @@
 	<!-- Checklist 2.0 Taxon 2.0 -->
 	<xsl:template match="*" mode="checklistTaxon">
 		<xsl:variable name="lTreatmentNode" select="."></xsl:variable>
-		<xsl:apply-templates select="." mode="checklistTaxonForm"/>
-		<xsl:if test="count(.//*[@object_id='39'])">
-			<ul>
-				<xsl:apply-templates select=".//*[@object_id='39']" mode="TTExternalLinks"/>
-			</ul>
-		</xsl:if>
-		<xsl:apply-templates select="*[@object_id='210']" mode="checklistTaxonFields"/>
-		<xsl:apply-templates select=".//*[@object_id='38']" mode="ttMaterials"/>
-		<xsl:apply-templates select="*[@object_id='209']" mode="checklistTaxonFields"/>
-		<xsl:apply-templates select="*[@object_id='208']" mode="checklistTaxonFields"/>
-		<xsl:apply-templates select="*[@object_id='207']" mode="checklistTaxonFields"/>
-		<xsl:apply-templates select="*[@object_id='206']" mode="checklistTaxonFields"/>
+		<div>
+			<xsl:attribute name="data-is-checklist-taxon">1</xsl:attribute>
+			<xsl:attribute name="instance_id"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute>
+	
+			<xsl:apply-templates select="." mode="checklistTaxonForm"/>
+			<xsl:if test="count(.//*[@object_id='39'])">
+				<ul class="treatment-external-links">
+					<xsl:apply-templates select=".//*[@object_id='39']" mode="TTExternalLinks"/>
+				</ul>
+			</xsl:if>
+			<xsl:apply-templates select="*[@object_id='210']" mode="checklistTaxonFields"/>
+			<xsl:apply-templates select=".//*[@object_id='38']" mode="ttMaterials"/>
+			<xsl:apply-templates select="*[@object_id='209']" mode="checklistTaxonFields"/>
+			<xsl:apply-templates select="*[@object_id='208']" mode="checklistTaxonFields"/>
+			<xsl:apply-templates select="*[@object_id='207']" mode="checklistTaxonFields"/>
+			<xsl:apply-templates select="*[@object_id='206']" mode="checklistTaxonFields"/>
+		</div>
 	</xsl:template>	
 	
 	
@@ -352,6 +357,7 @@
 
 		<xsl:variable name="lRankValue" select="./fields/*[@id=$RankID]/value"></xsl:variable>
 		<div class="P-Article-Preview-Block-Content">
+			<xsl:attribute name="data-checklist-taxon-title">1</xsl:attribute>
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 
 			<!-- label -->

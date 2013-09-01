@@ -4,6 +4,14 @@ function getCommit(){
 	return file_get_contents(dirname(__FILE__) . '/../../../../.git/refs/heads/master');
 }
 
+function infoMenu($items){
+	$result = '';
+	foreach ($items as $key => $value) {
+		$result .= '<li data-info-type="' . $key . '"><span class="hyper">'.$value.'</span><span class="hidden-bold">'.$value.'</span></li>';
+	}
+	return $result;
+}
+
 function sortLink($pViewMode, $pOrderByColumn, $pSortOrder, $pCurrentColumn, $pTitle) {
 
 	$lOrder = '';
@@ -302,6 +310,27 @@ function getProfilePic($pPhotoId, $pViewMode = 0) {
 		$lRet = '<div class="Prof-Photo">
 					<img src="i/add_photo.png" width="67" height="70" alt="Profile picture" />
 					<div class="P-Clear"></div>
+				</div>
+				' . ((int) $pViewMode ? "" : getstr('pwt.addProfilePicture'));
+	}
+	return $lRet;
+}
+
+function getProfilePicWithLink($pPhotoId, $pJournalId, $pId, $pViewMode = 0) {
+	$lRet = '';
+
+	if((int) $pPhotoId){
+		$lRet = '<div class="Prof-Photo"> 
+					<a href="/browse_journal_articles_by_author.php?journal_id=' . $pJournalId . '&user_id=' . $pId . '">
+						<img class="P-Prof-Pic" width="67" height="70" src="/showimg.php?filename=c67x70y_' . (int) $pPhotoId . '.jpg" alt="Profile picture" />
+					</a>
+				</div>
+				' . ((int) $pViewMode ? "" : getstr('pwt.changeProfilePicture'));
+	}else{
+		$lRet = '<div class="Prof-Photo">
+					<a href="/browse_journal_articles_by_author.php?journal_id=' . $pJournalId . '&user_id=' . $pId . '">
+						<img src="i/add_photo.png" width="67" height="70" alt="Profile picture" />
+					</a>
 				</div>
 				' . ((int) $pViewMode ? "" : getstr('pwt.addProfilePicture'));
 	}
@@ -839,7 +868,7 @@ function DisplayReviewIcon($pInvitationId, $pDecisionId, $pReviewerId, $pRoundId
 	if((int) $pDecisionId){
 		$lRes .= '
 			<span class="reviewer_act">
-				<img title="{_getstr(View review1)}" onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\', 0, 0, \'window_' . $pReviewerVersionId . '\')" src="../i/review_ready.png"></img>
+				<img title="'.getstr('pjs.tooltips.view_review').'" onclick="openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\', 0, 0, \'window_' . $pReviewerVersionId . '\')" src="../i/review_ready.png"></img>
 			</span>';
 		return $lRes;
 	}else{
@@ -1307,8 +1336,7 @@ function getLastFiveYears($pJournalId, $pSpecial, $pCntYears) {
 function getLetters($pJournalId, $pAffiliationId) {
 	$lRet = '';
 	foreach(range('A', 'Z') as $letter){
-		$lRet .= '
-					<a class="green letter" href="javascript: filterAuthorsLetter(' . $pAffiliationId . ', ' . (int) $pJournalId . ', \'' . $letter . '\')"> ' . $letter . '</a>';
+		$lRet .= '<a class="green letter" href="javascript: filterAuthorsLetter(' . $pAffiliationId . ', ' . (int) $pJournalId . ', \'' . $letter . '\')">' . $letter . '</a>';
 	}
 	return $lRet;
 }
@@ -1535,7 +1563,7 @@ function getUserPictureIfExist($pPreviewPicId) {
 
 function getYourTasksBtn($pShow, $pJournalId) {
 	if((int) $pShow){
-		return '<a href="/dashboard.php?view_mode=5&amp;journal_id=' . (int) $pJournalId . '" id="tasks">' . getstr('pjs.your_tasks') . '</a>';
+		return '<button class="button_red button_tasks" onclick="window.location = \'/dashboard.php?view_mode=5&amp;journal_id=' . (int) $pJournalId . '\'"><span>' . getstr('pjs.your_tasks') . '</span></button>';
 	}
 }
 
@@ -2034,7 +2062,7 @@ function displayGroupName($pGroupTitle, $pSubtitle) {
 			$lResult .= '<h3 class="dashboard-title withoutBorder groupSubtitle" >&nbsp;' . $pSubtitle . '</h3>';
 
 	}else{
-		$lResult .= '<h1 class="dashboard-title withoutBorder">' . getstr('pjs.subject_editors') . '</h1><h3></h3>';
+		$lResult .= '<h1 class="dashboard-title withoutBorder">' . getstr('pjs.subject_editors') . '</h1><a target="_blank" href="http://www.pensoft.net/journals/bdj/editor_form.html"><span style="color: rgb(128,0,0); margin-top: -27px; float: right; margin-right: 24px;"><b>Editor application form</b></span></a>';
 	}
 	return $lResult;
 }
@@ -2139,19 +2167,19 @@ function displayFilterCriteria($pIssue, $pYear, $pLetter, $pAffiliation) {
 function displayArticlesFilterCriteria($pTaxon, $pSubject, $pGeographical, $pChronical, $pFromdate, $pToDate, $pSectionType, $pFoundingAgency) {
 	$lResult = '';
 	if($pTaxon)
-		$lResult .= '[' . $pTaxon . ']';
+		$lResult .= 'Taxon=[' . $pTaxon . ']';
 	if($pSubject)
-		$lResult .= '[' . $pSubject . ']';
+		$lResult .= ($pTaxon ? ' AND ' : '') . 'Subject=[' . $pSubject . ']';
 	if($pGeographical)
-		$lResult .= '[' . $pGeographical . ']';
+		$lResult .= ($pTaxon || $pSubject ? ' AND ' : '') . 'Geographical region=[' . $pGeographical . ']';
 	if($pChronical)
-		$lResult .= '[' . $pChronical . ']';
+		$lResult .= ($pTaxon || $pSubject || $pGeographical ? ' AND ' : '') . 'Chronological region=[' . $pChronical . ']';
 	if($pFromdate)
-		$lResult .= '[' . $pFromdate . ' to ' . $pToDate . ']';
+		$lResult .= ($pTaxon || $pSubject || $pGeographical || $pChronical ? ' AND ' : '') . 'Publication date=[' . $pFromdate . ' to ' . $pToDate . ']';
 	if($pSectionType)
-		$lResult .= '[' . $pSectionType . ']';
+		$lResult .= ($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate ? ' AND ' : '') . 'Section=[' . $pSectionType . ']';
 	if($pFoundingAgency)
-		$lResult .= '[' . $pFoundingAgency . ']';
+		$lResult .= ($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate || $pSectionType ? ' AND ' : '') . 'Funding agency=[' . $pFoundingAgency . ']';
 	if($lResult)
 		return '<div class="filterCriteria">' . $lResult . '</div>';
 }
@@ -2748,7 +2776,7 @@ function showInviteReviewersButton($pCanInviteReviewers, $pDocumentId, $pRoundNu
 	return '';
 }
 
-function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
+function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName, $pJournalName) {
 	$lRole = $_GET['view_role'];
 	if($pUname && $pUname != 'se_uname'){
 
@@ -2756,7 +2784,9 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
 		if($lRole == E_ROLE){
 			$lChangeIcon = '<img src="../i/edit.png" title="'.getstr('pjs.tooltips.change_SE').'" onclick="window.location=\'/view_document.php?id=' . (int) $pDocumentId . '&view_role=' . E_ROLE . '&mode=1&suggested=1\'" class="ui-datepicker-trigger pointer">';
 		}
-
+		
+		$lAddSubjToEmail = '?subject=[' . $pJournalName . '] Inquiry regarding a manuscript ' . $pDocumentId;
+		
 		return '
 			<div class="document_info_se">
 				<div class="document_info_bottom_info_right_left" style="width:71px;">
@@ -2764,7 +2794,7 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName) {
 				</div>
 				<div class="document_info_bottom_info_right_right">
 					' . $pFirstName . ' ' . $pLastName . '
-					<a href="mailto:' . $pUname . '"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a>
+					<a href="mailto:' . $pUname . $lAddSubjToEmail . '"><img title="'.getstr('pjs.tooltips.send_email').'" src="../i/mail.png"></a>
 					' . $lChangeIcon . '
 				</div>
 			</div>
@@ -3184,31 +3214,9 @@ function ShowHideAuthorAction($pCreateUid, $pPWTid) {
 	}
 }
 
-function GenerateAuthorListForPDF($pAuthorList) {
-	$lAuthorsArr = explode(',', $pAuthorList);
-	$lAuthorsList = '';
-	$i = 1;
-	foreach ($lAuthorsArr as $key => $value) {
-		$lAuthorFirstLastName = array();
-		$lAuthorFirstLastName = explode(' ', $value);
-		$lAuthorFirstName = $lAuthorFirstLastName[0];
-		$lAuthorLastName = $lAuthorFirstLastName[1];
-		
-		if($lAuthorLastName) {
-			$lAuthorFirstName = mb_substr($lAuthorFirstName, 0, 1);
-			$lAuthorsList .= ($i != count($lAuthorsArr) ? $lAuthorLastName . ' ' . $lAuthorFirstName . ', ' : $lAuthorLastName . ' ' . $lAuthorFirstName);
-		} else {
-			$lAuthorsList .= ($i != count($lAuthorsArr) ? $lAuthorFirstName . ', ' : $lAuthorFirstName);
-		}
-		
-		$i++;
-	}
-
-	return $lAuthorsList;
-}
-
-function stripHTML($pText) {
-	return trim(strip_tags($pText));
+function shortTitle($pText) {
+	$text = trim(strip_tags($pText));
+	return mb_substr($text, 0, strpos($text, ' ', 100)); 
 }
 
 function showPollAnswerErrClass($pAnswer, $pUserRole) {
@@ -3216,6 +3224,21 @@ function showPollAnswerErrClass($pAnswer, $pUserRole) {
 		return 'class="poll_answer_err"';
 	}
 	return '';
+}
+
+function showAuthors($pAuthorNames, $pAuthorEmails, $pDocumentId, $pJournalName) {
+	$lAuthorNamesArr = explode(',', $pAuthorNames);
+	$lAuthorEmailsArr = explode(',', $pAuthorEmails);
+	$lRes = '';
+	
+	$lAddSubjToEmail = '?subject=[' . $pJournalName . '] Inquiry regarding a manuscript ' . $pDocumentId;
+	for ($i=0; $i < count($lAuthorNamesArr) ; $i++) { 
+		$lRes .= $lAuthorNamesArr[$i] . ' 
+			<a href="mailto:' . $lAuthorEmailsArr[$i] . $lAddSubjToEmail . '">
+				<img title="Send e-mail" src="../i/mail.png">
+			</a>' . ($i == count($lAuthorNamesArr) ? '' : ', '); 
+	}
+	return $lRes;
 }
 
 ?>

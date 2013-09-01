@@ -34,7 +34,21 @@
 
 	<!-- Single reference -->
 	<xsl:template match="*[@object_id='95']" mode="articleBack">
-		<xsl:apply-templates select="./*[@object_id='97']/*[@object_id &gt; 0]" mode="articleBack"/>
+		<xsl:variable name="lContent">
+			<xsl:apply-templates select="./*[@object_id='97']/*[@object_id &gt; 0]" mode="articleBack"/>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$pInArticleMode = 1">
+				<div class="bibr">
+					<xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute>
+					<xsl:copy-of select="$lContent"></xsl:copy-of>			
+				</div>	
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:copy-of select="$lContent"></xsl:copy-of>
+			</xsl:otherwise>
+		</xsl:choose>
+		
 	</xsl:template>
 
 	<xsl:template match="*" mode="processSingleReferenceAuthor">
@@ -94,32 +108,34 @@
 
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-				<span class="authors-holder">
-					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-						<xsl:choose>
-							<xsl:when test="$lAuthorshipType = 3">
-								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-							</xsl:otherwise>
-						</xsl:choose>
-						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-					</xsl:for-each>
-				</span>	
-			<xsl:if test="normalize-space($lAuthorshipType)=$gAuthorshipEditorType">
-				<xsl:text> </xsl:text>
-				<xsl:choose>
-					<xsl:when test="count(./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']) &gt; 1">
-						<xsl:text>(Ed.)</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>(Eds)</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:if>
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			<span class="authors-year">
+					<span class="authors-holder">
+						<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+							<xsl:choose>
+								<xsl:when test="$lAuthorshipType = 3">
+									<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+								</xsl:otherwise>
+							</xsl:choose>
+							<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+						</xsl:for-each>
+					</span>	
+				<xsl:if test="normalize-space($lAuthorshipType)=$gAuthorshipEditorType">
+					<xsl:text> </xsl:text>
+					<xsl:choose>
+						<xsl:when test="count(./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']) &gt; 1">
+							<xsl:text>(Ed.)</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>(Eds)</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear" />
+			</span>
 			<!-- Book Title -->
 			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
@@ -242,18 +258,10 @@
 				<xsl:text>].</xsl:text>
 			</xsl:if>
 			
-			<xsl:if test="normalize-space(./fields/*[@id='263']/value) != ''">
-				<!-- URL -->
-				<xsl:text> URL: </xsl:text>
-				<a>
-					<xsl:attribute name="field_id">263</xsl:attribute>
-					<xsl:attribute name="href">
-						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
-					</xsl:attribute>
-					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>
-				</a>
-			</xsl:if>
+
+			<!-- URL -->
+			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
+		
 			
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
 				<!-- ISBN -->
@@ -303,21 +311,23 @@
 
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-holder">
-				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-					<xsl:choose>
-						<xsl:when test="$lAuthorshipType = 3">
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-				</xsl:for-each>
-			</span>	
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			<span class="authors-year">			
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>	
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			</span>
 			<!-- Book chapter Title -->
 			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
@@ -355,8 +365,7 @@
 					</xsl:choose>
 				</xsl:if>
 			</xsl:if>
-
-			<xsl:text>. </xsl:text>
+			<xsl:text> </xsl:text>
 			<!-- Book Title -->
 			<xsl:if test="normalize-space(./fields/*[@id='255']/value) != ''">
 				<!-- Book title -->
@@ -468,17 +477,8 @@
 			</xsl:if>
 			
 			<!-- URL -->
-			<xsl:if test="normalize-space(./fields/*[@id='263']/value) != ''">
-				<xsl:text> URL: </xsl:text>
-				<a>
-					<xsl:attribute name="field_id">263</xsl:attribute>
-					<xsl:attribute name="href">
-						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
-					</xsl:attribute>
-					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>					
-				</a>
-			</xsl:if>
+			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
+			
 			
 			<!-- ISBN -->
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
@@ -518,22 +518,23 @@
 		</xsl:variable>
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-holder">
-				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-					<xsl:choose>
-						<xsl:when test="$lAuthorshipType = 3">
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-				</xsl:for-each>
-			</span>	
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
-			
+			<span class="authors-year">
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>	
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			</span>
 			<!-- Article Title -->
 			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
@@ -628,18 +629,8 @@
 			</xsl:if>
 			
 			<!-- URL -->
-			<xsl:if test="normalize-space(./fields/*[@id='263']/value) != ''">
-				<xsl:text> URL: </xsl:text>
-				<a>
-					<xsl:attribute name="field_id">263</xsl:attribute>
-					<xsl:attribute name="href">
-						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
-					</xsl:attribute>
-					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>
-				</a>
-			</xsl:if>
-
+			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
+			
 			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 		</li>
 	</xsl:template>
@@ -672,22 +663,24 @@
 		<xsl:variable name="lVolume" select="./fields/*[@id='258']/value"></xsl:variable>
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-holder">
-				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-					<xsl:choose>
-						<xsl:when test="$lAuthorshipType = 3">
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-				</xsl:for-each>
-			</span>
-
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			<span class="authors-year">
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>
+	
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			</span>	
 			<!-- Title -->
 			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
@@ -899,17 +892,7 @@
 			</xsl:if>
 			
 			<!-- URL -->
-			<xsl:if test="normalize-space(./fields/*[@id='263']/value) != ''">
-				<xsl:text> URL: </xsl:text>
-				<a>
-					<xsl:attribute name="field_id">263</xsl:attribute>
-					<xsl:attribute name="href">
-						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
-					</xsl:attribute>
-					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>
-				</a>
-			</xsl:if>
+			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
 			
 			<!-- ISBN -->
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
@@ -950,34 +933,35 @@
 
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-holder">
-				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+			<span class="authors-year">
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>	
+	
+				<xsl:if test="normalize-space($lAuthorshipType)=$gAuthorshipEditorType">
+					<xsl:text> </xsl:text>
 					<xsl:choose>
-						<xsl:when test="$lAuthorshipType = 3">
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+						<xsl:when test="count(./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']) &gt; 1">
+							<xsl:text>(Ed.)</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							<xsl:text>(Eds)</xsl:text>
 						</xsl:otherwise>
 					</xsl:choose>
-					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-				</xsl:for-each>
-			</span>	
-
-			<xsl:if test="normalize-space($lAuthorshipType)=$gAuthorshipEditorType">
-				<xsl:text> </xsl:text>
-				<xsl:choose>
-					<xsl:when test="count(./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']) &gt; 1">
-						<xsl:text>(Ed.)</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>(Eds)</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:if>
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
-			
+				</xsl:if>
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear" />
+			</span>
 			<!-- Book title -->
 			<xsl:if test="normalize-space(./fields/*[@id='255']/value) != ''">
 				<span class="ref-title">
@@ -1150,17 +1134,7 @@
 			</xsl:if>
 			
 			<!-- URL -->
-			<xsl:if test="normalize-space(./fields/*[@id='263']/value) != ''">
-				<xsl:text> URL: </xsl:text>
-				<a>
-					<xsl:attribute name="field_id">263</xsl:attribute>
-					<xsl:attribute name="href">
-						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
-					</xsl:attribute>
-					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>
-				</a>
-			</xsl:if>
+			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
 			
 			<!-- ISBN -->
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
@@ -1201,21 +1175,23 @@
 
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-holder">
-				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-					<xsl:choose>
-						<xsl:when test="$lAuthorshipType = 3">
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-				</xsl:for-each>
+			<span class="authors-year">
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			</span>
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			<xsl:if test="normalize-space(./fields/*[@id='255']/value) != ''">
 				<!-- Book title -->
 				<span class="ref-title">
@@ -1309,17 +1285,7 @@
 			</xsl:if>
 			
 			<!-- URL -->
-			<xsl:if test="normalize-space(./fields/*[@id='263']/value) != ''">
-				<xsl:text> URL: </xsl:text>
-				<a>
-					<xsl:attribute name="field_id">263</xsl:attribute>
-					<xsl:attribute name="href">
-						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
-					</xsl:attribute>
-					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>					
-				</a>
-			</xsl:if>
+			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
 			
 			<!-- ISBN -->
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
@@ -1357,21 +1323,23 @@
 		</xsl:variable>
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-holder">
-				<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
-					<xsl:choose>
-						<xsl:when test="$lAuthorshipType = 3">
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
-				</xsl:for-each>
-			</span>	
-			<!-- Year -->
-			<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			<span class="authors-year">
+				<span class="authors-holder">
+					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
+						<xsl:choose>
+							<xsl:when test="$lAuthorshipType = 3">
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthor" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+					</xsl:for-each>
+				</span>	
+				<!-- Year -->
+				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
+			</span>
 			<!-- Title -->
 			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
@@ -1423,17 +1391,7 @@
 			</xsl:if>
 			
 			<!-- URL -->
-			<xsl:if test="normalize-space(./fields/*[@id='263']/value) != ''">
-				<xsl:text> URL: </xsl:text>
-				<a>
-					<xsl:attribute name="field_id">263</xsl:attribute>
-					<xsl:attribute name="href">
-						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
-					</xsl:attribute>
-					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>					
-				</a>
-			</xsl:if>
+			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
 		</li>
 	</xsl:template>
 
@@ -1495,4 +1453,22 @@
 			</span>
 		</xsl:if>
 	</xsl:template>
+	
+	
+	<xsl:template match="*" mode="URL">
+		<xsl:if test="normalize-space(.) != ''">
+			<span class="ref-url">
+				<xsl:text> URL: </xsl:text>
+				<a>
+					<xsl:attribute name="field_id">263</xsl:attribute>
+					<xsl:attribute name="href">
+						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(.))"/>
+					</xsl:attribute>
+					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
+					<xsl:apply-templates select="." mode="formatting_nospace"/>
+				</a>
+			</span>	
+		</xsl:if>
+	</xsl:template>
+	
 </xsl:stylesheet>

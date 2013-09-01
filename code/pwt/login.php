@@ -89,7 +89,6 @@ if(CheckIfLoginFormCaptchaShouldBeDisplayed()){
 
 $reg->GetData();
 
-
 if ($reg->KforAction() == 'login' && $reg->KforErrCnt() == 0) {
 	$lUsername = $reg->GetKforVal('username');
 	$lPassword = $reg->GetKforVal('password');
@@ -114,9 +113,15 @@ if ($reg->KforAction() == 'login' && $reg->KforErrCnt() == 0) {
 	$reg->KforSetErr('login', GetLoginErr());
 }
 
+
+
 if ($reg->KforAction() == 'login' && ($lUsername == '' || $lPassword == '') )
 	$reg->KforSetErr('login', getstr('loginform.nosuchuser'));
 
+
+if(($reg->KforAction() == 'login' || $reg->KforAction() == 'send') && $reg->KforErrCnt()){
+	$reg->SetKforVal('errs', 1);
+}
 //$reg->StopErrDisplay(1);
 $lDefTempl = DefObjTempl();
 
