@@ -457,7 +457,7 @@ $gTemplArr = array (
 			</table>
 			<div class="sectionBody">
 				{images}
-				<div class="unfloat"></div>
+				<div class="P-Clear"></div>
 			</div>
 		</div>
 	',
