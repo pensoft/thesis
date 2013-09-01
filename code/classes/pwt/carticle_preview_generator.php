@@ -970,6 +970,7 @@ class carticle_preview_generator extends csimple {
 	} 
 	
 	protected function SaveArticleLocalities(){
+		$this->ExecuteTransactionalQuery('SELECT * FROM spClearArticleLocalities(' . (int)$this->m_documentId . ')');
 		foreach ($this->m_articleLocalities as $lLatitude => $lDetails){
 			foreach ($lDetails as $lLongitude => $lInstanceIds) {
 				$lInstanceIds = array_unique(array_map('intval', $lInstanceIds));

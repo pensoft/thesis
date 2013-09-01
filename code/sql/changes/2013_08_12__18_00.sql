@@ -762,7 +762,8 @@ GRANT ALL ON pjs.taxon_eol_images TO iusrpmt;
 	pjs.spNormalizeTaxonName
 	pjs.spGetTaxonId
 	pjs.spSaveTaxonEOLBaseData
-	pjs.spSaveTaxonEOLImage	
+	pjs.spSaveTaxonEOLImage
+	pjs.spClearArticleLocalities
 	
 	The following line should be added to the pwt conf
 	require_once('ptp_conf.php');

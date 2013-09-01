@@ -481,6 +481,7 @@ class ctaxon_preview_generator extends csimple {
 				$lRegularSites = new crs_display_array(array (
 					'input_arr' => $lRegularSitesData,
 					'taxon_name' => $this->m_taxonName,
+					'items_on_row' => 2,
 					'templs' => array (
 						G_HEADER => 'article.category_regular_sites_head',
 						G_FOOTER => 'article.category_regular_sites_foot',
