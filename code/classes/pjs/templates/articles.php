@@ -59,8 +59,11 @@ $gTemplArr = array(
 			<div class="Main-Content">
 				<div id="article-head">
 					<img alt="" src="/i/bdj-eye.png" id="bdj-eye" />
-					<div id="article-id">Biodiversity Data Journal 1:e957 (02.09.2013)<br />
-						 doi: 10.3975/BDJ.1:e957
+					<div id="article-id">
+					
+						Biodiversity Data Journal 1: e{article_id} ({publish_date})<br />
+						doi: 10.3897/BDJ.1.e{article_id}
+						 
 					</div>
 					<a href=""><img alt="" src="/i/print-icon.png" /></a>
 					<a href=""><img alt="" src="/i/xml-icon.png" /></a>
@@ -166,7 +169,7 @@ $gTemplArr = array(
 				</div>
 				<div class="P-Article-Share-Row">
 					<div class="P-Article-Share-Row-Icon">
-						<a target="_blank" href="http://teodor.pjs.pensoft.dev/i/gplus.png">
+						<a target="_blank" href="https://plus.google.com/114819936210826038991?prsrc=3">
 							<img src="i/gplus.png" />
 							<span class="P-Article-Share-Row-Icon">
 								Share with Google+

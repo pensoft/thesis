@@ -81,10 +81,11 @@ $gTemplArr = array (
 	'article.authors_list_template' => '
 		<div class="P-Authors-Whole-List">
 			<div class="P-Journal-Meta">
-				{journal_name} {issue_number}: {start_page}-{end_page}
+				Biodiversity Data Journal 1: e{article_id}
 			</div>
 			<div class="P-Doi-Meta">
-				<span class="P-Doi-Label">' . getstr('pjs.articleDoiLabel') . '</span> {doi}
+				<span class="P-Doi-Label">' . getstr('pjs.articleDoiLabel') . '</span>
+				10.3897/BDJ.1.e{article_id}
 			</div>
 			<div class="P-Date-holder">
 				<span class="P-Date-Label">' . getstr('pjs.articleDateReceivedLabel') . '</span>
@@ -121,8 +122,8 @@ $gTemplArr = array (
 				
 				<div class="P-Citation-Content">
 					{author_names} ({pubyear}) {_GetArticleTitleForCitation(article_title)}
-					{journal_name} {issue_number}: {start_page}.
-					DOI: {doi}										
+					Biodiversity Data Journal 1: e{article_id}.
+					DOI: 10.3897/BDJ.1.e{article_id}										
 				</div>
 			</div>
 	',
