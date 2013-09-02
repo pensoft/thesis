@@ -308,7 +308,7 @@ function getProfilePic($pPhotoId, $pViewMode = 0) {
 				' . ((int) $pViewMode ? "" : getstr('pwt.changeProfilePicture'));
 	}else{
 		$lRet = '<div class="Prof-Photo">
-					<img src="i/add_photo.png" width="67" height="70" alt="Profile picture" />
+					<img src="i/no_photo.png" width="67" height="70" alt="Profile picture" />
 					<div class="P-Clear"></div>
 				</div>
 				' . ((int) $pViewMode ? "" : getstr('pwt.addProfilePicture'));
@@ -329,7 +329,7 @@ function getProfilePicWithLink($pPhotoId, $pJournalId, $pId, $pViewMode = 0) {
 	}else{
 		$lRet = '<div class="Prof-Photo">
 					<a href="/browse_journal_articles_by_author.php?journal_id=' . $pJournalId . '&user_id=' . $pId . '">
-						<img src="i/add_photo.png" width="67" height="70" alt="Profile picture" />
+						<img src="i/no_photo.png" width="67" height="70" alt="Profile picture" />
 					</a>
 				</div>
 				' . ((int) $pViewMode ? "" : getstr('pwt.addProfilePicture'));
@@ -1554,7 +1554,7 @@ function getUserPictureIfExist($pPreviewPicId) {
 				</div>';
 	}else{
 		$lRet = '<div class="Prof-Photo">
-					<img src="i/add_photo.png" width="67" height="70" alt="Profile picture" />
+					<img src="i/no_photo.png" width="67" height="70" alt="Profile picture" />
 					<div class="P-Clear"></div>
 				</div>';
 	}
@@ -2789,7 +2789,7 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName, $pJo
 		
 		return '
 			<div class="document_info_se">
-				<div class="document_info_bottom_info_right_left" style="width:71px;">
+				<div class="document_info_bottom_info_right_left" style="width:79px; text-align: right;">
 					Subject editor:
 				</div>
 				<div class="document_info_bottom_info_right_right">
@@ -3216,7 +3216,7 @@ function ShowHideAuthorAction($pCreateUid, $pPWTid) {
 
 function shortTitle($pText) {
 	$text = trim(strip_tags($pText));
-	return mb_substr($text, 0, strpos($text, ' ', 100)); 
+	return mb_substr($text, 0, strpos($text, ' ', 90)); 
 }
 
 function showPollAnswerErrClass($pAnswer, $pUserRole) {
@@ -3236,7 +3236,7 @@ function showAuthors($pAuthorNames, $pAuthorEmails, $pDocumentId, $pJournalName)
 		$lRes .= $lAuthorNamesArr[$i] . ' 
 			<a href="mailto:' . $lAuthorEmailsArr[$i] . $lAddSubjToEmail . '">
 				<img title="Send e-mail" src="../i/mail.png">
-			</a>' . ($i == count($lAuthorNamesArr) ? '' : ', '); 
+			</a>' . ($i == count($lAuthorNamesArr)-1 ? '' : ', '); 
 	}
 	return $lRes;
 }

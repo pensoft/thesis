@@ -27,11 +27,11 @@ $gTemplArr = array(
 					<div class="authors_list_holder">
 						{authors_list}
 					</div>
-					<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+					
 					<div class="research">
 						{journal_section_name}
 					</div>
-					<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+				
 					&nbsp;&nbsp;&nbsp;
 					<a href="#" class="subLink">{_showDoiLinkIfExist(doi)}</a>
 					<div class="info">
@@ -356,11 +356,11 @@ $gTemplArr = array(
 					<div class="authors_list_holder">
 						{authors_list}
 					</div>
-					<img src="i/researchLeft.png" alt="Research Left Corner" class="floatLeft"></img>
+
 					<div class="research">
 						{journal_section_name}
 					</div>
-					<img src="i/researchRight.png" alt="Research Left Corner" class="floatLeft"></img>
+				
 					&nbsp;&nbsp;&nbsp;
 					<a href="#" class="subLink">{_showDoiLinkIfExist(doi)}</a>
 					<div class="info">

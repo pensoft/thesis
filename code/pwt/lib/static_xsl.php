@@ -24,6 +24,40 @@ function plural($n){
 		return $n > 1 ? 's': ''; 	
 }
 
+function getDates($doc_id){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = "SELECT create_date::date, approve_date::date, publish_date::date FROM pjs.documents WHERE id = pjs_id(" . (int)$doc_id . ')';
+	$lCon->Execute($lSql);
+	$lResult = '';
+	if ($lCon->mRs ['create_date']){
+		$lResult .= 'Received ' . $lCon->mRs ['create_date'];	 
+	}
+	if ($lCon->mRs ['approve_date']){
+		$lResult .= ' | Accepted ' . $lCon->mRs ['approve_date'];
+	}
+	if ($lCon->mRs ['publish_date']){
+		$lResult .= ' | Published ' . $lCon->mRs ['publish_date']; 
+	}
+	return  $lResult
+	
+	;
+}
+function getSE($doc_id){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = "SELECT
+			  'Academic editor: ' || u.first_name || ' ' || u.last_name as names,
+			   u.uname as email
+			  FROM usr u 
+			  JOIN pjs.document_users du ON du.uid = u.id
+			  WHERE du.document_id = pjs_id(" . (int)$doc_id . ") AND role_id = 3
+			  LIMIT 1";
+	$lCon->Execute($lSql);
+	return $lCon->mRs ['names'];  // TODO: return dom document instead of text. ' (<a href="mailto:' . $lCon->mRs ['email'] . '">' . $lCon->mRs ['email'] . '</a>)' ;
+}
+
+
 function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 	$lAllowed = array(
 		102 => array(258, 276, 27, 28, 29, 243, 262),

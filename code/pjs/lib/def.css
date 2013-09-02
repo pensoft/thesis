@@ -2890,7 +2890,8 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 }
 
 .article .research {
-	background: #B06143;
+	background: #006600;
+	border-radius: 3px; 
 	font-size: 10px;
 	line-height: 145%;
 	color: #FFFFFF;
@@ -2899,6 +2900,7 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 	line-height: 18px;
 	float: left;
 	text-align: center;
+	width: 144px;
 }
 
 .article .subLink {
@@ -6787,7 +6789,7 @@ table.no_bold_class td a {
 }
 
 .article .authors_list_holder {
-	color:#A5A585;
+	color: #7E7E5E;
 	padding:10px 0px 10px 0px;
 }
 
