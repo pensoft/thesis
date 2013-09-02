@@ -231,6 +231,15 @@ InlineChangeEditor.prototype = {
 		ice.dom.each(ice.dom.find(lElementCopy, '.' + gActiveChangeClass), function(i, node){
 			$(node).removeClass(gActiveChangeClass);
 		});
+		
+		//Remove the contents of all the citation nodes
+		var lCitationElements = ['fig-citation', 'tbls-citation', 'reference-citation', 'sup-files-citation'];
+		for(var i = 0; i < lCitationElements.length; ++i){
+			ice.dom.each(ice.dom.find(lElementCopy, lCitationElements[i]), function(i, node){
+				$(node).html('');
+			});
+		}
+		
 
 		//Remove the changes username attributes and title
 		var lChangesSelector = gAcceptedInsertChangeNodeName + ',' + gAcceptedDeleteChangeNodeName + ',' + gDeleteChangeNodeName + ',' + gInsertChangeNodeName;

@@ -847,7 +847,7 @@
 			<div class="treatmentSection">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id"/></xsl:attribute>
 				<xsl:if test="count(./fields/*[@id='460']) &gt; 0">
-					<xsl:attribute name="field_id">200</xsl:attribute>
+					<xsl:attribute name="field_id">460</xsl:attribute>
 				</xsl:if>
 				<h3 class="h-treatment-section">Nomenclature</h3>
 				<div field_id="460" class="P-Inline">

@@ -3687,6 +3687,7 @@ function getDocumentXml($pDocumentId, $pMode = SERIALIZE_INTERNAL_MODE, $pExplic
 	if($pInsertCommentPositions){
 		$lDocumentComments = GetDocumentComments($pDocumentId);
 // 		var_dump($lDocumentComments);
+		$lXml = StripXmlCitations($lXml);
 		$lXml = InsertDocumentCommentPositionNodes($lXml, $lDocumentComments);
 	}
 
@@ -3697,6 +3698,27 @@ function getDocumentXml($pDocumentId, $pMode = SERIALIZE_INTERNAL_MODE, $pExplic
 // 	var_dump($lXml);
 
 	return $lXml;
+}
+
+function StripXmlCitations($pXml){
+	$lXmlDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+	if(!$lXmlDom->loadXML($pXml)){
+		return $pXml;
+	}
+	$lXPath = new DOMXPath($lXmlDom);
+	$lCon = new DBCn();
+	$lCon->Execute('SELECT *
+			FROM pwt.citation_types');
+	while(!$lCon->Eof()){
+		$lQuery = '//' . $lCon->mRs['node_name'];
+		foreach ($lXPath->query($lQuery) as $lCitationNode) {
+			while($lCitationNode->firstChild){
+				$lCitationNode->removeChild($lCitationNode->firstChild);
+			}
+		}
+		$lCon->MoveNext();
+	}
+	return $lXmlDom->saveXML();
 }
 
 /**
