@@ -188,10 +188,10 @@
 									</xsl:for-each>
 								</div>
 								<div class="P-Article-Info-Block-Row">
-									Accepted by: <span>ACADEMIC EDITOR</span>
+									<xsl:value-of select="php:function('getSE', $pDocumentId)"/>
 								</div>
 								<div class="P-Article-Info-Block-Row">
-									Recieved <span>DATE RECEIVED</span> | accepted <span>DATE ACCEPTED</span> | published <span>DATE PUBLISHED</span>
+									<xsl:value-of select="php:function('getDates', $pDocumentId)"/>
 								</div>
 								<div class="P-Article-Info-Block-Row">
 									<xsl:text>© </xsl:text><xsl:value-of select="php:function('getYear')"/><xsl:text> </xsl:text>
@@ -744,7 +744,7 @@
 	<!-- Plate figure -->
 	<xsl:template match="*[@object_id='224']" mode="singleFigNormalPreview">
 		<xsl:variable name="lFigNumber"><xsl:value-of select="../fields/*[@id='489']/value"/></xsl:variable>
-		<xsl:variable name="lPlateType"><xsl:value-of select="./fields/*[@id='485']/value"/></xsl:variable>
+		<xsl:variable name="lPlateType"><xsl:value-of select="./fields/*[@id='485']/value/@value_id"/></xsl:variable>
 		<xsl:variable name="lImageType">
 			<xsl:choose>
 				<xsl:when test="$lPlateType = 1">3</xsl:when>
@@ -757,9 +757,9 @@
 				<xsl:value-of select="$lFigNumber"/>
 			</xsl:attribute>
 			<xsl:attribute name="figure_id"><xsl:value-of select="@instance_id"/></xsl:attribute>
-			<xsl:choose>
-				<xsl:when test="$lPlateType = 3"><!-- 2 rows 1 columns -->
-					<xsl:for-each select=".//*[@object_id='225' or @object_id='226' or @object_id='227' or @object_id='228' or @object_id='229' or @object_id='230']">
+			<div class="plate">
+				<xsl:if test="$lPlateType = 1"><!-- 2 rows 1 columns -->
+					<xsl:for-each select=".//*[@object_id='225' or @object_id='226']">
 						<xsl:call-template name="imagePicPreview">
 							<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
 							<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
@@ -768,19 +768,14 @@
 								<xsl:choose>
 									<xsl:when test="@object_id='225'">a</xsl:when>
 									<xsl:when test="@object_id='226'">b</xsl:when>
-									<xsl:when test="@object_id='227'">c</xsl:when>
-									<xsl:when test="@object_id='228'">d</xsl:when>
-									<xsl:when test="@object_id='229'">e</xsl:when>
-									<xsl:when test="@object_id='230'">f</xsl:when>
 								</xsl:choose>
 							</xsl:with-param>
 						</xsl:call-template>
 					</xsl:for-each>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:for-each select=".//*[@object_id='225' or @object_id='226' or @object_id='227' or @object_id='228' or @object_id='229' or @object_id='230']">
-						<div>
-							<xsl:attribute name="class"><xsl:text>P-Article-Preview-Picture-Row</xsl:text></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$lPlateType > 1 "><!-- 1 rows 2 columns -->
+					<div class="plateRow">
+						<xsl:for-each select=".//*[@object_id='225' or @object_id='226']">
 							<xsl:call-template name="imagePicPreview">
 								<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
 								<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
@@ -789,17 +784,47 @@
 									<xsl:choose>
 										<xsl:when test="@object_id='225'">a</xsl:when>
 										<xsl:when test="@object_id='226'">b</xsl:when>
+									</xsl:choose>
+								</xsl:with-param>
+							</xsl:call-template>						
+						</xsl:for-each>
+					</div>
+				</xsl:if>
+				<xsl:if test="$lPlateType > 2"><!-- 2 rows 2 columns -->
+					<div class="plateRow">
+						<xsl:for-each select=".//*[@object_id='227' or @object_id='228']">
+							<xsl:call-template name="imagePicPreview">
+								<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
+								<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
+								<xsl:with-param name="pImageType"><xsl:value-of select="$lImageType"/></xsl:with-param>
+								<xsl:with-param name="pPlateNum">
+									<xsl:choose>
 										<xsl:when test="@object_id='227'">c</xsl:when>
 										<xsl:when test="@object_id='228'">d</xsl:when>
+									</xsl:choose>
+								</xsl:with-param>
+							</xsl:call-template>						
+						</xsl:for-each>
+					</div>
+				</xsl:if>
+				<xsl:if test="$lPlateType > 3"><!-- 3 rows 2 columns -->
+					<div class="plateRow">
+						<xsl:for-each select=".//*[@object_id='229' or @object_id='230']">
+							<xsl:call-template name="imagePicPreview">
+								<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
+								<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
+								<xsl:with-param name="pImageType"><xsl:value-of select="$lImageType"/></xsl:with-param>
+								<xsl:with-param name="pPlateNum">
+									<xsl:choose>
 										<xsl:when test="@object_id='229'">e</xsl:when>
 										<xsl:when test="@object_id='230'">f</xsl:when>
 									</xsl:choose>
 								</xsl:with-param>
-							</xsl:call-template>
-						</div>
-					</xsl:for-each>
-				</xsl:otherwise>
-			</xsl:choose>
+							</xsl:call-template>						
+						</xsl:for-each>
+					</div>
+				</xsl:if>
+			</div>
 			<div style="clear: both"></div>
 			<div class="description">
 				<div class="name">
