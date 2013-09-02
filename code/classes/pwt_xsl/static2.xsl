@@ -654,9 +654,7 @@
 				</a>
 				<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
 					<xsl:attribute name="href">
-						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
-						<xsl:value-of select="$pInstanceId"/>
-					</xsl:attribute>
+						<xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=big_<xsl:value-of select="$pPicId" />.jpg&amp;download=1</xsl:attribute>
 					<img src="/i/download-icon-30.png" alt=""/>
 				</a>
 		</xsl:variable>
@@ -1242,7 +1240,7 @@
 				</a>
 				<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
 					<xsl:attribute name="href">
-						<xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=oo_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg</xsl:attribute>
+						<xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=big_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg&amp;download=1</xsl:attribute>
 					<img src="/i/download-icon-30.png" alt=""/>
 				</a>		
 				<div class="description">	
@@ -1288,9 +1286,7 @@
 			</a>
 			<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
 				<xsl:attribute name="href">
-					<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
-					<xsl:value-of select="./@instance_id" />
-				</xsl:attribute>
+					<xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=big_<xsl:value-of select="./fields/image_id/value"></xsl:value-of>.jpg&amp;download=1</xsl:attribute>
 				<img src="/i/download-icon-30.png" alt=""/>
 			</a>
 			<div class="Plate-part-letter"><xsl:value-of select="$platePart"/></div>
