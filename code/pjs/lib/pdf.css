@@ -1,13 +1,25 @@
+/* FONTS*/
+
+h1, h2, h3, .P-Article-Preview-Title, .description .name {
+	font-family: GillSans;
+	font-weight: bold;
+}
+
+body { font-family: "Adobe Garamond Pro"; }
+
+
+/* END FONTS */
+
 html, body {
 	background:none !important;
 }
 
 p {
-	orphans:5;
-	widows:4;
+	orphans: 2;
+	widows: 2;
 }
 
-.P-Article-Preview-Block-Content {}
+li { baseline-shift: 0 !important; } 
 
 h1 {
 	page-break-after:avoid;
@@ -16,20 +28,19 @@ h1 {
 img, .figure {
 	page-break-inside:avoid;
 	display:block;
-	margin-top:20px;
 }
 
 table {
 	page-break-inside:avoid;
 }
 
-.downloadmaterials{display: none}
+
 
 /* styles for the first page START*/
 
 .logo_img {
-	width:50px !important;
-	height:25px !important;
+	width:  200px !important;
+	height: 50px !important;
 	text-align:right;
 }
 
@@ -38,10 +49,11 @@ table {
 }
 
 .first_page_header_left {
-	text-align:left;
 	width:100%;
-	font-size: 5pt;
 	line-height: 1.5;
+	font-size: 6.3pt;
+	font-family: GillSans;
+	text-align: left;;
 }
 
 .first_page_header_center {
@@ -68,24 +80,10 @@ table {
 
 @page {
 	size: 165mm 240mm;
-	margin: 22mm 18.5mm 50mm 18.5mm;
+	margin: 22mm 18.5mm 19mm 18.5mm;
 }
 
 /* styles for all pages except first END*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -99,12 +97,10 @@ a img {
   font-size: 75%;
 } */
 html {
-  line-height: 1.5em;
-  color: #333;
+  line-height: 1.5;
 }
 .P-Article-Preview {
   /*width: 50em;*/
-  font-family: Calibri; /*Ebrima */
   text-align: justify;
   margin: auto;
   background-color: white;
@@ -126,8 +122,8 @@ html {
 }
 body {
   margin: 0;
-  font-size: 10pt;
-  overflow-y: hidden;
+  font-size: 11pt;
+  /*overflow-y: hidden;*/
 }
 
 table{
@@ -167,14 +163,12 @@ a {
   display: none;
 }
 .P-Article-Preview-Title {
-  font-size: 1.75em;
-  line-height: 1.63636em;
+  font-size: 15.4pt;
   line-height: 1.63636em;
   margin-top: 0em;
-  color: #333;
-  font-weight: bold;
-  text-align: left;
-  font-family:HebarCond;
+  color: #000;
+  text-align: center;
+  
 }
 .P-Article-Preview-Title p {
   margin: 0;
@@ -208,22 +202,16 @@ sub {
   line-height: 2em;
   margin-top: 1.5em;
   margin-bottom: 0.3em;
-  color: #333;
+
   font-weight: bold;
   margin-top: 24px;
-  font-family:Helvetica;
 }
 h2 {
   font-size: 1.1em;
   line-height: 2.25em;
   margin-top: 1.5em;
   margin-bottom: 0.75em;
-  font-family:Helvetica;
-  color: #333;
-}
-h3 {
-  font-family:Helvetica;
-  color: #333;
+
 }
 .h-treatment {
   font-size: 1.1em;
@@ -255,6 +243,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 .materialsHolder {
   text-align: left;
   margin-top: 0;
+  list-style: lower-latin;
 }
 .P-Article-Preview-Picture-Zoom-Small {
   background: url('/i/zoom_icon_small.png');
@@ -268,33 +257,27 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 }
 .Plate-part-letter {
   position: absolute;
-  right: -35px;
-  top: 35px;
-  background: #7f7f7f;
-  color: white;
+  right: 2px;
+  top: 2px;
+  background: white;
+  color: black;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   font-weight: bold;
   text-align: center;
   vertical-align: middle;
   font-size: 14px;
-  line-height: 2.1em;
 }
 .figure {
-  margin: 10px 0 20px 0;
-  
-  
+  margin: 0;  
 }
 .figure .holder {
-  margin-top: 20px;
-  border: 1px solid #e2e2dc;
   position: relative;
-  padding: 10px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -303,40 +286,46 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   display: table;
 }
 .figure img {
-  max-width: 663px;
+  max-width: 400px;
   max-height: 224px;
 }
 .figure .singlePlatePhoto {
-  max-width: 663px;
+  max-width: 400px;
   min-height: 70px;
 }
+.plate{display: table}
+.plateRow {
+    clear: both;
+    display: table-row;
+    width: 100%;
+}
 .figure .plate2column {
-  width: 50%;
-  float: left;
+  width: 49%;
+  /*float: left;*/
+  border: 1px solid #e2e2dc;
+  display: table-cell;
+  border-collapse: collapse;
 }
 .figure .plate2column .singlePlatePhoto {
   display: table;
-  width: 224px;
-  height: 224px;
+  /*width: 230px;
+  height: 230px;*/
 }
 .figure .plate2column .singlePlatePhoto a {
   display: table-cell;
   vertical-align: middle;
+  
 }
 .figure .plate2column .singlePlatePhoto img {
-  max-width: 224px;
-  max-height: 224px;
+  max-width: 226px;
+  max-height: 226px;
+  margin: auto;
 }
+
+
 .figure .singlePlatePhoto {
-  margin-top: 10px;
-  border: 1px solid #e2e2dc;
+  
   position: relative;
-  padding: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
   text-align: center;
   vertical-align: middle;
 }
@@ -344,7 +333,14 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   border-top-left-radius: 0;
   margin-top: -4px;
   line-height:1.2em;
+  font-size: 9pt;
+  margin-bottom: 10px;
 }
+.description .name {
+	font-size: 9pt
+	display: inline;
+}
+
 .description {
   border: 1px solid #e2e2dc;
   position: relative;
@@ -357,11 +353,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   background: #fafaf8;
   z-index: 2;
 }
-.description .name {
-    font-family: helvetica;
-    font-size: 0.9em;
-    font-weight: bold;
-}
+
 .table {
   margin: 10px 0;
 }
@@ -405,7 +397,6 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   float: left;
   color: #404040;
   font-weight: bold;
-  font-family:Helvetica;
   font-size:0.9em;
 }
 .fieldLabel.no-float {
@@ -462,7 +453,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   padding-left: 20px;
 }
 .references li {
-  margin-bottom: 4px;
+  /*margin-bottom: 4px;*/
 }
 .P-Article-Preview-Table-Header {
   padding: 6px;
@@ -527,5 +518,7 @@ span[data-author-id] {
     text-align: center;
     vertical-align: middle;
 }
+
+.downloadmaterials, .P-Article-Preview-Picture-Zoom-Small{display: none !important}
 
 /* Article preview CSS END */
