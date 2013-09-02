@@ -137,7 +137,7 @@ $gTemplArr = array(
 				</div>
 				<div class="P-Article-Metrics-Row">
 					<span class="P-Metric-Label">Total views:</span>
-					<span class="P-Metrics-Value">1161</span>
+					<span class="P-Metrics-Value">1181</span>
 				</div>
 			</div>
 		',
@@ -145,27 +145,43 @@ $gTemplArr = array(
 		'articles.share' => '
 			<div class="P-Aritlce-Share">
 				<div class="P-Article-Share-Row">
+					<a target="_blank" href="https://www.facebook.com/BiodiversityDataJournal">
+						<div class="P-Article-Share-Row-Icon">
+							<img src="i/fb.png" />
+							<span class="P-Article-Share-Row-Icon">
+								Share with Facebook
+							</span>
+						</div>
+					</a>	
+				</div>
+				<div class="P-Article-Share-Row">
+					<a target="_blank" href="https://twitter.com/BioDataJournal">
+						<div class="P-Article-Share-Row-Icon">
+							<img src="i/tw.png" />
+							<span class="P-Article-Share-Row-Icon">
+								Share with Twitter
+							</span>
+						</div>
+					</a>	
+				</div>
+				<div class="P-Article-Share-Row">
 					<div class="P-Article-Share-Row-Icon">
-						<img src="i/fb.png" />
-						<span class="P-Article-Share-Row-Icon">
-							Share with Facebook
-						</span>
+						<a target="_blank" href="http://teodor.pjs.pensoft.dev/i/gplus.png">
+							<img src="i/gplus.png" />
+							<span class="P-Article-Share-Row-Icon">
+								Share with Google+
+							</span>
+						</a>	
 					</div>
 				</div>
 				<div class="P-Article-Share-Row">
 					<div class="P-Article-Share-Row-Icon">
-						<img src="i/tw.png" />
-						<span class="P-Article-Share-Row-Icon">
-							Share with Twitter
-						</span>
-					</div>
-				</div>
-				<div class="P-Article-Share-Row">
-					<div class="P-Article-Share-Row-Icon">
-						<img src="i/gplus.png" />
-						<span class="P-Article-Share-Row-Icon">
-							Share with Google+
-						</span>
+						<a target="_blank" href="http://www.mendeley.com/groups/3621351/biodiversity-data-journal/">
+							<img src="i/mendeley.png" />
+							<span class="P-Article-Share-Row-Icon">
+								Share with Mendeley
+							</span>
+						</a>	
 					</div>
 				</div>
 			</div>

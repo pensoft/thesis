@@ -936,5 +936,12 @@ img.noBorderP{
 .P-Metric-Label{
 	display: inline-block;
     width: 112px; 
+    font-weight: bold;
+    color: #333;
+    text-align: right;
+    padding-right: 4px;
+}
+.P-Metrics-Value{
+	
 }
 

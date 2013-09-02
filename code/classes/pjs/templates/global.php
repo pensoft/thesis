@@ -340,6 +340,7 @@ $gTemplArr = array(
 								'. //<a href="#"><img src="i/m.png" alt="" /></a>
 								'
 								<a target="_blank" href="https://plus.google.com/114819936210826038991?prsrc=3"><img src="i/gplus.png" alt="google plus" /></a>
+								<a target="_blank" href="http://www.mendeley.com/groups/3621351/biodiversity-data-journal/"><img src="i/mendeley.png" alt="mendeley" /></a>
 								<div class="P-Clear"></div>
 							</div>
 							<div class="P-Clear"></div>
