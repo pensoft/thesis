@@ -170,7 +170,9 @@ $gTemplArr = array (
 	// Localities
 	'article.localities_list_head' => '
 		<div class="P-Article-Structures">
-			<div class="P-Localities-Map" id="localitiesMap"></div>			
+			<div class="P-Localities-Map">
+				<div class="P-Localities-Map-Inner" id="localitiesMap"></div>
+			</div>						
 			<script>LoadMapScript()</script>
 			<div class="P-Localities-Menu">
 				<div class="P-Localities-Menu-Row">

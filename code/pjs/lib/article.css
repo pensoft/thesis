@@ -427,8 +427,15 @@ a.download{
 
 .P-Localities-Map{
 	height:451px;
+	background-color:#FEFBF3;
+	width:500px;
+	position:fixed;
+}
+
+.P-Localities-Map-Inner{
+	height:451px;
 	width:451px;
-	margin:0px auto;	
+	margin:0px auto;
 }
 
 .refinder-link-holder{
@@ -591,8 +598,9 @@ a.download{
 	background-color: #F0EEE7;
 	cursor:pointer;
 }
-.P-Localities-Menu{
-	margin:20px 15px 0 15px;
+.P-Localities-Menu{	
+	overflow-y:scroll;
+	margin:471px 15px 0 15px;
 }
 .P-Localities-Menu-Row{
 	margin-top:15px;

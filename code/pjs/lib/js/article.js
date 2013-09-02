@@ -231,6 +231,7 @@ function InitContentsCustomElementsEvents(pInPreviewIframe){
 
 function SetArticleOnLoadEvents(){
 	$('#' + gArticlePreviewIframeId).load(function(){initArticlePreviewOnLoadEvents();});
+	$(window).resize(function(){SetLocalitiesHolderHeight();});
 }
 
 function GetArticlePreviewContent(){
@@ -414,6 +415,15 @@ function LoadMapScript() {
 	InitLocalitiesMap();
 }
 
+function SetLocalitiesHolderHeight(){
+	var lHolder = $('.P-Localities-Menu');
+	if(!lHolder.length){
+		return;
+	}
+	var lWindowHeight = $(window).height();
+	var lLocalitiesHolderOffset = $('.P-Localities-Menu').offset().top;
+	$('.P-Localities-Menu').height(lWindowHeight - lLocalitiesHolderOffset);
+}
 
 function InitLocalitiesMap(){
 	google.maps.visualRefresh = true;
@@ -422,8 +432,10 @@ function InitLocalitiesMap(){
 		zoom : 1,
 		tileSize: new google.maps.Size(401, 512),
 		center : lMapCenterCorrdinates
-	};  
+	};
+	SetLocalitiesHolderHeight();	
 	gArticleMap = new google.maps.Map(document.getElementById(gMapHolderId), lMapOptions);	
+	
 }
 
 function ShowSingleCoordinate(pLatitude, pLongitude){
