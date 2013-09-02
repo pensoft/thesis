@@ -227,6 +227,7 @@ function InitContentsCustomElementsEvents(pInPreviewIframe){
 	PlaceSupFilesEvents(pInPreviewIframe);
 	PlaceLocalitiesEvents(pInPreviewIframe);
 	PlaceAuthorEvents(pInPreviewIframe);
+	PlaceTaxonUsageIconsEvents(pInPreviewIframe);
 }
 
 function SetArticleOnLoadEvents(){
@@ -394,6 +395,15 @@ function PlaceLocalitiesEvents(pInPreviewIframe){
 		$(pLocalityNode).bind('click', function(pEvent){
 			pEvent.stopPropagation();
 			ShowSingleCoordinate($(pLocalityNode).attr('data-latitude'), $(pLocalityNode).attr('data-longitude'));
+		});
+	});
+}
+
+function PlaceTaxonUsageIconsEvents(pInPreviewIframe){
+	GetCustomElementsContents(pInPreviewIframe).find('.taxon-usage[data-instance-id]').each(function(pIdx, pNode){
+		$(pNode).bind('click', function(pEvent){
+			pEvent.stopPropagation();
+			ScrollArticleToInstance($(pNode).attr('data-instance-id'));
 		});
 	});
 }

@@ -226,7 +226,7 @@ $gTemplArr = array (
 	'article.taxa_list_nodata' => 'No taxa	
 	',
 	'article.taxa_list_row' => '
-				<div class="taxalistAOF" tnu="INL">{html} {_showTaxaNameUsage(usage)}</div>
+				<div class="taxalistAOF" tnu="INL">{html} {_showTaxaNameUsage(usage, treatment_id)}</div>
 	',
 	
 	// Taxon previews

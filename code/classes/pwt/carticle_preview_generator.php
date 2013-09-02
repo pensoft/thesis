@@ -845,9 +845,14 @@ class carticle_preview_generator extends csimple {
 				'./ancestor-or-self::*[@data-taxon-treatment-title]' => (int)TAXON_NAME_USAGE_TREATMENT,
 				'./ancestor-or-self::*[@data-id-key-taxon-name]' => (int)TAXON_NAME_USAGE_ID_KEY,			
 			);
+			$lTaxonTreatmentId = 0;
 			foreach ($lParentQueries as $lQuery => $lUsage){
-				if($lXPath->query($lQuery, $lCurrentTaxonNode)->length){
+				$lNodeResult = $lXPath->query($lQuery, $lCurrentTaxonNode);
+				if($lNodeResult->length){
 					$lTaxonUsage = $lUsage;
+					if($lUsage == TAXON_NAME_USAGE_TREATMENT){
+						$lTaxonTreatmentId = $lNodeResult->item(0)->getAttribute('date-treatment-id');
+					}
 					break;
 				}
 			}
@@ -867,6 +872,7 @@ class carticle_preview_generator extends csimple {
 				'text' => $lTaxonText,
 				'names' => $lCurrentTaxonNames,
 				'usage' => array($lTaxonUsage),
+				'treatment_id' => $lTaxonTreatmentId,
 			);
 			if(!$this->CheckIfTaxonIsInArrayForListPreview($lTaxaForListPreview, $lTaxonForListPreview)){
 				$lTaxaForListPreview[] = $lTaxonForListPreview;
@@ -906,6 +912,9 @@ class carticle_preview_generator extends csimple {
 				if(!in_array($lName, $pTaxon['names'])){
 					continue 2;
 				}
+			}
+			if((int)$pTaxon['treatment_id']){
+				$pArrayForList[$lKey]['treatment_id'] = (int)$pTaxon['treatment_id'];
 			}
 			$pArrayForList[$lKey]['usage'] = array_unique(array_merge($pArrayForList[$lKey]['usage'], $pTaxon['usage']));
 			return true;
