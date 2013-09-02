@@ -16,9 +16,9 @@ $gTemplArr = array(
 						{document_type_name}
 					</div>
 				</td>
-				<td align="right">
+				<td align="right" width="400">
 					<div class="first_page_header_right">
-						<img class="logo_img" src="/i/BDJLogo.jpg" alt="BDJ"></img>
+						<img class="logo_img" src="/i/bdj-logo-pdf.png" alt="BDJ"></img>
 					</div>
 				</td>
 			</tr>
@@ -27,11 +27,15 @@ $gTemplArr = array(
 
 	'generate_pdf.main' => '
 	{*global.pdf_htmlonlyheader}
+	<!--<link href="/lib/pdf.css" rel="stylesheet" type="text/css" />-->
+
 		<style>
 			@page :first {
 				@bottom-center {
 					content: "© {author_list_short}. This is an open access article distributed under the terms of the Creative Commons Attribution License 3.0 (CC-BY), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.";
-					font-size: 5pt;
+					font-size: 6.3pt;
+					font-family: GillSans;
+					text-align: left;
 					
 				}
 				@top-left {
@@ -54,24 +58,28 @@ $gTemplArr = array(
 			@page :left {
 				@top-center {
 					content: "{author_list_short} / {idtext}";
-					font-size: 6pt;
+					font-size: 9pt;
 					font-style: italic;
+					font-family: "Adobe Garamond Pro";
 				}
 				@top-left {
 					content: counter(page);
-					font-size: 6pt;
+					font-size: 9.5pt;
+					font-family: "Adobe Garamond Pro";
 				}	
 			}
 			
 			@page :right {
 				@top-center {
 					content: "{_shortTitle(document_title)}";
-					font-size: 6pt;
 					font-style: italic;
+					font-size: 9.5pt;
+					font-family: "Adobe Garamond Pro";
 				}
 				@top-right {
 					content: counter(page);
-					font-size: 6pt;
+					font-size: 9.5pt;
+					font-family: "Adobe Garamond Pro";;
 				}	
 			}
 			

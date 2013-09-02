@@ -3216,7 +3216,7 @@ function ShowHideAuthorAction($pCreateUid, $pPWTid) {
 
 function shortTitle($pText) {
 	$text = trim(strip_tags($pText));
-	return mb_substr($text, 0, strpos($text, ' ', 100)); 
+	return mb_substr($text, 0, strpos($text, ' ', 90)); 
 }
 
 function showPollAnswerErrClass($pAnswer, $pUserRole) {
