@@ -175,10 +175,23 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   cursor: pointer;
   display: block;
 }
+
+.P-Article-Preview-Picture-Download-Small {
+   cursor: pointer;
+  display: block;
+  position: absolute;
+  right: -35px;
+  text-align: center;
+  top: 35px;
+  vertical-align: middle;
+  width: 30px;
+}
+
+
 .Plate-part-letter {
   position: absolute;
   right: -35px;
-  top: 35px;
+  top: 70px;
   background: #7f7f7f;
   color: white;
   -webkit-border-radius: 4px;

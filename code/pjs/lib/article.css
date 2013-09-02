@@ -466,16 +466,16 @@ a.download{
 }
 .figure .plate2column .singlePlatePhoto {
   display: table;
-  width: 180px;
-  height: 180px;
+  width: 170px;
+  height: 170px;
 }
 .figure .plate2column .singlePlatePhoto a {
   display: table-cell;
   vertical-align: middle;
 }
 .figure .plate2column .singlePlatePhoto img {
-  max-width: 180px;
-  max-height: 180px;
+  max-width: 170px;
+  max-height: 170px;
 }
 .figure .singlePlatePhoto {
   margin-top: 10px;
@@ -502,10 +502,25 @@ a.download{
   cursor: pointer;
   display: block;
 }
+
+.P-Article-Preview-Picture-Download-Small {
+  cursor: pointer;
+  display: block;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 50px;
+  right: 27px;
+  cursor: pointer;
+  display: block;
+}
+
+
 .singlePlatePhoto .P-Article-Preview-Picture-Zoom-Small{
 	top: 0;
 	right: -37px;
 }
+
 .Plate-part-letter {
     background: none repeat scroll 0 0 rgb(127, 127, 127);
     border-radius: 4px 4px 4px 4px;
@@ -517,11 +532,16 @@ a.download{
     position: absolute;
     right: 27px;
     text-align: center;
-    top: 50px;
+    top: 85px;
     vertical-align: middle;
     width: 30px;
 }
-.singlePlatePhoto .Plate-part-letter{
+.singlePlatePhoto .Plate-part-letter, .singlePlatePhoto .P-Article-Preview-Picture-Download-Small{
+	top: 70px;
+	right: -37px;
+}
+
+.singlePlatePhoto .P-Article-Preview-Picture-Download-Small{
 	top: 35px;
 	right: -37px;
 }

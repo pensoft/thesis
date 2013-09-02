@@ -200,8 +200,8 @@
 										<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
 									</xsl:for-each>
 									<xsl:text>.</xsl:text> <br /><xsl:text>This is an open access article distributed under the terms of the </xsl:text>
-									<span>Creative Commons Attribution License 3.0 (CC-BY),</span> <br />
-									<xsl:text>which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</xsl:text>
+									<a border="0" target="_blank" href="http://creativecommons.org/licenses/by/3.0/" rel="license">Creative Commons Attribution 3.0 (CC-BY)</a>
+									<xsl:text> which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</xsl:text>
 								</div>
 							</td>
 							<td width="95px" valign="middle" align="right">
@@ -651,6 +651,13 @@
 						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
 						<xsl:value-of select="$pInstanceId"/>
 					</xsl:attribute>
+				</a>
+				<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
+					<xsl:attribute name="href">
+						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
+						<xsl:value-of select="$pInstanceId"/>
+					</xsl:attribute>
+					<img src="/i/download-icon-30.png" alt=""/>
 				</a>
 		</xsl:variable>
 		<div>
@@ -1233,6 +1240,11 @@
 						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text><xsl:value-of select="./image/@instance_id" />
 					</xsl:attribute>
 				</a>
+				<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
+					<xsl:attribute name="href">
+						<xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=oo_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg</xsl:attribute>
+					<img src="/i/download-icon-30.png" alt=""/>
+				</a>		
 				<div class="description">	
 					<span class="fig-label-RC">
 						<xsl:value-of select="./@display_name"></xsl:value-of>
@@ -1273,6 +1285,13 @@
 				<xsl:attribute name="href">
 					<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text><xsl:value-of select="@instance_id"/>
 				</xsl:attribute>
+			</a>
+			<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
+				<xsl:attribute name="href">
+					<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
+					<xsl:value-of select="./@instance_id" />
+				</xsl:attribute>
+				<img src="/i/download-icon-30.png" alt=""/>
 			</a>
 			<div class="Plate-part-letter"><xsl:value-of select="$platePart"/></div>
 

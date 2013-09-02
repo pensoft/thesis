@@ -94,6 +94,8 @@ $i = new cgetimage(array(
 	),
 ));
 
+header("Content-Disposition: attachment;filename=\"ala-bala.jpg\"");  //" . $lFileName . "
+
 $i->Display();
 
 ?>
