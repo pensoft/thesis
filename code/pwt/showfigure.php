@@ -52,7 +52,7 @@ $i = new cgetimage(array(
 			'-quality',
 			'90', 
 			'-thumbnail',
-			escapeshellarg('400x400>'),
+			escapeshellarg('384x400>'),
 		),
 		'gb' => array(
 			'-quality',

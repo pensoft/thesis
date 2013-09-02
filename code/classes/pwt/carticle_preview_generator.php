@@ -478,7 +478,8 @@ class carticle_preview_generator extends csimple {
 					EXTRACT(year FROM d.publish_date) as pubyear,
 					j.name as journal_name, d.doi, d.start_page, d.end_page,
 					d.name as article_title,
-					i."number" as issue_number
+					i."number" as issue_number,
+					d.id as article_id
 			FROM pjs.documents d
 			LEFT JOIN pjs.journal_issues i ON i.id = d.issue_id
 			LEFT JOIN public.journals j ON j.id = i.journal_id
