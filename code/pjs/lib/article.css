@@ -599,7 +599,7 @@ a.download{
 	cursor:pointer;
 }
 .P-Localities-Menu{	
-	overflow-y:scroll;
+	overflow-y:auto;
 	margin:471px 15px 0 15px;
 }
 .P-Localities-Menu-Row{

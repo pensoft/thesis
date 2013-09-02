@@ -63,7 +63,7 @@ class cgetimage {
 		$this->fext = $arr[3];
 	}
 	
-	function sendheaders($pType) {
+	function sendheaders($pType, $contentDisposition) {
 		if ($pType == 'def') {
 			header('Cache-Control:');
 			header('Pragma:');
@@ -75,14 +75,14 @@ class cgetimage {
 			header('Content-Type: image/jpeg');
 			//~ header('Content-Type: text/plain');
 			header('Content-Length: ' . $this->fsize);
-			header('Content-Disposition: inline; filename="' . $this->fname . '"');
+			header('Content-Disposition: '. $contentDisposition .'; filename="' . $this->fname . '"');
 		}
 	}
 	
-	function Display() {
+	function Display($contentDisposition = 'inline') {
 	
 		if (!$this->fname) return;
-		$this->sendheaders('def');
+		$this->sendheaders('def', $contentDisposition);
 		if (!is_file($this->photospath . $this->fname) && $this->fpref != 'oo') {
 			
 			$f = $this->photospath . $this->basephotopref . $this->fid . ($this->basephotopref =='oo_' && (int)$this->hasparent ? $this->ftypes[$this->hasparent] : '.jpg');
@@ -105,7 +105,7 @@ class cgetimage {
 			$this->ftst = mktime();
 			$this->fsize = file_put_contents($this->photospath . $this->fname, $contents);
 			
-			$this->sendheaders('lastmodified');			
+			$this->sendheaders('lastmodified', $contentDisposition);			
 			echo $contents;
 			
 			exit;
@@ -125,7 +125,7 @@ class cgetimage {
 			
 			$this->fsize = filesize($this->photospath . $this->fname);
 			
-			$this->sendheaders('lastmodified');
+			$this->sendheaders('lastmodified', $contentDisposition);
 			
 			readfile($this->photospath . $this->fname);
 			
