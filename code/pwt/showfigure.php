@@ -1,7 +1,6 @@
-<?php
+<?php 
 $gDontRedirectToLogin = 1;
 require_once(getenv("DOCUMENT_ROOT") . "/lib/static.php");
-
 $f = basename(s($_GET['filename']));
 
 $i = new cgetimage(array(
@@ -93,9 +92,6 @@ $i = new cgetimage(array(
 		),
 	),
 ));
-
-header("Content-Disposition: attachment;filename=\"ala-bala.jpg\"");  //" . $lFileName . "
-
-$i->Display();
+$i->Display($_GET['download'] == '1' ? 'attachment' : 'inline');
 
 ?>
