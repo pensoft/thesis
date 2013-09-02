@@ -122,8 +122,8 @@ $gTemplArr = array (
 				
 				<div class="P-Citation-Content">
 					{author_names} ({pubyear}) {_GetArticleTitleForCitation(article_title)}
-					{journal_name} {issue_number}: {start_page}.
-					DOI: {doi}										
+					Biodiversity Data Journal 1: e{article_id}.
+					DOI: 10.3897/BDJ.1.e{article_id}										
 				</div>
 			</div>
 	',

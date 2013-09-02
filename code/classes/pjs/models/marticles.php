@@ -264,6 +264,23 @@ class mArticles extends emBase_Model {
 		return $lResult;
 		
 	}
+	function GetMetadata($pArticleId){
+		$lSql = 'SELECT to_char(d.approve_date, \'DD-MM-YYYY\') as approve_date, 
+					to_char(d.publish_date, \'DD-MM-YYYY\') as publish_date, 
+					to_char(d.create_date, \'DD-MM-YYYY\') as create_date,
+				EXTRACT(year FROM d.publish_date) as pubyear,
+				j.name as journal_name, d.doi, d.start_page, d.end_page,
+				d.name as article_title,
+				i."number" as issue_number,
+				d.id as article_id
+		FROM pjs.documents d
+		LEFT JOIN pjs.journal_issues i ON i.id = d.issue_id
+		LEFT JOIN public.journals j ON j.id = i.journal_id
+		WHERE d.id = ' . $pArticleId . '	
+	';
+		$this->m_con->Execute($lSql);
+		return $this->m_con->mRs;
+	} 
 }
 
 ?>

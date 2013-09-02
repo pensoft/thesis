@@ -11,7 +11,7 @@ class cArticles extends cBase_Controller {
 		$this->m_articlesModel = new mArticles();
 		$this->m_articleId = (int)$this->GetValueFromRequestWithoutChecks('id');
 		$lObjectExistence = $this->m_articlesModel->GetObjectExistenceFields($this->m_articleId);
-		
+		$lMetadata = $this->m_articlesModel->GetMetadata($this->m_articleId);
 	
 		$lResultArr = array(
 				'contents' => array(
@@ -19,7 +19,8 @@ class cArticles extends cBase_Controller {
 					'object_existence' => $lObjectExistence,
 					'name_in_viewobject' => 'contents',
 					'id' => $this->m_articleId,	
-					'contents_list' => $this->m_articlesModel->GetContentsListHtml($this->m_articleId),			
+					'contents_list' => $this->m_articlesModel->GetContentsListHtml($this->m_articleId),	
+					'controller_data' => $lMetadata,		
 				),
 		);
 // 		var_dump($lResultArr);

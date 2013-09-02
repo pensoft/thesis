@@ -6640,7 +6640,7 @@ function showTaxaNameUsage($pUsage){
 }
 
 function GetArticleTitleForCitation($pTitle){
-	$pTitle = trim(strip_tags($pTitle));
+	$pTitle = trim($pTitle);
 	$lLastSymbol = mb_substr($pTitle, -1);
 	if(!in_array($lLastSymbol, array('.', '?', '!'))){
 		$pTitle .= '.';
