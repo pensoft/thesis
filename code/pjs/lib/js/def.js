@@ -11,6 +11,7 @@ var gJournalUsersPageUrl = '/manage_journal_users.php';
 var gCreateUserPageUrl = '/create_user.php';
 var gGetStoryChildrensPageUrl = gAjaxUrlsPrefix + 'get_story_childrens_srv.php';
 var gGeneratePDFAjaxSrv = gAjaxUrlsPrefix + 'generate_pdf.php';
+var gGenerateAOFAjaxSrv = gAjaxUrlsPrefix + 'generate_aof.php';
 var gLeftContainerClass = "P-Wrapper-Container-Left";
 var gLeftContainerClassHide = "P-Wrapper-Container-Left-Hide";
 var gRightContainerClass = "P-Wrapper-Container-Right";
@@ -2011,6 +2012,28 @@ function GeneratePDFPreview(pDocumentId) {
 	document.location.href = gGeneratePDFAjaxSrv + '?document_id=' + pDocumentId + '&readonly_preview=1';
 	$('#P-Ajax-Loading-Image-Main').hide();
 	return;
+}
+
+function GenerateHTMLPreview(pDocumentId){
+		$('#P-Ajax-Loading-Image-Main').show();
+		
+		$.ajax({
+			url : gGenerateAOFAjaxSrv,
+			data : {
+				document_id: pDocumentId
+			},
+			success : function(pAjaxResult) {
+				if(pAjaxResult == 'ok') {
+					$('#P-Ajax-Loading-Image-Main').hide();
+					openPopUp('/articles.php?id=' + pDocumentId);
+					//document.location.href = '/articles.php?id=' + pDocumentId;
+				} else {
+					$('#P-Ajax-Loading-Image-Main').hide();
+					alert('Error generating article of the future');
+				}
+			}
+		});
+		$('#P-Ajax-Loading-Image-Main').hide();
 }
 
 function getIframeSelection(pIframeId){

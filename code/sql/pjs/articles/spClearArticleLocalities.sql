@@ -1,4 +1,4 @@
-DROP TYPE ret_spClearArticleLocalities CASCADE;
+DROP TYPE IF EXISTS ret_spClearArticleLocalities CASCADE;
 CREATE TYPE ret_spClearArticleLocalities AS (
 	result int
 );

@@ -9,6 +9,7 @@ DECLARE
 	cLEVersionType CONSTANT int := 5;
 	cAuthorVersionType CONSTANT int := 1;
 	lLastAuthorVersionId bigint;
+	LEVersionTypeId bigint;
 BEGIN
 
 	SELECT INTO lRes.doc_xml pdv.xml
@@ -18,11 +19,8 @@ BEGIN
 	ORDER BY dv.id DESC
 	LIMIT 1;
 	
-	UPDATE pjs.pwt_document_versions 
-	SET 
-		xml = lRes.doc_xml 
-	WHERE version_id = (SELECT id FROM pjs.document_versions WHERE document_id = pDocumentId AND version_type_id = cLEVersionType ORDER BY id DESC LIMIT 1);
-	
+	SELECT INTO LEVersionTypeId id FROM pjs.document_versions WHERE document_id = pDocumentId AND version_type_id = cLEVersionType ORDER BY id DESC LIMIT 1;
+	PERFORM pjs."spSaveLEXMLVersion"(LEVersionTypeId, lRes.doc_xml);
 RETURN lRes;
 END
 $BODY$

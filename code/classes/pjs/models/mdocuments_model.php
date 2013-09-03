@@ -1711,7 +1711,9 @@ class mDocuments_Model extends emBase_Model {
 			'err_msgs' => array(),
 		);
 		
-		$lSql = 'UPDATE pjs.pwt_document_versions SET xml = \'' . q($pXML) . '\'::xml WHERE version_id = ' . (int)$pVersionId;
+		
+		$lSql = 'SELECT * FROM pjs."spSaveLEXMLVersion"(' . (int)$pVersionId . ', \'' . q($pXML) . '\'::xml)';
+		//$lSql = 'UPDATE pjs.pwt_document_versions SET xml = \'' . q($pXML) . '\'::xml WHERE version_id = ' . (int)$pVersionId;
 		if(!$this->m_con->Execute($lSql)){
 			$lResult['err_cnt']++;
 			//$lResult['err_msgs'][] = array('err_msg' => $this->m_con->GetLastError());
