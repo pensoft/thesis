@@ -232,7 +232,7 @@ function InitContentsCustomElementsEvents(pInPreviewIframe){
 
 function SetArticleOnLoadEvents(){
 	$('#' + gArticlePreviewIframeId).load(function(){initArticlePreviewOnLoadEvents();});
-	$(window).resize(function(){SetLocalitiesHolderHeight();});
+//	$(window).resize(function(){SetLocalitiesHolderHeight();});
 }
 
 function GetArticlePreviewContent(){
@@ -443,7 +443,7 @@ function InitLocalitiesMap(){
 		tileSize: new google.maps.Size(401, 512),
 		center : lMapCenterCorrdinates
 	};
-	SetLocalitiesHolderHeight();	
+//	SetLocalitiesHolderHeight();	
 	gArticleMap = new google.maps.Map(document.getElementById(gMapHolderId), lMapOptions);	
 	
 }
