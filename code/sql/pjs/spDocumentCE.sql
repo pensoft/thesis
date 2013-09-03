@@ -130,20 +130,6 @@ $BODY$
 					INSERT INTO pjs.document_review_round_users(round_id, document_user_id, document_version_id) VALUES (lRoundId, lDocumentUserId, lVersionId);
 					lCERoundUsrId = currval('pjs.document_review_round_reviewers_id_seq');
 					UPDATE pjs.document_review_rounds SET decision_round_user_id = lCERoundUsrId WHERE id = lRoundId;
-					
-					/*
-					FOR lRecord IN
-						SELECT uid, du.id
-						FROM pjs.document_users du
-						WHERE document_id = pDocumentId AND role_id = lCERoleId
-					LOOP
-						SELECT INTO lVersionId id FROM spCreateDocumentVersion(pDocumentId, lRecord.uid, lCEVersionTypeId, lCurrentAuthorVersionId);
-						INSERT INTO pjs.document_review_round_users(round_id, document_user_id, document_version_id) VALUES (lRoundId, lRecord.id, lVersionId);
-						lCERoundUsrId = currval('pjs.document_review_round_reviewers_id_seq');
-						
-						UPDATE pjs.document_review_rounds SET decision_round_user_id = lCERoundUsrId, round_due_date = now() + INTERVAL '1 week' WHERE id = lRoundId;
-					END LOOP;
-					*/
 				ELSE 
 					-- Create a revision for the document -if the document is in a review state
 					IF EXISTS (
