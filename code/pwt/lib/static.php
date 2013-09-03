@@ -6605,7 +6605,7 @@ function showTaxaNameUsage($pUsage, $pTreatmentId){
 	sort($pUsage);
 	foreach ($pUsage as $lUsage){
 		if($lRow++){
-			$lResult .= ' | ';
+		//	$lResult .= ' | ';
 		}
 		switch($lUsage){
 			case TAXON_NAME_USAGE_TREATMENT :				
