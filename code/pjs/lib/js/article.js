@@ -227,11 +227,12 @@ function InitContentsCustomElementsEvents(pInPreviewIframe){
 	PlaceSupFilesEvents(pInPreviewIframe);
 	PlaceLocalitiesEvents(pInPreviewIframe);
 	PlaceAuthorEvents(pInPreviewIframe);
+	PlaceTaxonUsageIconsEvents(pInPreviewIframe);
 }
 
 function SetArticleOnLoadEvents(){
 	$('#' + gArticlePreviewIframeId).load(function(){initArticlePreviewOnLoadEvents();});
-	$(window).resize(function(){SetLocalitiesHolderHeight();});
+//	$(window).resize(function(){SetLocalitiesHolderHeight();});
 }
 
 function GetArticlePreviewContent(){
@@ -398,6 +399,15 @@ function PlaceLocalitiesEvents(pInPreviewIframe){
 	});
 }
 
+function PlaceTaxonUsageIconsEvents(pInPreviewIframe){
+	GetCustomElementsContents(pInPreviewIframe).find('.taxon-usage[data-instance-id]').each(function(pIdx, pNode){
+		$(pNode).bind('click', function(pEvent){
+			pEvent.stopPropagation();
+			ScrollArticleToInstance($(pNode).attr('data-instance-id'));
+		});
+	});
+}
+
 function ScrollArticleToInstance(pInstanceId){
 	var lFirstInstanceElement = GetArticlePreviewContent().find('*[instance_id=' + pInstanceId + ']').first();
 	if(!lFirstInstanceElement.length){
@@ -433,7 +443,7 @@ function InitLocalitiesMap(){
 		tileSize: new google.maps.Size(401, 512),
 		center : lMapCenterCorrdinates
 	};
-	SetLocalitiesHolderHeight();	
+//	SetLocalitiesHolderHeight();	
 	gArticleMap = new google.maps.Map(document.getElementById(gMapHolderId), lMapOptions);	
 	
 }

@@ -565,6 +565,7 @@
 	<!-- Type species ICZN Taxon name species -->
 	<xsl:template match="*[@object_id='180']" mode="taxonTreatmentName" xml:space="default">
 		<span class="tn" data-taxon-treatment-title="1">
+			<xsl:attribute name="date-treatment-id"><xsl:value-of select="../../@instance_id" /></xsl:attribute>
 		<span class="genus">
 			<xsl:call-template name="markContentEditableField">
 				<xsl:with-param name="pObjectId" select="./@object_id"/>
@@ -666,6 +667,7 @@
 	<!-- Taxon name Genus -->
 	<xsl:template match="*[@object_id='181']" mode="taxonTreatmentName">
 		<span class="tn" data-taxon-treatment-title="1">
+			<xsl:attribute name="date-treatment-id"><xsl:value-of select="../../@instance_id" /></xsl:attribute>
 			<span class="genus">
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id"/>

@@ -6598,7 +6598,7 @@ function displayCitationsAuthorSeparator($pRecords, $pRownum, $pSeparator = ', '
 	}
 }
 
-function showTaxaNameUsage($pUsage){
+function showTaxaNameUsage($pUsage, $pTreatmentId){
 	$lResult = '<span class="taxon-usage-holder">
 					<span class="taxon-usage-caption">&nbsp;&nbsp;</span>';
 	$lRow = 0;
@@ -6608,8 +6608,8 @@ function showTaxaNameUsage($pUsage){
 			$lResult .= ' | ';
 		}
 		switch($lUsage){
-			case TAXON_NAME_USAGE_TREATMENT :
-				$lResult .= '<span class="taxon-usage" title="Taxon treatment">
+			case TAXON_NAME_USAGE_TREATMENT :				
+				$lResult .= '<span class="taxon-usage" title="Taxon treatment" data-instance-id="' . (int)$pTreatmentId . '">
 								<img width="30" heigth="18" alt="" src="/i/TTR.png" style="vertical-align: middle;" />
 							</span>';
 				break;

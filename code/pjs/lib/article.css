@@ -428,8 +428,7 @@ a.download{
 .P-Localities-Map{
 	height:451px;
 	background-color:#FEFBF3;
-	width:500px;
-	position:fixed;
+	width:500px;	
 }
 
 .P-Localities-Map-Inner{
@@ -598,9 +597,8 @@ a.download{
 	background-color: #F0EEE7;
 	cursor:pointer;
 }
-.P-Localities-Menu{	
-	overflow-y:auto;
-	margin:471px 15px 0 15px;
+.P-Localities-Menu{		
+	margin:20px 15px 0 15px;
 }
 .P-Localities-Menu-Row{
 	margin-top:15px;
@@ -972,4 +970,6 @@ img.noBorderP{
 .P-Metrics-Value{
 	
 }
-
+.P-Regular-Site-Info-Holder.P-Regular-Site-Row-Without-Results{
+	
+} 
