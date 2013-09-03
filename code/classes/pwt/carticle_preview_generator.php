@@ -651,8 +651,10 @@ class carticle_preview_generator extends csimple {
 		}
 // 		var_dump($this->m_articleLocalities);
 // 		exit;
-		$lInstancesWithCoordinates = array_unique($lInstancesWithCoordinates);
-		if(!count($lInstancesWithCoordinates)){
+		
+		if(count($lInstancesWithCoordinates)) {
+			$lInstancesWithCoordinates = array_unique($lInstancesWithCoordinates); 
+		} else {
 			$lInstancesWithCoordinates[] = 0;
 		}
 		if(count($this->m_articleLocalities)){

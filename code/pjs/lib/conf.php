@@ -373,5 +373,6 @@ define('ARTICLE_MENU_ELEMENT_TYPE_RELATED', 10);
 define('ARTICLE_MENU_ELEMENT_TYPE_METRICS', 11);
 define('ARTICLE_MENU_ELEMENT_TYPE_SHARE', 12);
 
-
+//define('PWT_VERSION_PREVIEW_URL', PWT_URL . 'lib/ajax_srv/get_document_pjs_preview.php');
+define('PWT_AOF_CACHE_URL', PWT_URL . 'lib/ajax_srv/generate_aof_cache.php');
 ?>

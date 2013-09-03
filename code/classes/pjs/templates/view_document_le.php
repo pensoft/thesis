@@ -169,14 +169,14 @@ $gTemplArr = array(
 												</div>
 												<div class="P-Green-Btn-Right"></div>
 											</div>
-											<div class="P-Green-Btn-Holder saveForm">
+											<div class="P-Green-Btn-Holder saveForm" onclick="GenerateHTMLPreview({document_id})">
 												<div class="P-Green-Btn-Left"></div>
 												<div class="P-Green-Btn-Middle">
 													{_getstr(pjs.layout_html_preview_btn_text)}
 												</div>
 												<div class="P-Green-Btn-Right"></div>
 											</div>
-											<div class="P-Green-Btn-Holder saveForm" onclick="GeneratePDFPreview({le_version_id})">
+											<div class="P-Green-Btn-Holder saveForm" onclick="GeneratePDFPreview({document_id})">
 												<div class="P-Green-Btn-Left"></div>
 												<div class="P-Green-Btn-Middle">
 													{_getstr(pjs.layout_pdf_preview_btn_text)}

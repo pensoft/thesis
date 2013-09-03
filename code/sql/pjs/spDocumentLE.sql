@@ -41,6 +41,7 @@ $BODY$
 		cReadyForCopyEditing CONSTANT int := 15;
 		cLEVersionTypeId CONSTANT int := 5;
 		lVersionId bigint;
+		lXml xml;
 	BEGIN		
 		lJournalEditorRoleId = 3;
 		lLERoleId = 8;
@@ -126,7 +127,11 @@ $BODY$
 					
 					INSERT INTO pjs.document_review_round_users(round_id, document_user_id, document_version_id) VALUES (lRoundId, lDocumentUserId, lVersionId);
 					lLERoundUsrId = currval('pjs.document_review_round_reviewers_id_seq');
-						
+					
+					SELECT INTO lXml xml FROM pjs.pwt_document_versions WHERE version_id = lVersionId;
+
+					PERFORM spCreateArticle(pDocumentId,	lXml::varchar);
+					
 					UPDATE pjs.document_review_rounds SET decision_round_user_id = lLERoundUsrId WHERE id = lRoundId;
 				ELSE 
 					-- Create a revision for the document -if the document is in a review state
