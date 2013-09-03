@@ -296,7 +296,7 @@ $gTemplArr = array (
 	',
 	'article.ncbi_entrez_records_nodata' => '',
 	
-	'article.ncbi_no_data' => 'No data on this taxon',
+	'article.ncbi_no_data' => 'No data on this taxon in NCBI',
 	
 	'article.ncbi' => '
 		<div class="contentSection imagesSection">
@@ -343,7 +343,7 @@ $gTemplArr = array (
 		</div>
 	',
 	
-	'article.gbif_no_data' => 'No data on this taxon',
+	'article.gbif_no_data' => 'No data on this taxon in GBIF',
 	// BHL
 	'article.bhl_head' => '
 		<div class="contentSection generalInfoSection">
@@ -444,7 +444,7 @@ $gTemplArr = array (
 		{*article.bhl_foot}
 	',
 	// Wikimedia
-	'article.wikimedia_no_data' => 'No wikimedia',
+	'article.wikimedia_no_data' => 'No data on this taxon in Wikimedia',
 	'article.wikimedia' => '
 		<div class="contentSection imagesSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
@@ -483,10 +483,10 @@ $gTemplArr = array (
 				
 	',
 	
-	'article.wikimedia_images_nodata' => 'No data on this taxon',
+	'article.wikimedia_images_nodata' => 'No images on this taxon in Wikimedia',
 	
 	// EOL
-	'article.eol_no_data' => 'No EOL images',
+	'article.eol_no_data' => 'No images on this taxon in EOL',
 	'article.eol' => '
 		<div class="contentSection imagesSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
