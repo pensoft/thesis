@@ -444,7 +444,7 @@ $gTemplArr = array (
 		{*article.bhl_foot}
 	',
 	// Wikimedia
-	'article.wikimedia_no_data' => 'No data on this taxon in Wikimedia',
+	'article.wikimedia_no_data' => 'No images on this taxon in Wikimedia',
 	'article.wikimedia' => '
 		<div class="contentSection imagesSection">
 			<table class="contentSectionLabel" cellspacing="0" cellpadding="0" border="0">
@@ -478,7 +478,7 @@ $gTemplArr = array (
 	
 	'article.wikimedia_images_row' => '
 				<div class="imageRow">
-					<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, src)}"><img src="{src}" class="noBorder" alt="{name}" style="width: 134px;"></img></a>
+					<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, src)}"><img src="{src}" class="noBorder" alt="{name}"></img></a>
 				</div>
 				
 	',
@@ -519,7 +519,7 @@ $gTemplArr = array (
 	
 	'article.eol_images_row' => '
 				<div class="imageRow">
-					<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, url)}"><img src="{url}" class="noBorder" alt="" style="width: 134px;"></img></a>
+					<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, url)}"><img src="{url}" class="noBorder" alt=""></img></a>
 				</div>	
 	',
 	

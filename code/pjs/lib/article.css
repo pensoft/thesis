@@ -925,7 +925,7 @@ xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[
 	font-size: 11pt;
     padding: 15px;
 }
-img.noBorderP{
+img.noBorder{
  	max-height: 90px;
     max-width: 134px;
 }
