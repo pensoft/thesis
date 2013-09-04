@@ -2161,7 +2161,7 @@ function displayArticlesFilterCriteria($pTaxon, $pSubject, $pGeographical, $pChr
 	if($pGeographical)
 		$lResult .= ($pTaxon || $pSubject ? ' AND ' : '') . 'Geographical region=[' . $pGeographical . ']';
 	if($pChronical)
-		$lResult .= ($pTaxon || $pSubject || $pGeographical ? ' AND ' : '') . 'Chronological region=[' . $pChronical . ']';
+		$lResult .= ($pTaxon || $pSubject || $pGeographical ? ' AND ' : '') . 'Chronological period=[' . $pChronical . ']';
 	if($pFromdate)
 		$lResult .= ($pTaxon || $pSubject || $pGeographical || $pChronical ? ' AND ' : '') . 'Publication date=[' . $pFromdate . ' to ' . $pToDate . ']';
 	if($pSectionType)

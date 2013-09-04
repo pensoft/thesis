@@ -22,7 +22,8 @@ $BODY$
 		lDisplayInTree boolean;
 		lRecord record;
 		lContainerObjectType int;
-		lDisplayName varchar;		
+		lDisplayName varchar;
+		lDisplayErr	boolean;
 	BEGIN
 		lContainerObjectType = 2;		
 		
@@ -33,7 +34,7 @@ $BODY$
 		
 		lParentIsConfirmed = coalesce(lParentIsConfirmed, true);
 
-		SELECT INTO lDocumentTemplateObjectId, lDisplayInTree, lDisplayName id, display_in_tree, display_name
+		SELECT INTO lDocumentTemplateObjectId, lDisplayInTree, lDisplayName, lDisplayErr id, display_in_tree, display_name, display_err
 		FROM pwt.document_template_objects
 		WHERE parent_id = lParentDocumentTemplateObjectId AND object_id = pObjectId ORDER BY pos ASC LIMIT 1;
 		
@@ -70,8 +71,8 @@ $BODY$
 		
 		-- Вкарваме новия instance.
 		SELECT INTO lInstanceId nextval('pwt.document_object_instances_id_seq'::regclass);
-		INSERT INTO pwt.document_object_instances(id, document_id, object_id, pos, display_in_tree, document_template_object_id, parent_id, display_name, is_confirmed) 
-			VALUES (lInstanceId, lDocumentId, pObjectId, lCurrentPos, lDisplayInTree, lDocumentTemplateObjectId, pParentInstanceId, lDisplayName, lParentIsConfirmed);
+		INSERT INTO pwt.document_object_instances(id, document_id, object_id, pos, display_in_tree, document_template_object_id, parent_id, display_name, is_confirmed, display_err) 
+			VALUES (lInstanceId, lDocumentId, pObjectId, lCurrentPos, lDisplayInTree, lDocumentTemplateObjectId, pParentInstanceId, lDisplayName, lParentIsConfirmed, lDisplayErr);
 		
 		-- Вкарваме празните field-ове
 		INSERT INTO pwt.instance_field_values(instance_id, field_id, document_id, 

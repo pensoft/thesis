@@ -55,12 +55,12 @@ BEGIN
 	INSERT INTO pwt.document_template_objects(document_id, template_id, object_id, pos, display_in_tree, is_fake, allow_movement, allow_add, allow_remove, 
 		display_title_and_top_actions, display_name, default_mode_id, default_new_mode_id, allowed_modes, display_default_actions, title_display_style,
 		xml_node_name, display_object_in_xml, generate_xml_id, default_actions_type, displayed_actions_type, limit_new_object_creation, view_xpath_sel, view_xsl_templ_mode,
-		template_object_id
+		template_object_id, display_err
 	)
 	SELECT pDocumentId, lTemplateId, t.object_id, overlay(t.pos placing lPos from 1 for char_length(lPos)), t.display_in_tree, t.is_fake, t.allow_movement, t.allow_add, t.allow_remove, 
 		t.display_title_and_top_actions, t.display_name, t.default_mode_id, t.default_new_mode_id, t.allowed_modes, t.display_default_actions, t.title_display_style,
 		t.xml_node_name, t.display_object_in_xml, t.generate_xml_id, t.default_actions_type, t.displayed_actions_type, t.limit_new_object_creation, t.view_xpath_sel, t.view_xsl_templ_mode,
-		t.id
+		t.id, t.display_err
 	FROM pwt.template_objects t
 	JOIN pwt.template_objects p ON p.template_id = t.template_id AND p.pos = substring(t.pos, 1, char_length(p.pos))
 	WHERE t.template_id = lTemplateId AND p.object_id = pObjectId AND char_length(p.pos) = 2;
@@ -86,8 +86,8 @@ BEGIN
 		ORDER BY pos ASC
 	LOOP
 		SELECT INTO lInstanceId nextval('pwt.document_object_instances_id_seq'::regclass);
-		INSERT INTO pwt.document_object_instances(id, document_id, object_id, pos, display_in_tree, document_template_object_id, display_name) 
-			VALUES (lInstanceId, pDocumentId, lRecord.object_id, lPos, lRecord.display_in_tree, lRecord.id, lRecord.display_name);
+		INSERT INTO pwt.document_object_instances(id, document_id, object_id, pos, display_in_tree, document_template_object_id, display_name, display_err) 
+			VALUES (lInstanceId, pDocumentId, lRecord.object_id, lPos, lRecord.display_in_tree, lRecord.id, lRecord.display_name, lRecord.display_err);
 		lPos = ForumGetNextOrd(lPos);
 		-- Вкарваме празните field-ове
 		INSERT INTO pwt.instance_field_values(instance_id, field_id, document_id, 
