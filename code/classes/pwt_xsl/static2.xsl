@@ -1442,7 +1442,7 @@
 				<div class="refinder-link-holder">
 					<a class="refinder-link" target="_blank"> 
 						<xsl:attribute name="href">
-							<xsl:text>http://192.168.83.8:5000/?search=advanced</xsl:text>
+							<xsl:text>http://dev.refinder.org/?search=advanced</xsl:text>
 							<xsl:text>&amp;author=</xsl:text><xsl:value-of select="normalize-space($Authors)" />
 							<xsl:text>&amp;year=</xsl:text><xsl:value-of select="normalize-space($refYear)" />
 							<xsl:text>&amp;title=</xsl:text><xsl:value-of select="normalize-space($refTitle)" />

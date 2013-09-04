@@ -2201,7 +2201,7 @@ $STRARRAY = array(
 	'pjs.articleSELabel' => 'Academic editor',
 	
 	'pwt.index_list_head_text' => 'My recent manuscripts',
-	'pjs.bygeochronocal' => 'by Chronological region',
+	'pjs.bygeochronocal' => 'by Chronological period',
 
 );
 ?>
