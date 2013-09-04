@@ -21,10 +21,8 @@ $BODY$
 		lRes.result = FALSE;
 		
 		SELECT INTO 
-			lRoundDueDate, 
 			lReviewTypeId, 
 			lRoundNum 
-			dr.round_due_date::date, 
 			d.document_review_type_id, 
 			dr.round_number
 		FROM pjs.documents d
@@ -32,7 +30,6 @@ $BODY$
 		WHERE d.id = pDocumentId;
 		
 		IF(
-			lRoundDueDate < now()::date OR 
 			lReviewTypeId = cNonPeerReviewTypeId OR 
 			lRoundNum > 1
 		) THEN

@@ -1,4 +1,4 @@
-DROP TYPE ret_spInsertInstanceTree CASCADE;
+DROP TYPE IF EXISTS ret_spInsertInstanceTree CASCADE;
 CREATE TYPE ret_spInsertInstanceTree AS (
 	instance_id bigint
 );
@@ -37,7 +37,7 @@ BEGIN
 		FOR lIter IN 1 .. lRecord.min_occurrence LOOP
 			
 			lNewId = nextval('pwt.document_object_instances_id_seq');
-			INSERT INTO template_objects(id, template_id, object_id, display_in_tree, pos) VALUES (lNewId, lTemplateId, lRecord.subobject_id, false, lPos || lNewPos);
+			INSERT INTO template_objects(id, template_id, object_id, display_in_tree, pos, display_err) VALUES (lNewId, lTemplateId, lRecord.subobject_id, false, lPos || lNewPos, false);
 			lNewPos := ForumGetNextOrd(lNewPos);
 			
 			PERFORM spInsertInstanceTree(lNewId);			

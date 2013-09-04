@@ -33,7 +33,7 @@ $BODY$
 		-- get round number for closed-peer; community-peer; public review type if round_due_date > now
 		SELECT INTO lRoundNumber, lReviewType, lPanelDueDate, lPublicDueDate, lCurrentRoundId round_number, d.document_review_type_id, d.panel_duedate, d.public_duedate, d.current_round_id
 		FROM pjs.documents d 
-		JOIN pjs.document_review_rounds dr ON dr.id = d.current_round_id AND dr.round_due_date::date > now()::date 
+		JOIN pjs.document_review_rounds dr ON dr.id = d.current_round_id --AND dr.round_due_date::date > now()::date 
 			-- if communite or public peer review
 			AND (CASE WHEN d.document_review_type_id = cCommunityPeerReview AND dr.round_number = 1 AND d.panel_duedate IS NOT NULL THEN d.panel_duedate::date > now()::date ELSE TRUE END)
 			AND (CASE WHEN d.document_review_type_id = cPublicPeerReview AND dr.round_number = 1 AND d.public_duedate IS NOT NULL THEN d.public_duedate::date > now()::date ELSE TRUE END)
@@ -46,7 +46,7 @@ $BODY$
 		
 			-- checking for community_public_due_date is not due (the SE can not take decision)
 			IF(lReviewType = cCommunityPeerReview) THEN
-			
+				
 				-- if all panel reviewers has taken their decisions or the due_date has passed then TRUE
 				IF(lPanelDueDate IS NOT NULL) THEN
 				--RAISE NOTICE 'panel check';
@@ -139,19 +139,27 @@ $BODY$
 					WHERE u.role_id = lDedicatedReviewerRoleId AND r.decision_id IS NOT NULL AND r.state_id = lReviewerConfirmedStateId AND d.id = pDocumentId
 			) THEN
 				--RAISE EXCEPTION '333';
-				lRes.result = TRUE;
-			ELSE 
 				IF(lPanelFlag = 1) THEN
 					lRes.result = TRUE;
 					RETURN lRes;
+				ELSE 
+					lRes.result = FALSE;
+					RETURN lRes;
 				END IF;
+				lRes.result = TRUE;
+			ELSE 
 				-- check for can invite nominated reviewers
-				--RAISE EXCEPTION '222';
 				SELECT INTO lCanInviteDedicatedReviewers result FROM pjs."spCheckCanInviteReviewer"(pDocumentId, lCurrentRoundId,lDedicatedReviewerRoleId);
 				IF(lCanInviteDedicatedReviewers = TRUE) THEN
 					lRes.result = FALSE;
 				ELSE
-					lRes.result = TRUE;
+					IF(lPanelFlag = 1) THEN
+						lRes.result = TRUE;
+						RETURN lRes;
+					ELSE 
+						lRes.result = FALSE;
+						RETURN lRes;
+					END IF;
 				END IF;
 			END IF;
 			
