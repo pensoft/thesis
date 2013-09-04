@@ -1360,23 +1360,31 @@
 					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>	
 				</xsl:when>
 				<xsl:when test="$lArticleType = 4">
-					Simple	
+					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>	
 				</xsl:when>
 				<xsl:when test="$lArticleType = 5">
-					Simple	
+					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>
 				</xsl:when>
 				<xsl:when test="$lArticleType = 6">
-					Simple	
+					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>
 				</xsl:when>
 				<xsl:when test="$lArticleType = 7">
-					Simple	
+					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>
 				</xsl:when>
 			</xsl:choose>	
 		</xsl:template>
 		
 		<xsl:template match="*" mode="RefinderLinksSimple">
-			
-			
+				<div class="refinder-link-holder">
+					<a class="refinder-link" target="_blank"> 
+						<xsl:attribute name="href">
+							<xsl:text>http://dev.refinder.org/?search=simple</xsl:text>
+							<xsl:text>&amp;text=</xsl:text>
+							<xsl:apply-templates select="." mode="articleBack"/>
+						</xsl:attribute>
+						Search via ReFinder
+					</a>
+				</div>
 		</xsl:template>
 		
 		<xsl:template match="*" mode="RefinderLinksAdvanced">
