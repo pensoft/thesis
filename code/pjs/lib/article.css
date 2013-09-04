@@ -561,7 +561,7 @@ a.download{
 }
 .AOF-Content-holder > ul {
 	padding:15px;
-	margin:15px;
+	margin:15px 15px 15px 10px;
 }
 #AOF-articleMenu{
 	padding: 0;
@@ -569,7 +569,7 @@ a.download{
 }
 
 #AOF-articleMenu > li {
-    list-style: disc;
+    list-style: none;
 }
 
 #AOF-articleMenu > li > ul > li{
@@ -586,8 +586,8 @@ a.download{
 }
 
 #AOF-articleMenu div {
-	padding: 5px ;
-	margin: 0 ;
+	padding: 5px;
+	margin: 0 0 0 -5px;
 }
 #AOF-articleMenu ul {
     padding:0 0;
