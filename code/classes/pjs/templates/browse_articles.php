@@ -305,7 +305,7 @@ $gTemplArr = array(
 							<div style="float:left; margin-left: 10px; margin-right: 10px;">
 								{_getUserPictureIfExist(photo_id)}
 							</div>
-							<div style="float: left;">
+							<div class="author-left-bar-holder">
 								<div class="green">{fullname}</div>
 								<br/>
 								<div class="greenDesc">{affiliation}</div>

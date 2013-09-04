@@ -2863,11 +2863,13 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 
 .articleHeadline {
 	padding-top: 3px;
+	
 }
 
-.articleHeadline a {
+.articleHeadline > a{
 	font-family: Tahoma, Verdana, sans-serif;
 	font-weight: bold;
+	font-size: 11pt;
 	/* font-family: Tahoma-Bold; */
 }
 
@@ -2876,7 +2878,7 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 }
 
 .article a {
-	font-size: 12px;
+	/*font-size: 12px;*/
 	line-height: 145%;
 	color: #006666;
 }
@@ -6926,4 +6928,29 @@ button.button_tasks span {
 	display: block;
 	margin-bottom:15px;
 	font-weight: bold;
+}
+.author-left-bar-holder{
+	float: left; 
+	width: 276px;
+}
+
+element.style {
+    float: left;
+    width: 276px;
+}
+#leftSider {
+    font-size: 12px;
+}
+html, body {
+    color: #1F1F1F;
+    font-family: Tahoma,Verdana,sans-serif;
+    font-size: 12px;
+}
+html, body {
+    color: #1F1F1F;
+    font-family: Tahoma,Verdana,sans-serif;
+    font-size: 12px;
+}
+.authorInfoHolder .greenDesc {
+    font-size: 11px ;
 }
