@@ -6681,4 +6681,10 @@ function displayRegularSiteLastRowClass($pRownum, $pRecords, $pItemsOnRow){
 	}
 	return ' P-Regular-Site-Row-Last-Regular';
 }
+
+function TrimAndCutText($pText) {
+	$pText = strim($pText);
+	return CutText($pText, 120);  
+} 
+
 ?>

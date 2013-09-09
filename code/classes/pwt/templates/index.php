@@ -45,7 +45,7 @@ $gTemplArr = array(
 	'index.content_row' => '
 						<li>
 							<a href="/preview.php?document_id={document_id}">
-								{_strim(name)}
+								{_TrimAndCutText(name)}
 							</a>
 						</li>
 	',
