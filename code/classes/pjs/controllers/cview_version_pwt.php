@@ -11,11 +11,14 @@ class cView_Version_Pwt extends cView_Version {
 	var $m_reviewer_uid;
 	var $m_reviewer_role;
 	var $m_hasEditorPermissions;
+	var $m_tempViewObject;
 	var $m_PollQuestionsData = array();
 	var $m_PollAnswersData = array();
 
 	function InitObjects() {
 		global $user;
+		
+		$this->m_tempViewObject = $this->CreateViewObject();
 
 		// check for read only or edit version mode
 		$this->CheckVersionReadOnly();
@@ -37,6 +40,7 @@ class cView_Version_Pwt extends cView_Version {
 				'controller_data' => $this->m_errMsgs,
 			));
 		} else {
+			$lFormErrsCnt = 0;
 			$this->m_PollQuestionsData = $this->m_versionModel->GetPollQuestions((int)$this->m_documentData['journal_id'], (int)$this->m_versionId);
 			// reviewers changes list
 			$lESECheckUserRole = $this->m_hasEditorPermissions;
@@ -82,10 +86,11 @@ class cView_Version_Pwt extends cView_Version {
 
 				if($lESECheckUserRole) {
 					if(!(int)$this->m_ReadOnlyPreview) {
-						$lForm = array(
+						$lForm = new viewVersion_Form_Wrapper(array(
 							'ctype' => 'viewVersion_Form_Wrapper',
 							'page_controller_instance' => $this,
 							'name_in_viewobject' => $lNameInViewObjects,
+							'view_object' => $this->m_tempViewObject,
 							'use_captcha' => 0,
 							'm_debug' => true,
 							'form_method' => 'POST',
@@ -98,7 +103,9 @@ class cView_Version_Pwt extends cView_Version {
 							'fields_metadata' => $lFieldsMetadataTempl,
 							'version_uid' => $this->m_versionUID,
 							'round_id' => $this->m_roundId,
-						);
+						));
+						$lForm->Display();
+						$lFormErrsCnt = $lForm->GetErrorCount();
 
 					}
 
@@ -123,10 +130,11 @@ class cView_Version_Pwt extends cView_Version {
 					$gQuestions[] = $value['id'];
 					//$i++;
 				}
-				$lForm = array(
+				$lForm = new viewVersion_Form_Wrapper(array(
 					'ctype' => 'viewVersion_Form_Wrapper',
 					'page_controller_instance' => $this,
 					'name_in_viewobject' => $lNameInViewObjects,
+					'view_object' => $this->m_tempViewObject,
 					'use_captcha' => 0,
 					'm_debug' => true,
 					'form_method' => 'POST',
@@ -140,16 +148,19 @@ class cView_Version_Pwt extends cView_Version {
 					'view_mode' => $this->m_viewMode,
 					'version_uid' => $this->m_versionUID,
 					'round_id' => $this->m_roundId,
-				);
+				));
+				$lForm->Display();
+				$lFormErrsCnt = $lForm->GetErrorCount();
 				$lReviewerPoll = '';
 				$lUserLegend = '';
 			} elseif($this->m_viewingRole == CE_ROLE) {
 				$lNameInViewObjects = 'cemode';
 				if(!(int)$this->m_ReadOnlyPreview) {
-					$lForm = array(
+					$lForm = new viewVersion_Form_Wrapper(array(
 						'ctype' => 'viewVersion_Form_Wrapper',
 						'page_controller_instance' => $this,
 						'name_in_viewobject' => $lNameInViewObjects,
+						'view_object' => $this->m_tempViewObject,
 						'use_captcha' => 0,
 						'm_debug' => true,
 						'form_method' => 'POST',
@@ -162,7 +173,9 @@ class cView_Version_Pwt extends cView_Version {
 						'fields_metadata' => $lFieldsMetadataTempl,
 						'version_uid' => $this->m_versionUID,
 						'round_id' => $this->m_roundId,
-					);
+					));
+					$lForm->Display();
+					$lFormErrsCnt = $lForm->GetErrorCount();
 				}
 			}
 			$lCommentsData = $this->m_versionModel->GetVersionComments($this->m_versionId, true);
@@ -219,12 +232,14 @@ class cView_Version_Pwt extends cView_Version {
 					'new_comment_form' => $lNewCommentForm,
 					'version_is_readonly' => $this->m_ReadOnlyPreview,
 				),
+				'form' => $lForm,
+				'form_has_errors' => $lFormErrsCnt,
 				'users_with_changes' => $lVersionUidChanges,
 			);
 
 		}
-
-		$this->m_pageView = new pView_Version_Pwt(array_merge($this->m_commonObjectsDefinitions, $pViewPageObjectsDataArray));
+		
+		$this->m_pageView = $this->CreateViewObject($pViewPageObjectsDataArray);
 		$lCommentReplyForms = array();
 		foreach ($lCommentsData as $lCurrentComment) {
 			$lCommentRootId = $lCurrentComment['rootid'];
@@ -310,6 +325,8 @@ class cView_Version_Pwt extends cView_Version {
 	private function GetFormFieldTempls() {
 		$this->m_roundData = $this->m_versionModel->GetUserRoundDataByVersion($this->m_versionId);
 		$this->m_reviewer_role = $this->m_roundData['reviewer_role'];
+		$lSaveFormJSAction = 'return SaveReviewForm();';
+		$lReviewFormJSAction = 'return SubmitReviewForm();';
 		if ((int)$this->m_ReadOnlyPreview){
 			$this->m_viewMode = 1;
 			$lSubmitOrClose = 'popupClosingAndReloadParent()';
@@ -405,7 +422,7 @@ class cView_Version_Pwt extends cView_Version {
 							'DisplayName' => getstr('admin.article_versions.save'),
 							'AddTags' => array(
 								'class' => 'inputBtn',
-								//'onclick' => $lSaveBtnEvent,
+								'onclick' => $lSaveFormJSAction,
 							)
 						),
 						'review' => array(
@@ -415,7 +432,7 @@ class cView_Version_Pwt extends cView_Version {
 							'DisplayName' => $lSubmitReviewText,
 							'AddTags' => array(
 								'class' => 'inputBtn',
-								'onclick' => 'if(confirm(\'' . getstr('pjs.SE_E_CE_submit_review_confirmation') . '\')){return true;} else {return false;}',
+								'onclick' => 'if(confirm(\'' . getstr('pjs.SE_E_CE_submit_review_confirmation') . '\')){' . $lReviewFormJSAction . '} else {return false;}',
 							)
 						),
 					);
@@ -575,7 +592,7 @@ class cView_Version_Pwt extends cView_Version {
 						'DisplayName' => getstr('admin.article_versions.save'),
 						'AddTags' => array(
 							'class' => 'inputBtn',
-							//'onclick' => $lSaveBtnEvent,
+							'onclick' => $lSaveFormJSAction,
 						)
 					),
 					'review' => array(
@@ -591,7 +608,7 @@ class cView_Version_Pwt extends cView_Version {
 						'DisplayName' => getstr('admin.article_versions.review'),
 						'AddTags' => array(
 							'class' => 'inputBtn',
-							'onclick' => 'if(confirm(\'' . getstr('pjs.R_submit_review_confirmation') . '\')){return true;} else {return false;}',
+							'onclick' => 'if(confirm(\'' . getstr('pjs.R_submit_review_confirmation') . '\')){' . $lReviewFormJSAction . '} else {return false;}',
 							//'onclick' => $lSubmitOrClose,
 						),
 					),
@@ -602,6 +619,19 @@ class cView_Version_Pwt extends cView_Version {
 			break;
 		}
 		return $lFieldsMetadataTempl;
+	}
+	
+	function CreateViewObject($pParams = array()){
+		if(!is_array($pParams)){
+			$pParams = array();
+		}
+		$lPageIsCalledFromAjax = (int)$this->GetValueFromRequestWithoutChecks('ajax_form_submit');
+		$pParams = array_merge($this->m_commonObjectsDefinitions, $pParams);
+		if(!$lPageIsCalledFromAjax){
+			return new pView_Version_Pwt($pParams);
+		}else{
+			return new pView_Version_Pwt_Ajax($pParams);
+		}
 	}
 
 	function Display(){

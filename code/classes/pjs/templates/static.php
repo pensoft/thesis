@@ -2907,6 +2907,13 @@ function putCommentOnClickEvent($pCommentId, $pCommentUsrId, $pCurrentUsrId, $pV
 	return ' onclick="displayCommentEditForm(' . (int)$pCommentId . ')"';
 }
 
+function PutPreviewAutosaveScript($pVersionIsReadonly = false){
+	if($pVersionIsReadonly){
+		return;
+	}
+	return ' <script>SetAutosaveTimeout();</script>';
+}
+
 
 
 function showArticlePriceIfExist($pState){

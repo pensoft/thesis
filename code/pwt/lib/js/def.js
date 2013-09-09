@@ -944,8 +944,11 @@ function AutoSendDocumentLockSignal(){
 				},
 				success : function(pAjaxResult){
 					if(pAjaxResult['err_cnt'] > 0){
-						alert(pAjaxResult['err_msg']);
+						alert(pAjaxResult['err_msg']);						
 						window.location.href = '/preview.php?document_id=' + lDocumentId;
+					}
+					if(pAjaxResult['document_is_auto_unlocked']){
+						window.location.href = '/document_auto_unlocked.php?document_id=' + lDocumentId;
 					}
 				}
 			});

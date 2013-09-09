@@ -15,23 +15,23 @@ LANGUAGE plpgsql;
 
 GRANT EXECUTE ON FUNCTION spInstanceModifiedTrigger() TO iusrpmt;
 
-
+DROP TRIGGER instance_update_trigger ON pwt.document_object_instances;
 CREATE TRIGGER instance_update_trigger
     AFTER UPDATE ON pwt.document_object_instances
     FOR EACH ROW
     WHEN ((NEW.pos IS DISTINCT FROM OLD.pos OR
         	NEW.display_name IS DISTINCT FROM OLD.display_name OR
-        	NEW.is_confirmed IS DISTINCT FROM OLD.is_confirmed) AND NEW.is_confirmed = true)
+        	NEW.is_confirmed IS DISTINCT FROM OLD.is_confirmed))
     EXECUTE PROCEDURE spInstanceModifiedTrigger();
-    
+
+DROP TRIGGER instance_create_trigger ON pwt.document_object_instances;    
 CREATE TRIGGER instance_create_trigger
     AFTER INSERT ON pwt.document_object_instances
-    FOR EACH ROW
-    WHEN (NEW.is_confirmed = true)
+    FOR EACH ROW    
     EXECUTE PROCEDURE spInstanceModifiedTrigger();
     
+DROP TRIGGER instance_delete_trigger ON pwt.document_object_instances;
 CREATE TRIGGER instance_delete_trigger
     AFTER DELETE ON pwt.document_object_instances
     FOR EACH ROW
-    WHEN (OLD.is_confirmed = true)
     EXECUTE PROCEDURE spInstanceModifiedTrigger();

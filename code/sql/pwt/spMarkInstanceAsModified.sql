@@ -14,6 +14,11 @@ DECLARE
 BEGIN
 	lRes.result = 1;
 	
+	UPDATE pwt.documents SET
+		last_content_change = now()
+	WHERE id = pDocumentId;
+
+	
 	IF EXISTS (
 		SELECT *
 		FROM pwt.document_object_instances 

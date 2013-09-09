@@ -1268,6 +1268,46 @@ function serializeAndSubmitFormThenCloseAndRefresh(){
 	popupClosingAndReloadParent();
 }
 
+function SaveReviewForm(){
+	var lJqForm = $('form[name="document_review_form"]');
+	var lData = '&tAction=save&ajax_form_submit=1&';
+	lData += lJqForm.formSerialize();	
+	$.ajax({
+		url : lJqForm.attr('action'),
+		dataType : 'html',
+		data : lData,
+		async : false,
+		type : 'POST',
+		success : function(pAjaxResult) {
+			if(pAjaxResult['form_has_errors']){
+				alert('Could not save review form');
+			}
+		}
+	});
+	return false;
+}
+
+function SubmitReviewForm(){
+	var lJqForm = $('form[name="document_review_form"]');
+	var lData = '&tAction=review&ajax_form_submit=1&';
+	lData += lJqForm.formSerialize();	
+	$.ajax({
+		url : lJqForm.attr('action'),
+		dataType : 'json',
+		data : lData,
+		async : false,
+		type : 'POST',
+		success : function(pAjaxResult) {
+			if(pAjaxResult['form_has_errors']){
+				$('form[name="document_review_form"]').replaceWith(pAjaxResult['form']);
+			}else{
+				popupClosingAndReloadParent();
+			}
+		}
+	});
+	return false;
+}
+
 function SubmitFormByName(pName) {
 	var lJqForm = $('form[name="' + pName + '"]');
 	var lData = '&tAction=save&';
@@ -1275,7 +1315,7 @@ function SubmitFormByName(pName) {
 
 	$.ajax({
 		url : lJqForm.attr('action'),
-		dataType : 'html',
+		dataType : 'json',
 		data : lData,
 		async : false,
 		type : 'POST',

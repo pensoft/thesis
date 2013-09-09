@@ -34,6 +34,7 @@ var gChangeUserIdsSeparator = ', ';
 var gFieldContentEditableSelector = ' *[contenteditable="true"][field_id]';
 
 var gVersionUserDisplayNames = {};
+var gAutosaveTimeoutDuration = 30000;//In milliseconds
 
 function DisableChangeTracking(){
 	gTrackChanges = 0;
@@ -185,8 +186,11 @@ function SaveNodeTrackerContents(pNode) {
 	if(lIdx == -1){
 		return;
 	}
+	
 	var lFieldId = $(pNode).attr('field_id');
 	var lInstanceId = $(pNode).closest('*[instance_id]').attr('instance_id');
+	
+//	console.log('Save real ' + lInstanceId + ' ' + lFieldId);
 	var lContent = gTrackers['editors'][lIdx].getElementContents();
 //	alert(lContent);
 //	return;
@@ -281,7 +285,7 @@ function GetUserChangesInputs(){
 function SetDisplayUserChangeEvent(){
 	var lInputs = GetUserChangesInputs();
 	lInputs.bind('change', function(){		
-		console.log(1);
+//		console.log(1);
 		for(var i = 0; i < lInputs.length; ++i){
 			if($(lInputs[i]).is(':checked')){
 				$('#' + gPreviewHolderId).removeClass('hideChange' + $(lInputs[i]).val());
@@ -385,4 +389,25 @@ function AcceptRejectChange(pChangeNode, pAccept){
 		lTracker.rejectChange(pChangeNode);
 	}
 	SaveNodeTrackerContents(lTrackerNode);
+}
+
+function SetAutosaveTimeout(){
+	setTimeout("PerformAutoSave();SetAutosaveTimeout()", gAutosaveTimeoutDuration);
+}
+
+function PerformAutoSave(){
+//	console.log('Autosave');
+	var lActiveElement = GetActiveElement();
+	if(!lActiveElement){
+		return;
+	}
+	var lClosestContentEditable = $(lActiveElement).closest(gFieldContentEditableSelector);
+	if(!lClosestContentEditable.length){
+		return;
+	}
+	SaveNodeTrackerContents(lClosestContentEditable[0]);
+}
+
+function GetActiveElement(){
+	return (document.activeElement);	
 }
