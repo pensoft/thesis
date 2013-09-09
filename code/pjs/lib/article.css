@@ -561,7 +561,7 @@ a.download{
 }
 .AOF-Content-holder > ul {
 	padding:15px;
-	margin:15px;
+	margin:15px 15px 15px 10px;
 }
 #AOF-articleMenu{
 	padding: 0;
@@ -569,7 +569,7 @@ a.download{
 }
 
 #AOF-articleMenu > li {
-    list-style: disc;
+    list-style: none;
 }
 
 #AOF-articleMenu > li > ul > li{
@@ -586,8 +586,8 @@ a.download{
 }
 
 #AOF-articleMenu div {
-	padding: 5px ;
-	margin: 0 ;
+	padding: 5px;
+	margin: 0 0 0 -5px;
 }
 #AOF-articleMenu ul {
     padding:0 0;
@@ -925,7 +925,7 @@ xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[
 	font-size: 11pt;
     padding: 15px;
 }
-img.noBorderP{
+img.noBorder{
  	max-height: 90px;
     max-width: 134px;
 }
@@ -970,6 +970,6 @@ img.noBorderP{
 .P-Metrics-Value{
 	
 }
-.P-Regular-Site-Info-Holder.P-Regular-Site-Row-Without-Results{
-	
+.P-Regular-Site-Info-Holder.P-Regular-Site-Row-Without-Results a{
+	color: #CCC;
 } 

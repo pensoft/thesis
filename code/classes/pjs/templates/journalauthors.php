@@ -26,7 +26,6 @@ $gTemplArr = array(
 						<h3>' . getstr('pjs.filter') . '</h3>
 						<div class="P-Clear"></div>
 						<div class="filterBlock">
-							<div class="filterBlockTitle">' . getstr('pjs.byalphabet') . '</div>
 							<div class="filterBlockContent">
 								<input id="author_first_letter" type="hidden" name="author_letter" value="{author_letter}" />
 								<a href="javascript: filterAuthorsLetter(\'affiliation_input\', {journal_id}, \'\')" class="green letter">All</a><span style="color: #b0ada2;">&nbsp;&nbsp;|&nbsp;</span>
@@ -47,7 +46,7 @@ $gTemplArr = array(
 							<div class="P-Clear"></div>
 						</div>
 						-->
-						
+						<!--
 						<div class="buttonsHolder">
 							<div class="P-Green-Btn-Holder">
 								<div class="P-Green-Btn-Left"></div>
@@ -61,6 +60,7 @@ $gTemplArr = array(
 							</div>
 							<div class="P-Clear"></div>
 						</div>
+						-->
 						<div class="P-Clear"></div>
 					</div>
 				</div>

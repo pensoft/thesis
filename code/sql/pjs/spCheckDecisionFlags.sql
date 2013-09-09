@@ -126,7 +126,7 @@ $BODY$
 		JOIN pjs.document_review_round_users r ON r.round_id = d.current_round_id
 		JOIN pjs.document_review_rounds dr ON dr.id = d.current_round_id
 		JOIN pjs.document_users u ON u.id = r.document_user_id
-		WHERE u.role_id IN (lDedicatedReviewerRoleId, cPanelReviewerRoleId) AND r.decision_id IS NOT NULL AND r.state_id = lReviewerConfirmedStateId AND d.id = pDocumentId;
+		WHERE u.role_id IN (lDedicatedReviewerRoleId) AND r.decision_id IS NOT NULL AND r.state_id = lReviewerConfirmedStateId AND d.id = pDocumentId;
 
 		-- check for can invite nominated reviewers
 		-- RAISE EXCEPTION 'pDocumentId: %, pCurrentRoundId: %, lDedicatedReviewerRoleId: %', pDocumentId, pCurrentRoundId, lDedicatedReviewerRoleId;
