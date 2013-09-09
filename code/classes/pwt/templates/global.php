@@ -137,7 +137,7 @@ $gTemplArr = array(
 						</div>
 						<div class="P-Head-Profile-Menu">
 							<div class="userloggedmenu">
-								<a class="userloggedimageA" href="/">
+								<a class="userloggedimageA" href="javascript:void(0)">
 									{_showProfilePic()}
 								</a>
 								<div class="userloggedimage">
@@ -199,7 +199,7 @@ $gTemplArr = array(
 						<div class="P-Path"><a href="/dashboard.php"><img class="pathHomeImg" src="./i/home_path.png" alt="My manuscripts"/></a>{path}</div>
 						<div class="P-SavePreview-Btns">
 							<div class="P-RevHistory"><a href="/preview_revisions.php?document_id={document_id}">Revision History</a></div>
-							{_displayTopRightButtons( document_is_locked, preview_mode, document_id)}
+							{_displayTopRightButtons( document_is_locked, preview_mode, document_id, xml_validation)}
 						</div>
 						<div class="P-Clear"></div>
 					</div><!-- End P-Bread-Crumbs -->
@@ -387,7 +387,7 @@ $gTemplArr = array(
 		                        </div>
 		                        <div class="P-Head-Profile-Menu">
 									<div class="userloggedmenu">
-										<a class="userloggedimageA" href="/">
+										<a class="userloggedimageA" href="javascript:void(0)">
 											{_showProfilePic()}
 										</a>
 										<div class="userloggedimage">
