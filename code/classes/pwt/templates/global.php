@@ -137,7 +137,7 @@ $gTemplArr = array(
 						</div>
 						<div class="P-Head-Profile-Menu">
 							<div class="userloggedmenu">
-								<a class="userloggedimageA" href="/">
+								<a class="userloggedimageA" href="javascript:void(0)">
 									{_showProfilePic()}
 								</a>
 								<div class="userloggedimage">
@@ -387,7 +387,7 @@ $gTemplArr = array(
 		                        </div>
 		                        <div class="P-Head-Profile-Menu">
 									<div class="userloggedmenu">
-										<a class="userloggedimageA" href="/">
+										<a class="userloggedimageA" href="javascript:void(0)">
 											{_showProfilePic()}
 										</a>
 										<div class="userloggedimage">
