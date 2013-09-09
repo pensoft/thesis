@@ -217,7 +217,7 @@ class mUser_Model extends emBase_Model {
 		try{
 			switch ((int) $pViewRole) {
 				default :
-					throw new Exception(getstr('pjs.noRoleSpecifiedOrNoSuchRole'));
+					throw new Exception(getstr('pjs.thereIsNoSuchDocumentOrTheSpecifiedUserCannotOpenItInTheSpecifiedRole'));
 
 				case (int) JOURNAL_EDITOR_ROLE :
 					$lSql = "SELECT d.id
