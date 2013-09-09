@@ -405,6 +405,7 @@ $gTemplArr = array(
 				InitTrackers({version_id});			
 				GetVersionUserDisplayNames();
 		</script>
+			{_PutPreviewAutosaveScript(preview_is_readonly)}
 			<div id="changeContextMenu">
 				<a href="#" id="approveChangeContextLink">Accept</a><a href="#" id="rejectChangeContextLink">Reject</a>
 			</div>

@@ -5238,7 +5238,7 @@ function lockDocument($pDocumentId){
 	}
 	global $user;
 
-	$lSql = 'SELECT * FROM pwt.spLockDocument(' . q($pDocumentId) . ', ' . (int)LOCK_AUTO_LOCK . ', ' . 2 * (int) DOCUMENT_LOCK_TIMEOUT_INTERVAL . ', ' . q($user->id) . ') as res';
+	$lSql = 'SELECT * FROM pwt.spLockDocument(' . q($pDocumentId) . ', ' . (int)LOCK_AUTO_LOCK . ', ' . 2 * (int) DOCUMENT_LOCK_TIMEOUT_INTERVAL . ', ' . (int) DOCUMENT_AUTO_UNLOCK_INTERVAL . ', ' . q($user->id) . ') as res';
 	$lCon = new DBCn();
 	$lCon->Open();
 	$lResult = array(

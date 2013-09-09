@@ -96,6 +96,7 @@ class cPreview_Ajax_Srv extends cBase_Controller {
 					'ctype' => 'evSimple_Block_Display',
 					'name_in_viewobject' => 'preview',							
 					'preview' => $this->m_action_result['preview'],
+					'preview_is_readonly' => $this->m_ReadOnlyPreview,
 					'current_user_id' => $user->id,
 					'current_user_name' => $user->fullname,
 					'version_id' => $this->m_versionId,
