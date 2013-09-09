@@ -4225,7 +4225,7 @@ function displayClassByDocumentStatus( $pDocumentStatus, $pIsLocked ){
 	}
 }
 
-function displayTopRightButtons( $pIsLocked = 0, $pPreviewMode = 0, $pDocumentId ){
+function displayTopRightButtons( $pIsLocked = 0, $pPreviewMode = 0, $pDocumentId, $pXmlValidation = 0){
 	$lRet = '';
 	$lInstanceId = (int)$_REQUEST['instance_id'];
 	if( $lInstanceId ){
@@ -4233,7 +4233,10 @@ function displayTopRightButtons( $pIsLocked = 0, $pPreviewMode = 0, $pDocumentId
 	}else{
 		$lRetLink = './display_document.php?document_id=' . $pDocumentId;
 	}
-	if( (int)$pPreviewMode ){
+	//var_dump($pXmlValidation);
+	if($pXmlValidation == 1) {
+		$lRet = '<span class="P-PreviewBtn"><input onclick="showLoading();savePreviewDocument(' . (int)$pDocumentId	. ', ' . (int)$lInstanceId . ');return false;" class="preview_btn" type="submit" value="" /></span>';
+	} elseif( (int)$pPreviewMode ){
 		if( !(int)$pIsLocked ){
 			$lRet = '<div class="P-Grey-Btn-Holder P-Edit" onclick="window.location=\'' . $lRetLink . '\';return false;"><div class="P-Grey-Btn-Left"></div><div class="P-Grey-Btn-Middle" style="width: 110px;"><div class="P-Btn-Icon"></div>Advanced edit</div><div class="P-Grey-Btn-Right"></div></div>';
 		}
