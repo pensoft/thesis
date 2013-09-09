@@ -629,7 +629,10 @@ $gTemplArr = array(
 	'document.email_message_submit' => '
 		Document {document_id} is ready to be submitted. You can submit it <a href="' . SITE_URL . '/preview.php?document_id={document_id}">here</a>
 	',
-
+	
+	'document.auto_unlocked_document' => '
+		The document <a href="/preview.php?document_id={document_id}">{_strip_tags(name)}</a> has been auto unlocked. 
+	'
 
 );
 

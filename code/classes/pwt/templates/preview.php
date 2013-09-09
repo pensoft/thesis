@@ -19,6 +19,8 @@ $gTemplArr = array(
 					InitTrackers({revision_id}, {document_id});
 					
 					GetVersionUserDisplayNames();
+					SetAutosaveTimeout();
+					parent.AutoSendDocumentLockSignal();
 				});
 			</script>
 	',
@@ -29,6 +31,8 @@ $gTemplArr = array(
 					DisableChangeTracking();
 					{_EnableJSTracksFigures(track_figures)}
 					InitTrackers({revision_id}, {document_id});
+					SetAutosaveTimeout();
+					parent.AutoSendDocumentLockSignal();
 				});
 			</script>
 	',

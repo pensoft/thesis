@@ -1,7 +1,15 @@
+DROP FUNCTION pwt.spLockDocument(
+	pDocumentId int,
+	pLockOperationId int,
+	pLockTimeoutInterval int,	
+	pUid int
+);
+
 CREATE OR REPLACE FUNCTION pwt.spLockDocument(
 	pDocumentId int,
 	pLockOperationId int,
 	pLockTimeoutInterval int,
+	pAutoUnlockDuration bigint,
 	pUid int
 )
 RETURNS int AS
@@ -14,6 +22,7 @@ $BODY$
 		lCurrTime TIMESTAMP;
 		lDocumentId bigint;
 		lIsAdmin int;
+		lRecord record;
 	BEGIN
 		lCurrTime = CURRENT_TIMESTAMP;
 		SELECT INTO lLockDocument lock_operation_code FROM pwt.lock_operations WHERE id = pLockOperationId;
@@ -41,7 +50,10 @@ $BODY$
 					UPDATE pwt.documents SET 
 						is_locked = lLockDocument, 
 						lock_usr_id = CASE WHEN NOT lLockDocument THEN NULL ELSE pUid END,
-						last_lock_date = CASE WHEN NOT lLockDocument THEN last_lock_date ELSE lCurrTime END
+						last_lock_date = CASE WHEN NOT lLockDocument THEN last_lock_date ELSE lCurrTime END,
+						lock_primary_date = CASE 
+							WHEN NOT lLockDocument THEN NULL --Unlock							
+							ELSE lCurrTime END -- New lock
 					WHERE
 						id = pDocumentId;
 						
@@ -51,9 +63,22 @@ $BODY$
 				ELSE
 					UPDATE pwt.documents SET 						
 						lock_usr_id = CASE WHEN NOT lLockDocument THEN NULL ELSE pUid END,
-						last_lock_date = CASE WHEN NOT lLockDocument THEN last_lock_date ELSE lCurrTime END
+						last_lock_date = CASE WHEN NOT lLockDocument THEN last_lock_date ELSE lCurrTime END,
+						lock_primary_date = CASE 
+							WHEN NOT lLockDocument THEN NULL --Unlock
+							WHEN lCurrTime - (pLockTimeoutInterval::text || ' seconds')::interval < lLastLockTs THEN lock_primary_date -- Auto lock 
+							ELSE lCurrTime END -- New lock
 					WHERE
 						id = pDocumentId;
+					
+					IF lLockDocument AND lCurrTime - (pLockTimeoutInterval::text || ' seconds')::interval < lLastLockTs THEN --Perform auto lock
+						-- Check for auto unlock 
+						SELECT INTO lRecord *
+						FROM spAutoUnlockDocument(pDocumentId, pAutoUnlockDuration, pUid);
+						IF lRecord.result = 1 THEN -- Auto unlocked has occurred
+							RETURN 0;
+						END IF;
+					END IF;
 						
 					RETURN 2;
 				END IF;
@@ -69,5 +94,6 @@ GRANT EXECUTE ON FUNCTION pwt.spLockDocument(
 	pDocumentId int,
 	pLockOperationId int,
 	pLockTimeoutInterval int,
+	pAutoUnlockDuration bigint,
 	pUid int
 ) TO iusrpmt;

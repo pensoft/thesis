@@ -19,7 +19,7 @@ class cdocument extends csimple {
 	 */
 	function lock($pLockOperationId) {
 		global $user;
-		$lSqlStr = 'SELECT * FROM pwt.spLockDocument(' . q($this->m_documentId) . ', ' . q($pLockOperationId) . ', ' . 2 * (int) DOCUMENT_LOCK_TIMEOUT_INTERVAL . ', ' . q($user->id) . ') as res';
+		$lSqlStr = 'SELECT * FROM pwt.spLockDocument(' . q($this->m_documentId) . ', ' . q($pLockOperationId) . ', ' . 2 * (int) DOCUMENT_LOCK_TIMEOUT_INTERVAL . ', ' . (int) DOCUMENT_AUTO_UNLOCK_INTERVAL . ', ' . q($user->id) . ') as res';
 		$this->m_con->Execute($lSqlStr);
 		$this->m_con->MoveFirst();
 		$this->m_lock_res = (int)$this->m_con->mRs['res'];
