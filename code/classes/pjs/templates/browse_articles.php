@@ -8,11 +8,13 @@ $gTemplArr = array(
 			<h1 class="dashboard-title withoutBorder">{records} ' . getstr('pjs.articles_matching_your_criteria') . '</h1>
 			<div style="margin: 10px;">
 				{_displayArticlesFilterCriteria(taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
-				<p style="font-size: 14px;">' . getstr('pjs.refine_filters_in_the_left_panel') . '</p>
+			
 				<div style="border-top: 1px solid #EEECE5; border-bottom: 1px solid #EEECE5; margin-top: 20px; margin-bottom: 15px;">
 					{nav}
 				</div>
 	',
+	
+	//	<div class="refine-filter">' . getstr('pjs.refine_filters_in_the_left_panel') . '</div>
 	
 	'browse_articles.startrs' => '',
 	
@@ -35,7 +37,7 @@ $gTemplArr = array(
 					&nbsp;&nbsp;&nbsp;
 					<a href="#" class="subLink">{_showDoiLinkIfExist(doi)}</a>
 					<div class="info">
-						<span><img src="i/articleCalendar.png" alt="Calendar"></img> {_getOnlyDatePart(publish_date)}</span>
+						<span><img src="i/articleCalendar.png" alt="Calendar"></img> {publish_date}</span>
 						<span><img src="i/eye.png" alt="eye"></img> 465</span>
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
@@ -60,7 +62,7 @@ $gTemplArr = array(
 	'browse_articles.empty' => '
 		<div class="h10"></div>
 		<div class="h10"></div>
-		<div class="textCenterAlign">No Articles.</div>
+		<div class="textCenterAlign">No articles matching your criteria</div>
 	',
 	
 	'browse_articles.sidebar_left' => '
@@ -383,7 +385,7 @@ $gTemplArr = array(
 	'browse_articles.by_author_empty' => '
 		<br/>
 		<br/>
-		<div style="text-align: center;">No Articles.</div>
+		<div class="textCenterAlign">No articles by this author</div>
 	',
 	
 	'browse_articles.public_startrs' => '<div style="margin: 10px">',

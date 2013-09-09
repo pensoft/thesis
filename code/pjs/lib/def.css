@@ -4072,7 +4072,7 @@ div.token-input-dropdown-facebook:after {
 
 .greenDesc {
 	font-size: 12px;
-	color: #006666;
+	color: #666; /* #006666; */
 	font-family: tahoma, verdana, helvetica;
 	text-decoration: none;
 }
@@ -5829,7 +5829,7 @@ td.categories {
 .filterCriteria {
 	background: #e2e2e2;
 	padding: 5px 10px;
-	margin: 10px;
+	margin: 10px 0px;
 }
 
 .template_body {
@@ -6953,4 +6953,8 @@ html, body {
 }
 .authorInfoHolder .greenDesc {
     font-size: 11px ;
+}
+
+.Letter-in-filter {
+    font-weight: bold;
 }

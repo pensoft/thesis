@@ -2145,7 +2145,7 @@ function displayFilterCriteria($pIssue, $pYear, $pLetter, $pAffiliation) {
 	if($pIssue)
 		$lResult .= ' AND [Special issues]';
 	if($pLetter)
-		$lResult .= '[' . $pLetter . ']';
+		$lResult .= '<span class="Letter-in-filter">' . $pLetter . '</span>';
 	if($pAffiliation)
 		$lResult .= ' AND [' . $pAffiliation . ']';
 

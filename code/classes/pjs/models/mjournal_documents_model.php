@@ -140,10 +140,11 @@ class mJournal_Documents_Model extends emBase_Model {
 		}
 			
 		$lCon = $this->m_con;
-		$lSql = 'SELECT d.*, js.title as journal_section_name, dv.id as layout_version_id,
+		$lSql = 'SELECT d.*, to_char(d.publish_date, \'DD-MM-YYYY\') as publish_date,
+						js.title as journal_section_name, dv.id as layout_version_id,
 					(SELECT aggr_concat_coma(a.author_name)
 						FROM (
-							SELECT (du.first_name || \' \' || du.last_name) as author_name 
+							SELECT (\'<a class="authors_list_holder" href="/browse_journal_articles_by_author?user_id=\' || du.uid || \'">\' || du.first_name || \' \' || du.last_name || \'</a>\') as author_name 
 							FROM pjs.document_users du
 							WHERE du.document_id = d.id AND du.role_id = ' . AUTHOR_ROLE . ' AND du.state_id = 1
 							ORDER BY du.ord
@@ -180,10 +181,11 @@ class mJournal_Documents_Model extends emBase_Model {
 		$lAnd = '';
 			
 		$lCon = $this->m_con;
-		$lSql = 'SELECT d.*, js.title as journal_section_name, dv.id as layout_version_id,
+		$lSql = 'SELECT d.*, to_char(d.publish_date, \'DD-MM-YYYY\') as publish_date,
+					js.title as journal_section_name, dv.id as layout_version_id,
 					(SELECT aggr_concat_coma(a.author_name)
 						FROM (
-							SELECT (du.first_name || \' \' || du.last_name) as author_name 
+							SELECT (\'<a class="authors_list_holder" href="/browse_journal_articles_by_author?user_id=\' || du.uid || \'">\' || du.first_name || \' \' || du.last_name || \'</a>\') as author_name
 							FROM pjs.document_users du
 							WHERE du.document_id = d.id AND du.role_id = ' . AUTHOR_ROLE . ' AND du.state_id = 1
 							ORDER BY du.ord
