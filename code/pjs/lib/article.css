@@ -69,7 +69,7 @@ a[href], label[for] {
 	height: 58px;
 	background-color: #fff;
 	border-radius: 5px 5px 0 0;
-	padding: 10px 20px;
+	padding: 12px 20px;
 	-moz-box-sizing: padding-box;
 	font-family: Helvetica, Arial, Verdana, sans-serif;
 	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
@@ -371,7 +371,22 @@ div.myfieldHolder[field_id='222']{
 	border-bottom: 1px solid #BBB; 
 	list-style: none;
 }
-.AOF-ref-list > .bibr > .ref-list-AOF-holder:hover{
+
+.ref-list-AOF-holder-holder {
+	border-bottom: 1px solid #BBB; 
+}
+.ref-list-AOF-holder-holder .ref-list-AOF-holder{
+	border-bottom: none;
+	padding-bottom: 0px;
+}
+
+.ref-list-AOF-holder-holder .refinder-link-holder{
+	margin: 5px 15px 10px 15px;
+	font-size: 11pt;
+	font-weight: bold; 	
+}
+
+.AOF-ref-list .ref-list-AOF-holder-holder:hover{
 	background-color: #F0EEE7;
 }
 .ref-title{
@@ -719,7 +734,7 @@ a.download{
 
 .line {
     border-top: 1px solid #999999;
-    margin: 40px 0 0 0;
+    margin: 45px 0 0 0;
     background-color: white;
 }
 
@@ -973,3 +988,22 @@ img.noBorder{
 .P-Regular-Site-Info-Holder.P-Regular-Site-Row-Without-Results a{
 	color: #CCC;
 } 
+
+.supp_agencies {
+    font-size: 10pt;
+    margin: 10px 10px 0 20px;
+    text-indent: -20px;
+}
+
+
+.supp_a_acronym {
+    font-weight: bold;
+    color: #333333;
+}
+
+.data-help{
+	border-bottom: 1px solid #BBBBBB;
+    color: #666;
+    font-weight: normal;
+    padding: 15px;
+}

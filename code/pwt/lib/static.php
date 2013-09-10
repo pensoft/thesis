@@ -154,6 +154,13 @@ function CleanCookiesFromRequest() {
 	}
 }
 
+function render_if($arg, $prefix, $suffix) {
+	if($arg)
+		return $prefix . htmlentities($arg, ENT_NOQUOTES | ENT_XHTML, 'UTF-8', false) . $suffix;
+	else
+		return '';
+}
+
 function DefObjTempl() {
 	global $user;
 	global $rewrite;
