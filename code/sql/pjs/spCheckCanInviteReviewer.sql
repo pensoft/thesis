@@ -12,7 +12,7 @@ CREATE OR REPLACE FUNCTION pjs."spCheckCanInviteReviewer"(
 $BODY$
 	DECLARE
 		lRes pjs."ret_spCheckCanInviteReviewer";
-		lDeadlineDate timestamp;
+		lRoundDueDate timestamp;
 		cNominatedReviewerType CONSTANT int := 5;
 		lSEAssignEventType int;
 		lJournalSectionId int;
@@ -32,8 +32,8 @@ $BODY$
 		lRes.result = TRUE;
 	
 		-- selecting round due date
-		SELECT INTO lDeadlineDate deadline_date FROM pjs.document_review_rounds WHERE id = pRoundId;
-		/*-- selecting document review type
+		SELECT INTO lRoundDueDate round_due_date FROM pjs.document_review_rounds WHERE id = pRoundId;
+		-- selecting document review type
 		SELECT INTO lDocumentReviewType, lJournalSectionId, lJournalId journal_section_id, journal_id FROM pjs.documents where id = pDocumentId;
 		
 		-- get journal_section_id
@@ -47,9 +47,9 @@ $BODY$
 		
 		-- get pwt_paper_type_id
 		SELECT INTO lSectionId pwt_paper_type_id FROM pjs.journal_sections WHERE id = lJournalSectionId;
-	*/
+
 		IF (pReviewerType = cNominatedReviewerType) THEN
-		/*
+		
 			-- offset days (accept_review_days)
 			SELECT INTO lAcceptReviewOffsetDays "offset" FROM pjs.getEventOffset(cReviewerInvitationEventType, lJournalId, lSectionId);
 			-- offset days (nominated_days)
@@ -58,15 +58,15 @@ $BODY$
 			SELECT INTO lCanTakeDecisionOffsetDays "offset" FROM pjs.getEventOffset(cCanProceedEventType, lJournalId, lSectionId);
 			
 			--RAISE EXCEPTION 'lNominatedOffsetDays: %, lAcceptReviewOffsetDays: %, lCanTakeDecisionOffsetDays: %', lNominatedOffsetDays, lAcceptReviewOffsetDays, lCanTakeDecisionOffsetDays;
-			*/
-			IF(now() < lDeadlineDate) THEN
+			
+			IF(now()::date < (lRoundDueDate::date - lNominatedOffsetDays*INTERVAL '1 days' - lAcceptReviewOffsetDays*INTERVAL '1 days' - lCanTakeDecisionOffsetDays*INTERVAL '1 days')) THEN
 				lRes.result = TRUE;
 			ELSE
 				lRes.result = FALSE;
 			END IF;
 			
 		ELSEIF (pReviewerType = cPanelReviewerRoleId) THEN
-			/*
+			
 			-- offset days (accept_review_days)
 			SELECT INTO lAcceptReviewOffsetDays "offset" FROM pjs.getEventOffset(cPanelReviewerInvitationEventType, lJournalId, lSectionId);
 			
@@ -75,8 +75,8 @@ $BODY$
 			
 			-- offset days (can take decision)
 			SELECT INTO lCanTakeDecisionOffsetDays "offset" FROM pjs.getEventOffset(cCanProceedEventType, lJournalId, lSectionId);
-			*/
-			IF(now() < lDeadlineDate) THEN
+			
+			IF(now()::date < (lRoundDueDate::date - lNominatedOffsetDays*INTERVAL '1 days' - lAcceptReviewOffsetDays*INTERVAL '1 days' - lCanTakeDecisionOffsetDays*INTERVAL '1 days')) THEN
 				lRes.result = TRUE;
 			ELSE
 				lRes.result = FALSE;

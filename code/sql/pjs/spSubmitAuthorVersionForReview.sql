@@ -104,7 +104,7 @@ $BODY$
 		WHERE document_id = pDocumentId AND round_type_id = lReviewRoundType;
 		
 		lRoundNum = coalesce(lRoundNum, 0) + 1;
-		INSERT INTO pjs.document_review_rounds(document_id, round_type_id, round_number, create_from_version_id) VALUES (pDocumentId, lReviewRoundType, lRoundNum, lNewAuthorVersionId);
+		INSERT INTO pjs.document_review_rounds(document_id, round_type_id, round_number, round_due_date, create_from_version_id) VALUES (pDocumentId, lReviewRoundType, lRoundNum, now() + INTERVAL '1 week', lNewAuthorVersionId);
 		lRoundId = currval('pjs.document_review_rounds_id_seq');
 		
 		-- Change document state
