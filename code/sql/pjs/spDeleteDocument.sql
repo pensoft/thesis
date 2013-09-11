@@ -19,6 +19,17 @@ $BODY$
 		-- delete from document_user_invitations
 		DELETE FROM pjs.document_user_invitations WHERE document_id = pDocumentId;
 		
+		-- delete from pjs.poll_answers 
+		DELETE FROM pjs.poll_answers 
+		WHERE document_review_round_users_form_id IN (
+			SELECT
+				drruf.id 
+			FROM pjs.document_review_round_users_form drruf
+			JOIN pjs.document_review_round_users drru ON drru.id = drruf.document_review_round_user_id
+			JOIN pjs.document_versions dv ON dv.id = drru.document_version_id AND dv.document_id = pDocumentId
+		);
+		
+		-- delete from pjs.document_review_round_users_form 
 		DELETE FROM pjs.document_review_round_users_form 
 		WHERE document_review_round_user_id IN (
 			SELECT drru.id FROM pjs.document_review_round_users drru
@@ -58,6 +69,55 @@ $BODY$
 		
 		-- delete from document_media
 		DELETE FROM pjs.document_media WHERE document_id = pDocumentId;
+		
+		UPDATE pjs.articles 
+		SET 
+			figures_list_cache_id = NULL,
+			tables_list_cache_id = NULL,
+			sup_files_list_cache_id = NULL,
+			references_list_cache_id = NULL,
+			taxon_list_cache_id = NULL,
+			authors_list_cache_id = NULL,
+			contents_list_cache_id = NULL,
+			xml_cache_id = NULL,
+			preview_cache_id = NULL,
+			localities_list_cache_id = NULL,
+			citation_list_cache_id = NULL
+		WHERE id = pDocumentId;
+		
+		-- delete from article_authors
+		DELETE FROM pjs.article_authors WHERE article_id = pDocumentId;
+		
+		-- delete from pjs.article_figures
+		DELETE FROM pjs.article_figures WHERE article_id = pDocumentId;
+		
+		-- delete from pjs.article_metadata
+		DELETE FROM pjs.article_metadata WHERE document_id = pDocumentId;
+		
+		-- delete from pjs.article_references
+		DELETE FROM pjs.article_references WHERE article_id = pDocumentId;
+		
+		-- delete from pjs.article_sup_files
+		DELETE FROM pjs.article_sup_files WHERE article_id = pDocumentId;
+		
+		-- delete from pjs.article_tables
+		DELETE FROM pjs.article_tables WHERE article_id = pDocumentId;
+		
+		-- delete from pjs.article_taxons
+		DELETE FROM pjs.article_taxons WHERE article_id = pDocumentId;
+		
+		-- delete from pjs.article_instance_localities 
+		DELETE FROM pjs.article_instance_localities 
+		WHERE locality_id IN (SELECT al.id FROM pjs.article_localities al WHERE article_id = pDocumentId);
+		
+		-- delete from pjs.article_localities
+		DELETE FROM pjs.article_localities WHERE article_id = pDocumentId;
+		
+		-- delete from pjs.article_cached_items
+		DELETE FROM pjs.article_cached_items WHERE article_id = pDocumentId;
+		
+		-- delete from pjs.articles
+		DELETE FROM pjs.articles WHERE id = pDocumentId;
 		
 		-- delete from documents
 		DELETE FROM pjs.documents WHERE id = pDocumentId;
