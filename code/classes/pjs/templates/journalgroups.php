@@ -382,7 +382,7 @@ $gTemplArr = array(
 					$(function(){
 						$(\'#taxon_tree\').show();
 						$(\'#subject_tree\').show();
-						$(\'#geographical_tree\').show();
+						//$(\'#geographical_tree\').show();
 					});
 				</script>
 			</div>',

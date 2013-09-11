@@ -100,6 +100,12 @@ $gTemplArr = array(
 				<input type="checkbox" name="{field_name}[]" value="{value_key}" {row_additional_tags_string} {_checkIfFormCheckboxRowIsSelected(value_is_selected)} />
 				{value_label}<br/><br/>
 	',
+	
+	'form.checkbox_input_row_with_label' => '
+				<input onclick="$(\'#filter_articles\').submit()" type="checkbox" name="{field_name}[]" id="chk_{value_key}" value="{value_key}" {row_additional_tags_string} {_checkIfFormCheckboxRowIsSelected(value_is_selected)} />
+				<label onclick="$(\'#filter_articles\').submit()" for="chk_{value_key}">{value_label}</label><br/><br/>
+	',
+	
 	'form.checkbox_input_row_no_br' => '
 				<input type="checkbox" name="{field_name}[]" value="{value_key}" {row_additional_tags_string} {_checkIfFormCheckboxRowIsSelected(value_is_selected)} />
 				{value_label}
