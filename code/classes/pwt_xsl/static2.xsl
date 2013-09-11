@@ -1586,7 +1586,12 @@
 	<!-- Article of the future preview template of the references list -->
 	<xsl:template match="*" mode="article_references_list">
 		<div class="AOF-ref-list">
-			<xsl:apply-templates select="*[@object_id='95']" mode="articleBack"/>
+			<xsl:for-each select="*[@object_id='95']">
+				<div class="ref-list-AOF-holder-holder">
+					<xsl:apply-templates select="." mode="articleBack"/>
+					<xsl:apply-templates select="." mode="RefinderLinks"/>
+				</div>
+			</xsl:for-each>	
 		</div>	
 		<!-- The node of the references holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
@@ -1595,6 +1600,7 @@
 	<!-- Article of the future preview template of the sup files list -->
 	<xsl:template match="*" mode="article_sup_files_list">
 		<div class="suppl-list-AOF">
+			<div class="data-help">Note: Tables and Figures (if present) can be downloaded from article</div>
 			
 			<xsl:if test="count(//*[@object_id='37']) > 0">
 				<div class="DwC">

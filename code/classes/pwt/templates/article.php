@@ -78,6 +78,33 @@ $gTemplArr = array (
 		</div>
 	',
 	
+	
+	//Supporting Agencies
+	
+	'article.supp_agencies_preview_head' => '
+		
+	',
+	
+	'article.supp_agencies_preview_foot' => '
+		
+	',
+	'article.supp_agencies_preview_startrs' => '
+		<div class="P-Authors-Label">Supporting agencies</div>
+			<div class="P-Supp-List">
+	',
+	'article.supp_agencies_preview_end' => '
+			</div>
+	',
+	'article.supp_agencies_preview_nodata' => '
+	
+	',
+	'article.supp_agencies_preview_row' => '
+			<div class="supp_agencies"><span class="supp_a_acronym">{_render_if(acronym, ,&nbsp;-&nbsp;)}</span>{title}</div>
+		
+	',
+	
+	
+	
 	'article.authors_list_template' => '
 		<div class="P-Authors-Whole-List">
 			<div class="P-Journal-Meta">
@@ -101,7 +128,9 @@ $gTemplArr = array (
 			<div class="P-SE-Label">' . getstr('pjs.articleSELabel') . ' </div>
 			{se}
 			
+			{sup_a}
 			
+		
 			<div class="copyrights">
 			© 2013. This is an open access article distributed under the terms of the <a border="0" target="_blank" href="http://creativecommons.org/licenses/by/3.0/" rel="license">Creative Commons Attribution 3.0 (CC-BY)</a>,
 			which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.

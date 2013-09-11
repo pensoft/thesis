@@ -2178,7 +2178,7 @@ function displayArticlesFilterCriteria($pTaxon, $pSubject, $pGeographical, $pChr
 	if($pSectionType)
 		$lResult .= ($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate ? ' AND ' : '') . 'Section=[' . $pSectionType . ']';
 	if($pFoundingAgency)
-		$lResult .= ($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate || $pSectionType ? ' AND ' : '') . 'Funding agency=[' . $pFoundingAgency . ']';
+		$lResult .= ($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate || $pSectionType ? ' AND ' : '') . 'Funding agency≈[' . $pFoundingAgency . ']';
 	if($lResult)
 		return '<div class="filterCriteria">' . $lResult . '</div>';
 }

@@ -475,6 +475,8 @@ class carticle_preview_generator extends csimple {
 		$lSql = 'SELECT to_char(d.approve_date, \'DD Mon YYYY\') as approve_date, 
 						to_char(d.publish_date, \'DD Mon YYYY\') as publish_date, 
 						to_char(d.create_date, \'DD Mon YYYY\') as create_date,
+						d.supporting_agencies_texts as supporting_agencies_texts,
+						(select string_agg(acronym || \' - \' || title, \'</div><div class="supp_agencies">\') from supporting_agencies where id = any(d.supporting_agencies_ids)) as supporting_agencies_texts2,
 					EXTRACT(year FROM d.publish_date) as pubyear,
 					j.name as journal_name, d.doi, d.start_page, d.end_page,
 					d.name as article_title,
@@ -531,7 +533,13 @@ class carticle_preview_generator extends csimple {
 			WHERE du.document_id = ' . (int) $this->m_documentId . ' AND role_id = ' . (int) PJS_SE_ROLE_ID . '
 		';		
 		$lSEPreview = new crs(array (
-			'sqlstr' => $lSql,
+			'sqlstr' => 'SELECT  u.first_name, u.middle_name, u.last_name,
+							u.affiliation, u.addr_city as city, (select "name" from countries where id = u.country_id) as country,
+							u.photo_id, u.uname as email, u.website, u.id as usrid
+						FROM pjs.document_users du
+						JOIN public.usr u ON u.id = du.uid
+						WHERE du.document_id = ' . (int) $this->m_documentId . ' AND role_id = 3	
+			',
 			
 			'templs' => array (
 				G_HEADER => 'article.authors_se_preview_head',
@@ -542,11 +550,35 @@ class carticle_preview_generator extends csimple {
 				G_ROWTEMPL => 'article.authors_se_preview_row'
 			)
 		));
+		
+		
+		$lSupAPreview = new crs(array (
+			'sqlstr' => 'SELECT 
+							\'\' as acronym, d.supporting_agencies_texts as title
+						FROM pjs.documents d
+						WHERE d.id = ' . (int)$this->m_documentId . ' and d.supporting_agencies_texts is not null
+						UNION
+							select acronym, title from supporting_agencies where id = ANY((select supporting_agencies_ids from pjs.documents where id = ' . (int)$this->m_documentId . ')::int[])
+						order by acronym	
+		',
+			
+			
+			'templs' => array (
+				G_HEADER => 'article.supp_agencies_preview_head',
+				G_FOOTER => 'article.supp_agencies_preview_foot',
+				G_STARTRS => 'article.supp_agencies_preview_startrs',
+				G_ENDRS => 'article.supp_agencies_preview_end',
+				G_NODATA => 'article.supp_agencies_preview_nodata',
+				G_ROWTEMPL => 'article.supp_agencies_preview_row'
+			)
+		));
+		
 		$lSql = $this->GetMetadataSql();
 		
 		$lPreview = new crs(array (
 			'sqlstr' => $lSql,	
 			'authors' => $lAuthorsPreview->Display(),
+			'sup_a' => $lSupAPreview->Display(),
 			'se' => $lSEPreview->Display(),
 			
 			
