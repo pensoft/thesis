@@ -18,7 +18,7 @@
 	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
 	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
 	
-	<xsl:template match="tn|tn-part|b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="formatting">
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="formatting">
 		<xsl:choose>
 			<xsl:when test="$pInArticleMode = 0">
 				<xsl:copy-of select="."/>
@@ -35,7 +35,7 @@
 		<xsl:value-of select="." disable-output-escaping="yes"/>
 	</xsl:template>
 
-	<xsl:template match="tn|tn-part|b|i|u|strong|em|sup|sub|p|ul|ol|li|comment-start|comment-end|table|tr|td|tbody|th|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="table_formatting">
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|ol|li|comment-start|comment-end|table|tr|td|tbody|th|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="table_formatting">
 		<xsl:choose>
 			<xsl:when test="$pInArticleMode = 0">
 				<xsl:copy-of select="."/>
@@ -48,7 +48,7 @@
 		</xsl:choose>
 	</xsl:template>
 	
-	<xsl:template match="tn|tn-part|b|i|u|strong|em|sup|sub|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="title">
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="title">
 		<xsl:choose>
 			<xsl:when test="$pInArticleMode = 0">
 				<xsl:copy-of select="."/>

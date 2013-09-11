@@ -1332,10 +1332,7 @@ function getLetters($pJournalId, $pAffiliationId) {
 function getUsersLetters($pJournalId, $pGrpId, $pRoleId) {
 	$lRet = '';
 	foreach(range('A', 'Z') as $letter){
-		$lRet .= '
-		<a class="green letter" href="javascript: filterUsersLetter(' . (int) $pJournalId . ', \'' . $letter . '\', ' . (int)$pGrpId . ', ' . (int)$pRoleId . ')">
-			' . $letter . '
-		</a>';
+		$lRet .= '<a class="green letter" href="javascript: filterUsersLetter(' . (int) $pJournalId . ', \'' . $letter . '\', ' . (int)$pGrpId . ', ' . (int)$pRoleId . ')">' . $letter . '</a>';
 	}
 	return $lRet;
 }
@@ -2184,9 +2181,9 @@ function displayArticlesFilterCriteria($pTaxon, $pSubject, $pGeographical, $pChr
 }
 function displayArticlesFilterText($pRecords, $pTaxon, $pSubject, $pGeographical, $pChronical, $pFromdate, $pToDate, $pSectionType, $pFoundingAgency) {
 	if($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate || $pSectionType || $pFoundingAgency) {
-		return 'article'. ($pRecords == 1 ? '' : 's' ) .  'matching your criteria';
+		return 'article'. ($pRecords == 1 ? '' : 's' ) .  ' matching your criteria';
 	}
-	return 'Aricle' . ($pRecords == 1 ? '' : 's' );
+	return 'Article' . ($pRecords == 1 ? '' : 's' );
 }
 function htmlformid($pHtmlFormId) {
 	if($pHtmlFormId != "htmlformid" && trim($pHtmlFormId) != ''){
