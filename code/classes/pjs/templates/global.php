@@ -240,6 +240,40 @@ $gTemplArr = array(
 						</div>
 	',
 
+	'global.article_search_form_templ' => '
+		<div id="searchField">
+			<img src="i/leftSearch.png" style="float: left;" alt="search Field" />
+			<div class="searchWrapper">
+				{stext}
+			</div>
+			<img src="i/rightSearch.png" style="float: left;" alt="search Field" />
+			{search}
+			<!--<input type="submit" name="submit" value="" />-->
+			<div class="P-Clear"></div>
+			<table class="article_search_radio_holder">
+				{search_in}
+			</table>
+		</div>
+	', 
+
+/*
+									<img src="i/leftSearch.png" style="float: left;" alt="search Field" />
+									<div class="searchWrapper">
+										<input type="text" name="search" value="Search ..." />
+									</div>
+									<img src="i/rightSearch.png" style="float: left;" alt="search Field" />
+									<input type="submit" name="submit" value="" />
+									<div class="P-Clear"></div>
+									<p>
+										<input type="radio" name="filter" value="All" />All
+										<input type="radio" name="filter" value="Author" />Author
+										<input type="radio" name="filter" value="Title" />Title
+										<span>
+											<a href="#">Advanced search</a>
+										</span>
+									</p>
+								</div>
+*/
 	'global.journal_header' => '
 					<div class="header-content">
 						<div class="constrained">
@@ -248,6 +282,7 @@ $gTemplArr = array(
 									<img src="/i/BDJLogo.jpg" alt="BDJ" width="402" height="104" />
 								</a>
 							</div>
+							{article_search}
 							<div class="wrapper">
 								<div id="button">
 									<button class="button_green" onclick=\'window.open("' . PWT_URL . '", "_blank");\'>Start a manuscript</button>

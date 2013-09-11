@@ -1399,7 +1399,7 @@ a {
 }
 
 #searchField {
-	float: right;
+	float: left;
 	width: 310px;
 	margin: -1px 0 0 0;
 }
@@ -6957,4 +6957,21 @@ html, body {
 
 .Letter-in-filter {
     font-weight: bold;
+}
+
+.menu_btn_large_1 {
+	border-left:1px solid #000000;
+}
+
+.journal_articles_search_wrapper {
+	float:left;
+	padding:0px 0px 0px 0px;
+}
+
+.article_search_radio_holder {
+	width:200px;
+}
+
+.article_search_radio_holder td {
+	text-align:left !important;
 }

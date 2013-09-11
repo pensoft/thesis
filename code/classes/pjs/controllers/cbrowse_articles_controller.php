@@ -11,6 +11,8 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 		$lTreeModel = new mTree_Model();
 		$lJournalId = (int)$this->GetValueFromRequestWithoutChecks('journal_id');
 		$lState = (int)$this->GetValueFromRequestWithoutChecks('preview');
+		$lSearchText = $this->GetValueFromRequestWithoutChecks('stext');
+		$lSearchedOpt = $this->GetValueFromRequestWithoutChecks('search_in');
 		
 		$this->m_models['mJournal_Documents_Model'] = new mJournal_Documents_Model();
 		
@@ -208,7 +210,7 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 				'journal_id' => $lJournalId
 			));
 			//echo $lForm->wGetFieldValue('from_date');
-			
+
 			$lJournalArticles = $this->m_models['mJournal_Documents_Model']->GetJournalArticles(
 				$lJournalId, (int)$this->GetValueFromRequestWithoutChecks('p'),
 				$lForm->wGetFieldValue('section_type'),
@@ -218,17 +220,21 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 				$lForm->wGetFieldValue('alerts_geographical_cats'),
 				$lForm->wGetFieldValue('from_date'),
 				$lForm->wGetFieldValue('to_date'),
-				$lForm->wGetFieldValue('funding_agency')
+				$lForm->wGetFieldValue('funding_agency'),
+				$lSearchText,
+				$lSearchedOpt
 			);
 			//var_dump($lTrees);
 			//var_dump($lForm->wGetFieldValue('section_type'));
-			$lConvertedFilterValues = $this->m_models['mJournal_Documents_Model']->ConvertFilterValues(
-				$lForm->wGetFieldValue('alerts_taxon_cats'),
-				$lForm->wGetFieldValue('alerts_subject_cats'),
-				$lForm->wGetFieldValue('alerts_geographical_cats'),
-				$lForm->wGetFieldValue('alerts_chronical_cats'),
-				$lForm->wGetFieldValue('section_type')
-			);
+			if(!isset($lSearchedOpt)) {
+				$lConvertedFilterValues = $this->m_models['mJournal_Documents_Model']->ConvertFilterValues(
+					$lForm->wGetFieldValue('alerts_taxon_cats'),
+					$lForm->wGetFieldValue('alerts_subject_cats'),
+					$lForm->wGetFieldValue('alerts_geographical_cats'),
+					$lForm->wGetFieldValue('alerts_chronical_cats'),
+					$lForm->wGetFieldValue('section_type')
+				);
+			}
 			//var_dump($lConvertedFilterValues['sectionType']);
 			$pViewPageObjectsDataArray['contents'] = array(
 				'ctype' => 'evList_Display',

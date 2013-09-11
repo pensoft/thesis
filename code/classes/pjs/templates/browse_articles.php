@@ -5,7 +5,9 @@ $gTemplArr = array(
 	// Browse Journal Articles List Templates
 	
 	'browse_articles.header' => '
-			<h1 class="dashboard-title withoutBorder">{records} ' . getstr('pjs.articles_matching_your_criteria') . '</h1>
+			<h1 class="dashboard-title withoutBorder">
+				{records} {_displayArticlesFilterText(records, taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
+			</h1>
 			<div style="margin: 10px;">
 				{_displayArticlesFilterCriteria(taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
 			

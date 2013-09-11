@@ -83,6 +83,12 @@ $gTemplArr = array(
 				<span>{value_label}</span></td>
 	',
 
+	'form.radio_input_row_td_article_search' => '
+				<td align="left">
+					<input id="article_radio_{value_key}" type="radio" name="{field_name}" value="{value_key}" {row_additional_tags_string} {_checkIfFormCheckboxRowIsSelected(value_is_selected)} />
+					<label for="article_radio_{value_key}">{value_label}</label>
+				</td>
+	',
 
 	'form.checkbox_input_start' => '
 	',

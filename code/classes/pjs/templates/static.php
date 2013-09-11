@@ -1329,6 +1329,17 @@ function getLetters($pJournalId, $pAffiliationId) {
 	return $lRet;
 }
 
+function getUsersLetters($pJournalId, $pGrpId, $pRoleId) {
+	$lRet = '';
+	foreach(range('A', 'Z') as $letter){
+		$lRet .= '
+		<a class="green letter" href="javascript: filterUsersLetter(' . (int) $pJournalId . ', \'' . $letter . '\', ' . (int)$pGrpId . ', ' . (int)$pRoleId . ')">
+			' . $letter . '
+		</a>';
+	}
+	return $lRet;
+}
+
 function showAssignmentSEDueDate($pSEName, $pRoundDueDate, $pDocumentId, $pRoundId, $pRoundUserId, $pRoleId) {
 	preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+) (\d+):(\d+):(\d+)/', $pRoundDueDate, $lMatch);
 
@@ -2170,6 +2181,12 @@ function displayArticlesFilterCriteria($pTaxon, $pSubject, $pGeographical, $pChr
 		$lResult .= ($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate || $pSectionType ? ' AND ' : '') . 'Funding agency≈[' . $pFoundingAgency . ']';
 	if($lResult)
 		return '<div class="filterCriteria">' . $lResult . '</div>';
+}
+function displayArticlesFilterText($pRecords, $pTaxon, $pSubject, $pGeographical, $pChronical, $pFromdate, $pToDate, $pSectionType, $pFoundingAgency) {
+	if($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate || $pSectionType || $pFoundingAgency) {
+		return 'article'. ($pRecords == 1 ? '' : 's' ) .  'matching your criteria';
+	}
+	return 'Aricle' . ($pRecords == 1 ? '' : 's' );
 }
 function htmlformid($pHtmlFormId) {
 	if($pHtmlFormId != "htmlformid" && trim($pHtmlFormId) != ''){

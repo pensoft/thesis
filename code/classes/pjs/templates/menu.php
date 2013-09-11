@@ -35,7 +35,7 @@ $gTemplArr = array(
 	'menu.journal-foot' => '
 	',
 	
-	'menu.journal-row0' => '<a class="menu_btn menu_btn_large" href="{href}">{name}</a>',
+	'menu.journal-row0' => '<a class="menu_btn menu_btn_large menu_btn_large_{rownum}" href="{href}">{name}</a>',
 );
 
 ?>
