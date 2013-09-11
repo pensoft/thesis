@@ -1020,6 +1020,16 @@ function filterAuthorsLetter(pAffiliationInpId, pJournalId, pLetter){
 							//'&affiliation=' + document.getElementById(pAffiliationInpId).value +
 							'&author_letter=' + pLetter;
 }
+function filterUsersLetter(pJournalId, pLetter, pGroupId, pRoleId){
+	var lHref = '/browse_journal_groups.php?journal_id=' + pJournalId + '&role_id=3';
+	/*if(pGroupId > 0) {
+		lHref = '/browse_journal_groups.php?journal_id=' + pJournalId + '&grp_id=' + pGroupId;
+	}
+	if(pRoleId > 0) {
+		lHref = '/browse_journal_groups.php?journal_id=' + pJournalId + '&role_id=' + pRoleId;
+	}*/
+	window.location.href = lHref + '&user_letter=' + pLetter;
+}
 function ChangeRejectBtn(pTextArea, pBtn1Id, pBtn2Id, pBtn1Active, pBtn2Active) {
 	if($(pTextArea).val().length > 0) {
 		$('#' + pBtn1Id).hide();

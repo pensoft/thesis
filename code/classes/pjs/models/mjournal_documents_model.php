@@ -96,7 +96,20 @@ class mJournal_Documents_Model extends emBase_Model {
 		
 	}
 	
-	function GetJournalArticles($pJournalId, $pPage, $pSectionTypesArr, $pTaxon, $pSubject, $pChronological, $pGeographical, $pFromDate, $pToDate, $pFundingAgency) {
+	function GetJournalArticles(
+		$pJournalId, 
+		$pPage, 
+		$pSectionTypesArr, 
+		$pTaxon, 
+		$pSubject, 
+		$pChronological, 
+		$pGeographical, 
+		$pFromDate, 
+		$pToDate, 
+		$pFundingAgency,
+		$pSearchedText,
+		$pSearchedOpt
+	) {
 		/*$pTaxon = substr($pTaxon, 1);
 		$pSubject = substr($pSubject, 1);
 		$pChronological = substr($pChronological, 1);
@@ -111,32 +124,51 @@ class mJournal_Documents_Model extends emBase_Model {
 		$lResult = array();
 		$lAnd = '';
 		
-		if(strlen($pTaxon) > 0){
-			$lAnd .= ' AND d.taxon_categories && ARRAY[' . q($pTaxon) . '] ';
-		}
-		if(strlen($pSubject) > 0){
-			$lAnd .= ' AND d.subject_categories && ARRAY[' . q($pSubject) . '] ';
-		}
-		if(strlen($pChronological) > 0){
-			$lAnd .= ' AND d.chronological_categories && ARRAY[' . q($pChronological) . '] ';
-		}
-		if(strlen($pGeographical) > 0){
-			$lAnd .= ' AND d.geographical_categories && ARRAY[' . q($pGeographical) . '] ';
-		}
-		
-		if(is_array($pSectionTypesArr) && count($pSectionTypesArr) > 0){
-			$lAnd .= ' AND d.journal_section_id IN (' . q(implode(",", $pSectionTypesArr)) . ') ';
-		}
-		
-		if(strlen($pFromDate) > 0){
-			$lAnd .= ' AND d.publish_date > \'' . $pFromDate . '\'::timestamp ';
-		}
-		if(strlen($pToDate) > 0){
-			$lAnd .= ' AND d.publish_date < \'' . $pToDate . '\'::timestamp ';
-		}
-		if(strlen($pFundingAgency) > 0){
-			$lAnd .= ' AND ((d.supporting_agencies_texts like \'%' . $pFundingAgency . '%\') OR ';
-			$lAnd .= ' (ARRAY(select id from supporting_agencies where title like \'%' . $pFundingAgency . '%\') && (d.supporting_agencies_ids))) ';
+		if(isset($pSearchedOpt) && $pSearchedText){
+			switch ($pSearchedOpt) {
+				case 1:
+					$lAnd .= ' AND am.authors like \'%' . $pSearchedText . '%\'';
+					break;
+				case 2:
+					$lAnd .= ' AND am.title like \'%' . $pSearchedText . '%\'';
+					break;
+				default:
+					$lAnd .= ' AND (
+						am.title like \'%' . $pSearchedText . '%\' OR
+						am.abstract like \'%' . $pSearchedText . '%\' OR
+						am.keywords like \'%' . $pSearchedText . '%\' OR
+						am.authors like \'%' . $pSearchedText . '%\' 
+					)';
+					break;
+			}
+		} else {
+			if(strlen($pTaxon) > 0){
+				$lAnd .= ' AND d.taxon_categories && ARRAY[' . q($pTaxon) . '] ';
+			}
+			if(strlen($pSubject) > 0){
+				$lAnd .= ' AND d.subject_categories && ARRAY[' . q($pSubject) . '] ';
+			}
+			if(strlen($pChronological) > 0){
+				$lAnd .= ' AND d.chronological_categories && ARRAY[' . q($pChronological) . '] ';
+			}
+			if(strlen($pGeographical) > 0){
+				$lAnd .= ' AND d.geographical_categories && ARRAY[' . q($pGeographical) . '] ';
+			}
+			
+			if(is_array($pSectionTypesArr) && count($pSectionTypesArr) > 0){
+				$lAnd .= ' AND d.journal_section_id IN (' . q(implode(",", $pSectionTypesArr)) . ') ';
+			}
+			
+			if(strlen($pFromDate) > 0){
+				$lAnd .= ' AND d.publish_date > \'' . $pFromDate . '\'::timestamp ';
+			}
+			if(strlen($pToDate) > 0){
+				$lAnd .= ' AND d.publish_date < \'' . $pToDate . '\'::timestamp ';
+			}
+			if(strlen($pFundingAgency) > 0){
+				$lAnd .= ' AND ((d.supporting_agencies_texts like \'%' . $pFundingAgency . '%\') OR ';
+				$lAnd .= ' (ARRAY(select id from supporting_agencies where title like \'%' . $pFundingAgency . '%\') && (d.supporting_agencies_ids))) ';
+			}
 		}
 			
 		$lCon = $this->m_con;
@@ -150,13 +182,14 @@ class mJournal_Documents_Model extends emBase_Model {
 							ORDER BY du.ord
 						) a) as authors_list
 					FROM pjs.documents d
+					LEFT JOIN pjs.article_metadata am ON am.document_id = d.id
 					LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id
 					LEFT JOIN pjs.document_versions dv ON dv.document_id = d.id AND dv.version_type_id = ' . DOCUMENT_VERSION_LE_TYPE . '
 					WHERE d.journal_id = ' . (int)$pJournalId . '
 						AND d.is_published = TRUE
 						' . $lAnd . '
 					ORDER BY d.publish_date DESC';
-		// var_dump($lSql);
+		//var_dump($lSql);
 		$lCon->Execute($lSql);
 		
 		$lCon->SetPage(DEFAULT_PAGE_SIZE, $pPage);

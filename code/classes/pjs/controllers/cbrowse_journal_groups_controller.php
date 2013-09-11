@@ -12,6 +12,7 @@ class cBrowse_Journal_Groups_Controller extends cBase_Controller {
 		$lGroupId = (int)$this->GetValueFromRequestWithoutChecks('grp_id');
 		$lRoleId = (int)$this->GetValueFromRequestWithoutChecks('role_id');
 		$lAction = $this->GetValueFromRequestWithoutChecks('tAction');
+		$lAuthorLetter = $this->GetValueFromRequestWithoutChecks('user_letter');
 		$this->m_models['mJournal_Group_Model'] = new mJournal_Group_Model();
 		$lJournalGroups = $this->m_models['mJournal_Group_Model']->GetJournalGroups($lJournalId);
 		$lFirstGroupByPos = array();
@@ -28,6 +29,24 @@ class cBrowse_Journal_Groups_Controller extends cBase_Controller {
 				'CType' => 'hidden',
 				'VType' => 'int',
 				'DefValue' => $lJournalId,
+				'AllowNulls' => true,
+			),
+			'grp_id' => array(
+				'CType' => 'hidden',
+				'VType' => 'int',
+				'DefValue' => $lGroupId,
+				'AllowNulls' => true,
+			),
+			'role_id' => array(
+				'CType' => 'hidden',
+				'VType' => 'int',
+				'DefValue' => $lRoleId,
+				'AllowNulls' => true,
+			),
+			'user_letter' => array(
+				'CType' => 'hidden',
+				'VType' => 'int',
+				'DefValue' => $lAuthorLetter,
 				'AllowNulls' => true,
 			),
 			'alerts_subject_cats' => array(
@@ -116,11 +135,12 @@ class cBrowse_Journal_Groups_Controller extends cBase_Controller {
 																			$lJournalId, (int)$this->GetValueFromRequestWithoutChecks('p'),
 																			$lForm->wGetFieldValue('alerts_taxon_cats'),
 																			$lForm->wGetFieldValue('alerts_subject_cats'),
-																			$lForm->wGetFieldValue('alerts_geographical_cats')
+																			$lForm->wGetFieldValue('alerts_geographical_cats'),
+																			$lAuthorLetter
 																		);
 		} else {
 			$name_in_viewobject = 'browse_group_list_templs';	
-			$lControllerData = $this->m_models['mUsers']->GetUsersByGroup($lGroupId, $this->GetValueFromRequestWithoutChecks('p'));
+			$lControllerData = $this->m_models['mUsers']->GetUsersByGroup($lGroupId, $this->GetValueFromRequestWithoutChecks('p'), $lAuthorLetter);
 		}
 		$pViewPageObjectsDataArray['contents'] = array(
 			'ctype' => 'evList_Display',

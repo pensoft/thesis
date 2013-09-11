@@ -356,6 +356,19 @@ $gTemplArr = array(
 						<!-- Tree #4 END -->
 					</div>
 				</div>
+				<div class="filterBlock">
+					<div class="filterBlockContent">
+						<input id="author_first_letter" type="hidden" name="user_letter" value="{@user_letter}"></input>
+						<a href="javascript: filterUsersLetter({@journal_id}, \'\', {@grp_id}, {@role_id})" class="green letter">
+							All
+						</a>
+						<span style="color: #b0ada2;">&nbsp;&nbsp;|&nbsp;</span>
+						<span class="lettersHolder">
+							{_getUsersLetters(journal_id, grp_id, role_id)}
+						</span>
+					</div>
+					<div class="P-Clear"></div>
+				</div>
 				<div class="buttonsHolder">
 					<div class="P-Grey-Btn-Holder" style="margin-top: 32px;">
 						<div class="P-Grey-Btn-Left"></div>

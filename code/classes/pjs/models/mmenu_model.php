@@ -18,13 +18,19 @@ class mMenu_Model extends emBase_Model {
 	function GetMenuContentsList($pMenuId, $pLanguage, $pGoRecursively = 1) {
 		global $user;
 		$lResult = array();
-		if($user->id && $user->staff) {
+		if(!$user->id || !$user->staff){
+			$lHideMenuSql = ' id NOT IN (10)';
+		}
+		//if(($user->id && $user->staff)) {
 			$lCon = $this->m_con;
 			$lSql = 'SELECT id, ' . getsqlang('name', $pLanguage) . ', ' . getsqlang('href', $pLanguage) . ',' . getsqlang('img', $pLanguage) . ', type, parentid
 				FROM getMenuContents(' . (int)$pMenuId . ', 0,' . (int)CMS_SITEID . ',' . $pLanguage . ')';
 	
 			if(!$pGoRecursively){
 				$lSql .= 'WHERE parentid = ' . (int)$pMenuId;
+				$lSql .= ($lHideMenuSql ? ' AND ' . $lHideMenuSql : '');
+			} else {
+				$lSql .= ($lHideMenuSql ? ' WHERE ' . $lHideMenuSql : '');
 			}
 	
 	// 		var_dump($lSql);
@@ -33,7 +39,7 @@ class mMenu_Model extends emBase_Model {
 				$lResult[] = $lCon->mRs;
 				$lCon->MoveNext();
 			}
-		}
+		//}
 		
 // 		var_dump($lResult);
 		return $lResult;

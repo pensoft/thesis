@@ -40,7 +40,8 @@ class cBase_Controller extends  ecBase_Controller_User_Data{
 	var $m_viewingRole;
 	
 	function __construct(){
-
+		/*error_reporting(E_ALL);
+		ini_set("display_errors", 1);*/
 		parent::__construct();
 		$this->IncludeInHead();
 		
@@ -63,7 +64,46 @@ class cBase_Controller extends  ecBase_Controller_User_Data{
 		global $user;
 		$lPreviewpicid = max((int)$this->m_user->photo_id, 
 		                     (int)$user->photo_id);
+		if($user->id && $user->staff){
 		
+			$lJournalId = (int)$this->GetValueFromRequestWithoutChecks('journal_id');
+			$lFieldsMetadataTempl = array(
+				'stext' => array(
+					'CType' => 'text',
+					'VType' => 'string',
+					'AllowNulls' => true,
+				),
+				'search_in' => array(
+					'VType' => 'int',
+					'CType' => 'radio',
+					'SrcValues' => array(
+						0 => 'All',
+						1 => 'Author',
+						2 => 'Title',
+					),
+					'AllowNulls' => true,
+				),
+				'search' => array(
+					'CType' => 'action',
+					'DisplayName' => '',
+					'ActionMask' =>  ACTION_CHECK | ACTION_CCHECK | ACTION_SHOW
+				),
+			);
+			
+			$this->m_commonObjectsDefinitions['article_search'] = array(
+				'ctype' => 'eForm_Wrapper',
+				'page_controller_instance' => $this,
+				'name_in_viewobject' => 'article_search_form_templ',
+				'use_captcha' => 0,
+				'form_method' => 'POST',
+				'form_action' => '/browse_journal_articles?journal_id=' . (int)$lJournalId,
+				'js_validation' => 0,
+				'form_name' => 'article_search',
+				'dont_close_session' => true,
+				'fields_metadata' => $lFieldsMetadataTempl,
+				'htmlformid' => 'article_search',
+			);
+		}
 		if($this->GetUserId()){
 			$this->m_commonObjectsDefinitions['login_register_or_profile'] = array(
 				'ctype' => 'evSimple_Block_Display',
@@ -377,6 +417,7 @@ class cBase_Controller extends  ecBase_Controller_User_Data{
 					'templadd'=>'type',
 					'controller_data' => $this->m_models['menu_model']->GetJournalMenuContentList((int)$pJournalId, getlang()),
 				),
+				'article_search' => $this->m_commonObjectsDefinitions['article_search'],
 				'show_your_tasks' => $lYourTasks,
 				'journal_id' => $pJournalId,
 				'controller_data' => '',
