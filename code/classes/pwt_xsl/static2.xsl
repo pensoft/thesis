@@ -1419,7 +1419,7 @@
 					<xsl:for-each select=".//*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
 						<xsl:choose>
 							<xsl:when test="$lAuthorshipType = 3">
-								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorLastName" />
 							</xsl:when>
 							<xsl:otherwise>
 								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFullNames" />
@@ -1466,9 +1466,9 @@
 		
 		<xsl:template match="*" mode="processSingleReferenceAuthorFullNames">
 			<xsl:variable name="lAuthorParsedName">
-				<!-- First name -->
+				<!-- First name 
 				<xsl:value-of select="./fields/*[@id='251']/value"></xsl:value-of>
-				<xsl:text> </xsl:text>
+				<xsl:text> </xsl:text> -->
 				<!-- Last name -->
 				<xsl:value-of select="./fields/*[@id='252']/value"></xsl:value-of>
 			</xsl:variable>
