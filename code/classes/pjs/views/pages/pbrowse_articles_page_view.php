@@ -53,6 +53,7 @@ class pBrowse_Articles_Page_View extends pBase_Page_View {
 		$this->m_objectsMetadata['browse_articles_form_templ'] = array(
 			'templs' => array(
 				G_FORM_TEMPLATE => 'browse_articles.search_form',
+				G_FORM_CHECKBOX_ROW => 'form.checkbox_input_row_with_label',
 			)
 		);
 		$this->m_objectsMetadata['leftcol'] = array(
