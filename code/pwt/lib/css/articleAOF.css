@@ -223,11 +223,11 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   display: table;
 }
 .figure img {
-  max-width: 663px;
+  max-width: 620px;
   max-height: 224px;
 }
 .figure .singlePlatePhoto {
-  max-width: 663px;
+  max-width: 620px;
   min-height: 70px;
 }
 .figure .plate2column {

@@ -472,13 +472,13 @@ a.download{
   border-radius: 5px;
   display: table;
   text-align: center;
-  width: 384px;
+  width: 400px;
 }
 .singlePlatePhoto{
 	background-color: white
 }
 .figure .singlePlatePhoto {
-  max-width: 663px;
+  max-width: 620px;
   min-height: 70px;
 }
 .figure .plate2column {
@@ -519,7 +519,6 @@ a.download{
   height: 30px;
   position: absolute;
   top: 15px;
-  right: 27px;
   cursor: pointer;
   display: block;
 }
@@ -531,7 +530,6 @@ a.download{
   height: 30px;
   position: absolute;
   top: 50px;
-  right: 27px;
   cursor: pointer;
   display: block;
 }
@@ -551,12 +549,16 @@ a.download{
     height: 30px;
     line-height: 2.1em;
     position: absolute;
-    right: 27px;
     text-align: center;
     top: 85px;
     vertical-align: middle;
     width: 30px;
 }
+
+.figure > .Plate-part-letter, .figure > .P-Article-Preview-Picture-Download-Small, .figure > .P-Article-Preview-Picture-Zoom-Small{
+	 left: 443px;
+}
+
 .singlePlatePhoto .Plate-part-letter, .singlePlatePhoto .P-Article-Preview-Picture-Download-Small{
 	top: 70px;
 	right: -37px;
@@ -566,6 +568,7 @@ a.download{
 	top: 35px;
 	right: -37px;
 }
+
 
 /* end of copy-paste */
 
@@ -994,7 +997,6 @@ img.noBorder{
     margin: 10px 10px 0 20px;
     text-indent: -20px;
 }
-
 
 .supp_a_acronym {
     font-weight: bold;
