@@ -3288,4 +3288,9 @@ function removeFierstParagraph($pText) {
 	return $lText;
 }
 
+function showRSSLink() {
+	global $user;
+	return ($user->staff ? '<a target="_blank" href="/rss.php"><img src="/i/rss_icon.gif" alt="mendeley" /></a>' : '');
+}
+
 ?>
