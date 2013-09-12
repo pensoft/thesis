@@ -1049,3 +1049,8 @@ img.noBorder{
 .constrained > a > img{
 	margin-left: -20px;
 }
+
+a.AOF-journal-logo{
+    float: left !important;
+    margin: 0px !important;
+}

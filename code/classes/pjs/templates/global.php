@@ -327,7 +327,7 @@ $gTemplArr = array(
 		<div id="header">
 			<div id="nav">
 				<div class="constrained">
-					<a href="/"><img src="i/logo.jpg" alt="logo" class="logo" /></a>
+					<a target="_blank" href="http://www.pensoft.net"><img src="i/logo.jpg" alt="logo" class="logo" /></a>
 
 					{mainmenu}
 					{login_register_or_profile}
@@ -683,7 +683,7 @@ $gTemplArr = array(
 				<div id="header">
 					<div id="nav" class="P-Nav-Article">
 						<div class="constrained">
-							<a href="/"><img src="i/logo.jpg" alt="logo" class="logo" /></a>
+							<a target="_blank" href="http://www.pensoft.net"><img src="i/logo.jpg" alt="logo" class="logo" /></a>
 		
 							{mainmenu}
 							{login_register_or_profile}

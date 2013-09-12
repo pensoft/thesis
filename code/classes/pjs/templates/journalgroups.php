@@ -252,7 +252,7 @@ $gTemplArr = array(
 	',
 	'journalgroups.foot' => '
 		<script type="text/javascript">
-			$(\'#contentSmallHolder\').css(\'margin-left\', \'391px\');
+			$(\'#contentSmallHolder\').css(\'margin-left\', \'384px\');
 		</script>
 		</div>
 		<div class="P-Clear">
