@@ -8,7 +8,7 @@ $gTemplArr = array(
 						<a href="?{_to_xhtml(pageingurl)}p={gotopage}"><img src="/i/leftArrow.png" alt="Left Arrow" /></a>
 					</div>
 			',
-	'pageing.startrs' => '<div class="selectPage">',
+	'pageing.startrs' => '<div class="selectPage noMarginTop">',
 	'pageing.startrs_lines' => '<div class="selectPage withLines">',
 	'pageing.startrs_nomargin' => '<div class="selectPage noMargin">',
 

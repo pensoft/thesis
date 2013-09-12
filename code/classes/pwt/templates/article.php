@@ -17,7 +17,7 @@ $gTemplArr = array (
 	',
 	
 	'article.authors_preview_head' => '
-		<div class="P-Authors-Label">' . getstr('pjs.articleAuthorsLabel') . '{_plural(records)}: </div>
+		<div class="P-Authors-Label">' . getstr('pjs.articleAuthorsLabel') . '{_plural(records)} </div>
 		<div class="P-Authors-List">		
 
 	',
@@ -78,6 +78,33 @@ $gTemplArr = array (
 		</div>
 	',
 	
+	
+	//Supporting Agencies
+	
+	'article.supp_agencies_preview_head' => '
+		
+	',
+	
+	'article.supp_agencies_preview_foot' => '
+		
+	',
+	'article.supp_agencies_preview_startrs' => '
+		<div class="P-Authors-Label">Supporting agencies</div>
+			<div class="P-Supp-List">
+	',
+	'article.supp_agencies_preview_end' => '
+			</div>
+	',
+	'article.supp_agencies_preview_nodata' => '
+	
+	',
+	'article.supp_agencies_preview_row' => '
+			<div class="supp_agencies"><span class="supp_a_acronym">{_render_if(acronym, ,&nbsp;-&nbsp;)}</span>{title}</div>
+		
+	',
+	
+	
+	
 	'article.authors_list_template' => '
 		<div class="P-Authors-Whole-List">
 			<div class="P-Journal-Meta">
@@ -98,10 +125,12 @@ $gTemplArr = array (
 			
 			
 			{authors}
-			<div class="P-SE-Label">' . getstr('pjs.articleSELabel') . ': </div>
+			<div class="P-SE-Label">' . getstr('pjs.articleSELabel') . ' </div>
 			{se}
 			
+			{sup_a}
 			
+		
 			<div class="copyrights">
 			© 2013. This is an open access article distributed under the terms of the <a border="0" target="_blank" href="http://creativecommons.org/licenses/by/3.0/" rel="license">Creative Commons Attribution 3.0 (CC-BY)</a>,
 			which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
@@ -123,7 +152,7 @@ $gTemplArr = array (
 				<div class="P-Citation-Content">
 					{author_names} ({pubyear}) {_GetArticleTitleForCitation(article_title)}
 					Biodiversity Data Journal 1: e{article_id}.
-					DOI: 10.3897/BDJ.1.e{article_id}										
+					DOI: <a href="http://dx.doi.org/10.3897/BDJ.1.e{article_id}" target="_blank">10.3897/BDJ.1.e{article_id}</a>										
 				</div>
 			</div>
 	',
@@ -176,7 +205,11 @@ $gTemplArr = array (
 			<script>LoadMapScript()</script>
 			<div class="P-Localities-Menu">
 				<div class="P-Localities-Menu-Row">
-					<input type="checkbox" name="active-localities" id="all" value="-2" /><label for="all">All</label> 
+					<input type="checkbox" name="active-localities" id="all" value="-2" /><label for="all">All</label>
+					
+					<div class="P-Localities-Menu-Row-Clear1">
+						<span class="P-Clear-Localities"> ' . getstr('pjs.articleLocalitiesClear') . '</span>
+					</div>
 				</div>
 	',
 	'article.localities_list_foot' => '
@@ -186,6 +219,7 @@ $gTemplArr = array (
 			</div>
 		</div>
 		<script>PlaceLocalitiesMenuEvents();</script>
+		
 	',
 	'article.localities_list_start' => '
 				<div class="P-Localities-Menu-Row">
@@ -496,7 +530,7 @@ $gTemplArr = array (
 							<img class="noBorder" src="' . PTP_URL . '/img/ext_details/eol_logo.jpg">
 						</a>
 					</td>
-					<td><h2 class="labelTitle">Images from EOL</h2></td>
+					<td><h2 class="labelTitle">Encyclopedia of Life</h2></td>
 				</tr>
 			</table>
 			<div class="sectionBody">
@@ -547,6 +581,8 @@ $gTemplArr = array (
 	
 	'article.category_special_sites_nodata' => '
 	',
+	
+	
 	// Regular sites
 	'article.category_regular_sites_head' => '
 	',

@@ -5375,3 +5375,9 @@ header .content_in {
 	height:auto !important
 }
 /* home page new styles END */
+
+.unlock-message-holder{
+	font-size: 11pt;
+	padding: 20px;
+    text-align: center;
+}

@@ -14,7 +14,20 @@ class mJournal_Authors_Model extends emBase_Model {
 		if(strlen($pAffiliation))
 			$lWhereAnd .= ' AND lower(u.affiliation) LIKE \'%' . q(strtolower($pAffiliation)) . '%\'';
 		
-		$lSql = 'SELECT u.last_name || \', \' || u.first_name as author_names, 
+	/*	$lSql = 'SELECT u.last_name || \', \' || u.first_name as author_names, 
+						u.photo_id as previewpicid, u.affiliation, u.id
+					FROM pjs.document_users du
+					JOIN pjs.documents d ON d.id = du.document_id
+					JOIN usr u ON u.id = du.uid
+					WHERE d.journal_id = ' . (int)$pJournalId . '
+						AND du.role_id = ' . AUTHOR_ROLE . '
+						AND d.state_id = 5
+						AND d.is_published = TRUE 
+						AND du.state_id = 1
+						' . $lWhereAnd . '
+					GROUP BY u.id, author_names, u.photo_id, u.affiliation'; */
+					
+			$lSql = 'SELECT  u.first_name || \' \' || u.last_name as author_names, 
 						u.photo_id as previewpicid, u.affiliation, u.id
 					FROM pjs.document_users du
 					JOIN pjs.documents d ON d.id = du.document_id

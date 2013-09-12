@@ -154,6 +154,13 @@ function CleanCookiesFromRequest() {
 	}
 }
 
+function render_if($arg, $prefix, $suffix) {
+	if($arg)
+		return $prefix . htmlentities($arg, ENT_NOQUOTES | ENT_XHTML, 'UTF-8', false) . $suffix;
+	else
+		return '';
+}
+
 function DefObjTempl() {
 	global $user;
 	global $rewrite;
@@ -204,11 +211,11 @@ function showPicIfExists($pid, $pref, $class = false) {
 
 function showPicIfExistsAOF($pid, $pref, $class = false) {
 	if ($pid) {
-		return '<img src="' . SITE_URL . SHOWIMG_URL .
+		return '<img width="60" height="60" src="' . SITE_URL . SHOWIMG_URL .
 		$pref . '_' . $pid . '.jpg" border="0" alt="" ' .
 		($class ? 'class="' . $class . '"' : '') . '/>';
 	}
-	return '<img src="' . SITE_URL . '/i/no-photo-60.png" border="0" alt="" ' .
+	return '<img width="60" height="60" src="' . SITE_URL . '/i/no-photo-60.png" border="0" alt="" ' .
 		($class ? 'class="' . $class . '"' : '') . '/>';
 }
 

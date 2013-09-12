@@ -50,10 +50,12 @@ ALTER TABLE pjs.article_sup_files ADD COLUMN display_label varchar;
 	Modified sps
 	pjs.spSaveArticleXml
 	pjs.spCreateArticleMetric
+	pjs.spRegisterArticleMetricDetail
+	
 	pjs.spSaveArticlePreview
 	pjs.spSaveArticleTablePreview
 	pjs.spSaveArticleFigurePreview
-	pjs.spSaveArticleSupFilePreview
-	pjs.spRegisterArticleMetricDetail
+	pjs.spSaveArticleSupFilePreview	
 	pjs.spSaveArticlePlatePreview
+	pwt.spGetPlatePartLetter	
 */

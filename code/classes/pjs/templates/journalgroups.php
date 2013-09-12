@@ -203,7 +203,7 @@ $gTemplArr = array(
 	
 	'journalgroups.startrs' => '
 		{_displayGroupName(grptitle, grpsubtitle)}
-		<div class="leftMar10">
+		<div class="leftMar10" style="padding-top:10px;">
 			{nav}
 		<div class="P-Clear"></div>
 	',
@@ -261,9 +261,23 @@ $gTemplArr = array(
 	'journalgroups.authors_empty' => '',
 	
 	'journalgroups.search_form' =>'
-		<div class="leftSiderBlock bigBlock">
+		<div class="leftSiderBlock bigBlock" {_showHideSearchBoxEditorialTeam(role_id)}>
 			<h3>' . getstr('pjs.filter') . '</h3>
 				<div class="P-Clear"></div>
+				
+				<div class="filterBlock">
+					<div class="filterBlockContent">
+						<a href="javascript: filterUsersLetter({@journal_id}, \'\', {@grp_id}, {@role_id})" class="green letter">
+							All
+						</a>
+						<span style="color: #b0ada2;">|</span>
+						<span class="lettersHolder">
+							{_getUsersLetters(journal_id, grp_id, role_id)}
+						</span>
+					</div>
+					<div class="P-Clear"></div>
+				</div>
+				
 				<div class="filterBlock category">
 					<div class="filterBlockTitle">
 						' . getstr('pjs.bytaxon') . ' 
@@ -369,7 +383,7 @@ $gTemplArr = array(
 					$(function(){
 						$(\'#taxon_tree\').show();
 						$(\'#subject_tree\').show();
-						$(\'#geographical_tree\').show();
+						//$(\'#geographical_tree\').show();
 					});
 				</script>
 			</div>',

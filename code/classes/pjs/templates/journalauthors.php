@@ -72,10 +72,11 @@ $gTemplArr = array(
 	',
 	'journalauthors.authors_startrs' => '
 			{_displayFilterCriteria(0, 0, author_letter, byaffiliation)}
-			<p style="font-size: 14px;">' . getstr('pjs.refine_filters_in_the_left_panel') . '</p>
+			
 			{nav}
 			<div class="P-Clear"></div>
 	',
+	//<p style="font-size: 14px;">' . getstr('pjs.refine_filters_in_the_left_panel') . '</p>
 	'journalauthors.authors_row' => '
 			<div class="authorInfoHolder">
 				{_getProfilePicWithLink(previewpicid, journal_id, id, 1)}
@@ -92,7 +93,12 @@ $gTemplArr = array(
 	'journalauthors.authors_foot' => '
 		</div>
 	',
-	'journalauthors.authors_empty' => ''
+	'journalauthors.authors_empty' => '
+			{_displayFilterCriteria(0, 0, author_letter, byaffiliation)}
+			{nav}
+			<div class="P-Clear"></div>
+			<div class="textCenterAlign">No authors matching your criteria</div>
+	'
 	
 	/*
 	

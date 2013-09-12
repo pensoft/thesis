@@ -28,6 +28,13 @@ class pBase_Page_View extends epPage_View {
 			)
 		);
 		
+		$this->m_objectsMetadata['article_search_form_templ'] = array(
+			'templs' => array(
+				G_FORM_TEMPLATE => 'global.article_search_form_templ',
+				G_FORM_RADIO_ROW => 'form.radio_input_row_td_article_search',
+			)
+		);
+		
 		$this->m_objectsMetadata['profile_template'] = array(
 			'templs' => array(
 				G_DEFAULT => 'global.profile_pic_and_name'
@@ -46,7 +53,6 @@ class pBase_Page_View extends epPage_View {
 				G_DEFAULT => 'global.journal_header'
 			)
 		);
-		
 		
 		//var_dump($this->m_objectsMetadata);
 		

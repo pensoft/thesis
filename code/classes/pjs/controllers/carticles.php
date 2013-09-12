@@ -24,7 +24,10 @@ class cArticles extends cBase_Controller {
 				),
 		);
 // 		var_dump($lResultArr);
+	//	$this->m_pageView = new pArticles(&$lResultArr);
+		$lResultArr = array_merge($this->m_commonObjectsDefinitions, $lResultArr);
 		$this->m_pageView = new pArticles(&$lResultArr);
+	//	$this->m_pageView = new pArticles(array_merge($this->m_commonObjectsDefinitions, $lResultArr));
 	}
 	
 };

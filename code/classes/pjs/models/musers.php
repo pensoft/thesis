@@ -53,19 +53,25 @@ class mUsers extends emBase_Model
 				   AND role_id = " . SE_ROLE;
 		return $this->m_con->Execute($lSql) && $this->m_con->mRs['id'];
 	}
-	function GetUsersByGroup($pGroupId, $pPage){
+	function GetUsersByGroup($pGroupId, $pPage, $pUserLetter){
 		$lCon = $this->m_con;
 		//~ $lResult = array(
 			//~ 'err_cnt' => 0,
 			//~ 'err_msgs' => array(),
 		//~ );
+		$lAnd = '';
+		if(strlen($pUserLetter)) {
+			$lAnd .= ' AND lower(u.last_name) LIKE \'' . q(strtolower($pUserLetter)) . '%\'';
+		}
+		
 		$lSql = 'SELECT (u.first_name || \' \' || u.last_name) AS fullname, u.uname as email, u.addr_city, c.name as country,  u.uname as email, u.affiliation, photo_id as previewpicid, 
 					journal_usr.journal_user_group_id as group_id, u.id, role as subtitle, ugrp.name grptitle, ugrp.description grpsubtitle
 					FROM pjs.journal_user_group_users journal_usr 
 					LEFT JOIN usr u ON u.id = journal_usr.uid 
 					JOIN pjs.journal_user_groups ugrp ON journal_usr.journal_user_group_id = ugrp.id
 					LEFT JOIN public.countries c ON c.id = u.country_id
-					WHERE journal_user_group_id = '. $pGroupId . ' ORDER BY journal_usr.pos desc';
+					WHERE journal_user_group_id = '. $pGroupId . $lAnd . ' ORDER BY journal_usr.pos desc';
+		//var_dump($lSql);
 		if(!$lCon->Execute($lSql)){
 			$lResult['err_cnt']++;
 			$lResult['err_msgs'][] = array('err_msg' => $lCon->GetLastError());
@@ -135,7 +141,7 @@ class mUsers extends emBase_Model
 		}
 		return $lResult;
 	}
-	function GetUsersByCategories($pJournalId, $pPage, $pTaxon, $pSubject, $pGeographical) {
+	function GetUsersByCategories($pJournalId, $pPage, $pTaxon, $pSubject, $pGeographical, $pUserLetter) {
 		$lResult = array();
 		$lAnd = '';
 		
@@ -148,6 +154,10 @@ class mUsers extends emBase_Model
 		if(strlen($pGeographical) > 0){
 			$lAnd .= ' AND pjs."spGeographicalParents"(exp.geographical_categories) && ARRAY[' . q(str_replace('g', '', $pGeographical)) . ']::integer[] ';
 		}
+		if(strlen($pUserLetter)) {
+			$lAnd .= ' AND lower(u.last_name) LIKE \'' . q(strtolower($pUserLetter)) . '%\'';
+		}
+			
 		
 		//~ if(is_array($pSectionTypesArr) && count($pSectionTypesArr) > 0){
 			//~ $lAnd .= ' AND d.journal_section_id IN (' . q(implode(",", $pSectionTypesArr)) . ') ';

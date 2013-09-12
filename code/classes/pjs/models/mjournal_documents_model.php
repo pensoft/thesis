@@ -96,7 +96,20 @@ class mJournal_Documents_Model extends emBase_Model {
 		
 	}
 	
-	function GetJournalArticles($pJournalId, $pPage, $pSectionTypesArr, $pTaxon, $pSubject, $pChronological, $pGeographical, $pFromDate, $pToDate, $pFundingAgency) {
+	function GetJournalArticles(
+		$pJournalId, 
+		$pPage, 
+		$pSectionTypesArr, 
+		$pTaxon, 
+		$pSubject, 
+		$pChronological, 
+		$pGeographical, 
+		$pFromDate, 
+		$pToDate, 
+		$pFundingAgency,
+		$pSearchedText,
+		$pSearchedOpt
+	) {
 		/*$pTaxon = substr($pTaxon, 1);
 		$pSubject = substr($pSubject, 1);
 		$pChronological = substr($pChronological, 1);
@@ -111,51 +124,77 @@ class mJournal_Documents_Model extends emBase_Model {
 		$lResult = array();
 		$lAnd = '';
 		
-		if(strlen($pTaxon) > 0){
-			$lAnd .= ' AND d.taxon_categories && ARRAY[' . q($pTaxon) . '] ';
-		}
-		if(strlen($pSubject) > 0){
-			$lAnd .= ' AND d.subject_categories && ARRAY[' . q($pSubject) . '] ';
-		}
-		if(strlen($pChronological) > 0){
-			$lAnd .= ' AND d.chronological_categories && ARRAY[' . q($pChronological) . '] ';
-		}
-		if(strlen($pGeographical) > 0){
-			$lAnd .= ' AND d.geographical_categories && ARRAY[' . q($pGeographical) . '] ';
-		}
-		
-		if(is_array($pSectionTypesArr) && count($pSectionTypesArr) > 0){
-			$lAnd .= ' AND d.journal_section_id IN (' . q(implode(",", $pSectionTypesArr)) . ') ';
-		}
-		
-		if(strlen($pFromDate) > 0){
-			$lAnd .= ' AND d.publish_date > \'' . $pFromDate . '\'::timestamp ';
-		}
-		if(strlen($pToDate) > 0){
-			$lAnd .= ' AND d.publish_date < \'' . $pToDate . '\'::timestamp ';
-		}
-		if(strlen($pFundingAgency) > 0){
-			$lAnd .= ' AND ((d.supporting_agencies_texts like \'%' . $pFundingAgency . '%\') OR ';
-			$lAnd .= ' (ARRAY(select id from supporting_agencies where title like \'%' . $pFundingAgency . '%\') && (d.supporting_agencies_ids))) ';
+		if(isset($pSearchedOpt) && $pSearchedText){
+			switch ($pSearchedOpt) {
+				case 1:
+					$lAnd .= ' AND lower(am.authors) like \'%' . strtolower($pSearchedText) . '%\'';
+					break;
+				case 2:
+					$lAnd .= ' AND lower(am.title) like \'%' . strtolower($pSearchedText) . '%\'';
+					break;
+				default:
+					$lAnd .= ' AND (
+						lower(am.title) like \'%' . strtolower($pSearchedText) . '%\' OR
+						lower(am.abstract) like \'%' . strtolower($pSearchedText) . '%\' OR
+						lower(am.keywords) like \'%' . strtolower($pSearchedText) . '%\' OR
+						lower(am.authors) like \'%' . strtolower($pSearchedText) . '%\' 
+					)';
+					break;
+			}
+		} else {
+			if(strlen($pTaxon) > 0){
+				//$lAnd .= ' AND d.taxon_categories && ARRAY[' . q($pTaxon) . '] ';
+				$lAnd .= ' AND pjs."spTaxonParents"(d.taxon_categories) && ARRAY[' . q($pTaxon) . ']::integer[] ';
+			}
+			if(strlen($pSubject) > 0){
+				//$lAnd .= ' AND d.subject_categories && ARRAY[' . q($pSubject) . '] ';
+				$lAnd .= ' AND pjs."spSubjectParents"(d.subject_categories) 			&& ARRAY[' . q($pSubject) . ']::integer[] ';
+			}
+			if(strlen($pChronological) > 0){
+				//$lAnd .= ' AND d.chronological_categories && ARRAY[' . q($pChronological) . '] ';
+				$lAnd .= ' AND pjs."spChronologicalParents"(d.chronological_categories) && ARRAY[' . q($pChronological) . ']::integer[] ';
+			}
+			if(strlen($pGeographical) > 0){
+				//$lAnd .= ' AND d.geographical_categories && ARRAY[' . q($pGeographical) . '] ';
+				$lAnd .= ' AND pjs."spGeographicalParents"(d.geographical_categories) && ARRAY[' . q($pGeographical) . ']::integer[] ';
+			}
+			
+			if(is_array($pSectionTypesArr) && count($pSectionTypesArr) > 0){
+				$lAnd .= ' AND d.journal_section_id IN (' . q(implode(",", $pSectionTypesArr)) . ') ';
+			}
+			
+			if(strlen($pFromDate) > 0){
+				$lAnd .= ' AND d.publish_date > \'' . $pFromDate . '\'::timestamp ';
+			}
+			if(strlen($pToDate) > 0){
+				$lAnd .= ' AND d.publish_date < \'' . $pToDate . '\'::timestamp ';
+			}
+			if(strlen($pFundingAgency) > 0){
+				$lAnd .= ' AND ((lower(d.supporting_agencies_texts) like \'%' . strtolower($pFundingAgency) . '%\') OR ';
+				$lAnd .= ' (ARRAY(select id from supporting_agencies where lower(title) like \'%' . strtolower($pFundingAgency) . '%\') && (d.supporting_agencies_ids)) OR ';
+				$lAnd .= ' (ARRAY(select id from supporting_agencies where lower(acronym) like \'%' . strtolower($pFundingAgency) . '%\') && (d.supporting_agencies_ids)))';
+			}
 		}
 			
 		$lCon = $this->m_con;
-		$lSql = 'SELECT d.*, js.title as journal_section_name, dv.id as layout_version_id,
+		$lSql = 'SELECT d.*, to_char(d.publish_date, \'DD-MM-YYYY\') as publish_date,
+						js.title as journal_section_name, dv.id as layout_version_id,
 					(SELECT aggr_concat_coma(a.author_name)
 						FROM (
-							SELECT (du.first_name || \' \' || du.last_name) as author_name 
+							SELECT (\'<a class="authors_list_holder" href="/browse_journal_articles_by_author?user_id=\' || du.uid || \'">\' || du.first_name || \' \' || du.last_name || \'</a>\') as author_name 
 							FROM pjs.document_users du
 							WHERE du.document_id = d.id AND du.role_id = ' . AUTHOR_ROLE . ' AND du.state_id = 1
 							ORDER BY du.ord
 						) a) as authors_list
 					FROM pjs.documents d
+					LEFT JOIN pjs.article_metadata am ON am.document_id = d.id
 					LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id
 					LEFT JOIN pjs.document_versions dv ON dv.document_id = d.id AND dv.version_type_id = ' . DOCUMENT_VERSION_LE_TYPE . '
 					WHERE d.journal_id = ' . (int)$pJournalId . '
 						AND d.is_published = TRUE
 						' . $lAnd . '
 					ORDER BY d.publish_date DESC';
-		// var_dump($lSql);
+		//var_dump($lSql);
 		$lCon->Execute($lSql);
 		
 		$lCon->SetPage(DEFAULT_PAGE_SIZE, $pPage);
@@ -180,10 +219,11 @@ class mJournal_Documents_Model extends emBase_Model {
 		$lAnd = '';
 			
 		$lCon = $this->m_con;
-		$lSql = 'SELECT d.*, js.title as journal_section_name, dv.id as layout_version_id,
+		$lSql = 'SELECT d.*, to_char(d.publish_date, \'DD-MM-YYYY\') as publish_date,
+					js.title as journal_section_name, dv.id as layout_version_id,
 					(SELECT aggr_concat_coma(a.author_name)
 						FROM (
-							SELECT (du.first_name || \' \' || du.last_name) as author_name 
+							SELECT (\'<a class="authors_list_holder" href="/browse_journal_articles_by_author?user_id=\' || du.uid || \'">\' || du.first_name || \' \' || du.last_name || \'</a>\') as author_name
 							FROM pjs.document_users du
 							WHERE du.document_id = d.id AND du.role_id = ' . AUTHOR_ROLE . ' AND du.state_id = 1
 							ORDER BY du.ord

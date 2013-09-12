@@ -102,7 +102,7 @@ $BODY$
 		
 		INSERT INTO pjs.document_review_round_users(round_id, document_user_id, document_version_id) VALUES (lRoundId, lEDocumentUserId, lNewAuthorVersionId);
 		lERoundUsrId = currval('pjs.document_review_round_reviewers_id_seq');
-		UPDATE pjs.document_review_rounds SET decision_round_user_id = lERoundUsrId WHERE id = lRoundId;
+		UPDATE pjs.document_review_rounds SET decision_round_user_id = lERoundUsrId, round_due_date = now() + INTERVAL '1 week' WHERE id = lRoundId;
 		-- <<< open editor round
 		
 		IF (lHasCE = true AND (lDocumentState <> lWaitingAToProceedToLEAfterCopyEditingDocumentStateId)) THEN

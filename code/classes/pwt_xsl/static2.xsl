@@ -14,64 +14,64 @@
 	<xsl:param  name="pPDFPreviewMode">0</xsl:param>
 	<!-- This parameter will be passed when we generate the previews for article of the future -->
 	<xsl:param  name="pInArticleMode">0</xsl:param>
-	
+
 	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
 	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
-	
-	<xsl:template match="tn|tn-part|b|i|u|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="formatting">
+
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="formatting">
 		<xsl:choose>
 			<xsl:when test="$pInArticleMode = 0">
 				<xsl:copy-of select="."/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:call-template name="get_node_text_template"> 
+				<xsl:call-template name="get_node_text_template">
 				    <xsl:with-param name="pNode" select="."></xsl:with-param>
 				</xsl:call-template>
 			</xsl:otherwise>
-		</xsl:choose> 
+		</xsl:choose>
 	</xsl:template>
-	
+
 	<xsl:template match="*" mode="formatting_output_escape">
 		<xsl:value-of select="." disable-output-escaping="yes"/>
 	</xsl:template>
 
-	<xsl:template match="tn|tn-part|b|i|u|strong|em|sup|sub|p|ul|ol|li|comment-start|comment-end|table|tr|td|tbody|th|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="table_formatting">
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|ol|li|comment-start|comment-end|table|tr|td|tbody|th|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="table_formatting">
 		<xsl:choose>
 			<xsl:when test="$pInArticleMode = 0">
 				<xsl:copy-of select="."/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:call-template name="get_node_text_template"> 
+				<xsl:call-template name="get_node_text_template">
 				    <xsl:with-param name="pNode" select="."></xsl:with-param>
 				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
-	<xsl:template match="tn|tn-part|b|i|u|strong|em|sup|sub|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="title">
+
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="title">
 		<xsl:choose>
 			<xsl:when test="$pInArticleMode = 0">
 				<xsl:copy-of select="."/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:call-template name="get_node_text_template"> 
+				<xsl:call-template name="get_node_text_template">
 				    <xsl:with-param name="pNode" select="."></xsl:with-param>
 				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+
 	<!-- Removes spaces -->
 	<xsl:template match="*" mode="formatting_nospace">
 		<xsl:param name="lTreatmentUrl"/>
 		<xsl:apply-templates select="." mode="formatting"/>
 	</xsl:template>
-	
+
 	<xsl:template match="*" mode="format_taxa_rank">
 		<xsl:apply-templates select="." mode="formatting"/>
-	</xsl:template>	
-	
-	<!-- MARKING EDITABLE FIELDS TEMPLATE --> 
+	</xsl:template>
+
+	<!-- MARKING EDITABLE FIELDS TEMPLATE -->
 	<xsl:template name="markContentEditableField">
 		<xsl:param name="pObjectId" />
 		<xsl:param name="pFieldId" />
@@ -86,11 +86,11 @@
 					<xsl:otherwise>
 						<xsl:attribute name="contenteditable">false</xsl:attribute>
 					</xsl:otherwise>
-				</xsl:choose> 
+				</xsl:choose>
 			</xsl:if>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<xsl:template name="markContentEditableFiguresAndTables">
 			<xsl:if test="$pTrackFigureAndTableChanges &gt; 0 and $pMarkContentEditableFields &gt; 0">
 				<xsl:choose>
@@ -100,7 +100,7 @@
 					<xsl:otherwise>
 						<xsl:attribute name="contenteditable">false</xsl:attribute>
 					</xsl:otherwise>
-				</xsl:choose> 
+				</xsl:choose>
 			</xsl:if>
 	</xsl:template>
 
@@ -136,10 +136,10 @@
 			</div>
 		</xsl:if>
 	</xsl:template>
-	
-	
-	
-	
+
+
+
+
 	<!-- ARTICLE TITLE -->
 	<xsl:template match="*" mode="articleTitle">
 		<div class="P-Article-Preview-Title" id="article_metadata">
@@ -155,7 +155,7 @@
 	<!-- AUTHORS -->
 	<xsl:template name="authors">
 		<xsl:param name="pDocumentNode" />
-		
+
 		<div class="P-Article-Preview-Names">
 			<xsl:if test="$pInArticleMode = 1">
 				<a onclick="toogleArticleInfo()">
@@ -174,7 +174,7 @@
 					<xsl:apply-templates select="." mode="singleAuthorAddress" />
 				</xsl:for-each>
 			</div>
-	
+
 			<div class="P-Article-Preview-Base-Info-Block">
 				<table cellspacing="0" cellpadding="0" border="0" width="100%">
 					<tbody>
@@ -262,7 +262,7 @@
 	<xsl:template match="*" mode="singleCorrespondingAuthor">
 		<span>
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span field_id="6">	
+			<span field_id="6">
 				<xsl:apply-templates select="./fields/*[@id=6]" mode="formatting"/>
 			</span>
 			<xsl:text> </xsl:text>
@@ -302,7 +302,7 @@
 				</span>
 			</span>
 	</xsl:template>
-	
+
 	<!-- ABSTRACT AND KEYWORDS -->
 	<xsl:template match="*" mode="abstractAndKeywords">
 			<div>
@@ -333,7 +333,7 @@
 				</xsl:if>
 			</div>
 	</xsl:template>
-	
+
 	<!-- Default empty template.
 	The sections we want to match will be specified manually -->
 	<xsl:template match="*" mode="bodySections" />
@@ -357,9 +357,9 @@
 			</div>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<!-- Treatment material field -->
- <xsl:template match="*" mode="treatmentMaterialFieldCustom">     
+ <xsl:template match="*" mode="treatmentMaterialFieldCustom">
    <xsl:variable name="lContent">
    		<span>
 			<xsl:call-template name="markContentEditableField">
@@ -375,7 +375,7 @@
    <span>
     <xsl:attribute name="class">dcLabel</xsl:attribute>
     <xsl:value-of select="./@field_name"></xsl:value-of><xsl:text>: </xsl:text>
-   </span> 
+   </span>
    <xsl:choose>
    		<xsl:when test="$pInArticleMode = 1 and ($lFieldId = 132 or $lFieldId = 133)">
    			<!-- verbatimLocality or verbatimLongitude -->
@@ -397,7 +397,7 @@
 	   			</xsl:otherwise>
    			</xsl:choose>
    		</xsl:when>
-   		
+
    		<xsl:when test="$pInArticleMode = 1 and ($lFieldId = 136 or $lFieldId = 137)">
    			<!-- verbatimLocality or verbatimLongitude -->
    			<xsl:choose>
@@ -418,18 +418,18 @@
 	   			</xsl:otherwise>
    			</xsl:choose>
    		</xsl:when>
-   		
-   		
+
+
    		<xsl:otherwise>
    			<xsl:copy-of select="$lContent"></xsl:copy-of>
    		</xsl:otherwise>
    </xsl:choose>
    <!--<xsl:variable name="lId" select="./@id"></xsl:variable>-->
    <!--<xsl:if test="($lId = 58) or ($lId = 60) or ($lId = 61) or ($lId = 114) or ($lId = 116)">-->
-		
+
    <!--</xsl:if>-->
  </xsl:template>
-		
+
 	<!-- SUBSECTIONS - START -->
 	<!-- Default empty template.
 		 The sections we want to match will be specified manually
@@ -455,12 +455,12 @@
 		</div>
 	</xsl:template>
 	<!-- SUBSECTIONS - END -->
-	
+
 	<!-- Default empty template.
 		 The sections we want to match will be specified manually
 	 -->
 	<xsl:template match="*" mode="articleBack" />
-	
+
 	<!-- Acknowledgements -->
 	<xsl:template match="*[@object_id='57']" mode="articleBack">
 		<xsl:if test="./fields/*[@id='223']/value != ''">
@@ -479,7 +479,7 @@
 	</xsl:template>
 
 
-	<!-- Author contributions --> 
+	<!-- Author contributions -->
 	<xsl:template match="*[@object_id='202']" mode="articleBack">
 		<xsl:if test="./fields/*[@id='464']/value != ''">
 			<div class="P-Article-Preview-Block">
@@ -495,10 +495,10 @@
 			</div>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<!-- Supplementary files -->
 	<xsl:template match="*[@object_id='56']" mode="articleBack">
-		<xsl:if test="count(./*[@object_id='55']) &gt; 0">	
+		<xsl:if test="count(./*[@object_id='55']) &gt; 0">
 			<div class="P-Article-Preview-Block">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<h1 id="supplementary_files">Supplementary material<xsl:if test="count(./*[@object_id='55']) &gt; 1">s</xsl:if></h1>
@@ -510,7 +510,7 @@
 			</div>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<!-- Formatting uploaded files spaces -->
 	<xsl:template match="*" mode="formatting_uploaded_file">
 		<xsl:param name="lFileName"/>
@@ -531,11 +531,11 @@
 		</xsl:if>
 	</xsl:template>
 
-	
+
 	<!-- Single supplementary material -->
 	<xsl:template match="*[@object_id='55']" mode="singleSupplementaryMaterial">
-		<xsl:variable name="instance" select="./@instance_id" />	
-		
+		<xsl:variable name="instance" select="./@instance_id" />
+
 			<xsl:if test="./fields/*[@id='214']/value != ''">
 				<div class="Supplemantary-File-Title">
 					<span class="fig-label-RC">
@@ -557,8 +557,8 @@
 					</span>
 				</div>
 			</xsl:if>
-			
-		<xsl:if test="./fields/*[@id='215']/value != '' or ./fields/*[@id='216']/value != '' or ./fields/*[@id='217']/value != '' or ./fields/*[@id='222']/value != ''">	
+
+		<xsl:if test="./fields/*[@id='215']/value != '' or ./fields/*[@id='216']/value != '' or ./fields/*[@id='217']/value != '' or ./fields/*[@id='222']/value != ''">
 			<div class="suppl-section-holder">
 				<xsl:if test="./fields/*[@id='215']/value != ''">
 					<div class="myfieldHolder">
@@ -589,8 +589,8 @@
 					</div>
 				</xsl:if>
 				<xsl:if test="./fields/*[@id='217']/value != ''">
-					<div class="myfieldHolder">		
-						<span class="fieldLabel">							
+					<div class="myfieldHolder">
+						<span class="fieldLabel">
 							<xsl:value-of select="./fields/*[@id='217']/@field_name" />:&#160;</span>
 						<div class="fieldValue" field_id="217">
 							<xsl:call-template name="markContentEditableField">
@@ -615,23 +615,23 @@
 			</div>
 		</xsl:if>
 	</xsl:template>
-	
-	
+
+
 	<xsl:template match="*[@object_id='236']" mode="figuresPreview">
-		<xsl:apply-templates select="./*[@object_id='221']" mode="singleFigNormalPreview"/>	
+		<xsl:apply-templates select="./*[@object_id='221']" mode="singleFigNormalPreview"/>
 	</xsl:template>
-	
+
 	<!-- Figure normal previews -->
 	<xsl:template match="*[@object_id='221']" mode="singleFigNormalPreview">
-		<xsl:apply-templates select="./*[@object_id &gt; 0]" mode="singleFigNormalPreview"/>	
+		<xsl:apply-templates select="./*[@object_id &gt; 0]" mode="singleFigNormalPreview"/>
 	</xsl:template>
-	
+
 	<xsl:template name="imagePicPreview">
 		<xsl:param name="pInstanceId" />
 		<xsl:param name="pPicId" />
 		<xsl:param name="pImageType" >1</xsl:param>
 		<xsl:param name="pPlateNum" />
-		
+
 		<xsl:variable name="pImageLink"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=<xsl:choose>
 			<xsl:when test="$pImageType = 1" >singlefig</xsl:when>
 			<xsl:otherwise>twocolumn</xsl:otherwise>
@@ -677,14 +677,17 @@
 				<xsl:otherwise >
 					<div class="singlePlatePhoto">
 						<xsl:copy-of select="$lContent"/>
-						<div class="Plate-part-letter"><xsl:value-of select="$pPlateNum"/></div>
+						<div class="Plate-part-letter fig">
+							<xsl:attribute name="rid"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+							<xsl:value-of select="$pPlateNum"/>
+						</div>
 					</div>
 				</xsl:otherwise>
 			</xsl:choose>
-			
+
 		</div>
 	</xsl:template>
-	
+
 	<!-- Image figure -->
 	<xsl:template match="*[@object_id='222']" mode="singleFigNormalPreview">
 		<xsl:variable name="lFigNumber"><xsl:value-of select="../fields/*[@id='489']/value"/></xsl:variable>
@@ -713,7 +716,7 @@
 			<div class="P-Clear"></div>
 		</div>
 	</xsl:template>
-	
+
 	<!-- Video figure -->
 	<xsl:template match="*[@object_id='223']" mode="singleFigNormalPreview">
 		<xsl:variable name="lFigNumber"><xsl:value-of select="../fields/*[@id='489']/value"/></xsl:variable>
@@ -748,7 +751,7 @@
 			<div class="P-Clear"></div>
 		</div>
 	</xsl:template>
-	
+
 	<!-- Plate figure -->
 	<xsl:template match="*[@object_id='224']" mode="singleFigNormalPreview">
 		<xsl:variable name="lFigNumber"><xsl:value-of select="../fields/*[@id='489']/value"/></xsl:variable>
@@ -794,7 +797,7 @@
 										<xsl:when test="@object_id='226'">b</xsl:when>
 									</xsl:choose>
 								</xsl:with-param>
-							</xsl:call-template>						
+							</xsl:call-template>
 						</xsl:for-each>
 					</div>
 				</xsl:if>
@@ -811,7 +814,7 @@
 										<xsl:when test="@object_id='228'">d</xsl:when>
 									</xsl:choose>
 								</xsl:with-param>
-							</xsl:call-template>						
+							</xsl:call-template>
 						</xsl:for-each>
 					</div>
 				</xsl:if>
@@ -828,7 +831,7 @@
 										<xsl:when test="@object_id='230'">f</xsl:when>
 									</xsl:choose>
 								</xsl:with-param>
-							</xsl:call-template>						
+							</xsl:call-template>
 						</xsl:for-each>
 					</div>
 				</xsl:if>
@@ -875,14 +878,14 @@
 			<div class="P-Clear"></div>
 		</div>
 	</xsl:template>
-	
-	
-	
+
+
+
 	<!-- Figure small previews -->
 	<xsl:template match="*[@object_id='221']" mode="singleFigSmallPreview">
-		<xsl:apply-templates select="./*[@object_id &gt; 0]" mode="singleFigSmallPreview"/>	
+		<xsl:apply-templates select="./*[@object_id &gt; 0]" mode="singleFigSmallPreview"/>
 	</xsl:template>
-	
+
 	<!-- Image figure -->
 	<xsl:template match="*[@object_id='222']" mode="singleFigSmallPreview">
 		<div class="P-Picture-Holder" style="float:left">
@@ -892,14 +895,14 @@
 				</img>
 				<div class="P-Clear"></div>
 			</div>
-		</div>	
+		</div>
 		<div class="P-Block-Title-Holder">
 			<div class="P-Figure-Num">Figure <xsl:value-of select="../fields/*[@id='489']/value"/></div>
 			<div class="P-Figure-Desc"><xsl:apply-templates select="./fields/*[@id='482']/value" mode="formatting"/></div>
 		</div>
 		<div class="P-Clear"></div>
 	</xsl:template>
-	
+
 	<!-- Video figure -->
 	<xsl:template match="*[@object_id='223']" mode="singleFigSmallPreview">
 		<xsl:variable name="lVideoId" select="php:function('getYouTubeIdFromURL', string(./fields/*[@id='486']))"></xsl:variable>
@@ -912,29 +915,29 @@
 				</img>
 				<div class="P-Clear"></div>
 			</div>
-		</div>	
+		</div>
 		<div class="P-Block-Title-Holder">
 			<div class="P-Figure-Num">Figure <xsl:value-of select="../fields/*[@id='489']/value"/></div>
 			<div class="P-Figure-Desc"><xsl:apply-templates select="./fields/*[@id='482']/value" mode="formatting"/></div>
 		</div>
 		<div class="P-Clear"></div>
 	</xsl:template>
-	
+
 	<!-- Plate figure -->
 	<xsl:template match="*[@object_id='224']" mode="singleFigSmallPreview">
 		<div class="P-Picture-Holder" style="float:left">
 				<div class="pointerLink">
-					<xsl:apply-templates select=".//*[@object_id='231' or @object_id='232' or @object_id='233' or @object_id='234']" mode="singleFigSmallPreview"/>	
+					<xsl:apply-templates select=".//*[@object_id='231' or @object_id='232' or @object_id='233' or @object_id='234']" mode="singleFigSmallPreview"/>
 				<div class="P-Clear"></div>
 			</div>
-		</div>	
+		</div>
 		<div class="P-Block-Title-Holder">
 			<div class="P-Figure-Num">Figure <xsl:value-of select="../fields/*[@id='489']/value"/></div>
 			<div class="P-Figure-Desc"><xsl:apply-templates select="./fields/*[@id='482']/value" mode="formatting"/></div>
 		</div>
 		<div class="P-Clear"></div>
 	</xsl:template>
-	
+
 	<!-- Plate type 1 image preview -->
 	<xsl:template match="*[@object_id='231']" mode="singleFigSmallPreview">
 		<div style="text-align: center; display: table; width: 90px">
@@ -954,7 +957,7 @@
 			</div>
 		</div>
 	</xsl:template>
-	
+
 	<!-- Plate type 2 image preview -->
 	<xsl:template match="*[@object_id='232']" mode="singleFigSmallPreview">
 		<div class="twocolumnmini fig">
@@ -970,7 +973,7 @@
 			</img>
 		</div>
 	</xsl:template>
-	
+
 	<!-- Plate type 3 image preview -->
 	<xsl:template match="*[@object_id='233']" mode="singleFigSmallPreview">
 		<div>
@@ -1008,7 +1011,7 @@
 			</div>
 		</div>
 	</xsl:template>
-	
+
 	<!-- Plate type 4 image preview -->
 	<xsl:template match="*[@object_id='234']" mode="singleFigSmallPreview">
 		<div>
@@ -1062,7 +1065,7 @@
 			</div>
 		</div>
 	</xsl:template>
-	
+
 	<!-- Table small preview -->
 	<xsl:template match="*[@object_id='238']" mode="singleTableSmallPreview">
 			<div class="P-Picture-Holder" style="float:left">
@@ -1072,21 +1075,21 @@
 				<div class="P-Figure-Num">Table <xsl:value-of select="./fields/*[@id='489']/value"/></div>
 				<div class="P-Figure-Desc"><xsl:copy-of select="./fields/*[@id='482']/value"/></div>
 				<div class="P-Figure-Download-Link">
-					<a class="download-table-link"> 
+					<a class="download-table-link">
 						<xsl:attribute name="href">
 							<xsl:value-of select="php:function('GetTableDownloadLink', string($pSiteUrl), string(./@instance_id), $pInArticleMode)" />
 						</xsl:attribute>
 						Download as CSV
 					</a>
 				</div>
-			</div>	
+			</div>
 			<div class="P-Clear"></div>
 	</xsl:template>
-	
+
 	<xsl:template match="*[@object_id='237']" mode="tablesPreview">
 		<xsl:apply-templates select="./*[@object_id='238']" mode="singleTableNormalPreview"/>
 	</xsl:template>
-	
+
 	<!-- Table regular preview -->
 	<xsl:template match="*[@object_id='238']" mode="singleTableNormalPreview">
 			<xsl:variable name="lFigNumber"><xsl:value-of select="./fields/*[@id='489']/value"/></xsl:variable>
@@ -1103,12 +1106,12 @@
 								</xsl:attribute>
 								<xsl:text>Download as CSV&#160;</xsl:text>
 								<img width="22" heigth="22" alt="" title="Download table">
-									<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download_materials_icon.png</xsl:attribute> 
+									<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download_materials_icon.png</xsl:attribute>
 								</img>
-								
+
 							</a>
 						</span>
-					</div>	
+					</div>
 					<div class="P-Inline">
 						<div class="tableCaption">
 							<xsl:call-template name="markContentEditableField">
@@ -1136,17 +1139,17 @@
 				<div class="P-Clear"></div>
 			</div>
 	</xsl:template>
-	
+
 	<!-- Article of the future GENERAL REPLACE -->
 	<xsl:template name="get_node_text_template">
 	  <xsl:param name="pNode" />
 	  <xsl:variable name="lLocalName" ><xsl:value-of select="php:function('strtolower', local-name($pNode))" /></xsl:variable>
 	  <xsl:variable name="lNodeIsTextNode" select="$pNode/self::text()" />
-	  <xsl:variable name="lNodeIsElement" select="$pNode/self::*" />  
+	  <xsl:variable name="lNodeIsElement" select="$pNode/self::*" />
 	  <xsl:variable name="lChildContent">
 	   <xsl:for-each select="$pNode/child::node()" >
 	    <xsl:variable name="lCurrentNode" select="." />
-	    <xsl:call-template name="get_node_text_template"> 
+	    <xsl:call-template name="get_node_text_template">
 	     <xsl:with-param name="pNode" select="$lCurrentNode"></xsl:with-param>
 	    </xsl:call-template>
 	   </xsl:for-each>
@@ -1162,12 +1165,12 @@
 		      	<xsl:attribute name="data-is-locality-coordinate">1</xsl:attribute>
 		      	<xsl:copy-of select="$lChildContent"/>
 		      </span>
-	     </xsl:when>    
+	     </xsl:when>
 	     <xsl:when test="$lLocalName='tn'">
 		      <span class="tn">
 		      	<xsl:copy-of select="$lChildContent"/>
 		      </span>
-	     </xsl:when>     
+	     </xsl:when>
 	     <xsl:when test="$lLocalName='tn-part'">
 		      <span>
 		      	 <xsl:attribute name="class"><xsl:value-of select="./@type" /></xsl:attribute>
@@ -1181,37 +1184,37 @@
 		        <xsl:attribute name="{local-name(.)}"><xsl:value-of select="." /></xsl:attribute>
 		       </xsl:for-each>
 		       <xsl:attribute name="class"><xsl:value-of select="./@type" /></xsl:attribute>
-		       <xsl:copy-of select="$lChildContent"/>      
+		       <xsl:copy-of select="$lChildContent"/>
 		      </xsl:element>
 	     </xsl:when>
 	     <xsl:when test="$lLocalName='em'">
 		      <i>
 		       	 <xsl:copy-of select="$lChildContent"/>
 		      </i>
-	     </xsl:when>   
+	     </xsl:when>
 	     <xsl:when test="$lLocalName='reference-citation' or $lLocalName='fig-citation' or $lLocalName='tbls-citation' or $lLocalName='sup-files-citation'">
 		       	 <xsl:element name="{$lLocalName}">
 			       <xsl:for-each select="$pNode/attribute::*">
 			        <xsl:attribute name="{local-name(.)}"><xsl:value-of select="." /></xsl:attribute>
 			       </xsl:for-each>
 			       <xsl:attribute name="class">citations-holder</xsl:attribute>
-			       <xsl:copy-of select="$lChildContent"/>      
-			      </xsl:element>    	 
-	     </xsl:when>     
-	     <xsl:otherwise>        
+			       <xsl:copy-of select="$lChildContent"/>
+			      </xsl:element>
+	     </xsl:when>
+	     <xsl:otherwise>
 			  <xsl:element name="{$lLocalName}">
 		       <xsl:for-each select="$pNode/attribute::*">
 		        <xsl:attribute name="{local-name(.)}"><xsl:value-of select="." /></xsl:attribute>
 		       </xsl:for-each>
-		       <xsl:copy-of select="$lChildContent"/>      
+		       <xsl:copy-of select="$lChildContent"/>
 		      </xsl:element>
-	     </xsl:otherwise>     
+	     </xsl:otherwise>
 	    </xsl:choose>
 	   </xsl:when>
 	  </xsl:choose>
 	 </xsl:template>
-	
-	
+
+
 	<xsl:template name="goodIMG">
 		<xsl:param name="filename" />
 		<img alt="">
@@ -1220,13 +1223,13 @@
 			<xsl:attribute name="height"><xsl:value-of select="php:function('getimageH', string($filename))" /></xsl:attribute>
 		</img>
 	</xsl:template>
-	
+
 	<!-- Article of the future SINGLE ELEMENT PREVIEWS START -->
-	
+
 	<!-- Article of the future preview template of a single figure -->
 	<xsl:template match="*" mode="article_preview_figure">
 		<xsl:if test="./fields/figure_type/value/@value_id = '1'">
-			<div class="figure">					
+			<div class="figure">
 				<div class="holder">
 					<xsl:call-template name="goodIMG">
 						<xsl:with-param name="filename"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=singlefigAOF_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg</xsl:with-param>
@@ -1240,8 +1243,8 @@
 				<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
 					<xsl:attribute name="href"><xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), string(@instance_id), string(./image/fields/photo_select/value), $pInArticleMode)" /></xsl:attribute>						
 					<img src="/i/download-icon-30.png" alt=""/>
-				</a>		
-				<div class="description">	
+				</a>
+				<div class="description">
 					<span class="fig-label-RC">
 						<xsl:value-of select="./@display_name"></xsl:value-of>
 							<xsl:text> </xsl:text>
@@ -1249,15 +1252,15 @@
 					</span>
 					<div class="list-caption">
 						<xsl:apply-templates select="./image/fields/figure_caption/value" mode="formatting"/>
-					</div>	
+					</div>
 				</div>
 			</div>
-		</xsl:if>		
+		</xsl:if>
 		<xsl:if test="./fields/figure_type/value/@value_id = '2'">
 			<xsl:apply-templates select="./multiple_images_plate" mode="singleFigNormalPreview" />
 		</xsl:if>
 	</xsl:template>
-	
+
 	<!-- Article of the future preview template of a single plate part -->
 	<xsl:template match="*" mode="article_preview_plate">
 		<xsl:variable name="platePart">
@@ -1270,9 +1273,9 @@
 				<xsl:when test="@object_id='230'">f</xsl:when>
 			</xsl:choose>
 		</xsl:variable>
-		
+
 		<div class="figure">
-			<div class="holder">				
+			<div class="holder">
 				<xsl:call-template name="goodIMG">
 					<xsl:with-param name="filename"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=singlefigAOF_<xsl:value-of select="./fields/image_id/value"/>.jpg</xsl:with-param>
 				</xsl:call-template>
@@ -1286,7 +1289,10 @@
 				<xsl:attribute name="href"><xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), @instance_id, string(./fields/image_id/value), $pInArticleMode)" /></xsl:attribute>					
 				<img src="/i/download-icon-30.png" alt=""/>
 			</a>
-			<div class="Plate-part-letter"><xsl:value-of select="$platePart"/></div>
+			<div class="Plate-part-letter fig">
+				<xsl:attribute name="rid"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+				<xsl:value-of select="$platePart"/>
+			</div>
 
 			<div class="description">
 				<span class="fig-label-RC">
@@ -1307,31 +1313,31 @@
 			</div>
 		</div>
 	</xsl:template>
-	
+
 	<!-- Article of the future preview template of a single table -->
-	<xsl:template match="*" mode="article_preview_table">	
-		<xsl:apply-templates select="." mode="singleTableNormalPreview"/>		
+	<xsl:template match="*" mode="article_preview_table">
+		<xsl:apply-templates select="." mode="singleTableNormalPreview"/>	
 		<!-- <script type="text/javascript">
 			<![CDATA[
 			document.getElementById("P-Article-Info-Bar").className +=" ST";
-			]]> 
+			]]>
 			</script> -->
-			
+
 		<!-- The node of the specific table -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
-	
+
 	<!-- Article of the future preview template of a single reference -->
 	<xsl:template match="*" mode="article_preview_reference">
-		
+
 		<xsl:apply-templates select="." mode="articleBack"/>
-		
+
 		<xsl:apply-templates select="." mode="RefinderLinks"/>
-				
+
 		<!-- The node of the specific reference -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
-	
+
 		<xsl:template match="*" mode="RefinderLinks">
 			<xsl:variable name="lArticleType">
 				<xsl:choose>
@@ -1345,19 +1351,19 @@
 					<xsl:when test="./*[@object_id='97']/*[@object_id='108']">8</xsl:when> <!-- Website reference -->
 				</xsl:choose>
 			</xsl:variable>
-			
+
 			<xsl:choose>
 				<xsl:when test="$lArticleType = 1">
-					<xsl:apply-templates select="." mode="RefinderLinksAdvanced"/>	
+					<xsl:apply-templates select="." mode="RefinderLinksAdvanced"/>
 				</xsl:when>
 				<xsl:when test="$lArticleType = 2">
-					<xsl:apply-templates select="." mode="RefinderLinksAdvanced"/>	
+					<xsl:apply-templates select="." mode="RefinderLinksAdvanced"/>
 				</xsl:when>
 				<xsl:when test="$lArticleType = 3">
-					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>	
+					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>
 				</xsl:when>
 				<xsl:when test="$lArticleType = 4">
-					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>	
+					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>
 				</xsl:when>
 				<xsl:when test="$lArticleType = 5">
 					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>
@@ -1368,12 +1374,12 @@
 				<xsl:when test="$lArticleType = 7">
 					<xsl:apply-templates select="." mode="RefinderLinksSimple"/>
 				</xsl:when>
-			</xsl:choose>	
+			</xsl:choose>
 		</xsl:template>
-		
+
 		<xsl:template match="*" mode="RefinderLinksSimple">
 				<div class="refinder-link-holder">
-					<a class="refinder-link" target="_blank"> 
+					<a class="refinder-link" target="_blank">
 						<xsl:attribute name="href">
 							<xsl:text>http://dev.refinder.org/?search=simple</xsl:text>
 							<xsl:text>&amp;text=</xsl:text>
@@ -1383,7 +1389,7 @@
 					</a>
 				</div>
 		</xsl:template>
-		
+
 		<xsl:template match="*" mode="RefinderLinksAdvanced">
 			<xsl:variable name="lArticleType">
 				<xsl:choose>
@@ -1397,7 +1403,7 @@
 					<xsl:when test="./*[@object_id='97']/*[@object_id='108']">8</xsl:when> <!-- Website reference -->
 				</xsl:choose>
 			</xsl:variable>
-			
+
 			<xsl:variable name="lAuthorshipType">
 					<xsl:choose>
 						<xsl:when test="count(.//*[@object_id='92']) &gt; 0">
@@ -1411,12 +1417,12 @@
 						</xsl:when>
 					</xsl:choose>
 				</xsl:variable>
-						
-				<xsl:variable name="Authors">	
+
+				<xsl:variable name="Authors">
 					<xsl:for-each select=".//*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
 						<xsl:choose>
 							<xsl:when test="$lAuthorshipType = 3">
-								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFirstLast" />
+								<xsl:apply-templates select="." mode="processSingleReferenceAuthorLastName" />
 							</xsl:when>
 							<xsl:otherwise>
 								<xsl:apply-templates select="." mode="processSingleReferenceAuthorFullNames" />
@@ -1425,27 +1431,27 @@
 						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
 					</xsl:for-each>
 				</xsl:variable>
-				
+
 				<xsl:variable name="refTitle">
 					<xsl:apply-templates select=".//fields/*[@id='276' or @id='255']/value" mode="formatting_nospace"/>
 				</xsl:variable>
-				
+
 				<xsl:variable name="refYear">
 					<xsl:apply-templates select=".//fields/*[@id='254']/value" mode="formatting_nospace"/>
 				</xsl:variable>
-				
+
 				<xsl:variable name="journal">
 					<xsl:apply-templates select=".//fields/*[@id='243']/value" mode="formatting_nospace"/>
 				</xsl:variable>
-				
+
 				<xsl:variable name="refType">
 					<xsl:if test="$lArticleType = 1">
-						<xsl:text>article</xsl:text></xsl:if> 
+						<xsl:text>article</xsl:text></xsl:if>
 					<xsl:if test="$lArticleType = 2"><xsl:text>book</xsl:text></xsl:if>
 				</xsl:variable>
-				
+
 				<div class="refinder-link-holder">
-					<a class="refinder-link" target="_blank"> 
+					<a class="refinder-link" target="_blank">
 						<xsl:attribute name="href">
 							<xsl:text>http://dev.refinder.org/?search=advanced</xsl:text>
 							<xsl:text>&amp;author=</xsl:text><xsl:value-of select="normalize-space($Authors)" />
@@ -1457,15 +1463,15 @@
 						Search via ReFinder
 					</a>
 				</div>
-				
-			</xsl:template>	
-			
-		
+
+			</xsl:template>
+
+
 		<xsl:template match="*" mode="processSingleReferenceAuthorFullNames">
 			<xsl:variable name="lAuthorParsedName">
-				<!-- First name -->
+				<!-- First name
 				<xsl:value-of select="./fields/*[@id='251']/value"></xsl:value-of>
-				<xsl:text> </xsl:text>
+				<xsl:text> </xsl:text> -->
 				<!-- Last name -->
 				<xsl:value-of select="./fields/*[@id='252']/value"></xsl:value-of>
 			</xsl:variable>
@@ -1474,26 +1480,26 @@
 				<xsl:value-of select="normalize-space($lAuthorParsedName)"></xsl:value-of>
 			</span>
 		</xsl:template>
-	
-			
+
+
 	<!-- Article of the future preview template of a single sup file -->
 	<xsl:template match="*" mode="article_preview_sup_file">
-		<div class="item-holder-RC">			
+		<div class="item-holder-RC">
 			<xsl:apply-templates select="." mode="singleSupplementaryMaterialAOF" />
-		</div>			
+		</div>
 		<!-- The node of the specific sup file -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
-	
+
 	<!-- Article of the future SINGLE ELEMENT PREVIEWS END -->
-	
+
 	<!-- Article of the future LIST PREVIEWS START -->
 	<!-- Article of the future preview template of the figures list -->
 	<xsl:template match="*" mode="article_figures_list">
 		<!-- The node of the figures holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
-		
-			<xsl:for-each select="//figure">	
+
+			<xsl:for-each select="//figure">
 				<div class="item-holder-RC">
 					<xsl:attribute name="rid"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 					<span class="fig-label-RC fig">
@@ -1507,32 +1513,32 @@
 				</div>
 			<xsl:if test="position()!=last()">
 				<div class="P-Clear" />
-			</xsl:if>	
+			</xsl:if>
 			</xsl:for-each>
 	</xsl:template>
-	
+
 	<xsl:template match="image" mode="Figures">
 		<div class="P-Picture-Holder">
 			<div class="singlefigmini fig">
 				<xsl:attribute name="rid"><xsl:value-of select="../@instance_id" /></xsl:attribute>
 				<img alt="">
-					<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./fields/photo_select/value"></xsl:value-of>.jpg</xsl:attribute> 
+					<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./fields/photo_select/value"></xsl:value-of>.jpg</xsl:attribute>
 				</img>
-			</div>	
+			</div>
 		</div>
 		<div class="list-caption">
 			<xsl:apply-templates select="./fields/figure_caption/value" mode="formatting"/>
 		</div>
-		<div class="P-Clear" />	
+		<div class="P-Clear" />
 	</xsl:template>
-			
+
 		<xsl:template match="multiple_images_plate" mode="Figures">
 				<div class="P-Picture-Holder">
 					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='231']" mode="singleFigSmallPreview" />
 					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='232']" mode="singleFigSmallPreview" />
 					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='233']" mode="singleFigSmallPreview" />
-					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='234']" mode="singleFigSmallPreview" />						
-				</div>			
+					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='234']" mode="singleFigSmallPreview" />
+				</div>
 				<div class="list-caption">
 					<xsl:apply-templates select="./fields/plate_caption/value" mode="formatting"/>
 					<xsl:for-each select="./plate_type_wrapper/*/*/fields">
@@ -1546,79 +1552,107 @@
 								<xsl:when test="../@object_id='230'"> f</xsl:when>
 							</xsl:choose>
 							<xsl:text>: </xsl:text>
-						</span>	
+						</span>
 							<xsl:apply-templates select="./plate_desc" mode="formatting"/>
-					</xsl:for-each>		
+					</xsl:for-each>
 				</div>
-				<div class="P-Clear" />					
+				<div class="P-Clear" />
 		</xsl:template>
-	
-	
-	
+
+
+
 	<!-- Article of the future preview template of the tables list -->
 	<xsl:template match="*" mode="article_tables_list">
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 		<!-- The node of the tables holder -->
 		<xsl:for-each select="table">
 			<div class="item-holder-RC table">
-				<xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute>
-				<div class="P-table-tump-holder">
+			<!-- <xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute> -->
+				<div class="P-table-tump-holder table">
+					<xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute>
 					<img width="60" heigth="48" alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/table_pic-60.png</xsl:attribute> 
-					</img> 
-				</div>		
-					<span class="fig-label-RC">
+						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/table_pic-60.png</xsl:attribute>
+					</img>
+				</div>
+				<span class="fig-label-RC table">
+					<xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute>
+					Table <xsl:value-of select="position()"></xsl:value-of>.
+					
+					<span class="downloadmaterials">
+						<a class="download-table-link">
+							<xsl:attribute name="href">
+								<xsl:value-of select="$pSiteUrl" />
+								<xsl:text>/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&amp;instance_id=</xsl:text>
+								<xsl:value-of select="./@instance_id" />
+							</xsl:attribute>
+							<xsl:text>Download as CSV&#160;</xsl:text>
+							<img width="22" heigth="22" alt="" title="Download table">
+								<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download_materials_icon.png</xsl:attribute>
+							</img>
+						</a>
+					</span>
+				</span>
+				
+				
+			<!--		<span class="fig-label-RC">
 						<xsl:value-of select="./@display_name"></xsl:value-of>
 							<xsl:text> </xsl:text>
 						<xsl:value-of select="position()"></xsl:value-of>
-					</span>			
-				<div class="list-caption"> 
+		</span> -->
+					
+				<div class="list-caption">
 					<xsl:apply-templates select="./fields/table_caption/value" mode="formatting"/>
 				</div>
 			</div>
 		</xsl:for-each>
-		
+
 	</xsl:template>
-	
+
 	<!-- Article of the future preview template of the references list -->
 	<xsl:template match="*" mode="article_references_list">
 		<div class="AOF-ref-list">
-			<xsl:apply-templates select="*[@object_id='95']" mode="articleBack"/>
-		</div>	
+			<xsl:for-each select="*[@object_id='95']">
+				<div class="ref-list-AOF-holder-holder">
+					<xsl:apply-templates select="." mode="articleBack"/>
+					<xsl:apply-templates select="." mode="RefinderLinks"/>
+				</div>
+			</xsl:for-each>
+		</div>
 		<!-- The node of the references holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
-	
+
 	<!-- Article of the future preview template of the sup files list -->
 	<xsl:template match="*" mode="article_sup_files_list">
 		<div class="suppl-list-AOF">
-			
+			<div class="data-help">Note: Tables and Figures (if present) can be downloaded from the article.</div>
+
 			<xsl:if test="count(//*[@object_id='37']) > 0">
 				<div class="DwC">
-					<a class="download-table-link"> 
+					<a class="download-table-link">
 						<xsl:attribute name="href">
 							<xsl:value-of select="$pSiteUrl" />
 							<xsl:text>/lib/ajax_srv/csv_export_srv.php?action=export_materials_as_csv&amp;document_id=</xsl:text>
 							<xsl:value-of select="$pDocumentId" />
 						</xsl:attribute>
 						<img width="18" heigth="18" alt="" style="vertical-align: top;">
-							<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download-icon-small-18.png</xsl:attribute> 
+							<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download-icon-small-18.png</xsl:attribute>
 						</img>
 						Download all occurrences as DwC-Archive
 					</a>
 				</div>
 			</xsl:if>
-			
+
 			<xsl:for-each select="//*[@object_id='55']">
 				<div class="item-holder-RC suppl">
 					<xsl:apply-templates select="." mode="singleSupplementaryMaterialAOF" />
-				</div>		
+				</div>
 			</xsl:for-each>
 		</div>
 		<!-- The node of the sup files holder -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
-	
+
 	<xsl:template match="*" mode="singleSupplementaryMaterialAOF">
 		<xsl:variable name="instance" select="./@instance_id" />	
 			
@@ -1682,39 +1716,39 @@
 			</div>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<!-- Article of the future preview template of the taxon list -->
 	<xsl:template match="*" mode="article_taxon_list">
 
 		<xsl:variable name="lOutputFirst">
-			<xsl:apply-templates select="." mode="trans1" />	
-		</xsl:variable>		
+			<xsl:apply-templates select="." mode="trans1" />
+		</xsl:variable>
 		<xsl:apply-templates select="exslt:node-set($lOutputFirst)" mode="trans2" />
-		
+
 		<!-- The document node -->
 		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
 	</xsl:template>
-	
-	<xsl:template match="*" mode="trans1">		
+
+	<xsl:template match="*" mode="trans1">
 		<xsl:for-each select="//*[@object_id=182 or @object_id=179 or @object_id=196 or @object_id=197 or @object_id=184 or @object_id=192 or @object_id=213 or @object_id=216]">
 			<div class="taxon" tnu="TT">
 				<xsl:apply-templates select="./*[@object_id='180' or @object_id='181']" mode="taxonTreatmentNameAOF"/>
-			</div>					
+			</div>
 		</xsl:for-each>
-				
+
 		<xsl:for-each select="//checklist_taxon">
 			<div class="taxon" tnu="CHK">
 				<xsl:apply-templates select="fields" mode="TaxaChecklistAOF"/>
-			</div>					
+			</div>
 		</xsl:for-each>
-		
+
 		<xsl:for-each select="//tn">
 			<div class="taxon" tnu="INL">
 				<xsl:apply-templates select="." mode="TaxaInline"/>
-			</div>		
+			</div>
 		</xsl:for-each>
 	</xsl:template>
-	
+
 	<xsl:template match="*" mode="TaxaInline">
 		<xsl:for-each select="tn-part">
 			<span>
@@ -1724,16 +1758,16 @@
 			  <xsl:if test="position() != last()">
 					 <xsl:text> </xsl:text>
 			  </xsl:if>
-		</xsl:for-each>			
+		</xsl:for-each>
 	</xsl:template>
-	
+
 	<!-- Taxon treatments -->
 	<xsl:template match="*[@object_id='180']" mode="taxonTreatmentNameAOF" xml:space="default">
 			<span class="genus">
 				<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting_nospace"/>
 			</span>
 			<xsl:if test="./fields/*[@id='417']/value != ''">
-				<xsl:text> </xsl:text>			
+				<xsl:text> </xsl:text>
 				<span class="x">(</span>
 				<span class="subgenus">
 					<xsl:apply-templates select="./fields/*[@id='417']" mode="formatting_nospace"/>
@@ -1744,8 +1778,8 @@
 			<span class="species">
 				<xsl:apply-templates select="./fields/*[@id='49']" mode="formatting_nospace"/>
 			</span>
-	</xsl:template>	
-	
+	</xsl:template>
+
 	<xsl:template match="*[@object_id='181']" mode="taxonTreatmentName">
 			<span class="genus">
 					<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting"/>
@@ -1754,10 +1788,10 @@
 
 	<!-- checklist shits -->
 	<xsl:template match="fields" mode="TaxaChecklistAOF">
-		<xsl:variable name="lRankType" select="./*[@id='414']/value"></xsl:variable>					
+		<xsl:variable name="lRankType" select="./*[@id='414']/value"></xsl:variable>
 		<xsl:variable name="RankID">
 			<xsl:choose>
-				<xsl:when test="$lRankType = 'kingdom'">    <xsl:text>419</xsl:text></xsl:when>				
+				<xsl:when test="$lRankType = 'kingdom'">    <xsl:text>419</xsl:text></xsl:when>
 				<xsl:when test="$lRankType = 'subkingdom'"> <xsl:text>420</xsl:text></xsl:when>
 				<xsl:when test="$lRankType = 'phylum'">     <xsl:text>421</xsl:text></xsl:when>
 				<xsl:when test="$lRankType = 'subphylum'">  <xsl:text>422</xsl:text></xsl:when>
@@ -1797,12 +1831,12 @@
 						<xsl:apply-templates select="$lRankValue" mode="formatting"/>
 					</span>
 				</xsl:when>
-				<xsl:when test="$lRankType = 'species' or $lRankType = 'subspecies' or $lRankType = 'variety' or $lRankType = 'form'">	
+				<xsl:when test="$lRankType = 'species' or $lRankType = 'subspecies' or $lRankType = 'variety' or $lRankType = 'form'">
 					<!-- $Genus-->
 					<span class="genus">
 						<xsl:apply-templates select="./*[@id='48']" mode="formatting_nospace"/>
 					</span>
-					<xsl:if test="./*[@id='417']/value != ''">	
+					<xsl:if test="./*[@id='417']/value != ''">
 						<xsl:text> (</xsl:text>
 						<!-- $Subgenus-->
 						<span class="subgenus">
@@ -1814,23 +1848,23 @@
 					<span class="species">
 						<xsl:apply-templates select="./*[@id='49']" mode="formatting_nospace"/>
 					</span>
-					<xsl:if test="$lRankType = 'subspecies'"> subsp. 
+					<xsl:if test="$lRankType = 'subspecies'"> subsp.
 						<span class="subspecies">
 							<xsl:apply-templates select="./*[@id='418']" mode="formatting_nospace"/>
 						</span>
 					</xsl:if>
-					<xsl:if test="$lRankType = 'variety'"> 	 var.   
+					<xsl:if test="$lRankType = 'variety'"> 	 var.
 						<span class="variety">
 							<xsl:apply-templates select="./*[@id='435']" mode="formatting_nospace"/>
 						</span>
 					</xsl:if>
-					<xsl:if test="$lRankType = 'form'">		 f.     
+					<xsl:if test="$lRankType = 'form'">		 f.
 						<span class="form">
 							<xsl:apply-templates select="./*[@id='436']" mode="formatting_nospace"/>
 						</span>
-					</xsl:if>	
-				 </xsl:when>	
-				<xsl:otherwise>	
+					</xsl:if>
+				 </xsl:when>
+				<xsl:otherwise>
 					<span>
 						<xsl:attribute name="class"><xsl:value-of select="$lRankType" /></xsl:attribute>
 						<xsl:apply-templates select="$lRankValue" mode="formatting"/>
@@ -1839,9 +1873,9 @@
 			</xsl:choose>
 		</xsl:if>
 	</xsl:template>
-		
+
 	<xsl:key name="taxon" match="//div" use="." />
-			
+
 	<xsl:template match="/" mode="trans2">
 		  <xsl:for-each select="//div[generate-id()=generate-id(key('taxon',.))]">
 			<xsl:sort select="." order="ascending"></xsl:sort>
@@ -1876,10 +1910,10 @@
 				</xsl:if>
 			</div>
 		</xsl:for-each>
-	</xsl:template>	
-	
-	
-		
+	</xsl:template>
+
+
+
 
 	<!-- Article of the future LIST PREVIEWS END -->
 </xsl:stylesheet>
