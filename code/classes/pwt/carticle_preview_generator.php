@@ -374,8 +374,8 @@ class carticle_preview_generator extends csimple {
 			return;
 		}
 		global $gInstancePreviews;
-		// error_reporting(-1);
-		// ini_set('display_errors', 'on');
+// 		error_reporting(-1);
+// 		ini_set('display_errors', 'on');
 		if ($this->m_documentXml && $this->m_xslContent) {
 			// var_dump($this->m_xslContent);
 			// var_dump($this->m_documentXml);
@@ -390,7 +390,8 @@ class carticle_preview_generator extends csimple {
 				'name' => 'pInArticleMode',
 				'value' => 1 
 			);
-			// error_reporting(-1);
+// 			error_reporting(-1);		
+// 			ini_set('display_errors', 'on');	
 			// trigger_error('START ' . USE_PREPARED_STATEMENTS . ' ' . date("Y/m/d H:i:s"). substr((string)microtime(), 1, 6), E_USER_NOTICE);
 			$lHtml = transformXmlWithXsl($this->m_documentXml, $this->m_xslContent, $lXslParameters, 0);
 			if ($lHtml === false) {
@@ -420,7 +421,7 @@ class carticle_preview_generator extends csimple {
 	}
 
 	protected function GenerateArticleWholePreview() {
-		$lXslPath = PATH_XSL . '' . $this->m_templateXslDirName . '/template_example_preview_full.xsl';
+		$lXslPath = PATH_XSL . $this->m_templateXslDirName . '/template_example_preview_full.xsl';
 		$lXslParameters [] = array (
 			'namespace' => null,
 			'name' => 'pEditableHeaderReplacementText',
@@ -594,12 +595,14 @@ class carticle_preview_generator extends csimple {
 
 	protected function GenerateArticleContentsListPreview() {
 		$lSql = "
-			SELECT i.id as instance_id, replace(replace(display_name, 'Title & Authors', 'Article title'), 'Abstract & Keywords', 'Abstract') as display_name, 1 as level, pos, null as parent_instance_id, 0 as has_children 
+			SELECT i.id as instance_id, 
+					replace(replace(display_name, 'Title & Authors', 'Article title'), 'Abstract & Keywords', 'Abstract') as display_name, 
+					1 as level, pos, null as parent_instance_id, 0 as has_children 
 					FROM pwt.document_object_instances i 
 					JOIN pjs.articles a ON a.pwt_document_id = i.document_id 
-					WHERE i.object_id in (9, 153, 15) and a.id = " . (int)$this->m_documentId . "
+					WHERE i.object_id IN (9, 153, 15) AND a.id = " . (int)$this->m_documentId . "
 				UNION
-			SELECT * FROM spGetArticleContentsInstances(" . (int)$this->m_documentId . ") order by pos offset 1;
+			SELECT * FROM spGetArticleContentsInstances(" . (int)$this->m_documentId . ") ORDER BY pos OFFSET 1;
 		";
 // 		var_dump($lSql);
 		$lPreview = new crsrecursive(array(

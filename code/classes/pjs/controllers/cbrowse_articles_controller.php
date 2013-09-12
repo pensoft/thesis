@@ -51,7 +51,7 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 			$lSubject = $this->GetValueFromRequestWithoutChecks('alerts_subject_cats');
 			$lGeographical = $this->GetValueFromRequestWithoutChecks('alerts_geographical_cats');
 			$lChronical = $this->GetValueFromRequestWithoutChecks('alerts_chronical_cats');
-			if($Taxon)
+			if($lTaxon)
 				$lTreeModel->returnCategoryName('taxon_categories', $lTaxon);
 			if($lSubject)
 				$lTreeModel->returnCategoryName('subject_categories', $lSubject);

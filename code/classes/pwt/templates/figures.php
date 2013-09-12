@@ -1241,7 +1241,7 @@ $gTemplArr = array(
 	',
 
 	'figures.zoomed_fig' => '
-		<img src="' . SHOWFIGURE_URL . 'big_{id}.jpg" />
+		<img src="' . SITE_URL . SHOWFIGURE_URL . 'big_{id}.jpg" />
 		<div class="P-Fig-Caption" style="padding-left: 10px;">
 			{photo_desc}
 		</div>

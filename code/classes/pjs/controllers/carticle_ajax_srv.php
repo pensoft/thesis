@@ -190,9 +190,62 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 	}
 	
 	function GetMetricsList(){
+		$lHTMLMetrics = $this->m_articlesModel->GetArticleHtmlMetricDetails($this->m_articleId);
+		$lXMLMetrics = $this->m_articlesModel->GetArticleXmlMetricDetails($this->m_articleId);
+		$lPDFMetrics = $this->m_articlesModel->GetArticlePdfMetricDetails($this->m_articleId);
+		$lMetricsToSum = array($lHTMLMetrics, $lXMLMetrics, $lPDFMetrics);
+		$lTotalMetric = array();
+		foreach ($lMetricsToSum as $lCurrentMetric){
+			foreach ($lCurrentMetric as $lDetailType => $lDetailData){
+				if(!array_key_exists($lDetailType, $lTotalMetric)){
+					$lTotalMetric[$lDetailType] = 0;
+				}
+				$lTotalMetric[$lDetailType] += (int)$lDetailData;
+			}
+		}		
+		$lFigureMetricsDetails = $this->m_articlesModel->GetArticleFiguresMetrics($this->m_articleId);
+		$lTableMetricsDetails = $this->m_articlesModel->GetArticleTablesMetrics($this->m_articleId);
+		$lSupplFilesMetricsDetails = $this->m_articlesModel->GetArticleSupplFilesMetrics($this->m_articleId);
+		
+		$lFiguresMetrics = new evList_Display(array(
+			'name_in_viewobject' => 'metrics_figures_list',
+			'view_object' => $this->m_tempPageView,
+			'controller_data' => $lFigureMetricsDetails
+		));
+		
+// 		var_dump($lFiguresMetrics->Display(), $lFigureMetricsDetails);
+		
+		$lTablesMetrics = new evList_Display(array(
+			'name_in_viewobject' => 'metrics_tables_list',
+			'view_object' => $this->m_tempPageView,
+			'controller_data' => $lTableMetricsDetails
+		));
+		
+		$lSupplFilesMetrics = new evList_Display(array(
+			'name_in_viewobject' => 'metrics_suppl_files_list',
+			'view_object' => $this->m_tempPageView,
+			'controller_data' => $lSupplFilesMetricsDetails
+		));
+		
+		
 		$lResult = new evSimple_Block_Display(array(
 			'name_in_viewobject' => 'metrics_list',
+			'html_views_cnt' => (int)$lHTMLMetrics['view_cnt'],
+			'html_unique_views_cnt' => (int)$lHTMLMetrics['view_unique_cnt'],
+			
+			'pdf_views_cnt' => (int)$lPDFMetrics['view_cnt'],
+			'pdf_unique_views_cnt' => (int)$lPDFMetrics['view_unique_cnt'],
+			
+			'xml_views_cnt' => (int)$lXMLMetrics['view_cnt'],
+			'xml_unique_views_cnt' => (int)$lXMLMetrics['view_unique_cnt'],
+						
+			'total_views_cnt' => (int)$lTotalMetric['view_cnt'],
+			'total_unique_views_cnt' => (int)$lTotalMetric['view_unique_cnt'],
 			'view_object' => $this->m_tempPageView,
+			
+			'figures_metrics' => $lFiguresMetrics,
+			'tables_metrics' => $lTablesMetrics,
+			'suppl_files_metrics' => $lSupplFilesMetrics,			
 		));
 		return $lResult->Display();
 	}

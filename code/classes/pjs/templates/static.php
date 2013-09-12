@@ -59,7 +59,7 @@ function reviewTypesPics($ids, $names) {
 function editorial_office($group_id) {
 	if($group_id == CONTACT_GROUP_ID){
 		return '<table>
-		<tr><td style="vertical-align: top !important"><img src="i/pensoft-eagle.png" alt="Pensoft&apos;s eagle" width="70" height="70" style="border: 1px; margin-right: 10px" /></td>
+		<tr><td style="vertical-align: top !important"><img src="/i/pensoft-eagle.png" alt="Pensoft&apos;s eagle" width="70" height="70" style="border: 1px; margin-right: 10px" /></td>
 			<td id="contacts">
 			<h3>Editorial Office</h3>
 			<p>Prof. Georgi Zlatarski Street 12<br />
@@ -308,7 +308,7 @@ function getProfilePic($pPhotoId, $pViewMode = 0) {
 				' . ((int) $pViewMode ? "" : getstr('pwt.changeProfilePicture'));
 	}else{
 		$lRet = '<div class="Prof-Photo">
-					<img src="i/no_photo.png" width="67" height="70" alt="Profile picture" />
+					<img src="/i/no_photo.png" width="67" height="70" alt="Profile picture" />
 					<div class="P-Clear"></div>
 				</div>
 				' . ((int) $pViewMode ? "" : getstr('pwt.addProfilePicture'));
@@ -329,7 +329,7 @@ function getProfilePicWithLink($pPhotoId, $pJournalId, $pId, $pViewMode = 0) {
 	}else{
 		$lRet = '<div class="Prof-Photo">
 					<a href="/browse_journal_articles_by_author.php?journal_id=' . $pJournalId . '&user_id=' . $pId . '">
-						<img src="i/no_photo.png" width="67" height="70" alt="Profile picture" />
+						<img src="/i/no_photo.png" width="67" height="70" alt="Profile picture" />
 					</a>
 				</div>
 				' . ((int) $pViewMode ? "" : getstr('pwt.addProfilePicture'));
@@ -1562,7 +1562,7 @@ function getUserPictureIfExist($pPreviewPicId) {
 				</div>';
 	}else{
 		$lRet = '<div class="Prof-Photo">
-					<img src="i/no_photo.png" width="67" height="70" alt="Profile picture" />
+					<img src="/i/no_photo.png" width="67" height="70" alt="Profile picture" />
 					<div class="P-Clear"></div>
 				</div>';
 	}
@@ -2944,7 +2944,7 @@ function showArticlePriceIfExist($pState){
 	if ((int)$pState == 1){
 		return;
 	} else {
-		return '<span class="price"><span>Reprint price:</span> <b>&euro; ' . $pPrice . '</b> <img src="i/cart.png" alt="cart"></img></span>';
+		return '<span class="price"><span>Reprint price:</span> <b>&euro; ' . $pPrice . '</b> <img src="/i/cart.png" alt="cart"></img></span>';
 	}
 }
 function showDoiLinkIfExist($pDoi){

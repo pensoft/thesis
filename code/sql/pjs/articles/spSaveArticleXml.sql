@@ -11,7 +11,8 @@ CREATE OR REPLACE FUNCTION spSaveArticleXml(
 $BODY$
 	DECLARE		
 		lRes ret_spSaveArticleXml;		
-		lElementCacheTypeId int = 1;		
+		lElementCacheTypeId int = 1;	
+		lElementMetricTypeId int = 3;	
 		lCacheId bigint;
 	BEGIN				
 		SELECT INTO lCacheId
@@ -34,6 +35,8 @@ $BODY$
 				lastmoddate = now()
 			WHERE id = lCacheId;
 		END IF;
+		
+		PERFORM spCreateArticleMetric(pArticleId, lElementMetricTypeId);
 		
 		lRes.cache_id = lCacheId;
 		RETURN lRes;
