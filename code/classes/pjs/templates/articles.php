@@ -8,7 +8,9 @@ $gTemplArr = array(
 			<script type="text/javascript">SetArticleId({id});</script>
 			<div class="Main-Content">
 				<div id="article-head">
-					<img alt="" src="/i/bdj-eye.png" id="bdj-eye" />
+					<a class="AOF-journal-logo" href="/">
+						<img alt="" src="/i/bdj-eye.png" id="bdj-eye" />
+					</a>	
 					<div id="article-id">
 					
 						Biodiversity Data Journal 1: e{article_id} ({publish_date})<br />
@@ -74,26 +76,180 @@ $gTemplArr = array(
 			</div>
 		',
 		
-		'articles.metrics' => '
-			<div class="P-Article-Metrics">
-				<div class="P-Article-Metrics-Row">
-					<span class="P-Metric-Label">Total HTML views:</span>
-					<span class="P-Metrics-Value">1023</span>
-				</div>
-				<div class="P-Article-Metrics-Row">
-					<span class="P-Metric-Label">Total PDF views:</span>
-					<span class="P-Metrics-Value">121</span>
-				</div>
-				<div class="P-Article-Metrics-Row">
-					<span class="P-Metric-Label">Total XML views:</span>
-					<span class="P-Metrics-Value">37</span>
-				</div>
-				<div class="P-Article-Metrics-Row">
-					<span class="P-Metric-Label">Total views:</span>
-					<span class="P-Metrics-Value">1181</span>
-				</div>
+		'articles.article_metrics' => '
+			<div class="P-Metrics">
+				<div class="P-Metrics-Label">Article views</div>
+				<table class="P-Metric-Table">
+					<tr class="P-Metrics-Headers-Row">
+						<th>
+							
+						</th>
+						<th>
+							All
+						</th>
+						<th>
+							Unique
+						</th>
+					</tr>
+					<tr class="P-Metrics-Row">
+						<td>
+							HTML
+						</td>
+						<td>
+							{html_views_cnt}
+						</td>
+						<td>
+							{html_unique_views_cnt}
+						</td>
+					</tr>
+					<tr class="P-Metrics-Row">
+						<td>
+							PDF
+						</td>
+						<td>
+							{pdf_views_cnt}
+						</td>
+						<td>
+							{pdf_unique_views_cnt}
+						</td>
+					</tr>
+					<tr class="P-Metrics-Row">
+						<td>
+							XML
+						</td>
+						<td>
+							{xml_views_cnt}
+						</td>
+						<td>
+							{xml_unique_views_cnt}
+						</td>
+					</tr>
+					<tr class="P-Metrics-Row">
+						<td>
+							Total
+						</td>
+						<td>
+							{total_views_cnt}
+						</td>
+						<td>
+							{total_unique_views_cnt}
+						</td>
+					</tr>
+				</table>				
 			</div>
 		',
+		
+		'articles.metrics' => '
+			{*articles.article_metrics}	
+			{figures_metrics}
+			{tables_metrics}
+			{suppl_files_metrics}
+		',
+		
+		'article.figures_metrics_head' => '',
+		'article.figures_metrics_foot' => '',
+		'article.figures_metrics_start' => '
+			<div class="P-Metrics">
+				<div class="P-Metrics-Label">Figures metrics</div>
+				<table class="P-Metric-Table">
+					<tr class="P-Metrics-Headers-Row">
+						<th>
+							№
+						</th>
+						<th>
+							Views
+						</th>
+						<th>
+							Downloads
+						</th>
+					</tr>		
+		',
+		'article.figures_metrics_end' => '
+				</table>				
+			</div>		
+		',
+		'article.figures_metrics_row' => '
+					<tr class="P-Metrics-Row">
+						<td>
+							<span class="fig" rid="{instance_id}">{display_label}</span>
+						</td>
+						<td>
+							{view_cnt}({view_unique_cnt})
+						</td>
+						<td>
+							{download_cnt}({download_unique_cnt})
+						</td>
+					</tr>		
+		',
+		'article.figures_metrics_nodata' => '',
+		
+		'article.tables_metrics_head' => '',
+		'article.tables_metrics_foot' => '',
+		'article.tables_metrics_start' => '
+			<div class="P-Metrics">
+				<div class="P-Metrics-Label">Tables metrics</div>
+				<table class="P-Metric-Table">
+					<tr class="P-Metrics-Headers-Row">
+						<th>
+							№
+						</th>
+						<th>
+							Views
+						</th>
+						<th>
+							Downloads
+						</th>
+					</tr>				
+		',
+		'article.tables_metrics_end' => '{*article.figures_metrics_end}',
+		'article.tables_metrics_row' => '
+					<tr class="P-Metrics-Row">
+						<td>
+							<span class="table" rid="{instance_id}">{display_label}</span>
+						</td>
+						<td>
+							{view_cnt}({view_unique_cnt})
+						</td>
+						<td>
+							{download_cnt}({download_unique_cnt})
+						</td>
+					</tr>			
+		',
+		'article.tables_metrics_nodata' => '',
+		
+		'article.suppl_files_metrics_head' => '',
+		'article.suppl_files_metrics_foot' => '',
+		'article.suppl_files_metrics_start' => '
+			<div class="P-Metrics">
+				<div class="P-Metrics-Label">Supplementary files metrics</div>
+				<table class="P-Metric-Table">
+					<tr class="P-Metrics-Headers-Row">
+						<th>
+							№
+						</th>
+						<th>
+							Views
+						</th>
+						<th>
+							Downloads
+						</th>
+					</tr>			
+		',
+		'article.suppl_files_metrics_end' => '{*article.figures_metrics_end}',
+		'article.suppl_files_metrics_row' => '
+					<tr class="P-Metrics-Row">
+						<td>
+							<span class="suppl" rid="{instance_id}">{display_label}</span>
+						</td>
+						<td>
+							{view_cnt}({view_unique_cnt})
+						</td>
+						<td>
+							{download_cnt}({download_unique_cnt})
+						</td>
+					</tr>			
+		',
+		'article.suppl_files_metrics_nodata' => '',
 		
 		'articles.share' => '
 			<div class="P-Aritlce-Share">
@@ -138,6 +294,12 @@ $gTemplArr = array(
 					</div>
 				</div>
 			</div>
+		',
+		
+		'articles.error_row' => '<div class="P-Article-Error">
+					<div class="P-Error-Message">{err_msg}</div>
+				</div>
+		
 		',
 		
 );

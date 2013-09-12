@@ -515,13 +515,15 @@
 	<xsl:template match="*" mode="formatting_uploaded_file">
 		<xsl:param name="lFileName"/>
 		<xsl:param name="lUploadedFileName"/>
+		<xsl:param name="lSupplFileInstanceId"/>
+		
 		<xsl:if test="$lUploadedFileName != ''">
 			<span class="fieldLabel">Filename:</span><xsl:text>&#160;</xsl:text>
 			<xsl:value-of select="normalize-space($lUploadedFileName)"/><xsl:text> - </xsl:text>
 		</xsl:if>
 		<xsl:if test="$lFileName != ''">
 			<a class="download" target="_blank">
-				<xsl:attribute name="href"><xsl:value-of select="normalize-space($pSiteUrl)"/><xsl:text>getfile.php?filename=</xsl:text><xsl:value-of select="normalize-space($lFileName)"/></xsl:attribute>
+				<xsl:attribute name="href"><xsl:value-of select="php:function('GetSupplFileDownloadLink', normalize-space($pSiteUrl), normalize-space($lFileName), string($lSupplFileInstanceId), $pInArticleMode)" /></xsl:attribute>				
 				<xsl:attribute name="name"><xsl:value-of select="normalize-space($lFileName)"/></xsl:attribute>
 				<xsl:text>Download file</xsl:text>
 			</a>
@@ -604,8 +606,9 @@
 					<span class="Supplemantary-File-Section-Label">
 						<xsl:attribute name="field_id"><xsl:value-of select="./fields/file/@id" /></xsl:attribute>
 						<xsl:apply-templates select="./fields/file/value" mode="formatting_uploaded_file">
-						<xsl:with-param name="lFileName" select="php:function('getFileNameById', string(./fields/file/value))"></xsl:with-param>
+							<xsl:with-param name="lFileName" select="php:function('getFileNameById', string(./fields/file/value))"></xsl:with-param>
 							<xsl:with-param name="lUploadedFileName" select="php:function('getUploadedFileNameById', string(./fields/file/value))" />
+							<xsl:with-param name="lSupplFileInstanceId" select="./@instance_id"></xsl:with-param>
 						</xsl:apply-templates>
 					</span>
 				</xsl:if>
@@ -633,11 +636,13 @@
 			<xsl:when test="$pImageType = 1" >singlefig</xsl:when>
 			<xsl:otherwise>twocolumn</xsl:otherwise>
 		</xsl:choose>_<xsl:value-of select="$pPicId"/>.jpg</xsl:variable>
+		<xsl:variable name="lImageZoomLink"><xsl:value-of select="php:function('GetFigureZoomLink', string($pSiteUrl), $pInstanceId, $pInArticleMode)" /></xsl:variable>
+		<xsl:variable name="lImageDownloadLink"><xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), $pInstanceId, $pPicId, $pInArticleMode)" /></xsl:variable>			
+			
 		<xsl:variable name="lContent">
 				<a target="_blank">
 					<xsl:attribute name="href">
-						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
-						<xsl:value-of select="$pInstanceId"/>
+						<xsl:value-of select="$lImageZoomLink"/>
 					</xsl:attribute>
 					<img>
 						<xsl:attribute name="src">
@@ -648,13 +653,11 @@
 				</a>
 				<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
 					<xsl:attribute name="href">
-						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text>
-						<xsl:value-of select="$pInstanceId"/>
+						<xsl:value-of select="$lImageZoomLink"/>
 					</xsl:attribute>
 				</a>
 				<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
-					<xsl:attribute name="href">
-						<xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=big_<xsl:value-of select="$pPicId" />.jpg&amp;download=1</xsl:attribute>
+					<xsl:attribute name="href"><xsl:value-of select="$lImageDownloadLink" /></xsl:attribute>
 					<img src="/i/download-icon-30.png" alt=""/>
 				</a>
 		</xsl:variable>
@@ -1074,9 +1077,7 @@
 				<div class="P-Figure-Download-Link">
 					<a class="download-table-link">
 						<xsl:attribute name="href">
-							<xsl:value-of select="$pSiteUrl" />
-							<xsl:text>/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&amp;instance_id=</xsl:text>
-							<xsl:value-of select="./@instance_id" />
+							<xsl:value-of select="php:function('GetTableDownloadLink', string($pSiteUrl), string(./@instance_id), $pInArticleMode)" />
 						</xsl:attribute>
 						Download as CSV
 					</a>
@@ -1101,9 +1102,7 @@
 						<span class="downloadmaterials">
 							<a class="download-table-link">
 								<xsl:attribute name="href">
-									<xsl:value-of select="$pSiteUrl" />
-									<xsl:text>/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&amp;instance_id=</xsl:text>
-									<xsl:value-of select="./@instance_id" />
+									<xsl:value-of select="php:function('GetTableDownloadLink', string($pSiteUrl), string(./@instance_id), $pInArticleMode)" />									
 								</xsl:attribute>
 								<xsl:text>Download as CSV&#160;</xsl:text>
 								<img width="22" heigth="22" alt="" title="Download table">
@@ -1238,12 +1237,11 @@
 				</div>
 				<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
 					<xsl:attribute name="href">
-						<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text><xsl:value-of select="./image/@instance_id" />
+						<xsl:value-of select="php:function('GetFigureZoomLink', string($pSiteUrl), string(./image/@instance_id), $pInArticleMode)" />						
 					</xsl:attribute>
 				</a>
 				<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
-					<xsl:attribute name="href">
-						<xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=big_<xsl:value-of select="./image/fields/photo_select/value"></xsl:value-of>.jpg&amp;download=1</xsl:attribute>
+					<xsl:attribute name="href"><xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), string(@instance_id), string(./image/fields/photo_select/value), $pInArticleMode)" /></xsl:attribute>						
 					<img src="/i/download-icon-30.png" alt=""/>
 				</a>
 				<div class="description">
@@ -1284,12 +1282,11 @@
 			</div>
 			<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
 				<xsl:attribute name="href">
-					<xsl:value-of select="$pSiteUrl"/><xsl:text>/display_zoomed_figure.php?fig_id=</xsl:text><xsl:value-of select="@instance_id"/>
+					<xsl:value-of select="php:function('GetFigureZoomLink', string($pSiteUrl), string(@instance_id), $pInArticleMode)" />					
 				</xsl:attribute>
 			</a>
 			<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
-				<xsl:attribute name="href">
-					<xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=big_<xsl:value-of select="./fields/image_id/value"></xsl:value-of>.jpg&amp;download=1</xsl:attribute>
+				<xsl:attribute name="href"><xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), @instance_id, string(./fields/image_id/value), $pInArticleMode)" /></xsl:attribute>					
 				<img src="/i/download-icon-30.png" alt=""/>
 			</a>
 			<div class="Plate-part-letter fig">
@@ -1657,25 +1654,25 @@
 	</xsl:template>
 
 	<xsl:template match="*" mode="singleSupplementaryMaterialAOF">
-		<xsl:variable name="instance" select="./@instance_id" />
-
-			<xsl:if test="./fields/*[@id='214']/value != ''">
-					<span class="fig-label-RC suppl">
-						<xsl:attribute name="rid"><xsl:value-of select="./@instance_id"></xsl:value-of></xsl:attribute>
-						<xsl:text>Supplementary material </xsl:text>
-						<xsl:for-each select="../*[@object_id='55']">
-							<xsl:if test="./@instance_id = $instance">
-								<xsl:value-of select="position()" />
-							</xsl:if>
-						</xsl:for-each>
-					</span>
-					<div class="Supplemantary-File-Title">
-						<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-						<xsl:apply-templates select="./fields/*[@id='214']/value" mode="formatting"/>
-					</div>
-			</xsl:if>
-
-		<xsl:if test="./fields/*[@id='215']/value != '' or ./fields/*[@id='216']/value != '' or ./fields/*[@id='217']/value != '' or ./fields/*[@id='222']/value != ''">
+		<xsl:variable name="instance" select="./@instance_id" />	
+			
+		<xsl:if test="./fields/*[@id='214']/value != ''">
+				<span class="fig-label-RC suppl">
+					<xsl:attribute name="rid"><xsl:value-of select="./@instance_id"></xsl:value-of></xsl:attribute>
+					<xsl:text>Supplementary material </xsl:text>
+					<xsl:for-each select="../*[@object_id='55']">
+						<xsl:if test="./@instance_id = $instance">
+							<xsl:value-of select="position()" />
+						</xsl:if>
+					</xsl:for-each>
+				</span>
+				<div class="Supplemantary-File-Title">
+					<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='214']/value" mode="formatting"/>
+				</div>
+		</xsl:if>
+			
+		<xsl:if test="./fields/*[@id='215']/value != '' or ./fields/*[@id='216']/value != '' or ./fields/*[@id='217']/value != '' or ./fields/*[@id='222']/value != ''">	
 			<div class="suppl-section-holder">
 				<xsl:if test="./fields/*[@id='215']/value != ''">
 					<div class="myfieldHolder">
@@ -1698,9 +1695,8 @@
 					</div>
 				</xsl:if>
 				<xsl:if test="./fields/*[@id='217']/value != ''">
-					<div class="myfieldHolder">
-						<span class="fieldLabel">
-							<xsl:value-of select="./fields/*[@id='217']/@field_name" />:&#160;</span>
+					<div class="myfieldHolder">		
+						<span class="fieldLabel"><xsl:value-of select="./fields/*[@id='217']/@field_name" />:&#160;</span>
 						<div class="fieldValue" field_id="217">
 							<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 							<xsl:apply-templates select="./fields/*[@id='217']/value" mode="formatting"/>
@@ -1711,8 +1707,9 @@
 					<div class="myfieldHolder">
 						<xsl:attribute name="field_id"><xsl:value-of select="./fields/file/@id" /></xsl:attribute>
 						<xsl:apply-templates select="./fields/file/value" mode="formatting_uploaded_file">
-						<xsl:with-param name="lFileName" select="php:function('getFileNameById', string(./fields/file/value))"></xsl:with-param>
+							<xsl:with-param name="lFileName" select="php:function('getFileNameById', string(./fields/file/value))"></xsl:with-param>
 							<xsl:with-param name="lUploadedFileName" select="php:function('getUploadedFileNameById', string(./fields/file/value))" />
+							<xsl:with-param name="lSupplFileInstanceId" select="./@instance_id"></xsl:with-param>
 						</xsl:apply-templates>
 					</div>
 				</xsl:if>

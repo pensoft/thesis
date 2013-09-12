@@ -12,6 +12,7 @@ $BODY$
 	DECLARE		
 		lRes ret_spSaveArticlePreview;		
 		lElementCacheTypeId int = 2;		
+		lElementMetricTypeId int = 1;	
 		lCacheId bigint;
 	BEGIN				
 		SELECT INTO lCacheId
@@ -34,6 +35,8 @@ $BODY$
 				lastmoddate = now()
 			WHERE id = lCacheId;
 		END IF;
+		
+		PERFORM spCreateArticleMetric(pArticleId, lElementMetricTypeId);
 		
 		lRes.cache_id = lCacheId;
 		RETURN lRes;

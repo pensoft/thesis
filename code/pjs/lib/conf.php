@@ -375,5 +375,20 @@ define('ARTICLE_MENU_ELEMENT_TYPE_SHARE', 12);
 
 //define('PWT_VERSION_PREVIEW_URL', PWT_URL . 'lib/ajax_srv/get_document_pjs_preview.php');
 define('PWT_AOF_CACHE_URL', PWT_URL . 'lib/ajax_srv/generate_aof_cache.php');
+
+define('AOF_METRIC_DETAIL_TYPE_VIEW', 1);
+define('AOF_METRIC_DETAIL_TYPE_DOWNLOAD', 2);
+define('AOF_METRIC_TYPE_HTML', 1);
+define('AOF_METRIC_TYPE_PDF', 2);
+define('AOF_METRIC_TYPE_XML', 3);
+define('AOF_METRIC_TYPE_FIGURE', 4);
+define('AOF_METRIC_TYPE_TABLE', 5);
+define('AOF_METRIC_TYPE_SUP_FILE', 6);
+
+define('PWT_SUPPLEMENTARY_FILE_DOWNLOAD_SRV', PWT_URL . '/getfile.php?filename={file_name}');
+define('PWT_TABLE_CSV_DOWNLOAD_SRV', PWT_URL . '/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&instance_id={instance_id}');
+define('PWT_FIGURE_ZOOM_SRV', PWT_URL . '/display_zoomed_figure.php?fig_id={instance_id}');
+define('PWT_FIGURE_DOWNLOAD_SRV', PWT_URL . '/showfigure.php?filename=big_{pic_id}.jpg&download=1');
+
 define('RSS_LIMIT', 100);
 ?>
