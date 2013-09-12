@@ -635,6 +635,17 @@ a.download{
 	font-size: 12pt;
 	cursor:pointer;
 }
+.P-Localities-Menu-Row-Clear1{
+	display: inline;
+	font-weight: normal;
+	margin-left: 5px;
+	color:#0052CC;
+	font-size: 12pt;
+	cursor:pointer;
+	float: right;
+	padding-right: 30px;
+}
+
 .P-Authors-Whole-List{
 	margin:15px;
 	font-size: 11pt;
@@ -677,7 +688,7 @@ a.download{
 	margin-top:15px;
 }
 .P-Doi-Meta{
-	margin-top:6px;
+	margin-top:0px;
 }
 .P-Date-holder{
 	margin:15px 0px;

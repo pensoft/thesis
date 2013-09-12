@@ -1580,12 +1580,12 @@ a {
 .searchWrapper input[type='text'] {
 	font-size: 12px;
 	color: #727272;
-	float: right;
+	float: left;
 	background: none;
 	border: none;
 	width: 241px;
 	height: 18px;
-	margin: 9px 0 0 5px;
+	margin: 7px 0 0 5px;
 }
 
 #searchField input[type='submit'] {

@@ -581,5 +581,5 @@ function ClearActiveLocalities(){
 function ScrollToTaxonCategory(pCategoryName){
 	var lCategoryLink = $('#category_' + pCategoryName);
 	var lPosition = lCategoryLink.position().top;
-	$('.P-Article-Info-Bar').scrollTop($('.P-Article-Info-Bar').scrollTop() + lPosition);
+	$('.P-Article-Info-Bar').scrollTop($('.P-Article-Info-Bar').scrollTop() + lPosition - 56);
 }
