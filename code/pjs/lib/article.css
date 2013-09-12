@@ -972,4 +972,13 @@ img.noBorder{
 }
 .P-Regular-Site-Info-Holder.P-Regular-Site-Row-Without-Results a{
 	color: #CCC;
-} 
+}
+
+.Table-Body{
+	overflow-x:auto;
+}
+
+.P-Metrics-Row td{
+	padding-top:10px;
+	padding-right:10px;
+}

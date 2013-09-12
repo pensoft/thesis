@@ -354,7 +354,7 @@ function PlaceFigureEvents(pInPreviewIframe){
 }
 
 function PlaceTableEvents(pInPreviewIframe){
-	GetCustomElementsContents(pInPreviewIframe).find('.table[rid]').each(function(pIdx, pTableNode){
+	GetCustomElementsContents(pInPreviewIframe).find('.table[rid]').each(function(pIdx, pTableNode){		
 		$(pTableNode).bind('click', function(pEvent){
 			pEvent.stopPropagation();
 			LoadTableInfo($(pTableNode).attr('rid'));

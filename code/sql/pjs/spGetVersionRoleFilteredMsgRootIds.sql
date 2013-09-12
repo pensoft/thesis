@@ -30,7 +30,7 @@ $BODY$
 		WHERE dv.id = pVersionId;
 		
 		IF lVersionUid IS NULL THEN
-			RETURN;
+			lVersionRoleId = lAuthorRoleId;
 		END IF;
 		
 		IF lVersionRoleId = ANY (ARRAY[lDedicatedReviewerRoleId, lPublicReviewerRoleId, lCommunityReviewerRoleId]) THEN

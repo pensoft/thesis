@@ -5,7 +5,7 @@ $gTemplArr = array(
 	'menu.main-head' => '
 			<div id="menu">
 				<a class="menu_btn" style="background: none;" href="/">
-					<img style="margin-top: -3px;" src="i/homeIcon.png" alt="home" />
+					<img style="margin-top: -3px;" src="/i/homeIcon.png" alt="home" />
 				</a>
 	',
 	
@@ -28,7 +28,7 @@ $gTemplArr = array(
 	
 	'menu.journal-endrs' => '
 								</div>
-								<img src="i/subMenuLeft.png" alt="Left Line" />
+								<img src="/i/subMenuLeft.png" alt="Left Line" />
 							</div>
 	',
 	

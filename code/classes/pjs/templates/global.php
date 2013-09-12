@@ -12,7 +12,7 @@ $gTemplArr = array(
 	<meta name="author" content="Etaligent.NET"/>
 	<meta name="distribution" content="global"/>
 	<meta name="robots" content="index, follow, all"/>
-	<link rel="SHORTCUT ICON" href="/favicon.ico" />
+	<link rel="SHORTCUT ICON" href="/favicon.ico" />	
 	{CSS}{JS}
 </head>
 <body>',
@@ -229,7 +229,7 @@ $gTemplArr = array(
 						<a href="/profile.php" target="_blank" id="profile">
 							{_getProfilePicSmall(previewpicid)}
 							<span>{fullname}</span>
-							<!-- <img src="i/Barrow.png" alt="buttom arrow" /> -->
+							<!-- <img src="/i/Barrow.png" alt="buttom arrow" /> -->
 						</a>
 	',
 
@@ -260,11 +260,11 @@ $gTemplArr = array(
 							</div>'
 							 /*<form method="post" action="">
 								<div id="searchField">
-									<img src="i/leftSearch.png" style="float: left;" alt="search Field" />
+									<img src="/i/leftSearch.png" style="float: left;" alt="search Field" />
 									<div class="searchWrapper">
 										<input type="text" name="search" value="Search ..." />
 									</div>
-									<img src="i/rightSearch.png" style="float: left;" alt="search Field" />
+									<img src="/i/rightSearch.png" style="float: left;" alt="search Field" />
 									<input type="submit" name="submit" value="" />
 									<div class="P-Clear"></div>
 									<p>
@@ -287,14 +287,14 @@ $gTemplArr = array(
 		<div id="header">
 			<div id="nav">
 				<div class="constrained">
-					<a href="/"><img src="i/logo.jpg" alt="logo" class="logo" /></a>
+					<a href="/"><img src="/i/logo.jpg" alt="logo" class="logo" /></a>
 
 					{mainmenu}
 					{login_register_or_profile}
 
 					<!--<div id="cart">
 						<a href="#">
-							<img src="i/cartMenu.png" alt="cart" />
+							<img src="/i/cartMenu.png" alt="cart" />
 							<span>14</span>
 						</a>
 					</div>-->
@@ -333,14 +333,14 @@ $gTemplArr = array(
 						<div class="P-Clear"></div>
 						<div class="siderBlockLinksHolder">
 							<div id="social">
-								' . //<a href="#"><img src="i/rss.png" alt="rss"></img></a>
+								' . //<a href="#"><img src="/i/rss.png" alt="rss"></img></a>
 								'
-								<a target="_blank" href="https://www.facebook.com/BiodiversityDataJournal"><img src="i/fb.png" alt="facebook" /></a>
-								<a target="_blank" href="https://twitter.com/BioDataJournal"><img src="i/tw.png" alt="twitter" /></a>
-								'. //<a href="#"><img src="i/m.png" alt="" /></a>
+								<a target="_blank" href="https://www.facebook.com/BiodiversityDataJournal"><img src="/i/fb.png" alt="facebook" /></a>
+								<a target="_blank" href="https://twitter.com/BioDataJournal"><img src="/i/tw.png" alt="twitter" /></a>
+								'. //<a href="#"><img src="/i/m.png" alt="" /></a>
 								'
-								<a target="_blank" href="https://plus.google.com/114819936210826038991?prsrc=3"><img src="i/gplus.png" alt="google plus" /></a>
-								<a target="_blank" href="http://www.mendeley.com/groups/3621351/biodiversity-data-journal/"><img src="i/mendeley.png" alt="mendeley" /></a>
+								<a target="_blank" href="https://plus.google.com/114819936210826038991?prsrc=3"><img src="/i/gplus.png" alt="google plus" /></a>
+								<a target="_blank" href="http://www.mendeley.com/groups/3621351/biodiversity-data-journal/"><img src="/i/mendeley.png" alt="mendeley" /></a>
 								<div class="P-Clear"></div>
 							</div>
 							<div class="P-Clear"></div>
@@ -382,7 +382,7 @@ $gTemplArr = array(
 						//{*global.left_col_browse}
 						.'<div class="P-Clear"></div>
 						<div id="siderFooter">
-							<a href="http://www.doaj.org/"><img src="i/openAccess.png" alt="open access" /></a>
+							<a href="http://www.doaj.org/"><img src="/i/openAccess.png" alt="open access" /></a>
 							<div class="P-Clear"></div>
 							<div>
 								This work is licensed under the <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 (CC-BY)</a>.
@@ -401,7 +401,7 @@ $gTemplArr = array(
 						{*global.follow_us}
 						<div class="P-Clear"></div>
 						<div id="siderFooter">
-							<img src="i/openAccess.png" alt="open access"></img>
+							<img src="/i/openAccess.png" alt="open access"></img>
 							<div class="P-Clear"></div>
 							<div>
 								This work is licensed under the
@@ -455,7 +455,7 @@ $gTemplArr = array(
 							<div class="P-Clear"></div>
 							<div id="book">
 								<div class="floatLeft">
-									<img src="i/book.png" alt="book"></img>
+									<img src="/i/book.png" alt="book"></img>
 									<div class="P-Clear"></div>
 								</div>
 								<div id="bookInfo">
@@ -471,9 +471,9 @@ $gTemplArr = array(
 									<p>
 										Printed version: <span>Paperback</span>
 									</p>
-									<img src="i/openAccess.png" alt="open access" style="margin-left: 10px; margin-top: 25px;"></img>
+									<img src="/i/openAccess.png" alt="open access" style="margin-left: 10px; margin-top: 25px;"></img>
 									<div id="price">
-										<div class="floatLeft">&euro; 28.00</div><img class="floatLeft" src="i/cart.png" alt="cart"></img>
+										<div class="floatLeft">&euro; 28.00</div><img class="floatLeft" src="/i/cart.png" alt="cart"></img>
 										<span class="floatLeft">Order reprint(s)</span>
 										<div class="P-Clear"></div>
 									</div>
@@ -875,7 +875,7 @@ $gTemplArr = array(
 						<div class="topRightCorner2"></div>
 					</div>
 					<div id="picture">
-						<img src="i/pic.png" alt="pic"></img>
+						<img src="/i/pic.png" alt="pic"></img>
 						<p>
 							Authors are thus encouraged to post the pdf files of
 							published papers on their homepages or elsewhere to
@@ -899,7 +899,7 @@ $gTemplArr = array(
 				<div class="rightSiderBox">
 					<div class="feed">
 						<div class="img">
-							<img src="i/feed1.png" alt="feed image"></img>
+							<img src="/i/feed1.png" alt="feed image"></img>
 						</div>
 						<div class="title">
 							<a href="#">
@@ -913,7 +913,7 @@ $gTemplArr = array(
 					<div class="P-Clear"></div>
 					<div class="feed">
 						<div class="img">
-							<img src="i/feed2.png" alt="feed image"></img>
+							<img src="/i/feed2.png" alt="feed image"></img>
 						</div>
 						<div class="title">
 							<a href="#">
@@ -927,7 +927,7 @@ $gTemplArr = array(
 					</div>
 					<div class="P-Clear"></div>
 					<div class="feed">
-						<div class="img"><img src="i/feed3.png" alt="feed image"></img></div>
+						<div class="img"><img src="/i/feed3.png" alt="feed image"></img></div>
 						<div class="title">
 							<a href="#">
 								A new pipewort specices from a unique,
@@ -940,7 +940,7 @@ $gTemplArr = array(
 					</div>
 					<div class="P-Clear"></div>
 					<div class="feed">
-						<div class="img"><img src="i/feed4.png" alt="feed image"></img></div>
+						<div class="img"><img src="/i/feed4.png" alt="feed image"></img></div>
 						<div class="title">
 							<a href="#">
 								A new pipewort species from a unique, but fragile habitat in India
@@ -952,7 +952,7 @@ $gTemplArr = array(
 					</div>
 					<div class="P-Clear"></div>
 					<div class="feed">
-						<div class="img"><img src="i/feed5.png" alt="feed image"></img></div>
+						<div class="img"><img src="/i/feed5.png" alt="feed image"></img></div>
 						<div class="title">
 							<a href="#">
 								Scorpio rising - An elusive new scorpion species from
@@ -966,7 +966,7 @@ $gTemplArr = array(
 					<div class="P-Clear"></div>
 					<div class="moreFeeds">
 						<a href="#">
-							All feeds <img src="i/rightArrows.png" alt=""></img>
+							All feeds <img src="/i/rightArrows.png" alt=""></img>
 						</a>
 					</div>
 					<div class="P-Clear"></div>
@@ -1067,7 +1067,7 @@ $gTemplArr = array(
 	',
 
 	'global.default_profile_picture' => '
-		<img src="i/add_photo.png"></img>
+		<img src="/i/add_photo.png"></img>
 	',
 	'global.footer' => '<div id="footer"><p>{_getstr(pjs.footer1)}
 	 						<span class="bold">{_getstr(pjs.footer.copyright)}</span> |
@@ -1077,13 +1077,13 @@ $gTemplArr = array(
 		<div id="footer">
 	        <ul class="link_list clearfix">
 	            <li>
-	                <a href="http://vbrant.eu/" target="_blank"><img src="i/logo_vibrant.png"></a>
+	                <a href="http://vbrant.eu/" target="_blank"><img src="/i/logo_vibrant.png"></a>
 	            </li>
 	            <li>
-	                <a href="http://www.pensoft.net/" target="_blank"><img src="i/logo_pensoft.png"></a>
+	                <a href="http://www.pensoft.net/" target="_blank"><img src="/i/logo_pensoft.png"></a>
 	            </li>
 	            <li>
-	                <a href="http://cordis.europa.eu/fp7/home_en.html" target="_blank"><img src="i/logo_sfp.png"></a>
+	                <a href="http://cordis.europa.eu/fp7/home_en.html" target="_blank"><img src="/i/logo_sfp.png"></a>
 	            </li>
 	        </ul>
 	    </div>

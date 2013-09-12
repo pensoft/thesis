@@ -806,4 +806,33 @@ function ConvertCoordinatesToDD($pDegs = 0, $pMinutes = 0, $pSeconds = 0){
 		$lResult -= (float)$pMinutes / 60 + (float) $pSeconds / 3600;
 	return $lResult;
 }
+
+function GetTableDownloadLink($pSiteUrl, $pTableInstanceId, $pInArticleMode){
+	if(!(int)$pInArticleMode){
+		return $pSiteUrl . '/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&amp;instance_id=' . $pTableInstanceId;
+	}
+	return PJS_ARTICLE_TABLE_DL_SRV . $pTableInstanceId;
+}
+
+function GetFigureZoomLink($pSiteUrl, $pFigureInstanceId, $pInArticleMode){	
+	if(!(int)$pInArticleMode){
+		return $pSiteUrl . '/display_zoomed_figure.php?fig_id=' . $pFigureInstanceId;
+	}	
+	return PJS_ARTICLE_FIGURE_ZOOM_SRV . $pFigureInstanceId;
+}
+
+function GetFigureDownloadLink($pSiteUrl, $pFigureInstanceId, $pPicId, $pInArticleMode){
+	if(!(int)$pInArticleMode){
+		return $pSiteUrl . '/showfigure.php?filename=big_' . $pPicId . '.jpg&amp;download=1';
+	}
+	return PJS_ARTICLE_FIGURE_DL_SRV . $pFigureInstanceId;
+}
+
+function GetSupplFileDownloadLink($pSiteUrl, $pFileName, $pFileInstanceId, $pInArticleMode){	
+// 	var_dump($pInArticleMode);	
+	if(!(int)$pInArticleMode){
+		return $pSiteUrl . '/getfile.php?filename=' . $pFileName;
+	}
+	return PJS_ARTICLE_SUPPL_FILE_DL_SRV . $pFileInstanceId;
+}
 ?>

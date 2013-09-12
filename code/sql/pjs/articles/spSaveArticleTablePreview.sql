@@ -13,11 +13,14 @@ $BODY$
 	DECLARE		
 		lRes ret_spSaveArticleTablePreview;		
 		lElementCacheTypeId int = 5;
+		lElementMetricTypeId int = 5;
 		lArticleElementId bigint;
 		lCacheId bigint;
+		lDisplayLabel varchar;
+		lTableNumberFieldId int = 489;
 	BEGIN				
-		SELECT INTO lArticleElementId, lCacheId
-			id, cache_id
+		SELECT INTO lArticleElementId, lCacheId, lDisplayLabel
+			id, cache_id, display_label
 		FROM pjs.article_tables 
 		WHERE article_id = pArticleId AND instance_id = pInstanceId;
 		
@@ -26,6 +29,17 @@ $BODY$
 				VALUES (pArticleId, pInstanceId);
 			lArticleElementId = currval('pjs.article_tables_id_seq'::regclass);
 		END IF;	
+		
+		IF coalesce(lDisplayLabel, '') = '' THEN
+			SELECT INTO lDisplayLabel
+				fv.value_int::varchar
+			FROM pwt.instance_field_values fv					
+			WHERE fv.instance_id = pInstanceId AND fv.field_id = lTableNumberFieldId;
+			
+			UPDATE pjs.article_tables SET
+				display_label = lDisplayLabel
+			WHERE id = lArticleElementId;
+		END IF;
 		
 		IF lCacheId IS NULL THEN
 			INSERT INTO pjs.article_cached_items(cached_val, item_type, article_id)
@@ -42,6 +56,8 @@ $BODY$
 				lastmoddate = now()
 			WHERE id = lCacheId;
 		END IF;
+		
+		PERFORM spCreateArticleMetric(lArticleElementId, lElementMetricTypeId);
 		
 		lRes.cache_id = lCacheId;
 		RETURN lRes;

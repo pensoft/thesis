@@ -451,8 +451,18 @@ class ecBase_Controller {
 		return $lResult;
 	}
 
-	function Redirect($pUrl = '/index.php'){
-		header('Location: ' . $pUrl);
+	function Redirect($pUrl = '/index.php', $pSilent = false, $pContentType = '', $pContentDisposition = ''){
+		if($pSilent){			
+			if($pContentType){
+				header('Content-Type: ' . $pContentType);
+			}
+			if($pContentDisposition){
+				header('Content-Disposition: ' . $pContentDisposition);
+			}
+			echo file_get_contents($pUrl);
+		}else{
+			header('Location: ' . $pUrl);
+		}
 		exit;
 	}
 
