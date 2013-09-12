@@ -8,7 +8,9 @@ $gTemplArr = array(
 			<script type="text/javascript">SetArticleId({id});</script>
 			<div class="Main-Content">
 				<div id="article-head">
-					<img alt="" src="/i/bdj-eye.png" id="bdj-eye" />
+					<a class="AOF-journal-logo" href="/">
+						<img alt="" src="/i/bdj-eye.png" id="bdj-eye" />
+					</a>	
 					<div id="article-id">
 					
 						Biodiversity Data Journal 1: e{article_id} ({publish_date})<br />

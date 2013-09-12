@@ -1925,6 +1925,7 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 	margin: 0 0 0 0;
 	height: auto;
 	margin-left: 6px;
+	font-size:12px;
 }
 
 .link a {
@@ -1975,7 +1976,7 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 }
 
 #social a {
-	margin: 0px 3px;
+	margin: 0px 2px;
 	display: inline-block;
 }
 

@@ -496,7 +496,7 @@ function PlaceLocalitiesMenuEvents(){
 		GetActiveLocalitiesFromMenuSelection();		
 	});
 	 $('#all').prop('checked', true);
-	 GetActiveLocalitiesFromMenuSelection();
+	 $('#all').trigger('change');
 }
 
 function correctIframeLinks(pIframeId, pLinkPrefix){

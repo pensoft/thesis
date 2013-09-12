@@ -1027,12 +1027,30 @@ img.noBorder{
 .Table-Body{
 	overflow-x:auto;
 }
+.P-Metrics{
+	padding: 15px;
+}
 
+.P-Metrics-Label{
+	font-weight: bold;
+	font-size: 12pt;
+	color: #666;
+}
+.P-Metric-Table{
+	font-size: 10pt;
+}
 .P-Metrics-Row td{
-	padding-top:10px;
-	padding-right:10px;
-
+	width: 80px;
+	padding:5px 5px 5px 5px;
 } 
+.P-Metrics-Row .table{
+	padding: 0;
+}
+
+tr.P-Metrics-Row td{
+   border: 1px solid #BBBBBB;
+   border-collapse: collapse;
+}
 
 .supp_agencies {
     font-size: 10pt;
@@ -1058,4 +1076,9 @@ img.noBorder{
 
 .constrained > a > img{
 	margin-left: -20px;
+}	
+
+a.AOF-journal-logo{
+    float: left !important;
+    margin: 0px !important;
 }

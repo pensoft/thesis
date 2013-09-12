@@ -3269,4 +3269,28 @@ function showHideSearchBoxEditorialTeam($pRoleId) {
 	return 'style="display:none"';
 }
 
+//01/09/2013 02:42:05.071563
+//Fri, 28 Jun 2013 00:00:00 +0200
+function formatDateForRSS($pDate) {
+	preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+) (\d+):(\d+):(\d+)/', $pDate, $lMatch);
+	return date('D, j M Y G:i:s O', mktime($lMatch[4], $lMatch[5], $lMatch[6], $lMatch[2], $lMatch[1], $lMatch[3]));
+}
+
+function removeFierstParagraph($pText) {
+	$lText = trim($pText);
+	if(substr($lText, 0, 3) == '<p>') {
+		$lText = substr($lText, 3);
+	}
+	
+	if(substr($lText, -4) == '</p>') {
+		$lText = substr($lText, 0, -4);
+	}
+	return $lText;
+}
+
+function showRSSLink() {
+	global $user;
+	return ($user->staff ? '<a target="_blank" href="/rss.php"><img src="/i/rss_icon.gif" alt="mendeley" /></a>' : '');
+}
+
 ?>

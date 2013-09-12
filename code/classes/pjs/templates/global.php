@@ -327,7 +327,7 @@ $gTemplArr = array(
 		<div id="header">
 			<div id="nav">
 				<div class="constrained">
-					<a href="/"><img src="/i/logo.jpg" alt="logo" class="logo" /></a>
+					<a target="_blank" href="http://www.pensoft.net"><img src="/i/logo.jpg" alt="logo" class="logo" /></a>
 
 					{mainmenu}
 					{login_register_or_profile}
@@ -381,6 +381,7 @@ $gTemplArr = array(
 								'
 								<a target="_blank" href="https://plus.google.com/114819936210826038991?prsrc=3"><img src="/i/gplus.png" alt="google plus" /></a>
 								<a target="_blank" href="http://www.mendeley.com/groups/3621351/biodiversity-data-journal/"><img src="/i/mendeley.png" alt="mendeley" /></a>
+								{_showRSSLink()}
 								<div class="P-Clear"></div>
 							</div>
 							<div class="P-Clear"></div>
@@ -683,7 +684,7 @@ $gTemplArr = array(
 				<div id="header">
 					<div id="nav" class="P-Nav-Article">
 						<div class="constrained">
-							<a href="/"><img src="i/logo.jpg" alt="logo" class="logo" /></a>
+							<a target="_blank" href="http://www.pensoft.net"><img src="i/logo.jpg" alt="logo" class="logo" /></a>
 		
 							{mainmenu}
 							{login_register_or_profile}
@@ -1244,5 +1245,7 @@ $gTemplArr = array(
 	</html>',
 	
 	'global.generate_pdf' => '{contents}',
+	
+	'global.rss_page' => '{contents}'
 );
 ?>
