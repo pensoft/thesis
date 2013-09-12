@@ -390,4 +390,5 @@ define('PWT_TABLE_CSV_DOWNLOAD_SRV', PWT_URL . '/lib/ajax_srv/csv_export_srv.php
 define('PWT_FIGURE_ZOOM_SRV', PWT_URL . '/display_zoomed_figure.php?fig_id={instance_id}');
 define('PWT_FIGURE_DOWNLOAD_SRV', PWT_URL . '/showfigure.php?filename=big_{pic_id}.jpg&download=1');
 
+define('RSS_LIMIT', 100);
 ?>

@@ -1244,5 +1244,7 @@ $gTemplArr = array(
 	</html>',
 	
 	'global.generate_pdf' => '{contents}',
+	
+	'global.rss_page' => '{contents}'
 );
 ?>
