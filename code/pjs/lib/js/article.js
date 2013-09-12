@@ -495,6 +495,8 @@ function PlaceLocalitiesMenuEvents(){
 		}
 		GetActiveLocalitiesFromMenuSelection();		
 	});
+	 $('#all').prop('checked', true);
+	 GetActiveLocalitiesFromMenuSelection();
 }
 
 function correctIframeLinks(pIframeId, pLinkPrefix){

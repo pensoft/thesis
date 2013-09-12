@@ -674,7 +674,10 @@
 				<xsl:otherwise >
 					<div class="singlePlatePhoto">
 						<xsl:copy-of select="$lContent"/>
-						<div class="Plate-part-letter"><xsl:value-of select="$pPlateNum"/></div>
+						<div class="Plate-part-letter fig">
+							<xsl:attribute name="rid"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+							<xsl:value-of select="$pPlateNum"/>
+						</div>
 					</div>
 				</xsl:otherwise>
 			</xsl:choose>
@@ -1289,7 +1292,10 @@
 					<xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=big_<xsl:value-of select="./fields/image_id/value"></xsl:value-of>.jpg&amp;download=1</xsl:attribute>
 				<img src="/i/download-icon-30.png" alt=""/>
 			</a>
-			<div class="Plate-part-letter"><xsl:value-of select="$platePart"/></div>
+			<div class="Plate-part-letter fig">
+				<xsl:attribute name="rid"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+				<xsl:value-of select="$platePart"/>
+			</div>
 
 			<div class="description">
 				<span class="fig-label-RC">
@@ -1313,7 +1319,7 @@
 
 	<!-- Article of the future preview template of a single table -->
 	<xsl:template match="*" mode="article_preview_table">
-		<xsl:apply-templates select="." mode="singleTableNormalPreview"/>
+		<xsl:apply-templates select="." mode="singleTableNormalPreview"/>	
 		<!-- <script type="text/javascript">
 			<![CDATA[
 			document.getElementById("P-Article-Info-Bar").className +=" ST";
@@ -1564,17 +1570,39 @@
 		<!-- The node of the tables holder -->
 		<xsl:for-each select="table">
 			<div class="item-holder-RC table">
-				<xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute>
-				<div class="P-table-tump-holder">
+			<!-- <xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute> -->
+				<div class="P-table-tump-holder table">
+					<xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute>
 					<img width="60" heigth="48" alt="">
 						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/table_pic-60.png</xsl:attribute>
 					</img>
 				</div>
-					<span class="fig-label-RC">
+				<span class="fig-label-RC table">
+					<xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute>
+					Table <xsl:value-of select="position()"></xsl:value-of>.
+					
+					<span class="downloadmaterials">
+						<a class="download-table-link">
+							<xsl:attribute name="href">
+								<xsl:value-of select="$pSiteUrl" />
+								<xsl:text>/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&amp;instance_id=</xsl:text>
+								<xsl:value-of select="./@instance_id" />
+							</xsl:attribute>
+							<xsl:text>Download as CSV&#160;</xsl:text>
+							<img width="22" heigth="22" alt="" title="Download table">
+								<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download_materials_icon.png</xsl:attribute>
+							</img>
+						</a>
+					</span>
+				</span>
+				
+				
+			<!--		<span class="fig-label-RC">
 						<xsl:value-of select="./@display_name"></xsl:value-of>
 							<xsl:text> </xsl:text>
 						<xsl:value-of select="position()"></xsl:value-of>
-					</span>
+		</span> -->
+					
 				<div class="list-caption">
 					<xsl:apply-templates select="./fields/table_caption/value" mode="formatting"/>
 				</div>

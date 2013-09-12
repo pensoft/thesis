@@ -1736,7 +1736,7 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 	top: 0px;
 	left: 0px;
 	width: 378px;
-	margin: 0px 0 0 8px;
+	margin: 0px 0 0 0px;
 	font-size: 12px;
 }
 
@@ -2604,7 +2604,7 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 #content {
 	background: none;
 	/* width: 586px; */
-	margin: 6px 6px 0 392px;
+	margin: 6px 8px 0 192px;
 	padding: 0 0px;
 }
 
@@ -4127,7 +4127,7 @@ div.token-input-dropdown-facebook:after {
 }
 
 #contentSmallHolder {
-	margin: 6px 0px 0 392px;
+	margin: 6px 8px 0 384px;
 	height: 100%;
 }
 
@@ -4187,7 +4187,7 @@ div.token-input-dropdown-facebook:after {
 	background-image: linear-gradient(rgb(255, 255, 255) 0%, #f7f7f4 98% );
 	background-size: 100% 41px;
 	background-repeat: repeat-x;
-	margin: 6px 0 0 200px;
+	margin: 6px 8px 0 192px;
 }
 
 .header-with-tabs {
@@ -4209,7 +4209,7 @@ div.token-input-dropdown-facebook:after {
 	top: 0px;
 	left: 0px;
 	width: 183px;
-	margin: 0 0 0 8px;
+	margin: 0 0 0 0px;
 	/*height: 100%;*/
 }
 
@@ -5477,6 +5477,8 @@ table.tbl_editors td a {
 
 #dashboard-content.withoutHeader {
 	background-image: none;
+	margin-left: 192px;
+	margin-right: 8px;
 }
 
 .leftSiderBlock.bigBlock {

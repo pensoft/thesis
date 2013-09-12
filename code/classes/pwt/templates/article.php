@@ -219,6 +219,7 @@ $gTemplArr = array (
 			</div>
 		</div>
 		<script>PlaceLocalitiesMenuEvents();</script>
+		
 	',
 	'article.localities_list_start' => '
 				<div class="P-Localities-Menu-Row">
