@@ -257,6 +257,10 @@ a[href], label[for] {
 	color:#333;
 }
 
+.fig-label-RC.fig:hover{
+	cursor: pointer;
+}
+
 .fig-label-RC.suppl:hover{
 	cursor: pointer;
 }
@@ -272,9 +276,11 @@ a[href], label[for] {
 .item-holder-RC:hover{
 	background-color: #F0EEE7; /*F0EEE7*/
 }
+
 .item-holder-RC.table{
-	cursor: pointer;
+	/*cursor: pointer;*/
 }
+
 .item-holder-RC:last-child{
 	border-bottom: none;
 }
@@ -436,6 +442,12 @@ div.myfieldHolder[field_id='222']{
 .table, .figure{
   padding: 15px 30px 15px 15px;
 }
+
+.fig-label-RC.table, .P-table-tump-holder.table{
+	padding: 0;
+	cursor: pointer;
+}
+
 a.download{
   font-weight:bold;
 }
@@ -478,7 +490,7 @@ a.download{
 	background-color: white
 }
 .figure .singlePlatePhoto {
-  max-width: 620px;
+  max-width: 400px;
   min-height: 70px;
 }
 .figure .plate2column {
@@ -554,6 +566,15 @@ a.download{
     vertical-align: middle;
     width: 30px;
 }
+
+.Plate-part-letter.fig{
+	cursor: pointer;
+}
+
+.P-Info-Content > .figure > .Plate-part-letter.fig{
+	display: none;
+}
+
 
 .figure > .Plate-part-letter, .figure > .P-Article-Preview-Picture-Download-Small, .figure > .P-Article-Preview-Picture-Zoom-Small{
 	 left: 443px;
@@ -635,6 +656,17 @@ a.download{
 	font-size: 12pt;
 	cursor:pointer;
 }
+.P-Localities-Menu-Row-Clear1{
+	display: inline;
+	font-weight: normal;
+	margin-left: 5px;
+	color:#0052CC;
+	font-size: 12pt;
+	cursor:pointer;
+	float: right;
+	padding-right: 30px;
+}
+
 .P-Authors-Whole-List{
 	margin:15px;
 	font-size: 11pt;
@@ -677,7 +709,7 @@ a.download{
 	margin-top:15px;
 }
 .P-Doi-Meta{
-	margin-top:6px;
+	margin-top:0px;
 }
 .P-Date-holder{
 	margin:15px 0px;
@@ -1008,4 +1040,12 @@ img.noBorder{
     color: #666;
     font-weight: normal;
     padding: 15px;
+}
+
+.P-Nav-Article{
+	margin-bottom: 0px!important;
+}
+
+.constrained > a > img{
+	margin-left: -20px;
 }

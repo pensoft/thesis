@@ -591,7 +591,7 @@ $gTemplArr = array(
 	'global.edit_journal_page' => '
 	{*global.htmlstartcontent}
 		{leftcol}
-		<div id="content" style="margin-left: 200px;">
+		<div id="content">
 			<div class="border"></div>
 			<div class="corners">
 				<div class="topLeftCorner"></div>
@@ -632,7 +632,7 @@ $gTemplArr = array(
 	'global.simplepage' =>
 	'{*global.htmlstartcontent}
 		{*global.sidebar_left}
-		<div id="content" style="margin-left: 200px;">
+		<div id="content" >
 			<div class="border"></div>
 			<div class="corners">
 				<div class="topLeftCorner"></div>
@@ -679,7 +679,22 @@ $gTemplArr = array(
 	
 	'global.article_page' =>'
 		{*global.htmlonlyheader_article}
-			{contents}			
+			<div id="container">
+				<div id="header">
+					<div id="nav" class="P-Nav-Article">
+						<div class="constrained">
+							<a href="/"><img src="i/logo.jpg" alt="logo" class="logo" /></a>
+		
+							{mainmenu}
+							{login_register_or_profile}
+		
+						
+						</div>
+					</div>
+					<div class="P-Clear"></div>
+				</div><!-- END header -->
+				{contents}	
+			</div>	
 		{*global.htmlonlyfooter}
 	',
 	
@@ -694,7 +709,7 @@ $gTemplArr = array(
 	'global.simplepage_withleftcol' =>
 	'{*global.htmlstartcontent}
 		{leftcol}
-		<div id="content" style="margin-left: 200px;">
+		<div id="content" >
 			<div class="border"></div>
 			<div class="corners">
 				<div class="topLeftCorner"></div>
@@ -717,7 +732,7 @@ $gTemplArr = array(
 	'global.loginpage' =>
 	'{*global.htmlstartcontent}
 		{*global.sidebar_left}
-		<div id="content" style="margin-left: 200px;">
+		<div id="content" >
 			<div class="border"></div>
 			<div class="corners">
 				<div class="topLeftCorner"></div>
@@ -745,7 +760,7 @@ $gTemplArr = array(
 	'global.fpasspage' =>
 	'{*global.htmlstartcontent}
 		{*global.sidebar_left}
-		<div id="content" style="margin-left: 200px;">
+		<div id="content" >
 			<div class="border"></div>
 			<div class="corners">
 				<div class="topLeftCorner"></div>
@@ -799,7 +814,7 @@ $gTemplArr = array(
 	'global.show' =>
 	'{*global.htmlstartcontent}
 		{*global.sidebar_left_show}
-		<div id="content" style="margin-left: 200px;">
+		<div id="content" >
 			<div class="border"></div>
 			<div class="corners">
 				<div class="topLeftCorner"></div>
@@ -821,7 +836,7 @@ $gTemplArr = array(
 	'global.browse_journal_special_issues' =>
 	'{*global.htmlstartcontent}
 		{*global.sidebar_left}
-		<div id="content" style="margin-left: 200px;">
+		<div id="content" >
 			<div class="border"></div>
 			<div class="corners">
 				<div class="topLeftCorner"></div>
@@ -845,7 +860,7 @@ $gTemplArr = array(
 	'global.editprofilepage' =>
 	'{*global.htmlstartcontent}
 		{*global.sidebar_left_profile}
-		<div id="content" style="margin-left: 200px;">
+		<div id="content" >
 			<div class="content-main">
 				{form}
 			</div>
@@ -1134,7 +1149,7 @@ $gTemplArr = array(
 		{*document_edit.document_header}
 		<div class="clear"></div>
 
-		<div id="content" style="margin-left: 200px;">
+		<div id="content" >
 			<div class="border"></div>
 			<div class="corners">
 				<div class="topLeftCorner"></div>

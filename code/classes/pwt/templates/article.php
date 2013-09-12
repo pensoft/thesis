@@ -205,7 +205,11 @@ $gTemplArr = array (
 			<script>LoadMapScript()</script>
 			<div class="P-Localities-Menu">
 				<div class="P-Localities-Menu-Row">
-					<input type="checkbox" name="active-localities" id="all" value="-2" /><label for="all">All</label> 
+					<input type="checkbox" name="active-localities" id="all" value="-2" /><label for="all">All</label>
+					
+					<div class="P-Localities-Menu-Row-Clear1">
+						<span class="P-Clear-Localities"> ' . getstr('pjs.articleLocalitiesClear') . '</span>
+					</div>
 				</div>
 	',
 	'article.localities_list_foot' => '
@@ -215,6 +219,7 @@ $gTemplArr = array (
 			</div>
 		</div>
 		<script>PlaceLocalitiesMenuEvents();</script>
+		
 	',
 	'article.localities_list_start' => '
 				<div class="P-Localities-Menu-Row">
@@ -525,7 +530,7 @@ $gTemplArr = array (
 							<img class="noBorder" src="' . PTP_URL . '/img/ext_details/eol_logo.jpg">
 						</a>
 					</td>
-					<td><h2 class="labelTitle">Images from EOL</h2></td>
+					<td><h2 class="labelTitle">Encyclopedia of Life</h2></td>
 				</tr>
 			</table>
 			<div class="sectionBody">
@@ -576,6 +581,8 @@ $gTemplArr = array (
 	
 	'article.category_special_sites_nodata' => '
 	',
+	
+	
 	// Regular sites
 	'article.category_regular_sites_head' => '
 	',

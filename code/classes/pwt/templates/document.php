@@ -631,8 +631,10 @@ $gTemplArr = array(
 	',
 	
 	'document.auto_unlocked_document' => '
-		The document <a href="/preview.php?document_id={document_id}">{_strip_tags(name)}</a> has been auto unlocked. 
+		<div class="unlock-message-holder">This document "{_strip_tags(name)}" has been saved & closed after 1 hour of inactivity. <br><br>
+		<a href="/preview.php?document_id={document_id}">Reopen</a></div> 
 	'
+	//{_strip_tags(name)}
 
 );
 

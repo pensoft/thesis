@@ -207,6 +207,9 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   font-size: 14px;
   line-height: 2.1em;
 }
+.Plate-part-letter.fig{
+	cursor: pointer;
+}
 .figure {
   margin: 10px 0 20px 0;
 }
