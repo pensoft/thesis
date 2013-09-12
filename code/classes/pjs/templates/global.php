@@ -381,6 +381,7 @@ $gTemplArr = array(
 								'
 								<a target="_blank" href="https://plus.google.com/114819936210826038991?prsrc=3"><img src="/i/gplus.png" alt="google plus" /></a>
 								<a target="_blank" href="http://www.mendeley.com/groups/3621351/biodiversity-data-journal/"><img src="/i/mendeley.png" alt="mendeley" /></a>
+								{_showRSSLink()}
 								<div class="P-Clear"></div>
 							</div>
 							<div class="P-Clear"></div>
