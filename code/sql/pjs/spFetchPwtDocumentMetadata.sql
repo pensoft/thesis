@@ -78,7 +78,7 @@ $BODY$
 		lTempNodes := xpath('/document/objects//*[@object_id="9" or @object_id="153"]/fields/*[@id="3"]/value', pDocumentXml);
 		IF array_upper(lTempNodes, 1) > 0 THEN
 			lTempXml := spXmlConcatArr(xpath('/value/*|text()', lTempNodes[1]));
-			SELECT INTO lStripedTitle regexp_replace(lTempXml::text, E'<(?!b|/b|i|/i|u|/u|sup|/sup|sub|/sub)[^>]*?>', '', 'g');
+			SELECT INTO lStripedTitle regexp_replace(lTempXml::text, E'<(?!b|/b|i|/i|u|/u|sup|/sup|sub|/sub|em|/em)[^>]*?>', '', 'g');
 			UPDATE pjs.documents SET
 				name = lStripedTitle
 			WHERE id = pDocumentId;
@@ -88,7 +88,7 @@ $BODY$
 		lTempNodes := xpath('/document/objects//*[@object_id="15"]/fields/*[@id="18"]/value', pDocumentXml);
 		IF array_upper(lTempNodes, 1) > 0 THEN
 			lTempXml := spXmlConcatArr(xpath('/value/*|text()', lTempNodes[1]));
-			SELECT INTO lTempXml regexp_replace(lTempXml::text, E'<(?!b|/b|i|/i|u|/u|sup|/sup|sub|/sub|p|/p)[^>]*?>', '', 'g');
+			SELECT INTO lTempXml regexp_replace(lTempXml::text, E'<(?!b|/b|i|/i|u|/u|sup|/sup|sub|/sub|p|/p|em|/em)[^>]*?>', '', 'g');
 			UPDATE pjs.documents SET
 				abstract = lTempXml::text
 			WHERE id = pDocumentId;
@@ -99,7 +99,7 @@ $BODY$
 		IF array_upper(lTempNodes, 1) > 0 THEN
 			lTempXml := spXmlConcatArr(xpath('/value/*|text()', lTempNodes[1]));
 			SELECT INTO lTempXmlValText regexp_replace(lTempXml::text, E'</p>', ',', 'g');
-			SELECT INTO lTempXmlValText regexp_replace(lTempXmlValText, E'<(?!b|/b|i|/i|u|/u|sup|/sup|sub|/sub)[^>]*?>', '', 'g');
+			SELECT INTO lTempXmlValText regexp_replace(lTempXmlValText, E'<(?!b|/b|i|/i|u|/u|sup|/sup|sub|/sub|em|/em)[^>]*?>', '', 'g');
 			UPDATE pjs.documents SET
 				keywords = lTempXmlValText
 			WHERE id = pDocumentId;
