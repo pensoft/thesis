@@ -127,32 +127,36 @@ class mJournal_Documents_Model extends emBase_Model {
 		if(isset($pSearchedOpt) && $pSearchedText){
 			switch ($pSearchedOpt) {
 				case 1:
-					$lAnd .= ' AND am.authors like \'%' . $pSearchedText . '%\'';
+					$lAnd .= ' AND lower(am.authors) like \'%' . strtolower($pSearchedText) . '%\'';
 					break;
 				case 2:
-					$lAnd .= ' AND am.title like \'%' . $pSearchedText . '%\'';
+					$lAnd .= ' AND lower(am.title) like \'%' . strtolower($pSearchedText) . '%\'';
 					break;
 				default:
 					$lAnd .= ' AND (
-						am.title like \'%' . $pSearchedText . '%\' OR
-						am.abstract like \'%' . $pSearchedText . '%\' OR
-						am.keywords like \'%' . $pSearchedText . '%\' OR
-						am.authors like \'%' . $pSearchedText . '%\' 
+						lower(am.title) like \'%' . strtolower($pSearchedText) . '%\' OR
+						lower(am.abstract) like \'%' . strtolower($pSearchedText) . '%\' OR
+						lower(am.keywords) like \'%' . strtolower($pSearchedText) . '%\' OR
+						lower(am.authors) like \'%' . strtolower($pSearchedText) . '%\' 
 					)';
 					break;
 			}
 		} else {
 			if(strlen($pTaxon) > 0){
-				$lAnd .= ' AND d.taxon_categories && ARRAY[' . q($pTaxon) . '] ';
+				//$lAnd .= ' AND d.taxon_categories && ARRAY[' . q($pTaxon) . '] ';
+				$lAnd .= ' AND pjs."spTaxonParents"(d.taxon_categories) && ARRAY[' . q($pTaxon) . ']::integer[] ';
 			}
 			if(strlen($pSubject) > 0){
-				$lAnd .= ' AND d.subject_categories && ARRAY[' . q($pSubject) . '] ';
+				//$lAnd .= ' AND d.subject_categories && ARRAY[' . q($pSubject) . '] ';
+				$lAnd .= ' AND pjs."spSubjectParents"(d.subject_categories) 			&& ARRAY[' . q($pSubject) . ']::integer[] ';
 			}
 			if(strlen($pChronological) > 0){
-				$lAnd .= ' AND d.chronological_categories && ARRAY[' . q($pChronological) . '] ';
+				//$lAnd .= ' AND d.chronological_categories && ARRAY[' . q($pChronological) . '] ';
+				$lAnd .= ' AND pjs."spChronologicalParents"(d.chronological_categories) && ARRAY[' . q($pChronological) . ']::integer[] ';
 			}
 			if(strlen($pGeographical) > 0){
-				$lAnd .= ' AND d.geographical_categories && ARRAY[' . q($pGeographical) . '] ';
+				//$lAnd .= ' AND d.geographical_categories && ARRAY[' . q($pGeographical) . '] ';
+				$lAnd .= ' AND pjs."spGeographicalParents"(d.geographical_categories) && ARRAY[' . q($pGeographical) . ']::integer[] ';
 			}
 			
 			if(is_array($pSectionTypesArr) && count($pSectionTypesArr) > 0){
@@ -166,8 +170,9 @@ class mJournal_Documents_Model extends emBase_Model {
 				$lAnd .= ' AND d.publish_date < \'' . $pToDate . '\'::timestamp ';
 			}
 			if(strlen($pFundingAgency) > 0){
-				$lAnd .= ' AND ((d.supporting_agencies_texts like \'%' . $pFundingAgency . '%\') OR ';
-				$lAnd .= ' (ARRAY(select id from supporting_agencies where title like \'%' . $pFundingAgency . '%\') && (d.supporting_agencies_ids))) ';
+				$lAnd .= ' AND ((lower(d.supporting_agencies_texts) like \'%' . strtolower($pFundingAgency) . '%\') OR ';
+				$lAnd .= ' (ARRAY(select id from supporting_agencies where lower(title) like \'%' . strtolower($pFundingAgency) . '%\') && (d.supporting_agencies_ids)) OR ';
+				$lAnd .= ' (ARRAY(select id from supporting_agencies where lower(acronym) like \'%' . strtolower($pFundingAgency) . '%\') && (d.supporting_agencies_ids)))';
 			}
 		}
 			

@@ -251,6 +251,11 @@ $gTemplArr = array(
 			<!--<input type="submit" name="submit" value="" />-->
 			<div class="P-Clear"></div>
 			<table class="article_search_radio_holder">
+				<colgroup>
+					<col width="33%"></col>
+					<col width="33%"></col>
+					<col width="34%"></col>
+				</colgroup>
 				{search_in}
 			</table>
 		</div>

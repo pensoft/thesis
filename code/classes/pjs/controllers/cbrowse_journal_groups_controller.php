@@ -8,11 +8,13 @@ class cBrowse_Journal_Groups_Controller extends cBase_Controller {
 
 		$pViewPageObjectsDataArray = array();
 
+
 		$lJournalId = (int)$this->GetValueFromRequestWithoutChecks('journal_id');
 		$lGroupId = (int)$this->GetValueFromRequestWithoutChecks('grp_id');
 		$lRoleId = (int)$this->GetValueFromRequestWithoutChecks('role_id');
 		$lAction = $this->GetValueFromRequestWithoutChecks('tAction');
 		$lAuthorLetter = $this->GetValueFromRequestWithoutChecks('user_letter');
+		
 		$this->m_models['mJournal_Group_Model'] = new mJournal_Group_Model();
 		$lJournalGroups = $this->m_models['mJournal_Group_Model']->GetJournalGroups($lJournalId);
 		$lFirstGroupByPos = array();
@@ -41,12 +43,6 @@ class cBrowse_Journal_Groups_Controller extends cBase_Controller {
 				'CType' => 'hidden',
 				'VType' => 'int',
 				'DefValue' => $lRoleId,
-				'AllowNulls' => true,
-			),
-			'user_letter' => array(
-				'CType' => 'hidden',
-				'VType' => 'int',
-				'DefValue' => $lAuthorLetter,
 				'AllowNulls' => true,
 			),
 			'alerts_subject_cats' => array(

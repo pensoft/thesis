@@ -261,13 +261,12 @@ $gTemplArr = array(
 	'journalgroups.authors_empty' => '',
 	
 	'journalgroups.search_form' =>'
-		<div class="leftSiderBlock bigBlock">
+		<div class="leftSiderBlock bigBlock" {_showHideSearchBoxEditorialTeam(role_id)}>
 			<h3>' . getstr('pjs.filter') . '</h3>
 				<div class="P-Clear"></div>
 				
 				<div class="filterBlock">
 					<div class="filterBlockContent">
-						<input id="author_first_letter" type="hidden" name="user_letter" value="{@user_letter}"></input>
 						<a href="javascript: filterUsersLetter({@journal_id}, \'\', {@grp_id}, {@role_id})" class="green letter">
 							All
 						</a>

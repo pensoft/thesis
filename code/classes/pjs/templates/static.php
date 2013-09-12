@@ -3252,4 +3252,11 @@ function showAuthors($pAuthorNames, $pAuthorEmails, $pDocumentId, $pJournalName)
 	return $lRes;
 }
 
+function showHideSearchBoxEditorialTeam($pRoleId) {
+	if($pRoleId == 3) {
+		return 'style="display:block"';
+	}
+	return 'style="display:none"';
+}
+
 ?>
