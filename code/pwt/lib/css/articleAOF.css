@@ -8,6 +8,13 @@ html {
   line-height: 1.5em;
   color: #333;
 }
+
+.P-Article-Preview-Title, .P-Article-Preview-Block-Title, h1, h2, h3 {
+	font-family: "Trebuchet MS";
+	font-weight: normal;
+	color: #000;
+}
+
 .P-Article-Preview {
   /*width: 50em;*/
   font-family: Calibri; /*Ebrima */
@@ -82,7 +89,6 @@ a:hover {
   color: #333;
   font-weight: bold;
   text-align: left;
-  font-family:Helvetica;
 }
 .P-Article-Preview-Title p {
   margin: 0;
@@ -118,20 +124,16 @@ sub {
   margin-top: 1.5em;
   margin-bottom: 0.3em;
   color: #333;
-  font-weight: bold;
   margin-top: 24px;
-  font-family:Helvetica;
 }
 h2 {
   font-size: 1.1em;
   line-height: 2.25em;
   margin-top: 1.5em;
   margin-bottom: 0.75em;
-  font-family:Helvetica;
   color: #333;
 }
 h3 {
-  font-family:Helvetica;
   color: #333;
 }
 .h-treatment {
@@ -417,7 +419,7 @@ td p, th p {
 
 .species, .genus, .subgenus, .subspecies, .variety, .form, .varietas, .forma
 {
-	font-style:italic;	
+	font-style:italic;
 }
 .figureCaption{
   font-size: 11pt;
@@ -428,21 +430,21 @@ td p, th p {
 }
 
 .tn {
-	color:#006600;	
+	color:#006600;
 }
 
 .tn .authority, .tn .basio-authority, .x {
-	color:black;	
+	color:black;
 }
 
-.kingdom:hover, 
+.kingdom:hover,
 .regnum:hover,
 .subkingdom:hover,
 .subregnum:hover,
 .division:hover,
 .phylum:hover,
 .subdivision:hover,
-.subphylum:hover, 
+.subphylum:hover,
 .superclass:hover,
 .superclassis:hover,
 .class:hover,
@@ -451,26 +453,26 @@ td p, th p {
 .subclassis:hover,
 .superorder:hover,
 .superordo:hover,
-.order:hover, 
-.ordo:hover, 
+.order:hover,
+.ordo:hover,
 .suborder:hover,
 .subordo:hover,
 .infraorder:hover,
 .infraordo:hover,
 .superfamily:hover,
 .superfamilia:hover,
-.family:hover, 
-.familia:hover, 
-.subfamily:hover, 
-.subfamilia:hover, 
-.tribe:hover, 
-.tribus:hover, 
+.family:hover,
+.familia:hover,
+.subfamily:hover,
+.subfamilia:hover,
+.tribe:hover,
+.tribus:hover,
 .subtribe:hover,
 .subtribus:hover,
-.genus:hover, 
+.genus:hover,
 .subgenus:hover,
 .above-genus:hover,
-.species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover{  
+.species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover{
 
 /*
 .above-genus:hover, .species:hover, .genus:hover, .subgenus:hover, .subspecies:hover, .variety:hover, .form:hover,
@@ -481,7 +483,7 @@ td p, th p {
 .tribe:hover, .tribus:hover, .subtribe:hover, .subtribus:hover, .varietas:hover, .forma:hover */
 
 	background:#E3E3C7;
-	cursor:pointer;	
+	cursor:pointer;
 }
 
 xref[type='bibr'] {

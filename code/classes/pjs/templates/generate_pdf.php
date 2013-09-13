@@ -13,7 +13,7 @@ $gTemplArr = array(
 				</td>
 				<td>
 					<div class="first_page_header_center">
-						{document_type_name}
+							{document_type_name}
 					</div>
 				</td>
 				<td align="right" width="400">
@@ -27,7 +27,7 @@ $gTemplArr = array(
 
 	'generate_pdf.main' => '
 	{*global.pdf_htmlonlyheader}
-	<!--<link href="/lib/pdf.css" rel="stylesheet" type="text/css" />-->
+	<link href="/lib/pdf.css" rel="stylesheet" type="text/css" />
 
 		<style>
 			@page :first {
@@ -36,7 +36,7 @@ $gTemplArr = array(
 					font-size: 6.3pt;
 					font-family: GillSans;
 					text-align: left;
-					
+
 				}
 				@top-left {
 					content:none;
@@ -48,27 +48,28 @@ $gTemplArr = array(
 					content:none;
 				}
 			}
-			
+
 			@page {
 				@bottom-center {
-					content:none;	
+					content:none;
 				}
 			}
-			
+
 			@page :left {
 				@top-center {
-					content: "{author_list_short} / {idtext}";
-					font-size: 9pt;
-					font-style: italic;
-					font-family: "Adobe Garamond Pro";
+					content: "{author_list_short}";
+					font-size: 8pt;
+
+					color: #0a542c;
+					font-family: "Helvetica";
 				}
 				@top-left {
 					content: counter(page);
 					font-size: 9.5pt;
 					font-family: "Adobe Garamond Pro";
-				}	
+				}
 			}
-			
+
 			@page :right {
 				@top-center {
 					content: "{_shortTitle(document_title)}";
@@ -80,9 +81,9 @@ $gTemplArr = array(
 					content: counter(page);
 					font-size: 9.5pt;
 					font-family: "Adobe Garamond Pro";;
-				}	
+				}
 			}
-			
+
 		</style>
 		{*generate_pdf.pdf_first_page_header}
 		<div id="docbody">
