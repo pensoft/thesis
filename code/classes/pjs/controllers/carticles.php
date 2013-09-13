@@ -43,7 +43,6 @@ class cArticles extends cBase_Controller {
 	
 	function GetFBMetadata () {
 		return '
-			<meta property="og:image" content=""/>
 			<meta property="og:title" content="' . trim($this->m_articleMetadata['title']) . '"/>
 			<meta property="og:url" content="' . SITE_URL . '/articles.php?id=' . (int)$this->m_articleMetadata['document_id'] . '"/>
 			<meta property="og:site_name" content="' . $this->m_articleMetadata['journal_name'] . '"/>
