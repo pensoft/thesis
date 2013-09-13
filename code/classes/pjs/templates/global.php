@@ -14,6 +14,7 @@ $gTemplArr = array(
 	<meta name="robots" content="index, follow, all"/>
 	<link rel="SHORTCUT ICON" href="/favicon.ico" />	
 	{CSS}{JS}
+	{share_metadata}
 </head>
 <body>',
 
@@ -65,7 +66,7 @@ $gTemplArr = array(
 
 			
 					
-
+			{share_metadata}
 			<script type="text/javascript">
 				$(document).ready(function(){
 					setCommentsWrapEvents();
@@ -126,7 +127,7 @@ $gTemplArr = array(
 			<script type="text/javascript" src="/lib/js/ice/plugins/IceSmartQuotesPlugin/IceSmartQuotesPlugin.js?v={_getCommit()}"></script>
 			<script src="/lib/js/version_preview.js?v={_getCommit()}" type="text/javascript"></script>
 			
-			
+			{share_metadata}
 			<script type="text/javascript">				
 				$(window).load(function(){
 					gWindowIsLoaded = true;
@@ -164,7 +165,7 @@ $gTemplArr = array(
 			<script type="text/javascript" src="/lib/js/def.js?v={_getCommit()}"></script>
 			<script type="text/javascript" src="/lib/js/article.js?v={_getCommit()}"></script>
 			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>			
-			
+			{share_metadata}
 			<script type="text/javascript">
 				$(window).load(function(){
 					gWindowIsLoaded = true;
@@ -201,7 +202,7 @@ $gTemplArr = array(
 				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js?v={_getCommit()}"></script>
 				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js?v={_getCommit()}"></script>
 				<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js?v={_getCommit()}"></script>		
-								
+				{share_metadata}	
 				<script type="text/javascript">				
 					$(window).load(function(){
 						gWindowIsLoaded = true;

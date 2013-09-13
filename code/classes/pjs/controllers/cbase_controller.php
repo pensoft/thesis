@@ -442,6 +442,7 @@ class cBase_Controller extends  ecBase_Controller_User_Data{
 						);
 	}
 
+	function GetShareMetaTags(){ return '';}
 	
 	function IncludeInHead()
 	{
@@ -451,6 +452,7 @@ class cBase_Controller extends  ecBase_Controller_User_Data{
 			$CSS .= css_tag($CSS_file);
 		foreach ($this->head_JS_files() as $JS_file)
 			$JS  .= js_tag($JS_file);
+		$this->m_commonObjectsDefinitions['share_metadata'] = $this->GetShareMetaTags();
 		$this->m_commonObjectsDefinitions['CSS'] = $CSS;
 		$this->m_commonObjectsDefinitions['JS'] = $JS;
 	}

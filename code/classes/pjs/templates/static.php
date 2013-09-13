@@ -3293,4 +3293,46 @@ function showRSSLink() {
 	return ($user->staff ? '<a target="_blank" href="/rss.php"><img src="/i/rss_icon.gif" alt="mendeley" /></a>' : '');
 }
 
+function generateFBLink($pId) {
+	if($pId) {
+		$lUrl = urldecode(SITE_URL . '/articles.php?id=' . $pId);
+		return 'href="#" onclick="window.open(\'https://www.facebook.com/sharer/sharer.php?u=' . $lUrl . '\',\'facebook-share-dialog\', \'width=550,height=450\'); return false;"'; 
+	}
+	return 'href="#"';
+}
+
+function generateTwitterLink($pId) {
+	if($pId) {
+		$lUrl = urldecode(SITE_URL . '/articles.php?id=' . $pId);
+		return "href=\"javascript:(function(){window.twttr=window.twttr||{};var D=550,A=450,C=screen.height,B=screen.width,H=Math.round((B/2)-(D/2)),G=0,F=document,E;if(C&gt;A){G=Math.round((C/2)-(A/2))}window.twttr.shareWin=window.open('http://twitter.com/share','','left='+H+',top='+G+',width='+D+',height='+A+',personalbar=0,toolbar=0,scrollbars=1,resizable=1');E=F.createElement('script');E.src='http://platform.twitter.com/bookmarklets/share.js?v=1';F.getElementsByTagName('head')[0].appendChild(E)}());\""; 
+	}
+	return 'href="#"';
+}
+
+function generateGPlusLink($pId) {
+	if($pId) {
+		$lUrl = urldecode(SITE_URL . '/articles.php?id=' . $pId);
+		return "href=\"https://plus.google.com/share?url=$lUrl\" onclick=\"javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=550,width=450');return false;\""; 
+	}
+	return 'href="#"';
+} 
+
+function generateMendeleyLink($pId) {
+	if($pId) {
+		$lUrl = urldecode(SITE_URL . '/articles.php?id=' . $pId);
+		return "href=\"#\" onclick=\"javascript:window.open('http://www.mendeley.com/import/?url=$lUrl', '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=550,width=450');return false;\""; 
+	}
+	return 'href="#"';
+} 
+
+function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournalShortName, $pDoi) {
+	if($pArticleId) {
+		$lDocumentLink = SITE_URL . '/articles.php?id=' . $pArticleId;
+		$lSubject = 'Paper published in ' . $pJournalName;
+		$lBody = "Hi," .  urlencode("\n") . "an interesting paper published in " . $pJournalShortName . ": " . $lDocumentLink . " DOI: " . $pDoi;
+		return 'href="mailto:?Subject=' . urldecode($lSubject) . '&amp;body=' . $lBody . '"'; 
+	}
+	return 'href="#"';
+}
+
 ?>

@@ -433,6 +433,36 @@ class mArticles extends emBase_Model {
 	function GetArticleSupplFilesMetrics($pArticleId){
 		return $this->GetArticleItemsMetrics($pArticleId, (int)AOF_METRIC_TYPE_SUP_FILE);
 	}
+	
+	function GetArticleInfoForShare($pId) {
+		$lSql = '
+			SELECT j.name as document_name, d.doi, j.name as journal_name, j.short_name as journal_short_name
+			FROM pjs.documents d
+			JOIN journals j ON j.id = d.journal_id
+			WHERE d.id = ' . $pId . ' 
+		';
+		$this->m_con->Execute($lSql);
+		return $this->m_con->mRs;	
+	}
+	
+	function GetArticleMetadata($pId){
+		$lSql = '
+			SELECT 
+				am.*,
+				j.name as journal_name,
+				j.short_name as journal_short_name,
+				dt.name as document_type,
+				d.publish_date,
+				d.doi
+			FROM pjs.article_metadata am
+			JOIN pjs.documents d ON d.id = am.document_id
+			JOIN pjs.document_types dt ON dt.id = d.document_type_id
+			JOIN journals j ON j.id = d.journal_id
+			WHERE document_id = ' . $pId;
+		$this->m_con->Execute($lSql);
+		return $this->m_con->mRs;
+	}
+	
 }
 
 ?>
