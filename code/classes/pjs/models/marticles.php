@@ -433,6 +433,16 @@ class mArticles extends emBase_Model {
 	function GetArticleSupplFilesMetrics($pArticleId){
 		return $this->GetArticleItemsMetrics($pArticleId, (int)AOF_METRIC_TYPE_SUP_FILE);
 	}
+	
+	function GetPlatePartItemIds($pPlateItemId){
+		$lSql = '
+				SELECT d.id
+				FROM pjs.article_figures d
+				JOIN pjs.article_figures p ON p.instance_id = d.plate_instance_id
+				WHERE p.id = ' . (int)$pPlateItemId . '
+		';
+		return $this->ArrayOfRows($lSql);
+	}
 }
 
 ?>

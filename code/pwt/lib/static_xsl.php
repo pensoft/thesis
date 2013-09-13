@@ -828,6 +828,14 @@ function GetFigureDownloadLink($pSiteUrl, $pFigureInstanceId, $pPicId, $pInArtic
 	return PJS_ARTICLE_FIGURE_DL_SRV . $pFigureInstanceId;
 }
 
+function GetPlateDownloadLink($pSiteUrl, $pFigureInstanceId, $pInArticleMode){
+	if(!(int)$pInArticleMode){
+		return $pSiteUrl . '/lib/ajax_srv/plate_download.php?instance_id=' . $pFigureInstanceId;
+	}
+	return PJS_ARTICLE_PLATE_DL_SRV . $pFigureInstanceId;
+}
+
+
 function GetSupplFileDownloadLink($pSiteUrl, $pFileName, $pFileInstanceId, $pInArticleMode){	
 // 	var_dump($pInArticleMode);	
 	if(!(int)$pInArticleMode){
@@ -835,4 +843,6 @@ function GetSupplFileDownloadLink($pSiteUrl, $pFileName, $pFileInstanceId, $pInA
 	}
 	return PJS_ARTICLE_SUPPL_FILE_DL_SRV . $pFileInstanceId;
 }
+
+
 ?>

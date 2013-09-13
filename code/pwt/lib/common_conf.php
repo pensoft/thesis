@@ -515,6 +515,7 @@ define('PJS_ARTICLE_AJAX_SRV', PJS_SITE_URL . '/lib/ajax_srv/article_elements_sr
 define('PJS_ARTICLE_TABLE_DL_SRV', PJS_ARTICLE_AJAX_SRV . '?action=download_table_csv&instance_id=');
 define('PJS_ARTICLE_FIGURE_ZOOM_SRV', PJS_ARTICLE_AJAX_SRV . '?action=zoom_figure&instance_id=');
 define('PJS_ARTICLE_FIGURE_DL_SRV', PJS_ARTICLE_AJAX_SRV . '?action=donwload_figure&instance_id=');
+define('PJS_ARTICLE_PLATE_DL_SRV', PJS_ARTICLE_AJAX_SRV . '?action=donwload_plate&instance_id=');
 define('PJS_ARTICLE_SUPPL_FILE_DL_SRV', PJS_ARTICLE_AJAX_SRV . '?action=donwload_suppl_file&instance_id=');
 
 
