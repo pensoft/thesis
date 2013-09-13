@@ -241,7 +241,7 @@ $gTemplArr = array(
 						</div>
 	',
 
-	'global.article_search_form_templ' => '
+	'global.article_search_form_templ' => '{sortby}
 		<div id="searchField">
 			<img src="i/leftSearch.png" style="float: left;" alt="search Field" />
 			<div class="searchWrapper">

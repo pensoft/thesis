@@ -6982,3 +6982,31 @@ html, body {
 .article_search_radio_holder td {
 	text-align:left !important;
 }
+
+.P-Articles-Sort-Select {
+	width:30% !important;
+	float:right;
+}
+
+.article_sort_select_wrapper {
+	padding:9px;
+}
+
+.P-Articles-Sort-Select select {
+	margin:0px;
+}
+
+.article_sort_text {
+	width:10%;
+	text-align: right;
+	float:left;
+}
+
+.article_sort_text_wrapper {
+	padding-top:16px;
+}
+
+.article_title_with_sort {
+	width:60% !important;
+	float:left;
+}

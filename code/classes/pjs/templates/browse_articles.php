@@ -5,9 +5,24 @@ $gTemplArr = array(
 	// Browse Journal Articles List Templates
 	
 	'browse_articles.header' => '
-			<h1 class="dashboard-title withoutBorder">
-				{records} {_displayArticlesFilterText(records, taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
-			</h1>
+			<div class="article_title_with_sort">
+				<h1 class="dashboard-title withoutBorder">
+					{records} {_displayArticlesFilterText(records, taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
+				</h1>
+			</div>
+			<div class="article_sort_text">
+				<div class="article_sort_text_wrapper">
+					Sort results by:
+				</div>
+			</div>
+			<div class="P-Input-Full-Width P-W300 fieldHolder P-SelectHolder P-Articles-Sort-Select">
+				<div class="article_sort_select_wrapper">
+					<select name="country" onchange="SortArticleResults(this, \'{submitted_form_name}\')" id="countries">
+						{_getSortOpts(sortby)}
+					</select>
+				</div>
+			</div>
+			<div class="P-Clear"></div>
 			<div style="margin: 10px;">
 				{_displayArticlesFilterCriteria(taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
 			
@@ -94,7 +109,7 @@ $gTemplArr = array(
 				</div>
 	',
 	
-	'browse_articles.search_form' => '
+	'browse_articles.search_form' => '{sortby}
 					{journal_id}
 					<div class="leftSiderBlock bigBlock">
 						<h3>' . getstr('pjs.filter') . '</h3>

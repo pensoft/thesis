@@ -436,8 +436,15 @@ class mArticles extends emBase_Model {
 	
 	function GetArticleInfoForShare($pId) {
 		$lSql = '
-			SELECT j.name as document_name, d.doi, j.name as journal_name, j.short_name as journal_short_name
+			SELECT 
+				j.name as document_name, 
+				d.doi, 
+				j.name as journal_name, 
+				j.short_name as journal_short_name, 
+				d.publish_date,
+				am.authors
 			FROM pjs.documents d
+			JOIN pjs.article_metadata am ON am.document_id = d.id
 			JOIN journals j ON j.id = d.journal_id
 			WHERE d.id = ' . $pId . ' 
 		';

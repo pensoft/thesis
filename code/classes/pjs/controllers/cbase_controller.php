@@ -83,6 +83,15 @@ class cBase_Controller extends  ecBase_Controller_User_Data{
 					),
 					'AllowNulls' => true,
 				),
+				'sortby' => array(
+					'CType' => 'hidden',
+					'VType' => 'int',
+					'AllowNulls' => true,
+					'DefValue' => (int)$_REQUEST['sortby'],
+					'AddTags' => array(
+						'id' => 'article_search_sortby',
+					),
+				),
 				'search' => array(
 					'CType' => 'action',
 					'DisplayName' => '',

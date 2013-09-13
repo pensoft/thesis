@@ -295,7 +295,7 @@ $gTemplArr = array(
 				</div>
 				<div class="P-Article-Share-Row">
 					<div class="P-Article-Share-Row-Icon">
-						<a {_generateEmailLink(article_id, document_name, journal_name, journal_short_name, doi)}>
+						<a {_generateEmailLink(article_id, document_name, journal_name, journal_short_name, doi, authors, publish_date)}>
 							<img src="i/icon_email.gif" />
 							<span class="P-Article-Share-Row-Icon">
 								Notify a colleague

@@ -3325,14 +3325,32 @@ function generateMendeleyLink($pId) {
 	return 'href="#"';
 } 
 
-function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournalShortName, $pDoi) {
+function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournalShortName, $pDoi, $pAuthors, $pPublishDate) {
 	if($pArticleId) {
+		preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+)/', $pPublishDate, $lMatch);
 		$lDocumentLink = SITE_URL . '/articles.php?id=' . $pArticleId;
 		$lSubject = 'Paper published in ' . $pJournalName;
 		$lBody = "Hi," .  urlencode("\n") . "an interesting paper published in " . $pJournalShortName . ": " . $lDocumentLink . " DOI: " . $pDoi;
 		return 'href="mailto:?Subject=' . urldecode($lSubject) . '&amp;body=' . $lBody . '"'; 
 	}
 	return 'href="#"';
+}
+
+function getSortOpts($pSortBy) {
+	return '
+		<option value="0" style="padding-left: 10px;" ' . ($pSortBy == 0 ? 'selected="selected"' : '') . '>Publish date</option>
+		<option value="1" style="padding-left: 10px;" ' . ($pSortBy == 1 ? 'selected="selected"' : '') . '>Total views</option>
+		<option value="2" style="padding-left: 10px;" ' . ($pSortBy == 2 ? 'selected="selected"' : '') . '>Unique views</option>
+	';
+}
+
+function GetArticleTitleForCitation($pTitle){
+	$pTitle = trim($pTitle);
+	$lLastSymbol = mb_substr($pTitle, -1);
+	if(!in_array($lLastSymbol, array('.', '?', '!'))){
+		$pTitle .= '.';
+	}
+	return $pTitle;
 }
 
 ?>

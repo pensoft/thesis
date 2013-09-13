@@ -108,7 +108,8 @@ class mJournal_Documents_Model extends emBase_Model {
 		$pToDate, 
 		$pFundingAgency,
 		$pSearchedText,
-		$pSearchedOpt
+		$pSearchedOpt,
+		$pSortBy
 	) {
 		/*$pTaxon = substr($pTaxon, 1);
 		$pSubject = substr($pSubject, 1);
@@ -175,7 +176,19 @@ class mJournal_Documents_Model extends emBase_Model {
 				$lAnd .= ' (ARRAY(select id from supporting_agencies where lower(acronym) like \'%' . strtolower($pFundingAgency) . '%\') && (d.supporting_agencies_ids)))';
 			}
 		}
-			
+		
+		switch ($pSortBy) {
+			case 1:
+				$lOrder = 'coalesce(am1.view_cnt,0) DESC';
+				break;
+			case 2:
+				$lOrder = 'coalesce(am1.view_unique_cnt,0) DESC';
+				break;
+			default:
+				$lOrder = 'd.publish_date DESC';
+				break;
+		}
+		
 		$lCon = $this->m_con;
 		$lSql = 'SELECT d.*, to_char(d.publish_date, \'DD-MM-YYYY\') as publish_date,
 						js.title as journal_section_name, dv.id as layout_version_id,
@@ -185,15 +198,18 @@ class mJournal_Documents_Model extends emBase_Model {
 							FROM pjs.document_users du
 							WHERE du.document_id = d.id AND du.role_id = ' . AUTHOR_ROLE . ' AND du.state_id = 1
 							ORDER BY du.ord
-						) a) as authors_list
+						) a) as authors_list,
+						coalesce(am1.view_cnt,0) as view_cnt,
+						coalesce(am1.view_unique_cnt,0) as view_unique_cnt
 					FROM pjs.documents d
+					LEFT JOIN pjs.article_metrics am1 ON am1.item_id = d.id AND am1.item_type = 1
 					LEFT JOIN pjs.article_metadata am ON am.document_id = d.id
 					LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id
 					LEFT JOIN pjs.document_versions dv ON dv.document_id = d.id AND dv.version_type_id = ' . DOCUMENT_VERSION_LE_TYPE . '
 					WHERE d.journal_id = ' . (int)$pJournalId . '
 						AND d.is_published = TRUE
 						' . $lAnd . '
-					ORDER BY d.publish_date DESC';
+					ORDER BY ' . $lOrder;
 		//var_dump($lSql);
 		$lCon->Execute($lSql);
 		
