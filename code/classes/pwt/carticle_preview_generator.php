@@ -466,7 +466,7 @@ class carticle_preview_generator extends csimple {
 				else '' end) as is_corresponding, du.zoobank_id
 			FROM pjs.document_users du
 			JOIN public.usr u ON u.id = du.uid
-			WHERE du.document_id = " . (int) $this->m_documentId . " AND role_id = " . (int) PJS_AUTHOR_ROLE_ID . "
+			WHERE du.document_id = " . (int) $this->m_documentId . " AND role_id = " . (int) PJS_AUTHOR_ROLE_ID . " order by du.ord ASC
 		";
 // 		var_dump($lSql);
 		return $lSql;
@@ -525,14 +525,15 @@ class carticle_preview_generator extends csimple {
 		));
 		
 		$lSql = '
-			SELECT  du.first_name, du.middle_name, du.last_name,
+			SELECT  du.first_name, du.middle_name, du.last_name, du.ord,
 				du.affiliation, du.city, du.country,
 				u.photo_id, u.uname as email, u.website, u.id as usrid,
 				0 as is_corresponding, du.zoobank_id
 			FROM pjs.document_users du
 			JOIN public.usr u ON u.id = du.uid
-			WHERE du.document_id = ' . (int) $this->m_documentId . ' AND role_id = ' . (int) PJS_SE_ROLE_ID . '
-		';		
+			WHERE du.document_id = ' . (int) $this->m_documentId . ' AND role_id = ' . (int) PJS_SE_ROLE_ID . ' order by du.ord ASC
+		';	
+		
 		$lSEPreview = new crs(array (
 			'sqlstr' => 'SELECT  u.first_name, u.middle_name, u.last_name,
 							u.affiliation, u.addr_city as city, (select "name" from countries where id = u.country_id) as country,

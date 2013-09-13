@@ -363,10 +363,10 @@ div.myfieldHolder[field_id='222']{
 }
 .fieldLabel {
   float: left;
-  color: #404040;
+  color: #666;
   font-weight: bold;
-  font-family:Helvetica;
-  font-size:0.9em;
+ /* font-family:Helvetica;
+  font-size:0.9em; */
 }
 .ref-list-AOF-holder {
 	font-size: 11pt;

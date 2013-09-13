@@ -519,9 +519,15 @@
 		
 		<xsl:if test="$lUploadedFileName != ''">
 			<span class="fieldLabel">Filename:</span><xsl:text>&#160;</xsl:text>
-			<xsl:value-of select="normalize-space($lUploadedFileName)"/><xsl:text> - </xsl:text>
+			<xsl:value-of select="normalize-space($lUploadedFileName)"/>
+			<xsl:if test="$pInArticleMode = 0">
+				<xsl:text> - </xsl:text>
+			</xsl:if>
 		</xsl:if>
 		<xsl:if test="$lFileName != ''">
+			<xsl:if test="$pInArticleMode = 1">
+				<br/>
+			</xsl:if>
 			<a class="download" target="_blank">
 				<xsl:attribute name="href"><xsl:value-of select="php:function('GetSupplFileDownloadLink', normalize-space($pSiteUrl), normalize-space($lFileName), string($lSupplFileInstanceId), $pInArticleMode)" /></xsl:attribute>				
 				<xsl:attribute name="name"><xsl:value-of select="normalize-space($lFileName)"/></xsl:attribute>

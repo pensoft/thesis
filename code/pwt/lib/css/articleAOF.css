@@ -540,3 +540,10 @@ span[data-author-id] {
 .treatment-external-links {
     text-align: left;
 }
+
+.references > .bibr:hover{
+	background: #F0EEE7;
+	cursor: pointer;
+	margin-left: -20px;
+	padding-left: 20px;
+}
