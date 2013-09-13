@@ -509,12 +509,13 @@ define('TAXON_NAME_USAGE_FIGURE', 4);
 define('TAXON_NAME_USAGE_TREATMENT', 1);
 define('TAXON_NAME_USAGE_CHECKLIST_TREATMENT', 2);
 define('TAXON_NAME_USAGE_ID_KEY', 3);
-define('DOCUMENT_AUTO_UNLOCK_INTERVAL', 4 * 60);//In seconds
+define('DOCUMENT_AUTO_UNLOCK_INTERVAL', 60 * 60);//In seconds
 
 define('PJS_ARTICLE_AJAX_SRV', PJS_SITE_URL . '/lib/ajax_srv/article_elements_srv.php');
 define('PJS_ARTICLE_TABLE_DL_SRV', PJS_ARTICLE_AJAX_SRV . '?action=download_table_csv&instance_id=');
 define('PJS_ARTICLE_FIGURE_ZOOM_SRV', PJS_ARTICLE_AJAX_SRV . '?action=zoom_figure&instance_id=');
 define('PJS_ARTICLE_FIGURE_DL_SRV', PJS_ARTICLE_AJAX_SRV . '?action=donwload_figure&instance_id=');
+define('PJS_ARTICLE_PLATE_DL_SRV', PJS_ARTICLE_AJAX_SRV . '?action=donwload_plate&instance_id=');
 define('PJS_ARTICLE_SUPPL_FILE_DL_SRV', PJS_ARTICLE_AJAX_SRV . '?action=donwload_suppl_file&instance_id=');
 
 

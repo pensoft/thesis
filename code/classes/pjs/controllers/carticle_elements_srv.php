@@ -43,6 +43,10 @@ class cArticle_Elements_Srv extends cBase_Controller {
 						$this->m_metricType = (int)AOF_METRIC_TYPE_FIGURE;
 						$this->DownloadFigure();
 						break;
+					case 'donwload_plate' :
+						$this->m_metricType = (int)AOF_METRIC_TYPE_FIGURE;
+						$this->DownloadPlate();
+						break;
 					case 'donwload_suppl_file' :
 						$this->m_metricType = (int)AOF_METRIC_TYPE_SUP_FILE;
 						$this->DownloadSupplementaryFile();
@@ -82,6 +86,20 @@ class cArticle_Elements_Srv extends cBase_Controller {
 		$this->RegisterElementMetricDetail(AOF_METRIC_DETAIL_TYPE_DOWNLOAD);
 		$lPicId = $this->m_articlesModel->GetFigurePicId($this->m_elementItemId);
 		$lUrl = str_replace('{pic_id}', $lPicId, PWT_FIGURE_DOWNLOAD_SRV);		
+		$this->Redirect($lUrl);
+	}
+	
+	function DownloadPlate(){
+		$this->RegisterElementMetricDetail(AOF_METRIC_DETAIL_TYPE_DOWNLOAD);
+		$lPlatePartItemIds = $this->m_articlesModel->GetPlatePartItemIds($this->m_elementItemId);
+		
+		//Register dl of all the subparts
+		foreach ($lPlatePartItemIds as $lPartData){
+			$lPartItemId = $lPartData['id'];
+			$this->m_articlesModel->RegisterArticleMetricDetail($lPartItemId, (int)AOF_METRIC_TYPE_FIGURE, (int)AOF_METRIC_DETAIL_TYPE_DOWNLOAD);
+		}
+				
+		$lUrl = str_replace('{instance_id}', $this->m_elementInstanceId, PWT_PLATE_DOWNLOAD_SRV);
 		$this->Redirect($lUrl);
 	}
 	
