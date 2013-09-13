@@ -467,6 +467,7 @@ class mArticles extends emBase_Model {
 			JOIN journals j ON j.id = d.journal_id
 			WHERE document_id = ' . $pId;
 		$this->m_con->Execute($lSql);
+		//var_dump($this->m_con->mRs);
 		return $this->m_con->mRs;
 	}
 	
