@@ -1006,6 +1006,8 @@ class carticle_preview_generator extends csimple {
 			$this->SaveElementPreview(0, INSTANCE_TAXON_LIST_TYPE, $this->m_taxaListPreview);
 			$this->SaveArticleTaxa();
 			
+			//Metrics 
+			$this->CreateArticleMetrics();
 			
 			$this->SaveArticleElementsExistence();
 			
@@ -1060,6 +1062,13 @@ class carticle_preview_generator extends csimple {
 				has_references = ' . (int)$this->m_hasReferences . '::boolean
 			WHERE id = ' . (int)$this->m_documentId . '
 		';
+		$this->ExecuteTransactionalQuery($lSql);
+	}
+	
+	protected function CreateArticleMetrics(){
+		$lSql = 'SELECT * FROM spSaveArticlePDFMetric(' . (int)$this->m_documentId . ');';
+		$this->ExecuteTransactionalQuery($lSql);
+		$lSql = 'SELECT * FROM spSaveArticleXMLMetric(' . (int)$this->m_documentId . ');';
 		$this->ExecuteTransactionalQuery($lSql);
 	}
 
