@@ -6706,7 +6706,9 @@ function placeTaxonNavigationLinks($pOccurrences){
 	if($pOccurrences <= 1){
 		return ;
 	}
-	$lResult = '<span class="P-Taxon-Navigation-Link-Prev">Prev</span><span class="P-Taxon-Navigation-Link-Next">Next</span>';
+	$lResult = '<span class="P-Taxon-Navigation-Link-Next"><img src="/i/docrightarrow.png" alt="" title="Next"/></span>
+				<span class="P-Taxon-Navigation-Link-Prev"><img src="/i/docleftarrow.png" alt="" title="Prev"/></span> 
+	';
 	
 	return $lResult;
 }

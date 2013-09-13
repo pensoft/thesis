@@ -1,11 +1,11 @@
 /* FONTS*/
 
 h1, h2, h3, .P-Article-Preview-Title, .description .name {
-	font-family: GillSans;
+	font-family: "Arial Unicode MS";
 	font-weight: bold;
 }
 
-body { font-family: "Adobe Garamond Pro"; }
+body { font-family: "Arial Unicode MS"; font-size: 9pt}
 
 
 /* END FONTS */
@@ -17,11 +17,11 @@ html, body {
 p {
 	orphans: 2;
 	widows: 2;
+	font-size: 1em;
+	line-height: 1.33;
 }
 
-li { baseline-shift: 0 !important; } 
-
-h1 {
+h1, h2, h3, .materialsTitle {
 	page-break-after:avoid;
 }
 
@@ -30,9 +30,10 @@ img, .figure {
 	display:block;
 }
 
-table {
+.table {
 	page-break-inside:avoid;
 }
+
 
 
 
@@ -51,7 +52,7 @@ table {
 .first_page_header_left {
 	width:100%;
 	line-height: 1.5;
-	font-size: 6.3pt;
+	font-size: 0.7em;
 	font-family: GillSans;
 	text-align: left;;
 }
@@ -93,19 +94,12 @@ table {
 a img {
   border: none;
 }
-/* html {
-  font-size: 75%;
-} */
-html {
-  line-height: 1.5;
-}
+
 .P-Article-Preview {
   /*width: 50em;*/
   text-align: justify;
   margin: auto;
   background-color: white;
-  border-radius: 0;
-
 }
 .dcLabel {
   color: gray;
@@ -122,12 +116,12 @@ html {
 }
 body {
   margin: 0;
-  font-size: 11pt;
   /*overflow-y: hidden;*/
 }
 
 table{
 	float:none;
+	width: 484px !important;
 }
 .P-Article-Preview-Base-Info-Block {
   margin-top: 10px;
@@ -135,47 +129,34 @@ table{
   border: 1px solid #e2e2dc;
   background: #fafaf8;
   padding: 5px 10px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
   display:none;
 }
 .P-Article-Preview-Base-Info-Block .P-Article-Info-Block-Row {
   padding: 2px 0px;
   color: #535353;
-  font-size: 9pt;
 }
-p {
-  font-size: 1em;
-  line-height: 1.5em;
-  margin-top: 0em;
-}
+
 a {
   color: #0088CC;
   text-decoration: underline;
 }
 
 .P-Article-Preview-Antet {
-  font-size: 9pt;
-  color: #727272;
   display: none;
 }
 .P-Article-Preview-Title {
-  font-size: 15.4pt;
+  font-size: 1.7em;
   line-height: 1.63636em;
   margin-top: 0em;
   color: #000;
-  text-align: center;
-  
+  text-align: left;
+
 }
 .P-Article-Preview-Title p {
   margin: 0;
 }
 .P-Article-Preview-Names {
   margin-top: 1.5em;
-  font-size: 12pt;
 }
 .P-Article-Preview-Names a {
   color: #0088CC;
@@ -194,7 +175,6 @@ sub {
 }
 .P-Article-Preview-Addresses {
   margin-top: 5px;
-  font-size: 9pt;
   display:none;
 }
 .P-Article-Preview-Block-Title, h1 {
@@ -252,7 +232,6 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   position: absolute;
   top: 0;
   right: -35px;
-  cursor: pointer;
   display: block;
 }
 .Plate-part-letter {
@@ -261,29 +240,21 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   top: 2px;
   background: white;
   color: black;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
   width: 20px;
   height: 20px;
   font-weight: bold;
   text-align: center;
   vertical-align: middle;
-  font-size: 14px;
 }
 .figure {
-  margin: 0;  
+  margin: 0;
 }
 .figure .holder {
   position: relative;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
   display: table;
+}
+.figure .holder img{
+  border: 1px solid rgb(226, 226, 220);
 }
 .figure img {
   max-width: 400px;
@@ -300,7 +271,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
     width: 100%;
 }
 .figure .plate2column {
-  width: 49%;
+  width: 50%;
   /*float: left;*/
   border: 1px solid #e2e2dc;
   display: table-cell;
@@ -314,30 +285,26 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 .figure .plate2column .singlePlatePhoto a {
   display: table-cell;
   vertical-align: middle;
-  
+
 }
 .figure .plate2column .singlePlatePhoto img {
-  max-width: 226px;
-  max-height: 226px;
+  max-width: 230px;
+  max-height: 230px;
   margin: auto;
 }
 
 
 .figure .singlePlatePhoto {
-  
   position: relative;
   text-align: center;
   vertical-align: middle;
 }
 .figure .description {
-  border-top-left-radius: 0;
-  margin-top: -4px;
-  line-height:1.2em;
-  font-size: 9pt;
   margin-bottom: 10px;
 }
+.figure .holder + .description{ margin-top: -24px}
+
 .description .name {
-	font-size: 9pt
 	display: inline;
 }
 
@@ -345,22 +312,16 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   border: 1px solid #e2e2dc;
   position: relative;
   padding: 10px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
   background: #fafaf8;
   z-index: 2;
+  margin-top: 0;
 }
 
 .table {
   margin: 10px 0;
+
 }
-.table .description {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
+
 .P-Article-Preview-Table-Row {
   padding: 6px;
   border: 1px solid #e2e2dc;
@@ -370,15 +331,12 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 }
 .Table-Body table {
   border-collapse: collapse !important;
-  width: 100% !important;
-  font-size: 11pt;
 }
 .Table-Body table td, .Table-Body table th {
   border: 1px solid #e2e2dc;
   padding: 6px;
   text-align: left;
   vertical-align: top;
-  font-size: 11pt;
 }
 .P-Inline .tableCaption p{
 	margin-bottom: 8px;
@@ -390,9 +348,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 .myfieldHolder.otstapLeft {
   margin-left: 20px;
 }
-.fieldValue p:first {
-  display: inline;
-}
+
 .fieldLabel {
   float: left;
   color: #404040;
@@ -482,10 +438,10 @@ td p, th p {
 
 .species, .genus, .subgenus, .subspecies, .variety, .form, .varietas, .forma
 {
-	font-style:italic;	
+	font-style:italic;
 }
 .figureCaption{
-  font-size: 11pt;
+
 }
 
 .figureCaption p{
@@ -501,24 +457,27 @@ td p, th p {
 }
 
 span[data-author-id] {
-	cursor: pointer;
 	color:#0088CC;
 }
 .P-Current-Author-Addresses{
 	display: none;
 }
 .PaperType {
-    align-self: center;
     background-color: #006600;
-    border-radius: 5px 5px 5px 5px;
     color: #FFFFFF;
-    font-size: 11pt;
     margin-right: 518px;
     margin-top: 15px;
     text-align: center;
     vertical-align: middle;
 }
+.copyright{display: none}
+.P-Current-Author-Addresses{display: inline}
+.P-Article-Preview-Addresses{display: inherit}
+.P-Article-Preview-Base-Info-Block{display: inherit}
 
-.downloadmaterials, .P-Article-Preview-Picture-Zoom-Small{display: none !important}
+
+.downloadmaterials, .P-Article-Preview-Picture-Zoom-Small, .P-Article-Preview-Picture-Download-Small{display: none !important}
+
+td, th {font-size: 0.7777em}
 
 /* Article preview CSS END */

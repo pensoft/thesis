@@ -315,7 +315,7 @@ a[href],label[for] {
 
 .item-holder-RC.table {
 	/*cursor: pointer;*/
-	
+
 }
 
 .item-holder-RC:last-child {
@@ -455,7 +455,7 @@ div.myfieldHolder[field_id='222'] {
 }
 
 .ref-full-hidden {
-	
+
 }
 
 .figure .description {
@@ -969,7 +969,7 @@ td.labelImg,td.leftMenuRowImage {
 }
 
 .leftMenuRowLink {
-	
+
 }
 
 img.bhl-img {
@@ -1094,6 +1094,7 @@ img.noBorder {
 .taxon-usage {
 	text-align: center;
 	width: 30px !important;
+	cursor: pointer;
 }
 
 .P-Aritlce-Share {
@@ -1128,7 +1129,7 @@ img.noBorder {
 }
 
 .P-Metrics-Value {
-	
+
 }
 
 .P-Regular-Site-Info-Holder.P-Regular-Site-Row-Without-Results a {
@@ -1157,8 +1158,9 @@ img.noBorder {
 }
 
 .P-Metrics-Headers-Row th {
-	text-align: center;
 	color: #444;
+	padding-right: 40px;
+    text-align: right;
 }
 
 .P-Metrics-Headers-Row {
@@ -1178,8 +1180,8 @@ img.noBorder {
 }
 
 .P-Metrics-Row td {
-	width: 120px;
-	padding: 2px 10px 2px 5px;
+	width: 80px;
+	padding: 2px 40px 2px 2px;
 	text-align: right;
 }
 
@@ -1191,8 +1193,14 @@ tr.P-Metrics-Row:hover {
 	padding: 0;
 }
 
-tr.P-Metrics-Row td {
-	border: 1px solid #EEE;
+td.versions{
+
+	padding: 0 8px 0 7px;
+	width: 120px;
+}
+
+tr.P-Metrics-Row td{
+   border: 1px solid #EEE;
 }
 
 .supp_agencies {
@@ -1635,10 +1643,19 @@ a.AOF-journal-logo {
 
 .P-Taxon-Navigation-Link-Prev, .P-Taxon-Navigation-Link-Next{
 	cursor:pointer;
+	float: right;
+	padding-top: 6px;
+	padding-right: 4px;
+	opacity: 0.7;
 }
+
+.P-Taxon-Navigation-Link-Prev{padding-right: 16px;}
 
 #format-head {
 	font-weight: bold;
 	font-size: 12pt;
 	padding-bottom: 10px
+}
+.formatAuthor{
+	display: none
 }
