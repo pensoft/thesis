@@ -20,7 +20,7 @@
 
 	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="formatting">
 		<xsl:choose>
-			<xsl:when test="$pInArticleMode = 0">
+			<xsl:when test="$pInArticleMode = 0 and $pPDFPreviewMode = 0">
 				<xsl:copy-of select="."/>
 			</xsl:when>
 			<xsl:otherwise>
@@ -193,7 +193,7 @@
 								<div class="P-Article-Info-Block-Row">
 									<xsl:value-of select="php:function('getDates', $pDocumentId)"/>
 								</div>
-								<div class="P-Article-Info-Block-Row">
+								<div class="P-Article-Info-Block-Row copyright">
 									<xsl:text>© </xsl:text><xsl:value-of select="php:function('getYear')"/><xsl:text> </xsl:text>
 									<xsl:for-each select="$pDocumentNode/objects/*[@object_id='14' or @object_id = '152']/*[@object_id='9' or @object_id='153']/*[@object_id='8']">
 										<xsl:apply-templates select="." mode="singleCorrespondingAuthorInLicense" />
@@ -516,7 +516,7 @@
 		<xsl:param name="lFileName"/>
 		<xsl:param name="lUploadedFileName"/>
 		<xsl:param name="lSupplFileInstanceId"/>
-		
+
 		<xsl:if test="$lUploadedFileName != ''">
 			<span class="fieldLabel">Filename:</span><xsl:text>&#160;</xsl:text>
 			<xsl:value-of select="normalize-space($lUploadedFileName)"/>
@@ -529,7 +529,7 @@
 				<br/>
 			</xsl:if>
 			<a class="download" target="_blank">
-				<xsl:attribute name="href"><xsl:value-of select="php:function('GetSupplFileDownloadLink', normalize-space($pSiteUrl), normalize-space($lFileName), string($lSupplFileInstanceId), $pInArticleMode)" /></xsl:attribute>				
+				<xsl:attribute name="href"><xsl:value-of select="php:function('GetSupplFileDownloadLink', normalize-space($pSiteUrl), normalize-space($lFileName), string($lSupplFileInstanceId), $pInArticleMode)" /></xsl:attribute>
 				<xsl:attribute name="name"><xsl:value-of select="normalize-space($lFileName)"/></xsl:attribute>
 				<xsl:text>Download file</xsl:text>
 			</a>
@@ -643,8 +643,8 @@
 			<xsl:otherwise>twocolumn</xsl:otherwise>
 		</xsl:choose>_<xsl:value-of select="$pPicId"/>.jpg</xsl:variable>
 		<xsl:variable name="lImageZoomLink"><xsl:value-of select="php:function('GetFigureZoomLink', string($pSiteUrl), $pInstanceId, $pInArticleMode)" /></xsl:variable>
-		<xsl:variable name="lImageDownloadLink"><xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), $pInstanceId, $pPicId, $pInArticleMode)" /></xsl:variable>			
-			
+		<xsl:variable name="lImageDownloadLink"><xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), $pInstanceId, $pPicId, $pInArticleMode)" /></xsl:variable>
+
 		<xsl:variable name="lContent">
 				<a target="_blank">
 					<xsl:attribute name="href">
@@ -705,7 +705,7 @@
 				<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
 				<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='483']/value"/></xsl:with-param>
 			</xsl:call-template>
-			<div class="description">
+			<div class="description jb">
 				<div class="name">
 					<xsl:text>Figure </xsl:text><xsl:value-of select="$lFigNumber"/><xsl:text>. </xsl:text>
 				</div>
@@ -1108,7 +1108,7 @@
 						<span class="downloadmaterials">
 							<a class="download-table-link">
 								<xsl:attribute name="href">
-									<xsl:value-of select="php:function('GetTableDownloadLink', string($pSiteUrl), string(./@instance_id), $pInArticleMode)" />									
+									<xsl:value-of select="php:function('GetTableDownloadLink', string($pSiteUrl), string(./@instance_id), $pInArticleMode)" />
 								</xsl:attribute>
 								<xsl:text>Download as CSV&#160;</xsl:text>
 								<img width="22" heigth="22" alt="" title="Download table">
@@ -1243,11 +1243,11 @@
 				</div>
 				<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
 					<xsl:attribute name="href">
-						<xsl:value-of select="php:function('GetFigureZoomLink', string($pSiteUrl), string(./image/@instance_id), $pInArticleMode)" />						
+						<xsl:value-of select="php:function('GetFigureZoomLink', string($pSiteUrl), string(./image/@instance_id), $pInArticleMode)" />
 					</xsl:attribute>
 				</a>
 				<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
-					<xsl:attribute name="href"><xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), string(@instance_id), string(./image/fields/photo_select/value), $pInArticleMode)" /></xsl:attribute>						
+					<xsl:attribute name="href"><xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), string(@instance_id), string(./image/fields/photo_select/value), $pInArticleMode)" /></xsl:attribute>
 					<img src="/i/download-icon-30.png" alt=""/>
 				</a>
 				<div class="description">
@@ -1288,11 +1288,11 @@
 			</div>
 			<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
 				<xsl:attribute name="href">
-					<xsl:value-of select="php:function('GetFigureZoomLink', string($pSiteUrl), string(@instance_id), $pInArticleMode)" />					
+					<xsl:value-of select="php:function('GetFigureZoomLink', string($pSiteUrl), string(@instance_id), $pInArticleMode)" />
 				</xsl:attribute>
 			</a>
 			<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
-				<xsl:attribute name="href"><xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), @instance_id, string(./fields/image_id/value), $pInArticleMode)" /></xsl:attribute>					
+				<xsl:attribute name="href"><xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), @instance_id, string(./fields/image_id/value), $pInArticleMode)" /></xsl:attribute>
 				<img src="/i/download-icon-30.png" alt=""/>
 			</a>
 			<div class="Plate-part-letter fig">
@@ -1322,7 +1322,7 @@
 
 	<!-- Article of the future preview template of a single table -->
 	<xsl:template match="*" mode="article_preview_table">
-		<xsl:apply-templates select="." mode="singleTableNormalPreview"/>	
+		<xsl:apply-templates select="." mode="singleTableNormalPreview"/>
 		<!-- <script type="text/javascript">
 			<![CDATA[
 			document.getElementById("P-Article-Info-Bar").className +=" ST";
@@ -1595,7 +1595,7 @@
 				<span class="fig-label-RC table">
 					<xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute>
 					Table <xsl:value-of select="position()"></xsl:value-of>.
-					
+
 					<span class="downloadmaterials">
 						<a class="download-table-link">
 							<xsl:attribute name="href">
@@ -1610,14 +1610,14 @@
 						</a>
 					</span>
 				</span>
-				
-				
+
+
 			<!--		<span class="fig-label-RC">
 						<xsl:value-of select="./@display_name"></xsl:value-of>
 							<xsl:text> </xsl:text>
 						<xsl:value-of select="position()"></xsl:value-of>
 		</span> -->
-					
+
 				<div class="list-caption">
 					<xsl:apply-templates select="./fields/table_caption/value" mode="formatting"/>
 				</div>
@@ -1672,8 +1672,8 @@
 	</xsl:template>
 
 	<xsl:template match="*" mode="singleSupplementaryMaterialAOF">
-		<xsl:variable name="instance" select="./@instance_id" />	
-			
+		<xsl:variable name="instance" select="./@instance_id" />
+
 		<xsl:if test="./fields/*[@id='214']/value != ''">
 				<span class="fig-label-RC suppl">
 					<xsl:attribute name="rid"><xsl:value-of select="./@instance_id"></xsl:value-of></xsl:attribute>
@@ -1689,8 +1689,8 @@
 					<xsl:apply-templates select="./fields/*[@id='214']/value" mode="formatting"/>
 				</div>
 		</xsl:if>
-			
-		<xsl:if test="./fields/*[@id='215']/value != '' or ./fields/*[@id='216']/value != '' or ./fields/*[@id='217']/value != '' or ./fields/*[@id='222']/value != ''">	
+
+		<xsl:if test="./fields/*[@id='215']/value != '' or ./fields/*[@id='216']/value != '' or ./fields/*[@id='217']/value != '' or ./fields/*[@id='222']/value != ''">
 			<div class="suppl-section-holder">
 				<xsl:if test="./fields/*[@id='215']/value != ''">
 					<div class="myfieldHolder">
@@ -1713,7 +1713,7 @@
 					</div>
 				</xsl:if>
 				<xsl:if test="./fields/*[@id='217']/value != ''">
-					<div class="myfieldHolder">		
+					<div class="myfieldHolder">
 						<span class="fieldLabel"><xsl:value-of select="./fields/*[@id='217']/@field_name" />:&#160;</span>
 						<div class="fieldValue" field_id="217">
 							<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
@@ -2846,32 +2846,27 @@
 
 			<script type="text/javascript">
 				<![CDATA[
+				var server = 'http://192.168.83.187:5000';
+				var ref   = encodeURIComponent(JSON.stringify(
+				{
+				]]>
+					<xsl:text>year: </xsl:text><xsl:value-of select="normalize-space($refYear)" /><xsl:text>,
+						authors: </xsl:text><xsl:value-of select="$Authors" /><xsl:text>,
+						title: '</xsl:text><xsl:value-of select="normalize-space($refTitle)" /><xsl:text>',
+						doi:   '</xsl:text><xsl:value-of select="normalize-space($doi)" /><xsl:text>',
+						journal: '</xsl:text><xsl:value-of select="normalize-space($journal)" /><xsl:text>',
+						volume: '</xsl:text><xsl:value-of select="normalize-space($volume)" /><xsl:text>',
+						issue: '</xsl:text><xsl:value-of select="normalize-space($issue)" /><xsl:text>',
+						spage: '</xsl:text><xsl:value-of select="normalize-space($spage)" /><xsl:text>',
+						epage: '</xsl:text><xsl:value-of select="normalize-space($epage)" /><xsl:text>'
+					</xsl:text>
+
+				<![CDATA[
+				}));
+
 				$('.chosen-select').chosen();
 
-				function callFormattingService(){
-					var style = $('#chosen-select').val().toLowerCase().replace(/ /g, '-');
-					var ref   = encodeURIComponent(JSON.stringify(
-					{
-					]]>
-						<xsl:text>year: </xsl:text><xsl:value-of select="normalize-space($refYear)" /><xsl:text>,
-							authors: </xsl:text><xsl:value-of select="$Authors" /><xsl:text>,
-							title: '</xsl:text><xsl:value-of select="normalize-space($refTitle)" /><xsl:text>',
-							doi:   '</xsl:text><xsl:value-of select="normalize-space($doi)" /><xsl:text>',
-							journal: '</xsl:text><xsl:value-of select="normalize-space($journal)" /><xsl:text>',
-							volume: '</xsl:text><xsl:value-of select="normalize-space($volume)" /><xsl:text>',
-							issue: '</xsl:text><xsl:value-of select="normalize-space($issue)" /><xsl:text>',
-							spage: '</xsl:text><xsl:value-of select="normalize-space($spage)" /><xsl:text>',
-							epage: '</xsl:text><xsl:value-of select="normalize-space($epage)" /><xsl:text>'
-						</xsl:text>
 
-					<![CDATA[
-					}));
-					var oReq  = new XMLHttpRequest();
-						oReq.onload = function(){ $('#formattedRef').html( $('<div/>').html(this.responseText).text() ); };
-						var server = 'http://192.168.83.187:5000';
-						oReq.open("get", server +'/format?ref=' + ref + '&style=' + style, true);
-						oReq.send();
-				}
 				]]>
 			</script>
 

@@ -315,7 +315,7 @@ a[href],label[for] {
 
 .item-holder-RC.table {
 	/*cursor: pointer;*/
-	
+
 }
 
 .item-holder-RC:last-child {
@@ -455,7 +455,7 @@ div.myfieldHolder[field_id='222'] {
 }
 
 .ref-full-hidden {
-	
+
 }
 
 .figure .description {
@@ -969,7 +969,7 @@ td.labelImg,td.leftMenuRowImage {
 }
 
 .leftMenuRowLink {
-	
+
 }
 
 img.bhl-img {
@@ -1128,7 +1128,7 @@ img.noBorder {
 }
 
 .P-Metrics-Value {
-	
+
 }
 
 .P-Regular-Site-Info-Holder.P-Regular-Site-Row-Without-Results a {
@@ -1649,4 +1649,7 @@ a.AOF-journal-logo {
 	font-weight: bold;
 	font-size: 12pt;
 	padding-bottom: 10px
+}
+.formatAuthor{
+	display: none
 }
