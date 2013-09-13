@@ -628,7 +628,9 @@
 			</xsl:if>
 			
 			<!-- URL -->
-			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
+			<xsl:if test="./fields/*[@id='30']/value = ''">
+				<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
+			</xsl:if>
 			
 			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 		</li>
@@ -1453,21 +1455,21 @@
 		</xsl:if>
 	</xsl:template>
 	
-	
+
 	<xsl:template match="*" mode="URL">
-		<xsl:if test="normalize-space(.) != ''">
-			<span class="ref-url">
-				<xsl:text> URL: </xsl:text>
-				<a>
-					<xsl:attribute name="field_id">263</xsl:attribute>
-					<xsl:attribute name="href">
-						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(.))"/>
-					</xsl:attribute>
-					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
-					<xsl:apply-templates select="." mode="formatting_nospace"/>
-				</a>
-			</span>	
-		</xsl:if>
+			<xsl:if test="normalize-space(.) != ''">
+				<span class="ref-url">
+					<xsl:text> URL: </xsl:text>
+					<a>
+						<xsl:attribute name="field_id">263</xsl:attribute>
+						<xsl:attribute name="href">
+							<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(.))"/>
+						</xsl:attribute>
+						<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
+						<xsl:apply-templates select="." mode="formatting_nospace"/>
+					</a>
+				</span>
+			</xsl:if>	
 	</xsl:template>
 	
 </xsl:stylesheet>

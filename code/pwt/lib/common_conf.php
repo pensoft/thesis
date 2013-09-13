@@ -234,6 +234,9 @@ define('PLATE_PART_TYPE_F_OBJECT_ID', 230);
 define('AUTO_SAVE_INTERVAL', 1000 * 60); // 1 minute
 
 define('DOCUMENT_TITLE_FIELD_ID', 3);
+define('FIGURE_TYPE_FIELD_ID', 488);
+define('FIGURE_NUM_FIELD_ID', 489);
+define('PLATE_PIC_ID_FIELD_ID', 484);
 define('AUTHOR_MAIL_NOTIFICATION_FIELD_ID', 288);
 define('FILE_UPLOAD_FIELD_ID', 222);
 define('MATERIAL_TYPE_FIELD_ID', 209);
@@ -297,6 +300,7 @@ define('DOCUMENT_LOCK_TIMEOUT_INTERVAL', 15);
 
 define('DOCUMENT_AUTHOR_TYPE_ID', 2);
 define('DOCUMENT_CONTRIBUTOR_TYPE_ID', 4);
+define('FIGURE_TYPE_PLATE_ID', 2);
 
 define('YOU_TUBE_VIDEO_TYPE', 2);
 
@@ -505,12 +509,13 @@ define('TAXON_NAME_USAGE_FIGURE', 4);
 define('TAXON_NAME_USAGE_TREATMENT', 1);
 define('TAXON_NAME_USAGE_CHECKLIST_TREATMENT', 2);
 define('TAXON_NAME_USAGE_ID_KEY', 3);
-define('DOCUMENT_AUTO_UNLOCK_INTERVAL', 4 * 60);//In seconds
+define('DOCUMENT_AUTO_UNLOCK_INTERVAL', 60 * 60);//In seconds
 
 define('PJS_ARTICLE_AJAX_SRV', PJS_SITE_URL . '/lib/ajax_srv/article_elements_srv.php');
 define('PJS_ARTICLE_TABLE_DL_SRV', PJS_ARTICLE_AJAX_SRV . '?action=download_table_csv&instance_id=');
 define('PJS_ARTICLE_FIGURE_ZOOM_SRV', PJS_ARTICLE_AJAX_SRV . '?action=zoom_figure&instance_id=');
 define('PJS_ARTICLE_FIGURE_DL_SRV', PJS_ARTICLE_AJAX_SRV . '?action=donwload_figure&instance_id=');
+define('PJS_ARTICLE_PLATE_DL_SRV', PJS_ARTICLE_AJAX_SRV . '?action=donwload_plate&instance_id=');
 define('PJS_ARTICLE_SUPPL_FILE_DL_SRV', PJS_ARTICLE_AJAX_SRV . '?action=donwload_suppl_file&instance_id=');
 
 

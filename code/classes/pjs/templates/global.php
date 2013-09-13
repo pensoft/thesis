@@ -253,9 +253,9 @@ $gTemplArr = array(
 			<div class="P-Clear"></div>
 			<table class="article_search_radio_holder">
 				<colgroup>
-					<col width="33%"></col>
-					<col width="33%"></col>
-					<col width="34%"></col>
+					<col width="10%"></col>
+					<col width="14%"></col>
+					<col width="32%"></col>
 				</colgroup>
 				{search_in}
 			</table>

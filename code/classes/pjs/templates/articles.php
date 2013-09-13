@@ -79,60 +79,60 @@ $gTemplArr = array(
 		'articles.article_metrics' => '
 			<div class="P-Metrics">
 				<div class="P-Metrics-Label">Article views</div>
-				<table class="P-Metric-Table">
+				<table class="P-Metric-Table" cellspacing="0" cellpadding="0">
 					<tr class="P-Metrics-Headers-Row">
 						<th>
-							
-						</th>
-						<th>
-							All
+							Version
 						</th>
 						<th>
 							Unique
 						</th>
+						<th>
+							All
+						</th>
 					</tr>
 					<tr class="P-Metrics-Row">
-						<td>
+						<td style="text-align: center">
 							HTML
-						</td>
-						<td>
-							{html_views_cnt}
 						</td>
 						<td>
 							{html_unique_views_cnt}
 						</td>
+						<td>
+							{html_views_cnt}
+						</td>
 					</tr>
 					<tr class="P-Metrics-Row">
-						<td>
+						<td style="text-align: center">
 							PDF
-						</td>
-						<td>
-							{pdf_views_cnt}
 						</td>
 						<td>
 							{pdf_unique_views_cnt}
 						</td>
+						<td>
+							{pdf_views_cnt}
+						</td>
 					</tr>
 					<tr class="P-Metrics-Row">
-						<td>
+						<td style="text-align: center">
 							XML
-						</td>
-						<td>
-							{xml_views_cnt}
 						</td>
 						<td>
 							{xml_unique_views_cnt}
 						</td>
+						<td>
+							{xml_views_cnt}
+						</td>
 					</tr>
 					<tr class="P-Metrics-Row">
-						<td>
+						<td style="text-align: center">
 							Total
 						</td>
 						<td>
-							{total_views_cnt}
+							{total_unique_views_cnt}
 						</td>
 						<td>
-							{total_unique_views_cnt}
+							<b>{total_views_cnt}</b>
 						</td>
 					</tr>
 				</table>				
@@ -150,11 +150,11 @@ $gTemplArr = array(
 		'article.figures_metrics_foot' => '',
 		'article.figures_metrics_start' => '
 			<div class="P-Metrics">
-				<div class="P-Metrics-Label">Figures metrics</div>
-				<table class="P-Metric-Table">
+				<div class="P-Metrics-Label">Figures</div>
+				<table class="P-Metric-Table" cellspacing="0" cellpadding="0">
 					<tr class="P-Metrics-Headers-Row">
 						<th>
-							№
+							Item
 						</th>
 						<th>
 							Views
@@ -187,11 +187,11 @@ $gTemplArr = array(
 		'article.tables_metrics_foot' => '',
 		'article.tables_metrics_start' => '
 			<div class="P-Metrics">
-				<div class="P-Metrics-Label">Tables metrics</div>
-				<table class="P-Metric-Table">
+				<div class="P-Metrics-Label">Tables</div>
+				<table class="P-Metric-Table" cellspacing="0" cellpadding="0">
 					<tr class="P-Metrics-Headers-Row">
 						<th>
-							№
+							Item
 						</th>
 						<th>
 							Views
@@ -221,11 +221,11 @@ $gTemplArr = array(
 		'article.suppl_files_metrics_foot' => '',
 		'article.suppl_files_metrics_start' => '
 			<div class="P-Metrics">
-				<div class="P-Metrics-Label">Supplementary files metrics</div>
-				<table class="P-Metric-Table">
+				<div class="P-Metrics-Label">Supplementary files</div>
+				<table class="P-Metric-Table" cellspacing="0" cellpadding="0">
 					<tr class="P-Metrics-Headers-Row">
 						<th>
-							№
+							Item
 						</th>
 						<th>
 							Views

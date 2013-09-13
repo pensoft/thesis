@@ -463,6 +463,15 @@ class mArticles extends emBase_Model {
 		return $this->m_con->mRs;
 	}
 	
+	function GetPlatePartItemIds($pPlateItemId){
+		$lSql = '
+				SELECT d.id
+				FROM pjs.article_figures d
+				JOIN pjs.article_figures p ON p.instance_id = d.plate_instance_id
+				WHERE p.id = ' . (int)$pPlateItemId . '
+		';
+		return $this->ArrayOfRows($lSql);
+	}
 }
 
 ?>
