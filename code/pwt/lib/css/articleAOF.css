@@ -488,7 +488,7 @@ xref[type='bibr'] {
 	color:#0088CC;
 }
 
-xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[type='suppl']:hover, .locality-coordinate:hover, span[data-author-id]:hover {
+xref[type='bibr']:hover, xref[type='fig']:hover, xref[type='table']:hover, xref[type='suppl']:hover, .locality-coordinate:hover, span[data-author-id]:hover, .P-Highlighted-Element {
 	background:#FEF1B5;
 	cursor:pointer;
 }
