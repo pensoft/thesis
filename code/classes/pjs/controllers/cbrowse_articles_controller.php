@@ -13,7 +13,9 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 		$lState = (int)$this->GetValueFromRequestWithoutChecks('preview');
 		$lSearchText = $this->GetValueFromRequestWithoutChecks('stext');
 		$lSearchedOpt = $this->GetValueFromRequestWithoutChecks('search_in');
-		
+		$lFormName = $this->GetValueFromRequestWithoutChecks('form_name');
+		$lSortBy = (int)$this->GetValueFromRequestWithoutChecks('sortby');
+		//var_dump($_REQUEST);
 		$this->m_models['mJournal_Documents_Model'] = new mJournal_Documents_Model();
 		
 		if ($lState == 1){
@@ -79,6 +81,15 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 					'CType' => 'hidden',
 					'VType' => 'int',
 					'AllowNulls' => true,
+				),
+				'sortby' => array(
+					'CType' => 'hidden',
+					'VType' => 'int',
+					'AllowNulls' => true,
+					'DefValue' => (int)$_REQUEST['sortby'],
+					'AddTags' => array(
+						'id' => 'filter_articles_sortby',
+					),
 				),
 				'alerts_subject_cats' => array(
 					'CType' => 'text',
@@ -222,7 +233,8 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 				$lForm->wGetFieldValue('to_date'),
 				$lForm->wGetFieldValue('funding_agency'),
 				$lSearchText,
-				$lSearchedOpt
+				$lSearchedOpt,
+				(int)$lSortBy
 			);
 			//var_dump($lTrees);
 			//var_dump($lForm->wGetFieldValue('section_type'));
@@ -251,6 +263,8 @@ class cBrowse_Articles_Controller extends cBase_Controller {
 				'geographical' => $lConvertedFilterValues['geographical'], 
 				'chronical' => $lConvertedFilterValues['chronical'], 
 				'sectiontype' => $lConvertedFilterValues['sectionType'],
+				'submitted_form_name' => $lFormName,
+				'sortby' => (int)$lSortBy,
 			);		
 			$pViewPageObjectsDataArray['journal_id'] = $lJournalId;
 		}

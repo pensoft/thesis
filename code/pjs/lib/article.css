@@ -405,11 +405,11 @@ div.myfieldHolder[field_id='222'] {
 }
 
 .fieldLabel {
-	float: left;
-	color: #404040;
-	font-weight: bold;
-	font-family: Helvetica;
-	font-size: 0.9em;
+  float: left;
+  color: #666;
+  font-weight: bold;
+ /* font-family:Helvetica;
+  font-size:0.9em; */
 }
 
 .ref-list-AOF-holder {

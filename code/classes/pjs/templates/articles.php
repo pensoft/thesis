@@ -254,7 +254,7 @@ $gTemplArr = array(
 		'articles.share' => '
 			<div class="P-Aritlce-Share">
 				<div class="P-Article-Share-Row">
-					<a target="_blank" href="https://www.facebook.com/BiodiversityDataJournal">
+					<a target="_blank" {_generateFBLink(article_id)}>
 						<div class="P-Article-Share-Row-Icon">
 							<img src="i/fb.png" />
 							<span class="P-Article-Share-Row-Icon">
@@ -264,7 +264,7 @@ $gTemplArr = array(
 					</a>	
 				</div>
 				<div class="P-Article-Share-Row">
-					<a target="_blank" href="https://twitter.com/BioDataJournal">
+					<a target="_blank" {_generateTwitterLink(article_id)}>
 						<div class="P-Article-Share-Row-Icon">
 							<img src="i/tw.png" />
 							<span class="P-Article-Share-Row-Icon">
@@ -275,7 +275,7 @@ $gTemplArr = array(
 				</div>
 				<div class="P-Article-Share-Row">
 					<div class="P-Article-Share-Row-Icon">
-						<a target="_blank" href="https://plus.google.com/114819936210826038991?prsrc=3">
+						<a target="_blank" {_generateGPlusLink(article_id)}>
 							<img src="i/gplus.png" />
 							<span class="P-Article-Share-Row-Icon">
 								Share with Google+
@@ -285,10 +285,20 @@ $gTemplArr = array(
 				</div>
 				<div class="P-Article-Share-Row">
 					<div class="P-Article-Share-Row-Icon">
-						<a target="_blank" href="http://www.mendeley.com/groups/3621351/biodiversity-data-journal/">
+						<a target="_blank" {_generateMendeleyLink(article_id)}>
 							<img src="i/mendeley.png" />
 							<span class="P-Article-Share-Row-Icon">
 								Share with Mendeley
+							</span>
+						</a>	
+					</div>
+				</div>
+				<div class="P-Article-Share-Row">
+					<div class="P-Article-Share-Row-Icon">
+						<a {_generateEmailLink(article_id, document_name, journal_name, journal_short_name, doi, authors, publish_date)}>
+							<img src="i/icon_email.gif" />
+							<span class="P-Article-Share-Row-Icon">
+								Notify a colleague
 							</span>
 						</a>	
 					</div>

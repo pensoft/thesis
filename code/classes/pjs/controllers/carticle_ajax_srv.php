@@ -251,9 +251,12 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 	}
 	
 	function GetShareList(){
+		$lData = $this->m_articlesModel->GetArticleInfoForShare($this->m_articleId);
 		$lResult = new evSimple_Block_Display(array(
 			'name_in_viewobject' => 'share_list',
 			'view_object' => $this->m_tempPageView,
+			'article_id' => $this->m_articleId,
+			'controller_data' => $lData,
 		));
 		return $lResult->Display();
 	}

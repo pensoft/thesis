@@ -2180,3 +2180,18 @@ function arrayDiff(pArrayA, pArrayB) {
 	}
 	return lResult;
 }
+
+function SortArticleResults(pSel, pSubmittedForm) {
+	//var option_user_selection = pSel.options[ pSel.selectedIndex].value;
+	//console.log($(pSel).val());
+	//console.log(option_user_selection);
+	if(pSubmittedForm) {
+		$('#' + pSubmittedForm + '_sortby').val($(pSel).val());
+		var form = $('#' + pSubmittedForm + '_sortby').closest('form');
+		//console.log(form);
+		form.submit();
+	} else {
+		location.href = "/browse_journal_articles?journal_id=1&sortby=" + $(pSel).val();
+	}
+	
+}

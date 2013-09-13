@@ -5,9 +5,24 @@ $gTemplArr = array(
 	// Browse Journal Articles List Templates
 	
 	'browse_articles.header' => '
-			<h1 class="dashboard-title withoutBorder">
-				{records} {_displayArticlesFilterText(records, taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
-			</h1>
+			<div class="article_title_with_sort">
+				<h1 class="dashboard-title withoutBorder">
+					{records} {_displayArticlesFilterText(records, taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
+				</h1>
+			</div>
+			<div class="article_sort_text">
+				<div class="article_sort_text_wrapper">
+					Sort results by:
+				</div>
+			</div>
+			<div class="P-Input-Full-Width P-W300 fieldHolder P-SelectHolder P-Articles-Sort-Select">
+				<div class="article_sort_select_wrapper">
+					<select name="country" onchange="SortArticleResults(this, \'{submitted_form_name}\')" id="countries">
+						{_getSortOpts(sortby)}
+					</select>
+				</div>
+			</div>
+			<div class="P-Clear"></div>
 			<div style="margin: 10px;">
 				{_displayArticlesFilterCriteria(taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
 			
@@ -40,7 +55,7 @@ $gTemplArr = array(
 					<a href="#" class="subLink">{_showDoiLinkIfExist(doi)}</a>
 					<div class="info">
 						<span><img src="i/articleCalendar.png" alt="Calendar"></img> {publish_date}</span>
-						<span><img src="i/eye.png" alt="eye"></img> 465</span>
+						<span><img src="i/eye.png" alt="eye"></img> Unique: {view_unique_cnt} Total: {view_cnt} PDF Download: {pdf_view_cnt}</span>
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
 							<a href="#">XML</a>
@@ -94,7 +109,7 @@ $gTemplArr = array(
 				</div>
 	',
 	
-	'browse_articles.search_form' => '
+	'browse_articles.search_form' => '{sortby}
 					{journal_id}
 					<div class="leftSiderBlock bigBlock">
 						<h3>' . getstr('pjs.filter') . '</h3>
