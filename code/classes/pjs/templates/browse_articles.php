@@ -55,7 +55,7 @@ $gTemplArr = array(
 					<a href="#" class="subLink">{_showDoiLinkIfExist(doi)}</a>
 					<div class="info">
 						<span><img src="i/articleCalendar.png" alt="Calendar"></img> {publish_date}</span>
-						<span><img src="i/eye.png" alt="eye"></img> 465</span>
+						<span><img src="i/eye.png" alt="eye"></img> Unique: {view_unique_cnt} Total: {view_cnt} PDF Download: {pdf_view_cnt}</span>
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
 							<a href="#">XML</a>
