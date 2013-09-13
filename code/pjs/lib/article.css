@@ -1073,6 +1073,11 @@ tr.P-Metrics-Row:hover{
 	padding: 0;
 }
 
+td.versions{
+	padding: 0px;
+	font-weight: bold;
+}
+
 tr.P-Metrics-Row td{
    border: 1px solid #EEE;
 }

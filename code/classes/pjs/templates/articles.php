@@ -92,7 +92,7 @@ $gTemplArr = array(
 						</th>
 					</tr>
 					<tr class="P-Metrics-Row">
-						<td style="text-align: center">
+						<td class="versions" style="text-align: center">
 							HTML
 						</td>
 						<td>
@@ -103,7 +103,7 @@ $gTemplArr = array(
 						</td>
 					</tr>
 					<tr class="P-Metrics-Row">
-						<td style="text-align: center">
+						<td class="versions" style="text-align: center">
 							PDF
 						</td>
 						<td>
@@ -114,7 +114,7 @@ $gTemplArr = array(
 						</td>
 					</tr>
 					<tr class="P-Metrics-Row">
-						<td style="text-align: center">
+						<td class="versions" style="text-align: center">
 							XML
 						</td>
 						<td>
@@ -125,11 +125,11 @@ $gTemplArr = array(
 						</td>
 					</tr>
 					<tr class="P-Metrics-Row">
-						<td style="text-align: center">
+						<td class="versions" style="text-align: center">
 							Total
 						</td>
 						<td>
-							{total_unique_views_cnt}
+							<b>{total_unique_views_cnt}</b>
 						</td>
 						<td>
 							<b>{total_views_cnt}</b>
@@ -171,13 +171,13 @@ $gTemplArr = array(
 		'article.figures_metrics_row' => '
 					<tr class="P-Metrics-Row">
 						<td>
-							<span class="fig" rid="{instance_id}">{display_label}</span>
+							<span class="fig" rid="{instance_id}">Fig. {display_label}</span>
 						</td>
-						<td>
-							{view_cnt}({view_unique_cnt})
+						<td title="Total views (Unique views)">
+							{view_cnt} ({view_unique_cnt})
 						</td>
-						<td>
-							{download_cnt}({download_unique_cnt})
+						<td title="Total views (Unique views)">
+							{download_cnt} ({download_unique_cnt})
 						</td>
 					</tr>		
 		',
@@ -205,13 +205,13 @@ $gTemplArr = array(
 		'article.tables_metrics_row' => '
 					<tr class="P-Metrics-Row">
 						<td>
-							<span class="table" rid="{instance_id}">{display_label}</span>
+							<span class="table" rid="{instance_id}">Table {display_label}</span>
 						</td>
-						<td>
-							{view_cnt}({view_unique_cnt})
+						<td title="Total views (Unique views)">
+							{view_cnt} ({view_unique_cnt})
 						</td>
-						<td>
-							{download_cnt}({download_unique_cnt})
+						<td title="Total views (Unique views)">
+							{download_cnt} ({download_unique_cnt})
 						</td>
 					</tr>			
 		',
@@ -239,13 +239,13 @@ $gTemplArr = array(
 		'article.suppl_files_metrics_row' => '
 					<tr class="P-Metrics-Row">
 						<td>
-							<span class="suppl" rid="{instance_id}">{display_label}</span>
+							<span class="suppl" rid="{instance_id}">Suppl. material {display_label}</span>
 						</td>
-						<td>
-							{view_cnt}({view_unique_cnt})
+						<td title="Total views (Unique views)">
+							{view_cnt} ({view_unique_cnt})
 						</td>
-						<td>
-							{download_cnt}({download_unique_cnt})
+						<td title="Total views (Unique views)">
+							{download_cnt} ({download_unique_cnt})
 						</td>
 					</tr>			
 		',
