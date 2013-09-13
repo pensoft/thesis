@@ -1033,23 +1033,48 @@ img.noBorder{
 
 .P-Metrics-Label{
 	font-weight: bold;
-	font-size: 12pt;
+	font-size: 14pt;
 	color: #666;
+	padding-bottom: 5px;
 }
 .P-Metric-Table{
 	font-size: 10pt;
+	border-collapse: collapse;
+	margin-left: 20px;
+}
+.P-Metrics-Headers-Row th{
+	text-align: center;
+	color: #444;
+}
+.P-Metrics-Headers-Row{
+	background-color: #E3E3C7;
+    font-size: 15px;
+    font-weight: bold;
+    height: 30px;
+    padding-left: 6px;
+}
+.P-Metrics-Row > td > span{
+	display: block;
+	cursor: pointer;
+	text-align: center;
+	color: #0088CC;
+	font-weight: bold;
 }
 .P-Metrics-Row td{
-	width: 80px;
-	padding:5px 5px 5px 5px;
+	width: 120px;
+	padding:2px 10px 2px 5px;
+	text-align: right;
 } 
+tr.P-Metrics-Row:hover{
+	background: #F0EEE7;
+} 
+
 .P-Metrics-Row .table{
 	padding: 0;
 }
 
 tr.P-Metrics-Row td{
-   border: 1px solid #BBBBBB;
-   border-collapse: collapse;
+   border: 1px solid #EEE;
 }
 
 .supp_agencies {

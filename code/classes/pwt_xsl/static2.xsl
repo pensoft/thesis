@@ -1625,7 +1625,7 @@
 	<!-- Article of the future preview template of the sup files list -->
 	<xsl:template match="*" mode="article_sup_files_list">
 		<div class="suppl-list-AOF">
-			<div class="data-help">Note: Tables and Figures (if present) can be downloaded from the article.</div>
+			<div class="data-help">Note: Tables and Figures, if present, can be downloaded from the article.</div>
 
 			<xsl:if test="count(//*[@object_id='37']) > 0">
 				<div class="DwC">
@@ -1638,7 +1638,7 @@
 						<img width="18" heigth="18" alt="" style="vertical-align: top;">
 							<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download-icon-small-18.png</xsl:attribute>
 						</img>
-						Download all occurrences as DwC-Archive
+						Download all occurrences as Darwin Core Archive
 					</a>
 				</div>
 			</xsl:if>
