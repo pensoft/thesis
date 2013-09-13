@@ -527,7 +527,7 @@ function ScrollArticleToNode(pNode){
 		return;
 	}
 	var lTopOffset = $(pNode).offset().top;
-	$('#article-preview').scrollTop(lTopOffset);
+	$('#article-preview').scrollTop(lTopOffset - 150);
 }
 
 function PlaceTaxonNavigationLinkEvents(pInPreviewIframe){	

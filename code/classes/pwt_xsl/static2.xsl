@@ -1643,7 +1643,7 @@
 	<!-- Article of the future preview template of the sup files list -->
 	<xsl:template match="*" mode="article_sup_files_list">
 		<div class="suppl-list-AOF">
-			<div class="data-help">Note: Tables and Figures, if present, can be downloaded from the article.</div>
+			<div class="data-help"><img width="24" height="24" style="float: left; margin: -4px 4px 0 0" alt="Note:" src="/i/lightbulb.png" /><span>Tables and Figures, if present, can be downloaded from the article.</span></div>
 
 			<xsl:if test="count(//*[@object_id='37']) > 0">
 				<div class="DwC">

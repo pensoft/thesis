@@ -1157,8 +1157,9 @@ img.noBorder {
 }
 
 .P-Metrics-Headers-Row th {
-	text-align: center;
 	color: #444;
+	padding-right: 40px;
+    text-align: right;
 }
 
 .P-Metrics-Headers-Row {
@@ -1178,8 +1179,8 @@ img.noBorder {
 }
 
 .P-Metrics-Row td {
-	width: 120px;
-	padding: 2px 10px 2px 5px;
+	width: 80px;
+	padding: 2px 40px 2px 2px;
 	text-align: right;
 }
 
@@ -1192,8 +1193,9 @@ tr.P-Metrics-Row:hover {
 }
 
 td.versions{
-	padding: 0px;
-	font-weight: bold;
+
+	padding: 0 8px 0 7px;
+	width: 120px;
 }
 
 tr.P-Metrics-Row td{
@@ -1640,6 +1642,7 @@ a.AOF-journal-logo {
 
 .P-Taxon-Navigation-Link-Prev, .P-Taxon-Navigation-Link-Next{
 	cursor:pointer;
+	float: right;
 }
 
 #format-head {
