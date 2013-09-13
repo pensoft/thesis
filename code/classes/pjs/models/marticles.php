@@ -437,7 +437,7 @@ class mArticles extends emBase_Model {
 	function GetArticleInfoForShare($pId) {
 		$lSql = '
 			SELECT 
-				j.name as document_name, 
+				am.title as document_name, 
 				d.doi, 
 				j.name as journal_name, 
 				j.short_name as journal_short_name, 
@@ -467,7 +467,6 @@ class mArticles extends emBase_Model {
 			JOIN journals j ON j.id = d.journal_id
 			WHERE document_id = ' . $pId;
 		$this->m_con->Execute($lSql);
-		//var_dump($this->m_con->mRs);
 		return $this->m_con->mRs;
 	}
 	

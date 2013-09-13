@@ -3330,8 +3330,18 @@ function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournal
 		$pDocumentName = trim($pDocumentName);
 		preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+)/', $pPublishDate, $lMatch);
 		$lDocumentLink = SITE_URL . '/articles.php?id=' . $pArticleId;
+		
+		$lAuthorsArr = explode(',', $pAuthors);
+		$pAuthors = '';
+		$i = 1;
+		foreach ($lAuthorsArr as $key => $value) {
+			$lAuthorNamesArr = explode(' ', trim($value)); 
+			$pAuthors .= $lAuthorNamesArr[1] . ' ' . substr($lAuthorNamesArr[0], 0, 1) . (count($lAuthorsArr) == $i ? '' : ', ');
+			$i++;
+		}
+		
 		$lSubject = 'Paper published in ' . $pJournalName;
-		$lBody = "Hi," .  urlencode("\n") .  urlencode("\n") . "an interesting paper published in " . $pJournalShortName . ": " . urlencode("\n") . urlencode("\n") . $pAuthors . " (". $lMatch[3] .") ".GetArticleTitleForCitation($pDocumentName)." ".$pJournalName." 1: e".$pArticleId." DOI: http://dx.doi.org/" . $pDoi . urlencode("\n");
+		$lBody = "Hi," .  urlencode("\n") .  urlencode("\n") . "an interesting paper published in " . $pJournalShortName . ": " . urlencode("\n") . urlencode("\n") . $pAuthors . " (". $lMatch[3] .") ".GetArticleTitleForCitation(trim($pDocumentName))." ".$pJournalName." 1: e".$pArticleId." DOI: http://dx.doi.org/" . $pDoi . urlencode("\n");
 		return 'href="mailto:?Subject=' . urldecode($lSubject) . '&amp;body=' . $lBody . '"'; 
 	}
 	return 'href="#"';

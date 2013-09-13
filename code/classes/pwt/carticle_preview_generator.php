@@ -897,6 +897,7 @@ class carticle_preview_generator extends csimple {
 			}
 			
 			$lCurrentTaxonNodeClone = $lCurrentTaxonNode->cloneNode(true);
+			
 			foreach ($lXPath->query($lPartsQuery, $lCurrentTaxonNodeClone) as $lCurrentPart){				
 				$lPartValue = trim($lCurrentPart->getAttribute($lAttributeNameThatHoldsPartValue));
 				if($lPartValue != ''){
@@ -905,20 +906,22 @@ class carticle_preview_generator extends csimple {
 			}			
 			$lTaxonHtml = $lCurrentTaxonNodeClone->ownerDocument->saveXML($lCurrentTaxonNodeClone);
 			$lTaxonText = $lCurrentTaxonNodeClone->textContent;
-			
+			$lCurrentTaxonNode->setAttribute('data-taxon-parsed-name', $lTaxonText);
 			$lTaxonForListPreview = array(
 				'html' => $lTaxonHtml,
-				'text' => $lTaxonText,
+				'text' => array($lTaxonText),
+				'base_text' => $lTaxonText,
 				'names' => $lCurrentTaxonNames,
 				'usage' => array($lTaxonUsage),
 				'treatment_id' => $lTaxonTreatmentId,
+				'occurrences' => 1,
 			);
 			if(!$this->CheckIfTaxonIsInArrayForListPreview($lTaxaForListPreview, $lTaxonForListPreview)){
 				$lTaxaForListPreview[] = $lTaxonForListPreview;
 			}
 		}
 		usort($lTaxaForListPreview, function($pTaxon1, $pTaxon2){
-			return strcmp($pTaxon1['text'], $pTaxon2['text']);
+			return strcmp($pTaxon1['base_text'], $pTaxon2['base_text']);
 		});
 		
 		$lPreview = new crs_display_array(array (
@@ -940,6 +943,13 @@ class carticle_preview_generator extends csimple {
 		if(count($this->m_taxaList)){
 			$this->m_hasTaxa = true;
 		}	
+				
+		$lNode = $lXPath->query('//div[@class="P-Article-Preview"]');
+		if ($lNode->length) {
+			$this->m_wholeArticlePreview = $this->m_wholePreviewDom->saveHTML($lNode->item(0));
+		}
+// 		var_dump($this->m_wholeArticlePreview);
+// 		exit;
 	}
 	
 	protected function CheckIfTaxonIsInArrayForListPreview(&$pArrayForList, &$pTaxon){
@@ -956,6 +966,8 @@ class carticle_preview_generator extends csimple {
 				$pArrayForList[$lKey]['treatment_id'] = (int)$pTaxon['treatment_id'];
 			}
 			$pArrayForList[$lKey]['usage'] = array_unique(array_merge($pArrayForList[$lKey]['usage'], $pTaxon['usage']));
+			$pArrayForList[$lKey]['text'] = array_unique(array_merge($pArrayForList[$lKey]['text'], $pTaxon['text']));
+			$pArrayForList[$lKey]['occurrences'] += $pArrayForList[$lKey]['occurrences'];
 			return true;
 		}
 		return false;
