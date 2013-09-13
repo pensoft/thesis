@@ -3327,10 +3327,11 @@ function generateMendeleyLink($pId) {
 
 function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournalShortName, $pDoi, $pAuthors, $pPublishDate) {
 	if($pArticleId) {
+		$pDocumentName = trim($pDocumentName);
 		preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+)/', $pPublishDate, $lMatch);
 		$lDocumentLink = SITE_URL . '/articles.php?id=' . $pArticleId;
 		$lSubject = 'Paper published in ' . $pJournalName;
-		$lBody = "Hi," .  urlencode("\n") . "an interesting paper published in " . $pJournalShortName . ": " . $lDocumentLink . " DOI: " . $pDoi;
+		$lBody = "Hi," .  urlencode("\n") .  urlencode("\n") . "an interesting paper published in " . $pJournalShortName . ": " . urlencode("\n") . urlencode("\n") . $pAuthors . " (". $lMatch[3] .") ".GetArticleTitleForCitation($pDocumentName)." ".$pJournalName." 1: e".$pArticleId." DOI: http://dx.doi.org/" . $pDoi . urlencode("\n");
 		return 'href="mailto:?Subject=' . urldecode($lSubject) . '&amp;body=' . $lBody . '"'; 
 	}
 	return 'href="#"';
