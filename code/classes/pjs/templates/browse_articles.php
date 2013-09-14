@@ -54,8 +54,8 @@ $gTemplArr = array(
 					&nbsp;&nbsp;&nbsp;
 					<a href="#" class="subLink">{_showDoiLinkIfExist(doi)}</a>
 					<div class="info">
-						<span><img src="i/articleCalendar.png" alt="Calendar"></img> {publish_date}</span>
-						<span><img src="i/eye.png" alt="eye"></img> Unique: {view_unique_cnt} Total: {view_cnt} PDF Download: {pdf_view_cnt}</span>
+						<span style="color:#666"><img src="i/articleCalendar.png" alt="Calendar" title="Publication date"></img> {publish_date}</span>
+						<span style="color:#666"><img src="i/eye.png" alt="eye" title="Views"></img> Unique: {view_unique_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;Total: {view_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;PDF Downloads: {pdf_view_cnt}</span>
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
 							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=donwload_xml&item_id={id}">XML</a>
