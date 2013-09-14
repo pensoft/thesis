@@ -7010,3 +7010,9 @@ html, body {
 	width:60% !important;
 	float:left;
 }
+
+.most_visited_holder a{
+	margin:0px 0px 0px 11px;
+	color:rgb(128,0,0);
+	font-weight: bold;
+}

@@ -2202,6 +2202,6 @@ $STRARRAY = array(
 	
 	'pwt.index_list_head_text' => 'My recent manuscripts',
 	'pjs.bygeochronocal' => 'by Chronological period',
-
+	'pjs.mostvisitedarticles' => 'Most visited papers',
 );
 ?>

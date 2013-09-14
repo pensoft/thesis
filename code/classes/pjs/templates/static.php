@@ -3364,4 +3364,23 @@ function GetArticleTitleForCitation($pTitle){
 	return $pTitle;
 }
 
+function showMostVisitedLinkIfStaff() {
+	global $user;
+	if($user->staff) {
+		return '
+			<div class="leftSiderBlock withoutHeader">
+				<div class="siderBlockLinksHolder">
+					<div class="mostVisited">
+						<div class="P-Clear"></div>
+						<a href="/browse_journal_articles?journal_id=1&sortby=1">
+							Most visited papers
+						</a>
+					</div>
+				</div>
+			</div>
+		';
+	}
+	return '';
+}
+
 ?>
