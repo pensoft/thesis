@@ -58,7 +58,7 @@ $gTemplArr = array(
 						<span><img src="i/eye.png" alt="eye"></img> Unique: {view_unique_cnt} Total: {view_cnt} PDF Download: {pdf_view_cnt}</span>
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
-							<a href="#">XML</a>
+							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=donwload_xml&item_id={id}">XML</a>
 							<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})" class="clearBorder">PDF</a>
 						</div>
 					</div>
@@ -387,7 +387,7 @@ $gTemplArr = array(
 						<span><img src="i/eye.png" alt="eye"></img> 465</span>
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
-							<a href="#">XML</a>
+							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=donwload_xml&item_id={id}">XML</a>
 							<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})" class="clearBorder">PDF</a>
 						</div>
 					</div>

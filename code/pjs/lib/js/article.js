@@ -440,7 +440,7 @@ function PlaceLocalitiesEvents(pInPreviewIframe){
 
 function PlaceTaxonUsageIconsEvents(pInPreviewIframe){
 	var lTreatmentTitleSelector = '*[data-taxon-treatment-title]';
-	var lChecklistTitleSelector = '*[data-checklist-treatment-title]';
+	var lChecklistTitleSelector = '*[data-checklist-taxon-title]';
 	var lIDKeySelector = '*[data-id-key-taxon-name]';
 	var lFigureSelector = '.figure';
 	console.log(gTaxonDataUsageTypeTreatment);

@@ -3341,7 +3341,7 @@ function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournal
 		}
 		
 		$lSubject = 'Paper published in ' . $pJournalName;
-		$lBody = "Hi," .  urlencode("\n") .  urlencode("\n") . "an interesting paper published in " . $pJournalShortName . ": " . urlencode("\n") . urlencode("\n") . $pAuthors . " (". $lMatch[3] .") ".GetArticleTitleForCitation(trim($pDocumentName))." ".$pJournalName." 1: e".$pArticleId." DOI: http://dx.doi.org/" . $pDoi . urlencode("\n");
+		$lBody = "Hi," .  urlencode("\n") .  urlencode("\n") . "Here is an interesting paper published in the " . $pJournalShortName . ": " . urlencode("\n") . urlencode("\n") . $pAuthors . " (". $lMatch[3] .") ".GetArticleTitleForCitation(trim($pDocumentName))." ".$pJournalName." 1: e".$pArticleId.". DOI: http://dx.doi.org/" . $pDoi . urlencode("\n");
 		return 'href="mailto:?Subject=' . urldecode($lSubject) . '&amp;body=' . $lBody . '"'; 
 	}
 	return 'href="#"';
@@ -3362,6 +3362,25 @@ function GetArticleTitleForCitation($pTitle){
 		$pTitle .= '.';
 	}
 	return $pTitle;
+}
+
+function showMostVisitedLinkIfStaff() {
+	global $user;
+	if($user->staff) {
+		return '
+			<div class="leftSiderBlock withoutHeader">
+				<div class="siderBlockLinksHolder">
+					<div class="mostVisited">
+						<div class="P-Clear"></div>
+						<a href="/browse_journal_articles?journal_id=1&sortby=1">
+							Most visited papers
+						</a>
+					</div>
+				</div>
+			</div>
+		';
+	}
+	return '';
 }
 
 ?>

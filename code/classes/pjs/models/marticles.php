@@ -331,8 +331,8 @@ class mArticles extends emBase_Model {
 		$lSql = 'SELECT * 
 				FROM spRegisterArticleMetricDetail(' . (int) $pItemId . ', ' . (int) $pItemType . ', ' . (int) $pDetailType . ', \'' . q($pIpAddress) . '\');
 		';
-// 		var_dump($lSql);
-// 		exit;
+ 		// var_dump($lSql);
+ 		// exit;
 		$this->m_con->Execute($lSql);
 		return $this->m_con->mRs ['id'];
 	}
@@ -448,6 +448,7 @@ class mArticles extends emBase_Model {
 			JOIN journals j ON j.id = d.journal_id
 			WHERE d.id = ' . $pId . ' 
 		';
+		// var_dump($lSql);
 		$this->m_con->Execute($lSql);
 		return $this->m_con->mRs;	
 	}

@@ -201,7 +201,7 @@ class mJournal_Documents_Model extends emBase_Model {
 						) a) as authors_list,
 						coalesce(am1.view_cnt,0) as view_cnt,
 						coalesce(am1.view_unique_cnt,0) as view_unique_cnt,
-						coalesce(am2.view_cnt,0) as pdf_view_cnt
+						coalesce(am2.download_cnt,0) as pdf_view_cnt
 					FROM pjs.documents d
 					LEFT JOIN pjs.article_metrics am1 ON am1.item_id = d.id AND am1.item_type = 1
 					LEFT JOIN pjs.article_metrics am2 ON am2.item_id = d.id AND am2.item_type = 2
