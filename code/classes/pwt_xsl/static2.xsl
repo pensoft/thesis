@@ -237,7 +237,7 @@
 				<xsl:variable name="city" select="normalize-space($lCurrentNode/fields/city/value)" />
 				<xsl:variable name="country" select="$lCurrentNode/fields/country/value" />
 				<xsl:variable name="fullAffiliation" select="concat($affiliation, ', ', $city, ', ', $country)" />
-				<xsl:variable name="lAffId" select="php:function('getContributorAffId', $fullAffiliation)"></xsl:variable>
+				<xsl:variable name="lAffId" select="php:function('getContributorAffId', 'asd')"></xsl:variable>
 				<span class="P-Current-Author-Single-Address">
 					<xsl:value-of select="php:function('getUriSymbol', string($lAffId))" />
 				</span>
@@ -1336,8 +1336,12 @@
 	<!-- Article of the future preview template of a single reference -->
 	<xsl:template match="*" mode="article_preview_reference">
 		<xsl:apply-templates select="." mode="articleBack"/>
+		<xsl:call-template name="AOF-Place-Cited-Element-Navigation">
+		    <xsl:with-param name="pInstanceId" select="@instance_id"></xsl:with-param>
+		</xsl:call-template>
 		<xsl:apply-templates select="." mode="RefinderLinks"/>
 		<xsl:apply-templates select="." mode="RefinderFormat"/>
+		
 	</xsl:template>
 
 		<xsl:template match="*" mode="RefinderLinks">
@@ -1631,13 +1635,15 @@
 		<div class="AOF-ref-list">
 			<xsl:for-each select="*[@object_id='95']">
 				<div class="ref-list-AOF-holder-holder">
-					<xsl:apply-templates select="." mode="articleBack"/>
+					<xsl:apply-templates select="." mode="articleBack"/>					
+					<xsl:call-template name="AOF-Place-Cited-Element-Navigation">
+					    <xsl:with-param name="pInstanceId" select="@instance_id"></xsl:with-param>
+					</xsl:call-template>
 					<xsl:apply-templates select="." mode="RefinderLinks"/>
 				</div>
+				
 			</xsl:for-each>
-		</div>
-		<!-- The node of the references holder -->
-		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
+		</div>		
 	</xsl:template>
 
 	<!-- Article of the future preview template of the sup files list -->
@@ -1734,204 +1740,6 @@
 			</div>
 		</xsl:if>
 	</xsl:template>
-
-	<!-- Article of the future preview template of the taxon list -->
-	<xsl:template match="*" mode="article_taxon_list">
-
-		<xsl:variable name="lOutputFirst">
-			<xsl:apply-templates select="." mode="trans1" />
-		</xsl:variable>
-		<xsl:apply-templates select="exslt:node-set($lOutputFirst)" mode="trans2" />
-
-		<!-- The document node -->
-		<xsl:variable name="lCurrentNode" select="."></xsl:variable>
-	</xsl:template>
-
-	<xsl:template match="*" mode="trans1">
-		<xsl:for-each select="//*[@object_id=182 or @object_id=179 or @object_id=196 or @object_id=197 or @object_id=184 or @object_id=192 or @object_id=213 or @object_id=216]">
-			<div class="taxon" tnu="TT">
-				<xsl:apply-templates select="./*[@object_id='180' or @object_id='181']" mode="taxonTreatmentNameAOF"/>
-			</div>
-		</xsl:for-each>
-
-		<xsl:for-each select="//checklist_taxon">
-			<div class="taxon" tnu="CHK">
-				<xsl:apply-templates select="fields" mode="TaxaChecklistAOF"/>
-			</div>
-		</xsl:for-each>
-
-		<xsl:for-each select="//tn">
-			<div class="taxon" tnu="INL">
-				<xsl:apply-templates select="." mode="TaxaInline"/>
-			</div>
-		</xsl:for-each>
-	</xsl:template>
-
-	<xsl:template match="*" mode="TaxaInline">
-		<xsl:for-each select="tn-part">
-			<span>
-				 <xsl:attribute name="class"><xsl:value-of select="./@type" /></xsl:attribute>
-				 <xsl:value-of select="."/>
-			  </span>
-			  <xsl:if test="position() != last()">
-					 <xsl:text> </xsl:text>
-			  </xsl:if>
-		</xsl:for-each>
-	</xsl:template>
-
-	<!-- Taxon treatments -->
-	<xsl:template match="*[@object_id='180']" mode="taxonTreatmentNameAOF" xml:space="default">
-			<span class="genus">
-				<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting_nospace"/>
-			</span>
-			<xsl:if test="./fields/*[@id='417']/value != ''">
-				<xsl:text> </xsl:text>
-				<span class="x">(</span>
-				<span class="subgenus">
-					<xsl:apply-templates select="./fields/*[@id='417']" mode="formatting_nospace"/>
-				</span>
-				<span class="x">)</span>
-			</xsl:if>
-			<xsl:text> </xsl:text>
-			<span class="species">
-				<xsl:apply-templates select="./fields/*[@id='49']" mode="formatting_nospace"/>
-			</span>
-	</xsl:template>
-
-	<xsl:template match="*[@object_id='181']" mode="taxonTreatmentName">
-			<span class="genus">
-					<xsl:apply-templates select="./fields/*[@id='48']" mode="formatting"/>
-			</span>
-	</xsl:template>
-
-	<!-- checklist shits -->
-	<xsl:template match="fields" mode="TaxaChecklistAOF">
-		<xsl:variable name="lRankType" select="./*[@id='414']/value"></xsl:variable>
-		<xsl:variable name="RankID">
-			<xsl:choose>
-				<xsl:when test="$lRankType = 'kingdom'">    <xsl:text>419</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'subkingdom'"> <xsl:text>420</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'phylum'">     <xsl:text>421</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'subphylum'">  <xsl:text>422</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'superclass'"> <xsl:text>423</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'class'">		<xsl:text>424</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'subclass'">   <xsl:text>425</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'superorder'"> <xsl:text>426</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'order'"> 		<xsl:text>427</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'suborder'"> 	<xsl:text>428</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'infraorder'"> <xsl:text>429</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'superfamily'"><xsl:text>430</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'family'"> 	<xsl:text>431</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'subfamily'">	<xsl:text>432</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'tribe'">		<xsl:text>433</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'subtribe'">	<xsl:text>434</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'genus'"> 		<xsl:text>48</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'subgenus'"> 	<xsl:text>417</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'species'"> 	<xsl:text>49</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'subspecies'"> <xsl:text>418</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'variety'"> 	<xsl:text>435</xsl:text></xsl:when>
-				<xsl:when test="$lRankType = 'form'"> 		<xsl:text>436</xsl:text></xsl:when>
-				<xsl:otherwise> </xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
-	<xsl:variable name="lRankValue" select="./*[@id=$RankID]/value"></xsl:variable>
-		<!-- value -->
-		<xsl:if test="$lRankValue != ''">
-			<xsl:choose>
-				<xsl:when test="$lRankType = 'genus'">
-					<span class="genus">
-						<xsl:apply-templates select="$lRankValue" mode="formatting"/>
-					</span>
-				</xsl:when>
-				<xsl:when test="$lRankType = 'subgenus'">
-					<span class="subgenus">>
-						<xsl:apply-templates select="$lRankValue" mode="formatting"/>
-					</span>
-				</xsl:when>
-				<xsl:when test="$lRankType = 'species' or $lRankType = 'subspecies' or $lRankType = 'variety' or $lRankType = 'form'">
-					<!-- $Genus-->
-					<span class="genus">
-						<xsl:apply-templates select="./*[@id='48']" mode="formatting_nospace"/>
-					</span>
-					<xsl:if test="./*[@id='417']/value != ''">
-						<xsl:text> (</xsl:text>
-						<!-- $Subgenus-->
-						<span class="subgenus">
-							<xsl:apply-templates select="./*[@id='417']" mode="formatting_nospace"/>
-						</span><xsl:text>)</xsl:text>
-					</xsl:if>
-					<xsl:text> </xsl:text>
-					<!-- $Species -->
-					<span class="species">
-						<xsl:apply-templates select="./*[@id='49']" mode="formatting_nospace"/>
-					</span>
-					<xsl:if test="$lRankType = 'subspecies'"> subsp.
-						<span class="subspecies">
-							<xsl:apply-templates select="./*[@id='418']" mode="formatting_nospace"/>
-						</span>
-					</xsl:if>
-					<xsl:if test="$lRankType = 'variety'"> 	 var.
-						<span class="variety">
-							<xsl:apply-templates select="./*[@id='435']" mode="formatting_nospace"/>
-						</span>
-					</xsl:if>
-					<xsl:if test="$lRankType = 'form'">		 f.
-						<span class="form">
-							<xsl:apply-templates select="./*[@id='436']" mode="formatting_nospace"/>
-						</span>
-					</xsl:if>
-				 </xsl:when>
-				<xsl:otherwise>
-					<span>
-						<xsl:attribute name="class"><xsl:value-of select="$lRankType" /></xsl:attribute>
-						<xsl:apply-templates select="$lRankValue" mode="formatting"/>
-					</span>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:if>
-	</xsl:template>
-
-	<xsl:key name="taxon" match="//div" use="." />
-
-	<xsl:template match="/" mode="trans2">
-		  <xsl:for-each select="//div[generate-id()=generate-id(key('taxon',.))]">
-			<xsl:sort select="." order="ascending"></xsl:sort>
-			<div class="taxalistAOF tn">
-				<xsl:attribute name="tnu"><xsl:value-of select="./@tnu"/></xsl:attribute>
-				<xsl:if test="./@tnu = 'TT'">
-						<xsl:for-each select="span">
-							<xsl:copy-of select="."/>
-							  <xsl:if test="position() != last()">
-									 <xsl:text> </xsl:text>
-							  </xsl:if>
-						</xsl:for-each>
-						<span></span>
-				</xsl:if>
-				<xsl:if test="./@tnu = 'CHK'">
-						<xsl:for-each select="span">
-							<xsl:copy-of select="."/>
-							  <xsl:if test="position() != last()">
-									 <xsl:text> </xsl:text>
-							  </xsl:if>
-						</xsl:for-each>
-						<span></span>
-				</xsl:if>
-				<xsl:if test="./@tnu = 'INL'">
-						<xsl:for-each select="span">
-							<xsl:copy-of select="."/>
-							  <xsl:if test="position() != last()">
-									 <xsl:text> </xsl:text>
-							  </xsl:if>
-						</xsl:for-each>
-						<span></span>
-				</xsl:if>
-			</div>
-		</xsl:for-each>
-	</xsl:template>
-
-
-
 
 	<!-- Article of the future LIST PREVIEWS END -->
 		<xsl:template match="*" mode="RefinderFormat">
@@ -2872,6 +2680,29 @@
 
 
 		</div>
+	</xsl:template>
+	
+	<xsl:template name="AOF-Place-Cited-Element-Navigation">
+		<xsl:param name="pInstanceId">0</xsl:param>		
+		<xsl:if test="$pInstanceId &gt; 0 and $pInArticleMode &gt; 0">			
+			<xsl:variable name="lCitationsCnt" select="php:function('GetElementCitationsCnt', string($pInstanceId))" />
+			<xsl:if test="$lCitationsCnt &gt; 0">
+				<div class="P-Element-Citations-Navigation" >
+					<xsl:attribute name="data-cited-element-instance-id"><xsl:value-of select="$pInstanceId" /></xsl:attribute>
+					<div class="P-Citation-Navigation-Link-First">
+						First						
+					</div>
+					<xsl:if test="$lCitationsCnt &gt; 1">
+						<div class="P-Citation-Navigation-Link-Prev">
+							Prev
+						</div>
+						<div class="P-Citation-Navigation-Link-Next">
+							Next
+						</div>
+					</xsl:if>
+				</div>
+			</xsl:if>
+		</xsl:if>	
 	</xsl:template>
 
 </xsl:stylesheet>

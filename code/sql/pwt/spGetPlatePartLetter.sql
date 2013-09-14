@@ -4,29 +4,13 @@ CREATE OR REPLACE FUNCTION spGetPlatePartLetter(
   RETURNS varchar AS
 $BODY$
 	DECLARE
-		lRes int;		
-		lObjectId bigint;
+		lRes varchar;		
+		lPlateNumber int;		
+		lSubPlatePositions varchar[] = ARRAY['a', 'b', 'c', 'd', 'e', 'f'];
 	BEGIN				
-		SELECT INTO lObjectId 
-			object_id 
-		FROM pwt.document_object_instances
-		WHERE id = pPlatePartInstanceId;
+		lPlateNumber = spGetPlatePartNumber(pPlatePartInstanceId);
 		
-		lRes = 0;
-		
-		IF lObjectId = 225 THEN
-			lRes = 1;
-		ELSEIF lObjectId = 226 THEN
-			lRes = 2;
-		ELSEIF lObjectId = 227 THEN
-			lRes = 3;
-		ELSEIF lObjectId = 228 THEN
-			lRes = 4;
-		ELSEIF lObjectId = 229 THEN
-			lRes = 5;
-		ELSEIF lObjectId = 230 THEN
-			lRes = 6;
-		END IF;		
+		lRes = lSubPlatePositions[lPlateNumber];		
 		RETURN lRes;		
 	END
 $BODY$
