@@ -11,7 +11,7 @@ DECLARE
 BEGIN
 		IF NOT EXISTS (SELECT * FROM pjs.article_cached_items WHERE article_id = pDocumentId AND item_type = cNLMXMLItemType) THEN
 			INSERT INTO pjs.article_cached_items(cached_val, item_type, article_id) VALUES(pXml, cNLMXMLItemType, pDocumentId);
-			INSERT INTO pjs.article_metrics(item_id, item_type) VALUES(pDocumentId, cXMLMetricsItemType);
+			PERFORM spCreateArticleMetric(pDocumentId, cXMLMetricsItemType);
 		ELSE
 			UPDATE pjs.article_cached_items
 				SET cached_val = pXml
