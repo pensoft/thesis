@@ -1,0 +1,1 @@
+INSERT INTO pjs.article_cached_item_types(name) VALUES('Article NLM XML');

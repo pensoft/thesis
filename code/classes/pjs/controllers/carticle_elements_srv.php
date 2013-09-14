@@ -19,9 +19,10 @@ class cArticle_Elements_Srv extends cBase_Controller {
 		$this->m_action_result = array ();
 		$this->m_articlesModel = new mArticles();
 		$this->m_tempPageView = new pArticle_Elements_Srv();
-		$this->m_elementInstanceId = (int) $this->GetValueFromRequestWithoutChecks('instance_id');	
+		$this->m_elementInstanceId = (int) $this->GetValueFromRequestWithoutChecks('instance_id');
+		$this->m_elementItemId = $this->GetValueFromRequestWithoutChecks('item_id'); 
 		
-		if (! $this->m_elementInstanceId) {
+		if (! $this->m_elementInstanceId && !$this->m_elementItemId) {
 			$this->m_errCnt ++;
 			$this->m_errMsg = getstr('pjs.noElementId');
 		} else {
@@ -50,6 +51,14 @@ class cArticle_Elements_Srv extends cBase_Controller {
 					case 'donwload_suppl_file' :
 						$this->m_metricType = (int)AOF_METRIC_TYPE_SUP_FILE;
 						$this->DownloadSupplementaryFile();
+						break;
+					case 'donwload_pdf' :
+						$this->m_metricType = (int)AOF_METRIC_TYPE_PDF;
+						$this->DownloadPDF();
+						break;
+					case 'donwload_xml' :
+						$this->m_metricType = (int)AOF_METRIC_TYPE_NLM_XML;
+						$this->DownloadXML();
 						break;
 				}
 			}catch(Exception $pException){
@@ -122,6 +131,20 @@ class cArticle_Elements_Srv extends cBase_Controller {
 		$lUrl = str_replace('{file_name}', rawurlencode($lSupplementaryFileName), PWT_SUPPLEMENTARY_FILE_DOWNLOAD_SRV);
 // 		var_dump($lUrl);
 // 		exit;
+		$this->Redirect($lUrl);
+	}
+	
+	function DownloadPDF(){
+		$this->m_articlesModel->RegisterArticleMetricDetail($this->m_elementItemId, $this->m_metricType, AOF_METRIC_DETAIL_TYPE_DOWNLOAD);
+		$lUrl = '/lib/ajax_srv/generate_pdf.php?document_id=' . $this->m_elementItemId . '&readonly_preview=1';
+		$this->Redirect($lUrl);
+	}
+	
+	function DownloadXML(){
+		// var_dump($this->m_metricType);
+		// exit;
+		$this->m_articlesModel->RegisterArticleMetricDetail($this->m_elementItemId, $this->m_metricType, AOF_METRIC_DETAIL_TYPE_VIEW);
+		$lUrl = '/generate_xml.php?document_id=' . $this->m_elementItemId;
 		$this->Redirect($lUrl);
 	}
 }

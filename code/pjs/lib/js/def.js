@@ -2059,7 +2059,8 @@ function getNextNode(pNode){
 
 function GeneratePDFPreview(pDocumentId) {
 	$('#P-Ajax-Loading-Image-Main').show();
-	document.location.href = gGeneratePDFAjaxSrv + '?document_id=' + pDocumentId + '&readonly_preview=1';
+	//document.location.href = gGeneratePDFAjaxSrv + '?document_id=' + pDocumentId + '&readonly_preview=1';
+	document.location.href = gAjaxUrlsPrefix + 'article_elements_srv.php' + '?action=donwload_pdf&item_id=' + pDocumentId;
 	$('#P-Ajax-Loading-Image-Main').hide();
 	return;
 }

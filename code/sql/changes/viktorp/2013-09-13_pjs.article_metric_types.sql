@@ -1,0 +1,1 @@
+INSERT INTO pjs.article_metric_types(name) VALUES('XML');

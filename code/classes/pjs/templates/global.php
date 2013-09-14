@@ -1247,6 +1247,8 @@ $gTemplArr = array(
 	
 	'global.generate_pdf' => '{contents}',
 	
-	'global.rss_page' => '{contents}'
+	'global.rss_page' => '{contents}',
+	
+	'global.nml_xml' => '{contents}',
 );
 ?>

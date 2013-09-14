@@ -384,6 +384,7 @@ define('AOF_METRIC_TYPE_XML', 3);
 define('AOF_METRIC_TYPE_FIGURE', 4);
 define('AOF_METRIC_TYPE_TABLE', 5);
 define('AOF_METRIC_TYPE_SUP_FILE', 6);
+define('AOF_METRIC_TYPE_NLM_XML', 7);
 
 define('PWT_SUPPLEMENTARY_FILE_DOWNLOAD_SRV', PWT_URL . '/getfile.php?filename={file_name}');
 define('PWT_TABLE_CSV_DOWNLOAD_SRV', PWT_URL . '/lib/ajax_srv/csv_export_srv.php?action=export_table_as_csv&instance_id={instance_id}');
@@ -392,4 +393,5 @@ define('PWT_FIGURE_DOWNLOAD_SRV', PWT_URL . '/showfigure.php?filename=big_{pic_i
 define('PWT_PLATE_DOWNLOAD_SRV', PWT_URL . '/lib/ajax_srv/plate_download.php?instance_id={instance_id}');
 
 define('RSS_LIMIT', 100);
+define('NLM_XML_ITEM_TYPE', 19);
 ?>
