@@ -161,13 +161,12 @@ a[href],label[for] {
 
 .P-Info-Menu.rightBar {
 	position: relative;
-	left: 228px;
+	left: 251px;
 	top: -2px;
 	width: 249px;
 	height: 50px;
 	padding: 5px 5px;
 	border-radius: 5px 5px 5px 5px;
-	text-align: right;
 	margin-right: 4px;
 }
 

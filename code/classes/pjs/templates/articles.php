@@ -41,7 +41,7 @@ $gTemplArr = array(
 						</ul>
 						<ul class="P-Info-Menu rightBar">' .
 							infoMenu(array(
-								ARTICLE_MENU_ELEMENT_TYPE_RELATED  => 'Related',
+								//ARTICLE_MENU_ELEMENT_TYPE_RELATED  => 'Related',
 								ARTICLE_MENU_ELEMENT_TYPE_METRICS  => 'Metrics',
 								ARTICLE_MENU_ELEMENT_TYPE_SHARE  => 'Share',
 							)) . '
