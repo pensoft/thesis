@@ -18,7 +18,7 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 		$this->m_articlesModel = new mArticles();
 		$this->m_tempPageView = new pArticles_Ajax_Srv();
 		$this->m_articleId = (int) $this->GetValueFromRequestWithoutChecks('article_id');
-		
+
 		if (! $this->m_articleId) {
 			$this->m_errCnt ++;
 			$this->m_errMsg = getstr('pjs.noArticleId');
@@ -52,12 +52,12 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 				case 'get_article_localities':
 					$this->GetArticleLocalities();
 					break;
-					
+
 			}
 		}
 		$lResultArr = array_merge($this->m_action_result, array (
 			'err_cnt' => $this->m_errCnt,
-			'err_msg' => $this->m_errMsg 
+			'err_msg' => $this->m_errMsg
 		));
 		// var_dump($lResultArr);
 		$this->m_pageView = new pArticles_Ajax_Srv($lResultArr);
@@ -65,7 +65,7 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 
 	function GetMainListElement() {
 		$lElementType = (int) $this->GetValueFromRequestWithoutChecks('element_type');
-		
+
 		$lResult = '';
 		switch ($lElementType) {
 			default :
@@ -117,7 +117,7 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 			$this->m_errMsg = getstr('pjs.noElementId');
 			return;
 		}
-		
+
 		if (! $lElementName && $pElementType == ARTICLE_MENU_ELEMENT_TYPE_TAXON) {
 			$this->m_errCnt ++;
 			$this->m_errMsg = getstr('pjs.noTaxonName');
@@ -176,11 +176,11 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 	function GetAuthorElement() {
 		$this->GetElement((int) ARTICLE_MENU_ELEMENT_TYPE_AUTHORS);
 	}
-	
+
 	function GetArticleLocalities(){
 		$this->m_action_result ['localities'] = $this->m_articlesModel->GetLocalities($this->m_articleId);
 	}
-	
+
 	function GetRelatedList(){
 		$lResult = new evSimple_Block_Display(array(
 			'name_in_viewobject' => 'related_list',
@@ -188,7 +188,7 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 		));
 		return $lResult->Display();
 	}
-	
+
 	function GetMetricsList(){
 		$lHTMLMetrics = $this->m_articlesModel->GetArticleHtmlMetricDetails($this->m_articleId);
 		$lXMLMetrics = $this->m_articlesModel->GetArticleXmlMetricDetails($this->m_articleId);
@@ -202,54 +202,56 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 				}
 				$lTotalMetric[$lDetailType] += (int)$lDetailData;
 			}
-		}		
+		}
 		$lFigureMetricsDetails = $this->m_articlesModel->GetArticleFiguresMetrics($this->m_articleId);
 		$lTableMetricsDetails = $this->m_articlesModel->GetArticleTablesMetrics($this->m_articleId);
 		$lSupplFilesMetricsDetails = $this->m_articlesModel->GetArticleSupplFilesMetrics($this->m_articleId);
-		
+
 		$lFiguresMetrics = new evList_Display(array(
 			'name_in_viewobject' => 'metrics_figures_list',
 			'view_object' => $this->m_tempPageView,
 			'controller_data' => $lFigureMetricsDetails
 		));
-		
+
 // 		var_dump($lFiguresMetrics->Display(), $lFigureMetricsDetails);
-		
+
 		$lTablesMetrics = new evList_Display(array(
 			'name_in_viewobject' => 'metrics_tables_list',
 			'view_object' => $this->m_tempPageView,
 			'controller_data' => $lTableMetricsDetails
 		));
-		
+
 		$lSupplFilesMetrics = new evList_Display(array(
 			'name_in_viewobject' => 'metrics_suppl_files_list',
 			'view_object' => $this->m_tempPageView,
 			'controller_data' => $lSupplFilesMetricsDetails
 		));
-		
-		
+
+		$lArticleInfo = $this->m_articlesModel->GetMetadata($this->m_articleId);
 		$lResult = new evSimple_Block_Display(array(
 			'name_in_viewobject' => 'metrics_list',
 			'html_views_cnt' => (int)$lHTMLMetrics['view_cnt'],
 			'html_unique_views_cnt' => (int)$lHTMLMetrics['view_unique_cnt'],
-			
+
 			'pdf_views_cnt' => (int)$lPDFMetrics['view_cnt'],
 			'pdf_unique_views_cnt' => (int)$lPDFMetrics['view_unique_cnt'],
-			
+
 			'xml_views_cnt' => (int)$lXMLMetrics['view_cnt'],
 			'xml_unique_views_cnt' => (int)$lXMLMetrics['view_unique_cnt'],
-						
+
 			'total_views_cnt' => (int)$lTotalMetric['view_cnt'],
 			'total_unique_views_cnt' => (int)$lTotalMetric['view_unique_cnt'],
 			'view_object' => $this->m_tempPageView,
-			
+
 			'figures_metrics' => $lFiguresMetrics,
 			'tables_metrics' => $lTablesMetrics,
-			'suppl_files_metrics' => $lSupplFilesMetrics,			
+			'suppl_files_metrics' => $lSupplFilesMetrics,
+
+			'doi' => $lArticleInfo['doi'], // for ImpactStory
 		));
 		return $lResult->Display();
 	}
-	
+
 	function GetShareList(){
 		$lData = $this->m_articlesModel->GetArticleInfoForShare($this->m_articleId);
 		$lResult = new evSimple_Block_Display(array(

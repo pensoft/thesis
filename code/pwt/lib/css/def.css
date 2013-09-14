@@ -5372,7 +5372,9 @@ header .content_in {
 	display: block !important;
 	margin-bottom:15px;
 	font-weight: bold !important;
-	height:auto !important
+	height:auto !important;
+	margin-bottom: 15px;
+	margin-top: -13px;
 }
 /* home page new styles END */
 
