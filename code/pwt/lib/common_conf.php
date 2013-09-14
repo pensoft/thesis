@@ -216,6 +216,7 @@ define('CROSSREF_FETCH_LINK', 'http://www.crossref.org/openurl/?noredirect=true&
 define('REFERENCE_OBJECT_ID', 95);
 define('SUP_FILE_OBJECT_ID', 55);
 define('FIGURE_OBJECT_ID', 221);
+define('FIGURE_IMAGE_OBJECT_ID', 222);
 define('TABLE_OBJECT_ID', 238);
 define('SUP_FILE_HOLDER_OBJECT_ID', 56);
 define('FIGURE_HOLDER_OBJECT_ID', 236);

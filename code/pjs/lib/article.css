@@ -1145,7 +1145,6 @@ img.noBorder {
 }
 
 .P-Metrics-Label {
-	font-weight: bold;
 	font-size: 14pt;
 	color: #666;
 	padding-bottom: 5px;
@@ -1180,7 +1179,7 @@ img.noBorder {
 }
 
 .P-Metrics-Row td {
-	width: 80px;
+	width: 90px;
 	padding: 2px 40px 2px 2px;
 	text-align: right;
 }

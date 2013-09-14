@@ -5,15 +5,28 @@ require_once ($docroot . '/lib/static.php');
 
 $gFigId = (int)$_REQUEST['fig_id'];
 
+$lCon = new DBCn();
+$lCon->Open();
+$lSql = '
+	SELECT c.id
+	FROM pwt.document_object_instances i
+	JOIN pwt.document_object_instances c ON c.parent_id = i.id AND c.object_id = ' . FIGURE_IMAGE_OBJECT_ID . '
+	WHERE i.id = ' . (int) $gFigId . '
+';
+
+$lCon->Execute($lSql);
+if((int)$lCon->mRs['id']){
+	$gFigId = (int)$lCon->mRs['id'];
+}
+
+
 $lResult = new crs(array(
-	'sqlstr' => 'select max(a) as photo_desc, max(b) as id from (
-						SELECT value_str as a, 0 as b
-						FROM pwt.instance_field_values 
-						WHERE instance_id = ' . (int)$gFigId . ' and field_id in (482, 487)
-						union 
-						SELECT \'\' as a, value_int as b
-						FROM pwt.instance_field_values 
-						WHERE instance_id = ' . (int)$gFigId . ' and field_id in (483, 484) ) as c',
+	'sqlstr' => '
+		SELECT cfv.value_str as photo_desc, pfv.value_int as id -- Caption
+		FROM pwt.instance_field_values cfv 
+		JOIN pwt.instance_field_values pfv ON pfv.instance_id = cfv.instance_id AND pfv.field_id IN (483, 484)
+		WHERE cfv.instance_id = ' . (int)$gFigId . ' and cfv.field_id in (482, 487)
+	',
 	'templs' => array(
 		G_ROWTEMPL => 'figures.zoomed_fig'
 	),

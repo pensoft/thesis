@@ -125,13 +125,13 @@ $gTemplArr = array(
 						</td>
 					</tr>
 					<tr class="P-Metrics-Row">
-						<td class="versions" style="text-align: center;font-size:11pt;color:#444">
+						<td class="versions" style="text-align: center;font-size:11pt;color:#555">
 							<b>Total</b>
 						</td>
-						<td style="font-size:11pt;color:#666">
+						<td style="font-size:11pt;color:#555">
 							<b>{total_unique_views_cnt}</b>
 						</td>
-						<td style="font-size:11pt;color:#666">
+						<td style="font-size:11pt;color:#555">
 							<b>{total_views_cnt}</b>
 						</td>
 					</tr>

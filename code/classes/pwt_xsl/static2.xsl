@@ -18,7 +18,7 @@
 	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
 	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
 
-	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="formatting">
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation|locality-coordinates" mode="formatting">
 		<xsl:choose>
 			<xsl:when test="$pInArticleMode = 0 and $pPDFPreviewMode = 0">
 				<xsl:copy-of select="."/>
@@ -35,7 +35,7 @@
 		<xsl:value-of select="." disable-output-escaping="yes"/>
 	</xsl:template>
 
-	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|ol|li|comment-start|comment-end|table|tr|td|tbody|th|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="table_formatting">
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|ol|li|comment-start|comment-end|table|tr|td|tbody|th|reference-citation|fig-citation|tbls-citation|sup-files-citation|locality-coordinates" mode="table_formatting">
 		<xsl:choose>
 			<xsl:when test="$pInArticleMode = 0">
 				<xsl:copy-of select="."/>
@@ -48,7 +48,7 @@
 		</xsl:choose>
 	</xsl:template>
 
-	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation" mode="title">
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation|locality-coordinates" mode="title">
 		<xsl:choose>
 			<xsl:when test="$pInArticleMode = 0">
 				<xsl:copy-of select="."/>
@@ -702,7 +702,7 @@
 			<xsl:attribute name="figure_position"><xsl:value-of select="$lFigNumber"/></xsl:attribute>
 			<xsl:attribute name="figure_id"><xsl:value-of select="@instance_id"/></xsl:attribute>
 			<xsl:call-template name="imagePicPreview">
-				<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
+				<xsl:with-param name="pInstanceId"><xsl:value-of select="../@instance_id"/></xsl:with-param>
 				<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='483']/value"/></xsl:with-param>
 			</xsl:call-template>
 			<div class="description jb">
@@ -733,7 +733,7 @@
 			</xsl:attribute>
 			<xsl:attribute name="figure_id"><xsl:value-of select="@instance_id"/></xsl:attribute>
 			<div class="holder">
-				<iframe width="696" height="522" frameborder="0">
+				<iframe width="620" height="400" frameborder="0">
 					<xsl:attribute name="src">
 						<xsl:text>http://www.youtube.com/embed/</xsl:text>
 						<xsl:value-of select="php:function('getYouTubeId', string(./fields/*[@id='486']/value))"/>
@@ -1243,7 +1243,7 @@
 				</div>
 				<a target="_blank" class="P-Article-Preview-Picture-Zoom-Small">
 					<xsl:attribute name="href">
-						<xsl:value-of select="php:function('GetFigureZoomLink', string($pSiteUrl), string(./image/@instance_id), $pInArticleMode)" />
+						<xsl:value-of select="php:function('GetFigureZoomLink', string($pSiteUrl), string(@instance_id), $pInArticleMode)" />
 					</xsl:attribute>
 				</a>
 				<a target="_blank" class="P-Article-Preview-Picture-Download-Small" title="Download image">
@@ -1265,7 +1265,52 @@
 		<xsl:if test="./fields/figure_type/value/@value_id = '2'">
 			<xsl:apply-templates select="./multiple_images_plate" mode="singleFigNormalPreview" />
 		</xsl:if>
+		<xsl:if test="./fields/figure_type/value/@value_id = '3'">
+			<xsl:apply-templates select="./video" mode="VideoNormalPreview" />
+		</xsl:if>
 	</xsl:template>
+	
+	<xsl:template match="*" mode="VideoNormalPreview">
+		<xsl:variable name="lFigNumber"><xsl:value-of select="../fields/*[@id='489']/value"/></xsl:variable>
+		<div class="figure">
+			<xsl:attribute name="contenteditable">false</xsl:attribute>
+			<xsl:attribute name="figure_position">
+				<xsl:value-of select="$lFigNumber"/>
+			</xsl:attribute>
+			<xsl:attribute name="figure_id"><xsl:value-of select="@instance_id"/></xsl:attribute>
+			<div class="holder">
+				<iframe width="384" height="240" frameborder="0">
+					<xsl:attribute name="src">
+						<xsl:text>http://www.youtube.com/embed/</xsl:text>
+						<xsl:value-of select="php:function('getYouTubeId', string(./fields/*[@id='486']/value))"/>
+					</xsl:attribute>
+				</iframe>
+			</div>
+			<div class="description">
+				<div class="name">
+					<xsl:text>Figure </xsl:text><xsl:value-of select="$lFigNumber"/><xsl:text>. </xsl:text>
+				</div>
+				<div class="figureCaption">
+					<xsl:call-template name="markContentEditableField">
+						<xsl:with-param name="pObjectId" select="@object_id"></xsl:with-param>
+						<xsl:with-param name="pFieldId" select="482"></xsl:with-param>
+					</xsl:call-template>
+					<xsl:attribute name="instance_id"><xsl:value-of select="@instance_id" /></xsl:attribute>
+					<xsl:attribute name="field_id"><xsl:value-of select="482" /></xsl:attribute>
+					<xsl:apply-templates select="./fields/*[@id='482']/value" mode="formatting"/>
+				</div>
+			</div>
+			<div class="P-Clear"></div>
+		</div>
+	</xsl:template>
+	
+	
+	
+	
+	
+	
+	
+	
 
 	<!-- Article of the future preview template of a single plate part -->
 	<xsl:template match="*" mode="article_preview_plate">
@@ -1528,13 +1573,29 @@
 					</span>
 					<xsl:apply-templates select="image" mode="Figures" />
 					<xsl:apply-templates select="multiple_images_plate" mode="Figures" />
+					<xsl:apply-templates select="video" mode="Video" />
 				</div>
 			<xsl:if test="position()!=last()">
 				<div class="P-Clear" />
 			</xsl:if>
 			</xsl:for-each>
 	</xsl:template>
-
+	
+	<xsl:template match="video" mode="Video">
+		<div class="P-Picture-Holder">
+			<div class="singlefigmini fig">
+				<xsl:attribute name="rid"><xsl:value-of select="../@instance_id" /></xsl:attribute>
+				<img alt="" width="96" height="72">
+					<xsl:attribute name="src">http://i1.ytimg.com/vi/<xsl:value-of select="php:function('getYouTubeId', string(./fields/*[@id='486']/value))"/>/default.jpg</xsl:attribute>
+				</img>
+			</div>
+		</div>
+		<div class="list-caption">
+			<xsl:apply-templates select="./fields/video_caption/value" mode="formatting"/>
+		</div>
+		<div class="P-Clear" />
+	</xsl:template>
+	
 	<xsl:template match="image" mode="Figures">
 		<div class="P-Picture-Holder">
 			<div class="singlefigmini fig">
@@ -1576,8 +1637,6 @@
 				</div>
 				<div class="P-Clear" />
 		</xsl:template>
-
-
 
 	<!-- Article of the future preview template of the tables list -->
 	<xsl:template match="*" mode="article_tables_list">
