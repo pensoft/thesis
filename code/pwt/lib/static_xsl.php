@@ -844,5 +844,23 @@ function GetSupplFileDownloadLink($pSiteUrl, $pFileName, $pFileInstanceId, $pInA
 	return PJS_ARTICLE_SUPPL_FILE_DL_SRV . $pFileInstanceId;
 }
 
+/**
+ * This function will check how many times the element
+ * has been cited in the AOF html of the document
+ * !!!IT WILL ONLY WORK WHEN GENERATING THE AOF PREVIEWS OF THE ELEMENTS 
+ * !!!AND RELIES ON HAVING A GLOBAL XPATH REFERENCE FOR THE HTML PREVIEW OF THE DOCUMENT
+ */
+function GetElementCitationsCnt($pInstanceId){
+	global $gDocumentHtmlXPath;	
+	if(!($gDocumentHtmlXPath instanceof DOMXPath)){
+		return 0;
+	}
+	$lDom = $gDocumentHtmlXPath->document;
+// 	var_dump($lDom->saveHTML());
+// 	exit;
+	$lResult = $gDocumentHtmlXPath->query('//xref[@rid="' . (int)$pInstanceId . '"]')->length;
+// 	var_dump($lResult, '//xref[@rid="' . (int)$pInstanceId . '"]', $gDocumentHtmlXPath->query('//xref')->length);
+	return $lResult;
+}
 
 ?>
