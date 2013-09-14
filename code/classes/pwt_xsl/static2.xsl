@@ -1304,14 +1304,6 @@
 		</div>
 	</xsl:template>
 	
-	
-	
-	
-	
-	
-	
-	
-
 	<!-- Article of the future preview template of a single plate part -->
 	<xsl:template match="*" mode="article_preview_plate">
 		<xsl:variable name="platePart">

@@ -161,13 +161,12 @@ a[href],label[for] {
 
 .P-Info-Menu.rightBar {
 	position: relative;
-	left: 228px;
+	left: 251px;
 	top: -2px;
 	width: 249px;
 	height: 50px;
 	padding: 5px 5px;
 	border-radius: 5px 5px 5px 5px;
-	text-align: right;
 	margin-right: 4px;
 }
 
@@ -289,7 +288,7 @@ a[href],label[for] {
 	font-size: 11pt;
 	font-family: Helvetica;
 	font-weight: bold;
-	color: #333;
+	color: #666;
 }
 
 .fig-label-RC.fig:hover {
@@ -1160,6 +1159,7 @@ img.noBorder {
 	color: #444;
 	padding-right: 40px;
     text-align: right;
+    border: 1px solid #BBB;
 }
 
 .P-Metrics-Headers-Row {
@@ -1633,6 +1633,13 @@ a.AOF-journal-logo {
 	font-size: 12pt;
 	margin-top: 20px
 }
+#impactstoryholder{
+	display: none;
+}
+#impactstory{
+	margin-left: 20px;
+	margin-top: 3px;
+}
 
 #style-choser {
 	padding: 15px 30px 15px 15px;
@@ -1643,12 +1650,16 @@ a.AOF-journal-logo {
 .P-Taxon-Navigation-Link-Prev, .P-Taxon-Navigation-Link-Next{
 	cursor:pointer;
 	float: right;
-	padding-top: 6px;
+	padding-top: 2px;
 	padding-right: 4px;
-	opacity: 0.7;
+	opacity: 0.5;
 }
 
-.P-Taxon-Navigation-Link-Prev{padding-right: 16px;}
+.P-Taxon-Navigation-Link-Prev{padding-right: 3px;}
+
+.P-Taxon-Navigation-Link-Prev img{width: 8px; height: 21px;}
+.P-Taxon-Navigation-Link-Next img{width: 8px; height: 22px;}
+
 
 #format-head {
 	font-weight: bold;

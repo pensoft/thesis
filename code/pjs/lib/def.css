@@ -2874,7 +2874,7 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 .articleHeadline > a{
 	color: rgb(0, 68, 68) !important;
     font-family: trebuchet ms;
-    font-size: 13pt;
+    font-size: 14pt;
     font-weight: normal;
 }
 
@@ -6935,6 +6935,9 @@ button.button_tasks span {
 	display: block;
 	margin-bottom:15px;
 	font-weight: bold;
+	margin-bottom: 25px;
+	margin-left: -20px;
+	margin-top: -11px;
 }
 .author-left-bar-holder{
 	float: left;
@@ -7009,10 +7012,4 @@ html, body {
 .article_title_with_sort {
 	width:60% !important;
 	float:left;
-}
-
-.most_visited_holder a{
-	margin:0px 0px 0px 11px;
-	color:rgb(128,0,0);
-	font-weight: bold;
 }
