@@ -530,12 +530,12 @@ function ScrollArticleToInstance(pInstanceId){
 	ScrollArticleToNode(lFirstInstanceElement[0]);
 }
 
-function ScrollArticleToNode(pNode){
+function ScrollArticleToNode(pNode, pOffset = 10){
 	if(!pNode){
 		return;
 	}
 	var lTopOffset = $(pNode).offset().top;
-	$('#article-preview').scrollTop(lTopOffset - 150);
+	$('#article-preview').scrollTop(lTopOffset - pOffset);
 }
 
 function PlaceTaxonNavigationLinkEvents(pInPreviewIframe){	
@@ -624,7 +624,7 @@ function ResetTaxonOccurrenceNavigation(){
 }
 
 function SetCurrentTaxonNavigationNode(pNode, pNamesNode){
-	ScrollArticleToNode(pNode);
+	ScrollArticleToNode(pNode, 150);
 	RemoveCurrentTaxonNavigationNodeHighlight();
 	gCurrentTaxonOccurrenceNavigationTaxonNode = pNode;
 	gCurrentTaxonOccurrenceNavigationTaxonNamesNode = pNamesNode;

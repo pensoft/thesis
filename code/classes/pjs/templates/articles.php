@@ -125,13 +125,13 @@ $gTemplArr = array(
 						</td>
 					</tr>
 					<tr class="P-Metrics-Row">
-						<td class="versions" style="text-align: center;font-size:11pt;color:#444">
+						<td class="versions" style="text-align: center;font-size:11pt;color:#555">
 							<b>Total</b>
 						</td>
-						<td style="font-size:11pt;color:#666">
+						<td style="font-size:11pt;color:#555">
 							<b>{total_unique_views_cnt}</b>
 						</td>
-						<td style="font-size:11pt;color:#666">
+						<td style="font-size:11pt;color:#555">
 							<b>{total_views_cnt}</b>
 						</td>
 					</tr>
@@ -258,7 +258,7 @@ $gTemplArr = array(
 						<div class="P-Article-Share-Row-Icon">
 							<img src="i/fb.png" />
 							<span class="P-Article-Share-Row-Icon">
-								Share with Facebook
+								Facebook
 							</span>
 						</div>
 					</a>	
@@ -268,7 +268,7 @@ $gTemplArr = array(
 						<div class="P-Article-Share-Row-Icon">
 							<img src="i/tw.png" />
 							<span class="P-Article-Share-Row-Icon">
-								Share with Twitter
+								Twitter
 							</span>
 						</div>
 					</a>	
@@ -278,7 +278,7 @@ $gTemplArr = array(
 						<a target="_blank" {_generateGPlusLink(article_id)}>
 							<img src="i/gplus.png" />
 							<span class="P-Article-Share-Row-Icon">
-								Share with Google+
+								Google+
 							</span>
 						</a>	
 					</div>
@@ -288,7 +288,7 @@ $gTemplArr = array(
 						<a target="_blank" {_generateMendeleyLink(article_id)}>
 							<img src="i/mendeley.png" />
 							<span class="P-Article-Share-Row-Icon">
-								Share with Mendeley
+								Mendeley
 							</span>
 						</a>	
 					</div>

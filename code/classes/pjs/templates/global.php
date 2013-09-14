@@ -356,19 +356,11 @@ $gTemplArr = array(
 		{*global.htmlonlyfooter}',
 
 	'global.most_visited_papers' => '
-					<div class="leftSiderBlock withoutHeader">
-						<div class="siderBlockLinksHolder">
-							<div class="mostVisited">
-								<div class="P-Clear"></div>
-								<a href="#">
-									Most visited papers
-								</a>
-							</div>
-						</div>
-					</div>
+		{_showMostVisitedLinkIfStaff()}
 	',
 
 	'global.follow_us' => '
+					{*global.most_visited_papers}
 					<div class="leftSiderBlock">
 						<h3>' . getstr('pjs.followus') . '</h3>
 						<div class="P-Clear"></div>
