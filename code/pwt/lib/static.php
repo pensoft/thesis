@@ -6628,35 +6628,45 @@ function showTaxaNameUsage($pUsage, $pTreatmentId){
 		if($lRow++){
 		//	$lResult .= ' | ';
 		}
+		$lTitle = '';
+		$lImgSrc = '';
 		switch($lUsage){
-			case TAXON_NAME_USAGE_TREATMENT :				
-				$lResult .= '<span class="taxon-usage" title="Taxon treatment" data-instance-id="' . (int)$pTreatmentId . '">
-								<img width="32" heigth="20" alt="" src="/i/TTR.png" style="vertical-align: middle;" />
-							</span>';
+			case TAXON_NAME_USAGE_TREATMENT :	
+				$lTitle = 'Taxon treatment';
+				$lImgSrc = '/i/TTR.png';				
 				break;
 			case TAXON_NAME_USAGE_CHECKLIST_TREATMENT :
-				$lResult .= '<span class="taxon-usage" title="Checklist">
-								<img width="32" heigth="20" alt="" src="/i/CHL.png" style="vertical-align: middle;" />
-							</span>';
+				$lTitle = 'Checklist';
+				$lImgSrc = '/i/CHL.png';				
 				break;
 			case TAXON_NAME_USAGE_ID_KEY :
-				$lResult .= '<span class="taxon-usage" title="Identification key">
-								<img width="32" heigth="20" alt="" src="/i/IKey.png" style="vertical-align: middle;" />
-							</span>';
+				$lTitle = 'Identification key';
+				$lImgSrc = '/i/IKey.png';
 				break;
 			case TAXON_NAME_USAGE_FIGURE:
-				$lResult .= '<span class="taxon-usage" title="Figure">
-								<img width="32" heigth="20" alt="" src="/i/FI.png" style="vertical-align: middle;" />
-							</span>';
+				$lTitle = 'Figure';
+				$lImgSrc = '/i/FI.png';				
 				break;
 			case TAXON_NAME_USAGE_INLINE:
-				$lResult .= '<span class="taxon-usage" title="In text">
-								<img width="32" heigth="20" alt="" src="/i/InText.png" style="vertical-align: middle;" />
-							</span>';
+				$lTitle = 'In text';
+				$lImgSrc = '/i/InText.png';				
 				break;
 		}
-	}
+		$lResult .= '
+			<span class="taxon-usage" title="' . $lTitle . '" data-usage-type=" ' . (int)$lUsage . '">
+				<img width="32" heigth="20" alt="" src="' . $lImgSrc . '" style="vertical-align: middle;" />
+			</span>';
+	}	
+	
 	$lResult .= '</span>';
+	return $lResult;
+}
+
+function placeTaxonNamesAttributes($pTaxonNamesArr){
+	$lResult = '';
+	foreach ($pTaxonNamesArr as $lIdx => $lName) {
+		$lResult .= ' data-taxon-parsed-name-' . $lIdx . '="' . htmlspecialchars($lName) . '"';
+	}
 	return $lResult;
 }
 
@@ -6690,6 +6700,17 @@ function displayRegularSiteLastRowClass($pRownum, $pRecords, $pItemsOnRow){
 		return ' P-Regular-Site-Row-Last-Larger';
 	}
 	return ' P-Regular-Site-Row-Last-Regular';
+}
+
+function placeTaxonNavigationLinks($pOccurrences){
+	if($pOccurrences <= 1){
+		return ;
+	}
+	$lResult = '<span class="P-Taxon-Navigation-Link-Next"><img src="/i/docrightarrow.png" alt="" title="Next"/></span>
+				<span class="P-Taxon-Navigation-Link-Prev"><img src="/i/docleftarrow.png" alt="" title="Prev"/></span> 
+	';
+	
+	return $lResult;
 }
 
 function TrimAndCutText($pText) {

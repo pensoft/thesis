@@ -655,7 +655,7 @@ a {
 
 #docEditHeader .filter a {
 	color: #0052CC !important;
-} 
+}
 
 #docEditHeader .box a {
 	font-size: 12px;
@@ -2868,14 +2868,14 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 
 .articleHeadline {
 	padding-top: 3px;
-	
+
 }
 
 .articleHeadline > a{
-	font-family: Tahoma, Verdana, sans-serif;
-	font-weight: bold;
-	font-size: 11pt;
-	/* font-family: Tahoma-Bold; */
+	color: rgb(0, 68, 68) !important;
+    font-family: trebuchet ms;
+    font-size: 14pt;
+    font-weight: normal;
 }
 
 .articleHeadline a:hover .star {
@@ -2898,7 +2898,7 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 
 .article .research {
 	background: #006600;
-	border-radius: 3px; 
+	border-radius: 3px;
 	font-size: 10px;
 	line-height: 145%;
 	color: #FFFFFF;
@@ -4301,7 +4301,7 @@ div.token-input-dropdown-facebook:after {
 
 .dashboard tr:last-child td, .dashboard td[rowspan] {
 	border-bottom: 1px solid #d1cdbb;
-} 
+}
 
 .dashboard tbody {
 	border-bottom: 1px solid #d1cdbb;
@@ -4372,7 +4372,7 @@ div.token-input-dropdown-facebook:after {
 }
 
  .dashboard tbody:hover td[rowspan] { background: #EED; }
- .dashboard tr:hover td { background: #EED; } 
+ .dashboard tr:hover td { background: #EED; }
 
 
 
@@ -4612,7 +4612,7 @@ table.reviewer_tbl td {
 	color: #1F1F1F;
 	font-size: 13px;
 	border-bottom: 1px dashed #D1CDBB;
-	/* cursor: pointer; 
+	/* cursor: pointer;
 	padding: 10px; */
 }
 
@@ -4970,7 +4970,7 @@ table.tbl_editors td a {
 }
 
 .document_info_bottom_info_left {
-	
+
 	float: left;
 	font-size: 11px;
 	color: #1F1F1F;
@@ -6579,7 +6579,7 @@ table.no_bold_class td a {
 }
 
 .le_action_btn .invite_reviewer_btn_middle {
-	width: 180px; 
+	width: 180px;
 }
 
 .le_actions_holder .P-Green-Btn-Holder {
@@ -6609,7 +6609,7 @@ table.no_bold_class td a {
 
 .P-Main-Comment-Btn-Disabled{
 	opacity:0.5;
-	filter: alpha(opacity = 50);			
+	filter: alpha(opacity = 50);
 }
 
 .with-label {
@@ -6642,7 +6642,7 @@ table.no_bold_class td a {
 }
 
 #docEditHeaderHolder.editHeaderWithNotification{
-	height:133px;	
+	height:133px;
 }
 
 .review {
@@ -6819,28 +6819,28 @@ button.button_green, button.button_red {
 }
 
 .button_green {
-    background-image:-moz-linear-gradient(48% -28% -180deg,rgb(178,212,91) 0%,rgb(68,125,93) 100%); 
+    background-image:-moz-linear-gradient(48% -28% -180deg,rgb(178,212,91) 0%,rgb(68,125,93) 100%);
     background-image:-webkit-gradient(linear,48% -28%,48% 119%,color-stop(0, rgb(178,212,91)),color-stop(1, rgb(68,125,93)));
     background-image:-webkit-linear-gradient(-180deg,rgb(178,212,91) 0%,rgb(68,125,93) 100%);
     background-image:linear-gradient(-180deg,rgb(178,212,91) 0%,rgb(68,125,93) 100%);
 }
 
 .button_green:hover {
-    background-image:-moz-linear-gradient(48% -28% 0deg,rgb(178,212,91) 0%,rgb(68,125,93) 100%); 
+    background-image:-moz-linear-gradient(48% -28% 0deg,rgb(178,212,91) 0%,rgb(68,125,93) 100%);
     background-image:-webkit-gradient(linear,48% -28%,48% 119%,color-stop(0, rgb(178,212,91)),color-stop(1, rgb(68,125,93)));
     background-image:-webkit-linear-gradient(0deg,rgb(178,212,91) 0%,rgb(68,125,93) 100%);
     background-image:linear-gradient(0deg,rgb(178,212,91) 0%,rgb(68,125,93) 100%);
 }
 
 .button_red {
-    background-image:-moz-linear-gradient(0 0 -180deg,rgb(211,126,126) 0%,rgb(153,51,51) 99%); 
+    background-image:-moz-linear-gradient(0 0 -180deg,rgb(211,126,126) 0%,rgb(153,51,51) 99%);
     background-image:-webkit-gradient(linear,0 0,0 0,color-stop(0, rgb(211,126,126)),color-stop(0.99, rgb(153,51,51)));
     background-image:-webkit-linear-gradient(-180deg,rgb(211,126,126) 0%,rgb(153,51,51) 99%);
     background-image:linear-gradient(-180deg,rgb(211,126,126) 0%,rgb(153,51,51) 99%);
 }
 
 .button_red:hover {
-    background-image:-moz-linear-gradient(0 0 0deg,rgb(211,126,126) 0%,rgb(153,51,51) 99%); 
+    background-image:-moz-linear-gradient(0 0 0deg,rgb(211,126,126) 0%,rgb(153,51,51) 99%);
     background-image:-webkit-gradient(linear,0 0,0 100%,color-stop(0, rgb(211,126,126)),color-stop(0.99, rgb(153,51,51)));
     background-image:-webkit-linear-gradient(0deg,rgb(211,126,126) 0%,rgb(153,51,51) 99%);
     background-image:linear-gradient(0deg,rgb(211,126,126) 0%,rgb(153,51,51) 99%);
@@ -6937,7 +6937,7 @@ button.button_tasks span {
 	font-weight: bold;
 }
 .author-left-bar-holder{
-	float: left; 
+	float: left;
 	width: 276px;
 }
 

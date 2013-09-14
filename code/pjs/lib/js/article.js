@@ -9,6 +9,9 @@ var gContentsMenuElementType = 1;
 var gLocalitiesMenuElementType = 6;
 var gReferencesMenuElementType = 4;
 var gMenuActiveElementType = false;
+var gTaxonParsedNameAttributeName = 'data-taxon-parsed-name';
+var gTaxonParsedNameAttributePrefix = 'data-taxon-parsed-name-';
+var gTaxonNameHolderNamesCountAttributeName = 'data-taxon-names-count';
 
 var gLocalitiesList = {};
 var gActiveLocalityIds = [];
@@ -16,6 +19,17 @@ var gLocalityByCoordinatesArr = {};
 var gLocalityByInstanceIdArr = {};
 var gLocalitySelectAllInputValue = -2;
 var gLocalitySelectAllInstancesInputValue = -1;
+
+var gCurrentTaxonOccurrenceNavigationTaxonNamesNode = false;
+var gCurrentTaxonOccurrenceNavigationTaxonNode = false;
+var gHighlightedElementClass = 'P-Highlighted-Element';
+
+var gTaxonDataUsageTypeTreatment = 1;
+var gTaxonDataUsageTypeChecklist = 2;
+var gTaxonDataUsageTypeIdKey = 3;
+var gTaxonDataUsageTypeFigure = 4;
+var gTaxonDataUsageTypeInline = 5;
+
 
 Locality = function(pId, pLongitude, pLatitude, pInstanceIds){
 	this.latitude = pLatitude;
@@ -41,11 +55,12 @@ function SetArticleId(pArticleId){
 	gArticleId = pArticleId;
 }
 
-function initArticlePreviewOnLoadEvents(){	
-	resizePreviewIframe(gArticlePreviewIframeId);	
+function initArticlePreviewOnLoadEvents(){
+	resizePreviewIframe(gArticlePreviewIframeId);
 	InitContentsCustomElementsEvents(1);
 	LoadArticleLocalities();
 	LoadArticleReferences();
+	InitClearHighlightedElementsEvents();
 }
 
 function InitArticleMenuEvents(){
@@ -71,8 +86,8 @@ function LoadArticleMenuMainElement(pElementType){
 				alert(pAjaxResult['err_msg']);
 				return;
 			}
-			ClearActiveLocalities();			
-			LoadInfoContent(pAjaxResult['html'], pElementType);					
+			ClearActiveLocalities();
+			LoadInfoContent(pAjaxResult['html'], pElementType);
 		}
 	});
 }
@@ -89,7 +104,7 @@ function LoadArticleLocalities(){
 	$.ajax({
 		url : gArticleAjaxSrvUrl,
 		data : {
-			action : 'get_article_localities',			
+			action : 'get_article_localities',
 			article_id : gArticleId
 		},
 		success : function(pAjaxResult) {
@@ -103,7 +118,7 @@ function LoadArticleLocalities(){
 				var lLocalityLongitude = parseFloat(lLocalityData['longitude']);
 				var lLocalityLatitude = parseFloat(lLocalityData['latitude']);
 				var lLocalityInstanceIds = lLocalityData['instance_ids'];
-				
+
 				var lLocality = new Locality(lLocalityId, lLocalityLongitude, lLocalityLatitude, lLocalityInstanceIds);
 				gLocalitiesList[lLocalityId] = lLocality;
 				if(!gLocalityByCoordinatesArr[lLocalityLatitude]){
@@ -120,7 +135,7 @@ function LoadArticleLocalities(){
 					gLocalityByInstanceIdArr[lInstanceId].push(lLocalityId);
 				}
 			}
-			
+
 		}
 	});
 }
@@ -135,14 +150,14 @@ function LoadArticleReferences(){
 			article_id : gArticleId
 		},
 		success : function(pAjaxResult) {
-			if(pAjaxResult['err_cnt']){			
+			if(pAjaxResult['err_cnt']){
 				return;
 			}
-			$('.P-Article-References-For-Baloon').html(pAjaxResult['html']);	
+			$('.P-Article-References-For-Baloon').html(pAjaxResult['html']);
 		}
 	});
 	GetArticlePreviewContent().find('xref.bibr[rid]').each(function(pIdx, pReferenceNode){
-		var lReferenceId = $(pReferenceNode).attr('rid'); 
+		var lReferenceId = $(pReferenceNode).attr('rid');
 		var lBaloon = $('#' + gBaloonId);
 		var lReferenceContent = $('.P-Article-References-For-Baloon').find('.bibr[rid="' + lReferenceId + '"]');
 		if(!lReferenceContent.length){
@@ -160,14 +175,14 @@ function LoadArticleReferences(){
 			lBaloon.hide();
 		}
 		);
-	});	
+	});
 }
 
 function LoadElementInfo(pActionName, pElementId, pElementName){
 	$.ajax({
 		url : gArticleAjaxSrvUrl,
 		data : {
-			action : pActionName,			
+			action : pActionName,
 			article_id : gArticleId,
 			element_id : pElementId,
 			element_name : pElementName
@@ -228,6 +243,30 @@ function InitContentsCustomElementsEvents(pInPreviewIframe){
 	PlaceLocalitiesEvents(pInPreviewIframe);
 	PlaceAuthorEvents(pInPreviewIframe);
 	PlaceTaxonUsageIconsEvents(pInPreviewIframe);
+	PlaceTaxonNavigationLinkEvents(pInPreviewIframe);
+	ResetTaxonOccurrenceNavigation();
+}
+
+function InitClearHighlightedElementsEvents(){	
+	GetArticlePreviewContent().bind('mouseup', function(pEvent){
+		RemoveCurrentTaxonNavigationNodeHighlight();
+	});
+	GetArticlePreviewContent().bind('keyup', function(pEvent) {
+		RemoveCurrentTaxonNavigationNodeHighlight();
+	});
+	GetArticlePreviewContent().bind('selectionchange', function(pEvent) {
+		RemoveCurrentTaxonNavigationNodeHighlight();
+	});
+	
+	$(document).bind('mouseup', function(pEvent){
+		RemoveCurrentTaxonNavigationNodeHighlight();
+	});
+	$(document).bind('keyup', function(pEvent) {
+		RemoveCurrentTaxonNavigationNodeHighlight();
+	});
+	$(document).bind('selectionchange', function(pEvent) {
+		RemoveCurrentTaxonNavigationNodeHighlight();
+	});
 }
 
 function SetArticleOnLoadEvents(){
@@ -250,14 +289,14 @@ function GetCustomElementsContents(pInPreviewIframe){
 
 function PlaceTaxonNameEvents(pInPreviewIframe){
 	var lPartsThatLeadToSelf = [
-		'kingdom', 
+		'kingdom',
 		'regnum',
 		'subkingdom',
 		'subregnum',
 		'division',
 		'phylum',
 		'subdivision',
-		'subphylum', 
+		'subphylum',
 		'superclass',
 		'superclassis',
 		'class',
@@ -266,23 +305,23 @@ function PlaceTaxonNameEvents(pInPreviewIframe){
 		'subclassis',
 		'superorder',
 		'superordo',
-		'order', 
-		'ordo', 
+		'order',
+		'ordo',
 		'suborder',
 		'subordo',
 		'infraorder',
 		'infraordo',
 		'superfamily',
 		'superfamilia',
-		'family', 
-		'familia', 
-		'subfamily', 
-		'subfamilia', 
-		'tribe', 
-		'tribus', 
+		'family',
+		'familia',
+		'subfamily',
+		'subfamilia',
+		'tribe',
+		'tribus',
 		'subtribe',
 		'subtribus',
-		'genus', 
+		'genus',
 		'subgenus',
 		'above-genus'
 	];
@@ -313,7 +352,7 @@ function PlaceTaxonNameEvents(pInPreviewIframe){
 			if(lParts.length > 0){
 				var lTaxonName = '';
 				for(var i = 0; i < lNamePartsOrder.length; ++i){
-					var lCurrentPart = lNamePartsOrder[i];					
+					var lCurrentPart = lNamePartsOrder[i];
 					var lCurrentPartText = $(pTaxonNode).find('.' + lCurrentPart).attr(lAttributeThatHoldsPartFullName);
 					if(typeof lCurrentPartText === 'undefined' || lCurrentPartText == ''){
 						lCurrentPartText = $(pTaxonNode).find('.' + lCurrentPart).text();
@@ -354,7 +393,7 @@ function PlaceFigureEvents(pInPreviewIframe){
 }
 
 function PlaceTableEvents(pInPreviewIframe){
-	GetCustomElementsContents(pInPreviewIframe).find('.table[rid]').each(function(pIdx, pTableNode){		
+	GetCustomElementsContents(pInPreviewIframe).find('.table[rid]').each(function(pIdx, pTableNode){
 		$(pTableNode).bind('click', function(pEvent){
 			pEvent.stopPropagation();
 			LoadTableInfo($(pTableNode).attr('rid'));
@@ -377,7 +416,7 @@ function PlaceReferencesEvents(pInPreviewIframe){
 			pEvent.stopPropagation();
 			LoadReferenceInfo($(pReferenceNode).attr('rid'));
 		});
-	});	
+	});
 }
 
 function PlaceAuthorEvents(pInPreviewIframe){
@@ -400,22 +439,195 @@ function PlaceLocalitiesEvents(pInPreviewIframe){
 }
 
 function PlaceTaxonUsageIconsEvents(pInPreviewIframe){
-	GetCustomElementsContents(pInPreviewIframe).find('.taxon-usage[data-instance-id]').each(function(pIdx, pNode){
-		$(pNode).bind('click', function(pEvent){
-			pEvent.stopPropagation();
-			ScrollArticleToInstance($(pNode).attr('data-instance-id'));
-		});
+	var lTreatmentTitleSelector = '*[data-taxon-treatment-title]';
+	var lChecklistTitleSelector = '*[data-checklist-taxon-title]';
+	var lIDKeySelector = '*[data-id-key-taxon-name]';
+	var lFigureSelector = '.figure';
+	console.log(gTaxonDataUsageTypeTreatment);
+	var lUsageSelects = {};
+	lUsageSelects[gTaxonDataUsageTypeTreatment] = lTreatmentTitleSelector;
+	lUsageSelects[gTaxonDataUsageTypeChecklist] = lChecklistTitleSelector;
+	lUsageSelects[gTaxonDataUsageTypeIdKey] = lIDKeySelector;
+	lUsageSelects[gTaxonDataUsageTypeFigure] = lFigureSelector;
+	lUsageSelects[gTaxonDataUsageTypeInline] = '';	
+	
+	GetCustomElementsContents(pInPreviewIframe).find('.taxon-usage').each(function(pIdx, pNode){
+		var lTaxonNameHolder = $(pNode).closest('*[' + gTaxonNameHolderNamesCountAttributeName + ']');
+		var lTaxonNamesCount = lTaxonNameHolder.attr(gTaxonNameHolderNamesCountAttributeName);
+		var lTaxonNames = [];
+		var gTaxonNodeSelector = '';
+		for(var i = 0; i < lTaxonNamesCount; ++i){
+			var lName = lTaxonNameHolder.attr(gTaxonParsedNameAttributePrefix + i);
+			if(lName != ''){
+				lTaxonNames.push(lName);
+				if(gTaxonNodeSelector != ''){
+					gTaxonNodeSelector +=',';
+				}
+				gTaxonNodeSelector += '*[' + gTaxonParsedNameAttributeName + '="' + lName + '"]';				
+			}
+		}
+				
+		
+		var lUsageType = parseInt($(pNode).attr('data-usage-type'));
+		var lNodeResult = false;		
+		var lItemsToSearchIn = false;
+		var lSearchHasBeenPerformed = false;
+		var lSelector = '';
+		
+					
+		
+		if(gTaxonNodeSelector != '' ){
+			lSelector = lUsageSelects[lUsageType];
+			if(lUsageType == gTaxonDataUsageTypeInline){
+				lItemsToSearchIn = GetArticlePreviewContent();
+				//For inline usage we have to check that the taxon node is not in any of the non-inline taxon holders				
+				var lOccurrences = lItemsToSearchIn.find(gTaxonNodeSelector).addBack(gTaxonNodeSelector);
+				var lCombinedSelectors = lTreatmentTitleSelector + ',' + lChecklistTitleSelector + ',' + lIDKeySelector + ',' + lFigureSelector;
+				lOccurrences.each(function(){				
+					if($(this).parents(lCombinedSelectors).length == 0){
+						//The node is not in any of the non-inline taxon holders - we dont have to search any more
+						lNodeResult = this;
+						return false;
+					}
+				});
+				lSearchHasBeenPerformed = true;
+			}
+			
+			if(!lSearchHasBeenPerformed){
+				if(lUsageType == gTaxonDataUsageTypeTreatment){
+					console.log(1);
+				}
+				if(lUsageType == gTaxonDataUsageTypeChecklist){
+					console.log(2);
+				}
+				lItemsToSearchIn = GetArticlePreviewContent().find(lSelector);				
+				var lOccurrences = lItemsToSearchIn.find(gTaxonNodeSelector).addBack(gTaxonNodeSelector);
+				if(lOccurrences.length){
+					lNodeResult = lOccurrences.first()[0];
+				}
+			}
+			
+			if(lNodeResult != false){
+				$(pNode).bind('click', function(pEvent){
+					pEvent.stopPropagation();
+					SetCurrentTaxonNavigationNode(lNodeResult, lTaxonNameHolder[0]);					
+				});
+			}
+		}
 	});
 }
 
 function ScrollArticleToInstance(pInstanceId){
 	var lFirstInstanceElement = GetArticlePreviewContent().find('*[instance_id=' + pInstanceId + ']').first();
-	if(!lFirstInstanceElement.length){
+	ScrollArticleToNode(lFirstInstanceElement[0]);
+}
+
+function ScrollArticleToNode(pNode){
+	if(!pNode){
 		return;
 	}
-	var lTopOffset = $(lFirstInstanceElement).offset().top;
-	$('#article-preview').scrollTop(lTopOffset);
+	var lTopOffset = $(pNode).offset().top;
+	$('#article-preview').scrollTop(lTopOffset - 150);
 }
+
+function PlaceTaxonNavigationLinkEvents(pInPreviewIframe){	
+	GetCustomElementsContents(pInPreviewIframe).find('.P-Taxon-Navigation-Link-Prev,.P-Taxon-Navigation-Link-Next').each(function(pIdx, pNode){
+		var lTaxonNamesNode= $(pNode).closest('*[' + gTaxonNameHolderNamesCountAttributeName + ']');
+		if(lTaxonNamesNode.length){
+			$(pNode).bind('click', function(pEvent){
+				pEvent.stopPropagation();
+				NavigateToPrevNextTaxonOccurrence(lTaxonNamesNode[0], $(pNode).hasClass('P-Taxon-Navigation-Link-Prev'));
+			});
+		}
+	});
+}
+
+function NavigateToPrevNextTaxonOccurrence(pTaxonNamesNode, pPrevious){
+	//A taxon names node may contain many names because we group the similar together.
+	//When we look for a taxon - we look for a taxon with any of the names in the taxon names node
+	//That is why we keep a reference to the node with names as well to the current taxon name
+	//The attribute 'data-taxon-names-count' of this node contains the number of names which are present in the node
+	if(gCurrentTaxonOccurrenceNavigationTaxonNode != false && gCurrentTaxonOccurrenceNavigationTaxonNamesNode != pTaxonNamesNode){
+		ResetTaxonOccurrenceNavigation();
+	}
+	
+	var lTaxonNamesCount = $(pTaxonNamesNode).attr(gTaxonNameHolderNamesCountAttributeName);
+	var lTaxonNames = [];
+	var gTaxonNodeSelector = '';
+	for(var i = 0; i < lTaxonNamesCount; ++i){
+		var lName = $(pTaxonNamesNode).attr(gTaxonParsedNameAttributePrefix + i);
+		if(lName != ''){
+			lTaxonNames.push(lName);
+			if(gTaxonNodeSelector != ''){
+				gTaxonNodeSelector +=',';
+			}
+			gTaxonNodeSelector += '*[' + gTaxonParsedNameAttributeName + '="' + lName + '"]';				
+		}
+	}
+	
+	var lOccurrences = GetArticlePreviewContent().find(gTaxonNodeSelector);
+	if(!lOccurrences.length){
+		return;
+	}
+	var lResult = false;
+	if(gCurrentTaxonOccurrenceNavigationTaxonNode == false){
+		if(pPrevious){
+			lResult = lOccurrences.last()[0];
+		}else{
+			lResult = lOccurrences.first()[0];
+		}
+	}else{
+		var lNodeFoundBefore = false;
+		lOccurrences.each(function(pIdx, pNode){			
+			var lNodePositionRelativeToCurrentNavigationTaxonNode = compareNodesOrder(gCurrentTaxonOccurrenceNavigationTaxonNode, pNode);
+
+			if(pPrevious){
+				if(lNodePositionRelativeToCurrentNavigationTaxonNode >= 0 && lNodeFoundBefore){
+					// If the node is after the selection and we have found one
+					// before the selection - stop processing the other nodes
+					return false;
+				}
+				lResult = pNode;
+				if(lNodePositionRelativeToCurrentNavigationTaxonNode < 0 && !lNodeFoundBefore){
+					lNodeFoundBefore = true;
+				}
+			}else{
+				if(!lResult){
+					lResult = pNode;
+				}
+
+				if(lNodePositionRelativeToCurrentNavigationTaxonNode > 0){
+					// If the comment is after the selection - it is the first after it
+					lResult = pNode;
+					return false;
+				}
+			}
+		});
+	}
+	if(lResult){		
+		SetCurrentTaxonNavigationNode(lResult, pTaxonNamesNode);		
+	}
+}
+
+function ResetTaxonOccurrenceNavigation(){
+	RemoveCurrentTaxonNavigationNodeHighlight();
+	gCurrentTaxonOccurrenceNavigationTaxonNode = false;
+	gCurrentTaxonOccurrenceNavigationTaxonNamesNode = false;
+}
+
+function SetCurrentTaxonNavigationNode(pNode, pNamesNode){
+	ScrollArticleToNode(pNode);
+	RemoveCurrentTaxonNavigationNodeHighlight();
+	gCurrentTaxonOccurrenceNavigationTaxonNode = pNode;
+	gCurrentTaxonOccurrenceNavigationTaxonNamesNode = pNamesNode;
+	$(gCurrentTaxonOccurrenceNavigationTaxonNode).addClass(gHighlightedElementClass);
+}
+
+function RemoveCurrentTaxonNavigationNodeHighlight(){
+	$(gCurrentTaxonOccurrenceNavigationTaxonNode).removeClass(gHighlightedElementClass);	
+}
+
+
 
 function LoadMapScript() {
 //  var script = document.createElement("script");
@@ -443,9 +655,9 @@ function InitLocalitiesMap(){
 		tileSize: new google.maps.Size(401, 512),
 		center : lMapCenterCorrdinates
 	};
-//	SetLocalitiesHolderHeight();	
-	gArticleMap = new google.maps.Map(document.getElementById(gMapHolderId), lMapOptions);	
-	
+//	SetLocalitiesHolderHeight();
+	gArticleMap = new google.maps.Map(document.getElementById(gMapHolderId), lMapOptions);
+
 }
 
 function ShowSingleCoordinate(pLatitude, pLongitude){
@@ -490,10 +702,10 @@ function PlaceLocalitiesMenuEvents(){
 				}
 			});
 			lFollowingInputs.each(function(pIdx, pElement){
-				$(pElement).removeAttr('disabled');				
+				$(pElement).removeAttr('disabled');
 			});
 		}
-		GetActiveLocalitiesFromMenuSelection();		
+		GetActiveLocalitiesFromMenuSelection();
 	});
 	 $('#all').prop('checked', true);
 	 $('#all').trigger('change');
@@ -502,7 +714,7 @@ function PlaceLocalitiesMenuEvents(){
 function correctIframeLinks(pIframeId, pLinkPrefix){
 	document.getElementById(pIframeId).contentWindow.changeRootLocation = function(pLocation){
 		parent.location.href = pLinkPrefix + encodeURIComponent(pLocation);
-	};	
+	};
 	var lLinks = $('#' + pIframeId).contents().find('a');
 	for( var i = 0; i < lLinks.length; ++i ){
 		var lLink = lLinks[i];
@@ -527,7 +739,7 @@ function GetActiveLocalitiesFromMenuSelection(){
 					lNewActiveLocalities.push(lLocalityId);
 				}
 			}
-		}		
+		}
 	}else{
 		lSelectedInputs.each(function(pIdx, pElement){
 			var lInstanceId = parseInt($(pElement).val());
@@ -559,7 +771,7 @@ function GetActiveLocalitiesFromMenuSelection(){
 		lLocality.showMarker();
 	}
 	gActiveLocalityIds = lNewActiveLocalities;
-	
+
 }
 
 function ClearActiveLocalities(){
@@ -578,6 +790,14 @@ function ClearActiveLocalities(){
 	var lInputs = $('input[name="active-localities"]');
 	lInputs.removeAttr('checked');
 	lInputs.removeAttr('disabled');
+}
+
+function callFormattingService(){
+	var style = $('#chosen-select').val().toLowerCase().replace(/ /g, '-');
+	var oReq  = new XMLHttpRequest();
+		oReq.onload = function(){ $('#formattedRef').html( $('<div/>').html(this.responseText).text() ); };
+		oReq.open("get", server +'/format?ref=' + ref + '&style=' + style, true);
+		oReq.send();
 }
 
 function ScrollToTaxonCategory(pCategoryName){
