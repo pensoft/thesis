@@ -251,7 +251,7 @@ function InitContentsCustomElementsEvents(pInPreviewIframe){
 	ResetCitatedElementNavigation();
 }
 
-function InitClearHighlightedElementsEvents(){	
+function InitClearHighlightedElementsEvents(){
 	var lClearActiveElementsHighlight = function(){
 		RemoveCurrentTaxonNavigationNodeHighlight();
 		RemoveCurrentCitatedElementNavigationNodeHighlight();
@@ -265,7 +265,7 @@ function InitClearHighlightedElementsEvents(){
 	GetArticlePreviewContent().bind('selectionchange', function(pEvent) {
 		lClearActiveElementsHighlight();
 	});
-	
+
 	$(document).bind('mouseup', function(pEvent){
 		lClearActiveElementsHighlight();
 	});
@@ -457,8 +457,8 @@ function PlaceTaxonUsageIconsEvents(pInPreviewIframe){
 	lUsageSelects[gTaxonDataUsageTypeChecklist] = lChecklistTitleSelector;
 	lUsageSelects[gTaxonDataUsageTypeIdKey] = lIDKeySelector;
 	lUsageSelects[gTaxonDataUsageTypeFigure] = lFigureSelector;
-	lUsageSelects[gTaxonDataUsageTypeInline] = '';	
-	
+	lUsageSelects[gTaxonDataUsageTypeInline] = '';
+
 	GetCustomElementsContents(pInPreviewIframe).find('.taxon-usage').each(function(pIdx, pNode){
 		var lTaxonNameHolder = $(pNode).closest('*[' + gTaxonNameHolderNamesCountAttributeName + ']');
 		var lTaxonNamesCount = lTaxonNameHolder.attr(gTaxonNameHolderNamesCountAttributeName);
@@ -471,27 +471,27 @@ function PlaceTaxonUsageIconsEvents(pInPreviewIframe){
 				if(gTaxonNodeSelector != ''){
 					gTaxonNodeSelector +=',';
 				}
-				gTaxonNodeSelector += '*[' + gTaxonParsedNameAttributeName + '="' + lName + '"]';				
+				gTaxonNodeSelector += '*[' + gTaxonParsedNameAttributeName + '="' + lName + '"]';
 			}
 		}
-				
-		
+
+
 		var lUsageType = parseInt($(pNode).attr('data-usage-type'));
-		var lNodeResult = false;		
+		var lNodeResult = false;
 		var lItemsToSearchIn = false;
 		var lSearchHasBeenPerformed = false;
 		var lSelector = '';
-		
-					
-		
+
+
+
 		if(gTaxonNodeSelector != '' ){
 			lSelector = lUsageSelects[lUsageType];
 			if(lUsageType == gTaxonDataUsageTypeInline){
 				lItemsToSearchIn = GetArticlePreviewContent();
-				//For inline usage we have to check that the taxon node is not in any of the non-inline taxon holders				
+				//For inline usage we have to check that the taxon node is not in any of the non-inline taxon holders
 				var lOccurrences = lItemsToSearchIn.find(gTaxonNodeSelector).addBack(gTaxonNodeSelector);
 				var lCombinedSelectors = lTreatmentTitleSelector + ',' + lChecklistTitleSelector + ',' + lIDKeySelector + ',' + lFigureSelector;
-				lOccurrences.each(function(){				
+				lOccurrences.each(function(){
 					if($(this).parents(lCombinedSelectors).length == 0){
 						//The node is not in any of the non-inline taxon holders - we dont have to search any more
 						lNodeResult = this;
@@ -500,7 +500,7 @@ function PlaceTaxonUsageIconsEvents(pInPreviewIframe){
 				});
 				lSearchHasBeenPerformed = true;
 			}
-			
+
 			if(!lSearchHasBeenPerformed){
 				if(lUsageType == gTaxonDataUsageTypeTreatment){
 					console.log(1);
@@ -508,17 +508,17 @@ function PlaceTaxonUsageIconsEvents(pInPreviewIframe){
 				if(lUsageType == gTaxonDataUsageTypeChecklist){
 					console.log(2);
 				}
-				lItemsToSearchIn = GetArticlePreviewContent().find(lSelector);				
+				lItemsToSearchIn = GetArticlePreviewContent().find(lSelector);
 				var lOccurrences = lItemsToSearchIn.find(gTaxonNodeSelector).addBack(gTaxonNodeSelector);
 				if(lOccurrences.length){
 					lNodeResult = lOccurrences.first()[0];
 				}
 			}
-			
+
 			if(lNodeResult != false){
 				$(pNode).bind('click', function(pEvent){
 					pEvent.stopPropagation();
-					SetCurrentTaxonNavigationNode(lNodeResult, lTaxonNameHolder[0]);					
+					SetCurrentTaxonNavigationNode(lNodeResult, lTaxonNameHolder[0]);
 				});
 			}
 		}
@@ -527,10 +527,10 @@ function PlaceTaxonUsageIconsEvents(pInPreviewIframe){
 
 function ScrollArticleToInstance(pInstanceId){
 	var lFirstInstanceElement = GetArticlePreviewContent().find('*[instance_id=' + pInstanceId + ']').first();
-	ScrollArticleToNode(lFirstInstanceElement[0]);
+	ScrollArticleToNode(lFirstInstanceElement[0], 10);
 }
 
-function ScrollArticleToNode(pNode, pOffset = 10){
+function ScrollArticleToNode(pNode, pOffset){
 	if(!pNode){
 		return;
 	}
@@ -538,7 +538,7 @@ function ScrollArticleToNode(pNode, pOffset = 10){
 	$('#article-preview').scrollTop(lTopOffset - pOffset);
 }
 
-function PlaceTaxonNavigationLinkEvents(pInPreviewIframe){	
+function PlaceTaxonNavigationLinkEvents(pInPreviewIframe){
 	GetCustomElementsContents(pInPreviewIframe).find('.P-Taxon-Navigation-Link-Prev,.P-Taxon-Navigation-Link-Next').each(function(pIdx, pNode){
 		var lTaxonNamesNode= $(pNode).closest('*[' + gTaxonNameHolderNamesCountAttributeName + ']');
 		if(lTaxonNamesNode.length){
@@ -558,7 +558,7 @@ function NavigateToPrevNextTaxonOccurrence(pTaxonNamesNode, pPrevious){
 	if(gCurrentTaxonOccurrenceNavigationTaxonNode != false && gCurrentTaxonOccurrenceNavigationTaxonNamesNode != pTaxonNamesNode){
 		ResetTaxonOccurrenceNavigation();
 	}
-	
+
 	var lTaxonNamesCount = $(pTaxonNamesNode).attr(gTaxonNameHolderNamesCountAttributeName);
 	var lTaxonNames = [];
 	var gTaxonNodeSelector = '';
@@ -569,10 +569,10 @@ function NavigateToPrevNextTaxonOccurrence(pTaxonNamesNode, pPrevious){
 			if(gTaxonNodeSelector != ''){
 				gTaxonNodeSelector +=',';
 			}
-			gTaxonNodeSelector += '*[' + gTaxonParsedNameAttributeName + '="' + lName + '"]';				
+			gTaxonNodeSelector += '*[' + gTaxonParsedNameAttributeName + '="' + lName + '"]';
 		}
 	}
-	
+
 	var lOccurrences = GetArticlePreviewContent().find(gTaxonNodeSelector);
 	if(!lOccurrences.length){
 		return;
@@ -586,7 +586,7 @@ function NavigateToPrevNextTaxonOccurrence(pTaxonNamesNode, pPrevious){
 		}
 	}else{
 		var lNodeFoundBefore = false;
-		lOccurrences.each(function(pIdx, pNode){			
+		lOccurrences.each(function(pIdx, pNode){
 			var lNodePositionRelativeToCurrentNavigationTaxonNode = compareNodesOrder(gCurrentTaxonOccurrenceNavigationTaxonNode, pNode);
 
 			if(pPrevious){
@@ -612,8 +612,8 @@ function NavigateToPrevNextTaxonOccurrence(pTaxonNamesNode, pPrevious){
 			}
 		});
 	}
-	if(lResult){		
-		SetCurrentTaxonNavigationNode(lResult, pTaxonNamesNode);		
+	if(lResult){
+		SetCurrentTaxonNavigationNode(lResult, pTaxonNamesNode);
 	}
 }
 
@@ -632,7 +632,7 @@ function SetCurrentTaxonNavigationNode(pNode, pNamesNode){
 }
 
 function RemoveCurrentTaxonNavigationNodeHighlight(){
-	$(gCurrentTaxonOccurrenceNavigationTaxonNode).removeClass(gHighlightedElementClass);	
+	$(gCurrentTaxonOccurrenceNavigationTaxonNode).removeClass(gHighlightedElementClass);
 }
 
 function PlaceCitatedElementsNavigationEvents(pInPreviewIframe){
@@ -640,7 +640,7 @@ function PlaceCitatedElementsNavigationEvents(pInPreviewIframe){
 		var lInstanceIdNode= $(pNode).closest('*[data-cited-element-instance-id]');
 		var lInstanceId = parseInt(lInstanceIdNode.attr('data-cited-element-instance-id'));
 		if(lInstanceId > 0){
-			
+
 			$(pNode).bind('click', function(pEvent){
 				pEvent.stopPropagation();
 				NavigateToPrevNextElementCitation(lInstanceId, $(pNode).hasClass('P-Citation-Navigation-Link-Prev'));
@@ -651,7 +651,7 @@ function PlaceCitatedElementsNavigationEvents(pInPreviewIframe){
 		var lInstanceIdNode= $(pNode).closest('*[data-cited-element-instance-id]');
 		var lInstanceId = parseInt(lInstanceIdNode.attr('data-cited-element-instance-id'));
 		if(lInstanceId > 0){
-			
+
 			$(pNode).bind('click', function(pEvent){
 				pEvent.stopPropagation();
 				NavigateToFirstElementCitation(lInstanceId);
@@ -669,7 +669,7 @@ function NavigateToPrevNextElementCitation(lInstanceId, pPrevious){
 	if(gCurrentCitatedElementNavigationNode != false && GetCurrentCitatedElementNavigationNodeInstanceId() != lInstanceId){
 		ResetCitatedElementNavigation();
 	}
-	
+
 	var lOccurrences = GetArticlePreviewContent().find('xref[' + gCitationElementInstanceIdAttributeName + '="' + lInstanceId + '"]');
 	if(!lOccurrences.length){
 		return;
@@ -683,7 +683,7 @@ function NavigateToPrevNextElementCitation(lInstanceId, pPrevious){
 		}
 	}else{
 		var lNodeFoundBefore = false;
-		lOccurrences.each(function(pIdx, pNode){			
+		lOccurrences.each(function(pIdx, pNode){
 			var lNodePositionRelativeToCurrentNavigationNode = compareNodesOrder(gCurrentCitatedElementNavigationNode, pNode);
 
 			if(pPrevious){
@@ -709,8 +709,8 @@ function NavigateToPrevNextElementCitation(lInstanceId, pPrevious){
 			}
 		});
 	}
-	if(lResult){		
-		SetCurrentCitatedElementNavigationNode(lResult);		
+	if(lResult){
+		SetCurrentCitatedElementNavigationNode(lResult);
 	}
 }
 
@@ -723,18 +723,18 @@ function GetCurrentCitatedElementNavigationNodeInstanceId(){
 
 function ResetCitatedElementNavigation(){
 	RemoveCurrentCitatedElementNavigationNodeHighlight();
-	gCurrentCitatedElementNavigationNode = false;	
+	gCurrentCitatedElementNavigationNode = false;
 }
 
 function SetCurrentCitatedElementNavigationNode(pNode){
-	ScrollArticleToNode(pNode);
+	ScrollArticleToNode(pNode, 10);
 	RemoveCurrentCitatedElementNavigationNodeHighlight();
-	gCurrentCitatedElementNavigationNode = pNode;	
+	gCurrentCitatedElementNavigationNode = pNode;
 	$(gCurrentCitatedElementNavigationNode).addClass(gHighlightedElementClass);
 }
 
 function RemoveCurrentCitatedElementNavigationNodeHighlight(){
-	$(gCurrentCitatedElementNavigationNode).removeClass(gHighlightedElementClass);	
+	$(gCurrentCitatedElementNavigationNode).removeClass(gHighlightedElementClass);
 }
 
 function LoadMapScript() {
