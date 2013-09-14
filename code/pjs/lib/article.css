@@ -144,11 +144,11 @@ a[href],label[for] {
 
 .P-Info-Menu.leftBar {
 	top: 70px;
-	width: 249px;
+	width: 400px;
 	height: 50px;
 	padding: 5px 5px 5px 6px;
 	border-radius: 5px 5px 5px 5px;
-	text-align: center;
+
 }
 
 .P-Info-Menu.leftBar li.P-Active-Menu,.P-Info-Menu.rightBar li.P-Active-Menu
