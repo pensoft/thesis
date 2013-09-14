@@ -1634,6 +1634,13 @@ a.AOF-journal-logo {
 	font-size: 12pt;
 	margin-top: 20px
 }
+#impactstoryholder{
+	display: none;
+}
+#impactstory{
+	margin-left: 20px;
+	margin-top: 3px;
+}
 
 #style-choser {
 	padding: 15px 30px 15px 15px;

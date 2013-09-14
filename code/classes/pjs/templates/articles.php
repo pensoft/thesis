@@ -1,8 +1,8 @@
 <?php
 
 // @formatter:off
-$gTemplArr = array(		
-		
+$gTemplArr = array(
+
 		'articles.contents' => '
 			{*articles.header}
 			<script type="text/javascript">SetArticleId({id});</script>
@@ -10,12 +10,12 @@ $gTemplArr = array(
 				<div id="article-head">
 					<a class="AOF-journal-logo" href="/">
 						<img alt="" src="/i/bdj-eye.png" id="bdj-eye" />
-					</a>	
+					</a>
 					<div id="article-id">
-					
+
 						Biodiversity Data Journal 1: e{article_id} ({publish_date})<br />
 						doi: 10.3897/BDJ.1.e{article_id}
-						 
+
 					</div>
 					<a href=""><img alt="" src="/i/print-icon.png" /></a>
 					<a href=""><img alt="" src="/i/xml-icon.png" /></a>
@@ -33,32 +33,32 @@ $gTemplArr = array(
 				<div class="P-Article-Info-Bar" id="P-Article-Info-Bar">
 					<div class="P-Article-Info-header">
 						<ul class="P-Info-Menu leftBar">' .
-							infoMenu(array(						
+							infoMenu(array(
 								ARTICLE_MENU_ELEMENT_TYPE_CONTENTS   => 'Contents',
 								ARTICLE_MENU_ELEMENT_TYPE_AUTHORS   => 'Article info',
 								ARTICLE_MENU_ELEMENT_TYPE_CITATION   => 'Citation',
 							)) . '
 						</ul>
 						<ul class="P-Info-Menu rightBar">' .
-							infoMenu(array(	
+							infoMenu(array(
 								ARTICLE_MENU_ELEMENT_TYPE_RELATED  => 'Related',
 								ARTICLE_MENU_ELEMENT_TYPE_METRICS  => 'Metrics',
 								ARTICLE_MENU_ELEMENT_TYPE_SHARE  => 'Share',
 							)) . '
 						</ul>
-						{_createArticleObjectMenu(object_existence)}					
+						{_createArticleObjectMenu(object_existence)}
 					</div>
 					<div class="P-Info-Content">
 						{contents_list}
 					</div>
 					<script type="text/javascript">InitArticleMenuEvents()</script>
-				</div>	
-			</div> 
+				</div>
+			</div>
 			<div class="P-Article-References-For-Baloon">
-			</div>								
-						
-		',	
-		
+			</div>
+
+		',
+
 		'articles.related' => '
 			<div class="P-Related-Articles">
 				<div class="P-Related-Articles-Row">
@@ -75,7 +75,7 @@ $gTemplArr = array(
 				</div>
 			</div>
 		',
-		
+
 		'articles.article_metrics' => '
 			<div class="P-Metrics">
 				<div class="P-Metrics-Label">Article views</div>
@@ -135,17 +135,31 @@ $gTemplArr = array(
 							<b>{total_views_cnt}</b>
 						</td>
 					</tr>
-				</table>				
+				</table>
 			</div>
 		',
-		
+
 		'articles.metrics' => '
-			{*articles.article_metrics}	
+			{*articles.article_metrics}
 			{figures_metrics}
 			{tables_metrics}
 			{suppl_files_metrics}
+			<div class="P-Metrics" id="impactstoryholder">
+
+				<div class="P-Metrics-Label">ImpactStory</div>
+				<div id="impactstory" class="impactstory-embed" data-badge-size="large" data-verbose-badges="true" data-id="{doi}" data-id-type="doi" data-api-key="PENSOFT-127b7fd8" data-show-logo="false" data-on-finish="showimpactstory"></div>
+				<script type="text/javascript" src="http://impactstory.org/embed/impactstory.js"></script>
+				<script type="text/javascript">
+					function showimpactstory(awards, div$){
+						if (awards.length > 0)
+						{
+							document.getElementById("impactstoryholder").style.display = "block";
+						}
+					}
+				</script>
+			</div>
 		',
-		
+
 		'article.figures_metrics_head' => '',
 		'article.figures_metrics_foot' => '',
 		'article.figures_metrics_start' => '
@@ -162,11 +176,11 @@ $gTemplArr = array(
 						<th>
 							Downloads
 						</th>
-					</tr>		
+					</tr>
 		',
 		'article.figures_metrics_end' => '
-				</table>				
-			</div>		
+				</table>
+			</div>
 		',
 		'article.figures_metrics_row' => '
 					<tr class="P-Metrics-Row">
@@ -179,10 +193,10 @@ $gTemplArr = array(
 						<td title="Total views (Unique views)">
 							{download_cnt} ({download_unique_cnt})
 						</td>
-					</tr>		
+					</tr>
 		',
 		'article.figures_metrics_nodata' => '',
-		
+
 		'article.tables_metrics_head' => '',
 		'article.tables_metrics_foot' => '',
 		'article.tables_metrics_start' => '
@@ -199,7 +213,7 @@ $gTemplArr = array(
 						<th>
 							Downloads
 						</th>
-					</tr>				
+					</tr>
 		',
 		'article.tables_metrics_end' => '{*article.figures_metrics_end}',
 		'article.tables_metrics_row' => '
@@ -213,10 +227,10 @@ $gTemplArr = array(
 						<td title="Total views (Unique views)">
 							{download_cnt} ({download_unique_cnt})
 						</td>
-					</tr>			
+					</tr>
 		',
 		'article.tables_metrics_nodata' => '',
-		
+
 		'article.suppl_files_metrics_head' => '',
 		'article.suppl_files_metrics_foot' => '',
 		'article.suppl_files_metrics_start' => '
@@ -233,7 +247,7 @@ $gTemplArr = array(
 						<th>
 							Downloads
 						</th>
-					</tr>			
+					</tr>
 		',
 		'article.suppl_files_metrics_end' => '{*article.figures_metrics_end}',
 		'article.suppl_files_metrics_row' => '
@@ -247,10 +261,10 @@ $gTemplArr = array(
 						<td title="Total views (Unique views)">
 							{download_cnt} ({download_unique_cnt})
 						</td>
-					</tr>			
+					</tr>
 		',
 		'article.suppl_files_metrics_nodata' => '',
-		
+
 		'articles.share' => '
 			<div class="P-Aritlce-Share">
 				<div class="P-Article-Share-Row">
@@ -261,7 +275,7 @@ $gTemplArr = array(
 								Facebook
 							</span>
 						</div>
-					</a>	
+					</a>
 				</div>
 				<div class="P-Article-Share-Row">
 					<a target="_blank" {_generateTwitterLink(article_id)}>
@@ -271,7 +285,7 @@ $gTemplArr = array(
 								Twitter
 							</span>
 						</div>
-					</a>	
+					</a>
 				</div>
 				<div class="P-Article-Share-Row">
 					<div class="P-Article-Share-Row-Icon">
@@ -280,7 +294,7 @@ $gTemplArr = array(
 							<span class="P-Article-Share-Row-Icon">
 								Google+
 							</span>
-						</a>	
+						</a>
 					</div>
 				</div>
 				<div class="P-Article-Share-Row">
@@ -290,7 +304,7 @@ $gTemplArr = array(
 							<span class="P-Article-Share-Row-Icon">
 								Mendeley
 							</span>
-						</a>	
+						</a>
 					</div>
 				</div>
 				<div class="P-Article-Share-Row">
@@ -300,18 +314,18 @@ $gTemplArr = array(
 							<span class="P-Article-Share-Row-Icon">
 								Notify a colleague
 							</span>
-						</a>	
+						</a>
 					</div>
 				</div>
 			</div>
 		',
-		
+
 		'articles.error_row' => '<div class="P-Article-Error">
 					<div class="P-Error-Message">{err_msg}</div>
 				</div>
-		
+
 		',
-		
+
 );
 
 ?>
