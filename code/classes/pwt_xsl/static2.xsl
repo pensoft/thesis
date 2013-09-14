@@ -237,7 +237,7 @@
 				<xsl:variable name="city" select="normalize-space($lCurrentNode/fields/city/value)" />
 				<xsl:variable name="country" select="$lCurrentNode/fields/country/value" />
 				<xsl:variable name="fullAffiliation" select="concat($affiliation, ', ', $city, ', ', $country)" />
-				<xsl:variable name="lAffId" select="php:function('getContributorAffId', 'asd')"></xsl:variable>
+				<xsl:variable name="lAffId" select="php:function('getContributorAffId',  $fullAffiliation)"></xsl:variable>
 				<span class="P-Current-Author-Single-Address">
 					<xsl:value-of select="php:function('getUriSymbol', string($lAffId))" />
 				</span>
@@ -255,7 +255,7 @@
 		<xsl:variable name="lAffId" select="php:function('getContributorAffId', $fullAffiliation)"></xsl:variable>
 
 		<div class="P-Single-Author-Address">
-		    <xsl:value-of select="php:function('getAffiliation', $fullAffiliation)" />
+		    <xsl:value-of select="php:function('getAffiliation', $fullAffiliation, $lAffId)" />
 		</div>
 	</xsl:template>
 
