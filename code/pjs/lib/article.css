@@ -144,11 +144,11 @@ a[href],label[for] {
 
 .P-Info-Menu.leftBar {
 	top: 70px;
-	width: 249px;
+	width: 400px;
 	height: 50px;
 	padding: 5px 5px 5px 6px;
 	border-radius: 5px 5px 5px 5px;
-	text-align: center;
+
 }
 
 .P-Info-Menu.leftBar li.P-Active-Menu,.P-Info-Menu.rightBar li.P-Active-Menu
@@ -1650,9 +1650,9 @@ a.AOF-journal-logo {
 .P-Taxon-Navigation-Link-Prev, .P-Taxon-Navigation-Link-Next, .P-Citation-Navigation-Link-Prev, .P-Citation-Navigation-Link-Next{
 	cursor:pointer;
 	float: right;
-	padding-top: 6px;
+	padding-top: 2px;
 	padding-right: 4px;
-	opacity: 0.7;
+	opacity: 0.5;
 }
 
 .P-Element-Citations-Navigation{
@@ -1660,10 +1660,20 @@ a.AOF-journal-logo {
 }
 
 .ref-label{
-	float: right;
+	float: left;
 }
 
-.P-Taxon-Navigation-Link-Prev{padding-right: 16px;}
+.P-Citation-Navigation-Link-Prev, .P-Citation-Navigation-Link-Next{
+	cursor:pointer;
+	padding-top: 2px;
+	padding-right: 4px;
+	opacity: 0.5;
+}
+
+.P-Taxon-Navigation-Link-Prev{padding-right: 3px;}
+
+.P-Taxon-Navigation-Link-Prev img, .P-Citation-Navigation-Link-Prev img{width: 8px; height: 21px;}
+.P-Taxon-Navigation-Link-Next img, .P-Citation-Navigation-Link-Next img{width: 8px; height: 22px;}
 
 #format-head {
 	font-weight: bold;
@@ -1672,4 +1682,8 @@ a.AOF-journal-logo {
 }
 .formatAuthor{
 	display: none
+}
+
+.P-Regular-Site-Row-Last-Larger{
+    width: 453px;
 }

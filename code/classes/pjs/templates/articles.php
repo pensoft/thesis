@@ -37,13 +37,14 @@ $gTemplArr = array(
 								ARTICLE_MENU_ELEMENT_TYPE_CONTENTS   => 'Contents',
 								ARTICLE_MENU_ELEMENT_TYPE_AUTHORS   => 'Article info',
 								ARTICLE_MENU_ELEMENT_TYPE_CITATION   => 'Citation',
+								ARTICLE_MENU_ELEMENT_TYPE_METRICS  => 'Metrics',
+								ARTICLE_MENU_ELEMENT_TYPE_SHARE  => 'Share',
 							)) . '
 						</ul>
 						<ul class="P-Info-Menu rightBar">' .
 							infoMenu(array(
 								//ARTICLE_MENU_ELEMENT_TYPE_RELATED  => 'Related',
-								ARTICLE_MENU_ELEMENT_TYPE_METRICS  => 'Metrics',
-								ARTICLE_MENU_ELEMENT_TYPE_SHARE  => 'Share',
+
 							)) . '
 						</ul>
 						{_createArticleObjectMenu(object_existence)}
