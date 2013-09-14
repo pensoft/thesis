@@ -1650,12 +1650,16 @@ a.AOF-journal-logo {
 .P-Taxon-Navigation-Link-Prev, .P-Taxon-Navigation-Link-Next{
 	cursor:pointer;
 	float: right;
-	padding-top: 6px;
+	padding-top: 2px;
 	padding-right: 4px;
-	opacity: 0.7;
+	opacity: 0.5;
 }
 
-.P-Taxon-Navigation-Link-Prev{padding-right: 16px;}
+.P-Taxon-Navigation-Link-Prev{padding-right: 3px;}
+
+.P-Taxon-Navigation-Link-Prev img{width: 8px; height: 21px;}
+.P-Taxon-Navigation-Link-Next img{width: 8px; height: 22px;}
+
 
 #format-head {
 	font-weight: bold;
