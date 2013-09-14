@@ -65,6 +65,7 @@ class ctaxon_cache_generator {
 		}else{
 			$lSql .= '
 				WHERE c.id IS NULL OR c.lastmoddate < now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval
+				ORDER BY t.id ASC
 				LIMIT 30
 			';
 		}

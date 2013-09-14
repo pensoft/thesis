@@ -93,11 +93,11 @@ class ctaxon_preview_generator extends csimple {
 				'preview' => '' 
 			),
 			'images' => array (
-				'special_sites' => array (
-					WIKIMEDIA_SITE_ID 
+				'special_sites' => array (				
 				),
 				'regular_sites' => array (					
-					26 //Morphbank
+					26, //Morphbank
+					WIKIMEDIA_SITE_ID,
 				),
 				'is_empty' => true,
 				'display_name' => 'Images',

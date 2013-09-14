@@ -1376,6 +1376,7 @@ class ctaxon_data_generator extends csimple {
 	protected function ReplaceText($pText){
 		$pText = str_replace('{taxon_name}', $this->m_taxonName, $pText);
 		$pText = str_replace('{encoded_taxon_name}', $this->m_encodedTaxonName, $pText);
+		$pText = str_replace('{encoded_pubmed_taxon_name}', rawurlencode(ParsePubmedTaxonName($this->m_taxonName)), $pText);
 		$pText = str_replace('{lias_iframe_url}', LIAS_IFRAME_URL, $pText);
 		
 		return $pText;

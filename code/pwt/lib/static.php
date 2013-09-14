@@ -6603,6 +6603,10 @@ function bhl_writecomma($pRownum, $pRecords){
 		return '';
 }
 
+function ParsePubmedTaxonName($pTaxonName){//Parsva taxona taka 4e v pubmed da go tyrsi s AND, a ne s OR
+	return str_replace(' ', ' AND ', $pTaxonName);//Zamenq intervalite s AND
+}
+
 function showImageIfSrcExists($pSrc, $pClass = 'noBorder'){
 	if( trim($pSrc)){
 		return '<img class="' . $pClass . '" src="' . PTP_URL . $pSrc . '"></img>';
