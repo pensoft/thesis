@@ -2740,17 +2740,15 @@
 			<xsl:if test="$lCitationsCnt &gt; 0">
 				<div class="P-Element-Citations-Navigation" >
 					<xsl:attribute name="data-cited-element-instance-id"><xsl:value-of select="$pInstanceId" /></xsl:attribute>
-					<div class="P-Citation-Navigation-Link-First">
-						First						
-					</div>
+					<span class="ref-label">In text citation</span>
 					<xsl:if test="$lCitationsCnt &gt; 1">
 						<div class="P-Citation-Navigation-Link-Prev">
-							Prev
-						</div>
-						<div class="P-Citation-Navigation-Link-Next">
-							Next
+							<img title="Prev" alt="" src="/i/docleftarrow.png" />
 						</div>
 					</xsl:if>
+					<div class="P-Citation-Navigation-Link-Next">
+						<img title="Next" alt="" src="/i/docrightarrow.png" />
+					</div>
 				</div>
 			</xsl:if>
 		</xsl:if>	
