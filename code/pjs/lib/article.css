@@ -289,7 +289,7 @@ a[href],label[for] {
 	font-size: 11pt;
 	font-family: Helvetica;
 	font-weight: bold;
-	color: #333;
+	color: #666;
 }
 
 .fig-label-RC.fig:hover {
@@ -1160,6 +1160,7 @@ img.noBorder {
 	color: #444;
 	padding-right: 40px;
     text-align: right;
+    border: 1px solid #BBB;
 }
 
 .P-Metrics-Headers-Row {
