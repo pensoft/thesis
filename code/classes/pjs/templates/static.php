@@ -3341,7 +3341,7 @@ function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournal
 		}
 		
 		$lSubject = 'Paper published in ' . $pJournalName;
-		$lBody = "Hi," .  urlencode("\n") .  urlencode("\n") . "an interesting paper published in " . $pJournalShortName . ": " . urlencode("\n") . urlencode("\n") . $pAuthors . " (". $lMatch[3] .") ".GetArticleTitleForCitation(trim($pDocumentName))." ".$pJournalName." 1: e".$pArticleId." DOI: http://dx.doi.org/" . $pDoi . urlencode("\n");
+		$lBody = "Hi," .  urlencode("\n") .  urlencode("\n") . "Here is an interesting paper published in the " . $pJournalShortName . ": " . urlencode("\n") . urlencode("\n") . $pAuthors . " (". $lMatch[3] .") ".GetArticleTitleForCitation(trim($pDocumentName))." ".$pJournalName." 1: e".$pArticleId.". DOI: http://dx.doi.org/" . $pDoi . urlencode("\n");
 		return 'href="mailto:?Subject=' . urldecode($lSubject) . '&amp;body=' . $lBody . '"'; 
 	}
 	return 'href="#"';
