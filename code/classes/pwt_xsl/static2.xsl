@@ -1431,6 +1431,7 @@
 						Search via ReFinder
 					</a>
 				</div>
+				<div class="P-Clear"></div>
 		</xsl:template>
 
 		<xsl:template match="*" mode="RefinderLinksAdvanced">
@@ -1506,7 +1507,7 @@
 						Search via ReFinder
 					</a>
 				</div>
-
+				<div class="P-Clear"></div>
 			</xsl:template>
 
 
@@ -2749,6 +2750,7 @@
 					<div class="P-Citation-Navigation-Link-Next">
 						<img title="Next" alt="" src="/i/docrightarrow.png" />
 					</div>
+					<div class="P-Clear"></div>
 				</div>
 			</xsl:if>
 		</xsl:if>	
