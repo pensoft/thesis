@@ -30,7 +30,7 @@ BEGIN
 		lRes.doi,
 		lRes.idtext
 	
-	d.name,
+	trim(regexp_replace(d.name, E'[\\n\\r]+', ' ', 'g' )),
 	(SELECT aggr_concat_coma(a.author_name)
 		FROM (
 			SELECT (du.first_name || ' ' || du.last_name) as author_name 
@@ -38,7 +38,8 @@ BEGIN
 			WHERE du.document_id = pDocumentId AND du.role_id = cAuthorRoleId AND du.state_id = 1
 			ORDER BY du.ord
 		) a) as author_list,
-	(SELECT aggr_concat_coma(a.author_name)
+	(SELECT case when count(*) < 3 then aggr_concat_coma(a.author_name)  
+			else ((array_agg(author_name))[1] || ' et al.') end
 	FROM (
 		SELECT (du.last_name || ' ' || substring(du.first_name from 1 for 1)) as author_name 
 		FROM pjs.document_users du

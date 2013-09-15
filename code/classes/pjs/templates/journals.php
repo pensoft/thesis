@@ -11,12 +11,12 @@ $gTemplArr = array(
 					<td>' . getstr('pjs.journals.list_col_description') . '</td>
 				</tr> -->
 	',
-	
+
 	'journals.list_endrs' => '
 			</table>
 		</div>
 	',
-		
+
 	'journals.list_row_' => '
 				<tr>
 					<td>{id}</td>
@@ -24,16 +24,16 @@ $gTemplArr = array(
 					<td>{description}</td>
 				</tr>
 	',
-		
+
 	'journals.list_row' => '
-			<tr> 
+			<tr>
 				<td style="padding:15px 7px 13px 0px">
 					<table border="0" cellspacing="0" cellpadding="0" class="price" width="100%">
 						<tbody>
-							<tr> 
+							<tr>
 								<td width="200" height="214" rowspan="2" valign="top">
 									<a href="/journals.php?journal_id={id}"><img src="/i/zookeys_static.jpg" border="0"></a>
-								</td>	
+								</td>
 								<td valign="top" class="journalContent"><a href="/journals.php?journal_id={id}" class="green">{name}</a><br />
 									<br/>
 									{description}
@@ -46,37 +46,36 @@ $gTemplArr = array(
 					</table>
 				</td>
 			</tr>
-			<tr> 
+			<tr>
 				<td colspan="2" bgcolor="#D1CDBB" height="2px"></td>
 			</tr>
 	',
-	
+
 	'journals.journal_documents_head' => '
-				<div id="articles"> 
+				<div id="articles">
 				<table width="795" cellspacing="0" cellpadding="0" border="0" id="homepage">
 <tbody>
     <tr>
       <td width="200" valign="top" height="214" rowspan="2"><img border="0" src="/i/BDJ-homepage-cover.jpg" width="180" height="265" alt="Biodiversity Data Journal Cover" /></td>
       <td valign="top">
       	<h1 class="dashboard-title withoutBorder" style="padding-left: 0">Biodiversity Data Journal</h1>
-        
+
         <p><q cite="http://norvig.com/chomsky.html">Science is a combination of gathering facts and making theories; neither can progress on its own. [...] In the history of science, the laborious accumulation of facts is the dominant mode, not a novelty.</q></p>
         <div style="text-align: right; margin-top: 4px "><p>Peter Norvig, Director of Research @Google Inc.</p></div>
         <p><b>Biodiversity Data Journal (BDJ)</b> is a community peer-reviewed, open-access, comprehensive online platform, designed to accelerate publishing, dissemination and sharing of biodiversity-related data of any kind. All structural elements of the articles &ndash; text, morphological descriptions, occurrences, data tables, etc. &ndash; will be treated and stored as DATA.</p>
       	<p>The journal will publish papers in biodiversity science containing taxonomic, floristic/faunistic, morphological, genomic, phylogenetic, ecological or environmental data on any taxon of any geological age from any part of the world with <b>no lower or upper</b> limit to manuscript size.</p>
-      	<p>Download <a href="http://www.pensoft.net/J_FILES/Biodiversity%20Data%20Journal%20Leaflet.pdf">BDJ Information leaflet</a> and <a href="http://www.pensoft.net/J_FILES/Biodiversity_Data_Journal.pptx">presentation</a>.</p>     	
+      	<p>Download <a href="http://www.pensoft.net/J_FILES/Biodiversity%20Data%20Journal%20Leaflet.pdf">BDJ Information leaflet</a> and <a href="http://www.pensoft.net/J_FILES/Biodiversity_Data_Journal.pptx">presentation</a>.</p>
         <p><a href="http://www.pensoft.net/journals/bdj/editor_form.html" target="_blank"><span style="color: rgb(128,0,0)"><b>Editor Application Form</b></span></a></p>
         </td>
     </tr>
   </tbody>
 </table>
 			<!--	<h1 class="dashboard-title withoutBorder">Recent publications</h1>
-			
+
 	',
 	'journals.journal_documents_row' => '
-					
+
 					<div class="article" style="border-top: none;">
-						<div class="starHover" style="margin-top: 3px;"></div>
 						<div class="articleHeadline">
 							<a href="#">
 								{name}
@@ -117,7 +116,7 @@ $gTemplArr = array(
 				</script>
 	',
 	'journals.journal_documents_empty' => 'No Documents.',
-	
+
 	'journals.journal_document' => '
 		<div class="landing_wrap">
 			<div class="article_header">

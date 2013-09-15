@@ -3,7 +3,7 @@
 // @formatter->off
 $gTemplArr = array(
 	// Browse Journal Articles List Templates
-	
+
 	'browse_articles.header' => '
 			<div class="article_title_with_sort">
 				<h1 class="dashboard-title withoutBorder">
@@ -25,19 +25,18 @@ $gTemplArr = array(
 			<div class="P-Clear"></div>
 			<div style="margin: 10px;">
 				{_displayArticlesFilterCriteria(taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
-			
+
 				<div style="border-top: 1px solid #EEECE5; border-bottom: 1px solid #EEECE5; margin-top: 20px; margin-bottom: 15px;">
 					{nav}
 				</div>
 	',
-	
+
 	//	<div class="refine-filter">' . getstr('pjs.refine_filters_in_the_left_panel') . '</div>
-	
+
 	'browse_articles.startrs' => '',
-	
+
 	'browse_articles.row' => '
 				<div class="article" style="border-top: none;">
-					<div class="starHover"></div>
 					<div class="articleHeadline">
 						<a href="/articles.php?id={id}" target="_blank">
 							{name}
@@ -46,13 +45,13 @@ $gTemplArr = array(
 					<div class="authors_list_holder">
 						{authors_list}
 					</div>
-					
+
 					<div class="research">
 						{journal_section_name}
 					</div>
-				
+
 					&nbsp;&nbsp;&nbsp;
-					<a href="#" class="subLink">{_showDoiLinkIfExist(doi)}</a>
+					{_showDoiLinkIfExist(doi)}
 					<div class="info">
 						<span style="color:#666"><img src="i/articleCalendar.png" alt="Calendar" title="Publication date"></img> {publish_date}</span>
 						<span style="color:#666"><img src="i/eye.png" alt="eye" title="Views"></img> Unique: {view_unique_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;Total: {view_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;PDF Downloads: {pdf_view_cnt}</span>
@@ -65,7 +64,7 @@ $gTemplArr = array(
 				</div>
 	',
 	'browse_articles.endrs' => '',
-	
+
 	'browse_articles.footer' => '
 				<div>
 			{nav}
@@ -75,13 +74,13 @@ $gTemplArr = array(
 		</div>
 	</div>
 	',
-	
+
 	'browse_articles.empty' => '
 		<div class="h10"></div>
 		<div class="h10"></div>
 		<div class="textCenterAlign">No articles matching your criteria</div>
 	',
-	
+
 	'browse_articles.sidebar_left' => '
 				<div id="leftSider">
 					<div class="leftSiderBlock bigBlock">
@@ -108,7 +107,7 @@ $gTemplArr = array(
 					</div>
 				</div>
 	',
-	
+
 	'browse_articles.search_form' => '{sortby}
 					{journal_id}
 					<div class="leftSiderBlock bigBlock">
@@ -116,7 +115,7 @@ $gTemplArr = array(
 						<div class="P-Clear"></div>
 						<div class="filterBlock category">
 							<div class="filterBlockTitle">
-								' . getstr('pjs.bytaxon') . ' 
+								' . getstr('pjs.bytaxon') . '
 								<a id="taxon_arrow" class="blockUpArrow tree" href="javascript:void(0);" onclick="toggleBlock(\'taxon_arrow\', \'taxon_tree\')"></a>
 							</div>
 							<div class="filterBlockContent" id="taxon_tree">
@@ -152,7 +151,7 @@ $gTemplArr = array(
 							</div>
 							<div class="filterBlockContent" id="subject_tree">
 								<div class="P-Input-Full-Width P-W390">
-									{alerts_subject_cats}						
+									{alerts_subject_cats}
 								</div>
 								<!-- Tree alerts_subject_cats -->
 								<div id="treealerts_subject_cats" class="filterBy">
@@ -175,7 +174,7 @@ $gTemplArr = array(
 								</script>
 							</div>
 						</div>
-						
+
 						<div class="filterBlock category">
 							<div class="filterBlockTitle">
 								' . getstr('pjs.bygeographical') . '
@@ -206,7 +205,7 @@ $gTemplArr = array(
 								<!-- Tree #4 END -->
 							</div>
 						</div>
-						
+
 						<div class="filterBlock category">
 							<div class="filterBlockTitle">
 								' . getstr('pjs.bygeochronocal') . '
@@ -214,7 +213,7 @@ $gTemplArr = array(
 							</div>
 							<div class="filterBlockContent" id="chronological_tree">
 								<div class="P-Input-Full-Width P-W390">
-									{alerts_chronical_cats}						
+									{alerts_chronical_cats}
 								</div>
 								<!-- Tree alerts_chronical_cats -->
 								<div id="treealerts_chronical_cats" class="filterBy">
@@ -239,7 +238,7 @@ $gTemplArr = array(
 								</script>
 							</div>
 						</div>
-						
+
 						<div class="filterBlock category">
 							<div class="filterBlockTitle">
 								' . getstr('pjs.bypublicationdate') . ' (dd/mm/yyyy)
@@ -249,14 +248,14 @@ $gTemplArr = array(
 									<div style="float: left; line-height: 42px; margin-right: 5px;">' . getstr('pjs.from') . '</div>
 									<div class="fieldHolder date">
 										{from_date}
-									</div>	
+									</div>
 								</div>
-								
+
 								<div class="dateHolder">
 									<div style="float: left; line-height: 42px; margin-right: 5px; margin-left: 10px;">' . getstr('pjs.to') . '</div>
 									<div class="fieldHolder date">
 										{to_date}
-									</div>	
+									</div>
 								</div>
 								<div class="P-Clear"></div>
 								<script type="text/javascript">
@@ -274,7 +273,7 @@ $gTemplArr = array(
 								</script>
 							</div>
 						</div>
-						
+
 						<div class="filterBlock category">
 							<div class="filterBlockTitle">
 								' . getstr('pjs.bysectiontype') . '
@@ -283,7 +282,7 @@ $gTemplArr = array(
 								{section_type}
 							</div>
 						</div>
-						
+
 						<div class="filterBlock category">
 							<div class="filterBlockTitle">
 								' . getstr('pjs.byfundingagency') . '
@@ -314,7 +313,7 @@ $gTemplArr = array(
 						<div class="P-Clear"></div>
 					</div>
 	',
-	
+
 	'browse_articles.by_author_sidebar_left' => '
 				<div id="leftSider">
 					<div class="leftSiderBlock bigBlock">
@@ -354,19 +353,18 @@ $gTemplArr = array(
 					</div>
 				</div>
 	',
-	
-	
+
+
 	'browse_articles.by_author_startrs' => '
 			<h1 class="dashboard-title withoutBorder">{records} ' . getstr('pjs.articles_matching_your_criteria') . '</h1>
 			<div style="margin: 10px;">
 				<div style="border-top: 1px solid #EEECE5; border-bottom: 1px solid #EEECE5; margin-top: 20px; margin-bottom: 15px;">
 					{nav}
 				</div>
-				
+
 	',
 	'browse_articles.by_author_row' => '
 				<div class="article" style="border-top: none;">
-					<div class="starHover"></div>
 					<div class="articleHeadline">
 						<a href="/articles.php?id={id}" target="_blank">
 							{name}
@@ -379,7 +377,7 @@ $gTemplArr = array(
 					<div class="research">
 						{journal_section_name}
 					</div>
-				
+
 					&nbsp;&nbsp;&nbsp;
 					<a href="#" class="subLink">{_showDoiLinkIfExist(doi)}</a>
 					<div class="info">
@@ -404,17 +402,17 @@ $gTemplArr = array(
 		<br/>
 		<div class="textCenterAlign">No articles by this author</div>
 	',
-	
+
 	'browse_articles.public_startrs' => '<div style="margin: 10px">',
-	
+
 	'browse_articles.public_endrs' => '{nav}</div>',
-	
+
 	'browse_articles.journal_fetures_head' => '<div id="leftSider" style="width: 182px;">
 					<div class="leftSiderBlock">
 							<h3>' . getstr('pjs.journal_features') . '</h3>
 							<div class="siderBlockLinksHolder">
 					',
-				
+
 	'browse_articles.journal_fetures_foot' => '<div class="P-Clear"></div>
 										</div>
 									</div>

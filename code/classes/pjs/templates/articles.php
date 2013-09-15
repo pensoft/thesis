@@ -17,14 +17,16 @@ $gTemplArr = array(
 						doi: 10.3897/BDJ.1.e{article_id}
 
 					</div>
-					<a href=""><img alt="" src="/i/print-icon.png" /></a>
+					<a href="javascript:void(0);" onclick="window.frames[\'articleIframe\'].focus();window.frames[\'articleIframe\'].print();">
+						<img alt="" src="/i/print-icon.png" />
+					</a>
 					<a href=""><img alt="" src="/i/xml-icon.png" /></a>
 					<a href=""><img alt="" src="/i/pdf-icon.png" /></a>
 					<div class="line"></div>
 					<div class="P-Clear"></div>
 				</div>
 				<div id="article-preview">
-					<iframe src="/article_preview.php?id={id}" id="articleIframe" style="height: 1600px;"></iframe>
+					<iframe src="/article_preview.php?id={id}" id="articleIframe" name="articleIframe" style="height: 1600px;"></iframe>
 					<script type="text/javascript">
 						SetArticleOnLoadEvents();
 					</script>
@@ -37,15 +39,17 @@ $gTemplArr = array(
 								ARTICLE_MENU_ELEMENT_TYPE_CONTENTS   => 'Contents',
 								ARTICLE_MENU_ELEMENT_TYPE_AUTHORS   => 'Article info',
 								ARTICLE_MENU_ELEMENT_TYPE_CITATION   => 'Citation',
-							)) . '
-						</ul>
-						<ul class="P-Info-Menu rightBar">' .
-							infoMenu(array(
-								//ARTICLE_MENU_ELEMENT_TYPE_RELATED  => 'Related',
 								ARTICLE_MENU_ELEMENT_TYPE_METRICS  => 'Metrics',
 								ARTICLE_MENU_ELEMENT_TYPE_SHARE  => 'Share',
 							)) . '
 						</ul>
+						<!--
+						<ul class="P-Info-Menu rightBar">' .
+							infoMenu(array(
+								//ARTICLE_MENU_ELEMENT_TYPE_RELATED  => 'Related',
+
+							)) . '
+						</ul>-->
 						{_createArticleObjectMenu(object_existence)}
 					</div>
 					<div class="P-Info-Content">

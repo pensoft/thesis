@@ -144,11 +144,11 @@ a[href],label[for] {
 
 .P-Info-Menu.leftBar {
 	top: 70px;
-	width: 249px;
+	width: 400px;
 	height: 50px;
 	padding: 5px 5px 5px 6px;
 	border-radius: 5px 5px 5px 5px;
-	text-align: center;
+
 }
 
 .P-Info-Menu.leftBar li.P-Active-Menu,.P-Info-Menu.rightBar li.P-Active-Menu
@@ -431,7 +431,7 @@ div.myfieldHolder[field_id='222'] {
 }
 
 .ref-list-AOF-holder-holder .refinder-link-holder {
-	margin: 5px 15px 10px 15px;
+	margin: 13px 25px 10px 15px;
 	font-size: 11pt;
 	font-weight: bold;
 }
@@ -520,9 +520,10 @@ a.download {
 .refinder-link-holder {
 	margin-top: 15px;
 	margin-left: 15px;
-	margin-right: 15px;
+	margin-right: 25px;
 	font-weight: bold;
 	font-size: 12pt;
+	float:right;
 }
 /* copy pasted from articleAOF.css; could be outdated */
 .figure .holder {
@@ -1050,7 +1051,7 @@ div.sectionBody iframe {
 }
 
 .downloadmaterials {
-	font-size: 0.8em;
+	font-size: 12px;
 	font-weight: normal;
 	float: right;
 }
@@ -1312,7 +1313,7 @@ a.AOF-journal-logo {
 	display: block;
 	width: 12px;
 	height: 12px;
-	background: url("../i/chosen-sprite.png") -42px 1px no-repeat;
+	background: url("/i/chosen-sprite.png") -42px 1px no-repeat;
 	font-size: 1px;
 }
 
@@ -1358,7 +1359,7 @@ a.AOF-journal-logo {
 	height: auto;
 	outline: 0;
 	border: 1px solid #aaaaaa;
-	background: white url("chosen-sprite.png") no-repeat 100% -20px;
+	background: white url("/i/chosen-sprite.png") no-repeat 100% -20px;
 	font-size: 1em;
 	font-family: sans-serif;
 	line-height: normal;
@@ -1525,7 +1526,7 @@ a.AOF-journal-logo {
 	display: block;
 	width: 12px;
 	height: 12px;
-	background: url("../i/chosen-sprite.png") -42px 1px no-repeat;
+	background: url("/i/chosen-sprite.png") -42px 1px no-repeat;
 	font-size: 1px;
 }
 
@@ -1647,7 +1648,7 @@ a.AOF-journal-logo {
 	border-top: 1px solid rgb(187, 187, 187);
 }
 
-.P-Taxon-Navigation-Link-Prev, .P-Taxon-Navigation-Link-Next{
+.P-Taxon-Navigation-Link-Prev, .P-Taxon-Navigation-Link-Next, .P-Citation-Navigation-Link-Prev, .P-Citation-Navigation-Link-Next{
 	cursor:pointer;
 	float: right;
 	padding-top: 2px;
@@ -1655,11 +1656,32 @@ a.AOF-journal-logo {
 	opacity: 0.5;
 }
 
+.P-Citation-Navigation-Link-Prev{
+	padding-right: 0px!important;
+}
+
+.P-Element-Citations-Navigation{
+	width: 480px;
+}
+
+.ref-label{
+	float: left;
+	font-size: 11pt;
+    font-weight: bold;
+    color: #888;
+}
+
+.P-Citation-Navigation-Link-Prev, .P-Citation-Navigation-Link-Next{
+	cursor:pointer;
+	padding-top: 2px;
+	padding-right: 4px;
+	opacity: 0.5;
+}
+
 .P-Taxon-Navigation-Link-Prev{padding-right: 3px;}
 
-.P-Taxon-Navigation-Link-Prev img{width: 8px; height: 21px;}
-.P-Taxon-Navigation-Link-Next img{width: 8px; height: 22px;}
-
+.P-Taxon-Navigation-Link-Prev img, .P-Citation-Navigation-Link-Prev img{width: 8px; height: 21px;}
+.P-Taxon-Navigation-Link-Next img, .P-Citation-Navigation-Link-Next img{width: 8px; height: 22px;}
 
 #format-head {
 	font-weight: bold;
@@ -1668,4 +1690,43 @@ a.AOF-journal-logo {
 }
 .formatAuthor{
 	display: none
+}
+
+.P-Regular-Site-Row-Last-Larger{
+    width: 453px;
+}
+
+.P-Element-Citations-Navigation .P-Citation-Navigation-Link-Prev, 
+.P-Element-Citations-Navigation .P-Citation-Navigation-Link-Next, 
+.P-Element-Citations-Navigation .ref-label{
+	float:left;
+}
+
+.P-Element-Citations-Navigation .P-Citation-Navigation-Link-Next {
+	margin:0px 3px 0px 3px;
+	cursor:pointer;
+}
+.P-Element-Citations-Navigation .P-Citation-Navigation-Link-Prev{
+	margin:0px;
+	cursor:pointer;
+}
+
+.P-Element-Citations-Navigation .ref-label{
+	margin:3px 5px 0px 0px;
+}
+
+.P-Element-Citations-Navigation {
+	padding-left:15px;
+	margin:15px 0px 0px 0px;
+	float:left;
+	width:200px;
+}
+
+.ref-list-AOF-holder-holder .P-Element-Citations-Navigation {
+	margin:10px 0px 10px 0px;
+}
+
+.downloadplate {
+	font-size:12px;
+	font-family: helvetica;
 }

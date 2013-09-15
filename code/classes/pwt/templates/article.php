@@ -1026,7 +1026,7 @@ $gTemplArr = array (
 				<div id="formattedRef"></div>
 				<script src="/lib/js/chosen.jquery.min.js"></script>
 				<script>
-				var server = "http://192.168.83.187:5000";
+				var server = "http://www.refinder.org";
 
 				var authors = $(".formatAuthor").text();
 				var r =
