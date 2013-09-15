@@ -845,7 +845,7 @@ class carticle_preview_generator extends csimple {
 				if ($lTaxonName == '') {
 					$lTaxonName = trim($lPart->textContent);
 				}
-				$lCurrentTaxonNames[] = $lTaxonName;
+				$lCurrentTaxonNames[] = strtolower($lTaxonName);
 				$this->m_taxaList[] = $lTaxonName;
 			}
 			$lPartsNotLeadingToSelfNodes = $lXPath->query($lPartsThatDontLeadToSelfQuery, $lCurrentTaxonNode);
@@ -875,7 +875,7 @@ class carticle_preview_generator extends csimple {
 						$lTaxonName .= $lPartValue;
 					}
 				}
-				$lCurrentTaxonNames[] = $lTaxonName;
+				$lCurrentTaxonNames[] = strtolower($lTaxonName);
 				$this->m_taxaList[] = trim($lTaxonName);
 			}
 			

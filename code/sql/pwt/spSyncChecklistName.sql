@@ -26,9 +26,10 @@ $BODY$
 			lName = 'Checklist';
 		END IF;
 		
+		/*
 		IF length(lName) > cMaxLen THEN
 			lName = left(lName, cMaxLen) || '...';
-		END IF;
+		END IF;*/
 			
 		-- Взимаме ид-то на обекта
 		SELECT INTO lInstanceId i.id 

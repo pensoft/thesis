@@ -234,7 +234,7 @@ $gTemplArr = array(
 											{_displayDocumentTreeArrow(is_active, has_children, instance_id)}
 											{_displayDocumentTreeAdd(P-Article-Add, object_id, instance_id, num_children, is_locked, lock_usr_id, xml_validation_flag, documentstate)}
 											{_displayDocumentTreeDelete(P-Article-Delete, parent_object_id, instance_id, is_locked, lock_usr_id, xml_validation_flag, documentstate)}
-											<a href="/display_document.php?instance_id={instance_id}">{object_name}</a>
+											<a href="/display_document.php?instance_id={instance_id}">{_DisplayTreeObjectName(object_name)}</a>
 										</div>
 									</li>
 	',
@@ -245,7 +245,7 @@ $gTemplArr = array(
 											{_displayDocumentTreeArrow(is_active, has_children, instance_id)}
 											{_displayDocumentTreeAdd(P-Article-Add, object_id, instance_id, num_children, is_locked, lock_usr_id, xml_validation_flag, documentstate)}
 											{_displayDocumentTreeDelete(P-Article-Delete, parent_object_id, instance_id, is_locked, lock_usr_id, xml_validation_flag, documentstate)}
-											<a href="/display_document.php?instance_id={instance_id}">{object_name}</a>
+											<a href="/display_document.php?instance_id={instance_id}">{_DisplayTreeObjectName(object_name)}</a>
 										</div>
 										<ul {_returnSortableMenuId(object_id, instance_id)} class="{_displayShowHideClass(instance_id)} {_returnSortableMenuClass(object_id)}">
 											{&}

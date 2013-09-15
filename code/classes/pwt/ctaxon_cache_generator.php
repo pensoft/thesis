@@ -5,12 +5,16 @@ class ctaxon_cache_generator {
 	var $m_errMsg = '';
 	var $m_articleId;
 	var $m_articleDataIsGenerated = false;
+	var $m_minId = 0;
+	var $m_maxId = 0;
 	function __construct($pFieldTempl) {
 		//If articleId is passed the previews for all the taxa of the 
 		//article will be regenerated
 		$this->m_articleId = (int)$pFieldTempl ['article_id'];
 		$this->m_con = new DBCn();
 		$this->m_con->Open();
+		$this->m_minId = (int)$pFieldTempl['min_id'];
+		$this->m_maxId = (int)$pFieldTempl['max_id'];
 	}
 	
 	function SetError($pErrMsg) {
@@ -35,10 +39,18 @@ class ctaxon_cache_generator {
 			';
 		}else{
 			$lSql .= '
-				WHERE c.id IS NULL OR c.lastmoddate < now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval
-				LIMIT 1
+				WHERE (c.id IS NULL OR c.lastmoddate < now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval)				
 			';
+			if($this->m_minId > 0){
+				$lSql .= ' AND t.id >= ' . (int) $this->m_minId . ' ';
+			}
+			if($this->m_maxId > 0){
+				$lSql .= ' AND t.id < ' . (int) $this->m_maxId . ' ';
+			}
+			$lSql .= 'LIMIT 1';
 		}
+// 		var_dump($lSql);
+// 		exit;
 		$lCon->Execute($lSql);
 		if((int)$lCon->mRs['id']){
 			return true;
@@ -65,10 +77,16 @@ class ctaxon_cache_generator {
 			';
 		}else{
 			$lSql .= '
-				WHERE c.id IS NULL OR c.lastmoddate < now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval
-				ORDER BY t.id ASC
-				LIMIT 30
+				WHERE (c.id IS NULL OR c.lastmoddate < now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval)				
 			';
+			if($this->m_minId > 0){
+				$lSql .= ' AND t.id >= ' . (int) $this->m_minId . ' ';
+			}
+			if($this->m_maxId > 0){
+				$lSql .= ' AND t.id < ' . (int) $this->m_maxId . ' ';
+			}
+			$lSql .= ' ORDER BY t.id ASC
+				LIMIT 30';
 		}
 		$lCon->Execute($lSql);
 		while(!$lCon->Eof()){
