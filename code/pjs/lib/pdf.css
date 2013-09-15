@@ -485,6 +485,11 @@ span[data-author-id] {
 
 .downloadmaterials, .P-Article-Preview-Picture-Zoom-Small, .P-Article-Preview-Picture-Download-Small{display: none !important}
 
+.inlineFieldLabel{
+	color:red;
+	font-weight:bold;
+}
+
 td, th {font-size: 0.7777em}
 
 /* Article preview CSS END */

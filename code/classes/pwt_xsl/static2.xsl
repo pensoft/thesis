@@ -518,7 +518,13 @@
 		<xsl:param name="lSupplFileInstanceId"/>
 
 		<xsl:if test="$lUploadedFileName != ''">
-			<span class="fieldLabel">Filename:</span><xsl:text>&#160;</xsl:text>
+			<xsl:if test="$pPDFPreviewMode = 0">
+				<span class="fieldLabel">Filename:</span><xsl:text>&#160;</xsl:text>
+			</xsl:if>
+			<xsl:if test="$pPDFPreviewMode &gt; 0">
+				<span class="inlineFieldLabel">Filename:</span><xsl:text>&#160;</xsl:text>
+			</xsl:if>
+			
 			<xsl:value-of select="normalize-space($lUploadedFileName)"/>
 			<xsl:if test="$pInArticleMode = 0">
 				<xsl:text> - </xsl:text>
@@ -540,6 +546,94 @@
 
 	<!-- Single supplementary material -->
 	<xsl:template match="*[@object_id='55']" mode="singleSupplementaryMaterial">
+		<xsl:if test="$pPDFPreviewMode &gt; 0">
+			<xsl:apply-templates select="." mode="singleSupplementaryMaterialPDF" />
+		</xsl:if>
+		<xsl:if test="$pPDFPreviewMode = 0">
+			<xsl:variable name="instance" select="./@instance_id" />
+	
+				<xsl:if test="./fields/*[@id='214']/value != ''">
+					<div class="Supplemantary-File-Title">
+						<span class="fig-label-RC">
+							<xsl:text>Suppl. material </xsl:text>
+							<xsl:for-each select="../*[@object_id='55']">
+								<xsl:if test="./@instance_id = $instance">
+									<xsl:value-of select="position()" />
+								</xsl:if>
+							</xsl:for-each>
+							<xsl:text>: </xsl:text>
+						</span>
+						<span field_id="214">
+							<xsl:call-template name="markContentEditableField">
+								<xsl:with-param name="pObjectId">55</xsl:with-param>
+								<xsl:with-param name="pFieldId">214</xsl:with-param>
+							</xsl:call-template>
+							<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+							<xsl:apply-templates select="./fields/*[@id='214']/value" mode="formatting"/>
+						</span>
+					</div>
+				</xsl:if>
+	
+			<xsl:if test="./fields/*[@id='215']/value != '' or ./fields/*[@id='216']/value != '' or ./fields/*[@id='217']/value != '' or ./fields/*[@id='222']/value != ''">
+				<div class="suppl-section-holder">
+					<xsl:if test="./fields/*[@id='215']/value != ''">
+						<div class="myfieldHolder">
+							<span class="fieldLabel">
+								<xsl:value-of select="./fields/*[@id='215']/@field_name" />:&#160;</span>
+							<span class="fieldValue" field_id="215">
+								<xsl:call-template name="markContentEditableField">
+									<xsl:with-param name="pObjectId">55</xsl:with-param>
+									<xsl:with-param name="pFieldId">215</xsl:with-param>
+								</xsl:call-template>
+								<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+								<xsl:apply-templates select="./fields/*[@id='215']/value" mode="formatting"/>
+							</span>
+						</div>
+					</xsl:if>
+					<xsl:if test="./fields/*[@id='216']/value != ''">
+						<div class="myfieldHolder">
+							<span class="fieldLabel">
+								<xsl:value-of select="./fields/*[@id='216']/@field_name" />:&#160;</span>
+							<span class="fieldValue" field_id="216">
+								<xsl:call-template name="markContentEditableField">
+									<xsl:with-param name="pObjectId">55</xsl:with-param>
+									<xsl:with-param name="pFieldId">216</xsl:with-param>
+								</xsl:call-template>
+								<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+								<xsl:apply-templates select="./fields/*[@id='216']/value" mode="formatting"/>
+							</span>
+						</div>
+					</xsl:if>
+					<xsl:if test="./fields/*[@id='217']/value != ''">
+						<div class="myfieldHolder">
+							<span class="fieldLabel">
+								<xsl:value-of select="./fields/*[@id='217']/@field_name" />:&#160;</span>
+							<div class="fieldValue" field_id="217">
+								<xsl:call-template name="markContentEditableField">
+									<xsl:with-param name="pObjectId">55</xsl:with-param>
+									<xsl:with-param name="pFieldId">217</xsl:with-param>
+								</xsl:call-template>
+								<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+								<xsl:apply-templates select="./fields/*[@id='217']/value" mode="formatting"/>
+							</div>
+						</div>
+					</xsl:if>
+					<xsl:if test="./fields/*[@id='222']/value != ''">
+						<span class="Supplemantary-File-Section-Label">
+							<xsl:attribute name="field_id"><xsl:value-of select="./fields/file/@id" /></xsl:attribute>
+							<xsl:apply-templates select="./fields/file/value" mode="formatting_uploaded_file">
+								<xsl:with-param name="lFileName" select="php:function('getFileNameById', string(./fields/file/value))"></xsl:with-param>
+								<xsl:with-param name="lUploadedFileName" select="php:function('getUploadedFileNameById', string(./fields/file/value))" />
+								<xsl:with-param name="lSupplFileInstanceId" select="./@instance_id"></xsl:with-param>
+							</xsl:apply-templates>
+						</span>
+					</xsl:if>
+				</div>
+			</xsl:if>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="*[@object_id='55']" mode="singleSupplementaryMaterialPDF">
 		<xsl:variable name="instance" select="./@instance_id" />
 
 			<xsl:if test="./fields/*[@id='214']/value != ''">
@@ -551,16 +645,9 @@
 								<xsl:value-of select="position()" />
 							</xsl:if>
 						</xsl:for-each>
-						<xsl:text>: </xsl:text>
+						<xsl:text>: </xsl:text>						
 					</span>
-					<span field_id="214">
-						<xsl:call-template name="markContentEditableField">
-							<xsl:with-param name="pObjectId">55</xsl:with-param>
-							<xsl:with-param name="pFieldId">214</xsl:with-param>
-						</xsl:call-template>
-						<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-						<xsl:apply-templates select="./fields/*[@id='214']/value" mode="formatting"/>
-					</span>
+					<xsl:apply-templates select="./fields/*[@id='214']/value" mode="formatting"/>
 				</div>
 			</xsl:if>
 
@@ -568,30 +655,16 @@
 			<div class="suppl-section-holder">
 				<xsl:if test="./fields/*[@id='215']/value != ''">
 					<div class="myfieldHolder">
-						<span class="fieldLabel">
+						<span class="inlineFieldLabel">
 							<xsl:value-of select="./fields/*[@id='215']/@field_name" />:&#160;</span>
-						<span class="fieldValue" field_id="215">
-							<xsl:call-template name="markContentEditableField">
-								<xsl:with-param name="pObjectId">55</xsl:with-param>
-								<xsl:with-param name="pFieldId">215</xsl:with-param>
-							</xsl:call-template>
-							<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-							<xsl:apply-templates select="./fields/*[@id='215']/value" mode="formatting"/>
-						</span>
+						<xsl:apply-templates select="./fields/*[@id='215']/value" mode="formatting"/>
 					</div>
 				</xsl:if>
 				<xsl:if test="./fields/*[@id='216']/value != ''">
 					<div class="myfieldHolder">
-						<span class="fieldLabel">
+						<span class="inlineFieldLabel">
 							<xsl:value-of select="./fields/*[@id='216']/@field_name" />:&#160;</span>
-						<span class="fieldValue" field_id="216">
-							<xsl:call-template name="markContentEditableField">
-								<xsl:with-param name="pObjectId">55</xsl:with-param>
-								<xsl:with-param name="pFieldId">216</xsl:with-param>
-							</xsl:call-template>
-							<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-							<xsl:apply-templates select="./fields/*[@id='216']/value" mode="formatting"/>
-						</span>
+						<xsl:apply-templates select="./fields/*[@id='216']/value" mode="formatting"/>
 					</div>
 				</xsl:if>
 				<xsl:if test="./fields/*[@id='217']/value != ''">
