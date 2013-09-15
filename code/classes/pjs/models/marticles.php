@@ -401,7 +401,7 @@ class mArticles extends emBase_Model {
 	}
 	
 	function GetArticleXmlMetricDetails($pArticleId){
-		return $this->GetArticleSpecialMetricDetails($pArticleId, AOF_METRIC_TYPE_XML);
+		return $this->GetArticleSpecialMetricDetails($pArticleId, AOF_METRIC_TYPE_NLM_XML);
 	}
 	
 	function GetArticlePdfMetricDetails($pArticleId){
