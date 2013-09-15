@@ -1623,7 +1623,7 @@
 				<span class="downloadmaterials downloadplate">
 					<a class="download-table-link">
 						<xsl:attribute name="href">
-							<xsl:value-of select="php:function('GetPlateDownloadLink', string($pSiteUrl), string(./@instance_id), $pInArticleMode)" />
+							<xsl:value-of select="php:function('GetPlateDownloadLink', string($pSiteUrl), string(../@instance_id), $pInArticleMode)" />
 						</xsl:attribute>
 						<xsl:text>Download&#160;</xsl:text>
 						<img width="22" heigth="22" alt="" title="Download plate as ZIP" style="padding-left:5px;">

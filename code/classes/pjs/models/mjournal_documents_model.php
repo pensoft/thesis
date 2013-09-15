@@ -184,8 +184,12 @@ class mJournal_Documents_Model extends emBase_Model {
 			case 2:
 				$lOrder = 'coalesce(am2.view_unique_cnt,0) DESC';
 				break;
-			default:
+			case 3:
 				$lOrder = 'd.publish_date DESC';
+				break;
+			default:
+				$lOrder = 'd.publish_date ASC';
+				//$lOrder = 'd.publish_date DESC';
 				break;
 		}
 		
