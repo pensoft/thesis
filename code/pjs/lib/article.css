@@ -1051,7 +1051,7 @@ div.sectionBody iframe {
 }
 
 .downloadmaterials {
-	font-size: 0.8em;
+	font-size: 12px;
 	font-weight: normal;
 	float: right;
 }
@@ -1656,6 +1656,10 @@ a.AOF-journal-logo {
 	opacity: 0.5;
 }
 
+.P-Citation-Navigation-Link-Prev{
+	padding-right: 0px!important;
+}
+
 .P-Element-Citations-Navigation{
 	width: 480px;
 }
@@ -1698,9 +1702,12 @@ a.AOF-journal-logo {
 	float:left;
 }
 
-.P-Element-Citations-Navigation .P-Citation-Navigation-Link-Prev, 
 .P-Element-Citations-Navigation .P-Citation-Navigation-Link-Next {
 	margin:0px 3px 0px 3px;
+	cursor:pointer;
+}
+.P-Element-Citations-Navigation .P-Citation-Navigation-Link-Prev{
+	margin:0px;
 	cursor:pointer;
 }
 
@@ -1720,5 +1727,6 @@ a.AOF-journal-logo {
 }
 
 .downloadplate {
-	font-size:1em;
+	font-size:12px;
+	font-family: helvetica;
 }

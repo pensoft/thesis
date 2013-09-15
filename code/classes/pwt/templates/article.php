@@ -1492,12 +1492,12 @@ $gTemplArr = array (
 				<div class="P-Regular-Site-Info-Holder {_displayRegularSiteHasResultsClass(has_results)} {_displayRegularSiteLastRowClass(rownum, records, items_on_row)}">
 					<table cellspacing="0" cellpadding="0" border="0" width="100%" height="100%">
 						<td class="leftMenuRowImage">
-							<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, taxon_link, 0, use_post_action, fields_to_post)}">
+							<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, taxon_link, 0, use_post_action, fields_to_post, add_link_prefix)}">
 								{_showImageIfSrcExists(picsrc)}
 							</a>
 						</td>
 						<td class="leftMenuRowLink">
-							<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, taxon_link, 0, use_post_action, fields_to_post)}">
+							<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, taxon_link, 0, use_post_action, fields_to_post, add_link_prefix)}">
 								{display_title}
 							</a>
 						</td>
