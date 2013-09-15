@@ -43,12 +43,13 @@ $gTemplArr = array(
 								ARTICLE_MENU_ELEMENT_TYPE_SHARE  => 'Share',
 							)) . '
 						</ul>
+						<!--
 						<ul class="P-Info-Menu rightBar">' .
 							infoMenu(array(
 								//ARTICLE_MENU_ELEMENT_TYPE_RELATED  => 'Related',
 
 							)) . '
-						</ul>
+						</ul>-->
 						{_createArticleObjectMenu(object_existence)}
 					</div>
 					<div class="P-Info-Content">
