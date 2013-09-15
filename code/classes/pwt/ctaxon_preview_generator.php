@@ -312,6 +312,7 @@ class ctaxon_preview_generator extends csimple {
 		$lImages = new crs_display_array(array (
 			'input_arr' => $lEOLData ['images'],
 			'taxon_name' => $this->m_taxonName,
+			'eol_link' => $lEolLinkData ['taxon_link'],
 			'pagesize' => 6,
 			'templs' => array (
 				G_HEADER => 'article.eol_images_head',
