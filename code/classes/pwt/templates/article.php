@@ -1442,7 +1442,7 @@ $gTemplArr = array (
 
 	'article.eol_images_row' => '
 				<div class="imageRow">
-					<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, url)}"><img src="{url}" class="noBorder" alt=""></img></a>
+					<a target="_blank" href="{_ParseTaxonExternalLink(taxon_name, eol_link)}"><img src="{url}" class="noBorder" alt=""></img></a>
 				</div>
 	',
 

@@ -252,6 +252,7 @@
 						<xsl:with-param name="pFieldId">39</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">39</xsl:attribute>
+					<xsl:attribute name="data-id-key-taxon-name">1</xsl:attribute>
 					<xsl:apply-templates select="$pNode/fields/*[@id='39']" mode="formatting"/>
 				</xsl:if>
 			</td>
