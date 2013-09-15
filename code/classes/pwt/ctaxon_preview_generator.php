@@ -61,7 +61,8 @@ class ctaxon_preview_generator extends csimple {
 					17,//ZooBank
 					12,//IPNI
 					11,//IndexFung
-					3 //Cat Of Life
+					3, //Cat Of Life
+					40, //ION
 				),
 				'is_empty' => true,
 				'display_name' => 'Nomenclature',
