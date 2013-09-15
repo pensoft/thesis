@@ -1594,6 +1594,17 @@
 	</xsl:template>
 	
 	<xsl:template match="image" mode="Figures">
+		<span class="downloadmaterials downloadplate">
+			<a class="download-table-link">
+				<xsl:attribute name="href">
+					<xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), string(../@instance_id), string(./fields/*[@id='483']/value), $pInArticleMode)" />
+				</xsl:attribute>
+				<xsl:text>Download&#160;</xsl:text>
+				<img width="22" heigth="22" alt="" title="Download image" style="padding-left:5px;">
+					<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download-icon-30.png</xsl:attribute>
+				</img>
+			</a>
+		</span>
 		<div class="P-Picture-Holder">
 			<div class="singlefigmini fig">
 				<xsl:attribute name="rid"><xsl:value-of select="../@instance_id" /></xsl:attribute>
@@ -1609,6 +1620,17 @@
 	</xsl:template>
 
 		<xsl:template match="multiple_images_plate" mode="Figures">
+				<span class="downloadmaterials downloadplate">
+					<a class="download-table-link">
+						<xsl:attribute name="href">
+							<xsl:value-of select="php:function('GetPlateDownloadLink', string($pSiteUrl), string(./@instance_id), $pInArticleMode)" />
+						</xsl:attribute>
+						<xsl:text>Download&#160;</xsl:text>
+						<img width="22" heigth="22" alt="" title="Download plate as ZIP" style="padding-left:5px;">
+							<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download-icon-30.png</xsl:attribute>
+						</img>
+					</a>
+				</span>
 				<div class="P-Picture-Holder">
 					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='231']" mode="singleFigSmallPreview" />
 					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='232']" mode="singleFigSmallPreview" />
