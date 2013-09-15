@@ -1,7 +1,11 @@
+@media print {
+
 /* FONTS*/
 
 h1, h2, h3, .P-Article-Preview-Title, .description .name {
-	font-family: "Arial Unicode MS";
+	font-family: "Trebuchet MS";
+}
+.P-Article-Preview-Title {
 	font-weight: bold;
 }
 
@@ -18,7 +22,7 @@ p {
 	orphans: 2;
 	widows: 2;
 	font-size: 1em;
-	line-height: 1.33;
+	line-height: 1.4;
 }
 
 h1, h2, h3, .materialsTitle {
@@ -30,7 +34,7 @@ img, .figure {
 	display:block;
 }
 
-.table {
+.table .description {
 	page-break-inside:avoid;
 }
 
@@ -50,21 +54,13 @@ img, .figure {
 }
 
 .first_page_header_left {
-	width:100%;
 	line-height: 1.5;
-	font-size: 0.7em;
-	font-family: GillSans;
-	text-align: left;;
-}
-
-.first_page_header_center {
-	text-align:center;
-	width:100%;
+	text-align: left;
+	font-size: 0.777777777em;
 }
 
 .first_page_header_right {
 	text-align:right;
-	width:100%;
 }
 
 .first_page_header_right img{
@@ -73,7 +69,7 @@ img, .figure {
 
 @page :first {
 	size: 165mm 240mm;
-	margin: 12mm 18.5mm 19mm 18.5mm;
+	margin: 12mm 18.5mm 29mm 18.5mm;
 }
 /* styles for the first page END*/
 
@@ -81,7 +77,7 @@ img, .figure {
 
 @page {
 	size: 165mm 240mm;
-	margin: 22mm 18.5mm 19mm 18.5mm;
+	margin: 20mm 18.5mm 19mm 18.5mm;
 }
 
 /* styles for all pages except first END*/
@@ -145,11 +141,14 @@ a {
   display: none;
 }
 .P-Article-Preview-Title {
+  border-top: 1px solid black;
   font-size: 1.7em;
   line-height: 1.63636em;
   margin-top: 0em;
   color: #000;
   text-align: left;
+  margin-top: 5px;
+  padding-top: 25px;
 
 }
 .P-Article-Preview-Title p {
@@ -157,6 +156,7 @@ a {
 }
 .P-Article-Preview-Names {
   margin-top: 1.5em;
+  font-size: 0.8888888em;
 }
 .P-Article-Preview-Names a {
   color: #0088CC;
@@ -176,6 +176,7 @@ sub {
 .P-Article-Preview-Addresses {
   margin-top: 5px;
   display:none;
+  font-size: 0.83em;
 }
 .P-Article-Preview-Block-Title, h1 {
   font-size: 1.3em;
@@ -221,6 +222,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   margin-bottom: 0.75em;
 }
 .materialsHolder {
+  font-size: 0.88em;
   text-align: left;
   margin-top: 0;
   list-style: lower-latin;
@@ -307,14 +309,19 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 .description .name {
 	display: inline;
 }
-
 .description {
   border: 1px solid #e2e2dc;
   position: relative;
-  padding: 10px;
+  padding: 6px;
   background: #fafaf8;
   z-index: 2;
   margin-top: 0;
+}
+.figure .description {
+	font-size: 0.8888888em;
+}
+.figure .description p{
+	margin-top: 4px
 }
 
 .table {
@@ -334,7 +341,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 }
 .Table-Body table td, .Table-Body table th {
   border: 1px solid #e2e2dc;
-  padding: 6px;
+  padding: 3px;
   text-align: left;
   vertical-align: top;
 }
@@ -481,3 +488,4 @@ span[data-author-id] {
 td, th {font-size: 0.7777em}
 
 /* Article preview CSS END */
+}

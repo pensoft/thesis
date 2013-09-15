@@ -2,27 +2,16 @@
 
 $gTemplArr = array(
 	'generate_pdf.pdf_first_page_header' => '
-		<table class="first_page_header_container">
-			<tr>
-				<td>
-					<div class="first_page_header_left">
-						{idtext}<br>
-						doi: {doi} <br>
-						www.pensoft.net/journals/bdj/
-					</div>
-				</td>
-				<td>
-					<div class="first_page_header_center">
-							{document_type_name}
-					</div>
-				</td>
-				<td align="right" width="400">
-					<div class="first_page_header_right">
-						<img class="logo_img" src="/i/bdj-logo-pdf.png" alt="BDJ"></img>
-					</div>
-				</td>
-			</tr>
-		</table>
+	<div class="first_page_header_left">
+		<img style="float: left" src="http://biodiversitydatajournal.com/i/bdj-eye.png" />
+		<div style="float: left; 	padding: 2px 4px;">
+		{idtext}<br>
+		doi: <a href="http://dx.doi.org/{doi}">{doi}</a>
+		</div>
+
+		<div style="float: right">{document_type_name}</div>
+		<div style="clear: both"></div>
+	</div>
 	',
 
 	'generate_pdf.main' => '
@@ -36,6 +25,7 @@ $gTemplArr = array(
 					font-size: 6.3pt;
 					font-family: GillSans;
 					text-align: left;
+
 
 				}
 				@top-left {
@@ -59,28 +49,27 @@ $gTemplArr = array(
 				@top-center {
 					content: "{author_list_short}";
 					font-size: 8pt;
-
 					color: #0a542c;
 					font-family: "Helvetica";
 				}
 				@top-left {
 					content: counter(page);
-					font-size: 9.5pt;
-					font-family: "Adobe Garamond Pro";
+					font-size: 8pt;
+					font-family: "Helvetica";
 				}
 			}
 
 			@page :right {
 				@top-center {
 					content: "{_shortTitle(document_title)}";
-					font-style: italic;
-					font-size: 9.5pt;
-					font-family: "Adobe Garamond Pro";
+					font-size: 8pt;
+					color: #0a542c;
+					font-family: "Helvetica";
 				}
 				@top-right {
 					content: counter(page);
-					font-size: 9.5pt;
-					font-family: "Adobe Garamond Pro";;
+					font-size: 8pt;
+					font-family: "Helvetica";
 				}
 			}
 

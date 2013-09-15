@@ -158,18 +158,18 @@ function translate_row($action, $who, $schedule, $days, $state, $reminder){
 }
 
 function merge_cells($action, $who, $schedule, $days, $state, $remind){
-	$first_row = translate_row( array_shift($action), 
-								array_shift($who), 
-								array_shift($schedule), 
-								array_shift($days), 
+	$first_row = translate_row( array_shift($action),
+								array_shift($who),
+								array_shift($schedule),
+								array_shift($days),
 								array_shift($state),
 								array_shift($remind)
 			);
-	return $first_row . 
+	return $first_row .
 		implode('', array_map(
 			function($action1, $who1, $schedule1, $days1, $state1, $remind1){
 				$otherRow = translate_row($action1, $who1, $schedule1, $days1, $state1, $remind1);
-				return "</tr>\n<tr>" . $otherRow;	
+				return "</tr>\n<tr>" . $otherRow;
 			},
 			$action, $who, $schedule, $days, $state, $remind));
 }
@@ -320,7 +320,7 @@ function getProfilePicWithLink($pPhotoId, $pJournalId, $pId, $pViewMode = 0) {
 	$lRet = '';
 
 	if((int) $pPhotoId){
-		$lRet = '<div class="Prof-Photo"> 
+		$lRet = '<div class="Prof-Photo">
 					<a href="/browse_journal_articles_by_author.php?journal_id=' . $pJournalId . '&user_id=' . $pId . '">
 						<img class="P-Prof-Pic" width="67" height="70" src="/showimg.php?filename=c67x70y_' . (int) $pPhotoId . '.jpg" alt="Profile picture" />
 					</a>
@@ -484,17 +484,17 @@ function getFormButtonStep3($pIsProfileEdit) {
 function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNominatedFlag, $pReviews, $pRoundUserId, $pDocumentId, $pRoundNumber, $pReviewersCheck, $pDocumentReviewTypeId, $pDocumentReviewDueDate, $pRoundDueDate, $pUserVersionId, $pRole, $pRoundId, $pShowDivs = 1, $pCheckInvited = 1, $pMergeFlag = 1, $pReviewersLock = 'false') {
 	$lShowProceedBtn = ($pReviewersCheck == 'true' ? true : false);
 	$lMessage = '';
-	
+
 	/* Turn string to boolean vals */
 	$pWaitNominatedFlag = ($pWaitNominatedFlag == 'true' ? true : false);
 	$pWaitPanelFlag = ($pWaitPanelFlag == 'true' ? true : false);
 	$pCanInviteNominatedFlag = ($pCanInviteNominatedFlag == 'true' ? true : false);
 	/* Turn string to boolean vals */
-	
+
 	if($pRoundNumber == 3){
 		$pReviewersLock = 'true';
 	}
-	
+
 	/* START creating process messages (keys) */
 	if((in_array($pRoundNumber, array(
 		REVIEW_ROUND_ONE,
@@ -512,10 +512,10 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 		var_dump($pCanInviteNominatedFlag);
 		*/
 		if($pRoundNumber == REVIEW_ROUND_ONE){
-			
+
 			switch($pDocumentReviewTypeId) {
 				case DOCUMENT_CLOSED_PEER_REVIEW: {
-					
+
 					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
 						$lMessage = getstr('pjs.conventional_peer_review_speedup_round_' . $pRoundNumber);
 					} elseif ((int)$pReviews >= 1 && !($pWaitNominatedFlag || $pWaitPanelFlag)) {
@@ -525,7 +525,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 					} else {
 						$lMessage = getstr('pjs.conventional_peer_review_to_proceed_round_' . $pRoundNumber);
 					}
-					
+
 				break;
 				}
 				case DOCUMENT_COMMUNITY_PEER_REVIEW: {
@@ -538,7 +538,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 					} else {
 						$lMessage = getstr('pjs.community_peer_review_to_proceed_round_' . $pRoundNumber);
 					}
-					
+
 				break;
 				}
 				case DOCUMENT_PUBLIC_PEER_REVIEW: {
@@ -551,14 +551,14 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 					} else {
 						$lMessage = getstr('pjs.public_peer_review_to_proceed_round_' . $pRoundNumber);
 					}
-					
+
 				break;
 				}
 				default:
 				break;
 			}
 		}elseif($pRoundNumber == REVIEW_ROUND_TWO){
-			
+
 			switch($pDocumentReviewTypeId) {
 				case DOCUMENT_CLOSED_PEER_REVIEW: {
 					if($pWaitNominatedFlag && $lCheckRoundDueDateFlag['flag'] == 2) {
@@ -570,7 +570,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 					} else {
 						$lMessage = getstr('pjs.conventional_peer_review_to_proceed_round_' . $pRoundNumber);
 					}
-					
+
 				break;
 				}
 				case DOCUMENT_COMMUNITY_PEER_REVIEW: {
@@ -583,7 +583,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 					} else {
 						$lMessage = getstr('pjs.community_peer_review_to_proceed_round_' . $pRoundNumber);
 					}
-					
+
 				break;
 				}
 				case DOCUMENT_PUBLIC_PEER_REVIEW: {
@@ -596,7 +596,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 					} else {
 						$lMessage = getstr('pjs.public_peer_review_to_proceed_round_' . $pRoundNumber);
 					}
-					
+
 				break;
 				}
 				default:
@@ -607,7 +607,7 @@ function showSEProceedButton($pWaitNominatedFlag, $pWaitPanelFlag, $pCanInviteNo
 		}
 	}
 	/* END creating process messages (keys) */
-	
+
 	$lUrl = '\'/view_version.php?version_id=' . $pUserVersionId . '&id=' . $pDocumentId . '&view_role=' . $pRole . '&round=' . $pRoundNumber . '&round_user_id=' . $pRoundUserId . '&duedate=' . $pRoundDueDate . '\'';
 	if($pShowDivs == '_0'){
 		if(in_array($pRoundNumber, array(
@@ -898,11 +898,11 @@ function DisplaySEActionsAboutDedicatedReviewer($pInvitationId, $pReviewerState,
 				break;
 			case REVIEWER_CONFIRMED_STATE : // /view_version.php?version_id=1003&id=335&view_role=3&round=2&round_user_id=695!!!!!!!!!!!!!!!!!!!!!!!!!?version_id=1003&id='
 			                               // . $pDocumentId . '
-				
+
 				$lRes .= '
 					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_cancel_reviewer_review_confirmation') . '\')"><img title="'.getstr('pjs.tooltips.cancel_review').'" src="../i/remove_reviewer.png"></img></a></span>
 				';
-				
+
 			/* 	$lRes .= '
 					<span class="reviewer_act"><a href="javascript:openPopUp(\'/view_version.php?version_id=' . $pReviewerVersionId . '&id=' . $pDocumentId . '&view_role=' . DEDICATED_REVIEWER_ROLE . '&round=' . $pRoundNumber . '&round_user_id=' . $pReviewerId . '&invitation_id=' . $pInvitationId . '\')"><img title="'.getstr('pjs.tooltips.SE_reviewing_as_reviewer').'" src="../i/reviewing.png"></img></a></span>
 					<span class="reviewer_act"><a href="javascript:void(0)" onclick="SECancelReviewerInvitation(' . (int) $pDocumentId . ', ' . $pInvitationId . ', ' . (int) $pReviewerId . ', \'' . getstr('pjs.SE_cancel_reviewer_review_confirmation') . '\')"><img title="'.getstr('pjs.tooltips.cancel_review').'" src="../i/remove_reviewer.png"></img></a></span>
@@ -1121,10 +1121,10 @@ function ReviewerOptionsHeader($pRound, $pReview_type) {
 function ReviewerOptions($pRole_id, $pReviewer_id, $pRound, $pReview_type, $pDue_date) {
 	$columns = '		 <td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="n" '. ($pRole_id == DEDICATED_REVIEWER_ROLE ? 'checked="checked"' : '') . ' /></td>';
 	if(CanInvitePanel($pRound, $pReview_type)){
-		
-		if(isset($pDue_date) && $pRole_id == COMMUNITY_REVIEWER_ROLE){		
+
+		if(isset($pDue_date) && $pRole_id == COMMUNITY_REVIEWER_ROLE){
 			$columns .= '<td align="center">invited</td>';
-		} 
+		}
 		else {
 			$columns .= '<td align="center"><input type="radio" name="' . $pReviewer_id . '"  value="p" '. ($pRole_id == COMMUNITY_REVIEWER_ROLE ? 'checked="checked"' : '') . ' /></td>';
 		}
@@ -1686,7 +1686,7 @@ function showSERoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStat
 		if((int)$pCERoundsCount > 0) {
 			return getstr('pjs.copyeditinground_label_clear') . ' ' . $pCERoundsCount;
 		} else {
-			return 'Review round ' . $pAcceptedRoundNum;	
+			return 'Review round ' . $pAcceptedRoundNum;
 		}
 	}else{
 		return showRoundNumberInfo($pRoundTypeId, $pRoundName, $pRoundNumber, $pStateId);
@@ -1902,7 +1902,7 @@ function showAuthorCurrentRoundLabel($pStateId, $pCERoundsCount = 0) {
 }
 
 function showEditorCurrentRoundLabel($pStateId, $pCERoundsCount = 0) {
-	
+
 	switch ($pStateId) {
 		case DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE:
 		case DOCUMENT_READY_FOR_COPY_REVIEW_STATE:
@@ -1924,7 +1924,7 @@ function showEditorCurrentRoundLabel($pStateId, $pCERoundsCount = 0) {
 			return '';
 			break;
 	}
-	
+
 	return '';
 }
 
@@ -1939,7 +1939,7 @@ function ShowRoundNameByDocumentState($pStateId, $pCERoundsCount = 0) {
 	if(in_array($pStateId, array(
 		DOCUMENT_WAITING_AUTHOR_TO_PROCEED_TO_COPY_EDITING_STATE
 	))){
-		return getstr('pjs.copyeditinground_label');	
+		return getstr('pjs.copyeditinground_label');
 	}
 
 	return '';
@@ -2103,7 +2103,7 @@ function getClearDiv($pRowNum) {
 function showCopyEditingText($pStateId, $pCERoundsCount = 0) {
 	if($pStateId == DOCUMENT_READY_FOR_COPY_REVIEW_STATE){
 		if($pCERoundsCount == 0) {
-			return getstr('pjs.copy_editing_text');	
+			return getstr('pjs.copy_editing_text');
 		} else {
 			return getstr('pjs.copy_layout_editing_text');
 		}
@@ -2448,7 +2448,7 @@ function displayChangesButtons($pRole) {
 		 */
 	}else{
 		return '<div class="box" align="center">
-					<h3>Changes</h3> 
+					<h3>Changes</h3>
 					<div class="optionHolder">
 						<a href="#" onclick="AcceptRejectCurrentChange(1);return false;" id="P-Accept-Change-Btn-Id" class="P-Disabled-Btn">
 							<img src="/i/adddoc-small.png" alt="Accept current change" />
@@ -2798,9 +2798,9 @@ function showSEDocumentInfo($pDocumentId, $pUname, $pFirstName, $pLastName, $pJo
 		if($lRole == E_ROLE){
 			$lChangeIcon = '<img src="../i/edit.png" title="'.getstr('pjs.tooltips.change_SE').'" onclick="window.location=\'/view_document.php?id=' . (int) $pDocumentId . '&view_role=' . E_ROLE . '&mode=1&suggested=1\'" class="ui-datepicker-trigger pointer">';
 		}
-		
+
 		$lAddSubjToEmail = '?subject=[' . $pJournalName . '] Inquiry regarding a manuscript ' . $pDocumentId;
-		
+
 		return '
 			<div class="document_info_se">
 				<div class="document_info_bottom_info_right_left" style="width:79px; text-align: right;">
@@ -2895,7 +2895,7 @@ function showFormatedPubDateInJSON($pPubdate, $pDateOnly = false, $pSwitchDateYe
 	return json_encode(showFormatedPubDate($pPubdate, $pDateOnly, $pSwitchDateYear));
 }
 
-function DisplayCommentAnswerForm($pAnswerForms, $pRootId){	
+function DisplayCommentAnswerForm($pAnswerForms, $pRootId){
 	return $pAnswerForms[$pRootId];
 }
 
@@ -2909,8 +2909,8 @@ function DisplayCommentEditForm($pEditForms, $pCommentId, $pCommentUsrId, $pCurr
 function displayCommentReplyDetails($pRootId, $pCommentReplyForms, $pVersionIsReadonly = false){
 	if($pVersionIsReadonly){
 		return ;
-	}	
-	$lResult = '			
+	}
+	$lResult = '
 				<div id="P-Comment-Form_' . (int)$pRootId . '" class="P-Comment-Reply-Form-Wrapper" style="display: none;">
 					<div class="P-Comment-Reply-Form">
 						' . DisplayCommentAnswerForm($pCommentReplyForms, $pRootId) . '
@@ -2918,13 +2918,13 @@ function displayCommentReplyDetails($pRootId, $pCommentReplyForms, $pVersionIsRe
 						<div class="reply_btn" onmousedown="SubmitCommentReplyForm(' . (int)$pRootId . ');"></div>
 						<div class="P-Comment-Reply-Form-Cancel-Btn" onmousedown="showCommentForm(' . (int)$pRootId . ');"></div>
 						<div class="P-Clear"></div>
-					</div>				
+					</div>
 				</div>
 			';
 	return $lResult;
 }
 
-function putCommentOnClickEvent($pCommentId, $pCommentUsrId, $pCurrentUsrId, $pVersionIsReadonly = false){	
+function putCommentOnClickEvent($pCommentId, $pCommentUsrId, $pCurrentUsrId, $pVersionIsReadonly = false){
 	if($pVersionIsReadonly || $pCurrentUsrId != $pCommentUsrId){
 		return;
 	}
@@ -2987,7 +2987,7 @@ function DisplayDeleteCommentLink($pId, $pRootId, $pOriginalId, $pUsrId, $pVersi
 
 function displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pVersionIsReadonly = false){
 	$lResult = '<div class="Comment-Resolve-Info">';
-	
+
 	if(!$pVersionIsReadonly){
 		$lResult .= '<input type="checkbox" onclick="ResolveComment(' . $pCommentId . ')" name="is_resolved_' . $pCommentId . '" id="is_resolved_' . $pCommentId . '" value="1" ' . ($pIsResolved ? 'checked="checked"' : '') . '>';
 		$lResult .= '<label id="label_is_resolved_' . $pCommentId . '" for="is_resolved_' . $pCommentId . '" class="' . ($pIsResolved ? ('Resolved-Comment-Label') : '') . '">' . ($pIsResolved ? ('Resolved by: <br/>' . $pResolveUserFullname) : 'Resolve') . '</label>';
@@ -3005,7 +3005,7 @@ function  displayNewCommentBtn($pVersionIsReadonly){
 	if((int)$pVersionIsReadonly){
 		return;
 	}
-	return '<div style="margin-right:8px" class="comment_btn floatLeft P-Comment-Inline-Main-Btn" id="P-Comment-Btn-Inline" onmousedown="submitPreviewNewComment();return false"></div>	
+	return '<div style="margin-right:8px" class="comment_btn floatLeft P-Comment-Inline-Main-Btn" id="P-Comment-Btn-Inline" onmousedown="submitPreviewNewComment();return false"></div>
 			<div class="comment_btn floatLeft " id="P-Comment-Btn-General" title="Comment issues related to the whole manuscript." onmousedown="submitPreviewNewComment(1);return false"></div>';
 }
 
@@ -3020,7 +3020,7 @@ function  displayCommentsHelp($pVersionIsReadonly){
 					<div class="P-Baloon-Top"></div>
 					<div class="P-Baloon-Middle" style="width:280px;">
 						<div class="P-Baloon-Content" style="font-weight:normal; color:#333;">
-							There are two kinds of comments you can make on a manuscript.<br><br><b>Inline comments</b> are linked to a text selected in an editable field  (orange/gray outline on click/hover), but not to selected template texts, such as titles of the manuscript sections.<br><br><b>General comments</b> should be associated with the whole manuscript and not with selected parts parts of it. 
+							There are two kinds of comments you can make on a manuscript.<br><br><b>Inline comments</b> are linked to a text selected in an editable field  (orange/gray outline on click/hover), but not to selected template texts, such as titles of the manuscript sections.<br><br><b>General comments</b> should be associated with the whole manuscript and not with selected parts parts of it.
 						</div>
 						<div class="P-Clear"></div>
 					</div>
@@ -3052,7 +3052,7 @@ function displayReadonlyVersionHeaderBox($pVersionIsReadonly){
 		<div class="P-Document-Err-Notification">
 			<img src="' . PWT_URL . '/i/excl_ico.png" alt=""/>
 			' . getstr('pjs.versionIsReadonly') . '
-		</div>		
+		</div>
 	';
 }
 
@@ -3175,7 +3175,7 @@ function displaySingleCommentInfo($pCommentId, $pRootId, $pCurrentUserIsEditor, 
 				</div>
 				<div class="P-Clear"></div>
 			</div>
-		
+
 	';
 	return $lResult;
 }
@@ -3236,8 +3236,9 @@ function ShowHideAuthorAction($pCreateUid, $pPWTid) {
 }
 
 function shortTitle($pText) {
-	$text = trim(strip_tags($pText));
-	return mb_substr($text, 0, strpos($text, ' ', 90)); 
+	$CUT = 90;
+	$text = strip_tags($pText);
+	return (mb_strlen($pText) > $CUT) ? mb_substr($text, 0, strpos($text, ' ', $CUT)) : $pText;
 }
 
 function showPollAnswerErrClass($pAnswer, $pUserRole) {
@@ -3251,13 +3252,13 @@ function showAuthors($pAuthorNames, $pAuthorEmails, $pDocumentId, $pJournalName)
 	$lAuthorNamesArr = explode(',', $pAuthorNames);
 	$lAuthorEmailsArr = explode(',', $pAuthorEmails);
 	$lRes = '';
-	
+
 	$lAddSubjToEmail = '?subject=[' . $pJournalName . '] Inquiry regarding a manuscript ' . $pDocumentId;
-	for ($i=0; $i < count($lAuthorNamesArr) ; $i++) { 
-		$lRes .= $lAuthorNamesArr[$i] . ' 
+	for ($i=0; $i < count($lAuthorNamesArr) ; $i++) {
+		$lRes .= $lAuthorNamesArr[$i] . '
 			<a href="mailto:' . $lAuthorEmailsArr[$i] . $lAddSubjToEmail . '">
 				<img title="Send e-mail" src="../i/mail.png">
-			</a>' . ($i == count($lAuthorNamesArr)-1 ? '' : ', '); 
+			</a>' . ($i == count($lAuthorNamesArr)-1 ? '' : ', ');
 	}
 	return $lRes;
 }
@@ -3281,7 +3282,7 @@ function removeFierstParagraph($pText) {
 	if(substr($lText, 0, 3) == '<p>') {
 		$lText = substr($lText, 3);
 	}
-	
+
 	if(substr($lText, -4) == '</p>') {
 		$lText = substr($lText, 0, -4);
 	}
@@ -3296,7 +3297,7 @@ function showRSSLink() {
 function generateFBLink($pId) {
 	if($pId) {
 		$lUrl = urldecode(SITE_URL . '/articles.php?id=' . $pId);
-		return 'href="#" onclick="window.open(\'https://www.facebook.com/sharer/sharer.php?u=' . $lUrl . '\',\'facebook-share-dialog\', \'width=550,height=450\'); return false;"'; 
+		return 'href="#" onclick="window.open(\'https://www.facebook.com/sharer/sharer.php?u=' . $lUrl . '\',\'facebook-share-dialog\', \'width=550,height=450\'); return false;"';
 	}
 	return 'href="#"';
 }
@@ -3304,7 +3305,7 @@ function generateFBLink($pId) {
 function generateTwitterLink($pId) {
 	if($pId) {
 		$lUrl = urldecode(SITE_URL . '/articles.php?id=' . $pId);
-		return "href=\"javascript:(function(){window.twttr=window.twttr||{};var D=550,A=450,C=screen.height,B=screen.width,H=Math.round((B/2)-(D/2)),G=0,F=document,E;if(C&gt;A){G=Math.round((C/2)-(A/2))}window.twttr.shareWin=window.open('http://twitter.com/share','','left='+H+',top='+G+',width='+D+',height='+A+',personalbar=0,toolbar=0,scrollbars=1,resizable=1');E=F.createElement('script');E.src='http://platform.twitter.com/bookmarklets/share.js?v=1';F.getElementsByTagName('head')[0].appendChild(E)}());\""; 
+		return "href=\"javascript:(function(){window.twttr=window.twttr||{};var D=550,A=450,C=screen.height,B=screen.width,H=Math.round((B/2)-(D/2)),G=0,F=document,E;if(C&gt;A){G=Math.round((C/2)-(A/2))}window.twttr.shareWin=window.open('http://twitter.com/share','','left='+H+',top='+G+',width='+D+',height='+A+',personalbar=0,toolbar=0,scrollbars=1,resizable=1');E=F.createElement('script');E.src='http://platform.twitter.com/bookmarklets/share.js?v=1';F.getElementsByTagName('head')[0].appendChild(E)}());\"";
 	}
 	return 'href="#"';
 }
@@ -3312,37 +3313,37 @@ function generateTwitterLink($pId) {
 function generateGPlusLink($pId) {
 	if($pId) {
 		$lUrl = urldecode(SITE_URL . '/articles.php?id=' . $pId);
-		return "href=\"https://plus.google.com/share?url=$lUrl\" onclick=\"javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=550,width=450');return false;\""; 
+		return "href=\"https://plus.google.com/share?url=$lUrl\" onclick=\"javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=550,width=450');return false;\"";
 	}
 	return 'href="#"';
-} 
+}
 
 function generateMendeleyLink($pId) {
 	if($pId) {
 		$lUrl = urldecode(SITE_URL . '/articles.php?id=' . $pId);
-		return "href=\"#\" onclick=\"javascript:window.open('http://www.mendeley.com/import/?url=$lUrl', '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=550,width=450');return false;\""; 
+		return "href=\"#\" onclick=\"javascript:window.open('http://www.mendeley.com/import/?url=$lUrl', '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=550,width=450');return false;\"";
 	}
 	return 'href="#"';
-} 
+}
 
 function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournalShortName, $pDoi, $pAuthors, $pPublishDate) {
 	if($pArticleId) {
 		$pDocumentName = trim($pDocumentName);
 		preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+)/', $pPublishDate, $lMatch);
 		$lDocumentLink = SITE_URL . '/articles.php?id=' . $pArticleId;
-		
+
 		$lAuthorsArr = explode(',', $pAuthors);
 		$pAuthors = '';
 		$i = 1;
 		foreach ($lAuthorsArr as $key => $value) {
-			$lAuthorNamesArr = explode(' ', trim($value)); 
+			$lAuthorNamesArr = explode(' ', trim($value));
 			$pAuthors .= $lAuthorNamesArr[1] . ' ' . substr($lAuthorNamesArr[0], 0, 1) . (count($lAuthorsArr) == $i ? '' : ', ');
 			$i++;
 		}
-		
+
 		$lSubject = 'Paper published in the ' . $pJournalName;
 		$lBody = "Hi," .  urlencode("\n") .  urlencode("\n") . "Here is an interesting paper published in the " . $pJournalName . ": " . urlencode("\n") . urlencode("\n") . $pAuthors . " (". $lMatch[3] .") ".GetArticleTitleForCitation(trim($pDocumentName))." ".$pJournalName." 1: e".$pArticleId.". DOI: http://dx.doi.org/" . $pDoi . urlencode("\n");
-		return 'href="mailto:?Subject=' . urldecode($lSubject) . '&amp;body=' . $lBody . '"'; 
+		return 'href="mailto:?Subject=' . urldecode($lSubject) . '&amp;body=' . $lBody . '"';
 	}
 	return 'href="#"';
 }
