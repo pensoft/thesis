@@ -36,7 +36,6 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 		$this->m_pageView = new pGenerate_PDF_Page_View(array_merge($this->m_commonObjectsDefinitions, $lViewPageObjectsDataArray));
 	}
 
-<<<<<<< HEAD
 	protected function FixDocumentPreview($pPreview){
 		$lDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
 		$lPreview = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -90,10 +89,6 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 		return $pPreview;
 	}
 
-
-=======
-
->>>>>>> PDF
 /*	function head_JS_files(){
 		return array(	'js/jquery',
 						'js/jquery_ui',
