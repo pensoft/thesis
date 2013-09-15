@@ -1269,7 +1269,7 @@
 			<xsl:apply-templates select="./video" mode="VideoNormalPreview" />
 		</xsl:if>
 	</xsl:template>
-	
+
 	<xsl:template match="*" mode="VideoNormalPreview">
 		<xsl:variable name="lFigNumber"><xsl:value-of select="../fields/*[@id='489']/value"/></xsl:variable>
 		<div class="figure">
@@ -1303,7 +1303,7 @@
 			<div class="P-Clear"></div>
 		</div>
 	</xsl:template>
-	
+
 	<!-- Article of the future preview template of a single plate part -->
 	<xsl:template match="*" mode="article_preview_plate">
 		<xsl:variable name="platePart">
@@ -1378,7 +1378,7 @@
 		</xsl:call-template>
 		<xsl:apply-templates select="." mode="RefinderLinks"/>
 		<xsl:apply-templates select="." mode="RefinderFormat"/>
-		
+
 	</xsl:template>
 
 		<xsl:template match="*" mode="RefinderLinks">
@@ -1577,7 +1577,7 @@
 			</xsl:if>
 			</xsl:for-each>
 	</xsl:template>
-	
+
 	<xsl:template match="video" mode="Video">
 		<div class="P-Picture-Holder">
 			<div class="singlefigmini fig">
@@ -1592,8 +1592,19 @@
 		</div>
 		<div class="P-Clear" />
 	</xsl:template>
-	
+
 	<xsl:template match="image" mode="Figures">
+		<span class="downloadmaterials downloadplate">
+			<a class="download-table-link">
+				<xsl:attribute name="href">
+					<xsl:value-of select="php:function('GetFigureDownloadLink', string($pSiteUrl), string(../@instance_id), string(./fields/*[@id='483']/value), $pInArticleMode)" />
+				</xsl:attribute>
+				<xsl:text>Download&#160;</xsl:text>
+				<img width="22" heigth="22" alt="" title="Download image" style="padding-left:5px;">
+					<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download-icon-30.png</xsl:attribute>
+				</img>
+			</a>
+		</span>
 		<div class="P-Picture-Holder">
 			<div class="singlefigmini fig">
 				<xsl:attribute name="rid"><xsl:value-of select="../@instance_id" /></xsl:attribute>
@@ -1609,6 +1620,17 @@
 	</xsl:template>
 
 		<xsl:template match="multiple_images_plate" mode="Figures">
+				<span class="downloadmaterials downloadplate">
+					<a class="download-table-link">
+						<xsl:attribute name="href">
+							<xsl:value-of select="php:function('GetPlateDownloadLink', string($pSiteUrl), string(./@instance_id), $pInArticleMode)" />
+						</xsl:attribute>
+						<xsl:text>Download&#160;</xsl:text>
+						<img width="22" heigth="22" alt="" title="Download plate as ZIP" style="padding-left:5px;">
+							<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/i/download-icon-30.png</xsl:attribute>
+						</img>
+					</a>
+				</span>
 				<div class="P-Picture-Holder">
 					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='231']" mode="singleFigSmallPreview" />
 					<xsl:apply-templates select="plate_type_wrapper/*[@object_id='232']" mode="singleFigSmallPreview" />
@@ -1687,15 +1709,15 @@
 		<div class="AOF-ref-list">
 			<xsl:for-each select="*[@object_id='95']">
 				<div class="ref-list-AOF-holder-holder">
-					<xsl:apply-templates select="." mode="articleBack"/>					
+					<xsl:apply-templates select="." mode="articleBack"/>
 					<xsl:call-template name="AOF-Place-Cited-Element-Navigation">
 					    <xsl:with-param name="pInstanceId" select="@instance_id"></xsl:with-param>
 					</xsl:call-template>
 					<xsl:apply-templates select="." mode="RefinderLinks"/>
 				</div>
-				
+
 			</xsl:for-each>
-		</div>		
+		</div>
 	</xsl:template>
 
 	<!-- Article of the future preview template of the sup files list -->
@@ -2706,7 +2728,7 @@
 
 			<script type="text/javascript">
 				<![CDATA[
-				var server = 'http://192.168.83.187:5000';
+				var server = 'http://www.refinder.org';
 				var ref   = encodeURIComponent(JSON.stringify(
 				{
 				]]>
@@ -2733,10 +2755,10 @@
 
 		</div>
 	</xsl:template>
-	
+
 	<xsl:template name="AOF-Place-Cited-Element-Navigation">
-		<xsl:param name="pInstanceId">0</xsl:param>		
-		<xsl:if test="$pInstanceId &gt; 0 and $pInArticleMode &gt; 0">			
+		<xsl:param name="pInstanceId">0</xsl:param>
+		<xsl:if test="$pInstanceId &gt; 0 and $pInArticleMode &gt; 0">
 			<xsl:variable name="lCitationsCnt" select="php:function('GetElementCitationsCnt', string($pInstanceId))" />
 			<xsl:if test="$lCitationsCnt &gt; 0">
 				<div class="P-Element-Citations-Navigation" >
@@ -2753,7 +2775,7 @@
 					<div class="P-Clear"></div>
 				</div>
 			</xsl:if>
-		</xsl:if>	
+		</xsl:if>
 	</xsl:template>
 
 </xsl:stylesheet>

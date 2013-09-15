@@ -2949,7 +2949,7 @@ function showArticlePriceIfExist($pState){
 }
 function showDoiLinkIfExist($pDoi){
 	if($pDoi){
-		return 'doi: ' . $pDoi;
+		return '<a href="http://dx.doi.org/' . $pDoi . '" class="subLink">doi: ' . $pDoi . '</a>';
 	}
 }
 
