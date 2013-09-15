@@ -182,7 +182,7 @@ class mJournal_Documents_Model extends emBase_Model {
 				$lOrder = 'coalesce(am1.view_cnt,0) DESC';
 				break;
 			case 2:
-				$lOrder = 'coalesce(am1.view_unique_cnt,0) DESC';
+				$lOrder = 'coalesce(am2.view_unique_cnt,0) DESC';
 				break;
 			default:
 				$lOrder = 'd.publish_date DESC';
@@ -198,13 +198,18 @@ class mJournal_Documents_Model extends emBase_Model {
 							FROM pjs.document_users du
 							WHERE du.document_id = d.id AND du.role_id = ' . AUTHOR_ROLE . ' AND du.state_id = 1
 							ORDER BY du.ord
-						) a) as authors_list,
-						coalesce(am1.view_cnt,0) as view_cnt,
-						coalesce(am1.view_unique_cnt,0) as view_unique_cnt,
-						coalesce(am2.download_cnt,0) as pdf_view_cnt
+						) a) as authors_list
 					FROM pjs.documents d
-					LEFT JOIN pjs.article_metrics am1 ON am1.item_id = d.id AND am1.item_type = 1
-					LEFT JOIN pjs.article_metrics am2 ON am2.item_id = d.id AND am2.item_type = 2
+					LEFT JOIN (
+						SELECT item_id, sum(view_cnt) as view_cnt FROM pjs.article_metrics
+						WHERE item_type IN (' . AOF_METRIC_TYPE_HTML . ', ' . AOF_METRIC_TYPE_NLM_XML . ', ' . AOF_METRIC_TYPE_PDF . ')
+						GROUP BY item_id
+					) am1 ON am1.item_id = d.id
+					LEFT JOIN (
+						SELECT item_id, sum(view_unique_cnt) as view_unique_cnt FROM pjs.article_metrics
+						WHERE item_type IN (' . AOF_METRIC_TYPE_HTML . ', ' . AOF_METRIC_TYPE_NLM_XML . ', ' . AOF_METRIC_TYPE_PDF . ')
+						GROUP BY item_id
+					) am2 ON am2.item_id = d.id
 					LEFT JOIN pjs.article_metadata am ON am.document_id = d.id
 					LEFT JOIN pjs.journal_sections js ON js.id = d.journal_section_id
 					LEFT JOIN pjs.document_versions dv ON dv.document_id = d.id AND dv.version_type_id = ' . DOCUMENT_VERSION_LE_TYPE . '
@@ -216,9 +221,16 @@ class mJournal_Documents_Model extends emBase_Model {
 		$lCon->Execute($lSql);
 		
 		$lCon->SetPage(DEFAULT_PAGE_SIZE, $pPage);
-		
+		//var_dump($lCon->mRs);
+		$i = 0;
 		while(!$lCon->Eof()){
-			 $lResultData[] = $lCon->mRs;
+			$lMetrics = $this->CalculateTotalArticleMetrics($lCon->mRs['id']);
+			$lResultData[$i] = $lCon->mRs;
+			$lResultData[$i]['view_cnt'] = (int)$lMetrics['view_cnt'];
+			$lResultData[$i]['view_unique_cnt'] = (int)$lMetrics['view_unique_cnt'];
+			$lResultData[$i]['download_cnt'] = (int)$lMetrics['download_cnt'];
+			$lResultData[$i]['download_unique_cnt'] = (int)$lMetrics['download_unique_cnt'];
+			$i++;
 			$lCon->MoveNext();
 		}
 		
@@ -230,6 +242,24 @@ class mJournal_Documents_Model extends emBase_Model {
 		));
 		
 		return $lResult;
+	}
+	
+	function CalculateTotalArticleMetrics($pArticleId) {
+		$lArticlesModel = new mArticles();
+		$lHTMLMetrics = $lArticlesModel->GetArticleHtmlMetricDetails($pArticleId);
+		$lXMLMetrics = $lArticlesModel->GetArticleXmlMetricDetails($pArticleId);
+		$lPDFMetrics = $lArticlesModel->GetArticlePdfMetricDetails($pArticleId);
+		$lMetricsToSum = array($lHTMLMetrics, $lXMLMetrics, $lPDFMetrics);
+		$lTotalMetric = array();
+		foreach ($lMetricsToSum as $lCurrentMetric){
+			foreach ($lCurrentMetric as $lDetailType => $lDetailData){
+				if(!array_key_exists($lDetailType, $lTotalMetric)){
+					$lTotalMetric[$lDetailType] = 0;
+				}
+				$lTotalMetric[$lDetailType] += (int)$lDetailData;
+			}
+		}
+		return $lTotalMetric;
 	}
 	
 	function GetJournalArticlesByAuthor($pJournalId, $pAuthorId){
@@ -267,8 +297,15 @@ class mJournal_Documents_Model extends emBase_Model {
 		
 		$lCon->SetPage(DEFAULT_PAGE_SIZE, $pPage);
 		
+		$i = 0;
 		while(!$lCon->Eof()){
-			 $lResultData[] = $lCon->mRs;
+			$lMetrics = $this->CalculateTotalArticleMetrics($lCon->mRs['id']);
+			$lResultData[$i] = $lCon->mRs;
+			$lResultData[$i]['view_cnt'] = (int)$lMetrics['view_cnt'];
+			$lResultData[$i]['view_unique_cnt'] = (int)$lMetrics['view_unique_cnt'];
+			$lResultData[$i]['download_cnt'] = (int)$lMetrics['download_cnt'];
+			$lResultData[$i]['download_unique_cnt'] = (int)$lMetrics['download_unique_cnt'];
+			$i++;
 			$lCon->MoveNext();
 		}
 		

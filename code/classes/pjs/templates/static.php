@@ -3384,4 +3384,8 @@ function showMostVisitedLinkIfStaff() {
 	return '';
 }
 
+function displayArticlesFilterText2($pRecords) {
+	return 'article' . ($pRecords == 1 ? '' : 's' );
+}
+
 ?>

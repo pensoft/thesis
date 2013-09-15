@@ -54,7 +54,7 @@ $gTemplArr = array(
 					{_showDoiLinkIfExist(doi)}
 					<div class="info">
 						<span style="color:#666"><img src="i/articleCalendar.png" alt="Calendar" title="Publication date"></img> {publish_date}</span>
-						<span style="color:#666"><img src="i/eye.png" alt="eye" title="Views"></img> Unique: {view_unique_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;Total: {view_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;PDF Downloads: {pdf_view_cnt}</span>
+						<span style="color:#666"><img src="i/eye.png" alt="eye" title="Views"></img> Unique: {view_unique_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;Total: {view_cnt}&nbsp;&nbsp;</span>
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
 							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=donwload_xml&item_id={id}">XML</a>
@@ -356,7 +356,7 @@ $gTemplArr = array(
 
 
 	'browse_articles.by_author_startrs' => '
-			<h1 class="dashboard-title withoutBorder">{records} ' . getstr('pjs.articles_matching_your_criteria') . '</h1>
+			<h1 class="dashboard-title withoutBorder">{records} {_displayArticlesFilterText2(records)}' . getstr('pjs.articles_matching_your_criteria') . '</h1>
 			<div style="margin: 10px;">
 				<div style="border-top: 1px solid #EEECE5; border-bottom: 1px solid #EEECE5; margin-top: 20px; margin-bottom: 15px;">
 					{nav}
@@ -379,10 +379,10 @@ $gTemplArr = array(
 					</div>
 
 					&nbsp;&nbsp;&nbsp;
-					<a href="#" class="subLink">{_showDoiLinkIfExist(doi)}</a>
+					{_showDoiLinkIfExist(doi)}
 					<div class="info">
-						<span><img src="i/articleCalendar.png" alt="Calendar"></img> {_getOnlyDatePart(publish_date)}</span>
-						<span><img src="i/eye.png" alt="eye"></img> 465</span>
+						<span style="color:#666"><img src="i/articleCalendar.png" alt="Calendar" title="Publication date"></img> {publish_date}</span>
+						<span style="color:#666"><img src="i/eye.png" alt="eye" title="Views"></img> Unique: {view_unique_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;Total: {view_cnt}&nbsp;&nbsp;</span>
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
 							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=donwload_xml&item_id={id}">XML</a>
