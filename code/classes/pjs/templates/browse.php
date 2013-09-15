@@ -29,7 +29,7 @@ $gTemplArr = array(
 			</div></td>
 		<td class="title">{_addSpace(pos)}<a title="Edit page" href="/edit.php?tAction=showedit&amp;journal_id={journal_id}&amp;guid={guid}" class="journalArticleTitle">{title}</a></td></tr>',
 	'browse.foot' => '',
-	
+
 	'browse.endrs_edit' => '
 	<tr class="pageName">
 		<td style="border: none"></td>
@@ -44,22 +44,22 @@ $gTemplArr = array(
 		</td></tr>
 		</table>
 	',
-	
+
 	'browse.stories_list_head' => '
-		
+
 	',
 	'browse.stories_list_row' => '
 			{story}
 	',
 	'browse.stories_list_foot' => '
-		
+
 	',
 	'browse.tree_list_empty' => '
 		<br/>
 		<br/>
 		<div style="text-align: center;">This article does not exist.</div>
 	',
-	'browse.journal_fetures_head' => '	
+	'browse.journal_fetures_head' => '
 						<div class="leftSiderBlock">
 							<h3>' . getstr('pjs.journal_features') . '</h3>
 							<div class="siderBlockLinksHolder">',
@@ -81,23 +81,23 @@ $gTemplArr = array(
 	'browse.left_head' => '
 						<div class="leftSiderBlock" style="position: fixed;">
 									<h3>' . getstr('pjs.journal_about_title') . '</h3>
-						
+
 						<div class="siderBlockLinksHolder">
 	',
-	
+
 	'browse.left_row_show' => '
 							<a href="#{_strip_invalid(title)}" class="link" id="about_panel_story_{guid}" onclick="getStoryChildrens(this, {guid}, {journal_id});">
 								<span></span>
 								<span class="content">{_addSpace(pos)}{title}</span>
 							</a>
 	',
-	
+
 	'browse.left_foot' => '
 							<div class="clear"></div>
 						</div>
 						</div>
 	',
-	
+
 	// Browse Journal Issues List Templates
 	'browse.journal_issue_head' => '
 			<div style="margin: 10px;">
@@ -114,10 +114,9 @@ $gTemplArr = array(
 				</p>
 				<div class="P-Clear"></div>
 	',
-	
+
 	'browse.journal_issue_row' => '
 				<div class="article" style="border-top: none;">
-					<div class="starHover"></div>
 					<div class="articleHeadline">
 						<a href="#">
 							{name}
@@ -147,13 +146,13 @@ $gTemplArr = array(
 					</div>
 				</div>
 	',
-	
+
 	'browse.journal_issue_foot' => '
 			</div>
 	',
-	
+
 	'browse.journal_issue_empty' => '<br/>' . getstr('pjs.journal_issue_empty') . '<br/>',
-	
+
 	// Browse Journal Documents List Templates
 	'browse.journal_documents_head' => '
 		<h1 class="dashboard-title">' . getstr('pjs.manage_journal_documents') . '</h1>
@@ -168,7 +167,7 @@ $gTemplArr = array(
 				<th class="left">' . getstr('pjs.action') . '&nbsp;&nbsp;&nbsp;</th>
 			</tr>
 	',
-	
+
 	'browse.journal_documents_row' => '
 			<tr>
 				<td class="right id">{id}</td>
@@ -178,15 +177,15 @@ $gTemplArr = array(
 				<td class="left"><a href="javascript: void(0);" onclick="confirmDelete(\'' . getstr('pjs.are_you_sure') . '\', \'manage_journal_documents.php?document_id={id}&amp;delete=1\');">' . getstr('pjs.delete') . '</a>&nbsp;&nbsp;&nbsp;</td>
 			</tr>
 	',
-	
+
 	'browse.journal_documents_endrs' => '
 		</table>
 		<br />
 	',
-	
+
 	'browse.journal_documents_foot' => '',
 	'browse.journal_documents_empty' => '<br/>' . getstr('pjs.journal_documents_empty') . '<br/>',
-	
+
 	// Browse Journal Users List Templates
 	'browse.journal_users_head' => '
 		<h1 class="dashboard-title">' . getstr('pjs.manage_journal_users') . '</h1>
@@ -207,7 +206,7 @@ $gTemplArr = array(
 				<th class="left">' . getstr('pjs.update') . '</th>
 			</tr>
 	',
-	
+
 	'browse.journal_users_row' => '
 			<tr>
 				<td class="left">{user_names}</td>
@@ -223,15 +222,15 @@ $gTemplArr = array(
 				<td class="left"><a href="javascript: void(0);" onclick="updateUserRoles(this, {journal_id}, {id});">' . getstr('pjs.update') . '</a></td>
 			</tr>
 	',
-	
+
 	'browse.journal_users_endrs' => '
 		</table>
 		<br />
 	',
-	
+
 	'browse.journal_users_foot' => '',
 	'browse.journal_users_empty' => '<br/>No results.<br/>',
-	
+
 	// Browse journal issues templates
 	'browse.journal_issues_head' => '',
 	'browse.journal_issues_startrs' => '
@@ -253,7 +252,7 @@ $gTemplArr = array(
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2"> 
+								<td colspan="2">
 									<div class="issueTotals">
 										' . getstr('pjs.papers_published') . ': <span>{_intThis(count_documents)}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
 										' . getstr('pjs.total_pages') . ': <span>{_intThis(count_pages)}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
@@ -283,7 +282,7 @@ $gTemplArr = array(
 									</div>
 								</td>
 							</tr>
-							<tr> 
+							<tr>
 								<td colspan="3" bgcolor="#D1CDBB" height="2px"></td>
 							</tr>
 						</table>
