@@ -203,8 +203,11 @@
 									<a border="0" target="_blank" href="http://creativecommons.org/licenses/by/3.0/" rel="license">Creative Commons Attribution 3.0 (CC-BY)</a>
 									<xsl:text> which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</xsl:text>
 								</div>
+								<div class="P-Article-Info-Block-Row" id="citation">
+									Citation: <xsl:copy-of select="php:function('getCitation', $pDocumentId)"/>
+								</div>
 							</td>
-							<td width="95px" valign="middle" align="right">
+							<td id="openaccesstd" width="95px" valign="middle" align="right">
 								<img src="/i/open_access.png" alt="Open Access" />
 							</td>
 						</tr>
@@ -360,7 +363,8 @@
 
 	<!-- Treatment material field -->
  <xsl:template match="*" mode="treatmentMaterialFieldCustom">
-   <xsl:variable name="lContent">
+ 	<xsl:variable name="lContent">
+   		<xsl:if test="$pPDFPreviewMode = 0">
    		<span>
 			<xsl:call-template name="markContentEditableField">
 				<xsl:with-param name="pObjectId"><xsl:value-of select="./@object_id" /></xsl:with-param>
@@ -370,6 +374,10 @@
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 			<xsl:apply-templates select="./value" mode="formatting"/>
 		</span>
+		</xsl:if>
+		<xsl:if test="$pPDFPreviewMode = 1">
+ 			<xsl:apply-templates select="./value" mode="formatting"/>
+ 		</xsl:if>
    </xsl:variable>
    <xsl:variable name="lFieldId"><xsl:value-of select="./@id" /></xsl:variable>
    <span>

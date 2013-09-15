@@ -3236,9 +3236,9 @@ function ShowHideAuthorAction($pCreateUid, $pPWTid) {
 }
 
 function shortTitle($pText) {
-	$CUT = 90;
+	$CUT = 70;
 	$text = strip_tags($pText);
-	return (mb_strlen($pText) > $CUT) ? mb_substr($text, 0, strpos($text, ' ', $CUT)) : $pText;
+	return (mb_strlen($pText) > $CUT) ? mb_substr($text, 0, strpos($text, ' ', $CUT)) . '...' : $text;
 }
 
 function showPollAnswerErrClass($pAnswer, $pUserRole) {
