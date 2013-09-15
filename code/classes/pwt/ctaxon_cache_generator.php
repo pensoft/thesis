@@ -61,6 +61,7 @@ class ctaxon_cache_generator {
 		if($this->m_articleId){
 			$lSql .= '
 			JOIN pjs.article_taxons at ON at.taxon_id = t.id AND at.article_id = ' . (int) $this->m_articleId . '
+			ORDER BY t.name ASC
 			';
 		}else{
 			$lSql .= '
@@ -73,7 +74,7 @@ class ctaxon_cache_generator {
 		while(!$lCon->Eof()){
 			$lTaxonName = $lCon->mRs['name'];
 			$lTaxonId = $lCon->mRs['id'];
-			echo(date("Y-m-d H:i:s") . ' ' . $lTaxonName . " cache generation start \n");
+			echo(date("Y-m-d H:i:s") . ' ' . $lTaxonName . ' ' . $lCon->mRs['id'] . " cache generation start \n");
 			$lPreviewGenerator = new ctaxon_preview_generator(array(
 				'taxon_name' => $lTaxonName,
 			));
@@ -84,7 +85,7 @@ class ctaxon_cache_generator {
 					VALUES (' . (int)$lTaxonId . ', \'' . q($lPreviewGenerator->m_errMsg) . '\')';
 				return;
 			}
-			echo(date("Y-m-d H:i:s") . ' ' . $lTaxonName . " cache generation end \n");
+			echo(date("Y-m-d H:i:s") . ' ' . $lTaxonName . ' ' . $lCon->mRs['id'] . " cache generation end \n");			
 // 			exit;
 			$lCon->MoveNext();
 		}

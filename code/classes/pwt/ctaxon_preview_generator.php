@@ -452,8 +452,8 @@ class ctaxon_preview_generator extends csimple {
 		foreach ( $this->m_categories as $lCategoryName => $lCategoryData ) {
 			$lRegularSitesData = array ();
 			$lSpecialSitesData = array();
-			foreach ( $lCategoryData ['regular_sites'] as $lSiteId ) {
-				$lSiteData = $this->m_dataGenerator->GetSiteData($lSiteId);
+			foreach ( $lCategoryData ['regular_sites'] as $lSiteId ) {				
+				$lSiteData = $this->m_dataGenerator->GetSiteData($lSiteId);				
 				if ($lSiteData ['has_results'] || $lSiteData ['show_if_not_found']) {
 					$lRegularSitesData [$lSiteId] = $lSiteData;
 				}
@@ -587,7 +587,7 @@ class ctaxon_preview_generator extends csimple {
 		$this->GenerateGBIFPreview();
 		$this->GenerateBHLPreview();
 		$this->GenerateWikimediaPreview();
-		$this->GenerateEOLPreview();
+		$this->GenerateEOLPreview();		
 		$this->GenerateCategoriesPreview();
 		
 		return $this->m_wholePreview;

@@ -1033,6 +1033,80 @@ class ctaxon_data_generator extends csimple {
 		return $lResult;
 	}
 	
+	function GetCatalogueOfLifeData(){
+		$lCon = $this->m_con;
+		$lSql = '
+			SELECT *
+			FROM pjs.taxon_catalogue_of_life_data a
+			WHERE taxon_id = ' . (int) $this->m_taxonId . '
+			AND lastmoddate > now() - \'' . (int) CACHE_TIMEOUT_LENGTH . ' seconds\'::interval
+		';
+		$lCon->Execute($lSql);
+		if (! $lCon->mRs ['id'] || $this->m_forcefulDataGeneration) {
+			return $this->GenerateCatalogueOfLifeData();
+		}
+		return $this->GetCatalogueOfLifeDataFromDB($lCon->mRs ['id']);
+	}
+	
+	function GenerateCatalogueOfLifeData(){
+		$lUrl = CATALOGUE_OF_LIFE_WEBSERVICE_URL . $this->m_encodedTaxonName;
+		//~ echo $lUrl;
+		// 		var_dump($lUrl);
+		$lQueryResult = executeExternalQuery($lUrl, false, '', 5);
+		$lResult = array(
+			'col_taxon_id' => '',
+			'url' => '',
+		);
+		// 		var_dump($lQueryResult);
+		if($lQueryResult) {
+			$lDom = new DOMDocument();
+			if($lDom->loadXML($lQueryResult)){
+				$lXpath = new DOMXPath($lDom);
+		
+				$lXpathQuery = '/results/result';
+				$lXPathResult = $lXpath->query($lXpathQuery);
+				if($lXPathResult->length){
+					$lNode = $lXPathResult->item(0);
+					$lDetailsArr = array(
+						'col_taxon_id' => './id',
+						'url' => './url',
+					);
+					foreach ($lDetailsArr as $lDetailName => $lQuery) {
+						$lXPathResult = $lXpath->query($lQuery, $lNode);
+						if($lXPathResult->length){
+							$lResult[$lDetailName] = trim($lXPathResult->item(0)->textContent);
+						}
+					}
+				}
+			}
+		}		
+		$this->StoreCatalogueOfLifeData($lResult);
+		return $lResult;
+	}
+	
+	protected function StoreCatalogueOfLifeData($pData){
+		$lCon = $this->m_con;
+		$lSql = '
+				SELECT * FROM spSaveTaxonCatalogueOfLifeBaseData(' . (int)$this->m_taxonId . ', \'' . q($pData['col_taxon_id']) . '\', \'' . q($pData['url']) . '\')
+		';		
+		$lResultFound = $pData['col_taxon_id'] ? 1 : 0;
+		$this->StoreSiteData(CATALOGUE_OF_LIFE_SITE_ID, $lResultFound, $pData['url']);
+	}
+	
+	protected function GetCatalogueOfLifeDataFromDB($pCOLDataId){
+		$lCon = $this->m_con;
+		$lResult = array();
+		$lSql = '
+			SELECT d.*
+			FROM pjs.taxon_catalogue_of_life_data d			
+			WHERE d.id = ' . (int)$pCOLDataId . '			
+		';
+		$lCon->Execute($lSql);		
+		$lResult['col_taxon_id'] = $lCon->mRs['col_taxon_id'];
+		$lResult['url'] = $lCon->mRs['url'];		
+		return $lResult;
+	}
+	
 	function GetLiasData() {
 		$lCon = $this->m_con;
 		$lSql = '
@@ -1235,6 +1309,9 @@ class ctaxon_data_generator extends csimple {
 			case (int)WIKIMEDIA_SITE_ID:
 				$this->GetWikimediaData();
 				break;
+			case (int)CATALOGUE_OF_LIFE_SITE_ID:
+				$this->GetCatalogueOfLifeData();
+				break;
 		}
 		if($pSiteIsSpecial){
 			//For these sites we check for results in their apis - so the data about the site should be 
@@ -1250,8 +1327,13 @@ class ctaxon_data_generator extends csimple {
 			}
 		}
 		
-		$lSiteUrl = $lSiteMetaData['taxon_link'];
+		$lSiteUrl = $lSiteMetaData['link_to_search_for_results'];
+		if(!$lSiteUrl){
+			$lSiteUrl = $lSiteMetaData['taxon_link'];
+		}
+		
 		$lSiteUrl = $this->ReplaceText($lSiteUrl);
+// 		var_dump($lSiteMetaData);
 		
 		$lPostForm = $lSiteMetaData['use_post_action'];
 		$lPostFields = $lSiteMetaData['fields_to_post'];
@@ -1259,17 +1341,25 @@ class ctaxon_data_generator extends csimple {
 		$lPostfieldsParam = false;
 		if( $lPostForm ){
 			$lPostfieldsParam = $this->parseStringPostfields($lPostFields);
+			foreach ($lPostfieldsParam as $lParamName => $lValue) {
+				$lValue = $this->ReplaceText($lValue);
+				$lPostfieldsParam[$lParamName] = $lValue;
+			}
 		}
+		
+		
 		$lSiteResponse = executeExternalQuery($lSiteUrl, $lPostfieldsParam);		
 		$lResultFound = false;		
 			
 		if( $lSiteResponse ){
-// 			var_dump($lSiteResponse);
+// 			echo($lSiteResponse);
+// 			exit;
 // 			var_dump($lSiteMetaData['match_expressions']);
 			if( is_array( $lSiteMetaData['match_expressions'] )){//Masiv s reg expove, koito ako matchnat vsichki - nqma rezultat
 				foreach( $lSiteMetaData['match_expressions']  as $lSingleRegExpPattern ){	
 					$lSingleRegExpPattern = $this->ReplaceText($lSingleRegExpPattern);				
 					$lSingleRegExpPattern = '/' . $lSingleRegExpPattern . '/im';
+// 					var_dump($lSingleRegExpPattern);
 // 					var_dump(preg_match( $lSingleRegExpPattern, $lSiteResponse));
 					if( !preg_match( $lSingleRegExpPattern, $lSiteResponse)){//Ima match
 						$lResultFound = true;		
@@ -1285,6 +1375,7 @@ class ctaxon_data_generator extends csimple {
 	protected function StoreSiteData($pSiteId, $pResultFound, $pSpecificLink = ''){
 		$lCon = $this->m_con;
 		$lSql = 'SELECT * FROM spSaveTaxonSiteResult(' . (int)$this->m_taxonId . ', ' . (int)$pSiteId . ', ' . (int)$pResultFound . ', \'' . q($pSpecificLink) . '\');';
+// 		var_dump($lSql);
 		if(!$lCon->Execute($lSql)){
 			$this->SetError($lCon->GetLastError());
 			return;
@@ -1314,6 +1405,7 @@ class ctaxon_data_generator extends csimple {
 			'taxon_link' => $lTaxonLink,
 			'show_if_not_found' => $lSiteMetadata['show_if_not_found'],
 			'use_post_action' => $lHasResults ? $lSiteMetadata['use_post_action'] : $lSiteMetadata['use_post_action_no_results'],
+			'add_link_prefix' => $lHasResults ? $lSiteMetadata['add_link_prefix'] : $lSiteMetadata['add_link_prefix_no_result'],
 			'fields_to_post' => $lFieldsToPost,
 		);
 		return $lResult;
@@ -1326,7 +1418,8 @@ class ctaxon_data_generator extends csimple {
 				is_ubio_site::int as is_ubio_site, ubio_site_name,
 				taxon_link, taxon_link_no_results, 
 				show_if_not_found::int as show_if_not_found, use_post_action::int as use_post_action, use_post_action_no_results::int as use_post_action_no_results,
-				fields_to_post, fields_to_post_no_results
+				fields_to_post, fields_to_post_no_results, add_link_prefix::int as add_link_prefix, add_link_prefix_no_result::int as add_link_prefix_no_result,
+				link_to_search_for_results
 			FROM pjs.taxon_sites
 			WHERE id = ' . (int)$pSiteId . '
 		';

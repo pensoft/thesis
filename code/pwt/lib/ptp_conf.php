@@ -99,6 +99,7 @@ define('IFRAME_PROXY_URL', '/displayIframe.php');
 define('NCBI_TAXON_URL', 'http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&lvl=3&lin=f&keep=1&srchmode=1&unlock&id=');
 
 define('MORPHBANK_AJAX_CHECK_URL', 'http://morphbank10.sc.fsu.edu/MyManager/image.php?id=imageTab&numPerPage=20&keywords=');
+define('CATALOGUE_OF_LIFE_WEBSERVICE_URL', 'http://www.catalogueoflife.org/annual-checklist/2013/webservice?name=');
 define('LIAS_WEBSERVICE_URL', 'http://services.snsb.info/axis2/services/LiasNamesService/SearchTaxonNames?LIASString=');
 define('LIAS_BROWSE_URL', 'http://liasnames.lias.net/DiversityTaxonNames_Fungi_LIASnames_List.jsp?SearchBy=Name&Name=');
 define('LIAS_IFRAME_URL',  PTP_URL . '/LiasIframe.php?taxon_name=');
@@ -117,6 +118,7 @@ define('GBIF_SITE_ID', 1);
 define('EOL_SITE_ID', 2);
 define('NCBI_SITE_ID', 24);
 define('WIKIMEDIA_SITE_ID', 27);
+define('CATALOGUE_OF_LIFE_SITE_ID', 3);
 define('LIAS_SITE_ID', 38);
 define('BHL_SITE_ID', -1);
 ?>
