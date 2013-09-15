@@ -6717,6 +6717,14 @@ function placeTaxonNavigationLinks($pOccurrences){
 	return $lResult;
 }
 
+function DisplayTreeObjectName($pDisplayName){
+	$lAllowedLength = 40;
+	if(mb_strlen($pDisplayName) > $lAllowedLength){
+		return mb_substr($pDisplayName, 0, $lAllowedLength) . '...';
+	}
+	return $pDisplayName;
+}
+
 function TrimAndCutText($pText) {
 	$pText = strim($pText);
 	return CutText($pText, 120);  
