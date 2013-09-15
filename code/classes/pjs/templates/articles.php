@@ -17,14 +17,16 @@ $gTemplArr = array(
 						doi: 10.3897/BDJ.1.e{article_id}
 
 					</div>
-					<a href=""><img alt="" src="/i/print-icon.png" /></a>
+					<a href="javascript:void(0);" onclick="window.frames[\'articleIframe\'].focus();window.frames[\'articleIframe\'].print();">
+						<img alt="" src="/i/print-icon.png" />
+					</a>
 					<a href=""><img alt="" src="/i/xml-icon.png" /></a>
 					<a href=""><img alt="" src="/i/pdf-icon.png" /></a>
 					<div class="line"></div>
 					<div class="P-Clear"></div>
 				</div>
 				<div id="article-preview">
-					<iframe src="/article_preview.php?id={id}" id="articleIframe" style="height: 1600px;"></iframe>
+					<iframe src="/article_preview.php?id={id}" id="articleIframe" name="articleIframe" style="height: 1600px;"></iframe>
 					<script type="text/javascript">
 						SetArticleOnLoadEvents();
 					</script>
