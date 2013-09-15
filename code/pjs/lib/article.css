@@ -431,7 +431,7 @@ div.myfieldHolder[field_id='222'] {
 }
 
 .ref-list-AOF-holder-holder .refinder-link-holder {
-	margin: 5px 25px 10px 15px;
+	margin: 13px 25px 10px 15px;
 	font-size: 11pt;
 	font-weight: bold;
 }
@@ -1313,7 +1313,7 @@ a.AOF-journal-logo {
 	display: block;
 	width: 12px;
 	height: 12px;
-	background: url("../i/chosen-sprite.png") -42px 1px no-repeat;
+	background: url("/i/chosen-sprite.png") -42px 1px no-repeat;
 	font-size: 1px;
 }
 
@@ -1359,7 +1359,7 @@ a.AOF-journal-logo {
 	height: auto;
 	outline: 0;
 	border: 1px solid #aaaaaa;
-	background: white url("chosen-sprite.png") no-repeat 100% -20px;
+	background: white url("/i/chosen-sprite.png") no-repeat 100% -20px;
 	font-size: 1em;
 	font-family: sans-serif;
 	line-height: normal;
@@ -1526,7 +1526,7 @@ a.AOF-journal-logo {
 	display: block;
 	width: 12px;
 	height: 12px;
-	background: url("../i/chosen-sprite.png") -42px 1px no-repeat;
+	background: url("/i/chosen-sprite.png") -42px 1px no-repeat;
 	font-size: 1px;
 }
 
@@ -1662,6 +1662,9 @@ a.AOF-journal-logo {
 
 .ref-label{
 	float: left;
+	font-size: 11pt;
+    font-weight: bold;
+    color: #888;
 }
 
 .P-Citation-Navigation-Link-Prev, .P-Citation-Navigation-Link-Next{
@@ -1702,7 +1705,7 @@ a.AOF-journal-logo {
 }
 
 .P-Element-Citations-Navigation .ref-label{
-	margin:5px 5px 0px 0px;
+	margin:3px 5px 0px 0px;
 }
 
 .P-Element-Citations-Navigation {
@@ -1713,7 +1716,7 @@ a.AOF-journal-logo {
 }
 
 .ref-list-AOF-holder-holder .P-Element-Citations-Navigation {
-	margin:5px 0px 10px 0px;
+	margin:10px 0px 10px 0px;
 }
 
 .downloadplate {
