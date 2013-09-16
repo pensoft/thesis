@@ -52,7 +52,7 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 		}
 		$lXPath = new DOMXPath($lDom);
 		$this->MoveFieldLabelNodes($lXPath);
-		$this->StripReferenceSpans($lXPath);
+		$this->StripUnnecessaryContent($lXPath);
 		$lHolderNode = $lXPath->query('//div[@class="P-Article-Preview"]');
 		if($lHolderNode->length){
 			return $lDom->saveHTML($lHolderNode->item(0));
@@ -95,13 +95,26 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 		}
 	}
 
+	protected function StripUnnecessaryContent($pXPath){
+		$this->StripReferenceSpans($pXPath);
+		$this->StripXRefs($pXPath);
+	}
+
 	protected function StripReferenceSpans($pXPath){
-		$lSpans = $pXPath->query('//li[@class="ref-list-AOF-holder"]//span');
-		foreach ($lSpans as $lCurrentSpan) {
-			while($lCurrentSpan->firstChild){
-				$lCurrentSpan->parentNode->insertBefore($lCurrentSpan->firstChild, $lCurrentSpan);
+		$this->StripNodes($pXPath, '//li[@class="ref-list-AOF-holder"]//span');
+	}
+
+	protected function StripXRefs($pXPath){
+		$this->StripNodes($pXPath, '//xref');
+	}
+
+	protected function StripNodes($pXPath, $pXPathQuery){
+		$lNodes = $pXPath->query($pXPathQuery);
+		foreach ($lNodes as $lCurrentNode) {
+			while($lCurrentNode->firstChild){
+				$lCurrentNode->parentNode->insertBefore($lCurrentNode->firstChild, $lCurrentNode);
 			}
-			$lCurrentSpan->parentNode->removeChild($lCurrentSpan);
+			$lCurrentNode->parentNode->removeChild($lCurrentNode);
 		}
 	}
 
