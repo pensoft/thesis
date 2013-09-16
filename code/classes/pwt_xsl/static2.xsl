@@ -1538,7 +1538,7 @@
 				<div class="refinder-link-holder">
 					<a class="refinder-link" target="_blank">
 						<xsl:attribute name="href">
-							<xsl:text>http://dev.refinder.org/?search=simple</xsl:text>
+							<xsl:text>http://www.refinder.org/?search=simple</xsl:text>
 							<xsl:text>&amp;text=</xsl:text>
 							<xsl:apply-templates select="." mode="articleBack"/>
 						</xsl:attribute>
@@ -1611,7 +1611,7 @@
 				<div class="refinder-link-holder">
 					<a class="refinder-link" target="_blank">
 						<xsl:attribute name="href">
-							<xsl:text>http://dev.refinder.org/?search=advanced</xsl:text>
+							<xsl:text>http://www.refinder.org/?search=advanced</xsl:text>
 							<xsl:text>&amp;author=</xsl:text><xsl:value-of select="normalize-space($Authors)" />
 							<xsl:text>&amp;year=</xsl:text><xsl:value-of select="normalize-space($refYear)" />
 							<xsl:text>&amp;title=</xsl:text><xsl:value-of select="normalize-space($refTitle)" />
