@@ -7,7 +7,7 @@ $gTemplArr = array(
 	'browse_articles.header' => '
 			<div class="article_title_with_sort">
 				<h1 class="dashboard-title withoutBorder">
-					{records} {_displayArticlesFilterText(records, taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
+					{_displayArticlesFilterText(records, taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency, submitted_form_name)}
 				</h1>
 			</div>
 			<div class="article_sort_text">
@@ -356,7 +356,7 @@ $gTemplArr = array(
 
 
 	'browse_articles.by_author_startrs' => '
-			<h1 class="dashboard-title withoutBorder">{records} {_displayArticlesFilterText2(records)}' . getstr('pjs.articles_matching_your_criteria') . '</h1>
+			<h1 class="dashboard-title withoutBorder">{records} {_displayArticlesFilterText2(records)}</h1>
 			<div style="margin: 10px;">
 				<div style="border-top: 1px solid #EEECE5; border-bottom: 1px solid #EEECE5; margin-top: 20px; margin-bottom: 15px;">
 					{nav}

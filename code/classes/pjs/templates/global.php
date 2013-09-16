@@ -680,7 +680,7 @@ $gTemplArr = array(
 						<div class="constrained">
 							<a target="_blank" href="http://www.pensoft.net"><img src="i/logo.jpg" alt="logo" class="logo" /></a>
 		
-							{mainmenu}
+							{aof_mainmenu}
 							{login_register_or_profile}
 		
 						
