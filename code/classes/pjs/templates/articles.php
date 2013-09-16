@@ -54,6 +54,10 @@ $gTemplArr = array(
 					</div>
 					<div class="P-Info-Content">
 						{contents_list}
+						<script>
+							gMenuActiveElementType = gContentsMenuElementType;	
+							MarkActiveMenuElement();	
+						</script>
 					</div>
 					<script type="text/javascript">InitArticleMenuEvents()</script>
 				</div>

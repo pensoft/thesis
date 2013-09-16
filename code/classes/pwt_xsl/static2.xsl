@@ -18,7 +18,7 @@
 	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
 	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
 
-	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation|locality-coordinates" mode="formatting">
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|li|ol|code|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation|locality-coordinates" mode="formatting">
 		<xsl:choose>
 			<xsl:when test="$pInArticleMode = 0 and $pPDFPreviewMode = 0">
 				<xsl:copy-of select="."/>
@@ -1538,7 +1538,7 @@
 				<div class="refinder-link-holder">
 					<a class="refinder-link" target="_blank">
 						<xsl:attribute name="href">
-							<xsl:text>http://dev.refinder.org/?search=simple</xsl:text>
+							<xsl:text>http://www.refinder.org/?search=simple</xsl:text>
 							<xsl:text>&amp;text=</xsl:text>
 							<xsl:apply-templates select="." mode="articleBack"/>
 						</xsl:attribute>
@@ -1611,7 +1611,7 @@
 				<div class="refinder-link-holder">
 					<a class="refinder-link" target="_blank">
 						<xsl:attribute name="href">
-							<xsl:text>http://dev.refinder.org/?search=advanced</xsl:text>
+							<xsl:text>http://www.refinder.org/?search=advanced</xsl:text>
 							<xsl:text>&amp;author=</xsl:text><xsl:value-of select="normalize-space($Authors)" />
 							<xsl:text>&amp;year=</xsl:text><xsl:value-of select="normalize-space($refYear)" />
 							<xsl:text>&amp;title=</xsl:text><xsl:value-of select="normalize-space($refTitle)" />
