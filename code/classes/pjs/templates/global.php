@@ -233,7 +233,7 @@ $gTemplArr = array(
 
 	'global.htmlonlyfooter' => '
 	{_phpGetLoggedErrors()}
-	
+	{*global.statcounter}
 </body>
 </html>',
 
