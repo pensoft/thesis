@@ -3239,7 +3239,8 @@ function ShowHideAuthorAction($pCreateUid, $pPWTid) {
 function shortTitle($pText) {
 	$CUT = 70;
 	$text = strip_tags($pText);
-	return (mb_strlen($pText) > $CUT) ? mb_substr($text, 0, strpos($text, ' ', $CUT)) . '...' : $text;
+	$CUTOFF = strpos($text, ' ', $CUT);
+	return $CUTOFF ? mb_substr($text, 0, $CUTOFF) . ' ...' : $text;
 }
 
 function showPollAnswerErrClass($pAnswer, $pUserRole) {
@@ -3393,27 +3394,27 @@ function displayArticlesFilterText2($pRecords) {
 function showAdditionalAuthorInfo($pAffiliation, $pCity, $pCountry, $pWebsite) {
 	if($pAffiliation || $pCity || $pCountry) {
 		$lRes = '<div class="greenDesc">';
-		
+
 		if($pAffiliation) {
-			$lRes .= $pAffiliation;	
+			$lRes .= $pAffiliation;
 		}
-		
+
 		if($pCity) {
-			$lRes .= ($pAffiliation ? ', ' : '') . $pCity;	
+			$lRes .= ($pAffiliation ? ', ' : '') . $pCity;
 		}
-		
+
 		if($pCountry) {
-			$lRes .= (($pAffiliation || $pCity) ? ', ' : '') . $pCountry;	
+			$lRes .= (($pAffiliation || $pCity) ? ', ' : '') . $pCountry;
 		}
-		
+
 		$lRes .='</div>';
 	}
 	if($pWebsite) {
-		$lRes .= '<div class="greenDesc"><a target="_blank" href="' . $pWebsite . '">' . $pWebsite . '</a></div>';	
+		$lRes .= '<div class="greenDesc"><a target="_blank" href="' . $pWebsite . '">' . $pWebsite . '</a></div>';
 	}
-	
+
 	return $lRes;
-	
+
 }
 
 function setAuthorRowOpenDiv($pRownum, $pRecords) {
