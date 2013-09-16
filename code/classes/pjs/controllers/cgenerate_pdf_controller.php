@@ -51,6 +51,17 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 			return $pPreview;
 		}
 		$lXPath = new DOMXPath($lDom);
+		$this->MoveFieldLabelNodes($lXPath);
+		$this->StripReferenceSpans($lXPath);
+		$lHolderNode = $lXPath->query('//div[@class="P-Article-Preview"]');
+		if($lHolderNode->length){
+			return $lDom->saveHTML($lHolderNode->item(0));
+		}
+		return $pPreview;
+	}
+
+	protected function MoveFieldLabelNodes($pXPath){
+		$lXPath = $pXPath;
 		$lNodesToMove = $lXPath->query('//span[@class="fieldLabel"]|//div[@class="fieldLabel"]');
 		foreach ($lNodesToMove as $lLabel) {
 			$lCurrentNode = $lLabel->nextSibling;
@@ -82,11 +93,16 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 			// var_dump($lPNode->ownerDocument->SaveHTML($lPNode));
 			 $lPNode->insertBefore($lReplacementNode, $lPNode->firstChild);
 		}
-		$lHolderNode = $lXPath->query('//div[@class="P-Article-Preview"]');
-		if($lHolderNode->length){
-			return $lDom->saveHTML($lHolderNode->item(0));
+	}
+
+	protected function StripReferenceSpans($pXPath){
+		$lSpans = $pXPath->query('//li[@class="ref-list-AOF-holder"]//span');
+		foreach ($lSpans as $lCurrentSpan) {
+			while($lCurrentSpan->firstChild){
+				$lCurrentSpan->parentNode->insertBefore($lCurrentSpan->firstChild, $lCurrentSpan);
+			}
+			$lCurrentSpan->parentNode->removeChild($lCurrentSpan);
 		}
-		return $pPreview;
 	}
 
 /*	function head_JS_files(){
