@@ -1933,6 +1933,7 @@
 
 	<!-- Article of the future LIST PREVIEWS END -->
 		<xsl:template match="*" mode="RefinderFormat">
+		<div class="P-Clear"></div>
 		<div id="style-choser">
 			<div id="format-head">Format via ReFinder</div>
 			<select class="chosen-select" id="chosen-select" onchange="callFormattingService()" data-placeholder="-- select a citation style --">
