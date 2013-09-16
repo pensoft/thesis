@@ -42,10 +42,8 @@ class cBrowse_Articles_By_Author_Controller extends cBase_Controller {
 		
 		$pViewPageObjectsDataArray['leftcol'] = new evSimple_Block_Display(array(
 			'name_in_viewobject' => 'leftcol',
+			'controller_data' => $lAuthorData,
 			'journal_id' => $lJournalId,
-			'fullname' => $lAuthorData['fullname'],
-			'affiliation' => $lAuthorData['affiliation'],
-			'photo_id' => $lAuthorData['photo_id']
 		));
 		
 		$pViewPageObjectsDataArray['journal_id'] = $lJournalId;

@@ -144,7 +144,7 @@ class cArticle_Elements_Srv extends cBase_Controller {
 		// var_dump($this->m_metricType);
 		// exit;
 		$this->m_articlesModel->RegisterArticleMetricDetail($this->m_elementItemId, $this->m_metricType, AOF_METRIC_DETAIL_TYPE_VIEW);
-		$lUrl = '/generate_xml.php?document_id=' . $this->m_elementItemId;
+		$lUrl = SITE_URL . '/generate_xml.php?document_id=' . $this->m_elementItemId;
 		$this->Redirect($lUrl, 1, 'text/xml');
 	}
 }

@@ -4080,6 +4080,7 @@ div.token-input-dropdown-facebook:after {
 	color: #666; /* #006666; */
 	font-family: tahoma, verdana, helvetica;
 	text-decoration: none;
+	padding-bottom:2px;
 }
 
 .journalContent {
