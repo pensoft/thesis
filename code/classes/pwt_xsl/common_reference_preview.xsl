@@ -23,7 +23,7 @@
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 			<xsl:attribute name="id">B<xsl:value-of select="$lRefId" /></xsl:attribute>
 			  <span  field_id="24"><xsl:apply-templates select="./fields/*[@id='24']"  mode="formatting" /></span>
-			 (<span  field_id="25"><xsl:apply-templates select="./fields/*[@id='25']"  mode="formatting" /></span>) 
+			 (<span  field_id="25"><xsl:apply-templates select="./fields/*[@id='25']"  mode="formatting" /></span>)
 			  <span  field_id="26"><xsl:apply-templates select="./fields/*[@id='26']"  mode="formatting" /></span>
 			  <span field_id="243"><xsl:apply-templates select="./fields/*[@id='243']" mode="formatting" /></span>
 			  <span  field_id="27"><xsl:apply-templates select="./fields/*[@id='27']"  mode="formatting" /></span>:
@@ -41,8 +41,8 @@
 			<xsl:when test="$pInArticleMode = 1">
 				<div class="bibr">
 					<xsl:attribute name="rid"><xsl:value-of select="@instance_id"></xsl:value-of></xsl:attribute>
-					<xsl:copy-of select="$lContent"></xsl:copy-of>		
-				</div>	
+					<xsl:copy-of select="$lContent"></xsl:copy-of>
+				</div>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:copy-of select="$lContent"></xsl:copy-of>
@@ -79,12 +79,12 @@
 
 	<xsl:template match="*" mode="processSingleReferenceAuthorFirstLast">
 		<xsl:variable name="lAuthorParsedName">
-			<!-- First and Last name -->		
+			<!-- First and Last name -->
 			<xsl:value-of select="./fields/*[@id='250']/value"></xsl:value-of>
 		</xsl:variable>
 		<span>
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:apply-templates select="./fields/*[@id='250']/value" mode="formatting_nospace"/>			
+			<xsl:apply-templates select="./fields/*[@id='250']/value" mode="formatting_nospace"/>
 		</span>
 	</xsl:template>
 
@@ -120,7 +120,7 @@
 							</xsl:choose>
 							<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
 						</xsl:for-each>
-					</span>	
+					</span>
 				<xsl:if test="normalize-space($lAuthorshipType)=$gAuthorshipEditorType">
 					<xsl:text> </xsl:text>
 					<xsl:choose>
@@ -146,7 +146,7 @@
 				<xsl:apply-templates select="./fields/*[@id='255']/value" mode="formatting_nospace"/>
 			</span>
 			<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='255']/value))"/>
-			
+
 			<xsl:if test="normalize-space(./fields/*[@id='257']/value) != ''">
 				<!-- Translated title -->
 				<xsl:text> [</xsl:text>
@@ -174,7 +174,7 @@
 					<xsl:apply-templates select="./fields/*[@id='256']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- Volume -->
 			<xsl:if test="$lVolume != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='256']/value) != ''">
@@ -187,7 +187,7 @@
 						<xsl:with-param name="pFieldId">258</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">258</xsl:attribute>
-					<xsl:apply-templates select="$lVolume" mode="formatting"/>					
+					<xsl:apply-templates select="$lVolume" mode="formatting"/>
 				</span>
 			</xsl:if>
 			<xsl:if test="normalize-space(./fields/*[@id='256']/value) != '' or $lVolume != ''">
@@ -206,7 +206,7 @@
 					<xsl:apply-templates select="./fields/*[@id='259']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- City -->
 			<xsl:if test="normalize-space(./fields/*[@id='260']/value) != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='259']/value) != ''">
@@ -225,7 +225,7 @@
 					<xsl:text>.</xsl:text>
 				</xsl:if>
 			</xsl:if>
-				
+
 			<!-- # of pages -->
 			<xsl:if test="normalize-space(./fields/*[@id='261']/value) != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='259']/value) != '' or normalize-space(./fields/*[@id='260']/value) != ''">
@@ -242,7 +242,7 @@
 				</span>
 				<xsl:text> pp.</xsl:text>
 			</xsl:if>
-				
+
 			<xsl:if test="normalize-space(./fields/*[@id='262']/value) != ''">
 				<!-- Publication language -->
 				<xsl:text> [In </xsl:text>
@@ -252,16 +252,16 @@
 						<xsl:with-param name="pFieldId">262</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting"/>					
+					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting"/>
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
-			
+
 
 			<!-- URL -->
 			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
-		
-			
+
+
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
 				<!-- ISBN -->
 				<xsl:text> [ISBN </xsl:text>
@@ -275,9 +275,9 @@
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
-			
+
 			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
-			
+
 		</li>
 	</xsl:template>
 
@@ -310,7 +310,7 @@
 
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<span class="authors-year">			
+			<span class="authors-year">
 				<span class="authors-holder">
 					<xsl:for-each select="./*[@object_id='92' or @object_id='100' or @object_id='101']/*[@object_id='90']">
 						<xsl:choose>
@@ -323,7 +323,7 @@
 						</xsl:choose>
 						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
 					</xsl:for-each>
-				</span>	
+				</span>
 				<!-- Year -->
 				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			</span>
@@ -379,7 +379,7 @@
 				</span>
 				<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='255']/value))"/>
 			</xsl:if>
-			
+
 			<!-- Edition -->
 			<xsl:if test="normalize-space(./fields/*[@id='256']/value) != ''">
 				<xsl:text> </xsl:text>
@@ -392,12 +392,12 @@
 					<xsl:apply-templates select="./fields/*[@id='256']/value" mode="formatting_nospace"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- Volume -->
 			<xsl:if test="$lVolume != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='256']/value) != ''">
 					<xsl:text>,</xsl:text>
-				</xsl:if>	
+				</xsl:if>
 				<xsl:text> </xsl:text>
 				<span>
 					<xsl:call-template name="markContentEditableField">
@@ -425,12 +425,12 @@
 					<xsl:apply-templates select="./fields/*[@id='259']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- City -->
 			<xsl:if test="normalize-space(./fields/*[@id='260']/value) != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='259']/value) != ''">
 					<xsl:text>, </xsl:text>
-				</xsl:if>	
+				</xsl:if>
 				<span>
 					<xsl:call-template name="markContentEditableField">
 							<xsl:with-param name="pObjectId" select="./@object_id" />
@@ -443,7 +443,7 @@
 					<xsl:text>.</xsl:text>
 				</xsl:if>
 			</xsl:if>
-			
+
 			<!-- # of pages -->
 			<xsl:if test="normalize-space(./fields/*[@id='261']/value) != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='259']/value) != '' or normalize-space(./fields/*[@id='260']/value) != ''">
@@ -470,15 +470,15 @@
 						<xsl:with-param name="pFieldId">262</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting_nospace"/>					
+					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
-			
+
 			<!-- URL -->
 			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
-			
-			
+
+
 			<!-- ISBN -->
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
 				<xsl:text> [ISBN </xsl:text>
@@ -492,7 +492,7 @@
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
-			
+
 			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 		</li>
 	</xsl:template>
@@ -530,7 +530,7 @@
 						</xsl:choose>
 						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
 					</xsl:for-each>
-				</span>	
+				</span>
 				<!-- Year -->
 				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			</span>
@@ -559,7 +559,7 @@
 					<xsl:apply-templates select="./fields/*[@id='243']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- Volume -->
 			<xsl:if test="normalize-space(./fields/*[@id='258']/value) != ''">
 				<xsl:text> </xsl:text>
@@ -569,10 +569,10 @@
 						<xsl:with-param name="pFieldId">258</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">258</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='258']/value" mode="formatting_nospace"/>					
+					<xsl:apply-templates select="./fields/*[@id='258']/value" mode="formatting_nospace"/>
 				</span>
 			</xsl:if>
-			
+
 			<xsl:if test="normalize-space(./fields/*[@id='27']/value) != ''">
 				<xsl:text> (</xsl:text>
 				<!-- Issue -->
@@ -596,12 +596,12 @@
 						<xsl:with-param name="pFieldId">28</xsl:with-param>
 					</xsl:call-template>
 				<xsl:attribute name="field_id">28</xsl:attribute>
-				<xsl:apply-templates select="./fields/*[@id='28']/value" mode="formatting_nospace"/>				
+				<xsl:apply-templates select="./fields/*[@id='28']/value" mode="formatting_nospace"/>
 			</span>
-			
+
 			<!-- Last Page -->
 			<xsl:if test="normalize-space(./fields/*[@id='29']/value) != ''">
-				<xsl:text>-</xsl:text>
+				<xsl:text>&#8209;</xsl:text>
 				<span>
 					<xsl:call-template name="markContentEditableField">
 						<xsl:with-param name="pObjectId" select="./@object_id" />
@@ -612,7 +612,7 @@
 				</span>
 			</xsl:if>
 			<xsl:text>. </xsl:text>
-			
+
 			<xsl:if test="normalize-space(./fields/*[@id='262']/value) != ''">
 				<!-- Publication language -->
 				<xsl:text>[In </xsl:text>
@@ -626,12 +626,12 @@
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
-			
+
 			<!-- URL -->
 			<xsl:if test="./fields/*[@id='30']/value = ''">
 				<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
 			</xsl:if>
-			
+
 			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 		</li>
 	</xsl:template>
@@ -678,10 +678,10 @@
 						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
 					</xsl:for-each>
 				</span>
-	
+
 				<!-- Year -->
 				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
-			</span>	
+			</span>
 			<!-- Title -->
 			<span class="ref-title">
 				<xsl:call-template name="markContentEditableField">
@@ -734,7 +734,7 @@
 				</span>
 				<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='255']/value))"/>
 			</xsl:if>
-			
+
 			<!-- Volume -->
 			<xsl:if test="$lVolume != ''">
 				<xsl:text>, </xsl:text>
@@ -748,7 +748,7 @@
 				</span>
 				<xsl:text>.</xsl:text>
 			</xsl:if>
-			
+
 			<!-- Conference name -->
 			<xsl:if test="normalize-space(./fields/*[@id='272']/value) != ''">
 				<xsl:text> </xsl:text>
@@ -761,7 +761,7 @@
 					<xsl:apply-templates select="./fields/*[@id='272']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- Conference LOCATION -->
 			<xsl:if test="normalize-space(./fields/*[@id='273']/value) != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='272']/value) != ''">
@@ -777,7 +777,7 @@
 					<xsl:apply-templates select="./fields/*[@id='273']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- Conference Date -->
 			<xsl:if test="normalize-space(./fields/*[@id='274']/value) != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='272']/value) != '' or normalize-space(./fields/*[@id='273']/value) != ''">
@@ -793,12 +793,12 @@
 					<xsl:apply-templates select="./fields/*[@id='274']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- Ако има поне 1 от горните - трябва да сложим точка накрая -->
 			<xsl:if test="normalize-space(./fields/*[@id='272']/value) != '' or normalize-space(./fields/*[@id='273']/value) != '' or normalize-space(./fields/*[@id='274']/value) != ''">
 				<xsl:text>.</xsl:text>
 			</xsl:if>
-			
+
 			<!-- Publisher -->
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='259']/value) != ''">
 				<xsl:text> </xsl:text>
@@ -812,12 +812,12 @@
 					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='259']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- City -->
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='260']/value) != ''">
 				<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='259']/value) != ''">
 					<xsl:text>,</xsl:text>
-				</xsl:if>	
+				</xsl:if>
 				<xsl:text> </xsl:text>
 				<span>
 					<xsl:call-template name="markContentEditableField">
@@ -832,7 +832,7 @@
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='243']/value) != ''">
 					<xsl:text>.</xsl:text>
 			</xsl:if>
-			
+
 			<!-- Journal -->
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='243']/value) != ''">
 				<xsl:text> </xsl:text>
@@ -843,10 +843,10 @@
 					</xsl:call-template>
 					<xsl:attribute name="instance_id"><xsl:value-of select="./*[@object_id=104]/@instance_id" /></xsl:attribute>
 					<xsl:attribute name="field_id">243</xsl:attribute>
-					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='243']/value" mode="formatting"/>										
+					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='243']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='284']/value) != ''">
 				<xsl:text>, </xsl:text>
 				<!-- VOLUME -->
@@ -857,7 +857,7 @@
 					</xsl:call-template>
 					<xsl:attribute name="instance_id"><xsl:value-of select="./*[@object_id=104]/@instance_id" /></xsl:attribute>
 					<xsl:attribute name="field_id">284</xsl:attribute>
-					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='284']/value" mode="formatting"/>						
+					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='284']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
 
@@ -887,14 +887,14 @@
 						<xsl:with-param name="pFieldId">262</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting_nospace"/>					
+					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
-			
+
 			<!-- URL -->
 			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
-			
+
 			<!-- ISBN -->
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
 				<xsl:text> [ISBN </xsl:text>
@@ -908,7 +908,7 @@
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
-			
+
 			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 		</li>
 	</xsl:template>
@@ -947,8 +947,8 @@
 						</xsl:choose>
 						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
 					</xsl:for-each>
-				</span>	
-	
+				</span>
+
 				<xsl:if test="normalize-space($lAuthorshipType)=$gAuthorshipEditorType">
 					<xsl:text> </xsl:text>
 					<xsl:choose>
@@ -976,7 +976,7 @@
 				</span>
 				<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='255']/value))"/>
 			</xsl:if>
-			
+
 			<!-- Volume -->
 			<xsl:if test="$lVolume != ''">
 				<xsl:text>, </xsl:text>
@@ -990,7 +990,7 @@
 				</span>
 				<xsl:text>.</xsl:text>
 			</xsl:if>
-			
+
 			<!-- Conference name -->
 			<xsl:if test="normalize-space(./fields/*[@id='272']/value) != ''">
 				<xsl:text> </xsl:text>
@@ -1003,7 +1003,7 @@
 					<xsl:apply-templates select="./fields/*[@id='272']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- Conference LOCATION -->
 			<xsl:if test="normalize-space(./fields/*[@id='273']/value) != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='272']/value) != ''">
@@ -1019,7 +1019,7 @@
 					<xsl:apply-templates select="./fields/*[@id='273']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- Conference Date -->
 			<xsl:if test="normalize-space(./fields/*[@id='274']/value) != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='272']/value) != '' or normalize-space(./fields/*[@id='273']/value) != ''">
@@ -1035,12 +1035,12 @@
 					<xsl:apply-templates select="./fields/*[@id='274']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- Ако има поне 1 от горните - трябва да сложим точка накрая -->
 			<xsl:if test="normalize-space(./fields/*[@id='272']/value) != '' or normalize-space(./fields/*[@id='273']/value) != '' or normalize-space(./fields/*[@id='274']/value) != ''">
 				<xsl:text>.</xsl:text>
 			</xsl:if>
-			
+
 			<!-- Publisher -->
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='259']/value) != ''">
 				<xsl:text> </xsl:text>
@@ -1054,12 +1054,12 @@
 					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='259']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- City -->
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='260']/value) != ''">
 				<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='259']/value) != ''">
 					<xsl:text>,</xsl:text>
-				</xsl:if>	
+				</xsl:if>
 				<xsl:text> </xsl:text>
 				<span>
 					<xsl:call-template name="markContentEditableField">
@@ -1074,7 +1074,7 @@
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='243']/value) != ''">
 					<xsl:text>.</xsl:text>
 			</xsl:if>
-			
+
 			<!-- Journal -->
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='243']/value) != ''">
 				<xsl:text> </xsl:text>
@@ -1085,10 +1085,10 @@
 					</xsl:call-template>
 					<xsl:attribute name="instance_id"><xsl:value-of select="./*[@object_id=104]/@instance_id" /></xsl:attribute>
 					<xsl:attribute name="field_id">243</xsl:attribute>
-					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='243']/value" mode="formatting"/>										
+					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='243']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<xsl:if test="normalize-space(./*[@object_id=104]/fields/*[@id='284']/value) != ''">
 				<xsl:text>, </xsl:text>
 				<!-- VOLUME -->
@@ -1099,7 +1099,7 @@
 					</xsl:call-template>
 					<xsl:attribute name="instance_id"><xsl:value-of select="./*[@object_id=104]/@instance_id" /></xsl:attribute>
 					<xsl:attribute name="field_id">284</xsl:attribute>
-					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='284']/value" mode="formatting"/>						
+					<xsl:apply-templates select="./*[@object_id=104]/fields/*[@id='284']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
 
@@ -1133,10 +1133,10 @@
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
-			
+
 			<!-- URL -->
 			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
-			
+
 			<!-- ISBN -->
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
 				<xsl:text> [ISBN </xsl:text>
@@ -1150,7 +1150,7 @@
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
-			
+
 			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 		</li>
 	</xsl:template>
@@ -1205,9 +1205,9 @@
 					<xsl:apply-templates select="./fields/*[@id='255']/value" mode="formatting_nospace"/>
 				</span>
 				<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='255']/value))"/>
-				
+
 			</xsl:if>
-			
+
 			<!-- Translated title -->
 			<xsl:if test="normalize-space(./fields/*[@id='257']/value) != ''">
 				<xsl:text> [</xsl:text>
@@ -1235,12 +1235,12 @@
 					<xsl:apply-templates select="./fields/*[@id='259']/value" mode="formatting"/>
 				</span>
 			</xsl:if>
-			
+
 			<!-- City -->
 			<xsl:if test="normalize-space(./fields/*[@id='260']/value) != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='259']/value) != ''">
 					<xsl:text>, </xsl:text>
-				</xsl:if>	
+				</xsl:if>
 				<span>
 					<xsl:call-template name="markContentEditableField">
 							<xsl:with-param name="pObjectId" select="./@object_id" />
@@ -1253,7 +1253,7 @@
 					<xsl:text>.</xsl:text>
 				</xsl:if>
 			</xsl:if>
-			
+
 			<!-- # of pages -->
 			<xsl:if test="normalize-space(./fields/*[@id='261']/value) != ''">
 				<xsl:if test="normalize-space(./fields/*[@id='259']/value) != '' or normalize-space(./fields/*[@id='260']/value) != ''">
@@ -1280,14 +1280,14 @@
 						<xsl:with-param name="pFieldId">262</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">262</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting"/>					
+					<xsl:apply-templates select="./fields/*[@id='262']/value" mode="formatting"/>
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
-			
+
 			<!-- URL -->
 			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
-			
+
 			<!-- ISBN -->
 			<xsl:if test="normalize-space(./fields/*[@id='264']/value) != ''">
 				<xsl:text> [ISBN </xsl:text>
@@ -1301,7 +1301,7 @@
 				</span>
 				<xsl:text>].</xsl:text>
 			</xsl:if>
-			
+
 			<xsl:apply-templates select="./fields/*[@id='30']/value" mode="DOI" />
 		</li>
 	</xsl:template>
@@ -1337,7 +1337,7 @@
 						</xsl:choose>
 						<xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
 					</xsl:for-each>
-				</span>	
+				</span>
 				<!-- Year -->
 				<xsl:apply-templates select="." mode="processSingleReferenceYear"/>
 			</span>
@@ -1352,7 +1352,7 @@
 				<xsl:apply-templates select="./fields/*[@id='26']/value" mode="formatting_nospace"/>
 			</span>
 			<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='26']/value))"/>
-			
+
 			<!-- Version -->
 			<xsl:if test="normalize-space(./fields/*[@id='279']/value) != ''">
 				<xsl:text> </xsl:text>
@@ -1362,11 +1362,11 @@
 						<xsl:with-param name="pFieldId">279</xsl:with-param>
 					</xsl:call-template>
 					<xsl:attribute name="field_id">279</xsl:attribute>
-					<xsl:apply-templates select="./fields/*[@id='279']/value" mode="formatting"/>					
+					<xsl:apply-templates select="./fields/*[@id='279']/value" mode="formatting"/>
 				</span>
 				<xsl:text>.</xsl:text>
 			</xsl:if>
-			
+
 			<!-- Publisher -->
 			<xsl:if test="normalize-space(./fields/*[@id='259']/value) != ''">
 				<xsl:text> </xsl:text>
@@ -1380,7 +1380,7 @@
 				</span>
 				<xsl:text>.</xsl:text>
 			</xsl:if>
-			
+
 			<!-- Release date -->
 			<xsl:if test="normalize-space(./fields/*[@id='285']/value) != ''">
 				<xsl:text> Release date: </xsl:text>
@@ -1390,7 +1390,7 @@
 				</span>
 				<xsl:text>.</xsl:text>
 			</xsl:if>
-			
+
 			<!-- URL -->
 			<xsl:apply-templates select="./fields/*[@id='263']/value" mode="URL" />
 		</li>
@@ -1400,7 +1400,7 @@
 	<xsl:template match="*[@object_id='108']" mode="articleBack">
 		<li class="ref-list-AOF-holder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			
+
 			<!-- Title -->
 			<xsl:if test="normalize-space(./fields/*[@id='26']/value) != ''">
 				<span class="ref-title">
@@ -1415,7 +1415,7 @@
 				<xsl:value-of select="php:function('parseReferenceItemTitleLastCharachter', string(./fields/*[@id='26']/value))"/>
 				<xsl:text> </xsl:text>
 			</xsl:if>
-			
+
 			<!-- URL -->
 			<xsl:if test="normalize-space(./fields/*[@id='263']/value) != ''">
 				<xsl:text> </xsl:text>
@@ -1424,11 +1424,11 @@
 					<xsl:attribute name="href">
 						<xsl:value-of select="php:function('checkIfLinkContainsHttp', string(./fields/*[@id='263']/value))"/>
 					</xsl:attribute>
-					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>					
+					<xsl:attribute name="target"><xsl:text>_blank</xsl:text></xsl:attribute>
 					<xsl:apply-templates select="./fields/*[@id='263']/value" mode="formatting_nospace"/>
 				</a>
 			</xsl:if>
-			
+
 			<!-- Access date -->
 			<xsl:if test="normalize-space(./fields/*[@id='280']/value) != ''">
 				<xsl:text>. Accession date: </xsl:text>
@@ -1440,7 +1440,7 @@
 			</xsl:if>
 		</li>
 	</xsl:template>
-	
+
 	<xsl:template match="*" mode="DOI">
 		<xsl:if test="normalize-space(.) != ''">
 			<span class="ref-doi">
@@ -1454,7 +1454,7 @@
 			</span>
 		</xsl:if>
 	</xsl:template>
-	
+
 
 	<xsl:template match="*" mode="URL">
 			<xsl:if test="normalize-space(.) != ''">
@@ -1469,7 +1469,7 @@
 						<xsl:apply-templates select="." mode="formatting_nospace"/>
 					</a>
 				</span>
-			</xsl:if>	
+			</xsl:if>
 	</xsl:template>
-	
+
 </xsl:stylesheet>
