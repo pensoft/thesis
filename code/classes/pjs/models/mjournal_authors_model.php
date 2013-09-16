@@ -42,7 +42,7 @@ class mJournal_Authors_Model extends emBase_Model {
 					WHERE du.state_id = 1 AND du.role_id = ' . AUTHOR_ROLE . '
 					GROUP BY du.uid
 				) du ON du.uid = u.id
-				WHERE du.cnt > 0
+				WHERE du.cnt > 0 ' . $lWhereAnd . '
 				ORDER BY u.last_name';
 				//var_dump($lSql);
 			/*$lSql = 'SELECT  u.first_name || \' \' || u.last_name as author_names, 
