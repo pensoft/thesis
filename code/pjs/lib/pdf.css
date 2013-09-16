@@ -292,7 +292,7 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 	margin-bottom: 10px;
 }
 .figure .holder + .description {
-	margin-top: -24px
+	margin-top: -13px
 }
 .description .name {
 	display: inline;
@@ -440,7 +440,6 @@ td p, th p {
 }
 
 .inlineFieldLabel{
-	color:red;
 	font-weight:bold;
 }
 
