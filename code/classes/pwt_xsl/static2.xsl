@@ -1491,7 +1491,10 @@
 		    <xsl:with-param name="pInstanceId" select="@instance_id"></xsl:with-param>
 		</xsl:call-template>
 		<xsl:apply-templates select="." mode="RefinderLinks"/>
-		<xsl:apply-templates select="." mode="RefinderFormat"/>
+		<xsl:if test="count(./*[@object_id='97']/*[@object_id  != '108']) &gt; 0">
+			<xsl:apply-templates select="." mode="RefinderFormat"/>
+		</xsl:if>
+		
 
 	</xsl:template>
 
@@ -1831,7 +1834,7 @@
 					</xsl:call-template>
 					<xsl:apply-templates select="." mode="RefinderLinks"/>
 				</div>
-
+				<div class="P-Clear"></div>
 			</xsl:for-each>
 		</div>
 	</xsl:template>
