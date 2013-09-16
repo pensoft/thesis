@@ -471,4 +471,8 @@ td p, th p {
 	display: none !important
 }
 
+.treatmentSection table{
+	width:464px!important;	
+}
+
 /* Article preview CSS END */
