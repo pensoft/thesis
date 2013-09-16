@@ -13,6 +13,7 @@ define('DOWNLOAD_SUPPLEMENTARY_FILE_URL', PWT_URL . 'getfile.php?filename=');
 
 define('GET_PWT_DOCUMENT_XML_URL', PWT_URL . 'get_document_xml.php?document_id=');
 define('PWT_PJS_IMPORT_URL', PWT_URL . 'lib/pjs_import.php');
+define('PDF_PATH', PATH_ITEMS_COMMON . 'pdf/');
 
 // DEFAULT EMPTY TEMPLATE
 define('D_EMPTY', 'global.empty');
@@ -33,6 +34,7 @@ define('FCK_DEFAULT_WIDTH', '100%');
 define('FCK_DEFAULT_HEIGHT', '200');
 
 define('MAIN_MENU_ID', 9);
+define('AOF_MAIN_MENU_ID', 30);
 
 define('FILES_DOCUMENT_TYPE', 2);
 define('PWT_DOCUMENT_TYPE', 1);

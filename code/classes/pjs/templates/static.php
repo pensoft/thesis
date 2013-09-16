@@ -2191,10 +2191,11 @@ function displayArticlesFilterCriteria($pTaxon, $pSubject, $pGeographical, $pChr
 	if($lResult)
 		return '<div class="filterCriteria">' . $lResult . '</div>';
 }
-function displayArticlesFilterText($pRecords, $pTaxon, $pSubject, $pGeographical, $pChronical, $pFromdate, $pToDate, $pSectionType, $pFoundingAgency) {
-	if($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate || $pSectionType || $pFoundingAgency) {
-		return 'article'. ($pRecords == 1 ? '' : 's' ) .  ' matching your criteria';
+function displayArticlesFilterText($pRecords, $pTaxon, $pSubject, $pGeographical, $pChronical, $pFromdate, $pToDate, $pSectionType, $pFoundingAgency, $pFormName) {
+	if($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate || $pSectionType || $pFoundingAgency || $pFormName == 'article_search') {
+		return (int)$pRecords . ' article'. ($pRecords == 1 ? '' : 's' ) .  ' matching your criteria';
 	}
+	//return 'Article' . ($pRecords == 1 ? '' : 's' );
 	return 'Article' . ($pRecords == 1 ? '' : 's' );
 }
 function htmlformid($pHtmlFormId) {
@@ -3386,7 +3387,7 @@ function showMostVisitedLinkIfStaff() {
 }
 
 function displayArticlesFilterText2($pRecords) {
-	return 'article' . ($pRecords == 1 ? '' : 's' );
+	return 'article' . ($pRecords == 1 ? '' : 's' ) . ' by this author';
 }
 
 ?>

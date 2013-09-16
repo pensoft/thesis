@@ -61,6 +61,13 @@ class cBase_Controller extends  ecBase_Controller_User_Data{
 				'templadd'=>'type',
 				'controller_data' => $this->m_models['menu_model']->GetMenuContentsList(MAIN_MENU_ID, getlang()),
 		);
+		$this->m_commonObjectsDefinitions['aof_mainmenu'] = array(
+				'ctype' => 'evList_Recursive_Display',
+				'recursivecolumn'=>'parentid',
+				'name_in_viewobject' => 'mainmenu',
+				'templadd'=>'type',
+				'controller_data' => $this->m_models['menu_model']->GetMenuContentsList(AOF_MAIN_MENU_ID, getlang()),
+		);
 		global $user;
 		$lPreviewpicid = max((int)$this->m_user->photo_id, 
 		                     (int)$user->photo_id);
