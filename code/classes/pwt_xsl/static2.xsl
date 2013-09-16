@@ -18,7 +18,7 @@
 	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
 	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
 
-	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation|locality-coordinates" mode="formatting">
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|li|ol|code|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation|locality-coordinates" mode="formatting">
 		<xsl:choose>
 			<xsl:when test="$pInArticleMode = 0 and $pPDFPreviewMode = 0">
 				<xsl:copy-of select="."/>
