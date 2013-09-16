@@ -455,6 +455,10 @@ div.myfieldHolder[field_id='222'] {
 	border-bottom: 1px solid #BBB;
 }
 
+.ref-list-AOF-holder-holder .bibr{
+	float:right;
+}
+
 .ref-list-AOF-holder-holder .ref-list-AOF-holder {
 	border-bottom: none;
 	padding-bottom: 0px;
