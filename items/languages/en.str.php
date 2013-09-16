@@ -1821,7 +1821,7 @@ $STRARRAY = array(
 	'pjs.bypublicationdate' => 'by Publication date',
 	'pjs.bysectiontype' => 'by Section type',
 	'pjs.byfundingagency' => 'by Funding agency',
-	'pjs.articles_matching_your_criteria' => 'articles matching your criteria',
+	'pjs.articles_matching_your_criteria' => ' matching your criteria',
 
 	'pjs.refine_filters_in_the_left_panel' => 'Refine filters in the left panel',
 

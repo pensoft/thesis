@@ -6,7 +6,7 @@ $gTemplArr = array(
 		<img style="float: left" src="http://biodiversitydatajournal.com/i/bdj-eye.png" />
 		<div style="float: left; 	padding: 2px 4px;">
 		{idtext}<br>
-		doi: <a href="http://dx.doi.org/{doi}">{doi}</a>
+		doi: <a href="http://dx.doi.org/{doi}" style="text-decoration: none">{doi}</a>
 		</div>
 
 		<div style="float: right">{document_type_name}</div>

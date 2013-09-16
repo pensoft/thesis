@@ -3236,9 +3236,9 @@ function ShowHideAuthorAction($pCreateUid, $pPWTid) {
 }
 
 function shortTitle($pText) {
-	$CUT = 90;
+	$CUT = 70;
 	$text = strip_tags($pText);
-	return (mb_strlen($pText) > $CUT) ? mb_substr($text, 0, strpos($text, ' ', $CUT)) : $pText;
+	return (mb_strlen($pText) > $CUT) ? mb_substr($text, 0, strpos($text, ' ', $CUT)) . '...' : $text;
 }
 
 function showPollAnswerErrClass($pAnswer, $pUserRole) {
@@ -3350,7 +3350,8 @@ function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournal
 
 function getSortOpts($pSortBy) {
 	return '
-		<option value="0" style="padding-left: 10px;" ' . ($pSortBy == 0 ? 'selected="selected"' : '') . '>Publication date</option>
+		<option value="0" style="padding-left: 10px;" ' . ($pSortBy == 0 ? 'selected="selected"' : '') . '>Publication date oldest first</option>
+		<option value="3" style="padding-left: 10px;" ' . ($pSortBy == 3 ? 'selected="selected"' : '') . '>Publication date newest first</option>
 		<option value="1" style="padding-left: 10px;" ' . ($pSortBy == 1 ? 'selected="selected"' : '') . '>Total views</option>
 		<option value="2" style="padding-left: 10px;" ' . ($pSortBy == 2 ? 'selected="selected"' : '') . '>Unique views</option>
 	';
@@ -3382,6 +3383,10 @@ function showMostVisitedLinkIfStaff() {
 		';
 	}
 	return '';
+}
+
+function displayArticlesFilterText2($pRecords) {
+	return 'article' . ($pRecords == 1 ? '' : 's' );
 }
 
 ?>

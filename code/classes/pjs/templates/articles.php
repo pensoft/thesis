@@ -17,9 +17,9 @@ $gTemplArr = array(
 						doi: 10.3897/BDJ.1.e{article_id}
 
 					</div>
-					<a href="javascript:void(0);" onclick="window.frames[\'articleIframe\'].focus();window.frames[\'articleIframe\'].print();">
+					<!--<a href="javascript:void(0);" onclick="window.frames[\'articleIframe\'].focus();window.frames[\'articleIframe\'].print();">
 						<img alt="" src="/i/print-icon.png" />
-					</a>
+					</a>-->
 					<a href="/lib/ajax_srv/article_elements_srv.php?action=donwload_xml&amp;item_id={id}"><img alt="" src="/i/xml-icon.png" /></a>
 					<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})"><img alt="" src="/i/pdf-icon.png" /></a>
 					<div class="line"></div>
