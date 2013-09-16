@@ -3292,7 +3292,7 @@ function removeFierstParagraph($pText) {
 
 function showRSSLink() {
 	global $user;
-	return ($user->staff ? '<a target="_blank" href="/rss.php"><img src="/i/rss_icon.gif" alt="mendeley" /></a>' : '');
+	return '<a target="_blank" href="/rss.php"><img src="/i/rss_icon.gif" alt="mendeley" /></a>';
 }
 
 function generateFBLink($pId) {
@@ -3369,21 +3369,18 @@ function GetArticleTitleForCitation($pTitle){
 
 function showMostVisitedLinkIfStaff() {
 	global $user;
-	if($user->staff) {
-		return '
-			<div class="leftSiderBlock withoutHeader">
-				<div class="siderBlockLinksHolder">
-					<div class="mostVisited">
-						<div class="P-Clear"></div>
-						<a href="/browse_journal_articles?journal_id=1&sortby=1">
-							Most visited papers
-						</a>
-					</div>
+	return '
+		<div class="leftSiderBlock withoutHeader">
+			<div class="siderBlockLinksHolder">
+				<div class="mostVisited">
+					<div class="P-Clear"></div>
+					<a href="/browse_journal_articles?journal_id=1&sortby=1">
+						Most visited papers
+					</a>
 				</div>
 			</div>
-		';
-	}
-	return '';
+		</div>
+	';
 }
 
 function displayArticlesFilterText2($pRecords) {
