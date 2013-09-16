@@ -347,6 +347,7 @@ if(!function_exists('getAffiliation')){
 		
 		if($pForcefulReInit){
 			$affiliations = array();
+			return;
 		}
 		
 		$fullAffiliation = trim($fullAffiliation);

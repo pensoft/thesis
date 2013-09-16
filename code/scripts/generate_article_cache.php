@@ -15,6 +15,7 @@ if(!(int)$lArticleId){
 	$lSql = '
 		SELECT id
 		FROM pjs.articles		
+		ORDER BY id ASC	
 	';
 	$lCon->Execute($lSql);
 	while(!$lCon->Eof()){
