@@ -1387,15 +1387,16 @@
 
 	<!-- Article of the future preview template of a single plate part -->
 	<xsl:template match="*" mode="article_preview_plate">
+		
 		<xsl:variable name="platePart">
-			<xsl:choose>
-				<xsl:when test="@object_id='225'">a</xsl:when>
-				<xsl:when test="@object_id='226'">b</xsl:when>
-				<xsl:when test="@object_id='227'">c</xsl:when>
-				<xsl:when test="@object_id='228'">d</xsl:when>
-				<xsl:when test="@object_id='229'">e</xsl:when>
-				<xsl:when test="@object_id='230'">f</xsl:when>
-			</xsl:choose>
+				<xsl:choose>
+					<xsl:when test="@object_id='225'">a</xsl:when>
+					<xsl:when test="@object_id='226'">b</xsl:when>
+					<xsl:when test="@object_id='227'">c</xsl:when>
+					<xsl:when test="@object_id='228'">d</xsl:when>
+					<xsl:when test="@object_id='229'">e</xsl:when>
+					<xsl:when test="@object_id='230'">f</xsl:when>
+				</xsl:choose>
 		</xsl:variable>
 
 		<div class="figure">
@@ -1721,17 +1722,19 @@
 				<div class="list-caption">
 					<xsl:apply-templates select="./fields/plate_caption/value" mode="formatting"/>
 					<xsl:for-each select="./plate_type_wrapper/*/*/fields">
-						<span class="list-caption-letter">
-							<xsl:choose>
-								<xsl:when test="../@object_id='225'"> a</xsl:when>
-								<xsl:when test="../@object_id='226'"> b</xsl:when>
-								<xsl:when test="../@object_id='227'"> c</xsl:when>
-								<xsl:when test="../@object_id='228'"> d</xsl:when>
-								<xsl:when test="../@object_id='229'"> e</xsl:when>
-								<xsl:when test="../@object_id='230'"> f</xsl:when>
-							</xsl:choose>
-							<xsl:text>: </xsl:text>
-						</span>
+						<xsl:if test="./plate_desc/value != ''">
+							<span class="list-caption-letter">
+								<xsl:choose>
+									<xsl:when test="../@object_id='225'"> a</xsl:when>
+									<xsl:when test="../@object_id='226'"> b</xsl:when>
+									<xsl:when test="../@object_id='227'"> c</xsl:when>
+									<xsl:when test="../@object_id='228'"> d</xsl:when>
+									<xsl:when test="../@object_id='229'"> e</xsl:when>
+									<xsl:when test="../@object_id='230'"> f</xsl:when>
+								</xsl:choose>
+								<xsl:text>: </xsl:text>
+							</span>
+						</xsl:if>
 							<xsl:apply-templates select="./plate_desc" mode="formatting"/>
 					</xsl:for-each>
 				</div>
