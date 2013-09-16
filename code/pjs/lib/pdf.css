@@ -29,7 +29,7 @@ p, .h-treatment-section {
 .P-Article-Preview-Addresses, .first_page_header_left, td, th {
 	font-size: 0.7777777em;
 }
-sub, sup {
+sub, sup, code {
 	font-size: 0.75em;
 }
 p, li {
@@ -59,6 +59,11 @@ img, .figure {
 	page-break-inside: avoid;
 }
 /* styles for the first page START*/
+
+code {
+    font-family: Consolas,"Courier New",Courier,monospace;
+    white-space: pre;
+}
 
 .logo_img {
 	width: 200px !important;

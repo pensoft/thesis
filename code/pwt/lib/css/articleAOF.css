@@ -46,6 +46,13 @@ body {
 table{
 	float:none;
 }
+
+code {
+    font-family: Consolas,"Courier New",Courier,monospace;
+    font-size: 9pt;
+    white-space: pre;
+}
+
 .P-Article-Preview-Base-Info-Block {
   margin-top: 10px;
   margin-bottom: 25px;
