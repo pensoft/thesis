@@ -2,6 +2,26 @@
 
 $gTemplArr = array(
 	'global.empty' => '',
+	
+	'global.statcounter' => '
+		<!-- Start of StatCounter Code for Default Guide -->
+			<script type="text/javascript">
+				var sc_project=9253683; 
+				var sc_invisible=1; 
+				var sc_security="70e13945"; 
+				var scJsHost = (("https:" == document.location.protocol) ?
+				"https://secure." : "http://www.");
+				document.write("<sc"+"ript type=\'text/javascript\' src=\'" +
+				scJsHost+
+				"statcounter.com/counter/counter.js\'></"+"script>");
+			</script>
+			<noscript><div class="statcounter"><a title="hits counter"
+			href="http://statcounter.com/" target="_blank"><img
+			class="statcounter"
+			src="http://c.statcounter.com/9253683/0/70e13945/1/"
+			alt="hits counter"></a></div></noscript>
+		<!-- End of StatCounter Code for Default Guide -->
+	',
 
 	'global.htmlonlyheader' =>
 	   '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -82,6 +102,7 @@ $gTemplArr = array(
 						var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);
 					})();
 				</script>
+				{*global.statcounter}
 			</body>
 		</html>
 	',
@@ -99,6 +120,7 @@ $gTemplArr = array(
 						var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);
 					})();
 				</script>
+			{*global.statcounter}
 			</body>
 		</html>
 	',
