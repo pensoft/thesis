@@ -84,7 +84,7 @@ $gTemplArr = array(
 					<a href="/browse_journal_articles_by_author.php?journal_id={journal_id}&user_id={id}" class="green" style="line-height: 24px;">{author_names}</a><br/>
 					{_showAdditionalAuthorInfo(affiliation, addr_city, usr_country, website)}
 					<div class="greenDesc">
-						Articles by this author in:&nbsp;
+						More articles in:&nbsp;
 						<span class="AOF-Author-more-link">
 							<a target="_blank" href="http://search.labs.crossref.org/?q={first_name}+{last_name}">
 								CrossRef

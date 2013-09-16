@@ -325,10 +325,10 @@ $gTemplArr = array(
 							</div>
 							<div class="author-left-bar-holder">
 								<div class="green">{fullname}</div>
-								<br/>
+								
 								{_showAdditionalAuthorInfo(affiliation, addr_city, usr_country, website)}
 								<div class="greenDesc">
-									Articles by this author in:&nbsp;
+									More articles in:&nbsp;
 									<span class="AOF-Author-more-link">
 										<a target="_blank" href="http://search.labs.crossref.org/?q={first_name}+{last_name}">
 											CrossRef
