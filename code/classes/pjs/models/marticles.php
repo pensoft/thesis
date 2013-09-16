@@ -72,6 +72,7 @@ class mArticles extends emBase_Model {
 		return $this->GetElementWithColumnInArticlesHtml('references_list_cache_id', $pArticleId);
 	}
 
+
 	/**
 	 * Preview of the list of all taxa for the specified article
 	 * 
@@ -295,9 +296,9 @@ class mArticles extends emBase_Model {
 	}
 
 	function GetMetadata($pArticleId) {
-		$lSql = 'SELECT to_char(d.approve_date, \'DD-MM-YYYY\') as approve_date, 
-					to_char(d.publish_date, \'DD-MM-YYYY\') as publish_date, 
-					to_char(d.create_date, \'DD-MM-YYYY\') as create_date,
+		$lSql = 'SELECT to_char(d.approve_date, \'DD Mon YYYY\') as approve_date, 
+					to_char(d.publish_date, \'DD Mon YYYY\') as publish_date, 
+					to_char(d.create_date, \'DD Mon YYYY\') as create_date,
 				EXTRACT(year FROM d.publish_date) as pubyear,
 				j.name as journal_name, d.doi, d.start_page, d.end_page,
 				d.name as article_title,
