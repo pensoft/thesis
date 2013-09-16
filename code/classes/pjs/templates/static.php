@@ -3416,4 +3416,18 @@ function showAdditionalAuthorInfo($pAffiliation, $pCity, $pCountry, $pWebsite) {
 	
 }
 
+function setAuthorRowOpenDiv($pRownum, $pRecords) {
+	if($pRownum%2 == 1) {
+		return '<div class="author_holder_row">';
+	}
+	return '';
+}
+
+function setAuthorRowCloseDiv($pRownum, $pRecords) {
+	if(($pRownum%2 == 0) || $pRecords == $pRownum) {
+		return '<div class="P-Clear"></div></div>';
+	}
+	return '';
+}
+
 ?>

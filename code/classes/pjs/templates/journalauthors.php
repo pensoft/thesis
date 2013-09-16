@@ -78,6 +78,7 @@ $gTemplArr = array(
 	',
 	//<p style="font-size: 14px;">' . getstr('pjs.refine_filters_in_the_left_panel') . '</p>
 	'journalauthors.authors_row' => '
+			{_setAuthorRowOpenDiv(rownum, records)}
 			<div class="authorInfoHolder">
 				{_getProfilePicWithLink(previewpicid, journal_id, id, 1)}
 				<div style="float: left; margin-left: 10px; width: 65%;">
@@ -105,6 +106,7 @@ $gTemplArr = array(
 					</div>
 				</div>
 			</div>
+			{_setAuthorRowCloseDiv(rownum, records)}
 	',
 	'journalauthors.authors_endrs' => '
 			<div class="P-Clear"></div>

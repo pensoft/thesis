@@ -7,7 +7,7 @@ $gTemplArr = array(
 	
 	'rss.row' => '
 		<item>
-		    <title><![CDATA[{name}]]></title>
+		    <title>{_strip_tags(name)}</title>
 		    <link>' . SITE_URL . '/articles.php?id={id}</link>
 		    <description><![CDATA[
 					<p>{journal_name} 1:e{id}</p>
