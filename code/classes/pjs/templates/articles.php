@@ -20,7 +20,7 @@ $gTemplArr = array(
 					<!--<a href="javascript:void(0);" onclick="window.frames[\'articleIframe\'].focus();window.frames[\'articleIframe\'].print();">
 						<img alt="" src="/i/print-icon.png" />
 					</a>-->
-					<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=donwload_xml&amp;item_id={id}"><img alt="" src="/i/xml-icon.png" /></a>
+					<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=download_xml&amp;item_id={id}"><img alt="" src="/i/xml-icon.png" /></a>
 					<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})"><img alt="" src="/i/pdf-icon.png" /></a>
 					<div class="line"></div>
 					<div class="P-Clear"></div>

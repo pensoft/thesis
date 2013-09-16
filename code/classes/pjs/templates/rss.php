@@ -15,14 +15,14 @@ $gTemplArr = array(
 					<p>Authors: {authors_list}</p>	
 					<p>Abstract: {_removeFierstParagraph(abstract)}</p>
 					<p><a href="' . SITE_URL . '/articles.php?id={id}">HTML</a></p>
-					<p><a href="' . SITE_URL . '/lib/ajax_srv/article_elements_srv.php?action=donwload_xml&item_id={id}">XML</a></p>
-					<p><a href="' . SITE_URL . '/lib/ajax_srv/article_elements_srv.php?action=donwload_pdf&item_id={id}">PDF</a></p>
+					<p><a href="' . SITE_URL . '/lib/ajax_srv/article_elements_srv.php?action=download_xml&item_id={id}">XML</a></p>
+					<p><a href="' . SITE_URL . '/lib/ajax_srv/article_elements_srv.php?action=download_pdf&item_id={id}">PDF</a></p>
 			]]></description>
 		    <category>{journal_section_name}</category>
 		    <pubDate>{_formatDateForRSS(publish_date)}</pubDate>
 		</item>
 	',
-	//'article_elements_srv.php' + '?action=donwload_pdf&item_id=' + pDocumentId;
+	//'article_elements_srv.php' + '?action=download_pdf&item_id=' + pDocumentId;
 	'rss.endrs' => '',
 	
 	'rss.empty' => '',

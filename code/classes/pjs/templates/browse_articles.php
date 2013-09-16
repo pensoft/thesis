@@ -57,7 +57,7 @@ $gTemplArr = array(
 						<span style="color:#666"><img src="i/eye.png" alt="eye" title="Views"></img> Unique: {view_unique_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;Total: {view_cnt}&nbsp;&nbsp;</span>
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
-							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=donwload_xml&item_id={id}">XML</a>
+							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=download_xml&item_id={id}">XML</a>
 							<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})" class="clearBorder">PDF</a>
 						</div>
 					</div>
@@ -385,7 +385,7 @@ $gTemplArr = array(
 						<span style="color:#666"><img src="i/eye.png" alt="eye" title="Views"></img> Unique: {view_unique_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;Total: {view_cnt}&nbsp;&nbsp;</span>
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
-							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=donwload_xml&item_id={id}">XML</a>
+							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=download_xml&item_id={id}">XML</a>
 							<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})" class="clearBorder">PDF</a>
 						</div>
 					</div>
