@@ -592,7 +592,7 @@ $gTemplArr = array(
 	'external_details.bhl_nodata' => '
 		<div class="sectionBody">
 			<p>
-				It seems that this taxon name is not present in any BHL pages.
+				It seems that this taxon name is not present in any BHL page.
 			</p>
 			<br/>
 		</div>

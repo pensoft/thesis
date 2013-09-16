@@ -3350,8 +3350,8 @@ function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournal
 
 function getSortOpts($pSortBy) {
 	return '
-		<option value="0" style="padding-left: 10px;" ' . ($pSortBy == 0 ? 'selected="selected"' : '') . '>Publication date oldest first</option>
-		<option value="3" style="padding-left: 10px;" ' . ($pSortBy == 3 ? 'selected="selected"' : '') . '>Publication date newest first</option>
+		<option value="0" style="padding-left: 10px;" ' . ($pSortBy == 0 ? 'selected="selected"' : '') . '>Publication date oldest</option>
+		<option value="3" style="padding-left: 10px;" ' . ($pSortBy == 3 ? 'selected="selected"' : '') . '>Publication date newest</option>
 		<option value="1" style="padding-left: 10px;" ' . ($pSortBy == 1 ? 'selected="selected"' : '') . '>Total views</option>
 		<option value="2" style="padding-left: 10px;" ' . ($pSortBy == 2 ? 'selected="selected"' : '') . '>Unique views</option>
 	';
