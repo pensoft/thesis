@@ -552,3 +552,7 @@ span[data-author-id] {
 	margin-left: -20px;
 	padding-left: 20px;
 }
+
+div.fieldValue p {
+	margin-bottom: 3px;
+}

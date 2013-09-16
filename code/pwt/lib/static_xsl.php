@@ -23,35 +23,49 @@ function getimageW($filename){ $a = getimagesize($filename); return $a[0];}
 function getimageH($filename){ $a = getimagesize($filename); return $a[1];}
 
 function plural($n){
-		return $n > 1 ? 's': ''; 	
+		return $n > 1 ? 's': '';
 }
 
 function getDates($doc_id){
 	$lCon = new DBCn();
 	$lCon->Open();
-	$lSql = "SELECT create_date::date, approve_date::date, publish_date::date FROM pjs.documents WHERE id = pjs_id(" . (int)$doc_id . ')';
+	$lSql = "SELECT to_char(create_date, 'DD Mon YYYY') as create_date,
+					to_char(approve_date, 'DD Mon YYYY') as approve_date,
+					to_char(publish_date, 'DD Mon YYYY') as publish_date
+				FROM pjs.documents WHERE id = pjs_id(" . (int)$doc_id . ')';
 	$lCon->Execute($lSql);
 	$lResult = '';
 	if ($lCon->mRs ['create_date']){
-		$lResult .= 'Received ' . $lCon->mRs ['create_date'];	 
+		$lResult .= 'Received: ' . $lCon->mRs ['create_date'];
 	}
 	if ($lCon->mRs ['approve_date']){
-		$lResult .= ' | Accepted ' . $lCon->mRs ['approve_date'];
+		$lResult .= ' | Accepted: ' . $lCon->mRs ['approve_date'];
 	}
 	if ($lCon->mRs ['publish_date']){
-		$lResult .= ' | Published ' . $lCon->mRs ['publish_date']; 
+		$lResult .= ' | Published: ' . $lCon->mRs ['publish_date'];
 	}
 	return  $lResult
-	
+
 	;
 }
+
+function getCitation($doc_id){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = "SELECT '<span>' || author_list || ' (' || year || ') ' || document_title || '. ' || idtext || '. <span style=\"white-space: nowrap\">doi: <a href=\"http://dx.doi.org/' ||  doi || '\">' ||  doi || '</a></span></span>' as  citation " . 'FROM pjs."spGetDocumentInfoForPDF"(pjs_id('  . (int)$doc_id . '))';
+	$lCon->Execute($lSql);
+	$doc = new DOMDocument('1.0', 'utf-8');
+	$doc->loadXML($lCon->mRs ['citation']);
+	return $doc->documentElement;
+}
+
 function getSE($doc_id){
 	$lCon = new DBCn();
 	$lCon->Open();
 	$lSql = "SELECT
 			  'Academic editor: ' || u.first_name || ' ' || u.last_name as names,
 			   u.uname as email
-			  FROM usr u 
+			  FROM usr u
 			  JOIN pjs.document_users du ON du.uid = u.id
 			  WHERE du.document_id = pjs_id(" . (int)$doc_id . ") AND role_id = 3
 			  LIMIT 1";
@@ -111,9 +125,9 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		205 => array(236, 417, 434, 433, 432, 431, 430, 429, 428, 427, 426, 425, 424, 423, 422, 421, 420, 419, 48, 49, 435, 436, 418),
 		206 => array(473),
 		207 => array(472),
-		208 => array(471), 
-		209 => array(470, 469, 468, 467, 466, 465), 
-		210 => array(474), 
+		208 => array(471),
+		209 => array(470, 469, 468, 467, 466, 465),
+		210 => array(474),
 		211 => array(413),
 		212 => array(379, 134, 133, 132, 129, 126, 113, 112, 111, 110, 109, 446, 447, 448, 357, 118, 119, 120, 121, 122, 124, 114, 115, 116, 125, 117, 123),
 		220 => array(48, 49, 50, 417, 478),
@@ -146,7 +160,7 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		222 => array(482),//Fig caption
 		224 => array(482),//Plate caption
 		223 => array(482),//Video caption
-		225 => array(487),//Plate part caption		
+		225 => array(487),//Plate part caption
 		226 => array(487),
 		227 => array(487),
 		228 => array(487),
@@ -282,16 +296,16 @@ if(!function_exists('getUriSymbol')){
 	 */
 	function getUriSymbol($pUri){
 		static $lUris = array();
-		global $gAffiliationSymbols;		
+		global $gAffiliationSymbols;
 		$pUri = trim($pUri);
-		
+
 		if(array_key_exists($pUri, $lUris)){
 			return $lUris[$pUri];
 		}
 		$lUrisLength = count($lUris);
-		$lSymbolsLength = count($gAffiliationSymbols);		
+		$lSymbolsLength = count($gAffiliationSymbols);
 		$lUris[$pUri] = str_repeat($gAffiliationSymbols[$lUrisLength % $lSymbolsLength], floor($lUrisLength / $lSymbolsLength) + 1);
-		
+
 		return $lUris[$pUri];
 	}
 }
@@ -302,11 +316,11 @@ if(!function_exists('getAffiliation')){
 	 * За целта пази уритата в статичен масив
 	 * @param unknown_type $pUri
 	 */
-	function getAffiliation($fullAffiliation, $pAffId){		
+	function getAffiliation($fullAffiliation, $pAffId){
 		//echo "|" . $pUri . "|";
-		static $affiliations = array();			
+		static $affiliations = array();
 		$fullAffiliation = trim($fullAffiliation);
-		if(!array_key_exists($fullAffiliation, $affiliations)){			
+		if(!array_key_exists($fullAffiliation, $affiliations)){
 			$m = count($affiliations);
 			$n = count($gAffiliationSymbols);
 			$s = getUriSymbol($pAffId);
@@ -440,11 +454,11 @@ function formatDate($pDate) {
 
 
 function getEditPreviewHead($pDocumentId){
-	
+
 	$lDom = new DOMDocument('1.0', 'utf-8');
 	if(!(int)$pDocumentId)
 		return $lDom;
-	
+
 	$lRoot = $lDom->appendChild($lDom->createElement('root'));
 	$lScripts = array(
 		'/lib/js/jquery.js',
@@ -461,7 +475,7 @@ function getEditPreviewHead($pDocumentId){
 		PJS_SITE_URL . '/lib/js/ice/plugins/IceAddTitlePlugin/IceAddTitlePlugin.js',
 		PJS_SITE_URL . '/lib/js/ice/plugins/IceCopyPastePlugin/IceCopyPastePlugin.js',
 		PJS_SITE_URL . '/lib/js/ice/plugins/IceEmdashPlugin/IceEmdashPlugin.js',
-		PJS_SITE_URL . '/lib/js/ice/plugins/IceSmartQuotesPlugin/IceSmartQuotesPlugin.js',		
+		PJS_SITE_URL . '/lib/js/ice/plugins/IceSmartQuotesPlugin/IceSmartQuotesPlugin.js',
 		PJS_SITE_URL . '/lib/js/version_preview.js',
 		'/lib/js/editable_preview.js',
 	);
@@ -599,7 +613,7 @@ function GetSortedMaterialFields($pFields){
 // 	var_dump($lFieldsArr);
 	$lFieldsArr = SortMaterialFields($lFieldsArr);
 
-	
+
 	$lRoot = $lDom->appendChild($lDom->createElement('root'));
 // 	var_dump($lFieldsArr);
 	foreach($lFieldsArr as $lFieldId => $lFieldData){
@@ -609,13 +623,13 @@ function GetSortedMaterialFields($pFields){
 		$lFieldValueNode = $lFieldData['value'];
 		$lInstanceIdValue = $lFieldData['instance_id'];
 		$lObjectIdValue = $lFieldData['object_id'];
-				
+
 		$lChild->SetAttribute('id', $lFieldId);
 		$lChild->SetAttribute('field_name', $lFieldName);
 		$lChild->SetAttribute('instance_id', $lInstanceIdValue);
-		$lChild->SetAttribute('object_id', $lObjectIdValue);		
+		$lChild->SetAttribute('object_id', $lObjectIdValue);
 		$lValueNode = $lChild->appendChild($lDom->importNode($lFieldValueNode, true));
-		
+
 // 		$lValueNode->appendChild($lDom->createTextNode($lFieldValue));
 	}
 // 	var_dump($lDom->saveXML());
@@ -707,7 +721,7 @@ function GroupTreatmentMaterials($pTreatmentMaterials){
  * @param unknown_type $pInstanceId
  * @param array $pPreview
  */
-function SaveInstancePreview($pInstanceId, $pPreview){	
+function SaveInstancePreview($pInstanceId, $pPreview){
 // 	var_dump($pInstanceId, $pPreview, $pPreview[0] instanceof DOMDocument);
 	if(count($pPreview) && $pPreview[0] instanceof DOMDocument){
 		global $gInstancePreviews;
@@ -786,7 +800,7 @@ function parseLocalityCoordinate($pCoordString){
 			$lMin = (float)$lCoordData['minutes'];
 			$lSec = (float)$lCoordData['seconds'];
 			$lHemisphere = mb_strtolower($lHemisphere);
-			if( $lHemisphere != '' ){//Имаме полукълбо				
+			if( $lHemisphere != '' ){//Имаме полукълбо
 				if( $lHemisphere == 's' || $lHemisphere == 'w' )//обръщаме резултата понеже е в обратното полукълбо
 					$lDeg = - $lDeg;
 			}
@@ -817,10 +831,10 @@ function GetTableDownloadLink($pSiteUrl, $pTableInstanceId, $pInArticleMode){
 	return PJS_ARTICLE_TABLE_DL_SRV . $pTableInstanceId;
 }
 
-function GetFigureZoomLink($pSiteUrl, $pFigureInstanceId, $pInArticleMode){	
+function GetFigureZoomLink($pSiteUrl, $pFigureInstanceId, $pInArticleMode){
 	if(!(int)$pInArticleMode){
 		return $pSiteUrl . '/display_zoomed_figure.php?fig_id=' . $pFigureInstanceId;
-	}	
+	}
 	return PJS_ARTICLE_FIGURE_ZOOM_SRV . $pFigureInstanceId;
 }
 
@@ -839,8 +853,8 @@ function GetPlateDownloadLink($pSiteUrl, $pFigureInstanceId, $pInArticleMode){
 }
 
 
-function GetSupplFileDownloadLink($pSiteUrl, $pFileName, $pFileInstanceId, $pInArticleMode){	
-// 	var_dump($pInArticleMode);	
+function GetSupplFileDownloadLink($pSiteUrl, $pFileName, $pFileInstanceId, $pInArticleMode){
+// 	var_dump($pInArticleMode);
 	if(!(int)$pInArticleMode){
 		return $pSiteUrl . '/getfile.php?filename=' . $pFileName;
 	}
@@ -850,11 +864,11 @@ function GetSupplFileDownloadLink($pSiteUrl, $pFileName, $pFileInstanceId, $pInA
 /**
  * This function will check how many times the element
  * has been cited in the AOF html of the document
- * !!!IT WILL ONLY WORK WHEN GENERATING THE AOF PREVIEWS OF THE ELEMENTS 
+ * !!!IT WILL ONLY WORK WHEN GENERATING THE AOF PREVIEWS OF THE ELEMENTS
  * !!!AND RELIES ON HAVING A GLOBAL XPATH REFERENCE FOR THE HTML PREVIEW OF THE DOCUMENT
  */
 function GetElementCitationsCnt($pInstanceId){
-	global $gDocumentHtmlXPath;	
+	global $gDocumentHtmlXPath;
 	if(!($gDocumentHtmlXPath instanceof DOMXPath)){
 		return 0;
 	}
