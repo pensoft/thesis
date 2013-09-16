@@ -3390,4 +3390,30 @@ function displayArticlesFilterText2($pRecords) {
 	return 'article' . ($pRecords == 1 ? '' : 's' ) . ' by this author';
 }
 
+function showAdditionalAuthorInfo($pAffiliation, $pCity, $pCountry, $pWebsite) {
+	if($pAffiliation || $pCity || $pCountry) {
+		$lRes = '<div class="greenDesc">';
+		
+		if($pAffiliation) {
+			$lRes .= $pAffiliation;	
+		}
+		
+		if($pCity) {
+			$lRes .= ($pAffiliation ? ', ' : '') . $pCity;	
+		}
+		
+		if($pCountry) {
+			$lRes .= (($pAffiliation || $pCity) ? ', ' : '') . $pCountry;	
+		}
+		
+		$lRes .='</div>';
+	}
+	if($pWebsite) {
+		$lRes .= '<div class="greenDesc"><a target="_blank" href="' . $pWebsite . '">' . $pWebsite . '</a></div>';	
+	}
+	
+	return $lRes;
+	
+}
+
 ?>

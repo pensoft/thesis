@@ -387,7 +387,14 @@ class mUser_Model extends emBase_Model {
 			'id' => 0
 		);
 		$lCon = $this->m_con;
-		$lSql = 'SELECT *, first_name || \' \' || last_name as fullname FROM usr WHERE id = ' . (int) $pUid;
+		$lSql = '
+			SELECT 
+				u.*, 
+				first_name || \' \' || last_name as fullname,
+				c.name as usr_country
+			FROM usr u
+			LEFT JOIN countries c ON c.id = u.country_id
+			WHERE u.id = ' . (int) $pUid;
 
 		if(! $lCon->Execute($lSql)){
 			$lResult['err_cnt'] ++;

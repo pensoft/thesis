@@ -35,7 +35,7 @@ sub, sup {
 p, li {
 	line-height: 1.4;
 }
-.P-Article-Preview-Names{
+.P-Article-Preview-Names, .P-Article-Info-Block-Row{
 	line-height: 1.8;
 }
 
@@ -141,7 +141,7 @@ a {
 }
 .P-Article-Preview-Title {
 	font-weight: bold;
-	border-top: 1px solid black;
+
 	line-height: 1.63636;
 	margin-top: 0em;
 	color: #000;
@@ -432,13 +432,11 @@ td p, th p {
 	text-align: left
 }
 .PaperType {
-
 	background-color: #006600;
-	color: #FFFFFF;
-	margin-right: 518px;
-	margin-top: 15px;
+	color: white;
 	text-align: center;
 	vertical-align: middle;
+	padding: 4px;
 }
 
 .inlineFieldLabel{

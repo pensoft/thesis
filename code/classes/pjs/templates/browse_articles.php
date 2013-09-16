@@ -326,7 +326,27 @@ $gTemplArr = array(
 							<div class="author-left-bar-holder">
 								<div class="green">{fullname}</div>
 								<br/>
-								<div class="greenDesc">{affiliation}</div>
+								{_showAdditionalAuthorInfo(affiliation, addr_city, usr_country, website)}
+								<div class="greenDesc">
+									Articles by this author in:&nbsp;
+									<span class="AOF-Author-more-link">
+										<a target="_blank" href="http://search.labs.crossref.org/?q={first_name}+{last_name}">
+											CrossRef
+										</a>
+									</span>
+									&nbsp;|&nbsp;
+									<span class="AOF-Author-more-link">
+										<a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&term={last_name}%20{first_name}[au]&dispmax=50">
+											PubMed
+										</a>
+									</span>
+									&nbsp;|&nbsp;
+									<span class="AOF-Author-more-link">
+										<a target="_blank" href="http://scholar.google.com/scholar?q=%22author%3A{last_name}%20author%3A{first_name}.%22">
+											Google Scholar
+										</a>
+									</span>
+								</div>
 							</div>
 						</div>
 						<div class="P-Clear"></div>
