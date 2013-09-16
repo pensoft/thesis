@@ -78,7 +78,7 @@ img, .figure {
 .first_page_header_right img {
 	display: inline;
 }
- @page :first {
+@page :first {
  size: 165mm 240mm;
  margin: 12mm 18.5mm 29mm 18.5mm;
 }
