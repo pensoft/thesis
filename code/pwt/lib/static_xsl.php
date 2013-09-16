@@ -10,8 +10,13 @@ $gAffiliationSymbols = array("†","‡", "§", "|", "¶", "#");
  * Затова ще трябва id-тата на 2те места да съвпадат
  * @param unknown_type $pInstanceId
  */
-function getContributorAffId($pInstanceId){
+function getContributorAffId($pInstanceId, $pForcefulReInit = false){
 	static $lAffUris = array();
+	
+	if($pForcefulReInit){
+		$lAffUris = array();
+		return;
+	}
 
 	if( !array_key_exists($pInstanceId, $lAffUris) ){
 		$lAffUris[$pInstanceId] = count($lAffUris) + 1;
@@ -175,9 +180,16 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 	return 1;
 }
 
-function getReferenceYearLetter($pReferenceId, $pDocumentId = 0, $pInitReferences = 0, $pReferenceObject = null){
+function getReferenceYearLetter($pReferenceId, $pDocumentId = 0, $pInitReferences = 0, $pReferenceObject = null, $pForcefulReInit = false){
 	static $lReferenceData = array();
 	static $lReferencesAreInited = 0;
+	
+	if($pForcefulReInit){
+		$lReferenceData = array();
+		$lReferencesAreInited = 0;
+		return;
+	}
+	
 	if($pInitReferences && !$lReferencesAreInited){
 		$lReferencesAreInited = 1;
 		if(!$pReferenceObject){
@@ -227,8 +239,13 @@ function getReferenceYearLetter($pReferenceId, $pDocumentId = 0, $pInitReference
  * Затова ще трябва id-тата на 2те места да съвпадат
  * @param unknown_type $pInstanceId
  */
-function getReferenceId($pInstanceId){
+function getReferenceId($pInstanceId, $pForcefulReInit = false){
 	static $lReferenceUris = array();
+	
+	if($pForcefulReInit){
+		$lReferenceUris = array();
+		return;
+	}
 
 	if( !array_key_exists($pInstanceId, $lReferenceUris) ){
 		$lReferenceUris[$pInstanceId] = count($lReferenceUris) + 1;
@@ -243,8 +260,12 @@ function getReferenceId($pInstanceId){
  * Затова ще трябва id-тата на 2те места да съвпадат
  * @param unknown_type $pInstanceId
  */
-function getFigureId($pInstanceId){
+function getFigureId($pInstanceId, $pForcefulReInit = false){
 	static $lFigures = array();
+	if($pForcefulReInit){
+		$lFigures = array();
+		return;
+	}
 
 	if($pInstanceId) {
 		if( !array_key_exists($pInstanceId, $lFigures) ){
@@ -294,8 +315,12 @@ if(!function_exists('getUriSymbol')){
 	 * За целта пази уритата в статичен масив
 	 * @param unknown_type $pUri
 	 */
-	function getUriSymbol($pUri){
+	function getUriSymbol($pUri, $pForcefulReInit = FALSE){
 		static $lUris = array();
+		if($pForcefulReInit){
+			$lUris = array();
+			return;
+		}
 		global $gAffiliationSymbols;
 		$pUri = trim($pUri);
 
@@ -316,13 +341,16 @@ if(!function_exists('getAffiliation')){
 	 * За целта пази уритата в статичен масив
 	 * @param unknown_type $pUri
 	 */
-	function getAffiliation($fullAffiliation, $pAffId){
+	function getAffiliation($fullAffiliation, $pAffId, $pForcefulReInit = false){
 		//echo "|" . $pUri . "|";
 		static $affiliations = array();
+		
+		if($pForcefulReInit){
+			$affiliations = array();
+		}
+		
 		$fullAffiliation = trim($fullAffiliation);
 		if(!array_key_exists($fullAffiliation, $affiliations)){
-			$m = count($affiliations);
-			$n = count($gAffiliationSymbols);
 			$s = getUriSymbol($pAffId);
 			$affiliations[$fullAffiliation] = 0;
 			return $s . ' ' . $fullAffiliation;
@@ -878,6 +906,20 @@ function GetElementCitationsCnt($pInstanceId){
 	$lResult = $gDocumentHtmlXPath->query('//xref[@rid="' . (int)$pInstanceId . '"]')->length;
 // 	var_dump($lResult, '//xref[@rid="' . (int)$pInstanceId . '"]', $gDocumentHtmlXPath->query('//xref')->length);
 	return $lResult;
+}
+
+/**
+ * Reinits the static variables of the functions 
+ * so that a new xsl preview can be made without
+ * polution
+ */
+function ReinitStaticVariables(){
+	getContributorAffId(0, true);
+	getReferenceYearLetter(0, 0, 0, null,true);
+	getReferenceId(0, true);
+	getFigureId(0, true);
+	getUriSymbol(0, true);
+	getAffiliation('', 0, true);
 }
 
 ?>

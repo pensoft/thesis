@@ -33,6 +33,8 @@ foreach ($lArticleIds as $lCurrentArticleId) {
 	$lPreviewGenerator->GetData();
 	var_dump($lPreviewGenerator->m_errCnt, $lPreviewGenerator->m_errMsg);
 	echo 'Article ' . $lCurrentArticleId . " cache generation end \n";
+	//Reinit the static variables
+	ReinitStaticVariables();	
 }
 
 
