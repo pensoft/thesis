@@ -406,7 +406,10 @@ class mArticles extends emBase_Model {
 	}
 	
 	function GetArticlePdfMetricDetails($pArticleId){
-		return $this->GetArticleSpecialMetricDetails($pArticleId, AOF_METRIC_TYPE_PDF);
+		$lData = $this->GetArticleSpecialMetricDetails($pArticleId, AOF_METRIC_TYPE_PDF);
+		$lData['view_cnt'] = (int)$lData['download_cnt'];
+		$lData['view_unique_cnt'] = (int)$lData['download_unique_cnt'];
+		return $lData;
 	}
 	
 	protected function GetArticleItemsMetrics($pArticleId, $pItemType){
