@@ -40,23 +40,23 @@ class cArticle_Elements_Srv extends cBase_Controller {
 						$this->m_metricType = (int)AOF_METRIC_TYPE_FIGURE;
 						$this->ZoomFigure();
 						break;
-					case 'donwload_figure' :
+					case 'download_figure' :
 						$this->m_metricType = (int)AOF_METRIC_TYPE_FIGURE;
 						$this->DownloadFigure();
 						break;
-					case 'donwload_plate' :
+					case 'download_plate' :
 						$this->m_metricType = (int)AOF_METRIC_TYPE_FIGURE;
 						$this->DownloadPlate();
 						break;
-					case 'donwload_suppl_file' :
+					case 'download_suppl_file' :
 						$this->m_metricType = (int)AOF_METRIC_TYPE_SUP_FILE;
 						$this->DownloadSupplementaryFile();
 						break;
-					case 'donwload_pdf' :
+					case 'download_pdf' :
 						$this->m_metricType = (int)AOF_METRIC_TYPE_PDF;
 						$this->DownloadPDF();
 						break;
-					case 'donwload_xml' :
+					case 'download_xml' :
 						$this->m_metricType = (int)AOF_METRIC_TYPE_NLM_XML;
 						$this->DownloadXML();
 						break;

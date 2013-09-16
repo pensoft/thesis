@@ -78,13 +78,14 @@ $gTemplArr = array(
 	',
 	//<p style="font-size: 14px;">' . getstr('pjs.refine_filters_in_the_left_panel') . '</p>
 	'journalauthors.authors_row' => '
+			{_setAuthorRowOpenDiv(rownum, records)}
 			<div class="authorInfoHolder">
 				{_getProfilePicWithLink(previewpicid, journal_id, id, 1)}
 				<div style="float: left; margin-left: 10px; width: 65%;">
 					<a href="/browse_journal_articles_by_author.php?journal_id={journal_id}&user_id={id}" class="green" style="line-height: 24px;">{author_names}</a><br/>
 					{_showAdditionalAuthorInfo(affiliation, addr_city, usr_country, website)}
 					<div class="greenDesc">
-						Articles by this author in:&nbsp;
+						More articles in:&nbsp;
 						<span class="AOF-Author-more-link">
 							<a target="_blank" href="http://search.labs.crossref.org/?q={first_name}+{last_name}">
 								CrossRef
@@ -105,6 +106,7 @@ $gTemplArr = array(
 					</div>
 				</div>
 			</div>
+			{_setAuthorRowCloseDiv(rownum, records)}
 	',
 	'journalauthors.authors_endrs' => '
 			<div class="P-Clear"></div>

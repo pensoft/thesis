@@ -1300,7 +1300,8 @@
 	   </xsl:when>
 	   <xsl:when test="$lNodeIsElement and $pPDFPreviewMode = 1">
 	    <xsl:choose>
-	     <xsl:when test="$lLocalName='locality-coordinates' or $lLocalName='tn' or $lLocalName='tn-part' or $lLocalName='xref' or $lLocalName='reference-citation' or $lLocalName='fig-citation' or $lLocalName='tbls-citation' or $lLocalName='sup-files-citation'">
+
+	     <xsl:when test="$lLocalName='locality-coordinates' or $lLocalName='tn' or $lLocalName='tn-part' or $lLocalName='reference-citation' or $lLocalName='sup-files-citation'">
 		       <xsl:copy-of select="$lChildContent"/>
 	     </xsl:when>
 	     <xsl:when test="$lLocalName='em'">
@@ -1308,6 +1309,17 @@
 		       	 <xsl:copy-of select="$lChildContent"/>
 		      </i>
 	     </xsl:when>
+
+	    	<xsl:when test="$lLocalName='fig-citation' or $lLocalName='tbls-citation'">
+		       	 <xsl:element name="{$lLocalName}">
+			       <xsl:for-each select="$pNode/attribute::*">
+			        <xsl:attribute name="{local-name(.)}"><xsl:value-of select="." /></xsl:attribute>
+			       </xsl:for-each>
+			       <xsl:attribute name="class">citations-holder</xsl:attribute>
+			       <xsl:copy-of select="$lChildContent"/>
+			      </xsl:element>
+	     </xsl:when>
+
 	     <xsl:otherwise>
 			  <xsl:element name="{$lLocalName}">
 		       <xsl:for-each select="$pNode/attribute::*">
@@ -1407,7 +1419,7 @@
 
 	<!-- Article of the future preview template of a single plate part -->
 	<xsl:template match="*" mode="article_preview_plate">
-		
+
 		<xsl:variable name="platePart">
 				<xsl:choose>
 					<xsl:when test="@object_id='225'">a</xsl:when>

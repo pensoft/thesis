@@ -3,13 +3,13 @@
 $gTemplArr = array(
 	'generate_pdf.pdf_first_page_header' => '
 	<div class="first_page_header_left">
-		<img style="float: left" src="http://biodiversitydatajournal.com/i/bdj-eye.png" />
+		<img style="float: left; width: 50.8px !important; height: 37px !important" src="/i/BDJ-logo.svg" />
 		<div style="float: left; 	padding: 2px 4px;">
 		{idtext}<br>
 		doi: <a href="http://dx.doi.org/{doi}" style="text-decoration: none">{doi}</a>
 		</div>
 
-		<div style="float: right"><img src="/i/open_access_pdf.svg" style="width: 36.6px !important; height: 27.4px !important" /></div>
+		<div style="float: right"><img src="/i/open_access_pdf.svg" style="width: 49.67px !important; height: 37px !important" /></div>
 		<div style="clear: both"></div>
 
 	</div>
@@ -20,7 +20,7 @@ $gTemplArr = array(
 
 	'generate_pdf.main' => '
 	{*global.pdf_htmlonlyheader}
-	<link href="/lib/pdf.css" rel="stylesheet" type="text/css" />
+	<link href="/lib/pdf.css" rel="stylesheet" media="screen" type="text/css" />
 
 		<style>.first_page_header_left {
 			margin-bottom: 10px;
