@@ -7,7 +7,7 @@ $gTemplArr = array(
 	'browse_articles.header' => '
 			<div class="article_title_with_sort">
 				<h1 class="dashboard-title withoutBorder">
-					{records} {_displayArticlesFilterText(records, taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
+					{_displayArticlesFilterText(records, taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency, submitted_form_name)}
 				</h1>
 			</div>
 			<div class="article_sort_text">
@@ -57,7 +57,7 @@ $gTemplArr = array(
 						<span style="color:#666"><img src="i/eye.png" alt="eye" title="Views"></img> Unique: {view_unique_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;Total: {view_cnt}&nbsp;&nbsp;</span>
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
-							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=donwload_xml&item_id={id}">XML</a>
+							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=download_xml&item_id={id}">XML</a>
 							<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})" class="clearBorder">PDF</a>
 						</div>
 					</div>
@@ -325,8 +325,28 @@ $gTemplArr = array(
 							</div>
 							<div class="author-left-bar-holder">
 								<div class="green">{fullname}</div>
-								<br/>
-								<div class="greenDesc">{affiliation}</div>
+								
+								{_showAdditionalAuthorInfo(affiliation, addr_city, usr_country, website)}
+								<div class="greenDesc">
+									More articles in:&nbsp;
+									<span class="AOF-Author-more-link">
+										<a target="_blank" href="http://search.labs.crossref.org/?q={first_name}+{last_name}">
+											CrossRef
+										</a>
+									</span>
+									&nbsp;|&nbsp;
+									<span class="AOF-Author-more-link">
+										<a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed?cmd=search&term={last_name}%20{first_name}[au]&dispmax=50">
+											PubMed
+										</a>
+									</span>
+									&nbsp;|&nbsp;
+									<span class="AOF-Author-more-link">
+										<a target="_blank" href="http://scholar.google.com/scholar?q=%22author%3A{last_name}%20author%3A{first_name}.%22">
+											Google Scholar
+										</a>
+									</span>
+								</div>
 							</div>
 						</div>
 						<div class="P-Clear"></div>
@@ -356,7 +376,7 @@ $gTemplArr = array(
 
 
 	'browse_articles.by_author_startrs' => '
-			<h1 class="dashboard-title withoutBorder">{records} {_displayArticlesFilterText2(records)}' . getstr('pjs.articles_matching_your_criteria') . '</h1>
+			<h1 class="dashboard-title withoutBorder">{records} {_displayArticlesFilterText2(records)}</h1>
 			<div style="margin: 10px;">
 				<div style="border-top: 1px solid #EEECE5; border-bottom: 1px solid #EEECE5; margin-top: 20px; margin-bottom: 15px;">
 					{nav}
@@ -385,7 +405,7 @@ $gTemplArr = array(
 						<span style="color:#666"><img src="i/eye.png" alt="eye" title="Views"></img> Unique: {view_unique_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;Total: {view_cnt}&nbsp;&nbsp;</span>
 						<div>
 							<a href="/articles.php?id={id}" target="_blank">HTML</a>
-							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=donwload_xml&item_id={id}">XML</a>
+							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=download_xml&item_id={id}">XML</a>
 							<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})" class="clearBorder">PDF</a>
 						</div>
 					</div>

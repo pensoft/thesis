@@ -4075,11 +4075,20 @@ div.token-input-dropdown-facebook:after {
 	text-decoration: none;
 }
 
+.author-left-bar-holder .green {
+    padding-bottom: 4px;
+}
+
 .greenDesc {
 	font-size: 12px;
 	color: #666; /* #006666; */
 	font-family: tahoma, verdana, helvetica;
 	text-decoration: none;
+	padding-bottom:2px;
+}
+
+.author-left-bar-holder .greenDesc {
+    font-size: 11px;
 }
 
 .journalContent {

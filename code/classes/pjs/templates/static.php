@@ -2191,10 +2191,11 @@ function displayArticlesFilterCriteria($pTaxon, $pSubject, $pGeographical, $pChr
 	if($lResult)
 		return '<div class="filterCriteria">' . $lResult . '</div>';
 }
-function displayArticlesFilterText($pRecords, $pTaxon, $pSubject, $pGeographical, $pChronical, $pFromdate, $pToDate, $pSectionType, $pFoundingAgency) {
-	if($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate || $pSectionType || $pFoundingAgency) {
-		return 'article'. ($pRecords == 1 ? '' : 's' ) .  ' matching your criteria';
+function displayArticlesFilterText($pRecords, $pTaxon, $pSubject, $pGeographical, $pChronical, $pFromdate, $pToDate, $pSectionType, $pFoundingAgency, $pFormName) {
+	if($pTaxon || $pSubject || $pGeographical || $pChronical || $pFromdate || $pSectionType || $pFoundingAgency || $pFormName == 'article_search') {
+		return (int)$pRecords . ' article'. ($pRecords == 1 ? '' : 's' ) .  ' matching your criteria';
 	}
+	//return 'Article' . ($pRecords == 1 ? '' : 's' );
 	return 'Article' . ($pRecords == 1 ? '' : 's' );
 }
 function htmlformid($pHtmlFormId) {
@@ -3350,8 +3351,8 @@ function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournal
 
 function getSortOpts($pSortBy) {
 	return '
-		<option value="0" style="padding-left: 10px;" ' . ($pSortBy == 0 ? 'selected="selected"' : '') . '>Publication date oldest first</option>
-		<option value="3" style="padding-left: 10px;" ' . ($pSortBy == 3 ? 'selected="selected"' : '') . '>Publication date newest first</option>
+		<option value="0" style="padding-left: 10px;" ' . ($pSortBy == 0 ? 'selected="selected"' : '') . '>Publication date oldest</option>
+		<option value="3" style="padding-left: 10px;" ' . ($pSortBy == 3 ? 'selected="selected"' : '') . '>Publication date newest</option>
 		<option value="1" style="padding-left: 10px;" ' . ($pSortBy == 1 ? 'selected="selected"' : '') . '>Total views</option>
 		<option value="2" style="padding-left: 10px;" ' . ($pSortBy == 2 ? 'selected="selected"' : '') . '>Unique views</option>
 	';
@@ -3386,7 +3387,33 @@ function showMostVisitedLinkIfStaff() {
 }
 
 function displayArticlesFilterText2($pRecords) {
-	return 'article' . ($pRecords == 1 ? '' : 's' );
+	return 'article' . ($pRecords == 1 ? '' : 's' ) . ' by this author';
+}
+
+function showAdditionalAuthorInfo($pAffiliation, $pCity, $pCountry, $pWebsite) {
+	if($pAffiliation || $pCity || $pCountry) {
+		$lRes = '<div class="greenDesc">';
+		
+		if($pAffiliation) {
+			$lRes .= $pAffiliation;	
+		}
+		
+		if($pCity) {
+			$lRes .= ($pAffiliation ? ', ' : '') . $pCity;	
+		}
+		
+		if($pCountry) {
+			$lRes .= (($pAffiliation || $pCity) ? ', ' : '') . $pCountry;	
+		}
+		
+		$lRes .='</div>';
+	}
+	if($pWebsite) {
+		$lRes .= '<div class="greenDesc"><a target="_blank" href="' . $pWebsite . '">' . $pWebsite . '</a></div>';	
+	}
+	
+	return $lRes;
+	
 }
 
 ?>

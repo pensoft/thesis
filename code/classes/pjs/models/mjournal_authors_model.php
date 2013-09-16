@@ -26,8 +26,26 @@ class mJournal_Authors_Model extends emBase_Model {
 						AND du.state_id = 1
 						' . $lWhereAnd . '
 					GROUP BY u.id, author_names, u.photo_id, u.affiliation'; */
-					
-			$lSql = 'SELECT  u.first_name || \' \' || u.last_name as author_names, 
+			$lSql = '
+				SELECT 
+					u.first_name || \' \' || u.last_name as author_names,
+					u.photo_id as previewpicid, 
+					u.*,
+					du.cnt as article_count,
+					c.name as usr_country
+				FROM usr u 
+				LEFT JOIN countries c ON c.id = u.country_id
+				LEFT JOIN (
+					SELECT count(d.id) as cnt, du.uid
+					FROM pjs.document_users du
+					JOIN pjs.documents d ON d.id = du.document_id AND d.journal_id = ' . (int)$pJournalId . ' AND d.state_id = 5 AND d.is_published = TRUE
+					WHERE du.state_id = 1 AND du.role_id = ' . AUTHOR_ROLE . '
+					GROUP BY du.uid
+				) du ON du.uid = u.id
+				WHERE du.cnt > 0
+				ORDER BY u.last_name';
+				//var_dump($lSql);
+			/*$lSql = 'SELECT  u.first_name || \' \' || u.last_name as author_names, 
 						u.photo_id as previewpicid, u.affiliation, u.id
 					FROM pjs.document_users du
 					JOIN pjs.documents d ON d.id = du.document_id
@@ -38,7 +56,7 @@ class mJournal_Authors_Model extends emBase_Model {
 						AND d.is_published = TRUE 
 						AND du.state_id = 1
 						' . $lWhereAnd . '
-					GROUP BY u.id, author_names, u.photo_id, u.affiliation';
+					GROUP BY u.id, author_names, u.photo_id, u.affiliation';*/
 		
 		$lCon = $this->m_con;
 		$lCon->SetFetchReturnType(PGSQL_ASSOC);
