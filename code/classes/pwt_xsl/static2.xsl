@@ -532,7 +532,7 @@
 			<xsl:if test="$pPDFPreviewMode &gt; 0">
 				<span class="inlineFieldLabel">Filename:</span><xsl:text>&#160;</xsl:text>
 			</xsl:if>
-			
+
 			<xsl:value-of select="normalize-space($lUploadedFileName)"/>
 			<xsl:if test="$pInArticleMode = 0">
 				<xsl:text> - </xsl:text>
@@ -559,7 +559,7 @@
 		</xsl:if>
 		<xsl:if test="$pPDFPreviewMode = 0">
 			<xsl:variable name="instance" select="./@instance_id" />
-	
+
 				<xsl:if test="./fields/*[@id='214']/value != ''">
 					<div class="Supplemantary-File-Title">
 						<span class="fig-label-RC">
@@ -581,7 +581,7 @@
 						</span>
 					</div>
 				</xsl:if>
-	
+
 			<xsl:if test="./fields/*[@id='215']/value != '' or ./fields/*[@id='216']/value != '' or ./fields/*[@id='217']/value != '' or ./fields/*[@id='222']/value != ''">
 				<div class="suppl-section-holder">
 					<xsl:if test="./fields/*[@id='215']/value != ''">
@@ -640,7 +640,7 @@
 			</xsl:if>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<xsl:template match="*[@object_id='55']" mode="singleSupplementaryMaterialPDF">
 		<xsl:variable name="instance" select="./@instance_id" />
 
@@ -653,7 +653,7 @@
 								<xsl:value-of select="position()" />
 							</xsl:if>
 						</xsl:for-each>
-						<xsl:text>: </xsl:text>						
+						<xsl:text>: </xsl:text>
 					</span>
 					<xsl:apply-templates select="./fields/*[@id='214']/value" mode="formatting"/>
 				</div>
@@ -1243,7 +1243,7 @@
 	  </xsl:variable>
 	  <xsl:choose>
 	   <xsl:when test="$lNodeIsTextNode"><xsl:value-of select="$pNode"/></xsl:when>
-	   <xsl:when test="$lNodeIsElement">
+	   <xsl:when test="$lNodeIsElement and $pPDFPreviewMode = 0">
 	    <xsl:choose>
 	     <xsl:when test="$lLocalName='locality-coordinates'">
 		      <span class="locality-coordinate">
@@ -1287,6 +1287,26 @@
 			       <xsl:attribute name="class">citations-holder</xsl:attribute>
 			       <xsl:copy-of select="$lChildContent"/>
 			      </xsl:element>
+	     </xsl:when>
+	     <xsl:otherwise>
+			  <xsl:element name="{$lLocalName}">
+		       <xsl:for-each select="$pNode/attribute::*">
+		        <xsl:attribute name="{local-name(.)}"><xsl:value-of select="." /></xsl:attribute>
+		       </xsl:for-each>
+		       <xsl:copy-of select="$lChildContent"/>
+		      </xsl:element>
+	     </xsl:otherwise>
+	    </xsl:choose>
+	   </xsl:when>
+	   <xsl:when test="$lNodeIsElement and $pPDFPreviewMode = 1">
+	    <xsl:choose>
+	     <xsl:when test="$lLocalName='locality-coordinates' or $lLocalName='tn' or $lLocalName='tn-part' or $lLocalName='xref' or $lLocalName='reference-citation' or $lLocalName='fig-citation' or $lLocalName='tbls-citation' or $lLocalName='sup-files-citation'">
+		       <xsl:copy-of select="$lChildContent"/>
+	     </xsl:when>
+	     <xsl:when test="$lLocalName='em'">
+		      <i>
+		       	 <xsl:copy-of select="$lChildContent"/>
+		      </i>
 	     </xsl:when>
 	     <xsl:otherwise>
 			  <xsl:element name="{$lLocalName}">
@@ -1387,15 +1407,16 @@
 
 	<!-- Article of the future preview template of a single plate part -->
 	<xsl:template match="*" mode="article_preview_plate">
+		
 		<xsl:variable name="platePart">
-			<xsl:choose>
-				<xsl:when test="@object_id='225'">a</xsl:when>
-				<xsl:when test="@object_id='226'">b</xsl:when>
-				<xsl:when test="@object_id='227'">c</xsl:when>
-				<xsl:when test="@object_id='228'">d</xsl:when>
-				<xsl:when test="@object_id='229'">e</xsl:when>
-				<xsl:when test="@object_id='230'">f</xsl:when>
-			</xsl:choose>
+				<xsl:choose>
+					<xsl:when test="@object_id='225'">a</xsl:when>
+					<xsl:when test="@object_id='226'">b</xsl:when>
+					<xsl:when test="@object_id='227'">c</xsl:when>
+					<xsl:when test="@object_id='228'">d</xsl:when>
+					<xsl:when test="@object_id='229'">e</xsl:when>
+					<xsl:when test="@object_id='230'">f</xsl:when>
+				</xsl:choose>
 		</xsl:variable>
 
 		<div class="figure">
@@ -1721,17 +1742,19 @@
 				<div class="list-caption">
 					<xsl:apply-templates select="./fields/plate_caption/value" mode="formatting"/>
 					<xsl:for-each select="./plate_type_wrapper/*/*/fields">
-						<span class="list-caption-letter">
-							<xsl:choose>
-								<xsl:when test="../@object_id='225'"> a</xsl:when>
-								<xsl:when test="../@object_id='226'"> b</xsl:when>
-								<xsl:when test="../@object_id='227'"> c</xsl:when>
-								<xsl:when test="../@object_id='228'"> d</xsl:when>
-								<xsl:when test="../@object_id='229'"> e</xsl:when>
-								<xsl:when test="../@object_id='230'"> f</xsl:when>
-							</xsl:choose>
-							<xsl:text>: </xsl:text>
-						</span>
+						<xsl:if test="./plate_desc/value != ''">
+							<span class="list-caption-letter">
+								<xsl:choose>
+									<xsl:when test="../@object_id='225'"> a</xsl:when>
+									<xsl:when test="../@object_id='226'"> b</xsl:when>
+									<xsl:when test="../@object_id='227'"> c</xsl:when>
+									<xsl:when test="../@object_id='228'"> d</xsl:when>
+									<xsl:when test="../@object_id='229'"> e</xsl:when>
+									<xsl:when test="../@object_id='230'"> f</xsl:when>
+								</xsl:choose>
+								<xsl:text>: </xsl:text>
+							</span>
+						</xsl:if>
 							<xsl:apply-templates select="./plate_desc" mode="formatting"/>
 					</xsl:for-each>
 				</div>
