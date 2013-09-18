@@ -3239,7 +3239,8 @@ function ShowHideAuthorAction($pCreateUid, $pPWTid) {
 function shortTitle($pText) {
 	$CUT = 70;
 	$text = strip_tags($pText);
-	return (mb_strlen($pText) > $CUT) ? mb_substr($text, 0, strpos($text, ' ', $CUT)) . '...' : $text;
+	$CUTOFF = strpos($text, ' ', $CUT);
+	return $CUTOFF ? mb_substr($text, 0, $CUTOFF) . ' ...' : $text;
 }
 
 function showPollAnswerErrClass($pAnswer, $pUserRole) {
@@ -3292,7 +3293,7 @@ function removeFierstParagraph($pText) {
 
 function showRSSLink() {
 	global $user;
-	return ($user->staff ? '<a target="_blank" href="/rss.php"><img src="/i/rss_icon.gif" alt="mendeley" /></a>' : '');
+	return '<a target="_blank" href="/rss.php"><img src="/i/rss_icon.gif" alt="mendeley" /></a>';
 }
 
 function generateFBLink($pId) {
@@ -3369,21 +3370,18 @@ function GetArticleTitleForCitation($pTitle){
 
 function showMostVisitedLinkIfStaff() {
 	global $user;
-	if($user->staff) {
-		return '
-			<div class="leftSiderBlock withoutHeader">
-				<div class="siderBlockLinksHolder">
-					<div class="mostVisited">
-						<div class="P-Clear"></div>
-						<a href="/browse_journal_articles?journal_id=1&sortby=1">
-							Most visited papers
-						</a>
-					</div>
+	return '
+		<div class="leftSiderBlock withoutHeader">
+			<div class="siderBlockLinksHolder">
+				<div class="mostVisited">
+					<div class="P-Clear"></div>
+					<a href="/browse_journal_articles?journal_id=1&sortby=1">
+						Most visited papers
+					</a>
 				</div>
 			</div>
-		';
-	}
-	return '';
+		</div>
+	';
 }
 
 function displayArticlesFilterText2($pRecords) {
@@ -3393,27 +3391,27 @@ function displayArticlesFilterText2($pRecords) {
 function showAdditionalAuthorInfo($pAffiliation, $pCity, $pCountry, $pWebsite) {
 	if($pAffiliation || $pCity || $pCountry) {
 		$lRes = '<div class="greenDesc">';
-		
+
 		if($pAffiliation) {
-			$lRes .= $pAffiliation;	
+			$lRes .= $pAffiliation;
 		}
-		
+
 		if($pCity) {
-			$lRes .= ($pAffiliation ? ', ' : '') . $pCity;	
+			$lRes .= ($pAffiliation ? ', ' : '') . $pCity;
 		}
-		
+
 		if($pCountry) {
-			$lRes .= (($pAffiliation || $pCity) ? ', ' : '') . $pCountry;	
+			$lRes .= (($pAffiliation || $pCity) ? ', ' : '') . $pCountry;
 		}
-		
+
 		$lRes .='</div>';
 	}
 	if($pWebsite) {
-		$lRes .= '<div class="greenDesc"><a target="_blank" href="' . $pWebsite . '">' . $pWebsite . '</a></div>';	
+		$lRes .= '<div class="greenDesc"><a target="_blank" href="' . $pWebsite . '">' . $pWebsite . '</a></div>';
 	}
-	
+
 	return $lRes;
-	
+
 }
 
 function setAuthorRowOpenDiv($pRownum, $pRecords) {

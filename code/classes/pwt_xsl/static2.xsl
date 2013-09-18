@@ -18,7 +18,7 @@
 	<xsl:variable name="gAuthorshipEditorType">2</xsl:variable>
 	<xsl:variable name="gEditorAuthorshipEditorType">1</xsl:variable>
 
-	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|li|ol|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation|locality-coordinates" mode="formatting">
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|p|ul|li|ol|code|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation|locality-coordinates" mode="formatting">
 		<xsl:choose>
 			<xsl:when test="$pInArticleMode = 0 and $pPDFPreviewMode = 0">
 				<xsl:copy-of select="."/>
@@ -1491,7 +1491,10 @@
 		    <xsl:with-param name="pInstanceId" select="@instance_id"></xsl:with-param>
 		</xsl:call-template>
 		<xsl:apply-templates select="." mode="RefinderLinks"/>
-		<xsl:apply-templates select="." mode="RefinderFormat"/>
+		<xsl:if test="count(./*[@object_id='97']/*[@object_id  != '108']) &gt; 0">
+			<xsl:apply-templates select="." mode="RefinderFormat"/>
+		</xsl:if>
+		
 
 	</xsl:template>
 
@@ -1538,7 +1541,7 @@
 				<div class="refinder-link-holder">
 					<a class="refinder-link" target="_blank">
 						<xsl:attribute name="href">
-							<xsl:text>http://dev.refinder.org/?search=simple</xsl:text>
+							<xsl:text>http://www.refinder.org/?search=simple</xsl:text>
 							<xsl:text>&amp;text=</xsl:text>
 							<xsl:apply-templates select="." mode="articleBack"/>
 						</xsl:attribute>
@@ -1611,7 +1614,7 @@
 				<div class="refinder-link-holder">
 					<a class="refinder-link" target="_blank">
 						<xsl:attribute name="href">
-							<xsl:text>http://dev.refinder.org/?search=advanced</xsl:text>
+							<xsl:text>http://www.refinder.org/?search=advanced</xsl:text>
 							<xsl:text>&amp;author=</xsl:text><xsl:value-of select="normalize-space($Authors)" />
 							<xsl:text>&amp;year=</xsl:text><xsl:value-of select="normalize-space($refYear)" />
 							<xsl:text>&amp;title=</xsl:text><xsl:value-of select="normalize-space($refTitle)" />
@@ -1831,7 +1834,7 @@
 					</xsl:call-template>
 					<xsl:apply-templates select="." mode="RefinderLinks"/>
 				</div>
-
+				<div class="P-Clear"></div>
 			</xsl:for-each>
 		</div>
 	</xsl:template>
@@ -1933,6 +1936,7 @@
 
 	<!-- Article of the future LIST PREVIEWS END -->
 		<xsl:template match="*" mode="RefinderFormat">
+		<div class="P-Clear"></div>
 		<div id="style-choser">
 			<div id="format-head">Format via ReFinder</div>
 			<select class="chosen-select" id="chosen-select" onchange="callFormattingService()" data-placeholder="-- select a citation style --">

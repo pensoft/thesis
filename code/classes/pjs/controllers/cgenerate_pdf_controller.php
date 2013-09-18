@@ -51,6 +51,17 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 			return $pPreview;
 		}
 		$lXPath = new DOMXPath($lDom);
+		$this->MoveFieldLabelNodes($lXPath);
+		$this->StripUnnecessaryContent($lXPath);
+		$lHolderNode = $lXPath->query('//div[@class="P-Article-Preview"]');
+		if($lHolderNode->length){
+			return $lDom->saveHTML($lHolderNode->item(0));
+		}
+		return $pPreview;
+	}
+
+	protected function MoveFieldLabelNodes($pXPath){
+		$lXPath = $pXPath;
 		$lNodesToMove = $lXPath->query('//span[@class="fieldLabel"]|//div[@class="fieldLabel"]');
 		foreach ($lNodesToMove as $lLabel) {
 			$lCurrentNode = $lLabel->nextSibling;
@@ -82,11 +93,29 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 			// var_dump($lPNode->ownerDocument->SaveHTML($lPNode));
 			 $lPNode->insertBefore($lReplacementNode, $lPNode->firstChild);
 		}
-		$lHolderNode = $lXPath->query('//div[@class="P-Article-Preview"]');
-		if($lHolderNode->length){
-			return $lDom->saveHTML($lHolderNode->item(0));
+	}
+
+	protected function StripUnnecessaryContent($pXPath){
+		$this->StripReferenceSpans($pXPath);
+		$this->StripXRefs($pXPath);
+	}
+
+	protected function StripReferenceSpans($pXPath){
+		$this->StripNodes($pXPath, '//li[@class="ref-list-AOF-holder"]//span');
+	}
+
+	protected function StripXRefs($pXPath){
+		$this->StripNodes($pXPath, '//xref');
+	}
+
+	protected function StripNodes($pXPath, $pXPathQuery){
+		$lNodes = $pXPath->query($pXPathQuery);
+		foreach ($lNodes as $lCurrentNode) {
+			while($lCurrentNode->firstChild){
+				$lCurrentNode->parentNode->insertBefore($lCurrentNode->firstChild, $lCurrentNode);
+			}
+			$lCurrentNode->parentNode->removeChild($lCurrentNode);
 		}
-		return $pPreview;
 	}
 
 /*	function head_JS_files(){

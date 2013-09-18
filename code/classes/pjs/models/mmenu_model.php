@@ -18,9 +18,9 @@ class mMenu_Model extends emBase_Model {
 	function GetMenuContentsList($pMenuId, $pLanguage, $pGoRecursively = 1) {
 		global $user;
 		$lResult = array();
-		if(!$user->id || !$user->staff){
+		/*if(!$user->id || !$user->staff){
 			$lHideMenuSql = ' id NOT IN (10)';
-		}
+		}*/
 		//if(($user->id && $user->staff)) {
 			$lCon = $this->m_con;
 			$lSql = 'SELECT id, ' . getsqlang('name', $pLanguage) . ', ' . getsqlang('href', $pLanguage) . ',' . getsqlang('img', $pLanguage) . ', type, parentid

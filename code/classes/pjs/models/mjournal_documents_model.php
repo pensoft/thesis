@@ -205,12 +205,12 @@ class mJournal_Documents_Model extends emBase_Model {
 						) a) as authors_list
 					FROM pjs.documents d
 					LEFT JOIN (
-						SELECT item_id, sum(view_cnt) as view_cnt FROM pjs.article_metrics
+						SELECT item_id, (sum(view_cnt) + sum(download_cnt)) as view_cnt FROM pjs.article_metrics
 						WHERE item_type IN (' . AOF_METRIC_TYPE_HTML . ', ' . AOF_METRIC_TYPE_NLM_XML . ', ' . AOF_METRIC_TYPE_PDF . ')
 						GROUP BY item_id
 					) am1 ON am1.item_id = d.id
 					LEFT JOIN (
-						SELECT item_id, sum(view_unique_cnt) as view_unique_cnt FROM pjs.article_metrics
+						SELECT item_id, (sum(view_unique_cnt) + sum(download_unique_cnt)) as view_unique_cnt FROM pjs.article_metrics
 						WHERE item_type IN (' . AOF_METRIC_TYPE_HTML . ', ' . AOF_METRIC_TYPE_NLM_XML . ', ' . AOF_METRIC_TYPE_PDF . ')
 						GROUP BY item_id
 					) am2 ON am2.item_id = d.id

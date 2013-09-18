@@ -248,7 +248,7 @@ class carticle_preview_generator extends csimple {
 		}
 		$this->m_xmlDomDocument = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
 		$lDom = $this->m_xmlDomDocument;
-		if (! $lDom->loadXML($this->m_documentXml)) {
+		if (! @$lDom->loadXML($this->m_documentXml)) {
 			$this->SetError(getstr('pjs.couldNotLoadArticleXml'));
 			return;
 		}
@@ -446,7 +446,7 @@ class carticle_preview_generator extends csimple {
 		
 		$lDomHtml = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
 		$this->m_wholePreviewDom = $lDomHtml;
-		$lDomHtml->loadHTML($lHtml);
+		@$lDomHtml->loadHTML($lHtml);
 		$lDomHtml->normalizeDocument();
 		$lDomHtml->preserveWhiteSpace = false;
 		$lDomHtml->formatOutput = false;

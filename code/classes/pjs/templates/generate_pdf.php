@@ -3,7 +3,7 @@
 $gTemplArr = array(
 	'generate_pdf.pdf_first_page_header' => '
 	<div class="first_page_header_left">
-		<img style="float: left" src="http://biodiversitydatajournal.com/i/bdj-eye.png" />
+		<img style="float: left; width: 50.8px !important; height: 37px !important" src="/i/BDJ-logo.svg" />
 		<div style="float: left; 	padding: 2px 4px;">
 		{idtext}<br>
 		doi: <a href="http://dx.doi.org/{doi}" style="text-decoration: none">{doi}</a>
