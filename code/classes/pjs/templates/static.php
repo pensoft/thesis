@@ -3417,6 +3417,87 @@ function showAdditionalAuthorInfo($pAffiliation, $pCity, $pCountry, $pWebsite) {
 
 }
 
+function getPreviousRecordsCount($pPageNum, $pPageSize){
+	return ($pPageNum - 1) * $pPageSize;
+}
+
+function displayRequestParamIfExists($pParamName, $pParamValue){
+	if( $pParamValue == '')
+		return;
+	return ' ' . $pParamName . '="' . h($pParamValue) . '"';
+}
+
+function displayModsIssueNumber($pIssueNumber, $pShowIssueNumber = 0){
+	if((int)$pIssueNumber != 1 )
+		return;
+	return '<mods:detail type="issue">
+										<mods:number>' . xmlEscape($pIssueNumber) . '</mods:number>
+									</mods:detail>';
+}
+
+/*
+ Махаме xml-таговете. За целта лоудваме в xml dom и връщаме textContent-а на руута. Ако не стане лоуд-а - просто връщаме резултата от изпълнението на функцията xmlEscape
+*/
+function stripXmlTags($pValue){
+	$lXmlDom = new DOMDocument('1.0', 'utf-8');
+	$pValue = strip_tags($pValue);
+	return xmlEscape($pValue);
+}
+
+function displayOaiRecordSets($pSets, $pMetadataPrefix, $pViewObject){
+	$lData = array(
+		array(
+			'spec' => $pSets,
+		),
+	);	
+	$lObject = new evList_Display(array(
+		'name_in_viewobject' => 'sets_' . $pMetadataPrefix,
+		'controller_data' => $lData,
+		'view_object' => $pViewObject,
+	));
+	return $lObject->Display();
+}
+
+function displayOaiRecordKeywords($pKeywords, $pMetadataPrefix, $pViewObject){
+	$lKeywords = strip_tags($pKeywords);
+	$lKeywordsArr = explode(',', $lKeywords);
+	$lKeywordsArr = array_map(function($pElement){return trim($pElement);}, $lKeywordsArr);
+	$lKeywordsArr = array_filter($lKeywordsArr, function($pElement){return $pElement != '';});
+	$lData = array();
+	foreach ($lKeywordsArr as $lKeyword){
+		$lData[] = array('name' => $lKeyword);
+	}
+	$lObject = new evList_Display(array(
+		'name_in_viewobject' => 'keywords_' . $pMetadataPrefix,
+		'controller_data' => $lData,
+		'view_object' => $pViewObject,
+	));
+	return $lObject->Display();
+}
+
+function displayOaiRecordAuthors($pAuthorsData, $pMetadataPrefix, $pViewObject){
+	$lObject = new evList_Display(array(
+		'name_in_viewobject' => 'authors_' . $pMetadataPrefix,
+		'controller_data' => $pAuthorsData,
+		'view_object' => $pViewObject,
+	));
+	return $lObject->Display();
+}
+
+function GetOaiErrCode($pCode){
+	$lErrCodeMsgs = array(
+		OAI_ERR_CODE_BAD_RESUMPTION_TOKEN => 'badResumptionToken',
+		OAI_ERR_CODE_BAD_ARGUMENT => 'badArgument',
+		OAI_ERR_CODE_NO_SET_HEIRARCHY => 'noSetHierarchy',
+		OAI_ERR_CODE_NO_RECORDS => 'noRecordsMatch',	
+		OAI_ERR_CODE_ID_DOES_NOT_EXIST => 'idDoesNotExist',	
+	);
+	$lResult = $lErrCodeMsgs[$pCode];
+	
+	return xmlEscape($lResult);
+}
+
+
 function setAuthorRowOpenDiv($pRownum, $pRecords) {
 	if($pRownum%2 == 1) {
 		return '<div class="author_holder_row">';
