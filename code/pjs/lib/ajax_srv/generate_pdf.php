@@ -13,7 +13,7 @@ $lDocumentid = (int)$_REQUEST['document_id'];
 $lReadonly = (int)$_REQUEST['readonly_preview'];
 
 $lURLDocVersion = SITE_URL .  'generate_pdf.php?document_id=' . (int)$lDocumentid . '&readonly_preview=' . (int)$lReadonly;
-$lFileName = 'article_' . $lDocumentid . '.pdf';
+$lFileName = 'BDJ_article_' . $lDocumentid . '.pdf';
 
 if(!is_file(PDF_PATH . $lFileName)){
 	// load stylesheets

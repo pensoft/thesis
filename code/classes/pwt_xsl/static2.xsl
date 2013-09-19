@@ -858,22 +858,6 @@
 			<div class="plate">
 				<xsl:if test="$lPlateType = 1"><!-- 2 rows 1 columns -->
 					<xsl:for-each select=".//*[@object_id='225' or @object_id='226']">
-						<xsl:call-template name="imagePicPreview">
-							<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
-							<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
-							<xsl:with-param name="pImageType"><xsl:value-of select="$lImageType"/></xsl:with-param>
-							<xsl:with-param name="pPlateNum">
-								<xsl:choose>
-									<xsl:when test="@object_id='225'">a</xsl:when>
-									<xsl:when test="@object_id='226'">b</xsl:when>
-								</xsl:choose>
-							</xsl:with-param>
-						</xsl:call-template>
-					</xsl:for-each>
-				</xsl:if>
-				<xsl:if test="$lPlateType > 1 "><!-- 1 rows 2 columns -->
-					<div class="plateRow">
-						<xsl:for-each select=".//*[@object_id='225' or @object_id='226']">
 							<xsl:call-template name="imagePicPreview">
 								<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
 								<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
@@ -885,40 +869,56 @@
 									</xsl:choose>
 								</xsl:with-param>
 							</xsl:call-template>
+					</xsl:for-each>
+				</xsl:if>
+				<xsl:if test="$lPlateType > 1 "><!-- 1 rows 2 columns -->
+					<div class="plateRow">
+						<xsl:for-each select=".//*[@object_id='225' or @object_id='226']">
+								<xsl:call-template name="imagePicPreview">
+									<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
+									<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
+									<xsl:with-param name="pImageType"><xsl:value-of select="$lImageType"/></xsl:with-param>
+									<xsl:with-param name="pPlateNum">
+										<xsl:choose>
+											<xsl:when test="@object_id='225'">a</xsl:when>
+											<xsl:when test="@object_id='226'">b</xsl:when>
+										</xsl:choose>
+									</xsl:with-param>
+								</xsl:call-template>	
 						</xsl:for-each>
 					</div>
 				</xsl:if>
 				<xsl:if test="$lPlateType > 2"><!-- 2 rows 2 columns -->
 					<div class="plateRow">
-						<xsl:for-each select=".//*[@object_id='227' or @object_id='228']">
-							<xsl:call-template name="imagePicPreview">
-								<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
-								<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
-								<xsl:with-param name="pImageType"><xsl:value-of select="$lImageType"/></xsl:with-param>
-								<xsl:with-param name="pPlateNum">
-									<xsl:choose>
-										<xsl:when test="@object_id='227'">c</xsl:when>
-										<xsl:when test="@object_id='228'">d</xsl:when>
-									</xsl:choose>
-								</xsl:with-param>
-							</xsl:call-template>
+						<xsl:for-each select=".//*[@object_id='227'] | .//*[@object_id='228' and ./fields/image_id/value != '']">		
+								<xsl:call-template name="imagePicPreview">
+									<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
+									<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
+									<xsl:with-param name="pImageType"><xsl:value-of select="$lImageType"/></xsl:with-param>
+									<xsl:with-param name="pPlateNum">
+										<xsl:choose>
+											<xsl:when test="@object_id='227'">c</xsl:when>
+											<xsl:when test="@object_id='228'">d</xsl:when>
+										</xsl:choose>
+									</xsl:with-param>
+								</xsl:call-template>	
 						</xsl:for-each>
 					</div>
 				</xsl:if>
 				<xsl:if test="$lPlateType > 3"><!-- 3 rows 2 columns -->
 					<div class="plateRow">
-						<xsl:for-each select=".//*[@object_id='229' or @object_id='230']">
-							<xsl:call-template name="imagePicPreview">
-								<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
-								<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
-								<xsl:with-param name="pImageType"><xsl:value-of select="$lImageType"/></xsl:with-param>
-								<xsl:with-param name="pPlateNum">
-									<xsl:choose>
-										<xsl:when test="@object_id='229'">e</xsl:when>
-										<xsl:when test="@object_id='230'">f</xsl:when>
-									</xsl:choose>
-								</xsl:with-param>
-							</xsl:call-template>
+						<xsl:for-each select=".//*[@object_id='229'] | .//*[@object_id='230' and ./fields/image_id/value != '']">
+								<xsl:call-template name="imagePicPreview">
+									<xsl:with-param name="pInstanceId"><xsl:value-of select="@instance_id"/></xsl:with-param>
+									<xsl:with-param name="pPicId"><xsl:value-of select="./fields/*[@id='484']/value"/></xsl:with-param>
+									<xsl:with-param name="pImageType"><xsl:value-of select="$lImageType"/></xsl:with-param>
+									<xsl:with-param name="pPlateNum">
+										<xsl:choose>
+											<xsl:when test="@object_id='229'">e</xsl:when>
+											<xsl:when test="@object_id='230'">f</xsl:when>
+										</xsl:choose>
+									</xsl:with-param>
+								</xsl:call-template>
 						</xsl:for-each>
 					</div>
 				</xsl:if>
@@ -1491,7 +1491,10 @@
 		    <xsl:with-param name="pInstanceId" select="@instance_id"></xsl:with-param>
 		</xsl:call-template>
 		<xsl:apply-templates select="." mode="RefinderLinks"/>
-		<xsl:apply-templates select="." mode="RefinderFormat"/>
+		<xsl:if test="count(./*[@object_id='97']/*[@object_id  != '108']) &gt; 0">
+			<xsl:apply-templates select="." mode="RefinderFormat"/>
+		</xsl:if>
+		
 
 	</xsl:template>
 
@@ -1831,7 +1834,7 @@
 					</xsl:call-template>
 					<xsl:apply-templates select="." mode="RefinderLinks"/>
 				</div>
-
+				<div class="P-Clear"></div>
 			</xsl:for-each>
 		</div>
 	</xsl:template>
@@ -1933,6 +1936,7 @@
 
 	<!-- Article of the future LIST PREVIEWS END -->
 		<xsl:template match="*" mode="RefinderFormat">
+		<div class="P-Clear"></div>
 		<div id="style-choser">
 			<div id="format-head">Format via ReFinder</div>
 			<select class="chosen-select" id="chosen-select" onchange="callFormattingService()" data-placeholder="-- select a citation style --">
