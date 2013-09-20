@@ -2203,5 +2203,14 @@ $STRARRAY = array(
 	'pwt.index_list_head_text' => 'My recent manuscripts',
 	'pjs.bygeochronocal' => 'by Chronological period',
 	'pjs.mostvisitedarticles' => 'Most visited papers',
+	
+	'pjs.article_forum_list_head' => 'Comments',
+	'pjs.article_comment_success' => 'Your comment will be reviewed by Journal Editor before it appear in the comment list',
+	'pjs.article_comment_approve_success' => 'Comment is approved',
+	'pjs.article_comment_reject_success' => 'Comment is rejected',
+	'pjs.comment_state_1' => 'Comment is Approved',
+	'pjs.comment_state_2' => 'Comment is Rejected',
+	'pjs.aof_login_to_comment' => 'Login to comment',
+	'pjs.aof_no_comments' => 'There are no comments to this article',
 );
 ?>

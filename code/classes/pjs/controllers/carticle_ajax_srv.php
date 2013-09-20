@@ -16,7 +16,7 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 		$this->m_action = $this->GetValueFromRequestWithoutChecks('action');
 		$this->m_action_result = array ();
 		$this->m_articlesModel = new mArticles();
-		$this->m_tempPageView = new pArticles_Ajax_Srv();
+		$this->m_tempPageView = new pArticles_Ajax_Srv(array());
 		$this->m_articleId = (int) $this->GetValueFromRequestWithoutChecks('article_id');
 
 		if (! $this->m_articleId) {
@@ -52,7 +52,6 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 				case 'get_article_localities':
 					$this->GetArticleLocalities();
 					break;
-
 			}
 		}
 		$lResultArr = array_merge($this->m_action_result, array (
@@ -104,6 +103,9 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 				break;
 			case (int) ARTICLE_MENU_ELEMENT_TYPE_SHARE :
 				$lResult = $this->GetShareList();
+				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_FORUM :
+				$lResult = $this->GetForum();
 				break;
 		}
 		$this->m_action_result ['html'] = $lResult;
@@ -261,6 +263,39 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 			'controller_data' => $lData,
 		));
 		return $lResult->Display();
+	}
+
+	function GetForum(){
+		
+		$lForumData = $this->m_articlesModel->GetArticleForumList($this->m_articleId);
+		
+		$lFlag = (int) $this->GetValueFromRequestWithoutChecks('comment_list_flag');
+		
+		
+		$lForumList = new evList_Display(array(
+			'name_in_viewobject' => 'forum_list',
+			'view_object' => $this->m_tempPageView,
+			'controller_data' => $lForumData,
+			'comment_list_flag' => $lFlag,
+		));
+		if(!$lFlag) {
+			$lResult = new evSimple_Block_Display(array(
+				'name_in_viewobject' => 'forum',
+				'view_object' => $this->m_tempPageView,
+				'article_id' => $this->m_articleId,
+				'messages' => $lForumList,
+				'journal_id' => 1, 
+			));
+			return $lResult->Display();
+		} else {
+			$lResult = new evSimple_Block_Display(array(
+				'name_in_viewobject' => 'forum_list_only',
+				'view_object' => $this->m_tempPageView,
+				'messages' => $lForumList,
+			));
+			return $lResult->Display();
+		}
+		
 	}
 }
 

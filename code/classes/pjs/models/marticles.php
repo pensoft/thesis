@@ -484,6 +484,40 @@ class mArticles extends emBase_Model {
 		';
 		return $this->ArrayOfRows($lSql);
 	}
+
+	function GetArticleForumList($pArticleId) {
+		global $user;
+		$lDocumentModel = new mDocuments_Model();
+		$lArticleData = $lDocumentModel->GetDocumentShortInfo($pArticleId);
+		$lJournalId = (int)$lArticleData['journal_id'];
+		
+		$lUserModel = new mUser_Model();
+		$lRoleCheck = $lUserModel->CheckIfUserHasRole($user->id, $lJournalId, array(JOURNAL_EDITOR_ROLE, JOURNAL_MANAGER_ROLE));
+		
+		$lResult = array();
+		$lSql = '
+			SELECT 
+				af.id,
+				af.message,
+				af.article_id,
+				af.state,
+				(u.first_name || \' \' || u.last_name) as user_name,
+				u.photo_id,
+				af.createdate,
+				EXTRACT(EPOCH FROM af.createdate) as createdate_in_seconds,
+				' . (int)$lRoleCheck . ' as can_edit
+			FROM pjs.article_forum af
+			JOIN usr u ON u.id = af.createuid
+			WHERE af.article_id = ' . $pArticleId . (!$lRoleCheck ? ' AND af.state = ' . FORUM_MESSAGE_STATE_APPROVED : '') . ' 
+			ORDER BY af.createdate ASC';
+			//var_dump($lSql);
+		$this->m_con->Execute($lSql);
+		while(!$this->m_con->Eof()){
+			$lResult[] = $this->m_con->mRs;
+			$this->m_con->MoveNext();
+		}
+		return $lResult;
+	}
 }
 
 ?>

@@ -920,3 +920,144 @@ function ScrollToTaxonCategory(pCategoryName){
 	var lPosition = lCategoryLink.position().top;
 	$('.P-Article-Info-Bar').scrollTop($('.P-Article-Info-Bar').scrollTop() + lPosition - 56);
 }
+
+function InitCommentForm(pDiv, pJournalId, pArticleId) {
+	$.ajax({
+		url : '/article_comment_form.php',
+		async : false,
+		data : {
+			journal_id : pJournalId,
+			article_id : pArticleId
+		},
+		success : function(pAjaxResult) {
+			if(pAjaxResult['err_cnt']){
+				alert(pAjaxResult['err_msg']);
+				return;
+			}
+			$('#' + pDiv).html(pAjaxResult['html']);
+		}
+	});
+}
+
+function submitArticleNewComment(pOper, pFormName, pId) {
+	if(pOper == 1){
+		for(var lInstanceName in CKEDITOR.instances){
+		    CKEDITOR.instances[lInstanceName].updateElement();
+		}
+	}
+	var lJqFormSel = $('form[name="' + pFormName + '"]')
+	var lFormData = lJqFormSel.formSerialize();
+	if(pOper == 1){
+		lFormData += '&tAction=comment';
+	}
+	
+	if(typeof pId != 'undefined' && pId){
+		lFormData += '&id=' + pId;
+	}
+	
+	if(pOper == 2){
+		if(!confirm('Are you sure you want to approve this comment?')){
+			$("#approve_" + pId).attr('checked', false); 
+			return false;
+		}
+		lFormData += '&tAction=approve';
+	}
+	if(pOper == 3){
+		if(!confirm('Are you sure you want to reject this comment?')){
+			$("#reject_" + pId).attr('checked', false); 
+			return false;
+		}
+		lFormData += '&tAction=reject';
+	}
+	
+
+	$.ajax({
+		url : '/article_comment_form.php',
+		type : 'POST',
+		data : lFormData,
+		success : function(pAjaxResult) {
+			if(pAjaxResult['success']){
+				if(pOper == 1){
+					for(var lInstanceName in CKEDITOR.instances){
+					    CKEDITOR.instances[lInstanceName].setData('');
+					}
+				}
+		
+				$('#article_comment_textarea').val('');
+				alert(pAjaxResult['success_msg']);
+				LoadCommentList('article_messages_wrapper_content');
+				return;
+			}
+			if(pAjaxResult['err_cnt']){
+				alert(pAjaxResult['err_msg']);
+				return;
+			}
+			return;
+		}
+	});
+}
+
+function LoadCommentList(pHolder) {
+	$.ajax({
+		url : gArticleAjaxSrvUrl,
+		async : false,
+		data : {
+			action : 'get_main_list_element',
+			element_type : 13,
+			article_id : $('#comments_article_id').val(),
+			comment_list_flag : 1
+		},
+		success : function(pAjaxResult) {
+			if(pAjaxResult['err_cnt']){
+				alert(pAjaxResult['err_msg']);
+				return;
+			}
+			$('#' + pHolder).html(pAjaxResult['html']);
+		}
+	});
+}
+
+function SetCommentDateLabel(pHolderId, pDateInSeconds, pDateString){
+	var lCurrentDate = new Date();
+	var lYear = lCurrentDate.getUTCFullYear();
+	var lMonth = lCurrentDate.getUTCMonth();
+	var lDays = lCurrentDate.getUTCDate();
+	var lHours = lCurrentDate.getUTCHours();
+	var lMinutes = lCurrentDate.getUTCMinutes();
+	var lSeconds = lCurrentDate.getUTCSeconds();
+	var lMilliseconds = lCurrentDate.getUTCMilliseconds();
+	var lCurrentSeconds = Math.floor(Date.UTC(lYear, lMonth, lDays, lHours, lMinutes, lSeconds, lMilliseconds) / 1000);
+	var lLabel = '';
+	var lTimeoutSeconds = 0;
+	var lDiff = lCurrentSeconds - pDateInSeconds;
+	//Remove the offset of the current time to UFC time because pDateInSeconds is in UFC time
+	lDiff -= lCurrentDate.getTimezoneOffset() * 60;//The offset is in minutes
+	if(lDiff < 60){
+		lLabel = 'less than a minute ago';
+		lTimeoutSeconds = 60 - lDiff;		
+	}else if(lDiff < 3600){
+		lLabel = Math.floor(lDiff / 60);
+		if(lLabel == 1){
+			lLabel += ' minute';
+		}else{
+			lLabel += ' minutes';
+		}
+		lLabel += ' ago';
+		lTimeoutSeconds = 60 - (lDiff % 60);		
+	}else if(lDiff < 3600 * 24){
+		lLabel = Math.floor(lDiff / 3600);
+		if(lLabel == 1){
+			lLabel += ' hour';
+		}else{
+			lLabel += ' hours';
+		}
+		lLabel += ' ago';
+		lTimeoutSeconds = 3600 - (lDiff % 3600);		
+	}else{
+		lLabel = pDateString;
+	}
+	$('#' + pHolderId).html(lLabel);
+	if(lTimeoutSeconds > 0){
+		setTimeout(function(){SetCommentDateLabel(pHolderId, pDateInSeconds, pDateString);}, lTimeoutSeconds * 1000);
+	}
+}

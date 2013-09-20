@@ -407,6 +407,30 @@ class mUser_Model extends emBase_Model {
 		// var_dump($lResult);
 		return $lResult;
 	}
+
+	/**
+	 * Returns true if the user is in the specific role/roles, else false
+	 *
+	 * @param $pDocumentId unknown_type
+	 * @param $pUid unknown_type
+	 * 
+	 * @return boolean
+	 */
+	function CheckIfUserHasRole($pUserId, $pJournalId, $pUserRolesArr) {
+		$lSql = "
+			SELECT 
+				id 
+			FROM pjs.journal_users 
+			WHERE journal_id = $pJournalId 
+				AND uid = $pUserId
+				AND role_id IN (" . implode(',', $pUserRolesArr) .")";
+
+		$this->m_con->Execute($lSql);
+		if((int)$this->m_con->mRs['id']){
+			return TRUE;
+		}
+		return FALSE;
+	}
 }
 
 ?>
