@@ -71,7 +71,7 @@ class cdocument_xml_validator extends csimple {
 		//file_put_contents('/tmp/validation.log', 'GetCustomCheckErrors() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		$this->GetCustomCheckErrors();
 		//file_put_contents('/tmp/validation.log', 'GetCustomCheckErrors() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
-		
+		var_dump($this->m_GroupedErrArr);
 		return (int)$this->m_errorsCounter;
 	}
 
@@ -189,7 +189,7 @@ class cdocument_xml_validator extends csimple {
 						'node_instance_name' => 'tables',
 						'cited_error_type' => (int)CITATION_TABLE_TYPE_ID,
 						//'document_id' => (int)$this->m_document_id,
-						'node_attribute_field_name' => 'Table ' . $lTable['fignum'] . ' is not cited',
+						'node_attribute_field_name' => 'Table ' . $lTable['fignum'] . ' is not cited in the text',
 						'node_instance_id' => $lTable['instance_id'],
 					);
 					$this->m_errorsCounter++;
@@ -204,7 +204,7 @@ class cdocument_xml_validator extends csimple {
 						'node_instance_name' => 'figures',
 						'cited_error_type' => (int)CITATION_FIGURE_PLATE_TYPE_ID,
 						//'document_id' => (int)$this->m_document_id,
-						'node_attribute_field_name' => 'Fig ' . $lFigure['fignum'] . ' is not cited',
+						'node_attribute_field_name' => 'Fig ' . $lFigure['fignum'] . ' is not cited in the text',
 						'node_instance_id' => $lFigure['instance_id'],
 					);
 					$this->m_errorsCounter++;
@@ -218,7 +218,7 @@ class cdocument_xml_validator extends csimple {
 					$this->m_GroupedErrArr[XML_UNCITED_REFERENCES_ERROR][] = array (
 						'node_instance_name' => 'reference',
 						'cited_error_type' => (int)CITATION_REFERENCE_TYPE_ID,
-						'node_attribute_field_name' => 'References is not cited',
+						'node_attribute_field_name' => 'Reference is not cited in the text',
 						'node_instance_id' => $lReference,
 						'node_instance_name' => 'reference',
 					);

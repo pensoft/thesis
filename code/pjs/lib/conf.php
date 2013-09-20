@@ -374,6 +374,7 @@ define('ARTICLE_MENU_ELEMENT_TYPE_CITATION', 9);
 define('ARTICLE_MENU_ELEMENT_TYPE_RELATED', 10);
 define('ARTICLE_MENU_ELEMENT_TYPE_METRICS', 11);
 define('ARTICLE_MENU_ELEMENT_TYPE_SHARE', 12);
+define('ARTICLE_MENU_ELEMENT_TYPE_FORUM', 13);
 
 //define('PWT_VERSION_PREVIEW_URL', PWT_URL . 'lib/ajax_srv/get_document_pjs_preview.php');
 define('PWT_AOF_CACHE_URL', PWT_URL . 'lib/ajax_srv/generate_aof_cache.php');
@@ -397,6 +398,10 @@ define('PWT_PLATE_DOWNLOAD_SRV', PWT_URL . '/lib/ajax_srv/plate_download.php?ins
 define('RSS_LIMIT', 100);
 define('NLM_XML_ITEM_TYPE', 19);
 
+
+define('FORUM_MESSAGE_STATE_UNAPPROVED', 0);
+define('FORUM_MESSAGE_STATE_APPROVED', 1);
+define('FORUM_MESSAGE_STATE_REJECTED', 2);
 
 define('OAI_VERB_GET_IDENTIFY', 'Identify');
 define('OAI_VERB_GET_LIST_METADATA_FORMATS', 'ListMetadataFormats');

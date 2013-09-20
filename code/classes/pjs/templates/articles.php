@@ -41,6 +41,7 @@ $gTemplArr = array(
 								ARTICLE_MENU_ELEMENT_TYPE_CITATION   => 'Citation',
 								ARTICLE_MENU_ELEMENT_TYPE_METRICS  => 'Metrics',
 								ARTICLE_MENU_ELEMENT_TYPE_SHARE  => 'Share',
+								ARTICLE_MENU_ELEMENT_TYPE_FORUM  => 'Comments',
 							)) . '
 						</ul>
 						<!--
@@ -333,6 +334,80 @@ $gTemplArr = array(
 					<div class="P-Error-Message">{err_msg}</div>
 				</div>
 
+		',
+		
+		'article.forum_list_head' => '
+				{_showCommentHeadElementByFlag(comment_list_flag)}
+		',
+		'article.forum_list_foot' => '
+				{_showCommentFootElementByFlag(comment_list_flag)}',
+		'article.forum_list_start' => '
+				
+		',
+		'article.forum_list_end' => '',
+		'article.forum_list_nodata' => '<div class="aof_no_comments_holder">{_getstr(pjs.aof_no_comments)}</div>',
+		'article.forum_list_row' => '
+			<div class="forum_list_row">
+				<div class="forum_list_arrow"></div>
+				<div class="forum_list_content">
+					<div class="forum_list_user_header">
+						<div class="forum_list_user_info">
+							<div class="forum_list_user_image">
+								{_showCommentUserPic(photo_id)}
+							</div>
+							
+							<div class="forum_list_user_main_info">
+								<div class="forum_list_user_name">
+									{user_name}
+								</div>
+								
+								<div class="forum_list_user_comment_date">
+									{_displayCommentLastModdate(id, createdate, createdate_in_seconds)}
+								</div>
+							</div>
+						</div>
+						{_showEditOptions(id, can_edit, state)}
+					</div>
+					
+					<div class="P-Clear"></div>
+					<div class="forum_list_user_comment_text">
+						{message}
+					</div>
+				</div>
+				<div class="P-Clear"></div>
+			</div>
+		', 
+		
+		'articles.forum' => '
+			<div class="article_forum" id="article_forum_wrap">
+				{messages}
+				<div id="comment_form"></div>
+				<script>
+					InitCommentForm(\'comment_form\', {journal_id}, {article_id});
+				</script>
+			</div>
+		',
+		
+		'article.comment_form' => '{journal_id}{article_id}{user_id}{id}{event_id}
+			<div class="new_comment_title">Add comment</div>
+			<div class="article_comment_form">
+				{message}
+				<div class="comment_btn article_comment_btn" id="P-Comment-Btn-General" title="Article Comment" onmousedown="submitArticleNewComment(1, \'article_comments_form\');return false;"></div>
+			</div>
+		',
+
+		'articles.forum_no_logged_user' => '
+			<div class="article_comment_form_not_logged">
+				<a href="/login.php?redirurl=' . urlencode('/articles.php?id=') . '{article_id}">{_getstr(pjs.aof_login_to_comment)}</a>
+			</div>
+		',
+
+		'articles.forum_wrapper' => '
+			{form}
+		',
+		
+		'articles.forum_list_only' => '
+			{messages}
 		',
 
 );

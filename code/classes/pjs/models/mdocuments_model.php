@@ -1755,6 +1755,22 @@ class mDocuments_Model extends emBase_Model {
 		return $lResult;
 	}
 	
+	/**
+	 * This function return document journal id
+	 * 
+	 * @param bigint $pDocumentId
+	 * 
+	 * @return int
+	 */
+	function GetDocumentShortInfo($pDocumentId){
+		$lCon = $this->m_con;
+		$lResult = array();
+		$lSql = "SELECT * FROM pjs.documents WHERE id = $pDocumentId";
+		$lCon->Execute($lSql);
+		$lResult = $lCon->mRs; 
+		return $lResult;
+	}
+	
 }
 
 ?>

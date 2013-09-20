@@ -266,6 +266,33 @@ $gTemplArr = array(
 				<input type="radio" id="{field_name}_{value_key}" name="{field_name}" value="{value_key}" {row_additional_tags_string} {_checkIfFormCheckboxRowIsSelected(value_is_selected)} />
 				<label for="{field_name}_{value_key}" title="{field_select_title}">{value_label}</label><br/>
 	',
+	
+	'form.richtext_editor_row' => '
+		<textarea name="{field_name}" id="textarea_{field_name}" {additional_tags_string} >{_h(field_cur_value)}</textarea>
+		<script  type="text/javascript">
+			CKEDITOR.config.language = \'en\';
+			CKEDITOR.replace(\'textarea_{field_name}\', {
+				on: {
+					key: function( evt ) {
+						var leditor = evt.editor;
+						leditor.updateElement();
+					},
+					paste: function( evt ) {
+						var leditor = evt.editor;
+						leditor.updateElement();
+					},
+					blur: function( evt ) {
+						var leditor = evt.editor;
+						leditor.updateElement();
+					}
+				},
+				toolbar : \'SmallToolbar\',
+				removePlugins: \'elementspath,resize\',
+				height: 120,
+				width: 451
+			});
+		</script>
+	',
 );
 
 ?>

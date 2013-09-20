@@ -3509,4 +3509,80 @@ function setAuthorRowCloseDiv($pRownum, $pRecords) {
 	return '';
 }
 
+function showCommentUserPic($pPhotoId) {
+	//$lIsDisclosed = CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId);
+	if($pPhotoId)
+		return '<img border="0" alt="" height="27" width="27" src="' . PWT_URL . '/showimg.php?filename=c27x27y_' . (int)$pPhotoId . '.jpg" />';
+	return '<img src="' . PWT_URL . '/i/user_no_img.png" alt="" height="27" width="27" />';
+}
+
+//<div class="Comment-Resolve-Info"><input type="checkbox" onclick="ResolveComment(3015)" name="is_resolved_3015" id="is_resolved_3015" value="1"><label id="label_is_resolved_3015" for="is_resolved_3015" class="">Resolve</label></div>
+
+function showEditOptions($pId, $pCanEdit, $pState) {
+	if($pCanEdit && in_array($pState, array(FORUM_MESSAGE_STATE_UNAPPROVED))) {
+			
+		return '
+			<div class="forum_list_actions">
+				<input type="checkbox" onclick="submitArticleNewComment(2, \'article_comments_form\', ' . $pId . ')" name="approve" id="approve_' . $pId . '" value="1">
+				<label for="approve_' . $pId . '" class="">Approve</label>
+				<input type="checkbox" onclick="submitArticleNewComment(3, \'article_comments_form\', ' . $pId . ')" name="reject" id="reject_' . $pId . '" value="1">
+				<label for="reject_' . $pId . '" class="">Reject</label>
+			</div>
+		';
+	}
+	if($pCanEdit && in_array($pState, array(FORUM_MESSAGE_STATE_APPROVED, FORUM_MESSAGE_STATE_REJECTED))){
+		return '
+			<div class="forum_list_actions">
+				<input type="checkbox" ' . ($pState == FORUM_MESSAGE_STATE_APPROVED ? 'checked="checked" disabled="true"' : 'onclick="submitArticleNewComment(2, \'article_comments_form\', ' . $pId . ')"') . ' name="approve" id="approve_' . $pId . '" value="1">
+				<label ' . ($pState == FORUM_MESSAGE_STATE_APPROVED ? '' : 'for="approve_' . $pId) . '">Approve</label>
+				<input type="checkbox" ' . ($pState == FORUM_MESSAGE_STATE_REJECTED ? 'checked="checked" disabled="true"' : 'onclick="submitArticleNewComment(3, \'article_comments_form\', ' . $pId . ')"') . ' name="reject" id="reject_' . $pId . '" value="1">
+				<label ' . ($pState == FORUM_MESSAGE_STATE_REJECTED ? '' : 'for="reject_' . $pId) . '">Reject</label>
+			</div>
+		';
+	}
+	return '';
+}
+
+function showCommentHeadElementByFlag($pFlag){
+	if(!$pFlag) {
+		return '
+			<div class="forum_wrapper">
+				<div class="forum_list_head">
+					' . getstr('pjs.article_forum_list_head') . '
+				</div>
+				<div class="article_messages_wrapper_content" id="article_messages_wrapper_content">
+		';
+	} else {
+		return '';
+	}
+}
+
+function showCommentFootElementByFlag($pFlag){
+	if(!$pFlag) {
+		return '
+				</div>
+			</div>
+		';
+	} else {
+		return '';
+	}
+}
+
+/*
+function displayCommentLastModdate($pCommentId, $pDate, $pDateInSeconds, $pIsRoot = false){
+	$lResult = '';
+	$pDate = showCommentDate($pDate);
+	$lSpanId = 'comment_date_';
+	if($pIsRoot){
+		$lSpanId .= 'root_';
+	}
+	$lSpanId .= $pCommentId;
+	$lCurrentSeconds = time();
+	$lDiff = $lCurrentSeconds - $pDateInSeconds;
+	$lResult = '<span id="' . $lSpanId . '" title="' . $pDate . '">
+					<script>SetCommentDateLabel(' . json_encode($lSpanId) . ', ' . (int)$pDateInSeconds . ', ' . json_encode($pDate) . ')</script>
+				</span>';
+	return $lResult;
+}
+*/
 ?>

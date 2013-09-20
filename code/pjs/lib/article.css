@@ -32,7 +32,7 @@ a[href],label[for] {
 }
 
 .P-Info-Content {
-	width: 500px;
+	width: 484px;
 	-moz-box-sizing: padding-box;
 }
 
@@ -150,7 +150,7 @@ a[href],label[for] {
 
 .P-Info-Menu.leftBar {
 	top: 70px;
-	width: 400px;
+	width: 484px;
 	height: 50px;
 	padding: 5px 5px 5px 6px;
 	border-radius: 5px 5px 5px 5px;
@@ -336,6 +336,7 @@ a[href],label[for] {
 	padding-bottom: 15px;
 	min-height: 48px;
 	border-bottom: 1px solid #BBB;
+	margin-right: -15px;
 }
 
 .item-holder-RC:hover {
@@ -344,7 +345,7 @@ a[href],label[for] {
 
 .item-holder-RC.table {
 	/*cursor: pointer;*/
-
+	padding-right: 30px;
 }
 
 .item-holder-RC:last-child {
@@ -398,6 +399,7 @@ a[href],label[for] {
 	padding-left: 15px;
 	padding-right: 15px;
 	border-bottom: 1px solid #BBB;
+	margin-right: -15px;
 }
 
 .taxalistAOF .tn .authority {
@@ -451,17 +453,28 @@ div.myfieldHolder[field_id='222'] {
 	list-style: none;
 }
 
+div.bibr.ref-list-AOF-holder{
+	margin-right: -15px;
+}
+
 .ref-list-AOF-holder-holder {
 	border-bottom: 1px solid #BBB;
+	margin-right: -15px;
+	padding-right: 15px;
 }
 
 .ref-list-AOF-holder-holder .bibr{
 	float:left;
 }
 
+div.bibr {
+    margin-right: -15px;
+}
+
 .ref-list-AOF-holder-holder .ref-list-AOF-holder {
 	border-bottom: none;
 	padding-bottom: 0px;
+	margin-right: 0px;
 }
 
 .ref-list-AOF-holder-holder .refinder-link-holder {
@@ -527,7 +540,7 @@ div.myfieldHolder[field_id='222'] {
 }
 
 .table,.figure {
-	padding: 15px 30px 15px 15px;
+	padding: 15px 15px 15px 15px;
 }
 
 .fig-label-RC.table,.P-table-tump-holder.table {
@@ -547,7 +560,7 @@ a.download {
 
 .P-Localities-Map-Inner {
 	height: 451px;
-	width: 451px;
+	width: 500px;
 	margin: 0px auto;
 }
 
@@ -559,6 +572,11 @@ a.download {
 	font-size: 12pt;
 	float:right;
 }
+
+.P-Info-Content .P-Article-Structures{
+	margin-right: -15px;
+}
+
 /* copy pasted from articleAOF.css; could be outdated */
 .figure .holder {
 	background-color: white;
@@ -692,7 +710,7 @@ a.download {
 
 .AOF-Content-holder>ul {
 	padding: 15px;
-	margin: 15px 15px 15px 10px;
+	margin: 15px 0px 15px 10px;
 }
 
 #AOF-articleMenu {
@@ -768,7 +786,7 @@ a.download {
 }
 
 .P-Authors-Whole-List {
-	margin: 15px;
+	margin: 15px 0px 15px 15px;
 	font-size: 11pt;
 }
 
@@ -1064,6 +1082,7 @@ div.sectionBody iframe {
 	border-bottom: 1px solid #BBBBBB;
 	font-weight: bold;
 	color: #0088CC;
+	margin-right: -15px;
 }
 
 .plate_link {
@@ -1111,7 +1130,7 @@ xref[type='bibr']:hover,xref[type='fig']:hover,xref[type='table']:hover,xref[typ
 
 .P-Citation {
 	font-size: 11pt;
-	padding: 15px;
+	padding: 15px 0px 15px 15px;
 }
 
 img.noBorder {
@@ -1253,6 +1272,7 @@ tr.P-Metrics-Row td{
 	color: #666;
 	font-weight: normal;
 	padding: 15px;
+	margin-right: -15px;
 }
 
 .P-Nav-Article {
@@ -1680,6 +1700,7 @@ a.AOF-journal-logo {
 	padding: 15px 30px 15px 15px;
 	margin-top: 15px;
 	border-top: 1px solid rgb(187, 187, 187);
+	margin-right: -15px;
 }
 
 .P-Taxon-Navigation-Link-Prev, .P-Taxon-Navigation-Link-Next, .P-Citation-Navigation-Link-Prev, .P-Citation-Navigation-Link-Next{
@@ -1764,3 +1785,6 @@ a.AOF-journal-logo {
 	font-size:12px;
 	font-family: helvetica;
 }
+
+
+

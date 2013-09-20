@@ -1,0 +1,3 @@
+INSERT INTO pjs.event_types(name) VALUES('New AOF comment');
+INSERT INTO pjs.email_task_definitions(name, event_type_id, is_automated, subject, content_template, recipients, cc) 
+VALUES('U -> new AOF comment -> E/JM', 105, FALSE, '[{journal_name}] - new comment on #{document_id}', 'Dear {first_name} {last_name}, new comment has been add to Article #{document_id}, you can revise this comment here: {article_link}', ARRAY[8], 'preprint@pensoft.net');
