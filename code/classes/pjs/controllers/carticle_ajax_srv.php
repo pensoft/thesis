@@ -62,14 +62,13 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 		// var_dump($lResultArr);
 		$this->m_pageView = new pArticles_Ajax_Srv($lResultArr);
 	}
-
-	function GetMainListElement() {
-		$lElementType = (int) $this->GetValueFromRequestWithoutChecks('element_type');
-
+	
+	function GetMainListElementBase($pElementType){
 		$lResult = '';
-		switch ($lElementType) {
+		switch ($pElementType) {
 			default :
 			case (int) ARTICLE_MENU_ELEMENT_TYPE_CONTENTS :
+				$pElementType =(int) ARTICLE_MENU_ELEMENT_TYPE_CONTENTS;
 				$lResult = $this->m_articlesModel->GetContentsListHtml($this->m_articleId);
 				break;
 			case (int) ARTICLE_MENU_ELEMENT_TYPE_FIGURES :
@@ -106,7 +105,44 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 				$lResult = $this->GetShareList();
 				break;
 		}
+		return $lResult;		
+	}
+
+	function GetMainListElement() {
+		$lElementType = (int) $this->GetValueFromRequestWithoutChecks('element_type');
+		$lResult = $this->GetMainListElementBase($lElementType);
+		$this->m_action_result['url_link'] = '?id=' . (int) $this->m_articleId . '&display_type=list&element_type=' . $lElementType;
 		$this->m_action_result ['html'] = $lResult;
+	}
+	
+	function GetElementBase($pElementType, $pElementId, $pElementName){		
+		$lResult = '';
+		switch ($pElementType) {
+			default :
+// 				$this->m_errCnt ++;
+// 				$this->m_errMsg = getstr('pjs.unknownElementType');
+// 				return;
+// 				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_FIGURES :
+				$lResult = $this->m_articlesModel->GetFigureHtml($this->m_articleId, $pElementId);
+				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_TABLES :
+				$lResult = $this->m_articlesModel->GetTableHtml($this->m_articleId, $pElementId);
+				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_REFERENCES :
+				$lResult = $this->m_articlesModel->GetReferenceHtml($this->m_articleId, $pElementId);
+				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES :
+				$lResult = $this->m_articlesModel->GetSupFileHtml($this->m_articleId, $pElementId);
+				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_TAXON :
+				$lResult = $this->m_articlesModel->GetTaxonHtml($pElementName);
+				break;
+			case (int) ARTICLE_MENU_ELEMENT_TYPE_AUTHORS :
+				$lResult = $this->m_articlesModel->GetAuthorHtml($this->m_articleId, $pElementId);
+				break;
+		}
+		return $lResult;		
 	}
 
 	protected function GetElement($pElementType) {
@@ -117,40 +153,16 @@ class cArticle_Ajax_Srv extends cBase_Controller {
 			$this->m_errMsg = getstr('pjs.noElementId');
 			return;
 		}
-
+		
 		if (! $lElementName && $pElementType == ARTICLE_MENU_ELEMENT_TYPE_TAXON) {
 			$this->m_errCnt ++;
 			$this->m_errMsg = getstr('pjs.noTaxonName');
 			return;
 		}
-		$lResult = '';
-		switch ($pElementType) {
-			default :
-				$this->m_errCnt ++;
-				$this->m_errMsg = getstr('pjs.unknownElementType');
-				return;
-				break;
-			case (int) ARTICLE_MENU_ELEMENT_TYPE_FIGURES :
-				$lResult = $this->m_articlesModel->GetFigureHtml($this->m_articleId, $lElementId);
-				break;
-			case (int) ARTICLE_MENU_ELEMENT_TYPE_TABLES :
-				$lResult = $this->m_articlesModel->GetTableHtml($this->m_articleId, $lElementId);
-				break;
-			case (int) ARTICLE_MENU_ELEMENT_TYPE_REFERENCES :
-				$lResult = $this->m_articlesModel->GetReferenceHtml($this->m_articleId, $lElementId);
-				break;
-			case (int) ARTICLE_MENU_ELEMENT_TYPE_SUP_FILES :
-				$lResult = $this->m_articlesModel->GetSupFileHtml($this->m_articleId, $lElementId);
-				break;
-			case (int) ARTICLE_MENU_ELEMENT_TYPE_TAXON :
-				$lResult = $this->m_articlesModel->GetTaxonHtml($lElementName);
-				break;
-			case (int) ARTICLE_MENU_ELEMENT_TYPE_AUTHORS :
-				$lResult = $this->m_articlesModel->GetAuthorHtml($this->m_articleId, $lElementId);
-				break;
-		}
+		$lResult = $this->GetElementBase($pElementType, $lElementId, $lElementName);
 		$this->m_action_result ['html'] = $lResult;
 		$this->m_action_result ['element_type'] = (int) $pElementType;
+		$this->m_action_result['url_link'] = '?id=' . (int) $this->m_articleId . '&display_type=element&element_type=' . $pElementType . '&element_id=' . (int) $lElementId . '&element_name=' . $lElementName;
 	}
 
 	function GetFigureElement() {
