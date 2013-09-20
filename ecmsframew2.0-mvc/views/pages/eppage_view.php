@@ -296,7 +296,7 @@ class epPage_View extends ebase {
 				}elseif(is_array($lObjectItem)){
 					// We treat arrays as object definitions
 					if(! isset($lObjectItem['ob'])){
-						var_dump($lObjectItem, $pName);
+// 						var_dump($lObjectItem, $pName);
 						$lObjectItem['ob'] = new $lObjectItem['ctype']($lObjectItem);
 					}
 						// If the item doesnt have a view object - we add this
