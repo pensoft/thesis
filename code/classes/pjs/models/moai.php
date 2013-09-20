@@ -38,6 +38,7 @@ class mOai extends emBase_Model {
 		$lSql = 'SELECT name, url_name as spec
 				FROM journals
 				WHERE state = 1
+				ORDER BY id ASC
 				';
 		$lCon->Execute($lSql);
 		$lCon->SetPage($pPageSize, $pPageNum);

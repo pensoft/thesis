@@ -1,27 +1,4 @@
 <?php
-define('OAI_VERB_GET_IDENTIFY', 'Identify');
-define('OAI_VERB_GET_LIST_METADATA_FORMATS', 'ListMetadataFormats');
-define('OAI_VERB_GET_LIST_SETS', 'ListSets');
-define('OAI_VERB_GET_LIST_IDENTIFIERS', 'ListIdentifiers');
-define('OAI_VERB_GET_LIST_RECORDS', 'ListRecords');
-define('OAI_VERB_GET_RECORD', 'GetRecord');
-define('OAI_REPOSITORY_NAME', 'Biodiversity Data Journal');
-define('OAI_URL', SITE_URL . 'oai.php');
-define('OAI_PROTOCOL_VERSION', '2.0');
-define('OAI_ADMIN_EMAIL', 'development@pensoft.net');
-define('OAI_PAGE_SIZE', 5);
-define('OAI_ERR_CODE_BAD_RESUMPTION_TOKEN', 1);
-define('OAI_ERR_CODE_BAD_ARGUMENT', 2);
-define('OAI_ERR_CODE_NO_SET_HEIRARCHY', 3);
-define('OAI_ERR_CODE_NO_RECORDS', 4);
-define('OAI_ERR_CODE_ID_DOES_NOT_EXIST', 5);
-define('OAI_IDENTIFIER_LABEL', 'identifier');
-define('OAI_RESUMPTION_TOKEN_LABEL', 'resumptionToken');
-define('OAI_SET_LABEL', 'set');
-define('OAI_FROM_LABEL', 'from');
-define('OAI_UNTIL_LABEL', 'until');
-define('OAI_METADATA_PREFIX_LABEL', 'metadataPrefix');
-define('OAI_IDENTIFIER_LABEL', 'identifier');
 
 class cOai extends cBase_Controller {
 	var $m_oaiModel;
