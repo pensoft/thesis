@@ -929,6 +929,11 @@ function prepareValueForXmlAttributeValue($pValue){
 	return $pValue;
 }
 
+function xmlEscape($pVal){
+	$pVal = html_entity_decode($pVal, ENT_QUOTES, "UTF-8");
+	return htmlspecialchars($pVal);
+}
+
 /**
  * Понеже грешките са във формат ERROR: pErrorMsg, а ни се налага да правим getstr - трябва да махнем ERROR:
  * @param unknown_type $pDbError

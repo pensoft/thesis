@@ -135,9 +135,10 @@ class epPage_View extends ebase {
 
 
 		$lStrFuncParams = '';
-
+		$lNotExportedParamReferences = array();
 		foreach($lFuncParams as $k => $v){
 			$lParamName = trim($v);
+			$lExportParam = true;
 			if(! $pObjectIsForm){
 
 
@@ -146,7 +147,10 @@ class epPage_View extends ebase {
 					$lObjectItem = $pObject->GetVal($lParamName);
 					// 			var_dump($pName, $lObjectItem);
 					if($lObjectItem){
-						if(is_object($lObjectItem) && is_subclass_of($lObjectItem, 'ebase')){
+						if(is_object($lObjectItem) && is_subclass_of($lObjectItem, 'epPage_View')){														
+							$lExportParam = false;
+							$lNotExportedParamReferences[$lParamName] = $lObjectItem;
+						}elseif(is_object($lObjectItem) && is_subclass_of($lObjectItem, 'ebase')){
 
 							// If the item is an object - we get its display result
 							// If the item doesnt have a view object - we add this
@@ -203,12 +207,18 @@ class epPage_View extends ebase {
 // // 				var_dump($lForms[1]->Display());
 // 				exit;
 // 			}
-			$lStrFuncParams .= var_export($lObjectParamValue, true) . ',';
+			if($lExportParam){
+				$lStrFuncParams .= var_export($lObjectParamValue, true) . ',';
+			}else{
+				$lStrFuncParams .= '$lNotExportedParamReferences[\'' . $lParamName . '\'],';
+			}
+			
 		}
 		if($lStrFuncParams){
 			$lStrFuncParams = substr($lStrFuncParams, 0, - 1);
 		}
-		$evalstr = 'return ' . $lFuncname . '(' . $lStrFuncParams . ');';
+		$evalstr = 'return ' . $lFuncname . '(' . $lStrFuncParams . ');';	
+// 		var_dump($evalstr);	
 		return eval($evalstr);
 	}
 
@@ -351,8 +361,9 @@ class epPage_View extends ebase {
 // 			var_dump($pName, $lObjectItem);
 
 			if($lObjectItem){
-
-				if(is_object($lObjectItem) && is_subclass_of($lObjectItem, 'ebase')){
+				if(is_object($lObjectItem) && is_subclass_of($lObjectItem, 'epPage_View')){				
+					$lRetStr = $lObjectItem;
+				}else if(is_object($lObjectItem) && is_subclass_of($lObjectItem, 'ebase')){
 
 					// If the item is an object - we get its display result
 					// If the item doesnt have a view object - we add this

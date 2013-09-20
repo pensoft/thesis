@@ -98,6 +98,7 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 	protected function StripUnnecessaryContent($pXPath){
 		$this->StripReferenceSpans($pXPath);
 		$this->StripXRefs($pXPath);
+		$this->InsertLineBreak($pXPath);
 	}
 
 	protected function StripReferenceSpans($pXPath){
@@ -117,6 +118,27 @@ class cGenerate_PDF_Controller extends cBase_Controller {
 			$lCurrentNode->parentNode->removeChild($lCurrentNode);
 		}
 	}
+	
+	protected function InsertLineBreak($pXPath){
+		$lInstanceIds = array(243928, 243029, 248549, 249976, 251633, 249009);
+		foreach ($lInstanceIds as $lInstanceId) {
+			$lInstanceNode = $pXPath->query('//*[@instance_id="' . $lInstanceId . '"]');			
+			if($lInstanceNode->length){
+				$lNode = $lInstanceNode->item(0);
+				$lNode->setAttribute('data-page-break-before', '1');
+			}
+		}
+		$lAuthorIds = array(7606);
+		foreach ($lAuthorIds as $lAuthor) {
+			$lInstanceNode = $pXPath->query('//*[@data-author-id="' . $lAuthor . '"]');
+			if($lInstanceNode->length){
+				$lNode = $lInstanceNode->item(0);
+				$lNode->setAttribute('data-page-break-before', '1');
+				$lNode->parentNode->insertBefore($lNode->ownerDocument->createElement('br'), $lNode);
+			}
+		}
+		
+	} 
 
 /*	function head_JS_files(){
 		return array(	'js/jquery',

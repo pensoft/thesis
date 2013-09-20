@@ -96,14 +96,17 @@ class evList_Display extends evbase_view {
 		if($this->m_pageParameterName == ''){
 			$this->m_pageParameterName = DEFAULT_LIST_PAGE_PARAMETER_NAME;
 		}
-		$this->m_pubdata['page_parameter_name'] = $this->m_pageParameterName;
+		$this->m_pubdata['page_parameter_name'] = $this->m_pageParameterName;		
 
 		/**
 		 * Sets the default page size and page num
 		 * Each view should be able to change the page size and num if necessary
 		 */ 
-		 if( !$this->m_UseDbPaging )
+		 if( !$this->m_UseDbPaging ){
 			$this->setPageSizeAndPageNum($this->m_pubdata['default_page_size'], $this->m_pubdata['page_num']);
+		 }
+		 $this->m_pubdata['pagesize'] = (int)$this->m_pageSize;		 
+		 
 	}
 
 	/**
