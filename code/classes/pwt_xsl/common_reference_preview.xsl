@@ -356,10 +356,10 @@
 					<xsl:text> </xsl:text>
 					<xsl:choose>
 						<xsl:when test="count(./*[@object_id='93']/*[@object_id='91']) &gt; 1">
-							<xsl:text>(Ed.)</xsl:text>
+							<xsl:text>(Eds)</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:text>(Eds)</xsl:text>
+							<xsl:text>(Ed.)</xsl:text>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:if>
@@ -711,10 +711,10 @@
 					<xsl:text> </xsl:text>
 					<xsl:choose>
 						<xsl:when test="count(./*[@object_id='93']/*[@object_id='91']) &gt; 1">
-							<xsl:text>(Ed.)</xsl:text>
+							<xsl:text>(Eds)</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:text>(Eds)</xsl:text>
+							<xsl:text>(Ed.)</xsl:text>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:if>

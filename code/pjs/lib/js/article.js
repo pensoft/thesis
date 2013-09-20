@@ -956,17 +956,17 @@ function submitArticleNewComment(pOper, pFormName, pId) {
 	}
 	
 	if(pOper == 2){
-		if(!confirm('Are you sure you want to approve this comment?')){
-			$("#approve_" + pId).attr('checked', false); 
-			return false;
-		}
+	//	if(!confirm('Are you sure you want to approve this comment?')){
+	//		$("#approve_" + pId).attr('checked', false); 
+	//		return false;
+	//	}
 		lFormData += '&tAction=approve';
 	}
 	if(pOper == 3){
-		if(!confirm('Are you sure you want to reject this comment?')){
-			$("#reject_" + pId).attr('checked', false); 
-			return false;
-		}
+	//	if(!confirm('Are you sure you want to reject this comment?')){
+	//		$("#reject_" + pId).attr('checked', false); 
+	//		return false;
+	//	}
 		lFormData += '&tAction=reject';
 	}
 	
@@ -984,7 +984,7 @@ function submitArticleNewComment(pOper, pFormName, pId) {
 				}
 		
 				$('#article_comment_textarea').val('');
-				alert(pAjaxResult['success_msg']);
+		//		alert(pAjaxResult['success_msg']);
 				LoadCommentList('article_messages_wrapper_content');
 				return;
 			}

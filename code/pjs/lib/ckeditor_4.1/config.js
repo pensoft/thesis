@@ -31,7 +31,7 @@ CKEDITOR.editorConfig = function( config )
 
 	config.toolbar_SmallToolbar =
 	[
-		{ name: 'basicstyles', items : [ 'Bold','-','Italic','-','Underline','-','Subscript','-','Superscript','-',
+		{ name: 'basicstyles', items : [ 'Bold','-','Italic','-','Underline','-','Subscript','-','Superscript', '-', 'Link','-','Unlink','-',
 	         'Undo','-','Redo'
          ] }
 
