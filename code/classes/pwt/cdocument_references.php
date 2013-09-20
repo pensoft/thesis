@@ -23,16 +23,21 @@ class cdocument_references extends crs_array {
 				if($lPreviousRow){
 					$lReferencesAreFromTheSameGroup = true;
 					foreach($lFieldsToMatch as $lCurrentField){
-						if($lCurrentRow['authors_count'] <= 2) {
+						if((int)$lCurrentRow['authors_count'] <= 2) {
 							if($lPreviousRow[$lCurrentField] != $lCurrentRow[$lCurrentField]){
 								$lReferencesAreFromTheSameGroup = false;
 								break;
 							}
 						} else {
-							if($lCurrentField != 'authors_combined_names') {
-								if($lPreviousRow[$lCurrentField] != $lCurrentRow[$lCurrentField]){
-									$lReferencesAreFromTheSameGroup = false;
-									break;
+							if($lPreviousRow['authors_count'] <= 2){
+								$lReferencesAreFromTheSameGroup = false;
+								break;
+							} else {
+								if($lCurrentField != 'authors_combined_names' && $lCurrentField != 'authors_count') {
+									if($lPreviousRow[$lCurrentField] != $lCurrentRow[$lCurrentField]){
+										$lReferencesAreFromTheSameGroup = false;
+										break;
+									}
 								}
 							}
 						}
