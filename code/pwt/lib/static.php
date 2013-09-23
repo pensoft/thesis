@@ -4150,7 +4150,7 @@ function getTabbedElementDisplayClass($pActiveElementId, $pCurrentElementId){
 	return '';
 }
 
-function prepareXMLErrors($pXMLArr) {
+function prepareXMLErrors($pXMLArr, $pDocumentId) {
 	if(is_array($pXMLArr)) {
 		global $gXMLErrors;
 		foreach($pXMLArr as $err=>$val) {
@@ -4168,12 +4168,19 @@ function prepareXMLErrors($pXMLArr) {
 					//$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $lReferenceDisplayName . '"</a></li>';
 					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . '"' . $lReferenceDisplayName . '" ' . $v['node_attribute_field_name'] . '</a></li>';
 				} else {
-					$lInstanceIdDisplayErr = getInstanceDisplayErr($v['node_instance_id']);
-					if ($v['node_instance_name'] == 'Taxon treatments'){
-						$lStr .= '<li>- ' . $v['node_attribute_field_name'] . '</li>';
-					}
-					else {
-						$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $lInstanceIdDisplayErr . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					//var_dump($v['node_instance_id']);
+					//var_dump(checkIsReferenceByInstanceId($v['node_instance_id'], $pDocumentId));
+					$lRefId = checkIsReferenceByInstanceId($v['node_instance_id'], $pDocumentId);
+					if($lRefId){
+						$lReferenceDisplayName = getReferenceDisplayNameByInstanceId($lRefId);
+						$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $lRefId . '">' . $v['node_attribute_field_name'] . ' in reference "' . $lReferenceDisplayName . '"</a></li>';
+					} else {
+						$lInstanceIdDisplayErr = getInstanceDisplayErr($v['node_instance_id']);
+						if ($v['node_instance_name'] == 'Taxon treatments'){
+							$lStr .= '<li>- ' . $v['node_attribute_field_name'] . '</li>';
+						} else {
+							$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $lInstanceIdDisplayErr . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+						}	
 					}
 				}
 			}
@@ -4182,6 +4189,25 @@ function prepareXMLErrors($pXMLArr) {
 		return $lStr;
 	}
 	return '';
+}
+
+function checkIsReferenceByInstanceId($pInstanceId, $pDocumentId){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = '
+		SELECT 
+			doi1.id 
+		FROM pwt.document_object_instances doi
+		JOIN pwt.document_object_instances doi1 ON doi1.pos = substring(doi.pos FROM 1 for 4) AND doi1.document_id = doi.document_id
+		WHERE doi.id = ' . $pInstanceId . ' 
+			AND doi.document_id = ' . $pDocumentId . ' 
+			AND doi1.object_id = ' . REFERENCE_OBJECT_ID . '
+	';
+	//var_dump($lSql);
+	$lCon->Execute($lSql);
+	$lReferenceId = (int)$lCon->mRs['id'];
+	$lCon->Close(); 
+	return $lReferenceId;
 }
 
 function getInstanceDisplayErr($pInstanceId){

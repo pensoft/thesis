@@ -411,7 +411,7 @@ class cdocument_xml_validator extends csimple {
 	}
 
 	function GetAllXMLErrors() {
-		return prepareXMLErrors($this->m_GroupedErrArr);
+		return prepareXMLErrors($this->m_GroupedErrArr, $this->m_document_id);
 	}
 
 	/**
