@@ -4164,7 +4164,8 @@ function prepareXMLErrors($pXMLArr) {
 					//$lStr .= '<li>- <a href="/tables.php?document_id=' . $v['document_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
 					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
 				} elseif($v['node_instance_name'] == 'reference') {
-					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					$lReferenceDisplayName = getReferenceDisplayNameByInstanceId($v['node_instance_id']);
+					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $lReferenceDisplayName . '"</a></li>';
 				} else {
 					$lInstanceIdDisplayErr = getInstanceDisplayErr($v['node_instance_id']);
 					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $lInstanceIdDisplayErr . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
@@ -4187,6 +4188,52 @@ function getInstanceDisplayErr($pInstanceId){
 	$lCon->Close();
 	return $lInstanceIdDisplayErr;
 }
+
+function getReferenceDisplayNameByInstanceId($pInstanceId){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = 'SELECT document_id FROM pwt.document_object_instances WHERE id = ' . $pInstanceId;
+	$lCon->Execute($lSql);
+	$lCon->MoveFirst();
+	$lDocumentId = $lCon->mRs['document_id'];
+	$lCon->Close();
+	
+	$lUnparsedData = new cdocument_references(array(
+		'ctype' => 'cdocument_references',
+		'document_id' => $lDocumentId,
+		'templs' => array(
+			G_HEADER => 'global.empty',
+			G_ROWTEMPL => 'references.single_reference_preview',
+			G_FOOTER => 'global.empty',
+			G_NODATA => 'global.empty'
+		),
+		'sqlstr' => '
+				SELECT *, reference_instance_id as id
+				FROM spGetDocumentReferences(' . (int) $lDocumentId . ')
+				ORDER BY is_website_citation ASC, first_author_combined_name ASC, authors_count ASC, authors_combined_names ASC, pubyear ASC
+			'
+	));
+	$lUnparsedData->GetData();
+	$lUnparsedDataArr = $lUnparsedData->m_resultArr;
+	$lDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
+	
+	foreach($lUnparsedDataArr as $lCurrentRow) {
+		//var_dump($lCurrentRow);
+		if($lCurrentRow['reference_instance_id'] == $pInstanceId){
+			if(@$lDom->loadHTML($lCurrentRow['preview'])) {
+				$lXPath = new DOMXPath($lDom);
+				$lPreviewNode = $lXPath->query('//div/div[@id="Ref-Preview-' . $pInstanceId . '-Mode-1"]');
+				if($lPreviewNode->length){
+					return $lPreviewNode->item(0)->nodeValue;
+				}
+				return '';
+			}
+		}
+	}
+	return '';
+}
+
+
 
 function getInstanceDisplayInTree($pInstanceId){
 	$lCon = new DBCn();

@@ -120,12 +120,21 @@ $BODY$
 				lRecord.object_ids[lIter], lRecord.document_id, lRecord2.first_author_combined_name , lRecord2.authors_count,
 				lRecord2.authors_combined_names, lRecord2.pubyear, lRecord2.is_website_citation;
 			*/	
+			--RAISE NOTICE 'lRecord2.authors_combined_names: %', lRecord2.authors_combined_names;
+			--RAISE NOTICE 'lRecord2.first_author_combined_name: %', lRecord2.first_author_combined_name;
+			--RAISE NOTICE 'lRecord2.authors_count: %', lRecord2.authors_count;
+			--RAISE NOTICE 'lRecord2.pubyear: %', lRecord2.pubyear;
+			--RAISE NOTICE 'lRecord2.is_website_citation: %', lRecord2.is_website_citation;
+			--RAISE NOTICE '---------------------------------';
 			<<lReferenceGroupLoop>>
 			FOR lRecord3 IN
 				SELECT * FROM spGetDocumentReferences(lRecord.document_id)
 				WHERE trim(coalesce(first_author_combined_name, '')) = trim(coalesce(lRecord2.first_author_combined_name, ''))
-					AND coalesce(authors_count, 0) = coalesce(lRecord2.authors_count, 0)
-					AND trim(coalesce(authors_combined_names, '')) = trim(coalesce(lRecord2.authors_combined_names, ''))
+					AND ( 
+						CASE WHEN coalesce(authors_count, 0) <= 2 
+							THEN (trim(coalesce(authors_combined_names, '')) = trim(coalesce(lRecord2.authors_combined_names, '')) AND coalesce(authors_count, 0) = coalesce(lRecord2.authors_count, 0)) 
+							ELSE TRUE 
+						END)
 					AND coalesce(pubyear, 0) = coalesce(lRecord2.pubyear, 0)
 					AND is_website_citation = lRecord2.is_website_citation
 				ORDER BY is_website_citation ASC, first_author_combined_name ASC, authors_count ASC, authors_combined_names ASC, pubyear ASC	
@@ -234,6 +243,7 @@ $BODY$
 			
 		
 		END LOOP lReferenceLoop;
+		--RAISE EXCEPTION 'DO TUK !!!';
 		-- Накрая добавяме xref-овете
 		lTemp = replace(lTemp, '&', '&amp;');
 		lTemp = coalesce(lTemp, '') || lXrefTemp;
