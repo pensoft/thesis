@@ -27,16 +27,28 @@ if((int)$lCon->mRs['id']){
 
 $lResult = new crs(array(
 	'sqlstr' => '
-		SELECT cfv.value_str as photo_desc, pfv.value_int as id -- Caption
-		FROM pwt.instance_field_values cfv 
-		JOIN pwt.instance_field_values pfv ON pfv.instance_id = cfv.instance_id AND pfv.field_id IN (483, 484)
-		WHERE cfv.instance_id = ' . (int)$gFigId . ' and cfv.field_id in (482, 487)
+		SELECT cfv.value_str as photo_desc, pfv.value_int as id, -- Caption
+			(select pfw.value_str from  pwt.instance_field_values pfw where (field_id in (482) and instance_id in (select id from pwt.document_object_instances 
+							where id = ( select parent_id from pwt.document_object_instances 
+								where id = ( select parent_id from pwt.document_object_instances 
+									where id = ( select parent_id from pwt.document_object_instances 
+										where id = ' . (int)$gFigId . ') ) ) ) ) ) as figure_descriprion
+			
+			FROM pwt.instance_field_values cfv 
+			JOIN pwt.instance_field_values pfv ON pfv.instance_id = cfv.instance_id AND pfv.field_id in (483, 484)
+			
+			WHERE (cfv.field_id in (482, 487) and cfv.instance_id = ' . (int)$gFigId . ') 
 	',
 	'templs' => array(
 		G_ROWTEMPL => 'figures.zoomed_fig'
 	),
 	
 ));
+
+		/* SELECT cfv.value_str as photo_desc, pfv.value_int as id -- Caption
+		FROM pwt.instance_field_values cfv 
+		JOIN pwt.instance_field_values pfv ON pfv.instance_id = cfv.instance_id AND pfv.field_id IN (483, 484)
+		WHERE cfv.instance_id = ' . (int)$gFigId . ' and cfv.field_id in (482, 487)*/
 
 $lPageArray = array(
 	'content' => $lResult,

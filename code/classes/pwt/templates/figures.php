@@ -1241,16 +1241,25 @@ $gTemplArr = array(
 	',
 
 	'figures.zoomed_fig' => '
-		<div class="P-Outer-Center-Div">
-			<div class="P-Inner-Center-Div">
-				<div id="P-Fig-Holder">	
-					<img src="' . SITE_URL . SHOWFIGURE_URL . 'big_{id}.jpg" />
-					<div class="P-Fig-Caption-Large">
-						{photo_desc}
-					</div>
-				</div>	
-			</div>
-		</div>
+		<table>
+			<tbody cellspacing="0" cellpadding="0" border="1">
+				<tr>
+					<td width="45%">&nbsp;</td>
+					<td>
+						<img alt="" src="' . SITE_URL . SHOWFIGURE_URL . 'big_{id}.jpg" />
+					</td>	
+					<td width="45%">&nbsp;</td>	
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td class="P-Fig-Caption-Large">
+						{_unsafe_render_if(figure_descriprion, <div style="padding-bottom:10px">, </div>)}
+						{photo_desc}	
+					</td>	
+					<td>&nbsp;</td>	
+				</tr>		
+			</tbody>
+		</table>
 		<div class="P-Clear"></div>
 	',
 

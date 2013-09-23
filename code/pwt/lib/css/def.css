@@ -5383,3 +5383,20 @@ header .content_in {
 	padding: 20px;
     text-align: center;
 }
+
+.fig-zoom{
+	background-color: #222222;
+}
+
+.fig-zoom img{
+	border: 4px solid #fdf5e3;
+}
+
+.fig-zoom 1td{
+	width: 33%;
+}
+
+.fig-zoom .P-Fig-Caption-Large{
+	padding: 10px 10px 10px 10px;
+	background-color: #fdf5e3;
+}

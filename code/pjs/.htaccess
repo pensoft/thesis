@@ -25,6 +25,6 @@ RewriteRule   ^board$ /browse_journal_groups?grp_id=93 [QSA]
 RewriteRule   ^contacts$ /browse_journal_groups?grp_id=106
 
 #add .php
-#RewriteRule   ^/?([a-z|_]+)$ $1.php
+RewriteRule   ^/?([a-z|_]+)$ $1.php
 #add journal_id=1
-#RewriteRule   ^(.*)$  $1?journal_id=1 [QSA,L]
+RewriteRule   ^(.*)$  $1?journal_id=1 [QSA,L]

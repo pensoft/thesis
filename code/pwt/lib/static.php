@@ -161,6 +161,13 @@ function render_if($arg, $prefix, $suffix) {
 		return '';
 }
 
+function unsafe_render_if($arg, $prefix = '', $suffix = '') {
+	if($arg)
+		return $prefix . $arg . $suffix;
+	else
+		return '';
+}
+
 function DefObjTempl() {
 	global $user;
 	global $rewrite;
