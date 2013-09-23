@@ -2,3 +2,8 @@ code/pwt/lib/conf.php
 code/pwt_admin/lib/conf.php
 code/pjs/lib/static-conf.php
 .project
+code/pwt/test
+code/pjs/test
+.settings
+code/classes/cdocument_serializer - Copy.php
+code/classes/cdocument_serializer - working with previous xml.php
