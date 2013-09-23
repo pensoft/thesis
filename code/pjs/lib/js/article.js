@@ -984,7 +984,9 @@ function submitArticleNewComment(pOper, pFormName, pId) {
 				}
 		
 				$('#article_comment_textarea').val('');
-		//		alert(pAjaxResult['success_msg']);
+				if(pOper == 1){
+					alert(pAjaxResult['success_msg']);
+				}
 				LoadCommentList('article_messages_wrapper_content');
 				return;
 			}

@@ -6,6 +6,16 @@ class mArticles extends emBase_Model {
 		$this->m_con->Open();
 		$this->m_con->SetFetchReturnType(PGSQL_ASSOC);
 	}
+	
+	function GetArticleTitle($pArticleId){
+		$lCon = $this->m_con;
+		$lSql = 'SELECT name 
+		FROM pjs.documents 
+		WHERE id = ' . (int)$pArticleId;
+		$lCon->Execute($lSql);
+		$lResult = $lCon->mRs['name'];
+		return $lResult;
+	}
 
 	/**
 	 * Retrieves a preview of an element which has its cache_id stored in the articles table
@@ -365,6 +375,18 @@ class mArticles extends emBase_Model {
 // 		var_dump($lSql);
 		$this->m_con->Execute($lSql);
 		return $this->m_con->mRs['id'];
+	}
+	
+	function GetArticleIdFromInstanceIdAndItemType($pInstanceId, $pItemType) {
+		$lTableName = $this->GetArticleItemTableNameByMetricType($pItemType);
+		$lSql = '
+			SELECT article_id 
+			FROM ' . $lTableName . '
+			WHERE instance_id = ' . (int)$pInstanceId . '	
+		';
+// 		var_dump($lSql);
+		$this->m_con->Execute($lSql);
+		return $this->m_con->mRs['article_id'];
 	}
 	
 	function GetSupplFileOriginalName($pId){

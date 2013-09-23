@@ -4,6 +4,11 @@ $docroot = getenv('DOCUMENT_ROOT');
 require_once ($docroot . '/lib/static.php');
 
 $gFigId = (int)$_REQUEST['fig_id'];
+$lPageTitle = $_REQUEST['page_title'];
+
+if(!$lPageTitle){
+	$lPageTitle = 'Pensoft Writing Tool';
+}
 
 $lCon = new DBCn();
 $lCon->Open();
@@ -35,6 +40,7 @@ $lResult = new crs(array(
 
 $lPageArray = array(
 	'content' => $lResult,
+	'title' => $lPageTitle,
 );
 
 $inst = new cpage(array_merge($lPageArray, DefObjTempl()), array(
