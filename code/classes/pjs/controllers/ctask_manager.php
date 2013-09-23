@@ -79,6 +79,12 @@ class cTask_Manager extends cBase_Controller {
 	 */
 	var $m_AdditionalParams = array();
 	
+	var $m_customFlag = 0;
+	var $m_customRecipients = array();
+	var $m_customTemplate;
+	var $m_customSubject;
+	var $m_customReplaceSql;
+	
 	function __construct($pFieldTempl) {
 		parent::__construct();
 		
@@ -87,10 +93,24 @@ class cTask_Manager extends cBase_Controller {
 		$this->m_JournalId = (array_key_exists('journal_id', $pFieldTempl) ? $pFieldTempl['journal_id'] : 0);
 		$this->m_AdditionalParams = (is_array($pFieldTempl['additional_params']) ? $pFieldTempl['additional_params'] : array());
 		
-		//trigger_error('EVENT ID: ' . $pFieldTempl['event_id'], E_USER_NOTICE);
+		$this->m_customFlag = (array_key_exists('custom_flag', $pFieldTempl) ? $pFieldTempl['custom_flag'] : 0);
+		$this->m_customRecipients = (array_key_exists('recipients', $pFieldTempl) ? $pFieldTempl['recipients'] : array());
+		$this->m_customTemplate = (array_key_exists('template', $pFieldTempl) ? $pFieldTempl['template'] : '');
+		$this->m_customSubject = (array_key_exists('subject', $pFieldTempl) ? $pFieldTempl['subject'] : '');
+		$this->m_customReplaceSql = (array_key_exists('replace_sql', $pFieldTempl) ? $pFieldTempl['replace_sql'] : '');
+		
+		
+		
 		if(!(int)$this->m_eventId) {
 			$this->m_errCnt++;
 			$this->m_errMsgs[] = getstr('pjs.noEventId');
+		}
+		
+		if($this->m_customFlag){
+			if(!count($this->m_customRecipients) || !$this->m_customTemplate || !$this->m_customSubject || !$this->m_customReplaceSql){
+				$this->m_errCnt++;
+				$this->m_errMsgs[] = getstr('pjs.noEnoughInfoForCreatingCustomEvent');
+			}
 		}
 		
 		$this->m_taskModel = new mTask_Model();
@@ -167,6 +187,45 @@ class cTask_Manager extends cBase_Controller {
 	} 
 
 	/**
+	 * private function CreateCustomTask
+	 * This method creates task and it's details for Current Event ($this->m_eventId)
+	 * 
+	 * @return void()
+	 * 
+	 */
+	private function CreateCustomTask() {
+		$lRecipientsData = $this->m_taskModel->GetCustomTaskRecipientsData($this->m_customRecipients, $this->m_customReplaceSql);
+		$lCnt = 0;
+		foreach ($lRecipientsData as $key => $value) {
+			$lTempl = $this->ReplaceEmailTaskTemplate($this->m_customTemplate, $value[0]);
+			$lSubj = $this->ReplaceEmailTaskTemplate($this->m_customSubject, $value[0]);
+			
+			
+			$lUsersArr[] = (int)$value[0]['id'];
+			$lUserTemplArr[] = '\'' . q($lTempl) . '\'';
+			$lUserSubjArr[] = '\'' . q($lSubj) . '\'';
+			$lUsersRoleArr[] = 0;
+			
+			$lCnt++;
+		}
+		$lUsersArrString = 'ARRAY[' . implode(",", $lUsersArr) . ']';
+		$lUsersRoleArrString = 'ARRAY[' . implode(",", $lUsersRoleArr) . ']';
+		$lUserTemplArrString = 'ARRAY[' . implode(",", $lUserTemplArr) . ']';
+		$lUserSubjArrString = 'ARRAY[' . implode(",", $lUserSubjArr) . ']';
+		
+		$lTaskData = $this->m_taskModel->CreateTask(
+			(int)$this->m_eventId, 
+			(int)SEND_EMAIL_TASK_DEFINITION_ID, 
+			$lUsersArrString, 
+			$lUserTemplArrString, 
+			$lUsersRoleArrString, 
+			'false', 
+			$lUserSubjArrString,
+			''
+		);
+	}
+
+	/**
 	 * private function GetEventInfo
 	 * This method returns event data
 	 * 
@@ -225,52 +284,60 @@ class cTask_Manager extends cBase_Controller {
 		$role   = (int)$pDataToFromReplace['user_role'];
 		$u 		= SITE_URL; //JOURNAL_URL; OK until there is only 1 journal.
 		$a 		= '<a target="_blank" href="' . $u;
+		$lDict = array();
 		
-		$lDict = array(
-			'{site_url}' 			=> $u,
-			'{upass}'				=> $this->m_uPass,
-			'{first_name}'  		=> $pDataToFromReplace['first_name'], 
-			'{last_name}'  			=> $pDataToFromReplace['last_name'], 
-			'{document_id}' 		=> $pDataToFromReplace['document_id'], 
-			'{document_title}' 		=> trim($pDataToFromReplace['document_title']),
-			'{usr_title}'			=> $pDataToFromReplace['usr_title'],
-			'{user_name}'			=> $pDataToFromReplace['user_name'],
-			'{author_list}'			=> $pDataToFromReplace['author_list'],
-			'{review_type_name}'	=> $pDataToFromReplace['review_type_name'],
-			'{due_date}'			=> $pDataToFromReplace['due_date'],
-			'{due_date_days}' 		=> $pDataToFromReplace['due_date_days'],
-			'{journal_name}' 		=> $pDataToFromReplace['journal_name'],
-			'{journal_email}' 		=> $pDataToFromReplace['journal_email'],
-			'{journal_signature}' 	=> $pDataToFromReplace['journal_signature'],
-			'{user_role}' 			=> $pDataToFromReplace['user_role'],
-			'{journal_id}' 			=> $pDataToFromReplace['journal_id'],
-			'{SE_first_name}' 		=> $pDataToFromReplace['se_first_name'],
-			'{SE_last_name}' 		=> $pDataToFromReplace['se_last_name'],
-			'{SE_usr_title}' 		=> $pDataToFromReplace['se_usr_title'],
-			'{SE_email}' 			=> $pDataToFromReplace['se_email'],
-			'{R_first_name}' 		=> $pDataToFromReplace['r_first_name'],
-			'{R_last_name}' 		=> $pDataToFromReplace['r_last_name'],
-			'{R_usr_title}' 		=> $pDataToFromReplace['r_usr_title'],
-			'{SE_tax_expertize}' 	=> $pDataToFromReplace['se_tax_expertize'],
-			'{SE_geo_expertize}' 	=> $pDataToFromReplace['se_geo_expertize'],
-			'{SE_sub_expertize}' 	=> $pDataToFromReplace['se_sub_expertize'],
-			'{SE_createusr_tax_expertize}' 	=> $pDataToFromReplace['se_createusr_tax_expertize'],
-			'{SE_createusr_geo_expertize}' 	=> $pDataToFromReplace['se_createusr_geo_expertize'],
-			'{SE_createusr_sub_expertize}' 	=> $pDataToFromReplace['se_createusr_sub_expertize'],
-			'{NomReview_due_days}'	=> $pDataToFromReplace['nomreview_due_days'],
-			'{NomReview_due_date}'	=> $pDataToFromReplace['nomreview_due_date'],
-			'{PanReview_due_days}'	=> $pDataToFromReplace['panreview_due_days'],
-			'{PanReview_due_date}'	=> $pDataToFromReplace['panreview_due_date'],
-			'{SE_invite_reviewers_days}'	=> $pDataToFromReplace['se_invite_reviewers_days'],
-			'{SE_can_take_decision_days}'	=> $pDataToFromReplace['se_can_take_decision_days'],
-			'{site_href}' 			=> $a . '">'. $u .'</a>',
-			'{tasks_href}' 			=> $a . 'dashboard">Your tasks</a>',
-			'{document_editor_href}'=> $a . 'view_document.php?id=' . $doc_id . '&view_role=' . (int)JOURNAL_EDITOR_ROLE . '">' . $pDataToFromReplace['document_title'] . '</a>',
-			'{autologging_href}' 	=> $a . 'login.php?u_autolog_hash=' . $pDataToFromReplace['autolog_hash'] . '&document_id=' . $doc_id . '&view_role=' . $role . '"  class="' . HIDDEN_EMAIL_ELEMENT . '">login</a>',
-			'{autologging_doc_link}'=> $u . 'login.php?u_autolog_hash=' . $pDataToFromReplace['autolog_hash'] . '&document_id=' . $doc_id . '&view_role=' . $role,
-			'{autologging_link}' 	=> $u . 'login.php?u_autolog_hash=' . $pDataToFromReplace['autolog_hash'],		
-			'{document_link}' 		=> $u . 'view_document.php?id=' . $doc_id . '&view_role=' . $role,
-		);
+		if($this->m_customFlag) {
+			foreach ($pDataToFromReplace as $key => $value) {
+				$lDict['{' . $key . '}'] = $value;
+			}
+		} else {
+			$lDict = array(
+				'{site_url}' 			=> $u,
+				'{upass}'				=> $this->m_uPass,
+				'{first_name}'  		=> $pDataToFromReplace['first_name'], 
+				'{last_name}'  			=> $pDataToFromReplace['last_name'], 
+				'{document_id}' 		=> $pDataToFromReplace['document_id'], 
+				'{document_title}' 		=> trim($pDataToFromReplace['document_title']),
+				'{usr_title}'			=> $pDataToFromReplace['usr_title'],
+				'{user_name}'			=> $pDataToFromReplace['user_name'],
+				'{author_list}'			=> $pDataToFromReplace['author_list'],
+				'{review_type_name}'	=> $pDataToFromReplace['review_type_name'],
+				'{due_date}'			=> $pDataToFromReplace['due_date'],
+				'{due_date_days}' 		=> $pDataToFromReplace['due_date_days'],
+				'{journal_name}' 		=> $pDataToFromReplace['journal_name'],
+				'{journal_email}' 		=> $pDataToFromReplace['journal_email'],
+				'{journal_signature}' 	=> $pDataToFromReplace['journal_signature'],
+				'{user_role}' 			=> $pDataToFromReplace['user_role'],
+				'{journal_id}' 			=> $pDataToFromReplace['journal_id'],
+				'{SE_first_name}' 		=> $pDataToFromReplace['se_first_name'],
+				'{SE_last_name}' 		=> $pDataToFromReplace['se_last_name'],
+				'{SE_usr_title}' 		=> $pDataToFromReplace['se_usr_title'],
+				'{SE_email}' 			=> $pDataToFromReplace['se_email'],
+				'{R_first_name}' 		=> $pDataToFromReplace['r_first_name'],
+				'{R_last_name}' 		=> $pDataToFromReplace['r_last_name'],
+				'{R_usr_title}' 		=> $pDataToFromReplace['r_usr_title'],
+				'{SE_tax_expertize}' 	=> $pDataToFromReplace['se_tax_expertize'],
+				'{SE_geo_expertize}' 	=> $pDataToFromReplace['se_geo_expertize'],
+				'{SE_sub_expertize}' 	=> $pDataToFromReplace['se_sub_expertize'],
+				'{SE_createusr_tax_expertize}' 	=> $pDataToFromReplace['se_createusr_tax_expertize'],
+				'{SE_createusr_geo_expertize}' 	=> $pDataToFromReplace['se_createusr_geo_expertize'],
+				'{SE_createusr_sub_expertize}' 	=> $pDataToFromReplace['se_createusr_sub_expertize'],
+				'{NomReview_due_days}'	=> $pDataToFromReplace['nomreview_due_days'],
+				'{NomReview_due_date}'	=> $pDataToFromReplace['nomreview_due_date'],
+				'{PanReview_due_days}'	=> $pDataToFromReplace['panreview_due_days'],
+				'{PanReview_due_date}'	=> $pDataToFromReplace['panreview_due_date'],
+				'{SE_invite_reviewers_days}'	=> $pDataToFromReplace['se_invite_reviewers_days'],
+				'{SE_can_take_decision_days}'	=> $pDataToFromReplace['se_can_take_decision_days'],
+				'{site_href}' 			=> $a . '">'. $u .'</a>',
+				'{tasks_href}' 			=> $a . 'dashboard">Your tasks</a>',
+				'{document_editor_href}'=> $a . 'view_document.php?id=' . $doc_id . '&view_role=' . (int)JOURNAL_EDITOR_ROLE . '">' . $pDataToFromReplace['document_title'] . '</a>',
+				'{autologging_href}' 	=> $a . 'login.php?u_autolog_hash=' . $pDataToFromReplace['autolog_hash'] . '&document_id=' . $doc_id . '&view_role=' . $role . '"  class="' . HIDDEN_EMAIL_ELEMENT . '">login</a>',
+				'{autologging_doc_link}'=> $u . 'login.php?u_autolog_hash=' . $pDataToFromReplace['autolog_hash'] . '&document_id=' . $doc_id . '&view_role=' . $role,
+				'{autologging_link}' 	=> $u . 'login.php?u_autolog_hash=' . $pDataToFromReplace['autolog_hash'],		
+				'{document_link}' 		=> $u . 'view_document.php?id=' . $doc_id . '&view_role=' . $role,
+			);
+		}
+		
 		$lTempl = strtr($pTemplate, $lDict);
 		return $lTempl;
 	}
@@ -335,7 +402,9 @@ class cTask_Manager extends cBase_Controller {
 			return $this->m_errMsgs;
 		}
 		
-		$this->CreateTask($lTaskDefinition);
+		if(!$this->m_customFlag)
+			$this->CreateTask($lTaskDefinition);
+		$this->CreateCustomTask();
 		
 		//trigger_error('CreateTask() DEBUG POINT', E_USER_NOTICE);
 		

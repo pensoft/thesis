@@ -6,7 +6,12 @@
  *
  */
 class mTask_Model extends emBase_Model {
-
+	function __construct(){
+		$this->m_con = new DBCn();
+		$this->m_con->Open();
+		$this->m_con->SetFetchReturnType(PGSQL_ASSOC);
+	}
+	
 	function CreateTask($pEventId, $pTaskDefinitionId, $pArrStringUsers, $pArrStringTemplates, $pArrStringUsersRole, $pIsAutomate, $pArrStringSubjects, $pCC){
 		$lCon = $this->m_con;
 		$lResult = array(
@@ -24,7 +29,8 @@ class mTask_Model extends emBase_Model {
 				SELECT * FROM spCreateTaskDetail(' . $pArrStringTemplates . ', ' . $pArrStringUsers . ', ' . $pArrStringUsersRole . ', currval(\'pjs.email_tasks_id_seq\'), ' . $pIsAutomate . ', ' . $pArrStringSubjects . ', \'' . q($pCC) . '\');
 			COMMIT;
 		';
-
+		// var_dump($lSql);
+		// exit;
  		if(!$lCon->Execute($lSql)){
 			$lResult['err_cnt']++;
 			$lResult['err_msgs'][] = array('err_msg' => $lCon->GetLastError());
@@ -167,6 +173,36 @@ class mTask_Model extends emBase_Model {
 		
 		return array_filter($lRecipientsResult);
 	}
+	
+	/** GetCustomTaskRecipientsData
+	 * function that gets the recipients for the email tasks
+	 * 
+	 * @param $pRecipients array
+	 * @param $pSql string
+	 * 
+	 * return array()
+	 * 
+	 */
+	function GetCustomTaskRecipientsData($pRecipients, $pSql){
+		$lCon = $this->m_con;
+		$lResult = array();
+		$lRecipientsResult = array();
+		
+		$lCnt = 0;
+		foreach ($pRecipients as $key => $value) {
+			$lSql = str_replace(array('{uid}'), array($value), $pSql);
+			$lCon->Execute($lSql);
+			
+			while(!$lCon->Eof()){
+				$lRecipientsResult[$lCnt][] = $lCon->mRs;
+				$lCon->MoveNext();
+			}
+			$lCnt++;
+		}
+		
+		return array_filter($lRecipientsResult);
+	}
+	
 	
 	/**
 	 * This function gets the data that need to be replaced in email task template

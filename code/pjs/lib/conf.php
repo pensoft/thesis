@@ -426,4 +426,7 @@ define('OAI_FROM_LABEL', 'from');
 define('OAI_UNTIL_LABEL', 'until');
 define('OAI_METADATA_PREFIX_LABEL', 'metadataPrefix');
 define('OAI_IDENTIFIER_LABEL', 'identifier');
+
+define('SEND_EMAIL_NOTIFICATION_EVENT_TYPE_ID', 106);
+define('SEND_EMAIL_TASK_DEFINITION_ID', 115);
 ?>

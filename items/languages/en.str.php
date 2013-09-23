@@ -2212,5 +2212,6 @@ $STRARRAY = array(
 	'pjs.comment_state_2' => 'Comment is Rejected',
 	'pjs.aof_login_to_comment' => 'Login to comment',
 	'pjs.aof_no_comments' => 'There are no comments to this article',
+	'pjs.email_notifications' => 'Email notifications',
 );
 ?>

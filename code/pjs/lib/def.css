@@ -7178,3 +7178,12 @@ html, body {
     margin: 20px -30px 0 -15px;
     border-top: 1px solid #BBB;
 }
+
+.rightMar10 {
+	margin-right:10px;
+}
+
+.P-Left-Col-Fields-FullWidth {
+	width:100%;
+}
+

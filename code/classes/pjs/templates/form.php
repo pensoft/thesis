@@ -293,6 +293,35 @@ $gTemplArr = array(
 			});
 		</script>
 	',
+	
+	'form.richtext_editor_normal_row' => '
+		<textarea name="{field_name}" id="textarea_{field_name}" {additional_tags_string} >{_h(field_cur_value)}</textarea>
+		<script  type="text/javascript">
+			CKEDITOR.config.language = \'en\';
+			CKEDITOR.replace(\'textarea_{field_name}\', {
+				extraPlugins : \'autogrow\',
+				on: {
+					key: function( evt ) {
+						var leditor = evt.editor;
+						leditor.updateElement();
+					},
+					paste: function( evt ) {
+						var leditor = evt.editor;
+						leditor.updateElement();
+					},
+					blur: function( evt ) {
+						var leditor = evt.editor;
+						leditor.updateElement();
+					}
+				},
+				toolbar : \'FullToolbar\',
+				removePlugins: \'elementspath,resize\',
+				autoGrow_minHeight: 200,
+				autoGrow_onStartup: true,
+				autoGrow_maxHeight: 0
+			});
+		</script>
+	',
 );
 
 ?>

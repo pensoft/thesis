@@ -313,6 +313,11 @@ class cBase_Controller extends  ecBase_Controller_User_Data{
 							'href2' => 'email_templates',
 							'text'  => getstr('Email Templates'),  
 							'text2' => ''));
+					array_push($lControlerData, array(
+							'href'  => '/email_notifications',
+							'href2' => '/email_notifications',
+							'text'  => getstr('pjs.email_notifications'), 
+							'text2' => '', ));
 					break;	
 				case AUTHOR_ROLE :
 					$lLabel = 'author';
@@ -437,7 +442,7 @@ class cBase_Controller extends  ecBase_Controller_User_Data{
 			);
 		}
 	}
-	function head_CSS_files(){ return array('def', 'ui.dynatree', 'ui-lightness/jquery-ui-1.8.24.custom');}
+	function head_CSS_files(){ return array('def', 'ui.dynatree', 'ui-lightness/jquery-ui-1.8.24.custom', 'editor_rewrite');}
 	function head_JS_files(){
 		return array(	'js/jquery', 
 						'js/jquery_ui', 
@@ -451,7 +456,8 @@ class cBase_Controller extends  ecBase_Controller_User_Data{
 						'js/def', 
 						'ckeditor/ckeditor', 
 						'ckeditor/adapters/jquery', 
-						'js/taskspopup'
+						'js/taskspopup',
+						'ckeditor_4.1/ckeditor',
 						);
 	}
 

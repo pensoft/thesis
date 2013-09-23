@@ -67,7 +67,7 @@ $gTemplArr = array(
 
 			<script src="/lib/js/ajaxupload.3.5.js?v={_getCommit()}" type="text/javascript" ></script>
 			<!-- CKEditor BEGIN -->
-			<script type="text/javascript" src="/lib/ckeditor/ckeditor.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/ckeditor_4.1/ckeditor.js?v={_getCommit()}"></script>
 			<script type="text/javascript" src="/lib/ckeditor/adapters/jquery.js?v={_getCommit()}"></script>
 			<script src="/lib/js/def.js?v={_getCommit()}" type="text/javascript"></script>
 					
