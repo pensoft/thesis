@@ -13,14 +13,16 @@ class cArticles extends cBase_Controller {
 		$this->m_articleId = (int)$this->GetValueFromRequestWithoutChecks('id');
 		$lObjectExistence = $this->m_articlesModel->GetObjectExistenceFields($this->m_articleId);
 		$lMetadata = $this->m_articlesModel->GetMetadata($this->m_articleId);
-	
+		
+		$lInfoElementContent = $this->GetInfoElementContent();
 		$lResultArr = array(
 				'contents' => array(
 					'ctype' => 'evSimple_Block_Display',
 					'object_existence' => $lObjectExistence,
 					'name_in_viewobject' => 'contents',
 					'id' => $this->m_articleId,	
-					'contents_list' => $this->m_articlesModel->GetContentsListHtml($this->m_articleId),	
+					'info_content' => $lInfoElementContent['html'],
+					'main_tab_element_id' => $lInfoElementContent['main_tab_element_id'],
 					'controller_data' => $lMetadata,		
 				),
 		);
@@ -29,6 +31,39 @@ class cArticles extends cBase_Controller {
 		$lResultArr = array_merge($this->m_commonObjectsDefinitions, $lResultArr);
 		$this->m_pageView = new pArticles(&$lResultArr);
 	//	$this->m_pageView = new pArticles(array_merge($this->m_commonObjectsDefinitions, $lResultArr));
+	}
+	
+	protected function GetInfoElementContent(){
+		$lDisplayType = $this->GetValueFromRequestWithoutChecks('display_type');
+		$_REQUEST['article_id'] = $this->m_articleId;//We set it for the ajax controller
+		$lElementType = (int)$this->GetValueFromRequestWithoutChecks('element_type');
+		$lElementId = (int)$this->GetValueFromRequestWithoutChecks('element_id');
+		$lElementName = $this->GetValueFromRequestWithoutChecks('element_name');
+		$lAjaxController = new cArticle_Ajax_Srv();
+		$lResult = array(
+			'html' => '',
+			'main_tab_element_id' => ARTICLE_MENU_ELEMENT_TYPE_CONTENTS,
+		);
+		if($lElementType){
+			$lResult['main_tab_element_id'] = $lElementType;
+		}
+// 		var_dump($lElementType);
+		switch($lDisplayType){
+			default:
+			case 'list':{
+				$lResult['html'] = $lAjaxController->GetMainListElementBase($lElementType);				
+				break;	
+			}
+			case 'element':{				
+				$lResult['html'] = $lAjaxController->GetElementBase($lElementType, $lElementId, $lElementName);
+				break;
+			}
+		}
+		if($lResult['html'] == ''){
+			$lResult['html'] = $this->m_articlesModel->GetContentsListHtml($this->m_articleId);
+			$lResult['main_tab_element_id'] = ARTICLE_MENU_ELEMENT_TYPE_CONTENTS;
+		}
+		return $lResult;
 	}
 	
 	function GetShareMetaTags(){

@@ -54,10 +54,11 @@ $gTemplArr = array(
 						{_createArticleObjectMenu(object_existence)}
 					</div>
 					<div class="P-Info-Content">
-						{contents_list}
+						{info_content}
 						<script>
-							gMenuActiveElementType = gContentsMenuElementType;	
+							gMenuActiveElementType = {main_tab_element_id};	
 							MarkActiveMenuElement();	
+							RegisterInitialState({_json_encode(info_content)}, {main_tab_element_id});
 						</script>
 					</div>
 					<script type="text/javascript">InitArticleMenuEvents()</script>
