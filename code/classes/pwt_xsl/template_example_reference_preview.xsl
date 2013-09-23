@@ -63,7 +63,7 @@
 			<xsl:value-of select="./fields/*[@id='252']/value"></xsl:value-of>
 			<xsl:text> </xsl:text>
 			<!-- Initials of first name -->
-			<xsl:value-of select="php:function('mb_substr', string(./fields/*[@id='251']/value), 0, 1)"></xsl:value-of>
+			<xsl:value-of select="php:function('mb_substr', string(./fields/*[@id='251']/value), 0, 1, 'utf-8')"></xsl:value-of>			
 		</xsl:variable>
 		<xsl:value-of select="normalize-space($lAuthorParsedName)"></xsl:value-of>
 	</xsl:template>

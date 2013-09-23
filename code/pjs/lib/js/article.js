@@ -14,6 +14,7 @@ var gTaxonParsedNameAttributePrefix = 'data-taxon-parsed-name-';
 var gTaxonNameHolderNamesCountAttributeName = 'data-taxon-names-count';
 var gCitationElementInstanceIdAttributeName = 'rid';
 
+var gLocalitiesAreLoaded = false;
 var gLocalitiesList = {};
 var gActiveLocalityIds = [];
 var gLocalityByCoordinatesArr = {};
@@ -59,9 +60,9 @@ function SetArticleId(pArticleId){
 
 function initArticlePreviewOnLoadEvents(){
 	resizePreviewIframe(gArticlePreviewIframeId);
-	InitContentsCustomElementsEvents(1);
 	LoadArticleLocalities();
 	LoadArticleReferences();
+	InitContentsCustomElementsEvents(1);		
 	InitClearHighlightedElementsEvents();	
 }
 
@@ -124,7 +125,11 @@ function RegisterInitialState(pContentHtml, pActiveElementId, pTitle, pQueryStri
 		'html' : pContentHtml,
 		'element_type' : pActiveElementId
 	}
-	History.replaceState(pStateData, document.title, location.search);
+	gLocalitiesAreLoaded
+	if(pActiveElementId == gLocalitiesMenuElementType){
+		LoadArticleLocalities();		
+	}
+	History.replaceState(pStateData, document.title, location.search);	
 }
 
 History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
@@ -145,8 +150,12 @@ function LoadInfoContent(pContent, pActiveMenuType){
 }
 
 function LoadArticleLocalities(){
+	if(gLocalitiesAreLoaded){
+		return;
+	}
 	$.ajax({
 		url : gArticleAjaxSrvUrl,
+		async : false,
 		data : {
 			action : 'get_article_localities',
 			article_id : gArticleId
@@ -178,8 +187,9 @@ function LoadArticleLocalities(){
 					}
 					gLocalityByInstanceIdArr[lInstanceId].push(lLocalityId);
 				}
-			}
-
+			}		
+			gLocalitiesAreLoaded = true;
+			PlaceLocalitiesMenuEvents();
 		}
 	});
 }
@@ -208,16 +218,16 @@ function LoadArticleReferences(){
 			return;
 		}
 		$(pReferenceNode).hover(function(pEvent){
-			lBaloon.html(lReferenceContent.html());
-			var lReferenceOffsetTop = $(pReferenceNode).offset().top + $(pReferenceNode).outerHeight();
-			var lReferenceOffsetLeft = $(pReferenceNode).offset().left;
-			lBaloon.css('top', lReferenceOffsetTop);
-			lBaloon.css('left', lReferenceOffsetLeft);
-			lBaloon.show();
-		},
-		function(pEvent){
-			lBaloon.hide();
-		}
+				lBaloon.html(lReferenceContent.html());
+				var lReferenceOffsetTop = $(pReferenceNode).offset().top + $(pReferenceNode).outerHeight();
+				var lReferenceOffsetLeft = $(pReferenceNode).offset().left;
+				lBaloon.css('top', lReferenceOffsetTop);
+				lBaloon.css('left', lReferenceOffsetLeft);
+				lBaloon.show();
+			},
+			function(pEvent){
+				lBaloon.hide();
+			}
 		);
 	});
 }
@@ -278,7 +288,9 @@ function InitContentsCustomElementsEvents(pInPreviewIframe){
 	PlaceCitatedElementsNavigationEvents(pInPreviewIframe);
 	ResetTaxonOccurrenceNavigation();
 	ResetCitatedElementNavigation();
-	ClearActiveLocalities();
+	if(gMenuActiveElementType != gLocalitiesMenuElementType){
+		ClearActiveLocalities();
+	}
 	ScrollInfoBarToTop();
 }
 

@@ -298,7 +298,7 @@ table td .P-Article-Preview-Block {
 	background:#fdf5e3;
 }
 
- .Active-Comment-Text{
+.Active-Comment-Text{
  	background:#fdf5e3;
 }
 
@@ -306,21 +306,4 @@ table td .P-Article-Preview-Block {
 	padding-right: 10px;
 }
 
-#P-Fig-Holder{
-	margin: auto;
-}
-.P-Fig-Caption-Large{
-	padding: 10px 0 0 10px;
-}
 
-.P-Outer-Center-Div{
-	float: right;
-    right: 50%;
-    position: relative;
-}
-
-.P-Inner-Center-Div{
-	float: right;
-    right: -50%;
-    position: relative;
-}
