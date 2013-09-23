@@ -25,6 +25,8 @@ RewriteRule   ^board$ /browse_journal_groups?grp_id=93 [QSA]
 RewriteRule   ^contacts$ /browse_journal_groups?grp_id=106
 
 #add .php
-RewriteRule   ^/?([a-z|_]+)$ $1.php
+RewriteCond %{SCRIPT_FILENAME} !\.([a-z]+)$
+RewriteRule (.*) %{SCRIPT_FILENAME}.php?%{QUERY_STRING}
 #add journal_id=1
-RewriteRule   ^(.*)$  $1?journal_id=1 [QSA,L]
+RewriteCond %{QUERY_STRING} !journal_id=([0-9]*)
+RewriteRule ^(.*)$  $1?journal_id=1 [QSA,L]
