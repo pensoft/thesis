@@ -54,10 +54,11 @@ $gTemplArr = array(
 						{_createArticleObjectMenu(object_existence)}
 					</div>
 					<div class="P-Info-Content">
-						{contents_list}
+						{info_content}
 						<script>
-							gMenuActiveElementType = gContentsMenuElementType;	
+							gMenuActiveElementType = {main_tab_element_id};	
 							MarkActiveMenuElement();	
+							RegisterInitialState({_json_encode(info_content)}, {main_tab_element_id});
 						</script>
 					</div>
 					<script type="text/javascript">InitArticleMenuEvents()</script>
@@ -349,21 +350,26 @@ $gTemplArr = array(
 			<div class="forum_list_row">
 				<div class="forum_list_arrow"></div>
 				<div class="forum_list_content">
-					<div class="forum_list_user_info">
-						<div class="forum_list_user_image">
-							{_showCommentUserPic(photo_id)}
-						</div>
-						<div class="forum_list_user_main_info">
-							<div class="forum_list_user_name">
-								{user_name}
+					<div class="forum_list_user_header">
+						<div class="forum_list_user_info">
+							<div class="forum_list_user_image">
+								{_showCommentUserPic(photo_id)}
 							</div>
-							<div class="forum_list_user_comment_date">
-								{_displayCommentLastModdate(id, createdate, createdate_in_seconds)}
+							
+							<div class="forum_list_user_main_info">
+								<div class="forum_list_user_name">
+									{user_name}
+								</div>
+								
+								<div class="forum_list_user_comment_date">
+									{_displayCommentLastModdate(id, createdate, createdate_in_seconds)}
+								</div>
 							</div>
 						</div>
-						<div class="P-Clear"></div>
+						{_showEditOptions(id, can_edit, state)}
 					</div>
-					{_showEditOptions(id, can_edit, state)}
+					
+					<div class="P-Clear"></div>
 					<div class="forum_list_user_comment_text">
 						{message}
 					</div>
@@ -383,6 +389,7 @@ $gTemplArr = array(
 		',
 		
 		'article.comment_form' => '{journal_id}{article_id}{user_id}{id}{event_id}
+			<div class="new_comment_title">Add comment</div>
 			<div class="article_comment_form">
 				{message}
 				<div class="comment_btn article_comment_btn" id="P-Comment-Btn-General" title="Article Comment" onmousedown="submitArticleNewComment(1, \'article_comments_form\');return false;"></div>

@@ -185,8 +185,10 @@ $gTemplArr = array(
 			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js?v={_getCommit()}"></script>
 			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-serializer.js?v={_getCommit()}"></script>
 			<script type="text/javascript" src="/lib/js/def.js?v={_getCommit()}"></script>
+			<script type="text/javascript" src="/lib/js/jquery.history.js?v={_getCommit()}"></script>
 			<script type="text/javascript" src="/lib/js/article.js?v={_getCommit()}"></script>
-			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>			
+			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
+					
 			{share_metadata}
 			<script type="text/javascript">
 				$(window).load(function(){

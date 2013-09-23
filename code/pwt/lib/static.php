@@ -142,7 +142,7 @@ $gXMLErrors = array (
 	XML_MISSING_FIELD_ERROR => 'Missing field(s)',
 	XML_UNALLOWED_ATTRIBUTE_ERROR => 'Attribute is not allowed',
 	XML_INCORRECT_FIELD_LENGTH_ERROR => 'The value has a length of "0" that interrupts the allowed minimum length of "1"',
-	XML_OTHER_UNDEFINED_ERROR => 'Undefined error',
+	XML_OTHER_UNDEFINED_ERROR => 'Other',
 	XML_UNCITED_FIGURES_ERROR => 'There are uncited figures',
 	XML_UNCITED_TABLES_ERROR => 'There are uncited tables',
 	XML_UNCITED_REFERENCES_ERROR => 'There are uncited references',
@@ -4159,16 +4159,22 @@ function prepareXMLErrors($pXMLArr) {
 			foreach($val as $v) {
 				if($v['node_instance_name'] == 'figures') {
 					//$lStr .= '<li>- <a href="/figures.php?document_id=' . $v['document_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
-					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . '</a></li>';
 				} elseif($v['node_instance_name'] == 'tables') {
 					//$lStr .= '<li>- <a href="/tables.php?document_id=' . $v['document_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
-					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . '</a></li>';
 				} elseif($v['node_instance_name'] == 'reference') {
 					$lReferenceDisplayName = getReferenceDisplayNameByInstanceId($v['node_instance_id']);
-					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $lReferenceDisplayName . '"</a></li>';
+					//$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . $v['node_attribute_field_name'] . ' in  "' . $lReferenceDisplayName . '"</a></li>';
+					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $v['node_instance_id'] . '">' . '"' . $lReferenceDisplayName . '" ' . $v['node_attribute_field_name'] . '</a></li>';
 				} else {
 					$lInstanceIdDisplayErr = getInstanceDisplayErr($v['node_instance_id']);
-					$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $lInstanceIdDisplayErr . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					if ($v['node_instance_name'] == 'Taxon treatments'){
+						$lStr .= '<li>- ' . $v['node_attribute_field_name'] . '</li>';
+					}
+					else {
+						$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $lInstanceIdDisplayErr . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
+					}
 				}
 			}
 			$lStr .= '</ul></div>';

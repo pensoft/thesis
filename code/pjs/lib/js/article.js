@@ -83,16 +83,54 @@ function LoadArticleMenuMainElement(pElementType){
 			element_type : pElementType,
 			article_id : gArticleId
 		},
+		success : function(pAjaxResult) {			
+			if(pAjaxResult['err_cnt']){
+				alert(pAjaxResult['err_msg']);
+				return;
+			}			
+			pAjaxResult['element_type'] = pElementType;
+			InsertNewHistoryState(pAjaxResult);					
+		}
+	});
+}
+
+
+function LoadElementInfo(pActionName, pElementId, pElementName){
+	$.ajax({
+		url : gArticleAjaxSrvUrl,
+		data : {
+			action : pActionName,
+			article_id : gArticleId,
+			element_id : pElementId,
+			element_name : pElementName
+		},
 		success : function(pAjaxResult) {
+			
 			if(pAjaxResult['err_cnt']){
 				alert(pAjaxResult['err_msg']);
 				return;
 			}
-			ClearActiveLocalities();
-			LoadInfoContent(pAjaxResult['html'], pElementType);
+			InsertNewHistoryState(pAjaxResult);			
 		}
 	});
 }
+
+function InsertNewHistoryState(pStateData){
+	History.pushState(pStateData, document.title, pStateData['url_link']);	
+}
+
+function RegisterInitialState(pContentHtml, pActiveElementId, pTitle, pQueryString){
+	pStateData = {
+		'html' : pContentHtml,
+		'element_type' : pActiveElementId
+	}
+	History.replaceState(pStateData, document.title, location.search);
+}
+
+History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
+    var lStateData = History.getState(); // Note: We are using History.getState() instead of event.state
+    LoadInfoContent(lStateData['data']['html'], lStateData['data']['element_type']);
+});
 
 function MarkActiveMenuElement(){
 	$('.P-Info-Menu li.' + gActiveMenuClass).removeClass(gActiveMenuClass);
@@ -184,24 +222,7 @@ function LoadArticleReferences(){
 	});
 }
 
-function LoadElementInfo(pActionName, pElementId, pElementName){
-	$.ajax({
-		url : gArticleAjaxSrvUrl,
-		data : {
-			action : pActionName,
-			article_id : gArticleId,
-			element_id : pElementId,
-			element_name : pElementName
-		},
-		success : function(pAjaxResult) {
-			if(pAjaxResult['err_cnt']){
-				alert(pAjaxResult['err_msg']);
-				return;
-			}
-			LoadInfoContent(pAjaxResult['html'], pAjaxResult['element_type']);
-		}
-	});
-}
+
 
 function LoadFigureInfo(pElementId){
 	LoadElementInfo('get_figure_element', pElementId);
@@ -257,6 +278,7 @@ function InitContentsCustomElementsEvents(pInPreviewIframe){
 	PlaceCitatedElementsNavigationEvents(pInPreviewIframe);
 	ResetTaxonOccurrenceNavigation();
 	ResetCitatedElementNavigation();
+	ClearActiveLocalities();
 	ScrollInfoBarToTop();
 }
 
@@ -956,17 +978,17 @@ function submitArticleNewComment(pOper, pFormName, pId) {
 	}
 	
 	if(pOper == 2){
-		if(!confirm('Are you sure you want to approve this comment?')){
-			$("#approve_" + pId).attr('checked', false); 
-			return false;
-		}
+	//	if(!confirm('Are you sure you want to approve this comment?')){
+	//		$("#approve_" + pId).attr('checked', false); 
+	//		return false;
+	//	}
 		lFormData += '&tAction=approve';
 	}
 	if(pOper == 3){
-		if(!confirm('Are you sure you want to reject this comment?')){
-			$("#reject_" + pId).attr('checked', false); 
-			return false;
-		}
+	//	if(!confirm('Are you sure you want to reject this comment?')){
+	//		$("#reject_" + pId).attr('checked', false); 
+	//		return false;
+	//	}
 		lFormData += '&tAction=reject';
 	}
 	
@@ -984,7 +1006,7 @@ function submitArticleNewComment(pOper, pFormName, pId) {
 				}
 		
 				$('#article_comment_textarea').val('');
-				alert(pAjaxResult['success_msg']);
+		//		alert(pAjaxResult['success_msg']);
 				LoadCommentList('article_messages_wrapper_content');
 				return;
 			}
