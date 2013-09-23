@@ -224,7 +224,7 @@
 }
 
 .P-Current-Author-Addresses{
-	font-style:superscript;
+	/*font-style:superscript;*/
 }
 
 .singlePlatePhoto {
@@ -304,4 +304,23 @@ table td .P-Article-Preview-Block {
 
 .P-Taxonomic-Coverage-Taxa-Table td, .P-Taxonomic-Coverage-Taxa-Table th{
 	padding-right: 10px;
+}
+
+#P-Fig-Holder{
+	margin: auto;
+}
+.P-Fig-Caption-Large{
+	padding: 10px 0 0 10px;
+}
+
+.P-Outer-Center-Div{
+	float: right;
+    right: 50%;
+    position: relative;
+}
+
+.P-Inner-Center-Div{
+	float: right;
+    right: -50%;
+    position: relative;
 }

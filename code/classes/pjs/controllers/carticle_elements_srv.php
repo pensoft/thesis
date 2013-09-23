@@ -11,7 +11,7 @@ class cArticle_Elements_Srv extends cBase_Controller {
 	var $m_elementInstanceId;
 	var $m_metricType;
 	var $m_elementItemId;
-
+	var $m_articleId;
 	function __construct() {
 		parent::__construct();		
 		$pViewPageObjectsDataArray = array ();
@@ -84,6 +84,7 @@ class cArticle_Elements_Srv extends cBase_Controller {
 		if(!$this->m_elementItemId){
 			throw new Exception(getstr('pjs.articleNoSuchElement'));
 		}
+		$this->m_articleId = $this->m_articlesModel->GetArticleIdFromInstanceIdAndItemType($this->m_elementInstanceId, $this->m_metricType);
 	}
 	
 	protected function RegisterElementMetricDetail($pDetailType = AOF_METRIC_DETAIL_TYPE_DOWNLOAD){
@@ -114,7 +115,9 @@ class cArticle_Elements_Srv extends cBase_Controller {
 	
 	function ZoomFigure(){
 		$this->RegisterElementMetricDetail(AOF_METRIC_DETAIL_TYPE_VIEW);		
+		$lArticleTitle = trim(strip_tags($this->m_articlesModel->GetArticleTitle($this->m_articleId)));
 		$lUrl = str_replace('{instance_id}', $this->m_elementInstanceId, PWT_FIGURE_ZOOM_SRV);
+		$lUrl = str_replace('{encoded_page_title}', urlencode($lArticleTitle), $lUrl);
 		$this->Redirect($lUrl, 1, 'text/html');
 	}
 	
