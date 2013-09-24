@@ -398,7 +398,7 @@ $gTemplArr = array(
 
 		'articles.forum_no_logged_user' => '
 			<div class="article_comment_form_not_logged">
-				<a href="/login.php?redirurl=' . urlencode('/articles.php?id=') . '{article_id}">{_getstr(pjs.aof_login_to_comment)}</a>
+				<a href="{_setCommentLoginRedirLink(article_id)}">{_getstr(pjs.aof_login_to_comment)}</a>
 			</div>
 		',
 

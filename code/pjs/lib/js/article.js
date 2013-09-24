@@ -130,12 +130,13 @@ function RegisterInitialState(pContentHtml, pActiveElementId, pTitle, pQueryStri
 		LoadArticleLocalities();		
 	}
 	History.replaceState(pStateData, document.title, location.search);	
+		History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
+	    var lStateData = History.getState(); // Note: We are using History.getState() instead of event.state
+	    LoadInfoContent(lStateData['data']['html'], lStateData['data']['element_type']);
+	});
 }
 
-History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
-    var lStateData = History.getState(); // Note: We are using History.getState() instead of event.state
-    LoadInfoContent(lStateData['data']['html'], lStateData['data']['element_type']);
-});
+
 
 function MarkActiveMenuElement(){
 	$('.P-Info-Menu li.' + gActiveMenuClass).removeClass(gActiveMenuClass);

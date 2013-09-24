@@ -3568,6 +3568,10 @@ function showCommentFootElementByFlag($pFlag){
 	}
 }
 
+function setCommentLoginRedirLink($pArticleId) {
+	return '/login.php?redirurl=' . urlencode('/articles.php?id=' . $pArticleId . '&display_type=list&element_type=' . ARTICLE_MENU_ELEMENT_TYPE_FORUM);
+}
+
 /*
 function displayCommentLastModdate($pCommentId, $pDate, $pDateInSeconds, $pIsRoot = false){
 	$lResult = '';
