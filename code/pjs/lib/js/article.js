@@ -1153,6 +1153,7 @@ function LayerViewPoll(pElem, pElementId, pElementType) {
 			});
 		}
 	});
+}
 
 var showPostReviewForm = false;
 function tooglePostReviewForm(){

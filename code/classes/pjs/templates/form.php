@@ -279,6 +279,7 @@ $gTemplArr = array(
 		<script  type="text/javascript">
 			CKEDITOR.config.language = \'en\';
 			CKEDITOR.replace(\'textarea_{field_name}\', {
+				extraPlugins : \'autogrow,autosave\',
 				on: {
 					key: function( evt ) {
 						var leditor = evt.editor;
@@ -295,6 +296,9 @@ $gTemplArr = array(
 				},
 				toolbar : \'SmallToolbar\',
 				removePlugins: \'elementspath,resize\',
+				autoGrow_minHeight: 200,
+				autoGrow_onStartup: true,
+				autoGrow_maxHeight: 0,
 				height: 120,
 				width: 451
 			});
