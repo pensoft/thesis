@@ -719,7 +719,7 @@ $gTemplArr = array(
 				</div><!-- END header -->
 				{contents}	
 			</div>
-			<div id="P-Registration-Content"></div>	
+			<div id="P-Post-Review-Form-Poll"></div>	
 		{*global.htmlonlyfooter}
 	',
 	

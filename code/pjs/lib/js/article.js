@@ -1139,7 +1139,7 @@ function LayerViewPoll(pElem, pElementId, pElementType) {
 						//$('#simplemodal-container .taskspopup-rightcol').height((calh - 20));
 					} else {
 						var docw = $('#simplemodal-container').width();
-						var modalh = $('#P-Registration-Content').height();
+						var modalh = $('#P-Post-Review-Form-Poll').height();
 						//$('#simplemodal-container .taskspopup-rightcol').height(430);	
 						if(modalh > 430) {
 							$('#simplemodal-container').width(docw + 15);
@@ -1154,6 +1154,7 @@ function LayerViewPoll(pElem, pElementId, pElementType) {
 		}
 	});
 }
+
 var showPostReviewForm = false;
 function tooglePostReviewForm(){
 	showPostReviewForm = !showPostReviewForm;

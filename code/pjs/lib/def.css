@@ -7290,7 +7290,7 @@ table.aof_poll_view_list{
 }
 
 tr.aof_poll_view_list_label{
-	height: auto !important;
+	height: 0px !important;
 }
 
 td.aof_poll_view_list_label{
@@ -7299,5 +7299,5 @@ td.aof_poll_view_list_label{
 	font-size: 10pt;
 	font-weight: normal;
 	padding: 0 10px !important;
-	width: 100%;
+	width: 100% !important;
 }	

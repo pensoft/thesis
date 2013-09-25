@@ -3596,13 +3596,21 @@ function getPollAnswerLabel($pAnswer) {
 	return getstr('admin.article_versions.option' . (int)$pAnswer);
 }
 
-function showAOFPollIfExists($pHasPoll, $pId) {
-	if((int)$pHasPoll) {
+function showAOFPollIfExists($pHasPoll, $pId, $pState) {
+	if((int)$pHasPoll && $pState == FORUM_MESSAGE_STATE_APPROVED) {
 		return '<div class="aof_view_poll_link">
-			<a href="javascript:void(0)" onclick="LayerViewPoll(\'P-Registration-Content\', ' . $pId . ', ' . AOF_COMMENT_POLL_ELEMENT_TYPE . ');">
+			<a href="javascript:void(0)" onclick="LayerViewPoll(\'P-Post-Review-Form-Poll\', ' . $pId . ', ' . AOF_COMMENT_POLL_ELEMENT_TYPE . ');">
 				' . getstr('pjs.aof_view_poll_link') . '
 			</a>
 		</div>';
+	}
+}
+
+function showAOFCommentMessage($pMessage, $pState) {
+	if($pState == FORUM_MESSAGE_STATE_APPROVED) {
+		return $pMessage;
+	} else {
+		return getstr('pjs.comment_is_rejected');
 	}
 }
 ?>

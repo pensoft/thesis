@@ -92,6 +92,9 @@ class cArticle_Comments_Form_Controller extends cBase_Controller {
 					'CType' => 'hidden',
 					'VType' => 'int',
 					'AllowNulls' => true,
+					'AddTags' => array(
+						'id' => 'aof_comment_id'
+					),
 				),
 				'event_id' => array(
 					'CType' => 'hidden',
