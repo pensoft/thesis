@@ -74,9 +74,9 @@ $gTemplArr = array(
 	',
 	
 	'form.radio_aof_comment_poll_input_row' => '
-		<td>
-			<input type="radio" name="{field_name}" value="{value_key}" {row_additional_tags_string} {_checkIfFormCheckboxRowIsSelected(value_is_selected)} />
-			<span>{value_label}</span>
+		<td class="form_answer">
+			<input type="radio" id="{field_name}{value_key}" name="{field_name}" value="{value_key}" {row_additional_tags_string} {_checkIfFormCheckboxRowIsSelected(value_is_selected)} />
+			<span><label for="{field_name}{value_key}">{value_label}</label></span>
 		</td>
 	',
 	

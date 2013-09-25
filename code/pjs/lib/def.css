@@ -7023,14 +7023,57 @@ html, body {
 	float:left;
 }
 
-.article_comment_btn {
+.article_reviewit_btn {
 	margin:5px 0px 0px 0px;
-	background: url("/i/commentbtn.png") no-repeat !important;
+	background: url("/i/Review_it_btn_big.png") no-repeat !important;
+	border: medium none;
+    height: 34px;
+    width: 122px;
 }
 
-.article_comment_btn:hover {
-	background: url("/i/commentbtn_hover.png") no-repeat !important;
+.article_reviewit_btn:hover {
+	background: url("/i/Review_it_btn_big_hover.png") no-repeat !important;
+	border: medium none;
+    height: 34px;
+    width: 122px;
 }
+
+.article_post_btn {
+	margin:5px 0px 0px 0px;
+	background: url("/i/Post_btn_big.png") no-repeat !important;
+	border: medium none;
+    height: 34px;
+    width: 122px;
+    display: inline-block;
+}
+
+.article_post_btn:hover {
+	background: url("/i/Post_btn_big_hover.png") no-repeat !important;
+	border: medium none;
+    height: 34px;
+    width: 122px;
+    display: inline-block;
+}
+
+.article_cancel_btn {
+	margin:5px 0px 0px 0px;
+	background: url("/i/Cancel_btn_big.png") no-repeat !important;
+	border: medium none;
+    height: 34px;
+    width: 122px;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.article_cancel_btn:hover {
+	background: url("/i/Cancel_btn_big_hover.png") no-repeat !important;
+	border: medium none;
+    height: 34px;
+    width: 122px;
+    display: inline-block;
+    margin-left: 20px;
+}
+
 
 .article_forum {
 	padding:20px 15px;
@@ -7179,6 +7222,41 @@ html, body {
     border-top: 1px solid #BBB;
 }
 
+.review_form_title {
+    color: #666666;
+    font-family: Helvetica;
+    font-size: 11pt;
+    font-weight: bold;
+    margin: 20px 0 15px 0;
+}
+
+div.form_line {
+    background-color: #CCCCCC;
+    height: 1px;
+    margin: 4px 0;
+}
+
+.review_form_table{
+	display: none;
+}
+
+.form_questions{
+	font-family	Calibri;
+	font-size: 10pt;
+	/*background-image: linear-gradient(90deg, #E3E3C7, #FEFBF3);
+	background-color: #FDF5E3;*/
+    padding: 5px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.form_answer{
+	font-size: 10pt;
+	/*padding-bottom: 15px;*/
+	color: #666;
+	width: 5%;
+}
+
+
 .rightMar10 {
 	margin-right:10px;
 }
@@ -7194,3 +7272,4 @@ html, body {
 .forum_list_user_info {
 	float:left;
 }
+

@@ -41,7 +41,7 @@ $gTemplArr = array(
 								ARTICLE_MENU_ELEMENT_TYPE_CITATION   => 'Citation',
 								ARTICLE_MENU_ELEMENT_TYPE_METRICS  => 'Metrics',
 								ARTICLE_MENU_ELEMENT_TYPE_SHARE  => 'Share',
-								ARTICLE_MENU_ELEMENT_TYPE_FORUM  => 'Comments',
+								ARTICLE_MENU_ELEMENT_TYPE_FORUM  => 'Review it',
 							)) . '
 						</ul>
 						<!--
@@ -392,11 +392,16 @@ $gTemplArr = array(
 			<div class="new_comment_title">Add comment</div>
 			<div class="article_comment_form">
 				{message}
-				<table>
+				<div class="review_form_title">Review form (optional)
+					<a onclick="tooglePostReviewForm()">
+						<img id="arrow2" src="http://pwt.pensoft.net/i/arrow-down-icon.png" alt="expand article info" style="padding:0 6px 0 6px; cursor: pointer;">
+					</a>
+				</div>
+				<table class="review_form_table">
 					' . showAOFPoll() . '
 				</table>
-				<div class="comment_btn article_comment_btn" id="P-Comment-Btn-General" title="Article Comment" onmousedown="submitArticleNewComment(1, \'article_comments_form\');InitCommentForm(\'comment_form\', {@journal_id}, {@article_id});return false;"></div>
-				<div class="comment_btn article_comment_btn" id="P-Comment-Btn-General" title="Article Comment" onmousedown="submitArticleNewComment(4, \'article_comments_form\');InitCommentForm(\'comment_form\', {@journal_id}, {@article_id});return false;"></div>
+				<div class="article_post_btn" id="P-Comment-Btn-General" onmousedown="submitArticleNewComment(1, \'article_comments_form\');InitCommentForm(\'comment_form\', {@journal_id}, {@article_id});return false;"></div>
+				<div class="article_cancel_btn" id="P-Comment-Btn-General" onmousedown="submitArticleNewComment(4, \'article_comments_form\');InitCommentForm(\'comment_form\', {@journal_id}, {@article_id});return false;"></div>
 			</div>
 			<script>
 				PerformAOFCommentFormAutosaveTimeout();
@@ -411,7 +416,7 @@ $gTemplArr = array(
 		
 		'articles.forum_show_comment_link' => '
 			<div class="article_comment_form_not_logged">
-				SHOW FORM: <div class="comment_btn article_comment_btn" id="P-Comment-Btn-General" title="Article Comment" onmousedown="InitCommentForm(\'comment_form\', {journal_id}, {article_id}, 1);return false;"></div>
+				<div class="article_reviewit_btn" id="P-Comment-Btn-General" onmousedown="InitCommentForm(\'comment_form\', {journal_id}, {article_id}, 1);return false;"></div>
 			</div>
 		',
 

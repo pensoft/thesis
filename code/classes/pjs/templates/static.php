@@ -3578,16 +3578,24 @@ function showAOFPoll() {
 		foreach ($gQuestions as $key => $value) {
 			$lRes .= '
 			<tr>
-				<td colspan="4">{*question' . $value . '}</td>
+				<td class="form_questions" colspan="4">{*question' . $value . '}</td>
 			</tr>
 			<tr>
 				{question' . $value . '}
-			</tr>';
+			</tr>
+			<tr>
+				<td colspan="4"><div class="form_line"></div></td>
+			</tr>
+			';
 		}
 	}
 	return $lRes;
 }
 
+/* 			<tr>
+				<td colspan="4"><div class="form_line"></div></td>
+			</tr> */
+			
 /*
 function displayCommentLastModdate($pCommentId, $pDate, $pDateInSeconds, $pIsRoot = false){
 	$lResult = '';
