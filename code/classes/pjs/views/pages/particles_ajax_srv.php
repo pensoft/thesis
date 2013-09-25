@@ -81,6 +81,12 @@ class pArticles_Ajax_Srv extends epPage_Json_View {
 			)
 		);
 		
+		$this->m_objectsMetadata['forum_show_comment_link'] = array(
+			'templs' => array(
+				G_DEFAULT => 'articles.forum_show_comment_link',
+			)
+		);
+		
 		$this->m_objectsMetadata['forum_list_only'] = array(
 			'templs' => array(
 				G_DEFAULT => 'articles.forum_list_only',
@@ -118,7 +124,7 @@ class pArticles_Ajax_Srv extends epPage_Json_View {
 
 		$this->m_defTempls[G_FORM_MSELECT_ROW] = 'form.multiple_select_input_row';
 
-		$this->m_defTempls[G_FORM_RADIO_ROW] = 'form.radio_input_row';
+		$this->m_defTempls[G_FORM_RADIO_ROW] = 'form.radio_aof_comment_poll_input_row';
 
 		$this->m_defTempls[G_FORM_CHECKBOX_ROW] = 'form.checkbox_input_row';
 

@@ -12,7 +12,13 @@ class Article_Comments_Form_Wrapper extends eForm_Wrapper{
 		$this->m_pageControllerInstance = $pData['page_controller_instance'];
 		parent::__construct($pData);
 	}
-
+	
+	protected function PreActionProcessing(){
+		if($this->m_formController->GetCurrentAction() == 'comment') {
+			$this->m_formController->SetFieldProp('message', 'AllowNulls', false);
+		}
+	}
+	
 	protected function PostActionProcessing(){
 		if(
 			$this->m_formController->GetCurrentAction() == 'comment' && 

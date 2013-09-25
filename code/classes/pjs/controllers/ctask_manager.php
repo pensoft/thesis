@@ -402,9 +402,13 @@ class cTask_Manager extends cBase_Controller {
 			return $this->m_errMsgs;
 		}
 		
-		if(!$this->m_customFlag)
+		if(!$this->m_customFlag) {
 			$this->CreateTask($lTaskDefinition);
-		$this->CreateCustomTask();
+		} else {
+			$this->CreateCustomTask();
+		}
+			
+		
 		
 		//trigger_error('CreateTask() DEBUG POINT', E_USER_NOTICE);
 		

@@ -365,11 +365,11 @@ $gTemplArr = array(
 									{_displayCommentLastModdate(id, createdate, createdate_in_seconds)}
 								</div>
 							</div>
+							<div class="P-Clear"></div>
 						</div>
 						{_showEditOptions(id, can_edit, state)}
+						<div class="P-Clear"></div>
 					</div>
-					
-					<div class="P-Clear"></div>
 					<div class="forum_list_user_comment_text">
 						{message}
 					</div>
@@ -392,13 +392,26 @@ $gTemplArr = array(
 			<div class="new_comment_title">Add comment</div>
 			<div class="article_comment_form">
 				{message}
-				<div class="comment_btn article_comment_btn" id="P-Comment-Btn-General" title="Article Comment" onmousedown="submitArticleNewComment(1, \'article_comments_form\');return false;"></div>
+				<table>
+					' . showAOFPoll() . '
+				</table>
+				<div class="comment_btn article_comment_btn" id="P-Comment-Btn-General" title="Article Comment" onmousedown="submitArticleNewComment(1, \'article_comments_form\');InitCommentForm(\'comment_form\', {@journal_id}, {@article_id});return false;"></div>
+				<div class="comment_btn article_comment_btn" id="P-Comment-Btn-General" title="Article Comment" onmousedown="submitArticleNewComment(4, \'article_comments_form\');InitCommentForm(\'comment_form\', {@journal_id}, {@article_id});return false;"></div>
 			</div>
+			<script>
+				PerformAOFCommentFormAutosaveTimeout();
+			</script>
 		',
 
 		'articles.forum_no_logged_user' => '
 			<div class="article_comment_form_not_logged">
 				<a href="{_setCommentLoginRedirLink(article_id)}">{_getstr(pjs.aof_login_to_comment)}</a>
+			</div>
+		',
+		
+		'articles.forum_show_comment_link' => '
+			<div class="article_comment_form_not_logged">
+				SHOW FORM: <div class="comment_btn article_comment_btn" id="P-Comment-Btn-General" title="Article Comment" onmousedown="InitCommentForm(\'comment_form\', {journal_id}, {article_id}, 1);return false;"></div>
 			</div>
 		',
 

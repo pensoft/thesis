@@ -251,7 +251,7 @@ $gTemplArr = array(
 
 
 	'global.profile_pic_and_name' => '
-						<a href="/login.php?logout=1" class="logoutbtn" title="Logout"></a>
+						<a href="/login.php?logout=1&redirurl=' . urlencode($_SERVER["REQUEST_URI"])  . '" class="logoutbtn" title="Logout"></a>
 						<a href="/profile.php" target="_blank" id="profile">
 							{_getProfilePicSmall(previewpicid)}
 							<span>{fullname}</span>

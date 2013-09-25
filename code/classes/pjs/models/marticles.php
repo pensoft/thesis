@@ -540,6 +540,57 @@ class mArticles extends emBase_Model {
 		}
 		return $lResult;
 	}
+
+	function GetAOFCommentPollAnswers($pMessageId) {
+		$lResult = array();
+		$lCon = $this->m_con;
+		$lSql = 'SELECT a.poll_id, a.answer_id 
+				FROM pjs.article_forum af
+				JOIN pjs.poll_answers a ON a.rel_element_id = af.id AND a.rel_element_type = ' . AOF_COMMENT_POLL_ELEMENT_TYPE . '
+				WHERE af.id = ' . $pMessageId;
+		
+		$lCon->Execute($lSql);
+		while (!$lCon->Eof()) {
+			$lResult['question' . $lCon->mRs['poll_id']] = $lCon->mRs['answer_id'];
+			$lCon->MoveNext();
+		}
+		
+		return $lResult;
+	}
+
+	function GetAOFUserCommentMessageId($pUserId, $pArticleId) {
+		$lResult = array();
+		$lCon = $this->m_con;
+		$lSql = 'SELECT id FROM pjs.article_forum WHERE state = ' . FORUM_MESSAGE_STATE_UNAPPROVED . ' AND article_id = ' . (int)$pArticleId . ' AND createuid = ' . (int)$pUserId;
+		$lCon->Execute($lSql);
+		return $lCon->mRs['id'];
+	}
+
+	function GetAOFCommentPollQuestions($pJournalId, $pMessageId){
+		$lResult = array();
+		$lCon = $this->m_con;
+		$lSql = 'SELECT p.* 
+				FROM pjs.article_forum af
+				JOIN pjs.poll_answers a ON a.rel_element_id = af.id AND a.rel_element_type = ' . AOF_COMMENT_POLL_ELEMENT_TYPE . '
+				JOIN pjs.poll p ON p.id = a.poll_id
+				WHERE af.id = ' . $pMessageId . '
+				ORDER BY p.ord';
+		// var_dump($lSql);
+		// exit;
+		$lCon->Execute($lSql);
+		if(!$lCon->RecordCount()){
+			$lSql = 'SELECT * FROM pjs.poll WHERE journal_id = ' . (int)$pJournalId . ' AND state = 1 ORDER BY ord';
+			$lCon->Execute($lSql);
+		}
+		
+		while (!$lCon->Eof()) {
+			$lResult[] = $lCon->mRs;
+			$lCon->MoveNext();
+		}
+		
+		return $lResult;
+	}
+
 }
 
 ?>

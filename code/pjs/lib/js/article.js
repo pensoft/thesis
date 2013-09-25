@@ -956,13 +956,17 @@ function ScrollToTaxonCategory(pCategoryName){
 	$('.P-Article-Info-Bar').scrollTop($('.P-Article-Info-Bar').scrollTop() + lPosition - 56);
 }
 
-function InitCommentForm(pDiv, pJournalId, pArticleId) {
+function InitCommentForm(pDiv, pJournalId, pArticleId, pAction) {
+	if(typeof pAction == 'undefined'){
+		pAction = 0;
+	}
+	
 	$.ajax({
 		url : '/article_comment_form.php',
-		async : false,
 		data : {
 			journal_id : pJournalId,
-			article_id : pArticleId
+			article_id : gArticleId,
+			show_form : pAction
 		},
 		success : function(pAjaxResult) {
 			if(pAjaxResult['err_cnt']){
@@ -976,9 +980,7 @@ function InitCommentForm(pDiv, pJournalId, pArticleId) {
 
 function submitArticleNewComment(pOper, pFormName, pId) {
 	if(pOper == 1){
-		for(var lInstanceName in CKEDITOR.instances){
-		    CKEDITOR.instances[lInstanceName].updateElement();
-		}
+		CKEDITOR.instances['textarea_message'].updateElement();
 	}
 	var lJqFormSel = $('form[name="' + pFormName + '"]')
 	var lFormData = lJqFormSel.formSerialize();
@@ -991,45 +993,37 @@ function submitArticleNewComment(pOper, pFormName, pId) {
 	}
 	
 	if(pOper == 2){
-	//	if(!confirm('Are you sure you want to approve this comment?')){
-	//		$("#approve_" + pId).attr('checked', false); 
-	//		return false;
-	//	}
 		lFormData += '&tAction=approve';
 	}
 	if(pOper == 3){
-	//	if(!confirm('Are you sure you want to reject this comment?')){
-	//		$("#reject_" + pId).attr('checked', false); 
-	//		return false;
-	//	}
 		lFormData += '&tAction=reject';
 	}
 	
-
+	if(pOper == 4){
+		CKEDITOR.instances['textarea_message'].destroy();
+		lFormData += '&tAction=delete';
+	}
+	
+	if(pOper == 5){
+		lFormData += '&tAction=new';
+	}
+	//console.log(lFormData);
 	$.ajax({
 		url : '/article_comment_form.php',
 		type : 'POST',
 		data : lFormData,
 		success : function(pAjaxResult) {
-			if(pAjaxResult['success']){
-				if(pOper == 1){
-					for(var lInstanceName in CKEDITOR.instances){
-					    CKEDITOR.instances[lInstanceName].setData('');
-					}
-				}
-		
-				$('#article_comment_textarea').val('');
+			if(pAjaxResult['success'] == 1){
 				if(pOper == 1){
 					alert(pAjaxResult['success_msg']);
 				}
 				LoadCommentList('article_messages_wrapper_content');
-				return;
+			} else {
+				if(pAjaxResult['err_cnt']){
+					alert(pAjaxResult['err_msg']);
+					return false;
+				}
 			}
-			if(pAjaxResult['err_cnt']){
-				alert(pAjaxResult['err_msg']);
-				return;
-			}
-			return;
 		}
 	});
 }
@@ -1041,15 +1035,15 @@ function LoadCommentList(pHolder) {
 		data : {
 			action : 'get_main_list_element',
 			element_type : 13,
-			article_id : $('#comments_article_id').val(),
+			article_id : gArticleId,
 			comment_list_flag : 1
 		},
 		success : function(pAjaxResult) {
 			if(pAjaxResult['err_cnt']){
 				alert(pAjaxResult['err_msg']);
-				return;
+			} else {
+				$('#' + pHolder).html(pAjaxResult['html']);
 			}
-			$('#' + pHolder).html(pAjaxResult['html']);
 		}
 	});
 }
@@ -1098,3 +1092,16 @@ function SetCommentDateLabel(pHolderId, pDateInSeconds, pDateString){
 		setTimeout(function(){SetCommentDateLabel(pHolderId, pDateInSeconds, pDateString);}, lTimeoutSeconds * 1000);
 	}
 }
+
+function PerformAOFCommentFormAutosaveTimeout(){
+	setTimeout("PerformAOFCommentFormAutosave();PerformAOFCommentFormAutosaveTimeout()", 30 * 1000);
+}
+
+function PerformAOFCommentFormAutosave(){
+	var lForm = $('form[name="article_comments_form"]');
+	if(!lForm.length){
+		return;
+	}
+	lForm.ajaxSubmit({'data' : {'tAction' : 'save'}});
+}
+

@@ -3572,6 +3572,22 @@ function setCommentLoginRedirLink($pArticleId) {
 	return '/login.php?redirurl=' . urlencode('/articles.php?id=' . $pArticleId . '&display_type=list&element_type=' . ARTICLE_MENU_ELEMENT_TYPE_FORUM);
 }
 
+function showAOFPoll() {
+	global $gQuestions;
+	if(count($gQuestions)){
+		foreach ($gQuestions as $key => $value) {
+			$lRes .= '
+			<tr>
+				<td colspan="4">{*question' . $value . '}</td>
+			</tr>
+			<tr>
+				{question' . $value . '}
+			</tr>';
+		}
+	}
+	return $lRes;
+}
+
 /*
 function displayCommentLastModdate($pCommentId, $pDate, $pDateInSeconds, $pIsRoot = false){
 	$lResult = '';

@@ -7190,3 +7190,7 @@ html, body {
 .fig-zoom{
 	background-color: #222222;
 }
+
+.forum_list_user_info {
+	float:left;
+}

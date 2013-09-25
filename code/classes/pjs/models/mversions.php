@@ -1850,7 +1850,7 @@ class mVersions extends emBase_Model {
 			SELECT pa.*, p.label
 			FROM pjs.document_review_round_users_form f
 			JOIN pjs.document_review_round_users drru ON drru.id = f.document_review_round_user_id
-			JOIN pjs.poll_answers pa ON pa.document_review_round_users_form_id = f.id
+			JOIN pjs.poll_answers pa ON pa.rel_element_id = f.id AND pa.rel_element_type = ' . REVIEWER_POLL_ELEMENT_TYPE . '
 			JOIN pjs.poll p ON p.id = pa.poll_id
 			WHERE f.round_id = ' . $pRoundId . ' 
 				AND drru.decision_id IS NOT NULL 
@@ -1885,7 +1885,7 @@ class mVersions extends emBase_Model {
 		$lSql = 'SELECT p.* 
 				FROM pjs.document_review_round_users usr
 				JOIN pjs.document_review_round_users_form f ON usr.id = f.document_review_round_user_id
-				JOIN pjs.poll_answers a ON a.document_review_round_users_form_id = f.id
+				JOIN pjs.poll_answers a ON a.rel_element_id = f.id AND a.rel_element_type = ' . REVIEWER_POLL_ELEMENT_TYPE . '
 				JOIN pjs.poll p ON p.id = a.poll_id
 				WHERE usr.document_version_id = ' . $pVersionId . '
 				ORDER BY p.ord';
@@ -1910,7 +1910,7 @@ class mVersions extends emBase_Model {
 		$lSql = 'SELECT a.poll_id, a.answer_id 
 				FROM pjs.document_review_round_users usr
 				JOIN pjs.document_review_round_users_form f ON usr.id = f.document_review_round_user_id
-				JOIN pjs.poll_answers a ON a.document_review_round_users_form_id = f.id
+				JOIN pjs.poll_answers a ON a.rel_element_id = f.id AND a.rel_element_type = ' . REVIEWER_POLL_ELEMENT_TYPE . '
 				WHERE usr.document_version_id = ' . $pVersionId;
 		
 		$lCon->Execute($lSql);
