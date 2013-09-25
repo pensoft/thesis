@@ -368,6 +368,7 @@ $gTemplArr = array(
 							<div class="P-Clear"></div>
 						</div>
 						{_showEditOptions(id, can_edit, state)}
+						{_showAOFPollIfExists(has_poll, id)}
 						<div class="P-Clear"></div>
 					</div>
 					<div class="forum_list_user_comment_text">

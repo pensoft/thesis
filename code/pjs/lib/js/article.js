@@ -963,6 +963,7 @@ function InitCommentForm(pDiv, pJournalId, pArticleId, pAction) {
 	
 	$.ajax({
 		url : '/article_comment_form.php',
+		async : false,
 		data : {
 			journal_id : pJournalId,
 			article_id : gArticleId,
@@ -1011,12 +1012,10 @@ function submitArticleNewComment(pOper, pFormName, pId) {
 	$.ajax({
 		url : '/article_comment_form.php',
 		type : 'POST',
+		async : false,
 		data : lFormData,
 		success : function(pAjaxResult) {
 			if(pAjaxResult['success'] == 1){
-				if(pOper == 1){
-					alert(pAjaxResult['success_msg']);
-				}
 				LoadCommentList('article_messages_wrapper_content');
 			} else {
 				if(pAjaxResult['err_cnt']){
@@ -1105,3 +1104,53 @@ function PerformAOFCommentFormAutosave(){
 	lForm.ajaxSubmit({'data' : {'tAction' : 'save'}});
 }
 
+function LayerViewPoll(pElem, pElementId, pElementType) {
+	if(typeof pElementType == 'undefined' || !pElementType) {
+		pElementType = 1;
+	}
+	
+	$.ajax({
+		url : '/view_poll.php',
+		data : {
+			rel_element_id : pElementId,
+			rel_element_type: pElementType
+		},
+		success : function(pAjaxResult) {
+			//console.log(pAjaxResult);
+			if(pAjaxResult['err_cnt']) {
+				alert(pAjaxResult['err_msg']);
+				return;
+			}
+			
+			$('#' + pElem).html(pAjaxResult['html']);
+	
+			$('#' + pElem).modal({
+				autoResize : true,
+				position : ["10%", ],
+				minHeight : 430,
+				maxHeight : 430,
+				overlayClose : true,
+				//close : false,
+				onShow : function(dialog) {
+					var doch = $(window).height();
+					if(doch <= 430){
+						var calh = doch - 2 * 80;
+						$('#simplemodal-container').height(calh);
+						//$('#simplemodal-container .taskspopup-rightcol').height((calh - 20));
+					} else {
+						var docw = $('#simplemodal-container').width();
+						var modalh = $('#P-Registration-Content').height();
+						//$('#simplemodal-container .taskspopup-rightcol').height(430);	
+						if(modalh > 430) {
+							$('#simplemodal-container').width(docw + 15);
+						}
+					}
+					$(".simplemodal-wrap").css('overflowX', 'hidden');
+				},
+				onClose : function(dialog) {
+					$.modal.close();
+				}
+			});
+		}
+	});
+}

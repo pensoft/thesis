@@ -3588,6 +3588,20 @@ function showAOFPoll() {
 	return $lRes;
 }
 
+function getPollAnswerLabel($pAnswer) {
+	return getstr('admin.article_versions.option' . (int)$pAnswer);
+}
+
+function showAOFPollIfExists($pHasPoll, $pId) {
+	if((int)$pHasPoll) {
+		return '<div class="aof_view_poll_link">
+			<a href="javascript:void(0)" onclick="LayerViewPoll(\'P-Registration-Content\', ' . $pId . ', ' . AOF_COMMENT_POLL_ELEMENT_TYPE . ');">
+				' . getstr('pjs.aof_view_poll_link') . '
+			</a>
+		</div>';
+	}
+}
+
 /*
 function displayCommentLastModdate($pCommentId, $pDate, $pDateInSeconds, $pIsRoot = false){
 	$lResult = '';
