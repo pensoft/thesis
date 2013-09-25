@@ -7301,3 +7301,7 @@ td.aof_poll_view_list_label{
 	padding: 0 10px !important;
 	width: 100% !important;
 }	
+
+#P-Post-Review-Form-Poll {
+	display: none;
+}
