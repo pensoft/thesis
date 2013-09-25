@@ -3610,7 +3610,7 @@ function showAOFCommentMessage($pMessage, $pState) {
 	if($pState == FORUM_MESSAGE_STATE_APPROVED) {
 		return $pMessage;
 	} else {
-		return getstr('pjs.comment_is_rejected');
+		return '<span class="comment_rejected">' . getstr('pjs.comment_is_rejected') . '</span>';
 	}
 }
 ?>

@@ -296,7 +296,7 @@ $gTemplArr = array(
 				},
 				toolbar : \'SmallToolbar\',
 				removePlugins: \'elementspath,resize\',
-				autoGrow_minHeight: 200,
+				autoGrow_minHeight: 100,
 				autoGrow_onStartup: true,
 				autoGrow_maxHeight: 0,
 				height: 120,

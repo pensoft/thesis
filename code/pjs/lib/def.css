@@ -7154,7 +7154,7 @@ html, body {
 .forum_list_user_comment_text {
 	padding:10px 0px 0px 0px;
 	font-family: Calibri;
-	font-size: 11pt;
+	font-size: 10pt;
 }
 
 .forum_list_user_comment_text p{
@@ -7166,7 +7166,7 @@ html, body {
 }
 
 .forum_list_actions {
-	margin:3px 0px 3px 0px;
+	margin:3px 0px 3px 20px;
 	float: right;
 }
 
@@ -7294,10 +7294,6 @@ table.aof_poll_view_list{
 	border: none;
 }
 
-tr.aof_poll_view_list_label{
-	height: 0px;
-}
-
 td.aof_poll_view_list_label{
 	border: none; 
 	font-family: Calibri;
@@ -7305,4 +7301,14 @@ td.aof_poll_view_list_label{
 	font-weight: normal;
 	padding: 2px 10px;
 	width: 100%;
+	border-bottom: 1px dotted #CCC;
+	height: 17px;
 }	
+
+#P-Post-Review-Form-Poll {
+	display: none;
+}
+
+.comment_rejected{
+	color:#CD0A0A;	
+}
