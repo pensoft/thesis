@@ -7,7 +7,7 @@ body
 {
 	/* Font */
 	font-family: Calibri, Arial, Verdana, sans-serif, "Trebuchet MS";
-	font-size: 11pt;
+	font-size: 10pt;
 
 	/* Text color */
 	color: #333;
@@ -24,7 +24,7 @@ p{
 
 .cke_editable
 {
-	font-size: 11pt;
+	font-size: 10pt;
 	line-height: 1.3em;
 }
 

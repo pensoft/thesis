@@ -2214,6 +2214,6 @@ $STRARRAY = array(
 	'pjs.aof_no_comments' => 'There are no comments to this article',
 	'pjs.email_notifications' => 'Email notifications',
 	'pjs.aof_view_poll_link' => 'See Review form',	 
-
+	'pjs.comment_is_rejected' => 'This comment has been removed because it does not conform to the journal\'s policy.',
 );
 ?>
