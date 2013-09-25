@@ -3578,11 +3578,15 @@ function showAOFPoll() {
 		foreach ($gQuestions as $key => $value) {
 			$lRes .= '
 			<tr>
-				<td colspan="4">{*question' . $value . '}</td>
+				<td class="form_questions" colspan="4">{*question' . $value . '}</td>
 			</tr>
 			<tr>
 				{question' . $value . '}
-			</tr>';
+			</tr>
+			<tr>
+				<td colspan="4"><div class="form_line"></div></td>
+			</tr>
+			';
 		}
 	}
 	return $lRes;
@@ -3601,22 +3605,4 @@ function showAOFPollIfExists($pHasPoll, $pId) {
 		</div>';
 	}
 }
-
-/*
-function displayCommentLastModdate($pCommentId, $pDate, $pDateInSeconds, $pIsRoot = false){
-	$lResult = '';
-	$pDate = showCommentDate($pDate);
-	$lSpanId = 'comment_date_';
-	if($pIsRoot){
-		$lSpanId .= 'root_';
-	}
-	$lSpanId .= $pCommentId;
-	$lCurrentSeconds = time();
-	$lDiff = $lCurrentSeconds - $pDateInSeconds;
-	$lResult = '<span id="' . $lSpanId . '" title="' . $pDate . '">
-					<script>SetCommentDateLabel(' . json_encode($lSpanId) . ', ' . (int)$pDateInSeconds . ', ' . json_encode($pDate) . ')</script>
-				</span>';
-	return $lResult;
-}
-*/
 ?>

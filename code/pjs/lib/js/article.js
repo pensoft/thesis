@@ -1153,4 +1153,15 @@ function LayerViewPoll(pElem, pElementId, pElementType) {
 			});
 		}
 	});
+
+var showPostReviewForm = false;
+function tooglePostReviewForm(){
+	showPostReviewForm = !showPostReviewForm;
+	if (showPostReviewForm) {
+		$('.review_form_table').show();
+		$('#arrow2').attr("src", 'http://pwt.pensoft.net/i/arrow-up-icon.png');
+	} else {
+		$('#arrow2').attr("src", 'http://pwt.pensoft.net/i/arrow-down-icon.png');
+		$('.review_form_table').hide();
+	}
 }
