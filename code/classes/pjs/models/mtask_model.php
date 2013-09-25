@@ -26,9 +26,10 @@ class mTask_Model extends emBase_Model {
 		$lSql = '
 			BEGIN;
 				INSERT INTO pjs.email_tasks(task_definition_id, event_id, state_id, createdate) VALUES(' . $pTaskDefinitionId . ', ' . $pEventId . ', 1, now());
-				SELECT * FROM spCreateTaskDetail(' . $pArrStringTemplates . ', ' . $pArrStringUsers . ', ' . $pArrStringUsersRole . ', currval(\'pjs.email_tasks_id_seq\'), ' . $pIsAutomate . ', ' . $pArrStringSubjects . ', \'' . q($pCC) . '\');
+				SELECT * FROM spCreateTaskDetail(' . $pArrStringTemplates . ', ' . $pArrStringUsers . ', ' . $pArrStringUsersRole . ', currval(\'pjs.email_tasks_id_seq\'), ' . (($pIsAutomate == 'f' || $pIsAutomate == 'false') ? 'FALSE' : 'TRUE') . ', ' . $pArrStringSubjects . ', \'' . q($pCC) . '\');
 			COMMIT;
 		';
+		file_put_contents('/tmp/tasks.log', $lSql);
 		// var_dump($lSql);
 		// exit;
  		if(!$lCon->Execute($lSql)){
