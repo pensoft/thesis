@@ -7228,6 +7228,13 @@ html, body {
     font-size: 11pt;
     font-weight: bold;
     margin: 20px 0 15px 0;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
+}
+.review_form_title a{
+	color: #666;
 }
 
 div.form_line {
@@ -7238,6 +7245,10 @@ div.form_line {
 
 .review_form_table{
 	display: none;
+}
+
+.aof_view_poll_link {
+    float: right;
 }
 
 .form_questions{
@@ -7273,3 +7284,20 @@ div.form_line {
 	float:left;
 }
 
+table.aof_poll_view_list{
+	padding: 0 10px;
+	border: none;
+}
+
+tr.aof_poll_view_list_label{
+	height: auto !important;
+}
+
+td.aof_poll_view_list_label{
+	border: none !important; 
+	font-family: Calibri;
+	font-size: 10pt;
+	font-weight: normal;
+	padding: 0 10px !important;
+	width: 100%;
+}	

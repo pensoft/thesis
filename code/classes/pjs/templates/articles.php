@@ -393,8 +393,9 @@ $gTemplArr = array(
 			<div class="new_comment_title">Add comment</div>
 			<div class="article_comment_form">
 				{message}
-				<div class="review_form_title">Review form (optional)
+				<div class="review_form_title">
 					<a onclick="tooglePostReviewForm()">
+						Review form (optional)
 						<img id="arrow2" src="http://pwt.pensoft.net/i/arrow-down-icon.png" alt="expand article info" style="padding:0 6px 0 6px; cursor: pointer;">
 					</a>
 				</div>

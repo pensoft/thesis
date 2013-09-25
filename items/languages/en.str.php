@@ -2213,5 +2213,7 @@ $STRARRAY = array(
 	'pjs.aof_login_to_comment' => 'Login to comment',
 	'pjs.aof_no_comments' => 'There are no comments to this article',
 	'pjs.email_notifications' => 'Email notifications',
+	'pjs.aof_view_poll_link' => 'See Review form',	 
+
 );
 ?>
