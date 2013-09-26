@@ -7,7 +7,7 @@ function getCommit(){
 function infoMenu($items){
 	$result = '';
 	foreach ($items as $key => $value) {
-		$result .= '<li data-info-type="' . $key . '"><span class="hyper">'.$value.'</span><span class="hidden-bold">'.$value.'</span></li>';
+		$result .= '<li data-info-type="' . $key . '"><span class="hyper unselectable">'.$value.'</span><span class="hidden-bold unselectable">'.$value.'</span></li>';
 	}
 	return $result;
 }

@@ -1786,5 +1786,9 @@ a.AOF-journal-logo {
 	font-family: helvetica;
 }
 
-
+.unselectable {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
 
