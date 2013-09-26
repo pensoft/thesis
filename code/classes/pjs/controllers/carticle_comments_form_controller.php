@@ -135,7 +135,7 @@ class cArticle_Comments_Form_Controller extends cBase_Controller {
 				),
 				'new' => array(
 					'CType' => 'action',
-					'SQL' => 'SELECT * FROM pjs."spProcessArticleComment"(1, null, {user_id}, {article_id}, {journal_id}, {message})',
+					'SQL' => 'SELECT * FROM pjs."spProcessArticleComment"(1, null, {user_id}, {article_id}, {journal_id}, {message})/*{event_id}*/',
 					'DisplayName' => '',
 					'ActionMask' =>  ACTION_CHECK | ACTION_EXEC | ACTION_FETCH | ACTION_SHOW,
 					'Hidden' => true,
@@ -146,7 +146,7 @@ class cArticle_Comments_Form_Controller extends cBase_Controller {
 						BEGIN;
 							SELECT * FROM pjs."spProcessArticleComment"(5, {id}, {user_id}, {article_id}, {journal_id}, {message});
 							' . $lUpdateSql . '
-						COMMIT;',
+						COMMIT;/*{event_id}*/',
 					'DisplayName' => '',
 					
 					'ActionMask' =>  ACTION_CHECK | ACTION_EXEC | ACTION_FETCH | ACTION_SHOW,
@@ -154,32 +154,30 @@ class cArticle_Comments_Form_Controller extends cBase_Controller {
 				),
 				'comment' => array(
 					'CType' => 'action',
-					'SQL' => '
-						BEGIN;
-							SELECT * FROM pjs."spProcessArticleComment"(4, {id}, {user_id}, {article_id}, {journal_id}, {message});
-							' . $lUpdateSql . '
-						COMMIT;	',
+					'SQL' => $lUpdateSql . '
+						SELECT * FROM pjs."spProcessArticleComment"(4, {id}, {user_id}, {article_id}, {journal_id}, {message});
+						/*{event_id}*/',
 					'DisplayName' => 'Post',
 					'ActionMask' =>  ACTION_CHECK | ACTION_EXEC | ACTION_FETCH | ACTION_SHOW,
 					'Hidden' => true,
 				),
 				'delete' => array(
 					'CType' => 'action',
-					'SQL' => 'SELECT * FROM pjs."spProcessArticleComment"(6, {id}, {user_id}, {article_id}, {journal_id}, {message})',
+					'SQL' => 'SELECT * FROM pjs."spProcessArticleComment"(6, {id}, {user_id}, {article_id}, {journal_id}, {message})/*{event_id}*/',
 					'DisplayName' => 'Cancel',
 					'ActionMask' =>  ACTION_CHECK | ACTION_EXEC | ACTION_FETCH | ACTION_SHOW,
 					'Hidden' => true,
 				),
 				'approve' => array(
 					'CType' => 'action',
-					'SQL' => 'SELECT * FROM pjs."spProcessArticleComment"(2, {id}, {user_id}, {article_id}, {journal_id}, null)',
+					'SQL' => 'SELECT * FROM pjs."spProcessArticleComment"(2, {id}, {user_id}, {article_id}, {journal_id}, null)/*{event_id}*/',
 					'DisplayName' => '',
 					'ActionMask' =>  ACTION_CHECK | ACTION_EXEC | ACTION_FETCH | ACTION_SHOW,
 					'Hidden' => true,
 				),
 				'reject' => array(
 					'CType' => 'action',
-					'SQL' => 'SELECT * FROM pjs."spProcessArticleComment"(3, {id}, {user_id}, {article_id}, {journal_id}, null)',
+					'SQL' => 'SELECT * FROM pjs."spProcessArticleComment"(3, {id}, {user_id}, {article_id}, {journal_id}, null)/*{event_id}*/',
 					'DisplayName' => '',
 					'ActionMask' =>  ACTION_CHECK | ACTION_EXEC | ACTION_FETCH | ACTION_SHOW,
 					'Hidden' => true,

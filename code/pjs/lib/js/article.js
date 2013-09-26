@@ -33,7 +33,6 @@ var gTaxonDataUsageTypeIdKey = 3;
 var gTaxonDataUsageTypeFigure = 4;
 var gTaxonDataUsageTypeInline = 5;
 
-
 Locality = function(pId, pLongitude, pLatitude, pInstanceIds){
 	this.latitude = pLatitude;
 	this.longitude = pLongitude;
@@ -76,6 +75,8 @@ function InitArticleMenuEvents(){
 }
 
 function LoadArticleMenuMainElement(pElementType){
+	PerformAOFCommentFormAutosave();
+	
 	$.ajax({
 		url : gArticleAjaxSrvUrl,
 		async : false,
@@ -390,6 +391,7 @@ function PlaceTaxonNameEvents(pInPreviewIframe){
 	GetCustomElementsContents(pInPreviewIframe).find('.tn').each(function(pIdx, pTaxonNode){
 		$(pTaxonNode).find(lPartsThatLeadToSelfSelector).each(function(pIdx1, pTaxonNamePartNode){
 			$(pTaxonNamePartNode).bind('click', function(pEvent){
+				PerformAOFCommentFormAutosave();
 				pEvent.stopPropagation();
 				var lTaxonName = $(pTaxonNamePartNode).attr(lAttributeThatHoldsPartFullName);
 				if(typeof lTaxonName === 'undefined' || lTaxonName == ''){
@@ -416,6 +418,7 @@ function PlaceTaxonNameEvents(pInPreviewIframe){
 				}
 				lParts.each(function(pIdx1, pTaxonNamePartNode){
 					$(pTaxonNamePartNode).bind('click', function(pEvent){
+						PerformAOFCommentFormAutosave();
 						pEvent.stopPropagation();
 						LoadTaxonInfo(lTaxonName);
 					});
@@ -438,6 +441,7 @@ function PrepareTaxonName(pTaxonName){
 function PlaceFigureEvents(pInPreviewIframe){
 	GetCustomElementsContents(pInPreviewIframe).find('.fig[rid]').each(function(pIdx, pFigureNode){
 		$(pFigureNode).bind('click', function(pEvent){
+			PerformAOFCommentFormAutosave();
 			pEvent.stopPropagation();
 			LoadFigureInfo($(pFigureNode).attr('rid'));
 		});
@@ -447,6 +451,7 @@ function PlaceFigureEvents(pInPreviewIframe){
 function PlaceTableEvents(pInPreviewIframe){
 	GetCustomElementsContents(pInPreviewIframe).find('.table[rid]').each(function(pIdx, pTableNode){
 		$(pTableNode).bind('click', function(pEvent){
+			PerformAOFCommentFormAutosave();
 			pEvent.stopPropagation();
 			LoadTableInfo($(pTableNode).attr('rid'));
 		});
@@ -456,6 +461,7 @@ function PlaceTableEvents(pInPreviewIframe){
 function PlaceSupFilesEvents(pInPreviewIframe){
 	GetCustomElementsContents(pInPreviewIframe).find('.suppl[rid]').each(function(pIdx, pSupFileNode){
 		$(pSupFileNode).bind('click', function(pEvent){
+			PerformAOFCommentFormAutosave();
 			pEvent.stopPropagation();
 			LoadSupFileInfo($(pSupFileNode).attr('rid'));
 		});
@@ -465,6 +471,7 @@ function PlaceSupFilesEvents(pInPreviewIframe){
 function PlaceReferencesEvents(pInPreviewIframe){
 	GetCustomElementsContents(pInPreviewIframe).find('.bibr[rid]').each(function(pIdx, pReferenceNode){
 		$(pReferenceNode).bind('click', function(pEvent){
+			PerformAOFCommentFormAutosave();
 			pEvent.stopPropagation();
 			LoadReferenceInfo($(pReferenceNode).attr('rid'));
 		});
@@ -474,6 +481,7 @@ function PlaceReferencesEvents(pInPreviewIframe){
 function PlaceAuthorEvents(pInPreviewIframe){
 	GetCustomElementsContents(pInPreviewIframe).find('*[data-author-id]').each(function(pIdx, pAuthorNode){
 		$(pAuthorNode).bind('click', function(pEvent){
+			PerformAOFCommentFormAutosave();
 			pEvent.stopPropagation();
 			LoadAuthorInfo($(pAuthorNode).attr('data-author-id'));
 		});
@@ -484,6 +492,7 @@ function PlaceAuthorEvents(pInPreviewIframe){
 function PlaceLocalitiesEvents(pInPreviewIframe){
 	GetCustomElementsContents(pInPreviewIframe).find('*[data-is-locality-coordinate]').each(function(pIdx, pLocalityNode){
 		$(pLocalityNode).bind('click', function(pEvent){
+			PerformAOFCommentFormAutosave();
 			pEvent.stopPropagation();
 			ShowSingleCoordinate($(pLocalityNode).attr('data-latitude'), $(pLocalityNode).attr('data-longitude'));
 		});
@@ -528,6 +537,7 @@ function PlaceTaxonUsageIconsEvents(pInPreviewIframe){
 
 		if(gTaxonNodeSelector != '' ){
 			$(pNode).bind('click', function(pEvent){
+				PerformAOFCommentFormAutosave();
 				pEvent.stopPropagation();
 				lSelector = lUsageSelects[lUsageType];
 				if(lUsageType == gTaxonDataUsageTypeInline){
@@ -585,6 +595,7 @@ function PlaceTaxonNavigationLinkEvents(pInPreviewIframe){
 		var lTaxonNamesNode= $(pNode).closest('*[' + gTaxonNameHolderNamesCountAttributeName + ']');
 		if(lTaxonNamesNode.length){
 			$(pNode).bind('click', function(pEvent){
+				PerformAOFCommentFormAutosave();
 				pEvent.stopPropagation();
 				NavigateToPrevNextTaxonOccurrence(lTaxonNamesNode[0], $(pNode).hasClass('P-Taxon-Navigation-Link-Prev'));
 			});
@@ -684,6 +695,7 @@ function PlaceCitatedElementsNavigationEvents(pInPreviewIframe){
 		if(lInstanceId > 0){
 
 			$(pNode).bind('click', function(pEvent){
+				PerformAOFCommentFormAutosave();
 				pEvent.stopPropagation();
 				NavigateToPrevNextElementCitation(lInstanceId, $(pNode).hasClass('P-Citation-Navigation-Link-Prev'));
 			});
@@ -695,6 +707,7 @@ function PlaceCitatedElementsNavigationEvents(pInPreviewIframe){
 		if(lInstanceId > 0){
 
 			$(pNode).bind('click', function(pEvent){
+				PerformAOFCommentFormAutosave();
 				pEvent.stopPropagation();
 				NavigateToFirstElementCitation(lInstanceId);
 			});
@@ -1098,10 +1111,10 @@ function PerformAOFCommentFormAutosaveTimeout(){
 
 function PerformAOFCommentFormAutosave(){
 	var lForm = $('form[name="article_comments_form"]');
-	if(!lForm.length){
-		return;
+	if(lForm.length){
+		CKEDITOR.instances['textarea_message'].updateElement();
+		lForm.ajaxSubmit({'data' : {'tAction' : 'save'}});
 	}
-	lForm.ajaxSubmit({'data' : {'tAction' : 'save'}});
 }
 
 function LayerViewPoll(pElem, pElementId, pElementType) {
