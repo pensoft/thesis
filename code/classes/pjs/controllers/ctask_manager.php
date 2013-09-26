@@ -219,7 +219,7 @@ class cTask_Manager extends cBase_Controller {
 			$lUsersArrString, 
 			$lUserTemplArrString, 
 			$lUsersRoleArrString, 
-			'true', 
+			'false', 
 			$lUserSubjArrString,
 			''
 		);
