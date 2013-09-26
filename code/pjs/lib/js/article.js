@@ -999,6 +999,10 @@ function submitArticleNewComment(pOper, pFormName, pId) {
 	var lJqFormSel = $('form[name="' + pFormName + '"]')
 	var lFormData = lJqFormSel.formSerialize();
 	if(pOper == 1){
+		if(!confirm('Your comment will be posted directly on the website. We reserve the rights to remove the comment if it contains offending or inflamattory language.')) {
+			PerformAOFCommentFormAutosave();
+			return false;
+		}
 		lFormData += '&tAction=comment';
 	}
 	
