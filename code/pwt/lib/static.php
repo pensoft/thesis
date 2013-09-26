@@ -377,7 +377,7 @@ function displayDocumentTreeDivClass($pIsActive, $pHasWarning, $pLevel, $pHasChi
 }
 
 function checkDocumentMenuAndColumnsState($pDocumentId){
-	
+
 	if(isset($_SESSION['documentid']) && (int)$_SESSION['documentid'] != (int)$pDocumentId){
 // 		trigger_error('SESSION RESET static ' . $_SESSION['documentid'] . '  ' . (int)$pDocumentId, E_USER_NOTICE);
 		unset($_SESSION['activemenutabids']);
@@ -1414,7 +1414,7 @@ function MoveInstanceInDocumentTree($pInstanceId, $pOper){
 			FROM pwt.document_object_instances
 			WHERE id = ' . (int)$pInstanceId . '
 		';
-		$lCon->Execute($lSql);		
+		$lCon->Execute($lSql);
 		$lResult['parent_id'] = (int)$lCon->mRs['parent_id'];
 	}else{
 		$lResult['err_cnt']++;
@@ -1427,7 +1427,7 @@ function GetDocumentXslDirName($pDocumentId){
 	$lCon = new DBCn();
 	$lCon->Open();
 	$lSql = 'SELECT t.xsl_dir_name
-	
+
 	FROM pwt.documents d
 	JOIN pwt.templates t ON t.id = d.template_id
 	WHERE d.id = ' . $pDocumentId;
@@ -2270,14 +2270,14 @@ function showFormatedPubDate($pPubdate, $pDateOnly = false, $pSwitchDateYear = f
 	return (int)$lMatch[1] . ' ' . substr(ucfirst($gMonths[$lMonth]), 0, 3) . '. ' . $lMatch[3];
 }
 
-function showCommentDate($pPubDate){ 
+function showCommentDate($pPubDate){
 	global $gMonths;
 	if (!preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+)\s+(\d+:\s*\d+)/', $pPubDate, $lMatch)) {
 		return '';
 	}
 	$lMonth = ltrim($lMatch[2], '0');
 	$lMonthName = substr(ucfirst($gMonths[$lMonth]), 0, 3);
-	
+
 	return $lMatch[4] . ' on ' . (int)$lMatch[3] . ' ' . $lMonthName . '. ' . $lMatch[1];
 }
 
@@ -2298,7 +2298,7 @@ function showCommentAnswerForm($pInstanceId, $pDocumentId, $pRootMsgId, $pVersio
 	if($pVersionIsReadonly){
 		return '';
 	}
-	
+
 	$lComment = new ccomments(array(
 			'ctype' => 'ccomments',
 			'showtype' => 2,
@@ -2314,7 +2314,7 @@ function showCommentAnswerForm($pInstanceId, $pDocumentId, $pRootMsgId, $pVersio
 	);
 	$lComment->Display();
 	$lResult = '
-			
+
 			<div id="P-Comment-Form_' . (int)$pRootMsgId . '" class="P-Comment-Reply-Form-Wrapper" style="display: none;">
 				<div class="P-Comment-Reply-Form">
 					' . $lComment->Display() . '
@@ -2322,7 +2322,7 @@ function showCommentAnswerForm($pInstanceId, $pDocumentId, $pRootMsgId, $pVersio
 					<div class="reply_btn" onmousedown="SubmitCommentForm(\'P-Root-Comment-' . (int)$pRootMsgId . '\', \'commentpost_' . (int)$pRootMsgId . '\', 1, ' . (int)$pRootMsgId . ');"></div>
 					<div class="P-Comment-Reply-Form-Cancel-Btn" onmousedown="showCommentForm(' . (int)$pRootMsgId . ');"></div>
 					<div class="P-Clear"></div>
-				</div>				
+				</div>
 			</div>
 	';
 	return $lResult;
@@ -2333,22 +2333,22 @@ function displayRootCommentActions($pCommentId, $pDocumentId, $pInstanceId, $pIs
 	if($pVersionIsReadonly){
 		return '
 			<div class="P-Inline-Line"></div>
-			<div class="P-Comment-Root-Action-Btns">	
-				' . displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pVersionIsReadonly) . '						
+			<div class="P-Comment-Root-Action-Btns">
+				' . displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pVersionIsReadonly) . '
 				<div class="P-Clear"></div>
 			</div>';
-	}	
-	
+	}
+
 	$lResult = '
 			<div class="P-Inline-Line"></div>
-			<div class="P-Comment-Root-Action-Btns">	
-				<div onclick="showCommentForm(' . (int)$pCommentId . ');" class="reply_btn P-Comment-Reply-Btn" id="P-Comment-Btn-' . (int)$pCommentId . '"></div>			
-				' . displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pVersionIsReadonly) . '						
+			<div class="P-Comment-Root-Action-Btns">
+				<div onclick="showCommentForm(' . (int)$pCommentId . ');" class="reply_btn P-Comment-Reply-Btn" id="P-Comment-Btn-' . (int)$pCommentId . '"></div>
+				' . displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pVersionIsReadonly) . '
 				' . displayDeleteCommentBtn($pCommentId, $pUsrId, $pVersionIsReadonly) . '
-				
+
 				<div class="P-Clear"></div>
-				' . showCommentAnswerForm($pInstanceId, $pDocumentId, $pCommentId, $pVersionIsReadonly) . '									
-				
+				' . showCommentAnswerForm($pInstanceId, $pDocumentId, $pCommentId, $pVersionIsReadonly) . '
+
 				<div class="P-Clear"></div>
 			</div>';
 	return $lResult;
@@ -2374,12 +2374,12 @@ function showCommentEditForm($pCommentId, $pCommentUsrId, $pDocumentId, $pVersio
 		'document_id' => $pDocumentId,
 		'formaction' => $_SERVER ['REQUEST_URI'],
 		'templs' => array (
-			G_DEFAULT => 'comments.editform_wrapper' 
-		) 
+			G_DEFAULT => 'comments.editform_wrapper'
+		)
 	) );
 	$lRes = '
 				<div id="P-Comment-Edit-Form_' . (int)$pCommentId . '" class="P-Comment-Edit-Form" style="display:none" >
-					' . $lComment->Display() . '											
+					' . $lComment->Display() . '
 				</div>
 	';
 	return $lRes;
@@ -2392,8 +2392,8 @@ function showCommentPic($pPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserId)
 	return '<img src="./i/user_no_img.png" alt="" height="27" width="27" />';
 }
 
-function displaySingleCommentInfo($pCommentId, $pRootId, $pUserPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName, $pCommentDate, $pCommentDateInSeconds, 
-			$pInRoot = false, $pStartInstanceId = 0, $pStartFieldId = 0, $pEndInstanceId = 0, $pEndFieldId = 0){	
+function displaySingleCommentInfo($pCommentId, $pRootId, $pUserPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName, $pCommentDate, $pCommentDateInSeconds,
+			$pInRoot = false, $pStartInstanceId = 0, $pStartFieldId = 0, $pEndInstanceId = 0, $pEndFieldId = 0){
 	if((int)$pCommentId == (int)$pRootId && !$pInRoot){
 		return false;
 	}
@@ -2403,29 +2403,29 @@ function displaySingleCommentInfo($pCommentId, $pRootId, $pUserPhotoId, $pIsDisc
 		$lIsGeneral = false;
 		$lImgSrc = '/i/inline_comment_icon.png';
 	}
-	$lResult = '			
+	$lResult = '
 			<div class="P-Comments-Info">
-				' . ($pInRoot ? 
+				' . ($pInRoot ?
 					'<div class="P-Comment-Type-Icon"><img alt="" width="19" height="27" src="' . $lImgSrc . '" /></div>'
 					:
-					'' 
+					''
 				) . '
 				<div class="P-Comment-User-Pic">
 					' . showCommentPic($pUserPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserId) . '
 				</div>
 				<div class="P-Comment-Text-Data">
 					<div class="P-Comment-UserName">
-						 ' . DisplayCommentUserName($pIsDisclosed, $pUserRealId, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName) . '							
+						 ' . DisplayCommentUserName($pIsDisclosed, $pUserRealId, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName) . '
 					</div>
-					<div class="P-Comment-Date">						
+					<div class="P-Comment-Date">
 						' . displayCommentLastModdate($pCommentId, $pCommentDate, $pCommentDateInSeconds, $pInRoot) . '
 					</div>
 				</div>
-				<div class="P-Clear"></div>	
+				<div class="P-Clear"></div>
 			</div>
-			
+
 	';
-	return $lResult;	
+	return $lResult;
 }
 
 function displayCommentSingleRowClass($pCommentId, $pRootId){
@@ -2557,7 +2557,7 @@ function UploadFigurePhoto($pName, $pDir, $pDocumentId) {
 			} elseif ($_FILES[$pName]['error'] == UPLOAD_ERR_OK) {
 				$lCn = Con() ;
 				$lCn->Execute('SELECT spFileUpload(1, null, ' . (int)$user->id. ',' . (int)$pDocumentId . ', \'' . q($pFnUpl) . '\', \'' . q($pFnUpl) . '\', \'' . q(strtolower($_FILES[$pName]['type'])) . '\') as file_id');
-				$lCn->MoveFirst();				
+				$lCn->MoveFirst();
 				$lResult['file_id'] = (int)$lCn->mRs['file_id'];
 				$lPicId = $lResult['file_id'];
 				$lResult['file_name'] = $pFnUpl;
@@ -2566,13 +2566,13 @@ function UploadFigurePhoto($pName, $pDir, $pDocumentId) {
 					if (!move_uploaded_file($_FILES[$pName]['tmp_name'], $pDir . $lPref . $lResult['file_id'] . $gFileExt)) {
 						$pError = getstr('admin.articles.error_error') . $_FILES[$pName]['error'];
 					} else {
-						exec("convert -colorspace rgb -flatten -quality 80 -thumbnail " . escapeshellarg('1024x1024>') . " " . $pDir . $lPref . $lPicId . $gFileExt . " " . $pDir . 'big_' . $lPicId . '.jpg' );						
+						exec("convert -colorspace rgb -flatten -quality 80 -thumbnail " . escapeshellarg('1024x1024>') . " " . $pDir . $lPref . $lPicId . $gFileExt . " " . $pDir . 'big_' . $lPicId . '.jpg' );
 						// Vsichko e ok...
 						$imgUploadErr = 0;
 					}
 				} else {
 					$pError = getstr('admin.articles.error_dbError');
-				}				
+				}
 			} else {
 				$pError = getstr('admin.articles.error_errorWhileSavingFile');
 			}
@@ -3207,12 +3207,12 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 	require_once($docroot . '/lib/static_xsl.php');
 	require_once(PATH_CLASSES . 'comments.php');
 	// ini_set('display_errors', 'Off');
-	//Първо получаваме нашия xml	
+	//Първо получаваме нашия xml
 	$lDocumentXml = $pXml;
 // 	$lStart = mktime(). substr((string)microtime(), 1, 6);
 
 // 	trigger_error('Start prev ' .  date("Y/m/d H:i:s"). substr((string)microtime(), 1, 6), E_USER_NOTICE);
-	
+
 	if($lDocumentXml == ''){
 // 		$pExplicitGeneration = false, $pPrepareCitations = false, $pInstanceId = 0, $pInsertDocumentComments = false, $pInsertCommentPositions = false
 		$lDocumentXml = getDocumentXml($pDocumentId, SERIALIZE_INTERNAL_MODE, 1, 1, 0, false, $pInsertCommentPositionNodes);
@@ -3264,12 +3264,12 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 			'value' => 1,
 		);
 	}
-	
+
 	if((int)$pTrackFigureChanges){
 		$lXslParameters [] = array (
 			'namespace' => null,
 			'name' => 'pTrackFigureAndTableChanges',
-			'value' => 1 
+			'value' => 1
 		);
 	}
 
@@ -3286,7 +3286,7 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 		'name' => 'pDocumentId',
 		'value' => $pDocumentId,
 	);
-	
+
 	if((int)$pPDFPreviewMode){
 		$lXslParameters[] = array(
 			'namespace' => null,
@@ -3294,7 +3294,7 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 			'value' => 1,
 		);
 	}
-	
+
 // 	error_reporting(-1);
 // 	 echo  $lDocumentXml;
 	//~ exit;
@@ -3307,8 +3307,8 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 // 	error_reporting(0)
 // 	var_dump($lHtml);
 // 	file_put_contents('/tmp/preview_' . $pDocumentId . '.html', $lHtml);
-	
-	$lDomHtml = new DOMDocument('1.0', DEFAULT_XML_ENCODING);	
+
+	$lDomHtml = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
 	$lDomHtml->loadHTML($lHtml);
 	$lDomHtml->normalizeDocument();
 	$lDomHtml->preserveWhiteSpace = false;
@@ -3332,7 +3332,7 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 		if($lNode->length){
 			return $lDomHtml->saveHTML($lNode->item(0));
 		}
-	}	
+	}
 	return $lHtml;
 }
 
@@ -3425,13 +3425,13 @@ function moveObjectToCitationPos($pDomDoc, $pFigNum, $pNodeAfterWhichToMoveEleme
 					return;
 				}
 				$lFigureParentNode = $figurenode->parentNode;
- 
+
 				// махаме фигурата от документа
 				$lFigureParentNode->removeChild($figurenode);
 // 				$pPNodeToMove->insertBefore($figurenode);
 				// поставяме фигурата на правилното място
 				$lCitationElementsWrapper = null;
-				
+
 				if($pNodeAfterWhichToMoveElement->nextSibling && $pNodeAfterWhichToMoveElement->nextSibling->nodeName == CITATION_ELEMENT_CITATION_WRAPPER_NODE_NAME){
 					$lCitationElementsWrapper = $pNodeAfterWhichToMoveElement->nextSibling;
 // 					var_dump($pFigNum);
@@ -3510,7 +3510,7 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 
 	// Масив с всички вече обработени фигури/таблици
 	$lVisitedFigures = array();
-	
+
 // 	var_dump($lCittFiguresQuery, $lAllFiguresArr);
 // 	exit;
 	// Обхождане на цитираните фигури и започване на подреждането им при срещане на най-малката цитирана фигура/таблица
@@ -3527,11 +3527,11 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 				if(!in_array($lCurFigNum, $lVisitedFigures)) {
 					$lMinNodeId = (int)$node->getAttribute($pObjectNum);
 					$lMinNodeRef = $node;
-					if($lMinNodeId >= $lMinFigNum){ 
-						$lNodeAfterWhichToMoveCitationElement = GetCitationElementParentPredecessor($lMinNodeRef);		
-						if(!$lNodeAfterWhichToMoveCitationElement){ 
+					if($lMinNodeId >= $lMinFigNum){
+						$lNodeAfterWhichToMoveCitationElement = GetCitationElementParentPredecessor($lMinNodeRef);
+						if(!$lNodeAfterWhichToMoveCitationElement){
 // 							var_dump($lNodeAfterWhichToMoveCitationElement, 4);
-						}				
+						}
 						for($i = $lMinFigNum; $i <= $lMinNodeId;$i++) {
 							moveObjectToCitationPos($pDomDoc, $i, $lNodeAfterWhichToMoveCitationElement, $pPositionAttr, 0, $node);
 							$lVisitedFigures[] = $i;
@@ -3560,7 +3560,7 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 
 						$lMinNodeId = $lCurFigNum;
 						$lMinNodeRef = $lCurNodeRef;
-					} else {						
+					} else {
 						$lNodeAfterWhichToMoveCitationElement = GetCitationElementParentPredecessor($lMinNodeRef);
 						if(!$lNodeAfterWhichToMoveCitationElement){
 							continue;
@@ -3582,12 +3582,12 @@ function posCitations($pDomDoc, $pHtml, $pDocumentId, $pPositionAttr = 'figure_p
 			$lFlag = 1;
 		}
     }
-    
+
     //Remove the citation wrapper nodes
     $lCitationWrapperNodes = $lXpath->query('//' . CITATION_ELEMENT_CITATION_WRAPPER_NODE_NAME);
     foreach ($lCitationWrapperNodes as $lCitationWrapperNode){
 //     	var_dump($lCitationWrapperNode->firstChild);
-    	$lParentNode = $lCitationWrapperNode->parentNode;    	
+    	$lParentNode = $lCitationWrapperNode->parentNode;
     	while($lCitationWrapperNode->firstChild){
 //     		var_dump($lCitationWrapperNode->firstChild);
     		$lParentNode->insertBefore($lCitationWrapperNode->firstChild, $lCitationWrapperNode);
@@ -3694,7 +3694,7 @@ function getDocumentXml($pDocumentId, $pMode = SERIALIZE_INTERNAL_MODE, $pExplic
 	}
 
 	$lXml = $lDocumentXmls[(int)$pDocumentId][(int)$pMode];
-	
+
 	if($pInsertDocumentComments){
 		$lXml = InsertDocumentComments($pDocumentId, $lXml);
 	}
@@ -3933,7 +3933,7 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 		if(instance){
 			//instance.destroy(true);
 		}
-		
+
 		SaveCKEditorConfig(\'' . $pTextareaId . '_textarea\', {
 			' . GetCKEditorExtraAllowedContent() . ',
 			extraPlugins : \'figs,tbls,refs,autosave,sharedspace,sup_files'. $autogrow .'\',
@@ -4187,7 +4187,7 @@ function prepareXMLErrors($pXMLArr, $pDocumentId) {
 							$lStr .= '<li>- ' . $v['node_attribute_field_name'] . '</li>';
 						} else {
 							$lStr .= '<li>- <a href="/display_document.php?instance_id=' . $lInstanceIdDisplayErr . '">' . $v['node_attribute_field_name'] . ' in  "' . $v['node_instance_name'] . '"</a></li>';
-						}	
+						}
 					}
 				}
 			}
@@ -4202,18 +4202,18 @@ function checkIsReferenceByInstanceId($pInstanceId, $pDocumentId){
 	$lCon = new DBCn();
 	$lCon->Open();
 	$lSql = '
-		SELECT 
-			doi1.id 
+		SELECT
+			doi1.id
 		FROM pwt.document_object_instances doi
 		JOIN pwt.document_object_instances doi1 ON doi1.pos = substring(doi.pos FROM 1 for 4) AND doi1.document_id = doi.document_id
-		WHERE doi.id = ' . $pInstanceId . ' 
-			AND doi.document_id = ' . $pDocumentId . ' 
+		WHERE doi.id = ' . $pInstanceId . '
+			AND doi.document_id = ' . $pDocumentId . '
 			AND doi1.object_id = ' . REFERENCE_OBJECT_ID . '
 	';
 	//var_dump($lSql);
 	$lCon->Execute($lSql);
 	$lReferenceId = (int)$lCon->mRs['id'];
-	$lCon->Close(); 
+	$lCon->Close();
 	return $lReferenceId;
 }
 
@@ -4236,7 +4236,7 @@ function getReferenceDisplayNameByInstanceId($pInstanceId){
 	$lCon->MoveFirst();
 	$lDocumentId = $lCon->mRs['document_id'];
 	$lCon->Close();
-	
+
 	$lUnparsedData = new cdocument_references(array(
 		'ctype' => 'cdocument_references',
 		'document_id' => $lDocumentId,
@@ -4255,7 +4255,7 @@ function getReferenceDisplayNameByInstanceId($pInstanceId){
 	$lUnparsedData->GetData();
 	$lUnparsedDataArr = $lUnparsedData->m_resultArr;
 	$lDom = new DOMDocument('1.0', DEFAULT_XML_ENCODING);
-	
+
 	foreach($lUnparsedDataArr as $lCurrentRow) {
 		//var_dump($lCurrentRow);
 		if($lCurrentRow['reference_instance_id'] == $pInstanceId){
@@ -4300,7 +4300,7 @@ function getCurrentDocumentStatus( $pDocumentStatus, $pIsLocked, $pEditedByUserI
 		return getstr('status.inedit');
 	}
 	// Тук трябва да се добавят останалите статуси, когато стане ясно с какви id-та ще бъдат
-	$statuses = array(1=>'status.draft', 'status.submitted_to_pjs', 'status.returned');
+	$statuses = array(1=>'status.draft', 'status.submitted_to_pjs', 'status.returned', 7 => 'status.published');
 	return '<span>' . getstr($statuses[$pDocumentStatus]) . '</span>';
 }
 
@@ -4423,7 +4423,7 @@ function showDocumentLockWarning($pIsLocked, $pLockedUser, $pWithoutWarning = 0,
 }
 
 function showLockedErrorClass($pIsLocked, $pLockedUser, $pWithoutWarning = 0, $pVersionIsReadonly = false){
-	if(checkIfDocumentIsLockedByAnotherUser($pIsLocked, $pLockedUser, $pWithoutWarning) || $pVersionIsReadonly) {		
+	if(checkIfDocumentIsLockedByAnotherUser($pIsLocked, $pLockedUser, $pWithoutWarning) || $pVersionIsReadonly) {
 		return ' P-Bread-Crumbs-With-Lock-Warning ';
 	}
 }
@@ -5445,33 +5445,33 @@ function prepareDateFieldForXSDValidation($pDate){
 	if (!preg_match('/[\/\\\.\-]/', $pDate, $lMatches)) {
 		return $pDate;
 	}
-	
+
 	$lMatchFlag = 0;
 	$lSeparator = $lMatches[0]; //Kato nqma skobi v reg expa v 0-q element e kakvoto e machnalo
 
 	if(preg_match('/^(\d{2,4})\\' . $lSeparator . '(\d{1,2})\\' . $lSeparator . '(\d{1,2})$/i', $pDate, $lMatches)){
 		$lMatchFlag = 1;
 	}
-	
+
 	if(!$lMatchFlag) {
 		if(preg_match('/^(\d{1,2})\\' . $lSeparator . '(\d{1,2})\\' . $lSeparator . '(\d{2,4})$/i', $pDate, $lMatches)){
-			$lMatchFlag = 2;	
-		}	
+			$lMatchFlag = 2;
+		}
 	}
-	
+
 	if(!$lMatchFlag){
-		return $pDate;	
+		return $pDate;
 	}
-	
+
 	if($lMatchFlag == 1) {
-		$lTimeFormat = mktime(null, null, null, $lMatches[2], $lMatches[3], $lMatches[1]);	
+		$lTimeFormat = mktime(null, null, null, $lMatches[2], $lMatches[3], $lMatches[1]);
 	} else {
 		$lTimeFormat = mktime(null, null, null, $lMatches[2], $lMatches[1], $lMatches[3]);
 	}
 
 	// Форматът, в който трябва да бъде датата, за да мине валидацията
 	// 2001-10-26T19:32:52Z
-	
+
 	return date('c', $lTimeFormat);
 }
 
@@ -5564,11 +5564,11 @@ function displayEditPreviewHeader($pDocumentId, $pRevisionId, $pHeaderInIframe =
 		return $lResult;
 	}
 	$lTemplate = 'preview.editHeader';
-	
+
 	if(!checkIfDocumentHasUnprocessedChangesSimple($pDocumentId)){
 		$lTemplate = 'preview.editHeaderWithoutChanges';
 	}
-	
+
 	if($pHeaderInIframe){
 		$lTemplate .= 'Iframe';
 	}
@@ -5923,7 +5923,7 @@ function checkIfDocumentHasUnprocessedChanges($pDocumentId, $pDocumentHasUnproce
 	}
 	$lXPath = new DOMXPath($lDom);
 	$lChangeNodesQuery = '//' . VERSION_DELETE_CHANGE_NODE_NAME . '|//' . VERSION_INSERT_CHANGE_NODE_NAME . '';
-	$lChangeNodes = $lXPath->query($lChangeNodesQuery);	
+	$lChangeNodes = $lXPath->query($lChangeNodesQuery);
 	if($lChangeNodes->length){
 		return true;
 	}
@@ -6113,7 +6113,7 @@ function DisplayValidationErrs($pErrCount, $pErrors) {
 
 function displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pVersionIsReadonly = false){
 	$lResult = '<div class="Comment-Resolve-Info">';
-		
+
 	if(!$pVersionIsReadonly){
 		$lResult .= '<input type="checkbox" onclick="ResolveComment(' . $pCommentId . ')" name="is_resolved_' . $pCommentId . '" id="is_resolved_' . $pCommentId . '" value="1" ' . ($pIsResolved ? 'checked="checked"' : '') . '>';
 		$lResult .= '<label id="label_is_resolved_' . $pCommentId . '" for="is_resolved_' . $pCommentId . '" class="' . ($pIsResolved ? ('Resolved-Comment-Label') : '') . '">' . ($pIsResolved ? ('Resolved by: <br/>' . $pResolveUserFullname) : 'Resolve') . '</label>';
@@ -6121,7 +6121,7 @@ function displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveU
 		if($pIsResolved){
 			$lResult .= '<div class="P-Comment-Resolved-Read-Only-Info">Resolved by: ' . $pResolveUserFullname . '</div>';
 		}
-	}	
+	}
 
 	$lResult .= '</div>';
 	return $lResult;
@@ -6130,16 +6130,16 @@ function displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveU
 function displayCommentLastModdate($pCommentId, $pDate, $pDateInSeconds, $pIsRoot = false){
 	$lResult = '';
 	$pDate = showCommentDate($pDate);
-	$lSpanId = 'comment_date_'; 
+	$lSpanId = 'comment_date_';
 	if($pIsRoot){
-		$lSpanId .= 'root_';		
-	}	
+		$lSpanId .= 'root_';
+	}
 	$lSpanId .= $pCommentId;
 	$lCurrentSeconds = time();
-	$lDiff = $lCurrentSeconds - $pDateInSeconds; 	
+	$lDiff = $lCurrentSeconds - $pDateInSeconds;
 	$lResult = '<span id="' . $lSpanId . '" title="' . $pDate . '">
 					<script>SetCommentDateLabel(' . json_encode($lSpanId) . ', ' . (int)$pDateInSeconds . ', ' . json_encode($pDate) . ')</script>
-				</span>';	
+				</span>';
 	return $lResult;
 }
 
@@ -6219,8 +6219,8 @@ function CheckIfUserIsDisclosed($pIsDisclosed, $pUserRealId, $pCurrentUserId){
 function GetPlateDesc($pPlateType){
 	$lResult = new csimple(array (
 		'templs' => array (
-			G_DEFAULT => 'figures.plate_appearance_' . $pPlateType 
-		) 
+			G_DEFAULT => 'figures.plate_appearance_' . $pPlateType
+		)
 	));
 	return $lResult->Display();
 }
@@ -6238,7 +6238,7 @@ function displayPlateManagementBtns($pPlateInstanceId){
 	$lSql = '
 			SELECT i.id
 			FROM pwt.document_object_instances i
-			JOIN pwt.document_object_instances p ON p.id = i.parent_id AND p.parent_id = ' . (int)$pPlateInstanceId . ' AND p.object_id = ' 
+			JOIN pwt.document_object_instances p ON p.id = i.parent_id AND p.parent_id = ' . (int)$pPlateInstanceId . ' AND p.object_id = '
 					. (int)PLATE_WRAPPER_OBJECT_ID . '
 	';
 // 	var_dump($lSql);
@@ -6273,7 +6273,7 @@ function SaveFigCaption($pDocumentId, $pFigId, $pIsPlate, $pPlateNum, $pContent)
 		throw new Exception(getstr('pwt.noDocumentSpecified'));
 	}
 	if(!$pFigId){
-		throw new Exception(getstr('pwt.noFigureSpecified'));		
+		throw new Exception(getstr('pwt.noFigureSpecified'));
 	}
 	$lCon = new DBCn();
 	$lCon->Open();
@@ -6303,7 +6303,7 @@ function SaveFigCaption($pDocumentId, $pFigId, $pIsPlate, $pPlateNum, $pContent)
 	}
 	//Mark the xml as modified so that the figure changes can be applied to the document xml
 // 	$lCon->Execute('SELECT * FROM pwt."XmlIsDirty"(1, ' . (int)$pDocumentId . ', null)');
-	
+
 }
 
 function SaveTableChange($pDocumentId, $pTableId, $pModifiedElementIsTitle, $pContent){
@@ -6360,8 +6360,8 @@ function MarkActiveTab($pTabId){
 		$_SESSION['activemenutabids'][$lParentId] = $lParentId;
 		$lCon->MoveNext();
 	}
-	
-	
+
+
 	$_SESSION['activemenutabids'][$pTabId] = $pTabId;
 }
 
@@ -6386,7 +6386,7 @@ function displayPlateImageTempl($pDocumentId, $pInstanceId, $pFieldId, $pPicId, 
 			G_DEFAULT => $lTemplate
 		),
 		'instance_id' => $pInstanceId,
-		'field_id' => $pFieldId, 
+		'field_id' => $pFieldId,
 		'photo_id' => $pPicId,
 		'label' => $pLabel,
 		'document_id' => $pDocumentId,
@@ -6397,7 +6397,7 @@ function displayPlateImageTempl($pDocumentId, $pInstanceId, $pFieldId, $pPicId, 
 
 function getDocumentCreatorData($pDocumentId) {
 	$lRes = array();
-	
+
 	$lCon = new DBCn();
 	$lCon->Open();
 	$lSql = '
@@ -6409,8 +6409,8 @@ function getDocumentCreatorData($pDocumentId) {
 	$lCon->MoveFirst();
 	$lRes = $lCon->mRs;
 	$lCon->Close();
-	
-	return $lRes; 
+
+	return $lRes;
 }
 
 function showPJSSubmitButton($pDocumentId, $pDocumentState){
@@ -6458,9 +6458,9 @@ function showPJSSubmitButton($pDocumentId, $pDocumentState){
 							<div class="P-Green-Btn-Right"></div>
 						</div>
 						<div class="P-Clear"></div>
-					';	
+					';
 				}
-				
+
 			}
 		} elseif ($pDocumentState == READY_TO_SUBMIT_DOCUMENT_STATE || $pDocumentState == RETURNED_FROM_PJS_DOCUMENT_STATE) {
 			if((int)$lCreatorData['id'] == (int)$user->id){
@@ -6471,13 +6471,13 @@ function showPJSSubmitButton($pDocumentId, $pDocumentState){
 						<div class="P-Green-Btn-Right"></div>
 					</div>
 					<div class="P-Clear"></div>
-				';	
+				';
 			}
 		}
 	}
 
 	return $lRes;
-	
+
 }
 
 function ExecActionType($pDocumentId, $pActionType) {
@@ -6485,7 +6485,7 @@ function ExecActionType($pDocumentId, $pActionType) {
 	$lCreatorData = getDocumentCreatorData($pDocumentId);
 	$lCheckIfPreviewCanBeEdited = checkIfPreviewCanBeEdited($pDocumentId);
 	$lDocumentState = getDocumentState($pDocumentId);
-	
+
 	$lActionResult = false;
 
 	$lCon = new DBCn();
@@ -6493,13 +6493,13 @@ function ExecActionType($pDocumentId, $pActionType) {
 
 	switch ($pActionType) {
 		case AUTHOR_READY_TO_SUBMIT_DOCUMENT_ACTION_TYPE:
-	
+
 			if($lCheckIfPreviewCanBeEdited && $lDocumentState == NEW_DOCUMENT_STATE) {
 				$lSql = 'UPDATE pwt.documents SET state = ' . IN_PRE_SUBMIT_REVIEW_DOCUMENT_STATE . ' WHERE id = ' . (int)$pDocumentId;
 				$lCon->Execute($lSql);
 				$lActionResult = true;
-				
-				// send a message to 
+
+				// send a message to
 				$lMessageData = array(
 					'siteurl' => SITE_URL,
 					'mailsubject' => getstr('pwt.document_ready_for_review_mail_subject'),
@@ -6517,10 +6517,10 @@ function ExecActionType($pDocumentId, $pActionType) {
 				);
 				$msg = new cmessaging($lMessageData);
 				$msg->Display();
-				
+
 				header('Location: /preview.php?document_id=' . $pDocumentId);
 				exit;
-				
+
 			}
 			break;
 		case APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE:
@@ -6528,8 +6528,8 @@ function ExecActionType($pDocumentId, $pActionType) {
 				$lSql = 'UPDATE pwt.documents SET state = ' . READY_TO_SUBMIT_DOCUMENT_STATE . ' WHERE id = ' . (int)$pDocumentId;
 				$lCon->Execute($lSql);
 				$lActionResult = true;
-				
-				// send a message to 
+
+				// send a message to
 				$lMessageData = array(
 					'siteurl' => SITE_URL,
 					'mailsubject' => getstr('pwt.document_ready_for_submit_mail_subject'),
@@ -6548,15 +6548,15 @@ function ExecActionType($pDocumentId, $pActionType) {
 				);
 				$msg = new cmessaging($lMessageData);
 				$msg->Display();
-				
+
 				header('Location: /preview.php?document_id=' . $pDocumentId);
 				exit;
 			}
 			break;
 		case SUBMIT_DOCUMENT_ACTION_TYPE:
 			if(
-				$user->id == $lCreatorData['id'] 
-				&& !$lCreatorData['has_unprocessed_changes'] 
+				$user->id == $lCreatorData['id']
+				&& !$lCreatorData['has_unprocessed_changes']
 				&& in_array($lDocumentState, array(READY_TO_SUBMIT_DOCUMENT_STATE, RETURNED_FROM_PJS_DOCUMENT_STATE))
 			) {
 				header('Location: /pjs_submit_document.php?document_id=' . $pDocumentId);
@@ -6567,7 +6567,7 @@ function ExecActionType($pDocumentId, $pActionType) {
 			break;
 	}
 	$lCon->Close();
-	
+
 	return $lActionResult;
 }
 
@@ -6576,7 +6576,7 @@ function  displayNewCommentBtn($pVersionIsReadonly){
 		return;
 	}
 
-	return '<div style="margin-right:8px" class="comment_btn floatLeft P-Comment-Inline-Main-Btn" id="P-Comment-Btn-Inline" onmousedown="submitPreviewNewComment();return false"></div>	
+	return '<div style="margin-right:8px" class="comment_btn floatLeft P-Comment-Inline-Main-Btn" id="P-Comment-Btn-Inline" onmousedown="submitPreviewNewComment();return false"></div>
 			<div class="comment_btn floatLeft " id="P-Comment-Btn-General" title="Comment issues related to the whole manuscript." onmousedown="submitPreviewNewComment(1);return false"></div>';
 }
 
@@ -6591,7 +6591,7 @@ function  displayCommentsHelp($pVersionIsReadonly){
 					<div class="P-Baloon-Top"></div>
 					<div class="P-Baloon-Middle" style="width:280px;">
 						<div class="P-Baloon-Content" style="font-weight:normal; color:#333;">
-							There are two kinds of comments you can make on a manuscript.<br><br><b>Inline comments</b> are linked to a text selected in an editable field  (orange/gray outline on click/hover), but not to selected template texts, such as titles of the manuscript sections.<br><br><b>General comments</b> should be associated with the whole manuscript and not with selected parts parts of it. 
+							There are two kinds of comments you can make on a manuscript.<br><br><b>Inline comments</b> are linked to a text selected in an editable field  (orange/gray outline on click/hover), but not to selected template texts, such as titles of the manuscript sections.<br><br><b>General comments</b> should be associated with the whole manuscript and not with selected parts parts of it.
 						</div>
 						<div class="P-Clear"></div>
 					</div>
@@ -6703,7 +6703,7 @@ function GetAuthorFirstNameFirstLetter($pFirstName){
 	return strtoupper(mb_substr(($pFirstName), 0, 1));
 }
 
-function displayCitationsAuthorSeparator($pRecords, $pRownum, $pSeparator = ', '){	
+function displayCitationsAuthorSeparator($pRecords, $pRownum, $pSeparator = ', '){
 	if((int)$pRecords > (int)$pRownum){
 		return $pSeparator;
 	}
@@ -6721,13 +6721,13 @@ function showTaxaNameUsage($pUsage, $pTreatmentId){
 		$lTitle = '';
 		$lImgSrc = '';
 		switch($lUsage){
-			case TAXON_NAME_USAGE_TREATMENT :	
+			case TAXON_NAME_USAGE_TREATMENT :
 				$lTitle = 'Taxon treatment';
-				$lImgSrc = '/i/TTR.png';				
+				$lImgSrc = '/i/TTR.png';
 				break;
 			case TAXON_NAME_USAGE_CHECKLIST_TREATMENT :
 				$lTitle = 'Checklist';
-				$lImgSrc = '/i/CHL.png';				
+				$lImgSrc = '/i/CHL.png';
 				break;
 			case TAXON_NAME_USAGE_ID_KEY :
 				$lTitle = 'Identification key';
@@ -6735,19 +6735,19 @@ function showTaxaNameUsage($pUsage, $pTreatmentId){
 				break;
 			case TAXON_NAME_USAGE_FIGURE:
 				$lTitle = 'Figure';
-				$lImgSrc = '/i/FI.png';				
+				$lImgSrc = '/i/FI.png';
 				break;
 			case TAXON_NAME_USAGE_INLINE:
 				$lTitle = 'In text';
-				$lImgSrc = '/i/InText.png';				
+				$lImgSrc = '/i/InText.png';
 				break;
 		}
 		$lResult .= '
 			<span class="taxon-usage" title="' . $lTitle . '" data-usage-type=" ' . (int)$lUsage . '">
 				<img width="32" heigth="20" alt="" src="' . $lImgSrc . '" style="vertical-align: middle;" />
 			</span>';
-	}	
-	
+	}
+
 	$lResult .= '</span>';
 	return $lResult;
 }
@@ -6772,7 +6772,7 @@ function GetArticleTitleForCitation($pTitle){
 function showTextIfErrors($pArr) {
 	if(!$pArr['errs']) {
 		return '<p class="message">If you are already registered with a Pensoft journal, please use your credentials to sign in.</p>';
-	}	
+	}
 	return '';
 }
 
@@ -6797,9 +6797,9 @@ function placeTaxonNavigationLinks($pOccurrences){
 		return ;
 	}
 	$lResult = '<span class="P-Taxon-Navigation-Link-Next"><img src="/i/docrightarrow.png" alt="" title="Next"/></span>
-				<span class="P-Taxon-Navigation-Link-Prev"><img src="/i/docleftarrow.png" alt="" title="Prev"/></span> 
+				<span class="P-Taxon-Navigation-Link-Prev"><img src="/i/docleftarrow.png" alt="" title="Prev"/></span>
 	';
-	
+
 	return $lResult;
 }
 
@@ -6813,7 +6813,7 @@ function DisplayTreeObjectName($pDisplayName){
 
 function TrimAndCutText($pText) {
 	$pText = strim($pText);
-	return CutText($pText, 120);  
-} 
+	return CutText($pText, 120);
+}
 
 ?>
