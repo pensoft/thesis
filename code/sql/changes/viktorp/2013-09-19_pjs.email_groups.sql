@@ -1,1 +1,1 @@
-INSERT INTO pjs.email_groups(name, sql) VALUES('AOF new comments group', 'SELECT unnest(ARRAY[695]) as uid, 0 as role_id;');
+INSERT INTO pjs.email_groups(name, sql) VALUES('AOF new comments group', 'SELECT unnest(ARRAY[549]) as uid, 0 as role_id;');

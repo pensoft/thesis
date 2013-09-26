@@ -447,8 +447,8 @@ class cView_Version_Pwt extends cView_Version {
 				$lUpdateSql = '';
 				$lWhereCondSqlAdd = (
 					count($this->m_PollAnswersData) ? 
-					'document_review_round_users_form_id = {id}' : 
-					'document_review_round_users_form_id = currval(\'pjs.document_review_round_users_form_id_seq\')'
+					'rel_element_id = {id}' : 
+					'rel_element_id = currval(\'pjs.document_review_round_users_form_id_seq\')'
 				);
 				foreach ($this->m_PollQuestionsData as $key => $value) {
 					$lQuestionName = 'question' . $value['id'];
@@ -466,6 +466,7 @@ class cView_Version_Pwt extends cView_Version {
 						SET 
 							answer_id = {' . $lQuestionName . '} 
 						WHERE poll_id = ' . $value['id'] . ' 
+							AND rel_element_type = ' . REVIEWER_POLL_ELEMENT_TYPE . '
 							AND ' . $lWhereCondSqlAdd . ';
 					';
 					$lQuestionsArr[] = array(

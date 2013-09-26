@@ -28,7 +28,6 @@ class cReview_Ajax_Srv extends cBase_Controller {
 	}
 	function updateDocumentReviewType($pDocumentId, $pReviewTypeId) {
 		$lDocumentsModel = new mDocuments_Model();
-		var_dump($pReviewTypeId);
 		$this->m_action_result = $lDocumentsModel->UpdateDocumentReviewType($pDocumentId, $pReviewTypeId);
 	}	
 }

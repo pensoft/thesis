@@ -527,10 +527,20 @@ class mArticles extends emBase_Model {
 				u.photo_id,
 				af.createdate,
 				EXTRACT(EPOCH FROM af.createdate) as createdate_in_seconds,
-				' . (int)$lRoleCheck . ' as can_edit
+				' . (int)$lRoleCheck . ' as can_edit,
+				(CASE WHEN pa.rel_element_id IS NOT NULL THEN 1 ELSE 0 END) as has_poll
 			FROM pjs.article_forum af
+			LEFT JOIN (
+				SELECT rel_element_id 
+				FROM pjs.poll_answers
+				WHERE answer_id IS NOT NULL AND rel_element_type = ' . AOF_COMMENT_POLL_ELEMENT_TYPE . '
+				GROUP BY rel_element_id
+			) pa ON pa.rel_element_id = af.id
 			JOIN usr u ON u.id = af.createuid
-			WHERE af.article_id = ' . $pArticleId . (!$lRoleCheck ? ' AND af.state = ' . FORUM_MESSAGE_STATE_APPROVED : '') . ' 
+			WHERE af.article_id = ' . $pArticleId . 
+			//(!$lRoleCheck ? ' AND af.state = ' . FORUM_MESSAGE_STATE_APPROVED : '') . 
+			' 
+			AND af.state IN (' . FORUM_MESSAGE_STATE_APPROVED . ', ' . FORUM_MESSAGE_STATE_REJECTED . ')
 			ORDER BY af.createdate ASC';
 			//var_dump($lSql);
 		$this->m_con->Execute($lSql);
@@ -540,6 +550,77 @@ class mArticles extends emBase_Model {
 		}
 		return $lResult;
 	}
+
+
+	function GetAOFViewCommentPollAnswers($pElementId) {
+		$lResult = array();
+		$lSql = '
+			SELECT p.*, (CASE WHEN a.answer_id IS NULL THEN 4 ELSE answer_id END) as answer_id
+			FROM pjs.article_forum af
+			JOIN pjs.poll_answers a ON a.rel_element_id = af.id AND a.rel_element_type = ' . AOF_COMMENT_POLL_ELEMENT_TYPE . '
+			JOIN pjs.poll p ON p.id = a.poll_id
+			WHERE af.id = ' . $pElementId . '
+			ORDER BY p.ord';
+			
+		$this->m_con->Execute($lSql);
+		while(!$this->m_con->Eof()){
+			$lResult[] = $this->m_con->mRs;
+			$this->m_con->MoveNext();
+		}
+		return $lResult;
+	}
+
+
+	function GetAOFCommentPollAnswers($pMessageId) {
+		$lResult = array();
+		$lCon = $this->m_con;
+		$lSql = 'SELECT a.poll_id, a.answer_id 
+				FROM pjs.article_forum af
+				JOIN pjs.poll_answers a ON a.rel_element_id = af.id AND a.rel_element_type = ' . AOF_COMMENT_POLL_ELEMENT_TYPE . '
+				WHERE af.id = ' . $pMessageId;
+		
+		$lCon->Execute($lSql);
+		while (!$lCon->Eof()) {
+			$lResult['question' . $lCon->mRs['poll_id']] = $lCon->mRs['answer_id'];
+			$lCon->MoveNext();
+		}
+		
+		return $lResult;
+	}
+
+	function GetAOFUserCommentMessageId($pUserId, $pArticleId) {
+		$lResult = array();
+		$lCon = $this->m_con;
+		$lSql = 'SELECT id FROM pjs.article_forum WHERE state = ' . FORUM_MESSAGE_STATE_UNAPPROVED . ' AND article_id = ' . (int)$pArticleId . ' AND createuid = ' . (int)$pUserId;
+		$lCon->Execute($lSql);
+		return $lCon->mRs['id'];
+	}
+
+	function GetAOFCommentPollQuestions($pJournalId, $pMessageId){
+		$lResult = array();
+		$lCon = $this->m_con;
+		$lSql = 'SELECT p.* 
+				FROM pjs.article_forum af
+				JOIN pjs.poll_answers a ON a.rel_element_id = af.id AND a.rel_element_type = ' . AOF_COMMENT_POLL_ELEMENT_TYPE . '
+				JOIN pjs.poll p ON p.id = a.poll_id
+				WHERE af.id = ' . $pMessageId . '
+				ORDER BY p.ord';
+		// var_dump($lSql);
+		// exit;
+		$lCon->Execute($lSql);
+		if(!$lCon->RecordCount()){
+			$lSql = 'SELECT * FROM pjs.poll WHERE journal_id = ' . (int)$pJournalId . ' AND state = 1 ORDER BY ord';
+			$lCon->Execute($lSql);
+		}
+		
+		while (!$lCon->Eof()) {
+			$lResult[] = $lCon->mRs;
+			$lCon->MoveNext();
+		}
+		
+		return $lResult;
+	}
+
 }
 
 ?>

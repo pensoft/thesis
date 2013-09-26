@@ -73,6 +73,13 @@ $gTemplArr = array(
 				{value_label}<br/>
 	',
 	
+	'form.radio_aof_comment_poll_input_row' => '
+		<td class="form_answer">
+			<input type="radio" id="{field_name}{value_key}" name="{field_name}" value="{value_key}" {row_additional_tags_string} {_checkIfFormCheckboxRowIsSelected(value_is_selected)} />
+			<span><label for="{field_name}{value_key}">{value_label}</label></span>
+		</td>
+	',
+	
 	'form.radio_input_row_label_for' => '
 				<input type="radio" id="{field_name}_{value_key}" name="{field_name}" value="{value_key}" {row_additional_tags_string} {_checkIfFormCheckboxRowIsSelected(value_is_selected)} />
 				<label for="{field_name}_{value_key}">{value_label}</label><br/>
@@ -272,6 +279,7 @@ $gTemplArr = array(
 		<script  type="text/javascript">
 			CKEDITOR.config.language = \'en\';
 			CKEDITOR.replace(\'textarea_{field_name}\', {
+				extraPlugins : \'autogrow,autosave\',
 				on: {
 					key: function( evt ) {
 						var leditor = evt.editor;
@@ -288,6 +296,9 @@ $gTemplArr = array(
 				},
 				toolbar : \'SmallToolbar\',
 				removePlugins: \'elementspath,resize\',
+				autoGrow_minHeight: 100,
+				autoGrow_onStartup: true,
+				autoGrow_maxHeight: 0,
 				height: 120,
 				width: 451
 			});

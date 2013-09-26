@@ -35,6 +35,7 @@ $BODY$
 		cSERoleId CONSTANT int := 3;
 		cERoleId CONSTANT int := 2;
 		cReviewRoundTypeId CONSTANT int := 1;
+		cReviewerPollElementType CONSTANT int := 1;
 	BEGIN
 		--~ pOper = 1 - create or update
 		--~ pOper = 2 - select 
@@ -60,7 +61,7 @@ $BODY$
 					
 					lDocumentReviewRoundUsersFormId := currval('pjs.document_review_round_users_form_id_seq');
 					
-					INSERT INTO pjs.poll_answers(document_review_round_users_form_id, poll_id) SELECT lDocumentReviewRoundUsersFormId, id FROM pjs.poll WHERE state = 1 AND journal_id = lJournalId;
+					INSERT INTO pjs.poll_answers(rel_element_id, poll_id, rel_element_type) SELECT lDocumentReviewRoundUsersFormId, id, cReviewerPollElementType FROM pjs.poll WHERE state = 1 AND journal_id = lJournalId;
 				--~ lGuid := currval('document_review_round_users_form_pkey');
 			ELSE
 				UPDATE pjs.document_review_round_users_form SET

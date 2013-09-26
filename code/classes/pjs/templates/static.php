@@ -7,7 +7,7 @@ function getCommit(){
 function infoMenu($items){
 	$result = '';
 	foreach ($items as $key => $value) {
-		$result .= '<li data-info-type="' . $key . '"><span class="hyper">'.$value.'</span><span class="hidden-bold">'.$value.'</span></li>';
+		$result .= '<li data-info-type="' . $key . '"><span class="hyper unselectable">'.$value.'</span><span class="hidden-bold unselectable">'.$value.'</span></li>';
 	}
 	return $result;
 }
@@ -3568,21 +3568,49 @@ function showCommentFootElementByFlag($pFlag){
 	}
 }
 
-/*
-function displayCommentLastModdate($pCommentId, $pDate, $pDateInSeconds, $pIsRoot = false){
-	$lResult = '';
-	$pDate = showCommentDate($pDate);
-	$lSpanId = 'comment_date_';
-	if($pIsRoot){
-		$lSpanId .= 'root_';
-	}
-	$lSpanId .= $pCommentId;
-	$lCurrentSeconds = time();
-	$lDiff = $lCurrentSeconds - $pDateInSeconds;
-	$lResult = '<span id="' . $lSpanId . '" title="' . $pDate . '">
-					<script>SetCommentDateLabel(' . json_encode($lSpanId) . ', ' . (int)$pDateInSeconds . ', ' . json_encode($pDate) . ')</script>
-				</span>';
-	return $lResult;
+function setCommentLoginRedirLink($pArticleId) {
+	return '/login.php?redirurl=' . urlencode('/articles.php?id=' . $pArticleId . '&display_type=list&element_type=' . ARTICLE_MENU_ELEMENT_TYPE_FORUM);
 }
-*/
+
+function showAOFPoll() {
+	global $gQuestions;
+	if(count($gQuestions)){
+		foreach ($gQuestions as $key => $value) {
+			$lRes .= '
+			<tr>
+				<td class="form_questions" colspan="4">{*question' . $value . '}</td>
+			</tr>
+			<tr>
+				{question' . $value . '}
+			</tr>
+			<tr>
+				<td colspan="4"><div class="form_line"></div></td>
+			</tr>
+			';
+		}
+	}
+	return $lRes;
+}
+
+function getPollAnswerLabel($pAnswer) {
+	return getstr('admin.article_versions.option' . (int)$pAnswer);
+}
+
+function showAOFPollIfExists($pHasPoll, $pId, $pState) {
+	if((int)$pHasPoll && $pState == FORUM_MESSAGE_STATE_APPROVED) {
+		return '<div class="aof_view_poll_link">
+			<a href="javascript:void(0)" onclick="LayerViewPoll(\'P-Post-Review-Form-Poll\', ' . $pId . ', ' . AOF_COMMENT_POLL_ELEMENT_TYPE . ');">
+				' . getstr('pjs.aof_view_poll_link') . '
+			</a>
+		</div>';
+	}
+}
+
+function showAOFCommentMessage($pMessage, $pState) {
+	if($pState == FORUM_MESSAGE_STATE_APPROVED) {
+		return $pMessage;
+	} else {
+		return '<span class="comment_rejected">' . getstr('pjs.comment_is_rejected') . '</span>';
+	}
+}
 ?>

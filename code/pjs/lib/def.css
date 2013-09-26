@@ -7023,14 +7023,57 @@ html, body {
 	float:left;
 }
 
-.article_comment_btn {
+.article_reviewit_btn {
 	margin:5px 0px 0px 0px;
-	background: url("/i/commentbtn.png") no-repeat !important;
+	background: url("/i/Review_it_btn_big.png") no-repeat !important;
+	border: medium none;
+    height: 34px;
+    width: 122px;
 }
 
-.article_comment_btn:hover {
-	background: url("/i/commentbtn_hover.png") no-repeat !important;
+.article_reviewit_btn:hover {
+	background: url("/i/Review_it_btn_big_hover.png") no-repeat !important;
+	border: medium none;
+    height: 34px;
+    width: 122px;
 }
+
+.article_post_btn {
+	margin:5px 0px 0px 0px;
+	background: url("/i/Post_btn_big.png") no-repeat !important;
+	border: medium none;
+    height: 34px;
+    width: 122px;
+    display: inline-block;
+}
+
+.article_post_btn:hover {
+	background: url("/i/Post_btn_big_hover.png") no-repeat !important;
+	border: medium none;
+    height: 34px;
+    width: 122px;
+    display: inline-block;
+}
+
+.article_cancel_btn {
+	margin:5px 0px 0px 0px;
+	background: url("/i/Cancel_btn_big.png") no-repeat !important;
+	border: medium none;
+    height: 34px;
+    width: 122px;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.article_cancel_btn:hover {
+	background: url("/i/Cancel_btn_big_hover.png") no-repeat !important;
+	border: medium none;
+    height: 34px;
+    width: 122px;
+    display: inline-block;
+    margin-left: 20px;
+}
+
 
 .article_forum {
 	padding:20px 15px;
@@ -7111,7 +7154,7 @@ html, body {
 .forum_list_user_comment_text {
 	padding:10px 0px 0px 0px;
 	font-family: Calibri;
-	font-size: 11pt;
+	font-size: 10pt;
 }
 
 .forum_list_user_comment_text p{
@@ -7123,7 +7166,7 @@ html, body {
 }
 
 .forum_list_actions {
-	margin:3px 0px 3px 0px;
+	margin:3px 0px 3px 20px;
 	float: right;
 }
 
@@ -7179,6 +7222,52 @@ html, body {
     border-top: 1px solid #BBB;
 }
 
+.review_form_title {
+    color: #666666;
+    font-family: Helvetica;
+    font-size: 11pt;
+    font-weight: bold;
+    margin: 20px 0 15px 0;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
+}
+.review_form_title a{
+	color: #666;
+}
+
+div.form_line {
+    background-color: #CCCCCC;
+    height: 1px;
+    margin: 4px 0;
+}
+
+.review_form_table{
+	display: none;
+}
+
+.aof_view_poll_link {
+    float: right;
+}
+
+.form_questions{
+	font-family	Calibri;
+	font-size: 10pt;
+	/*background-image: linear-gradient(90deg, #E3E3C7, #FEFBF3);
+	background-color: #FDF5E3;*/
+    padding: 5px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.form_answer{
+	font-size: 10pt;
+	/*padding-bottom: 15px;*/
+	color: #666;
+	width: 5%;
+}
+
+
 .rightMar10 {
 	margin-right:10px;
 }
@@ -7189,4 +7278,37 @@ html, body {
 
 .fig-zoom{
 	background-color: #222222;
+}
+
+.forum_list_user_info {
+	float:left;
+}
+.aof_poll_view_header{
+	font-size: 11pt;
+    font-weight: bold;
+    padding: 20px 20px 10px;
+}
+
+table.aof_poll_view_list{
+	padding: 0 10px;
+	border: none;
+}
+
+td.aof_poll_view_list_label{
+	border: none; 
+	font-family: Calibri;
+	font-size: 10pt;
+	font-weight: normal;
+	padding: 2px 10px;
+	width: 100%;
+	border-bottom: 1px dotted #CCC;
+	height: 17px;
+}	
+
+#P-Post-Review-Form-Poll {
+	display: none;
+}
+
+.comment_rejected{
+	color:#CD0A0A;	
 }

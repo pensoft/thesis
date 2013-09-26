@@ -172,6 +172,7 @@ $gTemplArr = array(
 			<link type="text/css" rel="stylesheet" href="/lib/def.css?v={_getCommit()}" media="all" title="default" />
 			<link type="text/css" rel="stylesheet" href="/lib/version_preview.css?v={_getCommit()}" media="all" title="default" />
 			<link type="text/css" rel="stylesheet" href="/lib/ui.dynatree.css?v={_getCommit()}" media="all" title="default" />
+			<link type="text/css" rel="stylesheet" href="/lib/ui-lightness/jquery-ui-1.8.24.custom.css?v={_getCommit()}" media="all" />
 			<link type="text/css" rel="stylesheet" href="/lib/article.css?v={_getCommit()}" media="all" title="default" />
 			<link type="text/css" rel="stylesheet" href="/lib/editor_rewrite.css" media="all" title="default" />
 			
@@ -179,7 +180,11 @@ $gTemplArr = array(
 			<script type="text/javascript" src="/lib/ckeditor_4.1/ckeditor.js?v={_getCommit()}"></script>
 			
 			<script src="/lib/js/jquery_1_10_2.js?v={_getCommit()}" type="text/javascript"></script>
+			<script src="/lib/js/jquery_ui_1_10_2.js?v={_getCommit()}" type="text/javascript"></script>
+
 			<script src="/lib/js/jquery_form.js?v={_getCommit()}" type="text/javascript"></script>
+			<script src="/lib/js/jquery.simplemodal_1_4_4.js?v={_getCommit()}" type="text/javascript"></script>
+			
 			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-core.js?v={_getCommit()}"></script>
 			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-cssclassapplier.js?v={_getCommit()}"></script>
 			<script type="text/javascript" src="/lib/js/ice/lib/rangy-1.2/rangy-selectionsaverestore.js?v={_getCommit()}"></script>
@@ -251,7 +256,7 @@ $gTemplArr = array(
 
 
 	'global.profile_pic_and_name' => '
-						<a href="/login.php?logout=1" class="logoutbtn" title="Logout"></a>
+						<a href="/login.php?logout=1&redirurl=' . urlencode($_SERVER["REQUEST_URI"])  . '" class="logoutbtn" title="Logout"></a>
 						<a href="/profile.php" target="_blank" id="profile">
 							{_getProfilePicSmall(previewpicid)}
 							<span>{fullname}</span>
@@ -713,7 +718,8 @@ $gTemplArr = array(
 					<div class="P-Clear"></div>
 				</div><!-- END header -->
 				{contents}	
-			</div>	
+			</div>
+			<div id="P-Post-Review-Form-Poll"></div>	
 		{*global.htmlonlyfooter}
 	',
 	

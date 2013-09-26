@@ -21,7 +21,7 @@ $BODY$
 		
 		-- delete from pjs.poll_answers 
 		DELETE FROM pjs.poll_answers 
-		WHERE document_review_round_users_form_id IN (
+		WHERE rel_element_type = 1 AND rel_element_id IN (
 			SELECT
 				drruf.id 
 			FROM pjs.document_review_round_users_form drruf
