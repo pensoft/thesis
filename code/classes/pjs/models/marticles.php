@@ -468,13 +468,13 @@ class mArticles extends emBase_Model {
 				j.name as journal_name, 
 				j.short_name as journal_short_name, 
 				d.publish_date,
-				am.authors
+				am.authors_format_names as authors
 			FROM pjs.documents d
 			JOIN pjs.article_metadata am ON am.document_id = d.id
 			JOIN journals j ON j.id = d.journal_id
 			WHERE d.id = ' . $pId . ' 
 		';
-		// var_dump($lSql);
+		 //var_dump($lSql);
 		$this->m_con->Execute($lSql);
 		return $this->m_con->mRs;	
 	}

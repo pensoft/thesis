@@ -923,4 +923,16 @@ function ReinitStaticVariables(){
 	getAffiliation('', 0, true);
 }
 
+function getAuthorInitials($pAuthorFirstName, $pAuthorOtherFirstNames) {
+	$lFirstNamesArr = explode(' ', $pAuthorOtherFirstNames);
+	$lRes = mb_substr($pAuthorFirstName, 0, 1, 'UTF-8');
+	if(count($lFirstNamesArr)) {
+		foreach ($lFirstNamesArr as $key => $value) {
+			$lRes .= mb_substr($value, 0, 1, 'UTF-8');
+		}
+	}
+	
+	return $lRes;
+}
+
 ?>
