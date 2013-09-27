@@ -3328,20 +3328,31 @@ function generateMendeleyLink($pId) {
 	return 'href="#"';
 }
 
+function rewriteNames($pNamesString) {
+	$lNamesArr = explode(',', $pNamesString);
+	$lFirstNames = $lNamesArr[1];
+	$lLastNames = $lNamesArr[0];
+	$lFirstNamesArr = explode(' ', $lFirstNames);
+	foreach ($lFirstNamesArr as $key => $value) {
+		$lRes .= mb_substr($value, 0, 1, 'UTF-8');
+	}
+	return $lLastNames . ' ' . $lRes;
+}
+
 function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournalShortName, $pDoi, $pAuthors, $pPublishDate) {
 	if($pArticleId) {
 		$pDocumentName = trim($pDocumentName);
 		preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+)/', $pPublishDate, $lMatch);
 		$lDocumentLink = SITE_URL . 'articles.php?id=' . $pArticleId;
 
-		$lAuthorsArr = explode(',', $pAuthors);
+		$lAuthorsArr = explode('; ', $pAuthors);
 		$pAuthors = '';
 		$i = 1;
 		foreach ($lAuthorsArr as $key => $value) {
-			$lAuthorNamesArr = explode(' ', trim($value));
-			$pAuthors .= $lAuthorNamesArr[1] . ' ' . substr($lAuthorNamesArr[0], 0, 1) . (count($lAuthorsArr) == $i ? '' : ', ');
+			$pAuthors .= rewriteNames($value) . (count($lAuthorsArr) == $i ? '' : ', ');
 			$i++;
 		}
+
 		$lSubject = 'Paper published in the ' . $pJournalName;
 		$lBody = "Hi," .  urlencode("\n") .  urlencode("\n") . "Here is an interesting paper published in the " . $pJournalName . ": " . urlencode("\n") . urlencode("\n") . $pAuthors . " (". $lMatch[3] .") ".GetArticleTitleForCitation(trim($pDocumentName))." ".$pJournalName." 1: e".$pArticleId.". DOI: http://dx.doi.org/" . $pDoi . urlencode("\n");
 		return 'href="mailto:?Subject=' . urldecode($lSubject) . '&amp;body=' . $lBody . '"';

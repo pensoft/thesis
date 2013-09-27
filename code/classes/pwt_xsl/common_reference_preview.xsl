@@ -56,7 +56,8 @@
 			<xsl:value-of select="./fields/*[@id='252']/value"></xsl:value-of>
 			<xsl:text> </xsl:text>
 			<!-- Initials of first name -->
-			<xsl:value-of select="php:function('mb_substr', string(./fields/*[@id='251']/value), 0, 1)"></xsl:value-of>
+			<!--<xsl:value-of select="php:function('mb_substr', string(./fields/*[@id='251']/value), 0, 1)"></xsl:value-of>-->
+			<xsl:value-of select="php:function('getAuthorInitials', string(./fields/*[@id='251']/value), string(./fields/*[@id='253']/value))"></xsl:value-of>
 		</xsl:variable>
 		<span>
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>

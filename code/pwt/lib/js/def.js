@@ -3781,3 +3781,11 @@ function GetPreviewContent(){
 function GetPreviewSelection(){
 	return getIframeSelection(gPreviewIframeId);
 }
+
+function ShowconfirmAndExec(pText, pFunc){
+	if(confirm(pText)) {
+		pFunc();
+	} else {
+		return false;
+	}
+}

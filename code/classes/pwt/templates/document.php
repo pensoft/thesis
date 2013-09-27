@@ -12,7 +12,7 @@ $gTemplArr = array(
 										{*comments.filter}
 										<hr style="border-bottom: 1px solid rgb(226, 226, 220); border-top: 1px solid rgb(226, 226, 220); margin: 5px -18px 0px -15px; border-style: solid; padding-top: 1px; border-color: rgb(226, 226, 220);" />
 									</div>
-									{*comments.wrapper} 
+									{*comments.wrapper}
 								</div>
 								<div class="P-Clear"></div>
 							</div>	<!-- P-Wrapper-Right-Content -->
@@ -44,21 +44,21 @@ $gTemplArr = array(
 	'document.path_nodata' => '',
 
 	'document.path_row' => ' » {_getDocumentPathLink(instance_id, object_name, current_instance_id)}',
-		
+
 	'document.wrapper_leftcol' => '
 						<div class="P-Wrapper-Container-Left {_getContainerHideClass(1)}">
-							{document_structure}							
+							{document_structure}
 							<div class="P-Container-Toggler-Btn-Left" onclick="toggleLeftContainer();"></div>
 						</div><!-- End P-Wrapper-Container-Left -->
 	',
-		
+
 	'document.wrapper_rightcol' => '
 						<div class="P-Wrapper-Container-Right {_getContainerHideClass(2)}">
 							{*document.rightcol}
 							<div class="P-Container-Toggler-Btn-Right" onclick="toggleRightContainer();"></div>
 						</div><!-- End P-Wrapper-Container-Right -->
 	',
-		
+
 	'document.wrapper_container_middle' => '
 						<div class="P-Wrapper-Container-Middle {_getContainerHideClass(1)} {_getContainerHideClass(2)}">
 							{*document.wrapper_container_middle_content}
@@ -69,8 +69,8 @@ $gTemplArr = array(
 							{*document.wrapper_container_middle_content}
 						</div><!-- End P-Wrapper-Container-Middle -->
 	',
-		
-	'document.wrapper_container_middle_content' => '					
+
+	'document.wrapper_container_middle_content' => '
 						<div class="P-Document-Save-Message">{save_msg}</div>
 						<form name="document_form" method="post" id="document_form">
 							<input type="hidden" name="document_id" value="{document_id}"/>
@@ -82,9 +82,9 @@ $gTemplArr = array(
 								<span class="P-PreviewBtn"><input onclick="window.location=\'/preview.php?document_id={document_id}\';return false" class="preview_btn" type="submit" value="" /></span>
 							</div>
 							-->
-						</form>					
+						</form>
 	',
-		
+
 	'document.wrapper_additional_items' => '
 						{*figures.figures_popup}
 						{*tables.tables_popup}
@@ -103,9 +103,9 @@ $gTemplArr = array(
 						{*document.wrapper_leftcol}
 						{*document.wrapper_rightcol}
 						{*document.wrapper_container_middle}
-						{*document.wrapper_additional_items}		
+						{*document.wrapper_additional_items}
 	',
-		
+
 	'document.wrapper_no_comments' => '
 						{*document.wrapper_leftcol}
 						{*document.wrapper_container_middle_nocomments}
@@ -167,7 +167,7 @@ $gTemplArr = array(
 
 						{*tables.tables_popup}
 	',
-	
+
 	'document.xml_validation_wrapper_no_comments' => '
 						<div class="P-Wrapper-Container-Left {_getContainerHideClass(1)}">
 							{document_structure}
@@ -182,11 +182,11 @@ $gTemplArr = array(
 
 						{*tables.tables_popup}
 	',
-	
+
 	'document.tree_ajax_wrapper' => '
 						<div id="document_tree_holder">
 							<script>LoadDocumentTree(\'document_tree_holder\', {document_id}, {instance_id});</script>
-							<div class="ajaxTreeLoadingHolder">					
+							<div class="ajaxTreeLoadingHolder">
 								<img src="/i/loading.gif" />
 							</div>
 						</div>
@@ -198,12 +198,12 @@ $gTemplArr = array(
 								<ul id="articleMenu">
 	',
 
-	'document.tree_foot' => '									
+	'document.tree_foot' => '
 								</ul>
 								<div class="P-Article-Buttons">
-									<div class="P-Grey-Btn-Holder P-Validation ' . ((int)ENABLE_FEATURES ? '' : 'P-Inactive-Button') .'" onclick="">
+									<div class="P-Grey-Btn-Holder P-Validation">
 										<div class="P-Grey-Btn-Left"></div>
-										<div class="P-Grey-Btn-Middle P-Green-Btn-Middle-Big_One" ' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id={document_id}\');return false;"' : 'onclick="window.location=\'/under_construction.php\';return false;"') . '><div class="P-Btn-Icon"></div>Validate</div>
+										<div class="P-Grey-Btn-Middle P-Green-Btn-Middle-Big_One" onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id={document_id}\');return false;"><div class="P-Btn-Icon"></div>Validate</div>
 										<div class="P-Grey-Btn-Right"></div>
 									</div>
 									<div class="P-Clear"></div>
@@ -621,21 +621,22 @@ $gTemplArr = array(
 		</form>
 	',
 
-
-	'document.email_message_ready_to_submit' => '
-		Document {document_id} is ready for review. Please review it <a href="' . SITE_URL . '/preview.php?document_id={document_id}">here</a>
-	',
-
-	'document.email_message_submit' => '
-		Document {document_id} is ready to be submitted. You can submit it <a href="' . SITE_URL . '/preview.php?document_id={document_id}">here</a>
-	',
-	
 	'document.auto_unlocked_document' => '
 		<div class="unlock-message-holder">This document "{_strip_tags(name)}" has been saved & closed after 1 hour of inactivity. <br><br>
-		<a href="/preview.php?document_id={document_id}">Reopen</a></div> 
-	'
-	//{_strip_tags(name)}
-
+		<a href="/preview.php?document_id={document_id}">Reopen</a></div>
+	',
+	
+	'document.author_submission_mail' => '
+		{first_name} {last_name} submitted new document: {document_name}, please review it.
+	',
+	
+	'document.staff_approve_mail' => '
+		Dear {first_name} {last_name} your document "{document_name}" is ready for submission
+	',
+	
+	'document.staff_reject_mail' => '
+		Dear {first_name} {last_name} your document "{document_name}" is rejected
+	',
 );
 
 ?>
