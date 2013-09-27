@@ -24,6 +24,7 @@ $BODY$
 		lAuthorFirstNameFieldId bigint = 251;
 		lAuthorLastNameFieldId bigint = 252;
 		lAuthorCombinedNameFieldId bigint = 250;
+		lAuthorOtherFirstNamesFieldId bigint = 253;
 		lPubYearFieldId bigint;
 		
 		lRecord record;
@@ -34,6 +35,9 @@ $BODY$
 		lAuthorsAuthorshipType int = 1;
 		lEditorsAuthorshipType int = 2;
 		lAuthorshipFieldIds bigint[] = ARRAY[281, 282, 265];
+		lInitialsArr varchar[];
+		lIter int;
+		lInitialsArrCount int;
 	BEGIN
 		lAuthorObjectId = 90;
 		lReferenceObjectId = 95;
@@ -57,10 +61,11 @@ $BODY$
 			lAuthorsCount = 0;
 			lCombinedAuthorNames = '';
 			FOR lRecord IN 
-				SELECT fn.value_str as first_name, ln.value_str as last_name, cn.value_str as combined_name, at.value_int as authorship_type
+				SELECT fn.value_str as first_name, ln.value_str as last_name, cn.value_str as combined_name, at.value_int as authorship_type, fn2.value_str as other_first_names
 				FROM pwt.document_object_instances i
 				JOIN pwt.document_object_instances p ON p.id = lRes.reference_instance_id AND substring(i.pos, 1, char_length(p.pos)) = p.pos
 				JOIN pwt.instance_field_values fn ON fn.instance_id = i.id AND fn.field_id = lAuthorFirstNameFieldId
+				JOIN pwt.instance_field_values fn2 ON fn2.instance_id = i.id AND fn2.field_id = lAuthorOtherFirstNamesFieldId
 				JOIN pwt.instance_field_values ln ON ln.instance_id = i.id AND ln.field_id = lAuthorLastNameFieldId
 				JOIN pwt.instance_field_values cn ON cn.instance_id = i.id AND cn.field_id = lAuthorCombinedNameFieldId
 				JOIN pwt.document_object_instances ai ON substring(ai.pos, 1, char_length(p.pos)) = p.pos
@@ -71,26 +76,39 @@ $BODY$
 			LOOP
 				lAuthorsCount = lAuthorsCount + 1;
 				lInitials = substring(lRecord.first_name, 1, 1);
+				
+				lInitialsArr = regexp_split_to_array(lRecord.other_first_names, E'\\s+');
+				lInitialsArrCount = coalesce(array_upper(lInitialsArr, 1), 0);
+				IF(lInitialsArrCount > 0) THEN
+					FOR lIter IN 
+						1 .. lInitialsArrCount
+					LOOP
+						lInitials = lInitials || substring(lInitialsArr[lIter], 1, 1);
+					END LOOP;
+				END IF;
+								
 				IF lRecord.authorship_type IN (lAuthorsAuthorshipType, lEditorsAuthorshipType) THEN 
 					lCurrentAuthorCombinedNames = trim(coalesce(lRecord.last_name || ' ', '') || coalesce(lInitials, ''));
 				ELSE
 					lCurrentAuthorCombinedNames = trim(coalesce(lRecord.combined_name, ''));
 				END IF;
-				
+
 				IF lAuthorsCount = 1 THEN					
 					lRes.first_author_combined_name = lCurrentAuthorCombinedNames;
 					lCombinedAuthorNames = lCurrentAuthorCombinedNames;
 				ELSE
 					lCombinedAuthorNames = lCombinedAuthorNames || ' ' || lCurrentAuthorCombinedNames;
 				END IF;			
+				
 			END LOOP;
 			
 			lRes.authors_count = lAuthorsCount;
 			lRes.authors_combined_names = lCombinedAuthorNames;
-		
+			--RAISE NOTICE 'lInitialsArr: %',lAuthorsCount;
+			
 			RETURN NEXT lRes;
 		END LOOP;
-		
+		--RAISE EXCEPTION 'lInitialsArr: do tuk';
 		RETURN;		
 	END
 $BODY$
