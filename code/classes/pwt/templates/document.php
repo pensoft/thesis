@@ -621,21 +621,22 @@ $gTemplArr = array(
 		</form>
 	',
 
-
-	'document.email_message_ready_to_submit' => '
-		Document {document_id} is ready for review. Please review it <a href="' . SITE_URL . '/preview.php?document_id={document_id}">here</a>
-	',
-
-	'document.email_message_submit' => '
-		Document {document_id} is ready to be submitted. You can submit it <a href="' . SITE_URL . '/preview.php?document_id={document_id}">here</a>
-	',
-
 	'document.auto_unlocked_document' => '
 		<div class="unlock-message-holder">This document "{_strip_tags(name)}" has been saved & closed after 1 hour of inactivity. <br><br>
 		<a href="/preview.php?document_id={document_id}">Reopen</a></div>
-	'
-	//{_strip_tags(name)}
-
+	',
+	
+	'document.author_submission_mail' => '
+		{first_name} {last_name} submitted new document: {document_name}, please review it.
+	',
+	
+	'document.staff_approve_mail' => '
+		Dear {first_name} {last_name} your document "{document_name}" is ready for submission
+	',
+	
+	'document.staff_reject_mail' => '
+		Dear {first_name} {last_name} your document "{document_name}" is rejected
+	',
 );
 
 ?>

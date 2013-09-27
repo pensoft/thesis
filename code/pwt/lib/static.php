@@ -30,13 +30,6 @@ require_once(PATH_CLASSES . '/static.php');
 $COOKIE_DOMAIN = $_SERVER['SERVER_NAME'];
 $user = unserialize($_SESSION['suser']);
 
-if ((int)$user->staff) {
-	define(ENABLE_FEATURES, 1);
-}
-else {
-	define(ENABLE_FEATURES, 0);
-}
-
 if($gTryToChangeUserWithoutSessionChange){
 	$lUsername = $_REQUEST['username'];
 	$lPassword = $_REQUEST['password'];
@@ -6401,7 +6394,7 @@ function getDocumentCreatorData($pDocumentId) {
 	$lCon = new DBCn();
 	$lCon->Open();
 	$lSql = '
-		SELECT u.*, d.has_unprocessed_changes::int as has_unprocessed_changes
+		SELECT u.*, d.name as document_name, d.has_unprocessed_changes::int as has_unprocessed_changes
 		FROM pwt.documents d
 		JOIN usr u ON u.id = d.createuid
 		WHERE d.id = ' . (int)$pDocumentId;
@@ -6431,7 +6424,7 @@ function showPJSSubmitButton($pDocumentId, $pDocumentState){
 				';
 			} else {
 				$lRes = '
-					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . AUTHOR_READY_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\');"' : '') . '>
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="ShowconfirmAndExec(\'' . getstr('pwt.ready_to_submit_confirm_text') . '\', function(){showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . AUTHOR_READY_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\');})"' : '') . '>
 					<div class="P-Green-Btn-Left"></div>
 						<div class="P-Green-Btn-Middle P-Green-Btn-Middle-Big_One">' . getstr('pwt.ready_to_submit_documentfor_submission_btn') . '</div>
 						<div class="P-Green-Btn-Right"></div>
@@ -6442,9 +6435,15 @@ function showPJSSubmitButton($pDocumentId, $pDocumentState){
 		} elseif ($pDocumentState == IN_PRE_SUBMIT_REVIEW_DOCUMENT_STATE) {
 			if($user->staff == 1){
 				$lRes = '
-					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\');"' : '') . '>
+					<div style="margin-bottom:20px;" class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\');"' : '') . '>
 					<div class="P-Green-Btn-Left"></div>
 						<div class="P-Green-Btn-Middle P-Green-Btn-Middle-Big_One">' . getstr('pwt.approve_documentfor_submission_btn') . '</div>
+						<div class="P-Green-Btn-Right"></div>
+					</div>
+					<div class="P-Clear"></div>
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . REJECT_TO_APPROVE_DOCUMENT_ACTION_TYPE . '\');"' : '') . '>
+					<div class="P-Green-Btn-Left"></div>
+						<div class="P-Green-Btn-Middle P-Green-Btn-Middle-Big_One">' . getstr('pwt.reject_documentfor_submission_btn') . '</div>
 						<div class="P-Green-Btn-Right"></div>
 					</div>
 					<div class="P-Clear"></div>
@@ -6465,7 +6464,7 @@ function showPJSSubmitButton($pDocumentId, $pDocumentState){
 		} elseif ($pDocumentState == READY_TO_SUBMIT_DOCUMENT_STATE || $pDocumentState == RETURNED_FROM_PJS_DOCUMENT_STATE) {
 			if((int)$lCreatorData['id'] == (int)$user->id){
 				$lRes = '
-					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . SUBMIT_DOCUMENT_ACTION_TYPE . '\');"' : '') . '>
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="ShowconfirmAndExec(\'' . getstr('pwt.can_submit_confirm_text') . '\', function(){showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . SUBMIT_DOCUMENT_ACTION_TYPE . '\');})"' : '') . '>
 					<div class="P-Green-Btn-Left"></div>
 						<div class="P-Green-Btn-Middle P-Green-Btn-Middle-Big_One">' . getstr('pwt.submit_document_btn') . '</div>
 						<div class="P-Green-Btn-Right"></div>
@@ -6507,12 +6506,16 @@ function ExecActionType($pDocumentId, $pActionType) {
 					'charset' => 'UTF-8',
 					'boundary' => '--_separator==_',
 					'document_id' => $pDocumentId,
+					'first_name' => $lCreatorData['first_name'],
+					'last_name' => $lCreatorData['last_name'],
+					'document_name' => $lCreatorData['document_name'],
+					'autolog_hash' => $lCreatorData['autolog_hash'],
 					'from' => array(
 						'display' => PENSOFT_MAIL_DISPLAY,
 						'email' => PENSOFT_MAIL_ADDR,
 					),
 					'templs' => array(
-						G_DEFAULT => 'document.email_message_ready_to_submit',
+						G_DEFAULT => 'document.author_submission_mail',
 					),
 				);
 				$msg = new cmessaging($lMessageData);
@@ -6538,12 +6541,50 @@ function ExecActionType($pDocumentId, $pActionType) {
 					'charset' => 'UTF-8',
 					'boundary' => '--_separator==_',
 					'document_id' => $pDocumentId,
+					'first_name' => $lCreatorData['first_name'],
+					'last_name' => $lCreatorData['last_name'],
+					'document_name' => $lCreatorData['document_name'],
+					'autolog_hash' => $lCreatorData['autolog_hash'],
 					'from' => array(
 						'display' => PENSOFT_MAIL_DISPLAY,
 						'email' => PENSOFT_MAIL_ADDR,
 					),
 					'templs' => array(
-						G_DEFAULT => 'document.email_message_ready_to_submit',
+						G_DEFAULT => 'document.staff_approve_mail',
+					),
+				);
+				$msg = new cmessaging($lMessageData);
+				$msg->Display();
+
+				header('Location: /preview.php?document_id=' . $pDocumentId);
+				exit;
+			}
+			break;
+		case REJECT_TO_APPROVE_DOCUMENT_ACTION_TYPE:
+			if($user->staff == 1 && in_array($lDocumentState, array(IN_PRE_SUBMIT_REVIEW_DOCUMENT_STATE))) {
+				$lSql = 'UPDATE pwt.documents SET state = ' . NEW_DOCUMENT_STATE . ' WHERE id = ' . (int)$pDocumentId;
+				$lCon->Execute($lSql);
+				$lActionResult = true;
+
+				// send a message to
+				$lMessageData = array(
+					'siteurl' => SITE_URL,
+					'mailsubject' => getstr('pwt.document_reject_for_submit_mail_subject'),
+					'mailto' => $lCreatorData['uname'],
+					//'mailto' => 'vic.penchev@gmail.com',
+					'charset' => 'UTF-8',
+					'boundary' => '--_separator==_',
+					'document_id' => $pDocumentId,
+					'first_name' => $lCreatorData['first_name'],
+					'last_name' => $lCreatorData['last_name'],
+					'document_name' => $lCreatorData['document_name'],
+					'autolog_hash' => $lCreatorData['autolog_hash'],
+					'from' => array(
+						'display' => PENSOFT_MAIL_DISPLAY,
+						'email' => PENSOFT_MAIL_ADDR,
+					),
+					'templs' => array(
+						G_DEFAULT => 'document.staff_reject_mail',
 					),
 				);
 				$msg = new cmessaging($lMessageData);
