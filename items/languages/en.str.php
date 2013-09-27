@@ -2215,6 +2215,10 @@ $STRARRAY = array(
 	'pjs.aof_no_comments' => 'There are no comments to this article',
 	'pjs.email_notifications' => 'Email notifications',
 	'pjs.aof_view_poll_link' => 'See Review form',
-	'pjs.comment_is_rejected' => 'This comment has been removed because it does not conform to the journal\'s policy.',
+	'pjs.comment_is_rejected' => 'This comment has been removed because it does not conform to the journal\'s policy.',	
+	'pwt.ready_to_submit_confirm_text' => 'You are about to submit this manuscript for pre-submission technical review. You will receive an email from us with our feedback / approval.',	
+	'pwt.can_submit_confirm_text' => 'You are about to submit this manuscript for peer-review. Please note that you will not be able to make any further changes to the manuscript before the end of review-round 1.',
+	'pwt.reject_documentfor_submission_btn' => 'Send feedback',
+	
 );
 ?>

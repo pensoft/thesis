@@ -119,12 +119,14 @@ $gTemplArr = array(
 
 	'journals.journal_document' => '
 		<div class="landing_wrap">
-			<div class="article_header">
-				<img src="i/journal.png">
-				<h1>Resolving the publishing bottleneck for biodiversity</h1>
-				<blockquote>Science is a combination of gathering facts and making theories; neither can progress on its own. In the history of science, the laborious accumulation of facts is the dominant mode, not a novelty.</blockquote>
-				<p>Peter Norvig</p>
-			</div>
+			<a href="browse_articles">
+				<div class="article_header">
+					<img src="i/journal.png">
+					<h1>Resolving the publishing bottleneck for biodiversity</h1>
+					<blockquote>Science is a combination of gathering facts and making theories; neither can progress on its own. In the history of science, the laborious accumulation of facts is the dominant mode, not a novelty.</blockquote>
+					<p>Peter Norvig</p>
+				</div>
+			</a>
 			<div class="content_article">
 				<ul class="clearfix">
 					<li>

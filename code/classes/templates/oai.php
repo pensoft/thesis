@@ -94,7 +94,7 @@ $gTemplArr = array (
 							<dc:type>{_stripXmlTags(section_type)}</dc:type>
 							<dc:format>text/html</dc:format>
 							<dc:identifier>http://dx.doi.org/{_xmlEscape(identifier)}</dc:identifier>
-							<dc:identifier>http://www.pensoft.net/journals/{journal_url_title}/article/{article_id}/</dc:identifier>
+							<dc:identifier>http://biodiversitydatajournal.com/articles.php?id={article_id}</dc:identifier>
 							<dc:language>en</dc:language>
 						</oai-dc:dc>
 					</metadata>
@@ -139,7 +139,7 @@ $gTemplArr = array (
 								</mods:part>
 							</mods:relatedItem>
 							<mods:identifier type="uri">http://dx.doi.org/{_xmlEscape(identifier)}</mods:identifier>
-							<mods:identifier type="uri">http://www.pensoft.net/journals/{journal_url_title}/article/{article_id}/</mods:identifier>
+							<mods:identifier type="uri">http://biodiversitydatajournal.com/articles.php?id={article_id}</mods:identifier>
 							<mods:abstract>{_stripXmlTags(abstract)}</mods:abstract>
 							<mods:physicalDescription>
 								<mods:internetMediaType>text/html</mods:internetMediaType>
