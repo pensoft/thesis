@@ -34,7 +34,7 @@ if ((int)$user->staff) {
 	define(ENABLE_FEATURES, 1);
 }
 else {
-	define(ENABLE_FEATURES, 0);
+	define(ENABLE_FEATURES, 1);
 }
 
 if($gTryToChangeUserWithoutSessionChange){

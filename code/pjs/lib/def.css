@@ -2844,7 +2844,7 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 
 .article {
 	margin-top: 5px;
-	padding: 10px 15px;
+	padding: 0px 15px 10px 0px;
 	border-bottom: 1px solid #EEECE5;
 }
 
@@ -6807,8 +6807,12 @@ table.no_bold_class td a {
 }
 
 .article .authors_list_holder {
-	color: #7E7E5E;
+	color: #616141;
 	padding:10px 0px 10px 0px;
+}
+
+.article a.authors_list_holder:hover {
+	text-decoration: underline;
 }
 
 
@@ -7311,4 +7315,15 @@ td.aof_poll_view_list_label{
 
 .comment_rejected{
 	color:#CD0A0A;	
+}
+
+.articleCoverImageHolder img {
+    border: 1px solid #EEECE5;
+    /* box-shadow: 4px 4px 4px #CCC; */ 
+}
+
+.articleCoverImageHolder{
+	padding-top:8px;
+	padding-right:10px;
+	height: 100%;
 }
