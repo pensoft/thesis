@@ -627,15 +627,16 @@ $gTemplArr = array(
 	',
 	
 	'document.author_submission_mail' => '
-		{first_name} {last_name} submitted new document: {document_name}, please review it.
+		{first_name} {last_name} submitted new document: <a href="'. SITE_URL .'/login.php?u_autolog_hash={autologin_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">"{document_name}"</a>, please review it.
 	',
 	
 	'document.staff_approve_mail' => '
-		Dear {first_name} {last_name} your document "{document_name}" is ready for submission
-	',
+		Dear {first_name} {last_name} your manuscript <a href="'. SITE_URL .'/login.php?u_autolog_hash={autologin_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">"{document_name}"</a> is ready for submission
+	', 
 	
 	'document.staff_reject_mail' => '
-		Dear {first_name} {last_name} your document "{document_name}" is rejected
+		Dear {first_name} {last_name} your manuscript <a href="'. SITE_URL .'/login.php?u_autolog_hash={autologin_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">"{document_name}"</a> need some changes.
+		Please see our comments in the manuscript. 
 	',
 );
 
