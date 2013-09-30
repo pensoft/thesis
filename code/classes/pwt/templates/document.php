@@ -626,39 +626,46 @@ $gTemplArr = array(
 	'document.author_submission_mail' => '
 		{first_name} {last_name} submitted new document:<br /><br /> 
 
-"<a href="'. SITE_URL .'/login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">{document_name}</a>", please review it and either approve it or submit your feedback to the authors.<br /><br />
+"<a href="'. SITE_URL .'preview.php?document_id={document_id}">{document_name}</a>", please review it and either approve it or submit your feedback to the authors.<br /><br />
 
 The Pensoft Writing Tool (PWT)<br />
-helpdesk@pensoft.net
+<a href="mailto:helpdesk@pensoft.net">helpdesk@pensoft.net</a>
 	',
 	
 	'document.staff_approve_mail' => '
 Dear {first_name} {last_name}:<br /><br />
 
-your manuscript "<a href="'. SITE_URL .'/login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">{document_name}</a>" has been technically evaluated and approved by the PWT support team and is now ready for submission.<br /><br />
+your manuscript "<a href="'. SITE_URL .'login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">{document_name}</a>" has been technically evaluated and approved by the PWT support team and is now ready for submission.<br /><br />
 
 Please go to the manuscript and proceed with submission.<br /><br />
 
 The Pensoft Writing Tool (PWT)<br />
-helpdesk@pensoft.net<br />
+<a href="mailto:helpdesk@pensoft.net">helpdesk@pensoft.net</a>
 
 	', 
 	
 	'document.staff_reject_mail' => '
 		Dear {first_name} {last_name}:<br /><br /> 
 
-your manuscript <a href="'. SITE_URL .'/login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">"{document_name}"</a> has been technically evaluated by the PWT support team.<br /><br /> 
+your manuscript "<a href="'. SITE_URL .'login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">{document_name}"</a>" has been technically evaluated by the PWT support team.<br /><br /> 
 
 Please note that you have to change a few things in your manuscript before it will be aprooved for submission.<br /><br />
 
 Please go to the the manuscript and concider our comments in the right side bar.<br /><br />
 
-The Pensoft Writing Tool (PWT)<br /><br />
-helpdesk@pensoft.net<br />
+The Pensoft Writing Tool (PWT)<br />
+<a href="mailto:helpdesk@pensoft.net">helpdesk@pensoft.net</a>
 	',
 	
 	'document.author_thanks' => '
-		Dear {first_name} {last_name} thanks for your manuscript.
+		Dear {first_name} {last_name}:<br /><br />
+
+your manuscript "<a href="'. SITE_URL .'login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">{document_name}</a>" was sent for a technical pre-submission review.<br /><br /> 
+
+You will be notified by e-mail if your manuscript is approved for submission or additional changes are required.<br /><br />
+
+The Pensoft Writing Tool (PWT)<br />
+<a href="mailto:helpdesk@pensoft.net">helpdesk@pensoft.net</a>
 	',
 );
 

@@ -2146,9 +2146,6 @@ $STRARRAY = array(
 	'pwt.approve_documentfor_submission_btn' => 'Approve',
 	'pwt.ready_to_submit_documentfor_submission_btn' => 'Ready to submit',
 	'pwt.submit_document_btn' => 'Submit',
-	'pwt.document_ready_for_review_mail_subject' => 'Document is ready for review',
-
-	'pwt.document_ready_for_submit_mail_subject' => '[PENSOFT WRITING TOOL] Document ready for submission',
 
 	'pwt.validation.missingSubjectClassification' => 'Subject classification is required for this type of document',
 	'pwt.validation.ChecklistTaxonRequired1' => 'You need to add at least 1 taxon',
@@ -2219,6 +2216,12 @@ $STRARRAY = array(
 	'pwt.ready_to_submit_confirm_text' => 'You are about to submit this manuscript for pre-submission technical review. You will receive an email from us with our feedback / approval.',	
 	'pwt.can_submit_confirm_text' => 'You are about to submit this manuscript for peer-review. Please note that you will not be able to make any further changes to the manuscript before the end of review-round 1.',
 	'pwt.reject_documentfor_submission_btn' => 'Send feedback',
+	
+	'pwt.thanks_document_ready_for_review_mail_subject' => ' sent for pre-submission review',
+	'pwt.document_reject_for_submit_mail_subject' => ' needs to be corrected',
+	'pwt.document_ready_for_review_mail_subject' => ' submitted for technical review',
+	'pwt.document_ready_for_submit_mail_subject' => ' approved for submission',
+	'pwt.document_mail_subject_prefix' => '[PENSOFT WRITING TOOL] Manuscript #',
 	
 );
 ?>
