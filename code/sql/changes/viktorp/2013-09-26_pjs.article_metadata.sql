@@ -1,0 +1,1 @@
+ALTER TABLE pjs.article_metadata ADD COLUMN authors_format_names text;

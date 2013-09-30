@@ -23,7 +23,7 @@ $gTemplArr = array(
 				</div>
 			</div>
 			<div class="P-Clear"></div>
-			<div style="margin: 10px;">
+			<div style="margin: 10px ;">
 				{_displayArticlesFilterCriteria(taxon, subject, geographical, chronical, fromdate, todate, sectiontype, fundingagency)}
 
 				<div style="border-top: 1px solid #EEECE5; border-bottom: 1px solid #EEECE5; margin-top: 20px; margin-bottom: 15px;">
@@ -32,35 +32,49 @@ $gTemplArr = array(
 	',
 
 	//	<div class="refine-filter">' . getstr('pjs.refine_filters_in_the_left_panel') . '</div>
-
+	//<div style="height: 119px; width: 119px; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1)), url(/i/000_Untitled-{id}.jpg)"></div>
 	'browse_articles.startrs' => '',
 
 	'browse_articles.row' => '
 				<div class="article" style="border-top: none;">
-					<div class="articleHeadline">
-						<a href="/articles.php?id={id}" target="_blank">
-							{name}
-						</a>
-					</div>
-					<div class="authors_list_holder">
-						{authors_list}
-					</div>
-
-					<div class="research">
-						{journal_section_name}
-					</div>
-
-					&nbsp;&nbsp;&nbsp;
-					{_showDoiLinkIfExist(doi)}
-					<div class="info">
-						<span style="color:#666"><img src="i/articleCalendar.png" alt="Calendar" title="Publication date"></img> {publish_date}</span>
-						<span style="color:#666"><img src="i/eye.png" alt="eye" title="Views"></img> Unique: {view_unique_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;Total: {view_cnt}&nbsp;&nbsp;</span>
-						<div>
-							<a href="/articles.php?id={id}" target="_blank">HTML</a>
-							<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=download_xml&item_id={id}">XML</a>
-							<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})" class="clearBorder">PDF</a>
-						</div>
-					</div>
+					<table>
+						<tr>
+							<td class="articleCovertd" width="116px" style="vertical-align:top;">
+								<div class="articleCoverImageHolder">
+									<a href="/articles.php?id={id}" target="_blank">
+										<img height="106" width="106" src="/i/cover_photos/cover-{id}.jpg" atl="" />
+										
+									</a>
+								</div>
+							</td>
+							<td width="100%" style="vertical-align:top;">
+								<div class="articleHeadline">
+									<a href="/articles.php?id={id}" target="_blank">
+										{name}
+									</a>
+								</div>
+								<div class="authors_list_holder">
+									{authors_list}
+								</div>
+			
+								<div class="research">
+									{journal_section_name}
+								</div>
+			
+								&nbsp;&nbsp;&nbsp;
+								{_showDoiLinkIfExist(doi)}
+								<div class="info">
+									<span style="color:#666"><img src="i/articleCalendar.png" alt="Calendar" title="Publication date"></img> {publish_date}</span>
+									<span style="color:#666"><img src="i/eye.png" alt="eye" title="Views"></img> Unique: {view_unique_cnt}&nbsp;&nbsp;|&nbsp;&nbsp;Total: {view_cnt}&nbsp;&nbsp;</span>
+									<div>
+										<a href="/articles.php?id={id}" target="_blank">HTML</a>
+										<a target="_blank" href="/lib/ajax_srv/article_elements_srv.php?action=download_xml&item_id={id}">XML</a>
+										<a href="javascript: void(0)" onclick="GeneratePDFPreview({id})" class="clearBorder">PDF</a>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
 				</div>
 	',
 	'browse_articles.endrs' => '',

@@ -785,9 +785,9 @@ $STRARRAY = array(
 	'admin.article_versions.quest13' => 'Is anything missing in the manuscript or the data resource itself that would prevent replication of the measurements, or reproduction of the figures or other representations of the data?',
 	'admin.article_versions.quest14' => 'Are all claims made in the manuscript substantiated by the underlying data?',
 	'admin.article_versions.quest15' => 'Are conflicts of interest, relevant permissions and other ethical issues addressed in an appropriate manner?',
-		
-	
-	
+
+
+
 	'admin.article_versions.yourpreview' => 'Enter or paste your review',
 	'admin.article_versions.forauthor' => 'For Author and Editor',
 	'admin.article_versions.foreditor' => 'For Editor',
@@ -1243,9 +1243,9 @@ $STRARRAY = array(
 	'global.contact_us' => 'Contact us',
 
 	'global.copyright' => 'Copyright &copy; ',
-	
+
 	'pwt.pensoft' => 'Pensoft Publishers',
-	
+
 	// Login Page
 	'loginform.username' => 'E-mail',
 	'loginform.password' => 'Password',
@@ -1270,6 +1270,7 @@ $STRARRAY = array(
 	'status.draft'  => 'draft',
 	'status.submitted_to_pjs' => 'Submitted. Preview mode only.',
 	'status.returned' => 'Revise your manuscript.',
+	'status.published' => 'Published.',
 
 	//create document
 	'pwt.create_document_papertype' => 'Select paper type',
@@ -1933,22 +1934,22 @@ $STRARRAY = array(
 
 	'pjs.version_change_' . CHANGE_DELETE_TYPE => '{user_names} deleted this text',
 	'pjs.version_change_' . CHANGE_INSERT_TYPE => '{user_names} inserted this text',
-	
-	
+
+
 	'pwt.submitTheDocumentIsNotInStateWhichAllowsSubmitting' => 'The document is in a state which does not allow submitting.',
 	'pwt.submitYouAreNotTheAuthorOfTheDocument' => 'You are not the author of the document.',
-	
+
 	'pjs.due_date' => 'Select due date:',
 	'regprof.captchaerr' => 'Invalid captcha code',
 	'pwt.fpass.try.again' => 'Try again',
-	
+
 	// PWT Create document
 	'pwt.create.manuscript' => 'Create manuscript',
 	'pwt.create.manuscript.btn' => 'Create manuscript',
 	'pwt.choose.manuscript.type' => 'Choose from the lists below:',
 	'pwt.create.manuscript.article' => 'Article type',
 	'pwt.create.manuscript.journal' => 'Journal',
-	
+
 	// PJS ->  Scheduling tab
 	'pjs.scheduling.form.journal' => 'Select journal',
 	'pjs.scheduling.form.startpage' => 'Select start page',
@@ -1957,17 +1958,17 @@ $STRARRAY = array(
 	'pjs.scheduling.form.price' => 'Current price',
 	'pjs.scheduling.form.autoprice' => 'Automatic price',
 	'pjs.scheduling.form.save' => 'Save',
-	
+
 	'pjs.reviwer.form.close' => 'Close',
 	'pjs.only_submitting_author_can_edit' => '* only the submitting author can edit this manuscript in the journal system',
 	'pjs.active' => 'Active',
-	
+
 	// view version pwt
 	'pjs.editorial.decision' => 'Editorial decision',
 	'pjs.reviwer.decision' => 'Reviewers Recommendation',
-	
+
 	'pjs.no_permissions_for_page' => "You don't have permissions to see this page!",
-	
+
 	'pjs.reject' => 'Reject',
 	'pjs.reject.but' => 'Reject, but resubmission encouraged',
 	'pjs.viewManuscriptText' => 'View manuscript',
@@ -1977,12 +1978,12 @@ $STRARRAY = array(
 	'admin.article_versions.viewyourpreview' => 'Notes for author and editor',
 	'admin.article_versions.view2yourpreview' => 'Notes for editor',
 	'form.errorEmptyNumericField' => 'Empty Field',
-	
+
 	'pjs.document_rejected_text' => 'Document is rejected',
 	'pjs.document_rejected_but_alabala_text' => 'Document is rejected but resubmission encouraged',
 	'pjs.contacts_page_link_text' => 'Contacts',
 	'pjs.userexpertisespopup.formtitle' => 'User expertises',
-	
+
 	/**
 	 * Submission pages Green texts START
 	 */
@@ -1994,7 +1995,7 @@ $STRARRAY = array(
 	<span>
 		<img width="24" height="24" style="float: left; margin: 2px 0px 22px; border-right-width: 20px; border-bottom-width: 32px; padding-right: 5px;" alt="Note:" src="/i/lightbulb.png">
 			You have to select at least %s nominated (ideally 2 or 3) reviewer from the list.<br />
-			If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page.<br /> 
+			If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page.<br />
 			Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.
 		</span>',
 	'pjs.invite_reviewers_page_community_public_peer_text_round1' => '
@@ -2003,35 +2004,35 @@ $STRARRAY = array(
 			You have to select at least %s nominated (ideally 2 or 3) and %s panel (ideally up to 5-10) reviewers from the list. If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page. Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.</span>',
 	'pjs.invite_reviewers_page__peer_process_text_round2' => '
 	You have to select at least %s nominated (ideally 2 or 3) reviewer from the list.<br />
-		If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page.<br /> 
+		If the list is empty or suggested reviewers are not suitable you can add reviewers by searching in Pensoft’s database or creating new reviewer at the bottom of the page.<br />
 		Invitations take place after clicking on the button “Invite reviewers” at the bottom of the page.',
 	'pjs.showproceedbtnround1_text' => 'You can proceed with your decision after the due date for public review has passed and all dedicated reviewers have completed their reviews.<br> If dedicated reviewers fail to complete their tasks on time, you may remove them from the process.',
 	'pjs.showproceedbtnround2_text' => "You can edit/comment on author's revised version and take your editorial decision.",
-	
+
 	'pjs.decision_button_text_closed_peer_in_due_date_round_1' => '
 		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />
 		You can do this after at least %s nominated reviewer has submitted a review and there are no pending reviews/requests.<br />
-		If a nominated reviewer fails to complete a task on time, you may cancel it.',	
+		If a nominated reviewer fails to complete a task on time, you may cancel it.',
 	'pjs.decision_button_text_closed_peer_not_in_due_date_round_1' => 'To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.',
-	
+
 	'pjs.decision_button_text_community_public_peer_in_due_date_round_1' => '
 		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />
 		You may add your own corrections/comments on the merged reviewer’s version.<br />
 		You can proceed with your decision after the due date for panel review has passed, at least 1 nominated reviewer has submitted a review and there are no pending reviews/requests.<br />
 		If a nominated reviewer fails to complete a task on time, you may cancel it.',
 	'pjs.decision_button_text_community_public_peer_not_in_due_date_round_1' => 'To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.',
-	
+
 	'pjs.decision_button_text_closed_peer_in_due_date_round_2' => '
 		To merge reviewer’s versions together, revise this manuscript and take your editorial decision please click on the “Editorial decision” button.<br />
 		You can do this after at least %s nominated reviewer has submitted a review and there are no pending reviews/requests.<br />
 		If a nominated reviewer fails to complete a task on time, you may cancel it.',
 	'pjs.decision_button_text_closed_peer_not_in_due_date_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
-	
+
 	'pjs.decision_button_text_community_public_peer_in_due_date_round_2' => '
-	
+
 	',
 	'pjs.decision_button_text_community_public_peer_not_in_due_date_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
-	
+
 	'pjs.showproceedbtnround2_text_closed_peer_round_1' => "You can edit/comment on author's original submission and take your editorial decision.",
 	'pjs.showproceedbtnround2_text_closed_peer_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
 	'pjs.showproceedbtnround2_text_community_public_round_1' => "You can edit/comment on author's revised version and take your editorial decision.",
@@ -2043,49 +2044,49 @@ $STRARRAY = array(
 	'pjs.no_suggestions' => 'Sorry, there are no reviewers suggested for this manuscript :-(',
 	'pjs.currentAuthorIsNotDocumentSubmissionAuthor' => 'Current user is not document submission author',
 	'pjs.public_articles' => 'Public review',
-	
+
 	/* validating START*/
 	'pwt.xmlvalidation.pass' => "Document is valid",
 	'pwt.xmlvalidation.submitdocvalid' => 'This document is valid and can be submitted',
 	'pwt.xmlvalidation.validnotification' => 'This document is valid',
 	/* validating END*/
-	
+
 	'pjs.taskspopup_reviewers_cancel_review_text' => 'cancel invitation',
 	'pjs.submitSEDecisionButtonText' => 'Submit my editorial decision',
-	
+
 	'pwt.delete_systematics_obj' => 'Delete treatment',
 	'pwt.delete_locality_obj' => 'Delete locality, or region, or habitat',
 	'pwt.delete_id_keys' => 'Delete identification key',
 	'pwt.delete_checklist_obj' => 'Delete taxon',
 	'pwt.delete_checklist' => 'Delete checklist',
-	
+
 	'pwt.document_is_deleted' => 'This document is deleted',
 	'regprof.pass_not_secure' => 'The password is not secure. Choose a password with a minimum length of 6 symbols',
-	
+
 
 	/* EDITORIAL keys */
 
 	'pjs.non_peer_review_take_decision_round_1' => "You can edit/comment on author's original submission and take your editorial decision.",
 	'pjs.non_peer_review_take_decision_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
-	
+
 	'pjs.take_decision_round_3' => "You can edit/comment on author's revised version and take your editorial decision.",
-	
-	
+
+
 	/* CONVENTIONAL PEER keys */
-	
+
 	'pjs.conventional_peer_review_to_proceed_round_1' => "pjs.conventional_peer_review_to_proceed_round_1",
 	'pjs.conventional_peer_review_take_decision_round_1' => "pjs.conventional_peer_review_take_decision_round_1",
 	'pjs.conventional_peer_review_speedup_round_1' => "pjs.conventional_peer_review_speedup_round_1",
 	'pjs.conventional_peer_review_take_decision_without_reviewers_round_1' => "pjs.conventional_peer_review_take_decision_without_reviewers_round_1",
-	
+
 	'pjs.conventional_peer_review_to_proceed_round_2' => "pjs.conventional_peer_review_to_proceed_round_2",
 	'pjs.conventional_peer_review_take_decision_round_2' => "pjs.conventional_peer_review_take_decision_round_2",
 	'pjs.conventional_peer_review_speedup_round_2' => "pjs.conventional_peer_review_speedup_round_2",
 	'pjs.conventional_peer_review_take_decision_without_reviewers_round_2' => "pjs.conventional_peer_review_take_decision_without_reviewers_round_2",
-	
-	
+
+
 	/* COMMUNITY PEER keys */
-	
+
 	'pjs.community_peer_review_to_proceed_round_1' => "
 		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />You may add your own corrections/comments on the merged reviewer’s version.<br /><br />
 		You can proceed with your decision after the deadline for panel reviewers has expired,<br /> at least 1 nominated reviewer has submitted a review and<br /> there are no pending reviews/requests.<br /><br />
@@ -2093,7 +2094,7 @@ $STRARRAY = array(
 	'pjs.community_peer_review_take_decision_round_1' => "You can edit/comment on author's original submission and take your editorial decision.",
 	'pjs.community_peer_review_speedup_round_1' => "In order to speed up the editorial process you can take your editorial decision without waiting for reviews.",
 	'pjs.community_peer_review_take_decision_without_reviewers_round_1' => "pjs.community_peer_review_take_decision_without_reviewers_round_1",
-	
+
 	'pjs.community_peer_review_to_proceed_round_2' => "
 		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />You may add your own corrections/comments on the merged reviewer’s version.<br /><br />
 		You can proceed with your decision after at least 1 nominated reviewer has submitted a review and there are no pending reviews/requests.<br /><br />
@@ -2101,16 +2102,16 @@ $STRARRAY = array(
 	'pjs.community_peer_review_take_decision_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
 	'pjs.community_peer_review_speedup_round_2' => "pjs.community_peer_review_speedup_round_2",
 	'pjs.community_peer_review_take_decision_without_reviewers_round_2' => "You can edit/comment on author's revised version and take your editorial decision.",
-	
-	
-	
+
+
+
 	/* PUBLIC PEER keys */
-	
+
 	'pjs.public_peer_review_to_proceed_round_1' => "pjs.public_peer_review_to_proceed_round_1",
 	'pjs.public_peer_review_take_decision_round_1' => "pjs.public_peer_review_take_decision_round_1",
 	'pjs.public_peer_review_speedup_round_1' => "pjs.public_peer_review_speedup_round_1",
 	'pjs.public_peer_review_take_decision_without_reviewers_round_1' => "pjs.public_peer_review_take_decision_without_reviewers_round_1",
-	
+
 	'pjs.public_peer_review_to_proceed_round_2' => "pjs.public_peer_review_to_proceed_round_2",
 	'pjs.public_peer_review_take_decision_round_2' => "pjs.public_peer_review_take_decision_round_2",
 	'pjs.public_peer_review_speedup_round_2' => "pjs.public_peer_review_speedup_round_2",
@@ -2123,7 +2124,7 @@ $STRARRAY = array(
 	'pjs.copy_editing_text' => 'In Copy editing',
 	'pjs.copy_editing_proof_text' => 'Proof is being produced by Copy Editor',
 	'pjs.copyeditinground_label_clear' => 'Copy editing',
-	
+
 	'pjs.layout_approve_btn_text' => 'Approve',
 	'pjs.layout_save_btn_text' => 'Save',
 	'pjs.layout_html_preview_btn_text' => 'HTML preview',
@@ -2131,14 +2132,14 @@ $STRARRAY = array(
 	'pjs.layout_revert_btn_text' => 'Revert',
 	'pjs.view_ce_version_btn' => "See copy edited version",
 	'pjs.copy_layout_editing_text' => "Manuscript in production",
-	
-	
+
+
 	/* The XML is not valid */
 	'pjs.xmlIsNotValid_OnSaveInDataBase' => 'The XML is not valid',
 	'pjs.xmlIsNotValid' => 'The XML is not valid',
-	
+
 	'pjs.no_such_layout_for_this_document' => 'You\'re not Layout Editor for the current document!',
-		
+
 	'comments.currentSelectionCommentIsUnavailable' => 'You cannot comment on the current selection. <br/> Please change your selection.',
 	'pjs.copy_editing_proceed_btn_text' => 'Proceed',
 
@@ -2146,16 +2147,16 @@ $STRARRAY = array(
 	'pwt.ready_to_submit_documentfor_submission_btn' => 'Ready to submit',
 	'pwt.submit_document_btn' => 'Submit',
 	'pwt.document_ready_for_review_mail_subject' => 'Document is ready for review',
-	
+
 	'pwt.document_ready_for_submit_mail_subject' => '[PENSOFT WRITING TOOL] Document ready for submission',
-	
+
 	'pwt.validation.missingSubjectClassification' => 'Subject classification is required for this type of document',
 	'pwt.validation.ChecklistTaxonRequired1' => 'You need to add at least 1 taxon',
 	'pwt.validation.identificationKeyKeyCoupletRequired' => 'You need to add at least 1 couplet',
 	'pwt.validation.atLeastOneFieldRequiredInWebLocations' => 'At least one filed is required',
 	'pwt.validation.usageRightsNotesisRequired' => 'pwt.validation.usageRightsNotesisRequired',
 	'pwt.validation.projectDescriptionAtLeasOneFieldRequired' => 'pwt.validation.projectDescriptionAtLeasOneFieldRequired',
-	
+
 	'pjs.template_notes_label' => 'You may enter a personal message to the recipient here.',
 
 	'pjs.invite_at_least_one_nom_pan_reviewer' => 'You have to select at least 1 nominated and 1 panel reviewer',
@@ -2184,12 +2185,12 @@ $STRARRAY = array(
 	'pjs.versionIsReadonly' => 'This is a read-only version!',
 	'pjs.no_se_editors_to_suggest' => 'There is no exact match between the article\'s metadata and the expertise of a subject editors. Please assign a subject editor with closest possible expertise.',
 	'pwt.documentIsReadonly' => 'This is a read-only version!',
-	'pwt.validation.noSubObjectsAndEmptyValueInFieldErr' => 'Content', 
+	'pwt.validation.noSubObjectsAndEmptyValueInFieldErr' => 'Content',
 	'pjs.youHaveToSelectChecklistNomenclatureFirst' => 'Please assign your checklist to the closest higher rank in the present classification',
-	
+
 	'pjs.se_version_author_text' => 'View merged editor\'s version',
-	
-	
+
+
 	'pjs.articleLocalitiesAllLocalities' => 'All localities',
 	'pjs.articleLocalitiesAllTaxa' => 'All taxa',
 	'pjs.articleLocalitiesClear' => 'Clear',
@@ -2199,11 +2200,11 @@ $STRARRAY = array(
 	'pjs.articleDoiLabel' => 'doi: ',
 	'pjs.articleAuthorsLabel' => 'Author',
 	'pjs.articleSELabel' => 'Academic editor',
-	
+
 	'pwt.index_list_head_text' => 'My recent manuscripts',
 	'pjs.bygeochronocal' => 'by Chronological period',
 	'pjs.mostvisitedarticles' => 'Most visited papers',
-	
+
 	'pjs.article_forum_list_head' => 'Comments',
 	'pjs.article_comment_success' => 'Your comment will be reviewed by Journal Editor before it appear in the comment list',
 	'pjs.article_comment_approve_success' => 'Comment is approved',
@@ -2213,7 +2214,11 @@ $STRARRAY = array(
 	'pjs.aof_login_to_comment' => 'Login to comment',
 	'pjs.aof_no_comments' => 'There are no comments to this article',
 	'pjs.email_notifications' => 'Email notifications',
-	'pjs.aof_view_poll_link' => 'See Review form',	 
-	'pjs.comment_is_rejected' => 'This comment has been removed because it does not conform to the journal\'s policy.',
+	'pjs.aof_view_poll_link' => 'See Review form',
+	'pjs.comment_is_rejected' => 'This comment has been removed because it does not conform to the journal\'s policy.',	
+	'pwt.ready_to_submit_confirm_text' => 'You are about to submit this manuscript for pre-submission technical review. You will receive an email from us with our feedback / approval.',	
+	'pwt.can_submit_confirm_text' => 'You are about to submit this manuscript for peer-review. Please note that you will not be able to make any further changes to the manuscript before the end of review-round 1.',
+	'pwt.reject_documentfor_submission_btn' => 'Send feedback',
+	
 );
 ?>

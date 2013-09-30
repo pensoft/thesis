@@ -13,17 +13,17 @@ class cArticles extends cBase_Controller {
 		$this->m_articleId = (int)$this->GetValueFromRequestWithoutChecks('id');
 		$lObjectExistence = $this->m_articlesModel->GetObjectExistenceFields($this->m_articleId);
 		$lMetadata = $this->m_articlesModel->GetMetadata($this->m_articleId);
-		
+
 		$lInfoElementContent = $this->GetInfoElementContent();
 		$lResultArr = array(
 				'contents' => array(
 					'ctype' => 'evSimple_Block_Display',
 					'object_existence' => $lObjectExistence,
 					'name_in_viewobject' => 'contents',
-					'id' => $this->m_articleId,	
+					'id' => $this->m_articleId,
 					'info_content' => $lInfoElementContent['html'],
 					'main_tab_element_id' => $lInfoElementContent['main_tab_element_id'],
-					'controller_data' => $lMetadata,		
+					'controller_data' => $lMetadata,
 				),
 		);
 // 		var_dump($lResultArr);
@@ -32,7 +32,7 @@ class cArticles extends cBase_Controller {
 		$this->m_pageView = new pArticles(&$lResultArr);
 	//	$this->m_pageView = new pArticles(array_merge($this->m_commonObjectsDefinitions, $lResultArr));
 	}
-	
+
 	protected function GetInfoElementContent(){
 		$lDisplayType = $this->GetValueFromRequestWithoutChecks('display_type');
 		$_REQUEST['article_id'] = $this->m_articleId;//We set it for the ajax controller
@@ -51,10 +51,10 @@ class cArticles extends cBase_Controller {
 		switch($lDisplayType){
 			default:
 			case 'list':{
-				$lResult['html'] = $lAjaxController->GetMainListElementBase($lElementType);				
-				break;	
+				$lResult['html'] = $lAjaxController->GetMainListElementBase($lElementType);
+				break;
 			}
-			case 'element':{				
+			case 'element':{
 				$lResult['html'] = $lAjaxController->GetElementBase($lElementType, $lElementId, $lElementName);
 				break;
 			}
@@ -65,7 +65,7 @@ class cArticles extends cBase_Controller {
 		}
 		return $lResult;
 	}
-	
+
 	function GetShareMetaTags(){
 		$this->m_articlesModel = new mArticles();
 		$this->m_articleId = (int)$this->GetValueFromRequestWithoutChecks('id');
@@ -75,7 +75,7 @@ class cArticles extends cBase_Controller {
 		$this->m_commonObjectsDefinitions['keywords'] = trim($this->m_articleMetadata['keywords']);
 		return $this->GetFBMetadata() . $this->GetTwitterMetadata() . $this->GetMendeleyMetadata();
 	}
-	
+
 	function GetFBMetadata () {
 		return '
 			<meta property="og:image" content="' . SITE_URL . '/i/bdj-eye.png" />
@@ -83,9 +83,11 @@ class cArticles extends cBase_Controller {
 			<meta property="og:url" content="' . SITE_URL . '/articles.php?id=' . (int)$this->m_articleMetadata['document_id'] . '"/>
 			<meta property="og:site_name" content="' . $this->m_articleMetadata['journal_name'] . '"/>
 			<meta property="og:type" content="article"/>
+			<link rel="alternate" hreflang="en" type="application/pdf" title="PDF" href="/lib/ajax_srv/generate_pdf.php?readonly_preview=1&amp;document_id=' . (int)$this->m_articleMetadata['document_id'] . '" />
+			<link rel="alternate" hreflang="en" type="application/xml" title="XML" href="/lib/ajax_srv/article_elements_srv.php?action=download_xml&amp;item_id=' . (int)$this->m_articleMetadata['document_id'] . '" />
 		';
 	}
-	
+
 	function GetTwitterMetadata () {
 		return '';
 		/*return '
@@ -96,7 +98,7 @@ class cArticles extends cBase_Controller {
 			<meta property="og:type" content="article"/>
 		';*/
 	}
-	
+
 	function GetMendeleyMetadata() {
 		$lAuthorsMetaData = '';
 		$lAuthorsMetaDataSec = '';
@@ -111,39 +113,39 @@ class cArticles extends cBase_Controller {
 		}
 		foreach ($lAuthors as $key => $value) {
 			$lAuthorsMetaDataSec .= '
-				<meta name="eprints.creators_name" content="' . $value . '" /> 
+				<meta name="eprints.creators_name" content="' . $value . '" />
 			';
 		}
-		
+
 		foreach ($lAuthors as $key => $value) {
 			$lAuthorsMetaDataThird .= '
-				<meta name="citation_author" content="' . $value . '" />  
+				<meta name="citation_author" content="' . $value . '" />
 			';
 		}
-		
+
 		return '
 			<meta name="dc.title" content="' . trim($this->m_articleMetadata['title']) . '" />
 		   ' . $lAuthorsMetaData . '
 		   <meta name="dc.type" content="' . $this->m_articleMetadata['document_type'] . '" />
-		   <meta name="dc.source" content="' . $this->m_articleMetadata['journal_name'] . ' 1: e' . $this->m_articleMetadata['document_id'] . '" /> 
+		   <meta name="dc.source" content="' . $this->m_articleMetadata['journal_name'] . ' 1: e' . $this->m_articleMetadata['document_id'] . '" />
 		   <meta name="dc.date" content="' . $this->m_articleMetadata['publish_date'] . '" />
 		   <meta name="dc.identifier" content="' . $this->m_articleMetadata['doi'] . '" />
 		   <meta name="dc.publisher" content="Pensoft Publishers" />
 		   <meta name="dc.rights" content="http://creativecommons.org/licenses/by/3.0/" />
 		   <meta name="dc.format" content="text/html" />
 		   <meta name="dc.language" content="en" />
-		   
+
 		   <meta name="prism.publicationName" content="' . $this->m_articleMetadata['journal_name'] . '" />
-		   <meta name="prism.issn" content="1314-2828" /> 
-		   <meta name="prism.publicationDate" content="' . $this->m_articleMetadata['publish_date'] . '" /> 
+		   <meta name="prism.issn" content="1314-2828" />
+		   <meta name="prism.publicationDate" content="' . $this->m_articleMetadata['publish_date'] . '" />
 		   <meta name="prism.volume" content="1" />
-		   
+
 		   <meta name="prism.doi" content="' . $this->m_articleMetadata['doi'] . '" />
 		   <meta name="prism.section" content="' . $this->m_articleMetadata['document_type'] . '" />
 		   <meta name="prism.startingPage" content="e' . $this->m_articleMetadata['document_id'] . '" />
 		   <meta name="prism.copyright" content="' . date('Y') . ' ' . $this->m_articleMetadata['authors'] . '" />
 		   <meta name="prism.rightsAgent" content="bdj@pensoft.net" />
-		   
+
 		   <meta name="eprints.title" content="' . trim($this->m_articleMetadata['title']) . '" />
 		   ' . $lAuthorsMetaDataSec . '
 		   <meta name="eprints.type" content="' . $this->m_articleMetadata['document_type'] . '" />
@@ -154,18 +156,18 @@ class cArticles extends cBase_Controller {
 		   <meta name="eprints.publication" content="Pensoft Publishers" />
 		   <meta name="eprints.volume" content="1" />
 		   <meta name="eprints.pagerange" content="e' . $this->m_articleMetadata['document_id'] . '" />
-		   
+
 		   <meta name="citation_journal_title" content="' . $this->m_articleMetadata['journal_name'] . '" />
 		   <meta name="citation_publisher" content="Pensoft Publishers" />
 		   ' . $lAuthorsMetaDataThird . '
 		   <meta name="citation_title" content="' . trim($this->m_articleMetadata['title']) . '" />
 		   <meta name="citation_volume" content="1" />
-		   
+
 		   <meta name="citation_firstpage" content="e' . $this->m_articleMetadata['document_id'] . '" />
 		   <meta name="citation_doi" content="' . $this->m_articleMetadata['doi'] . '" />
 		   <meta name="citation_issn" content="1314-2828" />
 		   <meta name="citation_date" content="' . $this->m_articleMetadata['publish_date'] . '" />
 		';
 	}
-	
+
 };

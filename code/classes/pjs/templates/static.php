@@ -3306,7 +3306,7 @@ function generateFBLink($pId) {
 
 function generateTwitterLink($pId) {
 	if($pId) {
-		$lUrl = urldecode(SITE_URL . '/articles.php?id=' . $pId);
+		$lUrl = urldecode(SITE_URL . 'articles.php?id=' . $pId);
 		return "href=\"javascript:(function(){window.twttr=window.twttr||{};var D=550,A=450,C=screen.height,B=screen.width,H=Math.round((B/2)-(D/2)),G=0,F=document,E;if(C&gt;A){G=Math.round((C/2)-(A/2))}window.twttr.shareWin=window.open('http://twitter.com/share','','left='+H+',top='+G+',width='+D+',height='+A+',personalbar=0,toolbar=0,scrollbars=1,resizable=1');E=F.createElement('script');E.src='http://platform.twitter.com/bookmarklets/share.js?v=1';F.getElementsByTagName('head')[0].appendChild(E)}());\"";
 	}
 	return 'href="#"';
@@ -3314,7 +3314,7 @@ function generateTwitterLink($pId) {
 
 function generateGPlusLink($pId) {
 	if($pId) {
-		$lUrl = urldecode(SITE_URL . '/articles.php?id=' . $pId);
+		$lUrl = urldecode(SITE_URL . 'articles.php?id=' . $pId);
 		return "href=\"https://plus.google.com/share?url=$lUrl\" onclick=\"javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=550,width=450');return false;\"";
 	}
 	return 'href="#"';
@@ -3322,24 +3322,34 @@ function generateGPlusLink($pId) {
 
 function generateMendeleyLink($pId) {
 	if($pId) {
-		$lUrl = urldecode(SITE_URL . '/articles.php?id=' . $pId);
+		$lUrl = urldecode(SITE_URL . 'articles.php?id=' . $pId);
 		return "href=\"#\" onclick=\"javascript:window.open('http://www.mendeley.com/import/?url=$lUrl', '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=550,width=450');return false;\"";
 	}
 	return 'href="#"';
+}
+
+function rewriteNames($pNamesString) {
+	$lNamesArr = explode(',', $pNamesString);
+	$lFirstNames = $lNamesArr[1];
+	$lLastNames = $lNamesArr[0];
+	$lFirstNamesArr = explode(' ', $lFirstNames);
+	foreach ($lFirstNamesArr as $key => $value) {
+		$lRes .= mb_substr($value, 0, 1, 'UTF-8');
+	}
+	return $lLastNames . ' ' . $lRes;
 }
 
 function generateEmailLink($pArticleId, $pDocumentName, $pJournalName, $pJournalShortName, $pDoi, $pAuthors, $pPublishDate) {
 	if($pArticleId) {
 		$pDocumentName = trim($pDocumentName);
 		preg_match('/(\d+)[-–\/](\d+)[-–\/](\d+)/', $pPublishDate, $lMatch);
-		$lDocumentLink = SITE_URL . '/articles.php?id=' . $pArticleId;
+		$lDocumentLink = SITE_URL . 'articles.php?id=' . $pArticleId;
 
-		$lAuthorsArr = explode(',', $pAuthors);
+		$lAuthorsArr = explode('; ', $pAuthors);
 		$pAuthors = '';
 		$i = 1;
 		foreach ($lAuthorsArr as $key => $value) {
-			$lAuthorNamesArr = explode(' ', trim($value));
-			$pAuthors .= $lAuthorNamesArr[1] . ' ' . substr($lAuthorNamesArr[0], 0, 1) . (count($lAuthorsArr) == $i ? '' : ', ');
+			$pAuthors .= rewriteNames($value) . (count($lAuthorsArr) == $i ? '' : ', ');
 			$i++;
 		}
 
