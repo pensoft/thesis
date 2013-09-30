@@ -25,8 +25,6 @@
 
 
 		init: function( editor ) {
-
-
 			/**
 			 * Create the UI elements required by this plugin
 			 * UI is the floating toolbar
@@ -46,7 +44,7 @@
 					'.pos-relative {position:relative}',
 					'.cke_floatingtools{',
 						'position:absolute;',
-						'left:0;',
+						'left:0;',						
 						'top:-500px;',
 						'padding: 5px 0 0 6px;',
 						'border:1px solid #b1b1b1;',
@@ -55,8 +53,8 @@
 						'transition:opacity .1s;-o-transition:opacity .1s;-moz-transition:opacity .1s;-webkit-transition:opacity .1s;',
 					'}',
 					'</style>',
-					'<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>',
-					'<span id="' + editor.ui.spaceId( 'floatingtools' ) + '" class="cke_floatingtools cke_top" role="group" aria-labelledby="', labelId, '" onmousedown="return false;">' ];
+					'<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>', 
+					'<span id="' + editor.ui.spaceId( 'floatingtools' ) + '" class="cke_floatingtools cke_top" role="group" aria-labelledby="', labelId, '" onmousedown="return false;" style="display:none;">' ];
 
 				var groupStarted, pendingSeparator;
 				var toolbars = editor.floatingtools.toolbars,
@@ -202,12 +200,12 @@
 			 */
 			editor.on('contentDom', function( event ) {
 
-				unfocus_toolbar();
+				hide_toolbar(editor);
 
 				/**
 				 * Attach an eventhandler to the mouse-up event
 				 */
-				editor.document.on('mouseup', function( mouse_event ) {
+				editor.document.on('mouseup', function( mouse_event ) {					
 					// When user right-clicks, ctrl-clicks, etc. then do not show the toolbar
 					data = mouse_event.data.$;
 					if (data.button !== 0 || data.ctrlKey || data.altKey || data.shiftKey) return true;
@@ -215,9 +213,9 @@
 					// When the user clears the selection by single-clicking in the editor then this event is fired before the selection is removed
 					// So we add a short delay to give the browser a chance to remove the selection before we do anything
 					setTimeout( function() {
-						if (is_text_selected()) {
+						if (is_text_selected(editor)) {
 							// Save the current mouse-position
-							set_mousepos (mouse_event.data.$);
+							set_mousepos (mouse_event.data.$, editor);
 							// when there is text selected after mouse-up: show the toolbar
 							editor.execCommand('showFloatingTools');
 						} else {
@@ -242,7 +240,7 @@
 				 */
 				editor.on('blur', function( e ) {
 					if (editor.floatingtools.hide_on_blur) {
-						hide_toolbar();
+						hide_toolbar(editor);
 					}
 				});
 
@@ -251,9 +249,9 @@
 				 * Attach the mouse-over event to the toolbar.
 				 * When cursor is above the toolbar then set opacity to 1
 				 */
-				toolbar = get_element();
+				toolbar = get_element(editor);
 				toolbar.on('mouseover', function( mouse_event ) {
-					focus_toolbar();
+					focus_toolbar(editor);
 				});
 
 
@@ -261,11 +259,10 @@
 				 * When the mouse moves out of the toolbar then make it transparent again
 				 */
 				toolbar.on('mouseout', function( mouse_event ) {
-					unfocus_toolbar();
+					unfocus_toolbar(editor);
 				})
 
-				editor.container.addClass('pos-relative');
-				console.log(editor.container);
+				editor.container.addClass('pos-relative');				
 			});
 
 
@@ -275,17 +272,17 @@
 			 */
 			editor.addCommand( 'showFloatingTools', {
 				exec : function( editor ) {
-					if (is_text_selected()) {
-						toolbar = get_element();
-						unfocus_toolbar();
+					if (is_text_selected(editor)) {
+						toolbar = get_element(editor);
+						unfocus_toolbar(editor);
 						toolbar.show();
 
 						// Get the size of the toolbar
-						size = get_toolbar_size()
+						size = get_toolbar_size(editor)
 						// Get the offset of the editor
-						offset = get_editor_offset();
+						offset = get_editor_offset(editor);
 						// Get the mouse position
-						pos = get_mousepos();
+						pos = get_mousepos(editor);
 
 						// Calculate the position for the toolbar
 						toolpos = calculate_position(pos, size, offset);
@@ -305,7 +302,7 @@
 			 */
 			editor.addCommand( 'hideFloatingTools', {
 				exec : function( editor ) {
-					hide_toolbar();
+					hide_toolbar(editor);
 				}
 			});
 
@@ -315,9 +312,9 @@
 			 */
 
 
-			hide_toolbar = function() {
+			hide_toolbar = function(editor) {
 				if (false != editor.floatingtools.is_visible) {
-					toolbar = get_element();
+					toolbar = get_element(editor);
 					toolbar.hide();
 					editor.floatingtools.is_visible = false;
 				}
@@ -327,7 +324,7 @@
 			/**
 			 * Store the current mouse-position, so we can position the toolbar near the cursor
 			 */
-			set_mousepos = function(data) {
+			set_mousepos = function(data, editor) {
 				editor.floatingtools.mousepos = {
 					left: data.clientX,
 					top: data.clientY
@@ -339,7 +336,7 @@
 			/**
 			 * Store the current mouse-position, so we can position the toolbar near the cursor
 			 */
-			get_mousepos = function() {
+			get_mousepos = function(editor) {
 				return editor.floatingtools.mousepos;
 			}
 
@@ -347,7 +344,7 @@
 			/**
 			 * Returns the main toolbar-object (the parent of all items in the floating-toolbar)
 			 */
-			get_element = function() {
+			get_element = function(editor) {
 				if (! editor.floatingtools.dom) {
 					var dom_id = editor.ui.spaceId( 'floatingtools' );
 					editor.floatingtools.dom = CKEDITOR.document.getById( dom_id );
@@ -360,7 +357,7 @@
 			/**
 			 * Returns the offset of the editor area (effectively the height of the top-toolbar)
 			 */
-			get_editor_offset = function() {
+			get_editor_offset = function(editor) {
 				if (! editor.floatingtools.editoroffset) {
 					var editor_id = editor.ui.spaceId( 'contents' );
 					var obj = CKEDITOR.document.getById( editor_id );
@@ -406,9 +403,9 @@
 			/**
 			 * Returns the size of the floating toolbar
 			 */
-			get_toolbar_size = function() {
+			get_toolbar_size = function(editor) {
 				if (! editor.floatingtools.toolbarsize) {
-					var obj = get_element();
+					var obj = get_element(editor);
 					editor.floatingtools.toolbarsize = {
 						width: obj.$.offsetWidth,
 						height: obj.$.offsetHeight
@@ -422,7 +419,7 @@
 			 * Check if text is selected.
 			 * Retrns true when there is at least 1 character selected in the editor
 			 */
-			is_text_selected = function () {
+			is_text_selected = function (editor) {
 				var text = editor.getSelection().getSelectedText();
 				return text != '';
 			}
@@ -431,8 +428,8 @@
 			/**
 			 * Make the toolbar opaque
 			 */
-			focus_toolbar = function() {
-				obj = get_element();
+			focus_toolbar = function(editor) {
+				obj = get_element(editor);
 				obj.setOpacity(1);
 			}
 
@@ -440,9 +437,10 @@
 			/**
 			 * Make the toolbar transparent
 			 */
-			unfocus_toolbar = function() {
-				obj = get_element();
+			unfocus_toolbar = function(editor) {
+				obj = get_element(editor);
 				obj.setOpacity(0.25);
+				//console.log('unfocus', editor);
 			},
 
 

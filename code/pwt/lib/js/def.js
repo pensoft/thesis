@@ -95,13 +95,43 @@ var gCitationFlag = 0;
 
 var gCKEditorConfigs = {};
 
+var gInstanceCitations = {};
+
 var gAutoSaveFlag = 0;
+
+var gInstancesBeingLoaded = [];
+
+var gCKEditorsBeingLoaded = [];
 
 function SaveCKEditorConfig(pTextareaId, pConfig){
 	gCKEditorConfigs[pTextareaId] = pConfig;
 }
 
+function MarkCKEditorAsLoading(pTextareaId){
+	var lElementIdx = jQuery.inArray( pTextareaId, gCKEditorsBeingLoaded); 
+	if(lElementIdx < 0){
+		gCKEditorsBeingLoaded.push(pTextareaId);
+	}	
+}
+
+function MarkCKEditorAsLoaded(pTextareaId){
+	var lElementIdx = jQuery.inArray( pTextareaId, gCKEditorsBeingLoaded); 
+	if(lElementIdx >= 0){
+		gCKEditorsBeingLoaded.splice(lElementIdx, 1);
+	}	
+}
+
+function GetLoadingCKEditorIds(){
+	return gCKEditorsBeingLoaded;
+}
+
+function GetLoadingCKEditorsCount(){
+	var lEditors = GetLoadingCKEditorIds();
+	return lEditors.length;
+}
+
 function ReloadCKEditor(pTextareaId){
+	MarkCKEditorAsLoading(pTextareaId);
 	CKEDITOR.replace(pTextareaId, gCKEditorConfigs[pTextareaId]);
 }
 
@@ -265,6 +295,7 @@ function handleMovementLinksDisplay(pInstanceId, pAllowMoveUp, pAllowMoveDown){
 	}
 }
 
+
 function ChangeInstanceMode(pDocumentId, pInstanceId, pRootInstanceId, pLevel, pMode){
 	if(!pRootInstanceId){
 		pRootInstanceId = GetRootInstanceId();
@@ -276,6 +307,7 @@ function ChangeInstanceMode(pDocumentId, pInstanceId, pRootInstanceId, pLevel, p
 	if(!pDocumentId || !pInstanceId || !pRootInstanceId || !pLevel){
 		return;
 	}
+	pInstanceId = parseInt(pInstanceId, 10);	
 	$.ajax({
 		url : gDocumentAjaxSrv,
 		dataType : 'json',
@@ -293,8 +325,9 @@ function ChangeInstanceMode(pDocumentId, pInstanceId, pRootInstanceId, pLevel, p
 				alert(pAjaxResult['err_msg']);
 				return;
 			}
+			var lHtml = pAjaxResult['html'];			
 			var lInstanceWrapper = $('#instance_wrapper_' + pInstanceId);
-			lInstanceWrapper.before(pAjaxResult['html']);
+			lInstanceWrapper.before(lHtml);
 			lInstanceWrapper.remove();
 
 		}
@@ -2121,7 +2154,9 @@ function changeTabbedElementActiveTab(pInstanceId, pTabbedElementId, pActiveItem
 
 
 
-	lActiveItem.show();
+	lActiveItem.show({
+		complete : function(){console.log(1);}
+	});
 
 	var lTabs = lTabbedElement.find('.tabbedElementTab');
 	var lActiveTab = lTabbedElement.find('#tabbed_element_tab_holder_' + pInstanceId + '_' + pTabbedElementId + '_' + pActiveItemId);
@@ -2129,46 +2164,56 @@ function changeTabbedElementActiveTab(pInstanceId, pTabbedElementId, pActiveItem
 	lActiveTab.addClass('P-Active');
 }
 
-function scrollToTabbedElementField(pTabActiveInstanceId, pInstanceId, pFieldId){
-	var lInstanceWrapper = $('#instance_wrapper_' + pTabActiveInstanceId);
-
-	var lTabbedParents = lInstanceWrapper.parents('.tabbedElementItem');
-	//Обикаляме всички parent-и, които са item-и на tabbed елемент
-	for(var i = 0; i < lTabbedParents.length; ++i){
-		var lTabbedItem = $(lTabbedParents[i]);
-		var lTabbedItemParentInstanceId, lTabbedElementId, lTabbedItemInstanceId;
-		var lPattern = new RegExp("^tabbed_element_item_wrapper_(\\d+)_(\\d+)_(\\d+)$","i");
-		var lMatch = lPattern.exec(lTabbedItem.attr('id'));
-		if(lMatch !== null){
-			lTabbedItemParentInstanceId = lMatch[1];
-			lTabbedElementId = lMatch[2];
-			lTabbedItemInstanceId = lMatch[3];
-			changeTabbedElementActiveTab(lTabbedItemParentInstanceId, lTabbedElementId, lTabbedItemInstanceId);
+function scrollToTabbedElementField(pTabbedInstanceId, pFieldId){
+	
+	var lTabbedElementId = $('#tabbed_element_id_' + pTabbedInstanceId).val();
+//	console.log(pTabbedInstanceId, pFieldId, lTabbedElementId);
+	var lTabInstanceIdsList = new Array();
+	var lFieldInstanceIdsList = new Array();
+	$.ajax({
+		url : gDocumentAjaxSrv,
+		async: false,
+		dataType : 'json',
+		data :{
+			action : 'get_tabbed_instances_with_specific_field_list',
+			instance_id : pTabbedInstanceId,
+			tabbed_element_id : lTabbedElementId,
+			field_id : pFieldId
+		},
+		success: function(pAjaxResult){
+			lTabInstanceIdsList = pAjaxResult['tab_instance_ids'];
+			lFieldInstanceIdsList = pAjaxResult['field_instance_ids'];
 		}
+	});
+	if(lTabInstanceIdsList.length == 0){
+		return;
 	}
-
-	scrollToField(pInstanceId, pFieldId);
+	
+	var lActiveTabInstanceId = $('#tabbed_element_' + pTabbedInstanceId + '_' + lTabbedElementId + '_active_item').val();
+	var lFieldInstanceId = 0;
+	var lElementIdx = jQuery.inArray( lActiveTabInstanceId, lTabInstanceIdsList);
+	if( lElementIdx < 0){
+		changeTabbedElementActiveTab(pTabbedInstanceId, lTabbedElementId, lTabInstanceIdsList[0]);
+		lFieldInstanceId = lFieldInstanceIdsList[0];
+	}else{
+		lFieldInstanceId = lFieldInstanceIdsList[lElementIdx];
+	}
+	//Scroll to the field after all the ckeditors have been loaded because they may change their height 
+	(function wait(){ 
+	   if(GetLoadingCKEditorsCount() > 0){
+	      return setTimeout(wait, 100);
+	   } 
+	   scrollToField(lFieldInstanceId, pFieldId);
+	 }());
+		
+//	scrollToField(lFieldInstanceId, pFieldId);
+	
 }
 
 function scrollToField(pInstanceId, pFieldId){
 	var lItemWrapper = $('#field_wrapper_' + pInstanceId + '_' + pFieldId);
 	if(!lItemWrapper.length)//Ако случайно не сме намерили елемента - край
 			return;
-//	//Гледаме дали е в елемент с табове. Ако да - трябва да се уверим че този елемент се вижда
-//	var lTabbedParents = lItemWrapper.parents('.tabbedElementItem');
-//	//Обикаляме всички parent-и, които са item-и на tabbed елемент
-//	for(var i = 0; i < lTabbedParents.length; ++i){
-//		var lTabbedItem = $(lTabbedParents[i]);
-//		var lTabbedItemParentInstanceId, lTabbedElementId, lTabbedItemInstanceId;
-//		var lPattern = new RegExp("^tabbed_element_item_wrapper_(\\d+)_(\\d+)_(\\d+)$","i");
-//		var lMatch = lPattern.exec(lTabbedItem.attr('id'));
-//		if(lMatch !== null){
-//			lTabbedItemParentInstanceId = lMatch[1];
-//			lTabbedElementId = lMatch[2];
-//			lTabbedItemInstanceId = lMatch[3];
-//			changeTabbedElementActiveTab(lTabbedItemParentInstanceId, lTabbedElementId, lTabbedItemInstanceId);
-//		}
-//	}
 
 	//Накрая скролваме до търсения елемент
 	if(gActiveInstanceFormName == gPopupFormName){
@@ -2846,22 +2891,33 @@ function setFieldValueNullByInstanceId(pInstanceId, pFieldId) {
 }
 
 function getInstanceFieldCitations(pInstanceId, pFieldId, pCitationsType){
-	var lResult = new Array();
-	$.ajax({
-		url : gCitationsSrv,
-		dataType : 'json',
-		async : false,
-		data :{
-			'instance_id' : pInstanceId,
-			'field_id' : pFieldId,
-			'citation_type' : pCitationsType,
-			'action' : 'get_instance_field_citations'
-		},
-		success : function(pAjaxResult){
-			lResult = pAjaxResult;
-		}
-	});
-	return lResult;
+	if(!gInstanceCitations[pInstanceId]){//If the citations for this instance have not been cached	
+		$.ajax({
+			url : gCitationsSrv,
+			dataType : 'json',
+			async : false,
+			data :{
+				'instance_id' : pInstanceId,
+				'action' : 'get_instance_citations'
+			},
+			success : function(pAjaxResult){
+				var lInstanceIds = pAjaxResult['instance_ids'];
+				var lCitations = pAjaxResult['citations'];
+				for(var i = 0; i < lInstanceIds.length; i++){
+					var lInstanceId = lInstanceIds[i];
+					var lInstanceCitations = lCitations[lInstanceId];
+					if(!lInstanceCitations){
+						lInstanceCitations = {};
+					}
+					gInstanceCitations[lInstanceId] = lInstanceCitations;
+				}
+			}
+		});
+	}
+	if(gInstanceCitations[pInstanceId] && gInstanceCitations[pInstanceId][pFieldId] && gInstanceCitations[pInstanceId][pFieldId][pCitationsType]){
+		return gInstanceCitations[pInstanceId][pFieldId][pCitationsType];
+	}
+	return new Array();
 }
 
 function PerformCitationSave(pInstanceId, pFieldId, pCitationId, pCitationType, pCitationObjects, pCitationMode){
@@ -2891,6 +2947,8 @@ function PerformCitationSave(pInstanceId, pFieldId, pCitationId, pCitationType, 
 	if(pCitationId > 0){
 		autoSaveInstance();
 	}
+	//Mark the instance citations as dirty so that they can be recached
+	gInstanceCitations[pInstanceId] = false;
 	return lResult;
 }
 

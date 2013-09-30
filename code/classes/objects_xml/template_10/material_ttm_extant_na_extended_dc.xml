@@ -1,6 +1,5 @@
 <material>
-	<extended_darwincore>
-	  <fields>
+	<fields>
 		<search_dc_term id="249">
 		  <value/>
 		</search_dc_term>
@@ -8,6 +7,8 @@
 		  <value value_id="6"></value>
 		</type_status>
 	  </fields>
+	<extended_darwincore>
+	  
 	  <ttm_extant_na_extended_dc>
 		<occurrence>
 		  <fields>
