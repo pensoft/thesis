@@ -457,6 +457,26 @@
 			</td>
 		</tr>
 	</xsl:template>
+	
+	<!-- Traits coverage -->
+	<xsl:template match="*[@object_id='239']" mode="bodySections">
+		<xsl:if test="./fields/*[@id='491']/value != '' or ./subsection/@object_id != '' ">
+			<div class="P-Article-Preview-Block">
+				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+				<h1 id="traits-coverage"><xsl:value-of select="./@display_name" /></h1>
+				<xsl:if test="./fields/*[@id='491']/value != ''" >
+					<div class="P-Article-Preview-Block-Content" field_id="491">
+						<xsl:call-template name="markContentEditableField">
+							<xsl:with-param name="pObjectId" select="./@object_id" />
+							<xsl:with-param name="pFieldId">491</xsl:with-param>
+						</xsl:call-template>
+						<xsl:apply-templates select="./fields/*[@id='491']" mode="formatting"/>
+					</div>
+				</xsl:if>
+				<xsl:apply-templates mode="bodySubsection" select="./subsection"/>
+			</div>
+		</xsl:if>
+	</xsl:template>
 
 	<!-- Temporal Coverage -->
 	<xsl:template match="*[@object_id='194']" mode="bodySections">
@@ -466,7 +486,7 @@
 		<xsl:variable name="lFormationPeriod"><xsl:text>Formation Period</xsl:text></xsl:variable>
 		<xsl:variable name="lLivingTimePeriod"><xsl:text>Living Time Period</xsl:text></xsl:variable>
 
-		<xsl:if test="(count(.//*[@object_id='124']/fields/*[@id='335']/value[@value_id='4']) &gt; 0) or (count(.//*[@object_id='124']/fields/*[@id='335']/value[@value_id='1']) &gt; 0) or (count(.//*[@object_id='124']/fields/*[@id='335']/value[@value_id='3']) &gt; 0) or (count(.//*[@object_id='124']/fields/*[@id='335']/value[@value_id='2']) &gt; 0)">
+		<xsl:if test="(count(.//*[@object_id='124']/fields/*[@id='335']/value[@value_id='4']) &gt; 0) or (count(.//*[@object_id='124']/fields/*[@id='335']/value[@value_id='1']) &gt; 0) or (count(.//*[@object_id='124']/fields/*[@id='335']/value[@value_id='3']) &gt; 0) or (count(.//*[@object_id='124']/fields/*[@id='335']/value[@value_id='2']) &gt; 0) or (./fields/*[@id='492']/value != '')">
 			<div class="P-Article-Preview-Block">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
 				<div class="P-Article-Preview-Block-Title"><xsl:value-of select="$lSecTitle" /></div>
@@ -520,6 +540,20 @@
 								<xsl:if test="position()!=last()"><xsl:text>; </xsl:text></xsl:if>
 								<xsl:if test="position()=last()"><xsl:text>. </xsl:text></xsl:if>
 							</xsl:for-each>
+						</div>
+					</div>
+				</xsl:if>
+				<!-- Notes -->
+				<xsl:if test="./fields/*[@id='492']/value != ''">
+					<div class="myfieldHolder">
+						<span class="fieldLabel">Notes:&#160;</span>
+						<div class="fieldValue">
+							<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
+							<xsl:call-template name="markContentEditableField">
+								<xsl:with-param name="pObjectId" select="./@object_id" />
+								<xsl:with-param name="pFieldId">492</xsl:with-param>
+							</xsl:call-template>
+							<xsl:apply-templates select="./fields/*[@id='492']" mode="formatting"/>							
 						</div>
 					</div>
 				</xsl:if>

@@ -162,6 +162,8 @@ function checkIfObjectFieldIsEditable($pObjectId, $pFieldId){
 		9 => array(3),
 		98 => array(259, 260, 257, 255, 256, 258, 264, 261, 262),
 		99 => array(255, 256, 258, 259, 260, 264, 271, 261, 262),
+		239 => array(491),
+		194 => array(492),
 		222 => array(482),//Fig caption
 		224 => array(482),//Plate caption
 		223 => array(482),//Video caption
