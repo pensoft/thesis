@@ -239,19 +239,23 @@ $gTemplArr = array(
 							</div>
 	',
 
-	'fields.textarea' => '
+	'fields.textarea' => '	
 												<div class="P-Data-Resources-Control">
 													<div class="P-Data-Resources-Control-Txt">
 														{field_label}
 														<div class="P-Data-Resources-Control-Right"></div>
 														<div class="P-Clear"></div>
 													</div>
-
-													<div class="P-Data-Resources-Textarea SmallTextArea">
-														{_createEditorToolbarHolder(create_common_toolbar_holder, common_toolbar_holder_id)}
-														{field}
-														{actions_content}
-														{_createSmallHtmlEditor(field_html_identifier, height, width, toolbar_name, use_common_toolbar, common_toolbar_holder_id)}
+													<div class="P-Textarea-Wrapper {_getInputWrapperClass(has_help_label, has_validation_error, help_label_display_style)}">
+														<div class="P-Data-Resources-Textarea SmallTextArea">
+															{_createEditorToolbarHolder(create_common_toolbar_holder, common_toolbar_holder_id)}
+															{field}
+															{actions_content}
+															{_createSmallHtmlEditor(field_html_identifier, height, width, toolbar_name, use_common_toolbar, common_toolbar_holder_id)}
+															{_displayFieldExampleLabel(has_example_label, example_label)}
+														</div>
+														{_displayFieldHelpLabel(has_help_label, help_label, help_label_display_style)}
+														<div class="P-Clear"></div>
 													</div>
 												</div>
 	',
@@ -284,12 +288,15 @@ $gTemplArr = array(
 														<div class="P-Data-Resources-Control-Right"></div>
 														<div class="P-Clear"></div>
 													</div>
-													<div class="P-Data-Resources-Textarea SmallTextArea">
-
-														{field}
-														{actions_content}
-													</div>
-													{_displayFieldExampleLabel(has_example_label, example_label)}
+													<div class="P-Textarea-Wrapper {_getInputWrapperClass(has_help_label, has_validation_error, help_label_display_style)}">
+														<div class="P-Data-Resources-Textarea SmallTextArea">
+															{field}
+															{actions_content}
+															{_displayFieldExampleLabel(has_example_label, example_label)}
+														</div>
+														{_displayFieldHelpLabel(has_help_label, help_label, help_label_display_style)}
+														<div class="P-Clear"></div>
+													</div>	
 												</div>
 	',
 		
@@ -341,12 +348,16 @@ $gTemplArr = array(
 														{field_label}
 														<div class="P-Clear"></div>
 													</div>
-													<div class="P-Data-Resources-Textarea NormalTextArea">
-														{field}
-														{actions_content}
-														{_createHtmlEditor(field_html_identifier)}
-
-													</div>
+													<div class="P-Textarea-Wrapper {_getInputWrapperClass(has_help_label, has_validation_error, help_label_display_style)}">
+														<div class="P-Data-Resources-Textarea NormalTextArea">
+															{field}
+															{actions_content}
+															{_createHtmlEditor(field_html_identifier)}														
+															{_displayFieldExampleLabel(has_example_label, example_label)}
+														</div>
+														{_displayFieldHelpLabel(has_help_label, help_label, help_label_display_style)}
+														<div class="P-Clear"></div>
+													</div>	
 												</div>
 	',
 
@@ -357,11 +368,16 @@ $gTemplArr = array(
 														{field_label}
 														<div class="P-Clear"></div>
 													</div>
-													<div class="P-Data-Resources-Textarea">
-														{field}
-														{actions_content}
-														{_createHtmlEditorReferenceCitation(field_html_identifier)}
-													</div>
+													<div class="P-Textarea-Wrapper {_getInputWrapperClass(has_help_label, has_validation_error, help_label_display_style)}">
+														<div class="P-Data-Resources-Textarea">
+															{field}
+															{actions_content}
+															{_createHtmlEditorReferenceCitation(field_html_identifier)}
+															{_displayFieldExampleLabel(has_example_label, example_label)}
+														</div>
+														{_displayFieldHelpLabel(has_help_label, help_label, help_label_display_style)}
+														<div class="P-Clear"></div>
+													</div>	
 												</div>
 	',
 
@@ -371,12 +387,16 @@ $gTemplArr = array(
 														{field_label}
 														<div class="P-Clear"></div>
 													</div>
-													<div class="P-Data-Resources-Textarea NormalTextArea">
-														{field}
-														{actions_content}
-														{_createHtmlEditorNoCitation(field_html_identifier)}
-
-													</div>
+													<div class="P-Textarea-Wrapper {_getInputWrapperClass(has_help_label, has_validation_error, help_label_display_style)}">
+														<div class="P-Data-Resources-Textarea NormalTextArea">
+															{field}
+															{actions_content}
+															{_createHtmlEditorNoCitation(field_html_identifier)}
+															{_displayFieldExampleLabel(has_example_label, example_label)}
+														</div>
+														{_displayFieldHelpLabel(has_help_label, help_label, help_label_display_style)}
+														<div class="P-Clear"></div>
+													</div>													
 												</div>
 	',
 

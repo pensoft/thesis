@@ -356,6 +356,8 @@ $gTemplArr = array(
 
 	'document.tabbedElement_head' => '<div class="tabbed_element P-Tabbed-Element-Holder" id="tabbed_element_{instance_id}_{tabbed_element_id}" active_item_id="{active_element_id}">
 		<input type="hidden" id="tabbed_element_{instance_id}_{tabbed_element_id}_active_item" name="tabbed_element_{instance_id}_{tabbed_element_id}_active_item" value="{active_element_id}">
+		<input type="hidden" id="tabbed_element_id_{instance_id}" name="tabbed_element_id_{instance_id}" value="{tabbed_element_id}">
+		{instance_tab_containers}
 	',
 
 	'document.tabbedElement_foot' => '</div>',
@@ -653,6 +655,10 @@ Please go to the the manuscript and concider our comments in the right side bar.
 
 The Pensoft Writing Tool (PWT)<br /><br />
 helpdesk@pensoft.net<br />
+	',
+	
+	'document.author_thanks' => '
+		Dear {first_name} {last_name} thanks for your manuscript.
 	',
 );
 

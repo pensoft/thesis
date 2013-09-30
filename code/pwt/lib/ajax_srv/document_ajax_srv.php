@@ -7,10 +7,12 @@ session_write_close();
 $gAction = $_REQUEST['action'];
 $gDocumentId = $_REQUEST['document_id'];
 $gInstanceId = $_REQUEST['instance_id'];
+$gFieldId = $_REQUEST['field_id'];
 $gRootInstanceId = $_REQUEST['root_instance_id'];
 $gMode = (int)$_REQUEST['mode'];
 $gLevel = (int)$_REQUEST['level'];
 $gActionId = (int)$_REQUEST['action_id'];
+$gTabbedElementId = (int)$_REQUEST['tabbed_element_id'];
 
 if($gAction == 'move_up_in_tree' || $gAction == 'move_down_in_tree'){
 	$lOper = 1;
@@ -128,6 +130,29 @@ if($gAction == 'move_up_in_tree' || $gAction == 'move_down_in_tree'){
 	$lCon->Execute($lSql);
 // 	var_dump($lSql);
 	$lResult['instance_id'] = (int)$lCon->mRs['id'];
+}elseif($gAction == 'get_tabbed_instances_with_specific_field_list'){
+	$lCon = new DBCn();
+	$lCon->Open();
+	$lSql = 'SELECT p.id as tab_instance_id, i1.id as field_instance_id 
+	FROM pwt.document_object_instances i -- Whole element instance  
+	JOIN pwt.document_object_instances p ON p.document_id = i.document_id AND substring(p.pos, 1, char_length(i.pos)) = i.pos -- Tab instance
+	JOIN pwt.document_object_instances i1 ON i1.document_id = i.document_id AND substring(i1.pos, 1, char_length(p.pos)) = p.pos	-- Tab subinstance which has the field
+	JOIN pwt.object_fields of ON of.object_id = i1.object_id
+	JOIN pwt.object_container_tabbed_item_details td ON td.object_container_tabbed_item_id = ' . (int)$gTabbedElementId . ' AND td.object_id = p.object_id
+	WHERE i.id = ' . (int)$gInstanceId . ' AND of.field_id = ' . (int)$gFieldId . '
+	ORDER BY p.pos ASC;';
+// 	var_dump($lSql);
+	$lCon->Execute($lSql);
+// 	var_dump($lCon->GetLastError());
+	$lTabInstanceIds = array();//The instance ids of the tabs
+	$lFieldInstanceIds = array();//The instance ids of the objects that have the field 
+	while(!$lCon->Eof()){
+		$lTabInstanceIds[] = $lCon->mRs['tab_instance_id'];
+		$lFieldInstanceIds[] = $lCon->mRs['field_instance_id'];
+		$lCon->MoveNext();
+	}	
+	$lResult['tab_instance_ids'] = $lTabInstanceIds;
+	$lResult['field_instance_ids'] = $lFieldInstanceIds;
 }
 
 displayAjaxResponse($lResult);

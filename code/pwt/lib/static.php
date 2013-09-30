@@ -3918,7 +3918,7 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 
 				}
 			}, null, null, 9);
-
+			MarkCKEditorAsLoaded(' . json_encode($pTextareaId . '_textarea') . ');
 		});
 
 		var instance = CKEDITOR.instances[\'' . $pTextareaId . '_textarea\'];
@@ -3929,7 +3929,7 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 
 		SaveCKEditorConfig(\'' . $pTextareaId . '_textarea\', {
 			' . GetCKEditorExtraAllowedContent() . ',
-			extraPlugins : \'figs,tbls,refs,autosave,sharedspace,sup_files'. $autogrow .'\',
+			extraPlugins : \'figs,tbls,refs,autosave,sharedspace,sup_files,toolbar,floating-tools'. $autogrow .'\',
 			on: {
 				instanceReady: function( evt ) {
 					var leditor = evt.editor;
@@ -3937,6 +3937,7 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 				}
 			},
 			toolbar : \'' . $pToolbarName . '\',
+			floatingtools : \'Basic\',
 			removePlugins: \'elementspath,resize\',
 			height: ' . (int)$pHeight . ',
 			autoGrow_minHeight: ' . (int)$pHeight . ',
@@ -6522,6 +6523,29 @@ function ExecActionType($pDocumentId, $pActionType) {
 				$msg = new cmessaging($lMessageData);
 				$msg->Display();
 
+				// send a message to
+				$lMessageData = array(
+					'siteurl' => SITE_URL,
+					'mailsubject' => getstr('pwt.thanks_document_ready_for_review_mail_subject'),
+					'mailto' => $lCreatorData['uname'],
+					'charset' => 'UTF-8',
+					'boundary' => '--_separator==_',
+					'document_id' => $pDocumentId,
+					'first_name' => $lCreatorData['first_name'],
+					'last_name' => $lCreatorData['last_name'],
+					'document_name' => $lCreatorData['document_name'],
+					'autolog_hash' => $lCreatorData['autolog_hash'],
+					'from' => array(
+						'display' => PENSOFT_MAIL_DISPLAY,
+						'email' => PENSOFT_MAIL_ADDR,
+					),
+					'templs' => array(
+						G_DEFAULT => 'document.author_thanks',
+					),
+				);
+				$msg = new cmessaging($lMessageData);
+				$msg->Display();
+				
 				header('Location: /preview.php?document_id=' . $pDocumentId);
 				exit;
 

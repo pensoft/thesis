@@ -2,6 +2,7 @@
 $gDontRedirectToLogin = 1;
 $docroot = getenv('DOCUMENT_ROOT');
 require_once($docroot . '/lib/static.php');
+session_write_close();
 
 define('ACCEPT_REQUEST_BY_IPS', '192.168.83.8/128');
 define('PGPASSWORD_PRODUCTION', 'pensoft123');
