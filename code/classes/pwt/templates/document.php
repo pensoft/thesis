@@ -516,13 +516,13 @@ $gTemplArr = array(
 		<html>
 		<body>
 			Dear {user_fullname}: <br /><br />
-			You are invited by <a href="mailto:{usrfrom_mail}">{usrfrom}</a> to co-author a manuscript entitled "<a href="{siteurl}/display_document.php?document_id={document_id}&u_autolog_hash={autolog_hash}">{document_title}</a>".<br /><br />
+			You are invited by <a href="mailto:{usrfrom_mail}">{usrfrom}</a> to co-author a manuscript entitled "<a href="{siteurl}login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">{document_title}</a>".<br /><br />
 
 			The manuscript is being created in the Pensoft Writing Tool (PWT). Within the PWT, you can participate in the writing process by commenting, correcting or adding text in the manuscript.<br /><br />
 
 			We wish you a pleasant and successful collaboration with the authors team within PWT! Please do not hesitate to share your impressions or send your inquiries to <a href="mailto:helpdesk@pensoft.net">helpdesk@pensoft.net</a>.<br /><br />
 
-			<a title="Pensoft Writing Tool" href="{siteurl}">The Pensoft PWT team</a>
+			<a title="Pensoft Writing Tool" href="{siteurl}">The Pensoft Writing Tool (PWT)</a>
 		</body>
 		</html>
 	',
@@ -531,13 +531,13 @@ $gTemplArr = array(
 		<html>
 		<body>
 			Dear {user_fullname}: <br /><br />
-			You are invited by <a href="mailto:{usrfrom_mail}">{usrfrom}</a> to co-author a manuscript entitled "<a href="{siteurl}/display_document.php?document_id={document_id}&u_autolog_hash={autolog_hash}">{document_title}</a>".<br /><br />
+			You are invited by <a href="mailto:{usrfrom_mail}">{usrfrom}</a> to co-author a manuscript entitled "<a href="{siteurl}login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">{document_title}</a>".<br /><br />
 
 			The manuscript is being created in the Pensoft Writing Tool (PWT). Within the PWT, you can participate in the writing process by commenting in this manuscript.<br /><br />
 
 			We wish you a pleasant and successful collaboration with the authors team within PWT! Please do not hesitate to share your impressions or send your inquiries to <a href="mailto:helpdesk@pensoft.net">helpdesk@pensoft.net</a>.<br /><br />
 
-			<a title="Pensoft Writing Tool" href="{siteurl}">The Pensoft PWT team</a>
+			<a title="Pensoft Writing Tool" href="{siteurl}">The Pensoft Writing Tool (PWT)</a>
 		</body>
 		</html>
 	',
@@ -547,17 +547,17 @@ $gTemplArr = array(
 		<body>
 			Dear {user_fullname}: <br /><br />
 
-			You are invited to become a "contributor" during the process of writing of a manuscript entitled "<a href="{siteurl}/display_document.php?document_id={document_id}&u_autolog_hash={autolog_hash}">{document_title}</a>". The invitation is sent by the coordinating author <a href="mailto:{usrfrom_mail}">{usrfrom}</a>.<br /><br />
+			You are invited to become a "contributor" to a manuscript entitled "<a href="{siteurl}login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">{document_title}</a>". The invitation is sent by the lead author <a href="mailto:{usrfrom_mail}">{usrfrom}</a>.<br /><br />
 
 			Please note that this invitation does not necessarily assume a co-authorship. Contributors can be mentors, potential reviewers, linguistic and copy editors, or just colleagues or friends of the authors.<br /><br />
 
-			You have been invited to contribute as: {colaborate_role}. Please send your questions, if any, to the coordinating author <a href="mailto:{usrfrom_mail}">{usrfrom}</a>.<br /><br />
+			You have been invited to contribute as: {colaborate_role}. Please send your questions, if any, to the lead author <a href="mailto:{usrfrom_mail}">{usrfrom}</a>.<br /><br />
 
 			The manuscript is being created in the Pensoft Writing Tool (PWT). Within the PWT, you can participate in the writing process by commenting, correcting or adding text in the manuscript.<br /><br />
 
 			We wish you a pleasant and successful collaboration with the author\'s team within PWT! Please do not hesitate share your impressions  or send your inquiries to <a href="mailto:helpdesk@pensoft.net">helpdesk@pensoft.net</a>.<br /><br />
 
-			<a title="Pensoft Writing Tool" href="{siteurl}">The Pensoft PWT team</a>
+			<a title="Pensoft Writing Tool" href="{siteurl}">The Pensoft Writing Tool (PWT)</a>
 		</body>
 		</html>
 	',
@@ -569,21 +569,19 @@ $gTemplArr = array(
 			Dear {user_fullname},<br /><br />
 
 			We kindly inform you that you have just been registered with the Pensoft Writing Tool (PWT)  (<a href="{siteurl}">' . PENSOFT_SITE_URL . '</a>). <br /><br />
-			Username: {new_user_mail}<br />
-			Password: {new_user_pass}<br /><br />
+			Username: {new_user_mail}<br /><br />
+			You can login using this "<a href="{siteurl}login.php?u_autolog_hash={autolog_hash}">link</a>". We recommend to change your password and/or edit your profile.<br /><br />
 
 			The reason for this registration is one of the following:<br /><br />
 
 			 1. You are invited to be a co-author of a manuscript created in the Pensoft Writing Tool<br />
 			 2. You are invited to be a contributor to a manuscript created in the Pensoft Writing Tool. Contributors can be mentors, potential reviewers, colleagues/friends of the authors, linguistic/copy editors and are not supposed to become co-authors of the manuscript in question. <br /><br />
 
-			The title of the manuscript is: "{document_title}" and the coordinating author of it is {usrfrom}.
+			The title of the manuscript is: "{document_title}" and the lead author of it is {usrfrom}.
 
 			The registration does not entail any form of commitment for you. Please contact <a href="mailto:{usrfrom_mail}">{usrfrom}</a> for any question regarding this manuscript. <br /><br />
 
-			Please use the link (<a href="{siteurl}">' . PENSOFT_SITE_URL . '</a>) to log in the Pensoft Writing Tool website. After logging in, you can change your password and/or edit your profile.<br /><br />
-
-			<a title="Pensoft Writing Tool" href="{siteurl}">The Pensoft PWT team</a>
+			<a title="Pensoft Writing Tool" href="{siteurl}">The Pensoft Writing Tool (PWT)</a>
 		</body>
 		</html>
 	',
@@ -595,21 +593,18 @@ $gTemplArr = array(
 		Dear {user_fullname},<br /><br />
 
 		We kindly inform you that you have just been registered with the Pensoft Writing Tool (PWT)  (<a href="{siteurl}">' . PENSOFT_SITE_URL . '</a>). <br /><br />
-		Username: {new_user_mail}<br />
-		Password: {new_user_pass}<br /><br />
+		Username: {new_user_mail}<br /><br />
+		You can login using this "<a href="{siteurl}login.php?u_autolog_hash={autolog_hash}">link</a>". We recommend to change your password and/or edit your profile.<br /><br />
 
-		The reason for this registration is one of the following:<br /><br />
-
-		1. You are invited to be an author of a manuscript created in the Pensoft Writing Tool<br />
+		The reason for this registration is that you are invited to be an author of a manuscript created in the Pensoft Writing Tool<br />
 
 
 		The title of the manuscript is: "{document_title}".
 
-		The registration does not entail any form of commitment for you.
+		The registration does not entail any form of commitment for you.<br /><br />
 
-		Please use the link (<a href="{siteurl}">' . PENSOFT_SITE_URL . '</a>) to log in the Pensoft Writing Tool website. After logging in, you can change your password and/or edit your profile.<br /><br />
 
-		<a title="Pensoft Writing Tool" href="{siteurl}">The Pensoft PWT team</a>
+		<a title="Pensoft Writing Tool" href="{siteurl}">The Pensoft Writing Tool (PWT)</a>
 	</body>
 	</html>
 	',
@@ -627,16 +622,37 @@ $gTemplArr = array(
 	',
 	
 	'document.author_submission_mail' => '
-		{first_name} {last_name} submitted new document: <a href="'. SITE_URL .'/login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">"{document_name}"</a>, please review it.
+		{first_name} {last_name} submitted new document:<br /><br /> 
+
+"<a href="'. SITE_URL .'/login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">{document_name}</a>", please review it and either approve it or submit your feedback to the authors.<br /><br />
+
+The Pensoft Writing Tool (PWT)<br />
+helpdesk@pensoft.net
 	',
 	
 	'document.staff_approve_mail' => '
-		Dear {first_name} {last_name} your manuscript <a href="'. SITE_URL .'/login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">"{document_name}"</a> is ready for submission
+Dear {first_name} {last_name}:<br /><br />
+
+your manuscript "<a href="'. SITE_URL .'/login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">{document_name}</a>" has been technically evaluated and approved by the PWT support team and is now ready for submission.<br /><br />
+
+Please go to the manuscript and proceed with submission.<br /><br />
+
+The Pensoft Writing Tool (PWT)<br />
+helpdesk@pensoft.net<br />
+
 	', 
 	
 	'document.staff_reject_mail' => '
-		Dear {first_name} {last_name} your manuscript <a href="'. SITE_URL .'/login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">"{document_name}"</a> need some changes.
-		Please see our comments in the manuscript. 
+		Dear {first_name} {last_name}:<br /><br /> 
+
+your manuscript <a href="'. SITE_URL .'/login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">"{document_name}"</a> has been technically evaluated by the PWT support team.<br /><br /> 
+
+Please note that you have to change a few things in your manuscript before it will be aprooved for submission.<br /><br />
+
+Please go to the the manuscript and concider our comments in the right side bar.<br /><br />
+
+The Pensoft Writing Tool (PWT)<br /><br />
+helpdesk@pensoft.net<br />
 	',
 );
 

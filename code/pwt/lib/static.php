@@ -4575,6 +4575,7 @@ function sendMailToAuthor($pRootInstanceId, $pUserExistsId, $pNewUserId, $pInsta
 			'user_fullname' => $lUserFullName,
 			'document_id' => (int)$pDocumentId,
 			'usrfrom' => $lDocumentCreatorFullName,
+			'autolog_hash' => $lUserAutologHash,
 			'siteurl' => SITE_URL,
 			'usrfrom_mail' => $lDocumentCreatorEmail,
 			'requestdate' => date('d/m/Y H:i'),
