@@ -3918,7 +3918,7 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 
 				}
 			}, null, null, 9);
-
+			MarkCKEditorAsLoaded(' . json_encode($pTextareaId . '_textarea') . ');
 		});
 
 		var instance = CKEDITOR.instances[\'' . $pTextareaId . '_textarea\'];
@@ -3929,7 +3929,7 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 
 		SaveCKEditorConfig(\'' . $pTextareaId . '_textarea\', {
 			' . GetCKEditorExtraAllowedContent() . ',
-			extraPlugins : \'figs,tbls,refs,autosave,sharedspace,sup_files'. $autogrow .'\',
+			extraPlugins : \'figs,tbls,refs,autosave,sharedspace,sup_files,toolbar,floating-tools'. $autogrow .'\',
 			on: {
 				instanceReady: function( evt ) {
 					var leditor = evt.editor;
@@ -3937,6 +3937,7 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 				}
 			},
 			toolbar : \'' . $pToolbarName . '\',
+			floatingtools : \'Basic\',
 			removePlugins: \'elementspath,resize\',
 			height: ' . (int)$pHeight . ',
 			autoGrow_minHeight: ' . (int)$pHeight . ',

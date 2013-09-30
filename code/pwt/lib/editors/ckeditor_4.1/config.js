@@ -72,6 +72,10 @@ CKEDITOR.editorConfig = function( config )
 		{ name: 'basicstyles', items : [ 'autosave' ] },
 		{ name: 'addcontrols', items : [ 'Refs' ] }
 	];
+			
+	config.floatingtools_Basic =[		
+		['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link']
+	];
 
 	config.contentsCss = '/lib/css/editor_iframe.css';
 

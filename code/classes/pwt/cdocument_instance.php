@@ -38,6 +38,7 @@ class cdocument_instance extends csimple {
 	var $m_previewGenerator;
 	var $m_usePreviewGenerator;
 	var $m_returnPreviewGeneratorDisplay;
+	var $m_displayTabContainers = 0;
 	function __construct($pFieldTempl) {
 		parent::__construct( $pFieldTempl );
 		$this->m_con = Con();
@@ -57,7 +58,10 @@ class cdocument_instance extends csimple {
 		$this->m_usePreviewGenerator = $pFieldTempl['use_preview_generator'];
 		$this->m_previewGenerator = $pFieldTempl['preview_generator'];
 		$this->m_returnPreviewGeneratorDisplay = (bool)$pFieldTempl['return_preview_generator_display'];
-
+		
+		if($pFieldTempl['display_tab_containers']){
+			$this->m_displayTabContainers = 1;
+		}
 
 		if($this->m_getObjectModeFromRequest){
 			if(is_array($_REQUEST['instance_ids']) && in_array($this->m_instanceId, $_REQUEST['instance_ids'])){
@@ -326,13 +330,17 @@ class cdocument_instance extends csimple {
 				chi.id as html_item_id, chi.content as html_item_content,
 				ti.tabbed_item_id, ti.default_active_object_id, ti.css_class as tabbed_item_object_css_class
 			FROM pwt.object_container_details cd
-			JOIN pwt.object_containers oc ON oc.id = cd.container_id
+			JOIN pwt.object_containers oc ON oc.id = cd.container_id AND oc.is_tabbed_mode_container::int = ' . (int)$this->m_displayTabContainers . '
 			JOIN pwt.document_object_instances di ON di.id = '. (int) $this->m_instanceId . ' AND di.object_id = oc.object_id
 			LEFT JOIN pwt.v_instance_fields if ON if.instance_id = di.id AND if.field_id = cd.item_id AND cd.item_type = ' . (int) CONTAINER_ITEM_FIELD_TYPE . '
 			LEFT JOIN pwt.v_tabbed_items ti ON ti.tabbed_item_id = cd.item_id AND cd.item_type = ' . (int) CONTAINER_ITEM_TABBED_ITEM_TYPE . '
-			LEFT JOIN pwt.document_object_instances iso ON iso.parent_id = di.id and iso.display_in_tree = false
-				AND ((cd.item_type = ' . (int) CONTAINER_ITEM_OBJECT_TYPE . ' AND iso.object_id = cd.item_id)
-					OR (cd.item_type = ' . (int) CONTAINER_ITEM_TABBED_ITEM_TYPE . ' AND iso.object_id = ti.object_id)
+			LEFT JOIN pwt.document_object_instances iso ON iso.display_in_tree = false 
+				AND (((cd.item_type = ' . (int) CONTAINER_ITEM_OBJECT_TYPE . ' AND iso.object_id = cd.item_id) AND  iso.parent_id = di.id )
+					OR (
+						(cd.item_type = ' . (int) CONTAINER_ITEM_TABBED_ITEM_TYPE . ' AND iso.object_id = ti.object_id) AND
+						iso.document_id = di.document_id AND substring(iso.pos, 1, char_length(di.pos)) = di.pos
+					)
+								
 				) ' . $lChildSubinstancesWhere . '
 			LEFT JOIN pwt.object_container_html_items chi ON chi.id = cd.item_id AND cd.item_type = ' . (int) CONTAINER_ITEM_CUSTOM_HTML_TYPE . '
 			LEFT JOIN (SELECT * FROM spGetInstanceAllowedObjectsToAdd('. (int) $this->m_instanceId . ')) toc ON toc.instance_id = di.id

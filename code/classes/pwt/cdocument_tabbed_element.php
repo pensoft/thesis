@@ -48,6 +48,26 @@ class cdocument_tabbed_element extends csimple {
 			$this->m_activeItemId = $_REQUEST['tabbed_element_' . $this->m_instanceId . '_' . $this->m_tabbedElementId . '_active_item'];
 		}
 		// var_dump($pFieldTempl);
+		
+		$lInstanceTabContainers = new cdocument_instance(array(
+			'templs' => $this->m_pubdata['instance_templs'],
+			'document_id' => $this->m_documentId,
+			'instance_id' => $this->m_instanceId,
+			'container_templs' => $this->m_pubdata['container_templs'],
+			'field_templs' => $this->m_pubdata['field_templs'],
+			'action_templs' => $this->m_pubdata['action_templs'],
+			'custom_html_templs' => $this->m_pubdata['custom_html_templs'],
+			'tabbed_element_templs' => $this->m_pubdata['tabbed_element_templs'],
+			'level' => $this->m_level,
+			'get_data_from_request' => $this->m_getFieldDataFromRequest,
+			'get_object_mode_from_request' => false,
+			'field_validation_info' => $this->m_fieldValidationInfo,
+			'root_instance_id' => $this->m_rootInstanceId,
+			'display_unconfirmed_objects' => $this->m_displayUnconfirmedObjects,
+			'display_tab_containers' => 1,
+			'mode' => INSTANCE_EDIT_MODE
+		));
+		$this->m_pubdata['instance_tab_containers'] = $lInstanceTabContainers->Display();		
 
 	}
 

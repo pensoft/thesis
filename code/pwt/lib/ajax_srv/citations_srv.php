@@ -33,6 +33,54 @@ switch ($gAction) {
 			$lCon->MoveNext();
 		}
 		displayAjaxResponse($lResult);
+	case 'get_instance_citations' ://Get all the citations of the instance and its subinstances
+		$lInstanceIds = array();
+		$lCon = new DBCn();
+		$lCon->Open();
+		$lSql = 'SELECT c.id
+			FROM pwt.document_object_instances p
+			JOIN pwt.document_object_instances c ON c.document_id = p.document_id AND c.pos ILIKE (p.pos || \'%\')
+			WHERE p.id = ' . (int) $_REQUEST['instance_id'] . '
+		';
+		
+		$lCon->Execute($lSql);
+		while(! $lCon->Eof()){
+			$lInstanceIds[] = $lCon->mRs['id'];
+			$lCon->MoveNext();
+		}
+			
+		$lSql = 'SELECT * FROM spGetInstanceCitations(' . (int) $_REQUEST['instance_id'] . ');';
+		$lCon->Execute($lSql);
+		$lResult = array();
+		while(! $lCon->Eof()){
+			$lRow = $lCon->mRs;
+			$lInstanceId = $lRow['instance_id'];
+			$lFieldId = $lRow['field_id'];
+			$lCitationType = $lRow['citation_type'];
+				
+			
+			if(!array_key_exists($lResult, $lInstanceId)){
+				$lResult[$lInstanceId] = array();
+			}
+			if(!array_key_exists($lResult[$lInstanceId], $lFieldId)){
+				$lResult[$lInstanceId][$lFieldId] = array();
+			}
+			if(!array_key_exists($lResult[$lInstanceId][$lFieldId], $lCitationType)){
+				$lResult[$lInstanceId][$lFieldId][$lCitationType] = array();
+			}
+			$lResult[$lInstanceId][$lFieldId][$lCitationType][$lCon->mRs['citation_id']] = array(
+				'citation_id' => (int) $lCon->mRs['citation_id'],
+				'preview' => $lCon->mRs['preview'],
+				'citation_mode' => (int) $lCon->mRs['citation_mode'],
+				'citation_objects' => array_values(pg_unescape_array($lCon->mRs['citation_objects']))
+			);
+			$lCon->MoveNext();
+		}
+		$lResult = array(
+			'instance_ids' => $lInstanceIds,
+			'citations' => $lResult,
+		);
+		displayAjaxResponse($lResult);
 	case 'delete_citation' :
 		$lCon = new DBCn();
 		$lCon->Open();
