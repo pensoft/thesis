@@ -640,6 +640,10 @@ $gTemplArr = array(
 		Dear {first_name} {last_name} your manuscript <a href="'. SITE_URL .'/login.php?u_autolog_hash={autolog_hash}&back_uri=' . urlencode('preview.php?document_id=') . '{document_id}">"{document_name}"</a> need some changes.
 		Please see our comments in the manuscript. 
 	',
+	
+	'document.author_thanks' => '
+		Dear {first_name} {last_name} thanks for your manuscript.
+	',
 );
 
 ?>
