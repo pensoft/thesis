@@ -2093,7 +2093,7 @@ $STRARRAY = array(
 		If a nominated reviewer fails to complete a task on time, you may cancel the review request.<br /><br />",
 	'pjs.community_peer_review_take_decision_round_1' => "You can edit/comment on author's original submission and take your editorial decision.",
 	'pjs.community_peer_review_speedup_round_1' => "In order to speed up the editorial process you can take your editorial decision without waiting for reviews.",
-	'pjs.community_peer_review_take_decision_without_reviewers_round_1' => "pjs.community_peer_review_take_decision_without_reviewers_round_1",
+	'pjs.community_peer_review_take_decision_without_reviewers_round_1' => "You can edit/comment on author's revised version and take your editorial decision.",
 
 	'pjs.community_peer_review_to_proceed_round_2' => "
 		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />You may add your own corrections/comments on the merged reviewer’s version.<br /><br />
@@ -2146,9 +2146,6 @@ $STRARRAY = array(
 	'pwt.approve_documentfor_submission_btn' => 'Approve',
 	'pwt.ready_to_submit_documentfor_submission_btn' => 'Ready to submit',
 	'pwt.submit_document_btn' => 'Submit',
-	'pwt.document_ready_for_review_mail_subject' => 'Document is ready for review',
-
-	'pwt.document_ready_for_submit_mail_subject' => '[PENSOFT WRITING TOOL] Document ready for submission',
 
 	'pwt.validation.missingSubjectClassification' => 'Subject classification is required for this type of document',
 	'pwt.validation.ChecklistTaxonRequired1' => 'You need to add at least 1 taxon',
@@ -2219,6 +2216,12 @@ $STRARRAY = array(
 	'pwt.ready_to_submit_confirm_text' => 'You are about to submit this manuscript for pre-submission technical review. You will receive an email from us with our feedback / approval.',	
 	'pwt.can_submit_confirm_text' => 'You are about to submit this manuscript for peer-review. Please note that you will not be able to make any further changes to the manuscript before the end of review-round 1.',
 	'pwt.reject_documentfor_submission_btn' => 'Send feedback',
+	
+	'pwt.thanks_document_ready_for_review_mail_subject' => ' sent for pre-submission review',
+	'pwt.document_reject_for_submit_mail_subject' => ' needs to be corrected',
+	'pwt.document_ready_for_review_mail_subject' => ' submitted for technical review',
+	'pwt.document_ready_for_submit_mail_subject' => ' approved for submission',
+	'pwt.document_mail_subject_prefix' => '[PENSOFT WRITING TOOL] Manuscript #',
 	
 );
 ?>

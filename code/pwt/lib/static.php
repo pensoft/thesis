@@ -4576,6 +4576,7 @@ function sendMailToAuthor($pRootInstanceId, $pUserExistsId, $pNewUserId, $pInsta
 			'user_fullname' => $lUserFullName,
 			'document_id' => (int)$pDocumentId,
 			'usrfrom' => $lDocumentCreatorFullName,
+			'autolog_hash' => $lUserAutologHash,
 			'siteurl' => SITE_URL,
 			'usrfrom_mail' => $lDocumentCreatorEmail,
 			'requestdate' => date('d/m/Y H:i'),
@@ -6502,14 +6503,14 @@ function ExecActionType($pDocumentId, $pActionType) {
 				// send a message to
 				$lMessageData = array(
 					'siteurl' => SITE_URL,
-					'mailsubject' => getstr('pwt.document_ready_for_review_mail_subject'),
+					'mailsubject' => getstr('pwt.document_mail_subject_prefix') . $pDocumentId . getstr('pwt.document_ready_for_review_mail_subject'),
 					'mailto' => PENSOFT_MAIL_ADDR_DOCUMENT_SUBMISSION,
 					'charset' => 'UTF-8',
 					'boundary' => '--_separator==_',
 					'document_id' => $pDocumentId,
 					'first_name' => $lCreatorData['first_name'],
 					'last_name' => $lCreatorData['last_name'],
-					'document_name' => $lCreatorData['document_name'],
+					'document_name' => strip_tags($lCreatorData['document_name'], '<i><em><b><strong><sub><sup><u>'),
 					'autolog_hash' => $lCreatorData['autolog_hash'],
 					'from' => array(
 						'display' => PENSOFT_MAIL_DISPLAY,
@@ -6525,14 +6526,14 @@ function ExecActionType($pDocumentId, $pActionType) {
 				// send a message to
 				$lMessageData = array(
 					'siteurl' => SITE_URL,
-					'mailsubject' => getstr('pwt.thanks_document_ready_for_review_mail_subject'),
+					'mailsubject' => getstr('pwt.document_mail_subject_prefix') . $pDocumentId . getstr('pwt.thanks_document_ready_for_review_mail_subject'),
 					'mailto' => $lCreatorData['uname'],
 					'charset' => 'UTF-8',
 					'boundary' => '--_separator==_',
 					'document_id' => $pDocumentId,
 					'first_name' => $lCreatorData['first_name'],
 					'last_name' => $lCreatorData['last_name'],
-					'document_name' => $lCreatorData['document_name'],
+					'document_name' => strip_tags($lCreatorData['document_name'], '<i><em><b><strong><sub><sup><u>'),
 					'autolog_hash' => $lCreatorData['autolog_hash'],
 					'from' => array(
 						'display' => PENSOFT_MAIL_DISPLAY,
@@ -6559,7 +6560,7 @@ function ExecActionType($pDocumentId, $pActionType) {
 				// send a message to
 				$lMessageData = array(
 					'siteurl' => SITE_URL,
-					'mailsubject' => getstr('pwt.document_ready_for_submit_mail_subject'),
+					'mailsubject' => getstr('pwt.document_mail_subject_prefix') . $pDocumentId . getstr('pwt.document_ready_for_submit_mail_subject'),
 					'mailto' => $lCreatorData['uname'],
 					//'mailto' => 'vic.penchev@gmail.com',
 					'charset' => 'UTF-8',
@@ -6567,7 +6568,7 @@ function ExecActionType($pDocumentId, $pActionType) {
 					'document_id' => $pDocumentId,
 					'first_name' => $lCreatorData['first_name'],
 					'last_name' => $lCreatorData['last_name'],
-					'document_name' => $lCreatorData['document_name'],
+					'document_name' => strip_tags($lCreatorData['document_name'], '<i><em><b><strong><sub><sup><u>'),
 					'autolog_hash' => $lCreatorData['autolog_hash'],
 					'from' => array(
 						'display' => PENSOFT_MAIL_DISPLAY,
@@ -6593,7 +6594,7 @@ function ExecActionType($pDocumentId, $pActionType) {
 				// send a message to
 				$lMessageData = array(
 					'siteurl' => SITE_URL,
-					'mailsubject' => getstr('pwt.document_reject_for_submit_mail_subject'),
+					'mailsubject' => getstr('pwt.document_mail_subject_prefix') . $pDocumentId . getstr('pwt.document_reject_for_submit_mail_subject'),
 					'mailto' => $lCreatorData['uname'],
 					//'mailto' => 'vic.penchev@gmail.com',
 					'charset' => 'UTF-8',
@@ -6601,7 +6602,7 @@ function ExecActionType($pDocumentId, $pActionType) {
 					'document_id' => $pDocumentId,
 					'first_name' => $lCreatorData['first_name'],
 					'last_name' => $lCreatorData['last_name'],
-					'document_name' => $lCreatorData['document_name'],
+					'document_name' => strip_tags($lCreatorData['document_name'], '<i><em><b><strong><sub><sup><u>'),
 					'autolog_hash' => $lCreatorData['autolog_hash'],
 					'from' => array(
 						'display' => PENSOFT_MAIL_DISPLAY,

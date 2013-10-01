@@ -248,25 +248,15 @@ class cDocument_BDJ_Submission extends cBase_Controller {
 						'VType' => 'int',
 						'DefValue' => $this->m_step
 					),
-					'comments_to_editor' => array(
-						'CType' => 'textarea',
-						'VType' => 'string',
-						'DisplayName' => getstr('pjs.documentCreate.CommentsToEditor'),
-						'AllowNulls' => true,
-						'AddTags' => array(
-							'class' => 'inputFld',
-							'style' => 'height:200px;',
-						)
-					),
 					'new' => array(
 						'CType' => 'action',
-						'SQL' => 'SELECT notes_to_editor as comments_to_editor FROM pjs.documents WHERE id = ' . (int)$this->m_documentId,
+						//'SQL' => 'SELECT notes_to_editor as comments_to_editor FROM pjs.documents WHERE id = ' . (int)$this->m_documentId,
 						'ActionMask' => ACTION_CHECK | ACTION_EXEC | ACTION_FETCH | ACTION_SHOW,
 					),
 					'save' => array(
 						'CType' => 'action',
 						'ActionMask' => ACTION_CHECK | ACTION_EXEC | ACTION_REDIRECT,
-						'SQL' => 'SELECT * FROM spSaveZookeysDocumentSecondStep(' . $this->m_documentId . ', {comments_to_editor}, ' . $this->GetUserId() . '
+						'SQL' => 'SELECT * FROM spSaveZookeysDocumentSecondStep(' . $this->m_documentId . ', ' . $this->GetUserId() . '
 						)',
 						'CheckCaptcha' => 0,
 						'ControllerMethodName' => 'SaveFormData',
@@ -404,15 +394,25 @@ class cDocument_BDJ_Submission extends cBase_Controller {
 						'DisplayName' => getstr('pjs.documentCreate.ReviewProcesstype'),
 						'AllowNulls' => false,
 					),
+					'comments_to_editor' => array(
+						'CType' => 'textarea',
+						'VType' => 'string',
+						'DisplayName' => getstr('pjs.documentCreate.CommentsToEditor'),
+						'AllowNulls' => true,
+						'AddTags' => array(
+							'class' => 'inputFld',
+							'style' => 'height:200px;',
+						)
+					),
 					'new' => array(
 						'CType' => 'action',
-						'SQL' => 'SELECT document_review_type_id as review_process_type FROM pjs.documents WHERE id = ' . (int)$this->m_documentId,
+						'SQL' => 'SELECT notes_to_editor as comments_to_editor, document_review_type_id as review_process_type FROM pjs.documents WHERE id = ' . (int)$this->m_documentId,
 						'ActionMask' => ACTION_CHECK | ACTION_EXEC | ACTION_FETCH | ACTION_SHOW,
 					),
 					'save_finish' => array(
 						'CType' => 'action',
 						'ActionMask' => ACTION_CHECK | ACTION_EXEC | ACTION_FETCH | ACTION_REDIRECT,
-						'SQL' => 'SELECT * FROM spSaveZookeysDocumentFourthStep(' . $this->m_documentId . ', {review_process_type}, ' . $this->GetUserId() . ')/*{event_id}*/',
+						'SQL' => 'SELECT * FROM spSaveZookeysDocumentFourthStep(' . $this->m_documentId . ', {review_process_type}, ' . $this->GetUserId() . ', {comments_to_editor})/*{event_id}*/',
 						'CheckCaptcha' => 0,
 						'ControllerMethodName' => 'SaveFormData',
 						'DisplayName' => getstr('pjs.documentCreate.finish'),
@@ -427,7 +427,7 @@ class cDocument_BDJ_Submission extends cBase_Controller {
 					'save_next' => array(
 						'CType' => 'action',
 						'ActionMask' => ACTION_CHECK | ACTION_EXEC | ACTION_REDIRECT,
-						'SQL' => 'SELECT * FROM spSaveZookeysDocumentFourthStep(' . $this->m_documentId . ', {review_process_type}, ' . $this->GetUserId() . ')',
+						'SQL' => 'SELECT * FROM spSaveZookeysDocumentFourthStep(' . $this->m_documentId . ', {review_process_type}, ' . $this->GetUserId() . ', {comments_to_editor})',
 						'CheckCaptcha' => 0,
 						'ControllerMethodName' => 'SaveFormData',
 						'DisplayName' => getstr('pjs.documentCreate.next'),

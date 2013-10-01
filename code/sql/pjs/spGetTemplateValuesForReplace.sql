@@ -129,21 +129,37 @@ BEGIN
 
 	/* Get due date and due date days START*/
 	-- get journal_section_id and some journal data
-	SELECT INTO 
-		lJournalSectionId, 
-		lRes.journal_id,
-		lRes.journal_name,
-		lRes.journal_email,
-		lRes.journal_signature
+	IF (pJournalID is null AND pDocumentId IS NOT NULL) THEN
+		SELECT INTO 
+			lJournalSectionId, 
+			lRes.journal_id,
+			lRes.journal_name,
+			lRes.journal_email,
+			lRes.journal_signature
+			
+			d.journal_section_id, 
+			d.journal_id,
+			j.name,
+			j.email,
+			j.signature
+		FROM pjs.documents d
+		JOIN public.journals j ON j.id = d.journal_id
+		WHERE d.id = pDocumentId;
+	ELSE
+		SELECT INTO  
+			lRes.journal_id,
+			lRes.journal_name,
+			lRes.journal_email,
+			lRes.journal_signature
+			
+			id,
+			name,
+			email,
+			signature
+		FROM public.journals
+		WHERE id = pJournalID;
+	END IF;	
 		
-		d.journal_section_id, 
-		d.journal_id,
-		j.name,
-		j.email,
-		j.signature
-	FROM pjs.documents d
-	JOIN public.journals j ON j.id = d.journal_id
-	WHERE d.id = pDocumentId;
 	-- get pwt_paper_type_id
 	SELECT INTO lSectionId pwt_paper_type_id FROM pjs.journal_sections WHERE id = lJournalSectionId;
 	-- offset days
