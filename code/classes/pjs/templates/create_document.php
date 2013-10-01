@@ -9,7 +9,7 @@ $gTemplArr = array(
 
 		<br/>
 		Please indicate that this submission is ready to be considered for this
-		journal by accepting the following conditions (comments to the editor can be added below): 
+		journal by accepting the following conditions: 
 		<br/><br/>
 		{preparation_checklist}
 		<br/>
@@ -46,10 +46,8 @@ $gTemplArr = array(
 	',
 	
 	'create_document.zookeys_submission_form_step_2_pwt' => '{document_id} {step}
-		<b>Open-access fee</b>
-		<br/><br/>
-		Publishing in Biodiversity Data Journal is free during its launch phase and thereafter will be subject to a minimal fee that anyone can afford! To keep the costs low and affordable for all, any manuscripts submitted to BDJ must either be written in the Pensoft Writing Tool, or submitted from integrated external platforms, such as <a href="http://www.scratchpads.eu/" target="_blank">Scratchpads</a> 
-		or <a href="http://ipt.pensoft.net/ipt/" target="_blank">GBIF Integrated Publishing Toolkit (IPT)</a>.
+		<br/>
+		Publishing in Biodiversity Data Journal is free during its launch phase and thereafter will be subject to a minimal fee that anyone can afford. 
 		<br/><br/>
 		{*comments_to_editor}
 		{comments_to_editor}
@@ -222,7 +220,7 @@ $gTemplArr = array(
 	
 	'create_document.submission_document_reviewers_empty' => '
 		<tr>
-			<td colspan="3">' . getstr('pjs.reviewers_empty') . '</td>
+			<td colspan="3" style="padding-left: 10px">' . getstr('pjs.reviewers_empty') . '</td>
 		</tr>
 	',
 	
@@ -265,7 +263,7 @@ $gTemplArr = array(
 		<div class="formErrors" style="color:red">{~}{~~}</div>
 
 		<br/><br/>
-		Indicate that this submission is ready to be considered for this journal by checking off the following conditions (comments to the editor can be added below).
+		Indicate that this submission is ready to be considered for this journal by checking off the following conditions.
 		<br/>
 		{preparation_checklist}
 		<br/><br/>

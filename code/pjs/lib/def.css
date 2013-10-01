@@ -76,7 +76,7 @@ a.current {
 	border-right: solid 1px #bdbdaf;
 	border-bottom: solid 1px #C6C6B6;
 	border-radius: 3px;
-	padding: 0;
+	padding: 0 0 0 5px;
 	margin-right: 16px;
 	margin-top: 5px;
 	box-shadow: inset 0px /* x */
@@ -7326,4 +7326,8 @@ td.aof_poll_view_list_label{
 	padding-top:8px;
 	padding-right:10px;
 	height: 100%;
+}
+
+.ui-autocomplete-input{
+	padding-left: 5px;
 }
