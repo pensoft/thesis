@@ -30,6 +30,19 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+	
+	<xsl:template match="tn|tn-part|b|i|u|a|strong|em|sup|sub|insert|delete|comment-start|comment-end|reference-citation|fig-citation|tbls-citation|sup-files-citation|locality-coordinates" mode="inline_formatting">
+		<xsl:choose>
+			<xsl:when test="$pInArticleMode = 0 and $pPDFPreviewMode = 0">
+				<xsl:copy-of select="."/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="get_node_text_template">
+				    <xsl:with-param name="pNode" select="."></xsl:with-param>
+				</xsl:call-template>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
 
 	<xsl:template match="*" mode="formatting_output_escape">
 		<xsl:value-of select="." disable-output-escaping="yes"/>
@@ -361,7 +374,7 @@
 		</xsl:if>
 	</xsl:template>
 
-	<!-- Treatment material field -->
+ <!-- Treatment material field -->
  <xsl:template match="*" mode="treatmentMaterialFieldCustom">
  	<xsl:variable name="lContent">
    		<xsl:if test="$pPDFPreviewMode = 0">
@@ -372,11 +385,11 @@
 			</xsl:call-template>
 			<xsl:attribute name="field_id"><xsl:value-of select="./@id" /></xsl:attribute>
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id" /></xsl:attribute>
-			<xsl:apply-templates select="./value" mode="formatting"/>
+			<xsl:apply-templates select="./value" mode="inline_formatting"/>
 		</span>
 		</xsl:if>
 		<xsl:if test="$pPDFPreviewMode = 1">
- 			<xsl:apply-templates select="./value" mode="formatting"/>
+ 			<xsl:apply-templates select="./value" mode="inline_formatting"/>
  		</xsl:if>
    </xsl:variable>
    <xsl:variable name="lFieldId"><xsl:value-of select="./@id" /></xsl:variable>

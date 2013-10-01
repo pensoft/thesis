@@ -46,7 +46,7 @@ $gTemplArr = array(
 	',
 	
 	'create_document.zookeys_submission_form_step_2_pwt' => '{document_id} {step}
-		<br/>
+		
 		Publishing in Biodiversity Data Journal is free during its launch phase and thereafter will be subject to a minimal fee that anyone can afford. 
 		<br/><br/>
 
@@ -71,10 +71,12 @@ $gTemplArr = array(
 		</table>
 	',
 	
+//	<b>Select the appropriate peer review option for this submission.</b>
+	
 	'create_document.zookeys_submission_form_step_4_pwt' => '{document_id} {step} {event_id}
 		{~}{~~}
-		<b>Select the appropriate peer review option for this submission.</b>
-		<br/><br/>
+		
+	
 		Section: {@journal_section}
 		<br/><br/>
 		<fieldset>
