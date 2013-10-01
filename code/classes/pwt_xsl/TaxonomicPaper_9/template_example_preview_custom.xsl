@@ -308,7 +308,7 @@
 		<xsl:if test="count(.) &gt; 0">
 			<div class="P-Article-Preview-Block-Content">
 				<xsl:for-each select=".">
-					<xsl:variable name="lMaterialTypeName" select="./*[@object_id='84']/fields/*[@id='209']/value"></xsl:variable>
+					<xsl:variable name="lMaterialTypeName" select="./fields/*[@id='209']/value"></xsl:variable>
 
 
 

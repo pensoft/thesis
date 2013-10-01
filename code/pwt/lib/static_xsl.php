@@ -705,7 +705,7 @@ function GroupTreatmentMaterials($pTreatmentMaterials){
 	$lFoundMaterialTypes = array();
 	$lRoot = $lDom->appendChild($lDom->createElement('materials'));
 	foreach ($pTreatmentMaterials as $lCurrentMaterial){
-		$lTypeNodeList = $lXPath->query('./*/fields/*[@id=\'209\']/value', $lCurrentMaterial);
+		$lTypeNodeList = $lXPath->query('./fields/*[@id=\'209\']/value', $lCurrentMaterial);
 		if(!$lTypeNodeList->length){
 			continue;
 		}
