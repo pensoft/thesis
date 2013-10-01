@@ -49,9 +49,6 @@ $gTemplArr = array(
 		<br/>
 		Publishing in Biodiversity Data Journal is free during its launch phase and thereafter will be subject to a minimal fee that anyone can afford. 
 		<br/><br/>
-		{*comments_to_editor}
-		{comments_to_editor}
-		<br/><br/>
 
 		<table width="100%" id="steps_nav">
 			<tr><td style="text-align: right; width: 50%">{back}</td><td>{save}</td></tr>
@@ -84,7 +81,9 @@ $gTemplArr = array(
 			<legend>{*review_process_type}</legend>
 			{review_process_type}
 		</fieldset>
-		
+		<br/><br/>
+		{*comments_to_editor}
+		{comments_to_editor}
 		<br/><br/>
 		<table width="100%" id="steps_nav">
 			<tr><td style="text-align: right; width: 50%">{back}</td><td>{save_finish}{save_next}</td></tr>
@@ -92,6 +91,15 @@ $gTemplArr = array(
 		<script type="text/javascript">
 		//<![CDATA[
 			$(document).ready(function () {
+				var lOptsLength = $("input:radio[name=review_process_type]").length;
+				if(lOptsLength == 1) {
+					$("input:radio[name=review_process_type]").attr(\'checked\', \'checked\');
+					if($("input:radio[name=review_process_type]").val() == 1) {
+						$("#finish_button").show();
+						$("#next_button").hide();
+					}
+				}
+				
 				$("input:radio[name=review_process_type]").click(function() {
 					var value = $(this).val();
 					if(value == 1){

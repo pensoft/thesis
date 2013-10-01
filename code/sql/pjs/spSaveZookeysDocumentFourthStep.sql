@@ -4,7 +4,7 @@ CREATE TYPE ret_spSaveZookeysDocumentFourthStep AS (
 	event_id bigint
 );
 
-CREATE OR REPLACE FUNCTION spsavezookeysdocumentfourthstep(pdocumentid bigint, previewtype integer, puid bigint)
+CREATE OR REPLACE FUNCTION spsavezookeysdocumentfourthstep(pdocumentid bigint, previewtype integer, puid bigint, pComments varchar)
   RETURNS ret_spsavezookeysdocumentfourthstep AS
 $BODY$
 	DECLARE
@@ -63,6 +63,7 @@ $BODY$
 		
 		UPDATE pjs.documents d SET 
 			state_id = lSuccessfullySubmittedDocState,
+			notes_to_editor = pComments,
 			creation_step = 5,
 			document_review_type_id = pReviewType
 		WHERE d.id = pDocumentId AND d.submitting_author_id = pUid AND d.state_id = 1;
@@ -73,7 +74,7 @@ $BODY$
 $BODY$
   LANGUAGE plpgsql VOLATILE SECURITY DEFINER
   COST 100;
-ALTER FUNCTION spsavezookeysdocumentfourthstep(bigint, integer, bigint) OWNER TO postgres;
-GRANT EXECUTE ON FUNCTION spsavezookeysdocumentfourthstep(bigint, integer, bigint) TO public;
-GRANT EXECUTE ON FUNCTION spsavezookeysdocumentfourthstep(bigint, integer, bigint) TO postgres;
-GRANT EXECUTE ON FUNCTION spsavezookeysdocumentfourthstep(bigint, integer, bigint) TO iusrpmt;
+ALTER FUNCTION spsavezookeysdocumentfourthstep(bigint, integer, bigint, varchar) OWNER TO postgres;
+GRANT EXECUTE ON FUNCTION spsavezookeysdocumentfourthstep(bigint, integer, bigint, varchar) TO public;
+GRANT EXECUTE ON FUNCTION spsavezookeysdocumentfourthstep(bigint, integer, bigint, varchar) TO postgres;
+GRANT EXECUTE ON FUNCTION spsavezookeysdocumentfourthstep(bigint, integer, bigint, varchar) TO iusrpmt;

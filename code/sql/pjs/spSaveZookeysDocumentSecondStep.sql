@@ -5,7 +5,6 @@ CREATE TYPE ret_spSaveZookeysDocumentSecondStep AS (
 
 CREATE OR REPLACE FUNCTION spSaveZookeysDocumentSecondStep(
 	pDocumentId bigint,
-	pComments varchar,
 	pUid bigint
 )
   RETURNS ret_spSaveZookeysDocumentSecondStep AS
@@ -16,7 +15,6 @@ $BODY$
 	BEGIN
 		lSuccessfullySubmittedDocState = 2;
 		UPDATE pjs.documents d SET 
-			notes_to_editor = pComments,
 			creation_step = 3,
 			submitted_date = now()
 		WHERE d.id = pDocumentId AND d.submitting_author_id = pUid AND d.state_id = 1 ;
@@ -29,6 +27,5 @@ $BODY$
 
 GRANT EXECUTE ON FUNCTION spSaveZookeysDocumentSecondStep(
 	pDocumentId bigint,
-	pComments varchar,
 	pUid bigint
 ) TO iusrpmt;
