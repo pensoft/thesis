@@ -1279,7 +1279,6 @@ function serializeAndSubmitFormThenCloseAndRefresh(){
 }
 
 function SaveReviewForm(){
-	console.log($('#P-Ajax-Loading-Image'));
 	var lJqForm = $('form[name="document_review_form"]');
 	var lData = '&tAction=save&ajax_form_submit=1&';
 	lData += lJqForm.formSerialize();	
@@ -1291,9 +1290,10 @@ function SaveReviewForm(){
 		async : false,
 		type : 'POST',
 		success : function(pAjaxResult) {
-			var lSaving = setInterval(function(pAjaxResult){
+			var lErrors = pAjaxResult['form_has_errors'];
+			var lSaving = setInterval(function(lErrors){
 				$('#P-Ajax-Loading-Image').hide();
-				if(pAjaxResult['form_has_errors']){
+				if(lErrors){
 					alert('Could not save review form');
 				}
 				clearInterval(lSaving);
