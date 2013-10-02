@@ -207,6 +207,15 @@ WHERE object_container_tabbed_item_id = 1 AND object_id = 84;
 INSERT INTO pwt.object_container_tabbed_item_details(pos, object_id, object_container_tabbed_item_id)
 VALUES (3, 31, 1), (4, 30, 1), (5, 28, 1), (6, 27, 1), (7, 26, 1), (8, 25, 1), (9, 29, 1);
 
+INSERT INTO pwt.html_control_types(name, is_html, tags_to_keep)	
+	VALUES ('Material field editor', true, 'tn, tn-part, a, b, i, u, strong, em, sup, sub');
+	
+/*
+UPDATE pwt.object_fields SET
+	control_type = 54
+WHERE object_id IN (25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36);
+*/
+
 /*
 	Modified sps
 	

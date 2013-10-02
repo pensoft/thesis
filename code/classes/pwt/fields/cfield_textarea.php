@@ -10,8 +10,10 @@ class cfield_textarea extends cfield_base {
 		$this->m_pubdata['width'] = 0;
 		$this->m_pubdata['create_common_toolbar_holder'] = 0;
 		$this->m_pubdata['use_common_toolbar'] = 0;
+		$this->m_pubdata['use_floating_tools'] = 0;
 		$this->m_pubdata['common_toolbar_holder_id'] = '';
 		$this->m_pubdata['toolbar_name'] = EDITOR_SMALL_TOOLBAR_NAME;
+		$this->m_pubdata['floating_tools_toolbar_name'] = EDITOR_FLOATING_TOOLBAR_NAME_BASIC;
 		$lTemplate = G_TEXTAREA_TEMPL;
 		$lTemplateLabel = G_TEXTAREA_LABEL_TEMPL;
 		switch($this->m_htmlControlType ){
@@ -30,6 +32,12 @@ class cfield_textarea extends cfield_base {
 				$this->m_pubdata['toolbar_name'] = EDITOR_MODERATE_TABLE_TOOLBAR_NAME;
 				$lTemplate = G_TEXTAREA_TABLE_TEMPL;
 				$lTemplateLabel = G_TEXTAREA_TABLE_LABEL_TEMPL;
+				break;
+			case FIELD_HTML_TEXTAREA_MATERIAL_FIELD:
+				$this->m_pubdata['use_floating_tools'] = 1;
+				$this->m_pubdata['toolbar_name'] = EDITOR_EMPTY_TOOLBAR_NAME;
+				$this->m_pubdata['height'] = EDITOR_MATERIAL_FIELD_HEIGHT;
+				$this->m_pubdata['floating_tools_toolbar_name'] = EDITOR_FLOATING_TOOLBAR_NAME_MATERIAL;
 		}
 		
 		switch($this->m_htmlControlType ){

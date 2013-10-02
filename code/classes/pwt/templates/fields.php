@@ -251,7 +251,7 @@ $gTemplArr = array(
 															{_createEditorToolbarHolder(create_common_toolbar_holder, common_toolbar_holder_id)}
 															{field}
 															{actions_content}
-															{_createSmallHtmlEditor(field_html_identifier, height, width, toolbar_name, use_common_toolbar, common_toolbar_holder_id)}
+															{_createSmallHtmlEditor(field_html_identifier, height, width, toolbar_name, use_common_toolbar, common_toolbar_holder_id, use_floating_tools, floating_tools_toolbar_name)}
 															{_displayFieldExampleLabel(has_example_label, example_label)}
 														</div>
 														{_displayFieldHelpLabel(has_help_label, help_label, help_label_display_style)}

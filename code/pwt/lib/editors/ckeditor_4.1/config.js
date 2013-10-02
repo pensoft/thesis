@@ -15,7 +15,9 @@ CKEDITOR.editorConfig = function( config )
 	config.skin='moono';
 
 	config.toolbar = 'FullToolbar';
-
+	
+	config.toolbar_EmptyToolbar = [];
+	
 	config.toolbar_FullToolbar =
 	[
 	 	{ name: 'basicstyles', items : [ 'Bold','-','Italic','-','Underline','-','Subscript','-','Superscript','-',
@@ -28,6 +30,7 @@ CKEDITOR.editorConfig = function( config )
 		{ name: 'tools', items : [ 'Maximize'] }
 
 	];
+		
 
 
 	config.toolbar_FullToolbarNoMaximize =

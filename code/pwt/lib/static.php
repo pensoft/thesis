@@ -3896,10 +3896,10 @@ function displayTableHeadByMode( $pMode ){
 	}
 }
 
-function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $pWidth = 0, $pToolbarName = EDITOR_FULL_TOOLBAR_NAME, $pUseCommonToolbar = 0, $pCommonToolbarHolderId = '', $pAutoGrow = 1){
+function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $pWidth = 0, $pToolbarName = EDITOR_FULL_TOOLBAR_NAME, $pUseCommonToolbar = 0, $pCommonToolbarHolderId = '', $pAutoGrow = 1, $pUseFloatingTools = 0, $pFloatingToolsToolbarName = EDITOR_FLOATING_TOOLBAR_NAME_BASIC){
 	global $docroot;
 	$autogrow = ($pAutoGrow == 1) ? ',autogrow' : '';
-
+	$lFloatingTools = ($pUseFloatingTools == 1) ? ',floating-tools' : '';	
 //var editor = CKEDITOR.replace(\'' . $pTextareaId . '_textarea\', function(){
 	//var_dump($pToolbarName);
 
@@ -3929,7 +3929,7 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 
 		SaveCKEditorConfig(\'' . $pTextareaId . '_textarea\', {
 			' . GetCKEditorExtraAllowedContent() . ',
-			extraPlugins : \'figs,tbls,refs,autosave,sharedspace,sup_files,toolbar,floating-tools'. $autogrow .'\',
+			extraPlugins : \'figs,tbls,refs,sup_files,autosave,sharedspace,toolbar'. $lFloatingTools . $autogrow .'\',
 			on: {
 				instanceReady: function( evt ) {
 					var leditor = evt.editor;
@@ -3937,7 +3937,7 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 				}
 			},
 			toolbar : \'' . $pToolbarName . '\',
-			floatingtools : \'Basic\',
+			floatingtools : \'' . $pFloatingToolsToolbarName . '\',
 			removePlugins: \'elementspath,resize\',
 			height: ' . (int)$pHeight . ',
 			autoGrow_minHeight: ' . (int)$pHeight . ',
@@ -4017,8 +4017,8 @@ function createHtmlEditorNoCitation($pTextareaId){
 	return createHtmlEditorBase($pTextareaId, EDITOR_DEFAULT_HEIGHT, 0, EDITOR_MODERATE_TOOLBAR_NAME);
 }
 
-function createSmallHtmlEditor($pTextareaId, $pHeight = EDITOR_SMALL_DEFAULT_HEIGHT, $pWidth = 0, $pToolbarName = EDITOR_SMALL_TOOLBAR_NAME, $pUseCommonToolbar = 0, $pCommonToolbarHolderId = ''){
-	return createHtmlEditorBase($pTextareaId, $pHeight, $pWidth, $pToolbarName, $pUseCommonToolbar, $pCommonToolbarHolderId);
+function createSmallHtmlEditor($pTextareaId, $pHeight = EDITOR_SMALL_DEFAULT_HEIGHT, $pWidth = 0, $pToolbarName = EDITOR_SMALL_TOOLBAR_NAME, $pUseCommonToolbar = 0, $pCommonToolbarHolderId = '', $pUseFloatingTools = 0, $pFloatingToolsToolbarName = EDITOR_FLOATING_TOOLBAR_NAME_BASIC){	
+	return createHtmlEditorBase($pTextareaId, $pHeight, $pWidth, $pToolbarName, $pUseCommonToolbar, $pCommonToolbarHolderId, 1, $pUseFloatingTools, $pFloatingToolsToolbarName);
 }
 
 function createEditorToolbarHolder($pCreateHolder = 0, $pHolderId = ''){
