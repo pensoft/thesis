@@ -1291,9 +1291,10 @@ function SaveReviewForm(){
 		async : false,
 		type : 'POST',
 		success : function(pAjaxResult) {
-			var lSaving = setInterval(function(pAjaxResult){
+			var lErrors = pAjaxResult['form_has_errors'];
+			var lSaving = setInterval(function(lErrors){
 				$('#P-Ajax-Loading-Image').hide();
-				if(pAjaxResult['form_has_errors']){
+				if(lErrors){
 					alert('Could not save review form');
 				}
 				clearInterval(lSaving);
