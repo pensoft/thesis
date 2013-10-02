@@ -4294,7 +4294,7 @@ function getCurrentDocumentStatus( $pDocumentStatus, $pIsLocked, $pEditedByUserI
 		return getstr('status.inedit');
 	}
 	// Тук трябва да се добавят останалите статуси, когато стане ясно с какви id-та ще бъдат
-	$statuses = array(1=>'status.draft', 'status.submitted_to_pjs', 'status.returned', 7 => 'status.published');
+	$statuses = array(1=>'status.draft', 'status.submitted_to_pjs', 'status.returned', 5 => 'status.Pre-submit-review', 6 => 'status.Ready-to-submit', 7 => 'status.published');
 	return '<span>' . getstr($statuses[$pDocumentStatus]) . '</span>';
 }
 

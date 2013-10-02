@@ -143,7 +143,7 @@ class cDocument_Creation_Permissions extends cBase_Controller {
 						),
 						'TransType' => MANY_TO_BIT,
 						'SrcValues' => array(
-							1 => 'The authors agree to the terms of this Copyright Notice, which will apply to this submission if and when it is published by this journal (comments to the editor can be added below).'
+							1 => 'The authors agree to the terms of this Copyright Notice, which will apply to this submission if and when it is published by this journal.'
 						)
 					),
 					'save' => array(

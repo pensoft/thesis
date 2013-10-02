@@ -1672,12 +1672,12 @@ $STRARRAY = array(
 	'pjs.reviewers_name_label' => 'Name',
 	'pjs.reviewers_email_label' => 'E-mail',
 	'pjs.reviewers_added_label' => 'Suggested',
-	'pjs.reviewers_action_label' => 'Actions',
+	'pjs.reviewers_action_label' => 'Action',
 	'pjs.reviewers_nominated_label' => '<span style="color:#006666; cursor:pointer;" title="Nominated reviewers are expected to provide a formal review by a deadline, after they have accepted the review request.">Nominated</span>',
 	'pjs.reviewers_panel_label' => '<span style="color:#006666; cursor:pointer;" title="Panel reviewers are invited but not required to evaluate the manuscript within a deadline. They can do this at any time, before the review process expires.">Panel</span>',
-	'pjs.reviewers_empty' => 'There are no added reviewers to list.',
-	'pjs.addreviewerstolist' => 'Add reviewers to the list by:',
-	'pjs.searchreviewers' => "Search in Pensoft's database:",
+	'pjs.reviewers_empty' => 'No suggested reviewers yet.',
+	'pjs.addreviewerstolist' => 'Suggest reviewers:',
+	'pjs.searchreviewers' => "Find in Pensoft's database:",
 	'pjs.or_text' => 'or',
 	'pjs.invite_reviewers_btn_txt' => 'Invite reviewers',
 	'pjs.invite_reviewers_txt' => 'After pressing this button you will have the option to modify e-mails before sending',
@@ -1847,7 +1847,7 @@ $STRARRAY = array(
 	'pjs.documentCreate.Section' => 'Section: *',
 	'pjs.documentCreate.ReviewProcesstype' => 'Review process type*:',
 	'pjs.documentCreate.ZookeysSubmissionStep1' => 'STEP 1: Start your submission',
-	'pjs.documentCreate.ZookeysSubmissionStep2' => 'STEP 2: Payment options',
+	'pjs.documentCreate.ZookeysSubmissionStep2' => 'STEP 2: Article processing charges',
 	'pjs.documentCreate.ZookeysSubmissionStep3' => 'STEP 3: Submission metadata',
 	'pjs.documentCreate.ZookeysSubmissionStep4' => 'STEP 4: Peer review options',
 	'pjs.documentCreate.ZookeysSubmissionStep5' => 'STEP 5: Suggest reviewers',
@@ -2093,7 +2093,7 @@ $STRARRAY = array(
 		If a nominated reviewer fails to complete a task on time, you may cancel the review request.<br /><br />",
 	'pjs.community_peer_review_take_decision_round_1' => "You can edit/comment on author's original submission and take your editorial decision.",
 	'pjs.community_peer_review_speedup_round_1' => "In order to speed up the editorial process you can take your editorial decision without waiting for reviews.",
-	'pjs.community_peer_review_take_decision_without_reviewers_round_1' => "You can edit/comment on author's revised version and take your editorial decision.",
+	'pjs.community_peer_review_take_decision_without_reviewers_round_1' => "You can edit/comment on author's original submission and take your editorial decision.",
 
 	'pjs.community_peer_review_to_proceed_round_2' => "
 		To merge reviewer’s versions together and take your editorial decision please click on the “Editorial decision” button.<br />You may add your own corrections/comments on the merged reviewer’s version.<br /><br />
@@ -2214,7 +2214,7 @@ $STRARRAY = array(
 	'pjs.aof_view_poll_link' => 'See Review form',
 	'pjs.comment_is_rejected' => 'This comment has been removed because it does not conform to the journal\'s policy.',	
 	'pwt.ready_to_submit_confirm_text' => 'You are about to submit this manuscript for pre-submission technical review. You will receive an email from us with our feedback / approval.',	
-	'pwt.can_submit_confirm_text' => 'You are about to submit this manuscript for peer-review. Please note that you will not be able to make any further changes to the manuscript before the end of review-round 1.',
+	'pwt.can_submit_confirm_text' => 'You are about to start a journal submission of this manuscript. Please note that you will not be able to make any changes to the manuscript until you receive the editorial decision.',
 	'pwt.reject_documentfor_submission_btn' => 'Send feedback',
 	
 	'pwt.thanks_document_ready_for_review_mail_subject' => ' sent for pre-submission review',
@@ -2222,6 +2222,8 @@ $STRARRAY = array(
 	'pwt.document_ready_for_review_mail_subject' => ' submitted for technical review',
 	'pwt.document_ready_for_submit_mail_subject' => ' approved for submission',
 	'pwt.document_mail_subject_prefix' => '[PENSOFT WRITING TOOL] Manuscript #',
+	'status.Ready-to-submit' => 'Approved for submission',
+	'status.Pre-submit-review' => 'In Pre-submission review',
 	
 );
 ?>

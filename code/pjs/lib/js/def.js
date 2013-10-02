@@ -1279,9 +1279,11 @@ function serializeAndSubmitFormThenCloseAndRefresh(){
 }
 
 function SaveReviewForm(){
+	console.log($('#P-Ajax-Loading-Image'));
 	var lJqForm = $('form[name="document_review_form"]');
 	var lData = '&tAction=save&ajax_form_submit=1&';
 	lData += lJqForm.formSerialize();	
+	$('#P-Ajax-Loading-Image').show();
 	$.ajax({
 		url : lJqForm.attr('action'),
 		dataType : 'html',
@@ -1289,9 +1291,13 @@ function SaveReviewForm(){
 		async : false,
 		type : 'POST',
 		success : function(pAjaxResult) {
-			if(pAjaxResult['form_has_errors']){
-				alert('Could not save review form');
-			}
+			var lSaving = setInterval(function(pAjaxResult){
+				$('#P-Ajax-Loading-Image').hide();
+				if(pAjaxResult['form_has_errors']){
+					alert('Could not save review form');
+				}
+				clearInterval(lSaving);
+			},1000);
 		}
 	});
 	return false;
@@ -2196,3 +2202,16 @@ function SortArticleResults(pSel, pSubmittedForm) {
 	}
 	
 }
+
+function ShowHideProfileMenu() {
+	$('.P-Head-Profile-Menu').click(function(){
+		if($('#userLoggedMenu').is(':visible')) {
+			$('#userLoggedMenu').hide();
+			$('.P-Head-Profile-Menu').removeClass('P-Head-Profile-Menu-Opened');
+		} else {
+			$('#userLoggedMenu').show();
+			$('.P-Head-Profile-Menu').addClass('P-Head-Profile-Menu-Opened');
+		}
+	});
+}
+ 

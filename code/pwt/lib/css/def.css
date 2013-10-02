@@ -5413,3 +5413,9 @@ header .content_in {
 	padding: 10px 10px 10px 10px;
 	background-color: #fdf5e3;
 }
+
+.unselectable {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
