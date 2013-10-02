@@ -2222,6 +2222,8 @@ $STRARRAY = array(
 	'pwt.document_ready_for_review_mail_subject' => ' submitted for technical review',
 	'pwt.document_ready_for_submit_mail_subject' => ' approved for submission',
 	'pwt.document_mail_subject_prefix' => '[PENSOFT WRITING TOOL] Manuscript #',
+	'status.Ready-to-submit' => 'Approved for submission',
+	'status.Pre-submit-review' => 'In Pre-submission review',
 	
 );
 ?>

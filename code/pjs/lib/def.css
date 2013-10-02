@@ -7331,3 +7331,9 @@ td.aof_poll_view_list_label{
 .ui-autocomplete-input{
 	padding-left: 5px;
 }
+
+.unselectable {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
