@@ -1279,7 +1279,6 @@ function serializeAndSubmitFormThenCloseAndRefresh(){
 }
 
 function SaveReviewForm(){
-	console.log($('#P-Ajax-Loading-Image'));
 	var lJqForm = $('form[name="document_review_form"]');
 	var lData = '&tAction=save&ajax_form_submit=1&';
 	lData += lJqForm.formSerialize();	
