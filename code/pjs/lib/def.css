@@ -472,7 +472,7 @@ a {
 }
 
 .P-Head-Profile-Menu:hover .userloggedmenulinks {
-	display: block;
+	/*display: block;*/
 }
 
 .P-Head-Profile-Menu .userloggedmenu {
@@ -571,7 +571,7 @@ a {
 	height: 31px;
 }
 
-.P-Head-Profile-Menu:hover .userloggedimage .username_left {
+.P-Head-Profile-Menu-Opened .userloggedimage .username_left {
 	background: url("/i/userMenuTopLeft.png") no-repeat scroll 0 0
 		transparent;
 	float: left;
@@ -579,7 +579,7 @@ a {
 	height: 31px;
 }
 
-.P-Head-Profile-Menu:hover .userloggedimage .username_right {
+.P-Head-Profile-Menu-Opened .userloggedimage .username_right {
 	background: url("/i/userMenuTopRight.png") no-repeat scroll 0 0
 		transparent;
 	float: left;
@@ -587,7 +587,7 @@ a {
 	height: 31px;
 }
 
-.P-Head-Profile-Menu:hover .userloggedimage .username {
+.P-Head-Profile-Menu-Opened .userloggedimage .username {
 	background: url("/i/userMenuTopCenter.png") repeat-x scroll 0 0
 		transparent;
 	height: 31px;
@@ -7331,3 +7331,18 @@ td.aof_poll_view_list_label{
 .ui-autocomplete-input{
 	padding-left: 5px;
 }
+
+.P-Head-Profile-Menu {
+	margin-bottom:9px;
+}
+
+.P-Head-Profile-Menu a span{
+	color:#006CD8 !important;
+} 
+
+.P-Head-Profile-Menu a{
+	display:none;
+} 
+.P-Head-Profile-Menu #profile{
+	display:block;
+} 
