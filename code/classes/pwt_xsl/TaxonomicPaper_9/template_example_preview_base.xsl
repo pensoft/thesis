@@ -899,9 +899,9 @@
 			<div class="treatmentSection">
 				<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id"/></xsl:attribute>
 				<h3 class="h-treatment-section">
-					<xsl:if test="count(./fields/*[@id='211']) &gt; 0">
+					<!--xsl:if test="count(./fields/*[@id='211']) &gt; 0">
 						<xsl:attribute name="field_id">211</xsl:attribute>
-					</xsl:if>
+					</xsl:if-->
 					<xsl:copy-of select="$lSecTitle"/>
 				</h3>
 				<xsl:if test="./fields/*[@id='212']/value != ''">
@@ -925,7 +925,7 @@
 		<div class="myfieldHolder">
 			<xsl:attribute name="instance_id"><xsl:value-of select="./@instance_id"/></xsl:attribute>
 			<span class="fieldLabel">
-				<xsl:attribute name="field_id">211</xsl:attribute>
+				<!--xsl:attribute name="field_id">211</xsl:attribute-->
 				<xsl:copy-of select="$lSecTitle"/>:&#160;
 			</span>
 			<div class="fieldValue" field_id="212">
