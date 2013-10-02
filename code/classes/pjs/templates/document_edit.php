@@ -21,6 +21,7 @@ $gTemplArr = array(
 			<div class="P-Head-Profile-Menu">
 				{*global.profile_pic_and_name}
 			</div>
+			<div class="P-Clear"></div>
 			{_displayReadonlyVersionHeaderBox(version_is_readonly)}
 		</div>
 		<!-- End P-Header -->
@@ -35,6 +36,7 @@ $gTemplArr = array(
 				</div>
 				{_ReturnSaveOrCloseBtn(previewmode)}
 			</div>
+			<div class="P-Clear"></div>
 		</div>
 	</div>
 	',

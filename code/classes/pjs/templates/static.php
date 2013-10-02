@@ -2434,7 +2434,7 @@ function ReturnSaveOrCloseBtn($pPreviewMode) {
 		return '<div class="P-Green-Btn-Holder">
 				<div class="P-Green-Btn-Left"></div>
 				<div class="P-Green-Btn-Middle P-80">
-					<input id="submit-view-version-form" onclick="SubmitFormByName(\'document_review_form\');" type="submit" name="tAction" value="' . getstr('admin.article_versions.save') . '"  class="inputBtn" />
+					<input id="submit-view-version-form" onclick="SaveReviewForm();" type="submit" name="tAction" value="' . getstr('admin.article_versions.save') . '"  class="inputBtn" />
 				</div>
 				<div class="P-Green-Btn-Right"></div>
 			</div>
