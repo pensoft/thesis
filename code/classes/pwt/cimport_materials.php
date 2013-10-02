@@ -179,7 +179,7 @@ class cimport_materials extends csimple {
 		//unlink('/tmp/materials.log');
 		//~ $this->m_EmptyXMLpath = PATH_OBJECTS_XSL . 'template_' . (int)$this->m_templateId . '/material_ttm_extant_na_extended_dc.xml';
 		if(is_file($this->m_EmptyXMLpath)){
-
+// 			var_dump($this->m_EmptyXMLpath);
 			$lXML = file_get_contents($this->m_EmptyXMLpath);
 			if(!$this->m_XmlDom->loadXML($lXML)){
 				$this->SetError(getstr('pwt.api.xmlIsInvalid'));
@@ -258,29 +258,21 @@ class cimport_materials extends csimple {
 					//~ ' . (int)$this->m_userId . ')'
 				//~ , E_USER_NOTICE);
 				
-				file_put_contents('/var/www/pensoft/viktorp.pmt/items/messaging/test.txt', 'SELECT * FROM spimportdocumentobjectfromxml(
+				$lSql = 'SELECT * FROM spimportdocumentobjectfromxml(
 					' . (int)$this->m_documentId . ',
 					\'' . q($this->m_XmlDom->saveXML()) . '\',
 					' . (int)$this->m_instanceId . ',
-					' . (int)$this->m_userId . ')');
+					' . (int)$this->m_userId . ')';
+// 				file_put_contents('/tmp/import_test.txt', $lSql);
 				
-// 				var_dump('SELECT * FROM spimportdocumentobjectfromxml(
-// 					' . (int)$this->m_documentId . ',
-// 					\'' . q($this->m_XmlDom->saveXML()) . '\',
-// 					' . (int)$this->m_instanceId . ',
-// 					' . (int)$this->m_userId . ')'
-// 				);
+// 				var_dump($lSql);
 
-				$this->ExecuteSqlStatement('SELECT * FROM spimportdocumentobjectfromxml(
-					' . (int)$this->m_documentId . ',
-					\'' . q($this->m_XmlDom->saveXML()) . '\',
-					' . (int)$this->m_instanceId . ',
-					' . (int)$this->m_userId . ')'
-				);
+				$this->ExecuteSqlStatement($lSql);
 
 				$i++;
 			}
-			$this->ExecuteSqlStatement($lSql = 'SELECT * FROM pwt."XmlIsDirty"(1, ' . $this->m_documentId . ', ' . $this->m_instanceId . ')');
+			$lSql = 'SELECT * FROM pwt."XmlIsDirty"(1, ' . $this->m_documentId . ', ' . $this->m_instanceId . ')';
+			$this->ExecuteSqlStatement($lSql);
 
 		}
 

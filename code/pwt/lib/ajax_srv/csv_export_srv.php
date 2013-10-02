@@ -418,7 +418,9 @@ if($lAction == 'export_materials_as_csv') {
 			$lTreatmentName = $mval['treatment_name'];
 			$lObjectId = $mval['object_id'];
 			
-			$lGetMaterialDarwinCorePosSql = 'SELECT pos FROM pwt.document_object_instances where parent_id = ' . $lMaterialInstanceId . ' AND object_id = ' . DARWINCORE_OBJECT_ID;
+			$lGetMaterialDarwinCorePosSql = 'SELECT pos
+ 				FROM pwt.document_object_instances 
+				WHERE parent_id = ' . $lMaterialInstanceId . ' AND object_id = ' . DARWINCORE_OBJECT_ID;
 			//var_dump($lGetMaterialDarwinCorePosSql);
 			
 			// tva e typ fix za connection-a
@@ -430,11 +432,12 @@ if($lAction == 'export_materials_as_csv') {
 			
 			$lPos = $lCon->mRs['pos'];
 			
+			//We get the type status from the material itself
 			$lCon->Execute('
 				SELECT ifv.*
 				FROM pwt.document_object_instances doi
 				JOIN pwt.v_instance_fields_eml ifv ON ifv.instance_id = doi.id 
-				WHERE doi.pos like \'' . $lPos . '%\' AND document_id = ' . $lMaterialDocumentId . '
+				WHERE (doi.pos like \'' . $lPos . '%\' OR doi.id = ' . (int) $lMaterialInstanceId . ') AND document_id = ' . $lMaterialDocumentId . '
 					AND field_id NOT IN (' . $lForbiddenFields . ')
 			');
 			$lCon->MoveFirst();
@@ -471,6 +474,8 @@ if($lAction == 'export_materials_as_csv') {
 				} else {
 					$lParsedValue = '';
 				}
+				//Strip the contents of the field
+				$lParsedValue = strip_tags($lParsedValue);
 			
 				$lMaterialsFieldValuesArr[$lMaterialInstanceId][$fldval['field_id']] = $lParsedValue;
 				

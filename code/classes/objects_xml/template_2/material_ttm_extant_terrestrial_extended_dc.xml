@@ -1,13 +1,13 @@
 <material>
-	<extended_darwincore>
-	  <fields>
+	<fields>
 		<search_dc_term id="249">
 		  <value/>
 		</search_dc_term>
 		<type_status id="209">
-		  <value value_id="6"></value>
+		  <value></value>
 		</type_status>
 	  </fields>
+	<extended_darwincore>	  
 	  <ttm_extant_terrestrial_extended_dc>
 		<occurrence>
 		  <fields>

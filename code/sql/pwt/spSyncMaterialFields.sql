@@ -24,7 +24,7 @@ $BODY$
 		JOIN pwt.document_object_instances i1 ON i1.id = pSpecificFieldsInstanceId AND substring(i1.pos, 1, char_length(i.pos)) = i.pos AND i1.document_id = i.document_id
 		WHERE i.object_id = lMaterialObjectId;
 		
-		RAISE NOTICE 'Material id %', lMaterialInstanceId;
+		-- RAISE NOTICE 'Material id %', lMaterialInstanceId;
 		IF lMaterialInstanceId IS NULL THEN
 			return lRes;
 		END IF;
