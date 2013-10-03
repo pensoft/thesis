@@ -210,11 +210,38 @@ VALUES (3, 31, 1), (4, 30, 1), (5, 28, 1), (6, 27, 1), (7, 26, 1), (8, 25, 1), (
 INSERT INTO pwt.html_control_types(name, is_html, tags_to_keep)	
 	VALUES ('Material field editor', true, 'tn, tn-part, a, b, i, u, strong, em, sup, sub');
 	
+INSERT INTO pwt.html_control_types(name, is_html, tags_to_keep)	
+	VALUES ('Reference field editor', true, 'tn, tn-part, a, b, i, u, strong, em, sup, sub');
+	
 /*
 UPDATE pwt.object_fields SET
 	control_type = 54
 WHERE object_id IN (25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36);
 */
+	
+UPDATE pwt.object_fields SET
+	control_type = 55
+WHERE object_id IN (108, 107, 103) AND field_id IN (26);
+
+UPDATE pwt.object_fields SET
+	control_type = 55
+WHERE object_id IN (106, 103, 99, 98, 105) AND field_id IN (255);
+
+UPDATE pwt.object_fields SET
+	control_type = 55
+WHERE object_id IN (106, 98) AND field_id IN (257);
+
+UPDATE pwt.object_fields SET
+	control_type = 55
+WHERE object_id IN (99) AND field_id IN (271);
+
+UPDATE pwt.object_fields SET
+	control_type = 55
+WHERE object_id IN (105) AND field_id IN (272);
+
+UPDATE pwt.object_fields SET
+	control_type = 55
+WHERE object_id IN (102) AND field_id IN (276);
 
 /*
 	Modified sps
@@ -223,6 +250,7 @@ WHERE object_id IN (25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36);
 */
 
 /*
+ * Data paper changes
 
 SELECT *, spSyncDocumentObjectFieldsRecursive(
 	194,

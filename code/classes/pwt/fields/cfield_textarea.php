@@ -38,6 +38,14 @@ class cfield_textarea extends cfield_base {
 				$this->m_pubdata['toolbar_name'] = EDITOR_EMPTY_TOOLBAR_NAME;
 				$this->m_pubdata['height'] = EDITOR_MATERIAL_FIELD_HEIGHT;
 				$this->m_pubdata['floating_tools_toolbar_name'] = EDITOR_FLOATING_TOOLBAR_NAME_MATERIAL;
+				break;
+			case FIELD_HTML_TEXTAREA_REFERENCE_FIELD:
+				$this->m_pubdata['use_floating_tools'] = 1;
+				$this->m_pubdata['toolbar_name'] = EDITOR_EMPTY_TOOLBAR_NAME;
+				$this->m_pubdata['height'] = EDITOR_REFERENCE_FIELD_HEIGHT;
+				$this->m_pubdata['floating_tools_toolbar_name'] = EDITOR_FLOATING_TOOLBAR_NAME_REFERENCE;
+				break;
+				
 		}
 		
 		switch($this->m_htmlControlType ){

@@ -76,9 +76,13 @@ CKEDITOR.editorConfig = function( config )
 		{ name: 'addcontrols', items : [ 'Refs' ] }
 	];
 			
-	config.floatingtools_Basic =[		
-		['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link']
-	];
+
+	config.floatingtools_Basic = [ [ 'Bold', '-', 'Italic', '-', 'Subscript',
+			'-', 'Superscript', '-', 'SpecialChar', '-', 'Link', '-', 'Unlink' ] ];
+	config.floatingtools_Material = [ [ 'Bold', '-', 'Italic', '-', 'Subscript',
+			'-', 'Superscript', '-', 'SpecialChar', '-', 'Link', '-', 'Unlink' ] ];
+	config.floatingtools_Reference = [ [ 'Bold', '-', 'Italic', '-', 'Subscript',
+			'-', 'Superscript', '-', 'SpecialChar', '-', 'Link', '-', 'Unlink' ] ];
 
 	config.contentsCss = '/lib/css/editor_iframe.css';
 

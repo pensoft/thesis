@@ -3898,10 +3898,27 @@ function displayTableHeadByMode( $pMode ){
 
 function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $pWidth = 0, $pToolbarName = EDITOR_FULL_TOOLBAR_NAME, $pUseCommonToolbar = 0, $pCommonToolbarHolderId = '', $pAutoGrow = 1, $pUseFloatingTools = 0, $pFloatingToolsToolbarName = EDITOR_FLOATING_TOOLBAR_NAME_BASIC){
 	global $docroot;
-	$autogrow = ($pAutoGrow == 1) ? ',autogrow' : '';
-	$lFloatingTools = ($pUseFloatingTools == 1) ? ',floating-tools' : '';	
+	$lAutogrowPluginNames = ($pAutoGrow == 1) ? ',autogrow' : '';
+	$lFloatingToolsPluginNames = ($pUseFloatingTools == 1) ? ',floating-tools' : '';	
 //var editor = CKEDITOR.replace(\'' . $pTextareaId . '_textarea\', function(){
 	//var_dump($pToolbarName);
+	$lCitationPluginNames = '';
+	define('EDITOR_FULL_TOOLBAR_NAME', 'FullToolbar');
+	define('EDITOR_FULL_TOOLBAR_NAME_NO_MAXIMIZE', 'FullToolbarNoMaximize');
+	define('EDITOR_SMALL_TOOLBAR_NAME', 'SmallToolbar');
+	define('EDITOR_MODERATE_TOOLBAR_NAME', 'ModerateToolbar');
+	define('EDITOR_MODERATE_TABLE_TOOLBAR_NAME', 'ModerateTableToolbar');
+	define('EDITOR_REFERENCE_CITATION_TOOLBAR_NAME', 'ReferenceCitationToolbar');
+	define('EDITOR_EMPTY_TOOLBAR_NAME', 'EmptyToolbar');
+	switch($pToolbarName){
+		case EDITOR_FULL_TOOLBAR_NAME:
+		case EDITOR_FULL_TOOLBAR_NAME_NO_MAXIMIZE:
+			$lCitationPluginNames = ',figs,tbls,refs,sup_files'; 
+			break;
+		case EDITOR_REFERENCE_CITATION_TOOLBAR_NAME:
+			$lCitationPluginNames = ',refs';
+			break;
+	}
 
 	return '<script  type="text/javascript">
 			//<![CDATA[
@@ -3929,7 +3946,7 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 
 		SaveCKEditorConfig(\'' . $pTextareaId . '_textarea\', {
 			' . GetCKEditorExtraAllowedContent() . ',
-			extraPlugins : \'figs,tbls,refs,sup_files,autosave,sharedspace,toolbar'. $lFloatingTools . $autogrow .'\',
+			extraPlugins : \'autosave,sharedspace,toolbar'. $lFloatingToolsPluginNames . $lAutogrowPluginNames . $lCitationPluginNames .'\',
 			on: {
 				instanceReady: function( evt ) {
 					var leditor = evt.editor;

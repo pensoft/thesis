@@ -439,7 +439,7 @@
 			 */
 			unfocus_toolbar = function(editor) {
 				obj = get_element(editor);
-				obj.setOpacity(0.25);
+				obj.setOpacity(1);
 				//console.log('unfocus', editor);
 			},
 

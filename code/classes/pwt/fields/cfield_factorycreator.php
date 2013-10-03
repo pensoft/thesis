@@ -23,6 +23,7 @@ class cfield_factorycreator {
 			case (int)FIELD_HTML_TEXTAREA_THESIS_TAXON_NAME_TYPE:
 			case (int)FIELD_HTML_TEXTAREA_TABLE:
 			case (int)FIELD_HTML_TEXTAREA_MATERIAL_FIELD:
+			case (int)FIELD_HTML_TEXTAREA_REFERENCE_FIELD:
 				return new cfield_textarea($pFieldDetails);
 			case (int)FIELD_HTML_EDITOR_TYPE:
 			case (int)FIELD_HTML_EDITOR_TYPE_ONLY_REFERENCE_CITATIONS:
