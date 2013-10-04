@@ -697,7 +697,7 @@ function SaveInstance(pInstanceId, pModeAfterSuccessfulSave, pCallbackOnSuccess,
 			'in_popup': pInPopup
 		},
 		'success' : function(pAjaxResult){
-			if(pAjaxResult['err_cnt']){
+			if(pAjaxResult['action_is_successful']){
 				alert(pAjaxResult['err_msg']);
 				if(pAjaxResult['validation_err_cnt']){//Ако има грешка при валидацията - показваме наново обекта с маркираните грешки
 					$('#instance_wrapper_' + pInstanceId).replaceWith(pAjaxResult['instance_html']);
@@ -715,6 +715,9 @@ function SaveInstance(pInstanceId, pModeAfterSuccessfulSave, pCallbackOnSuccess,
 				}
 			}
 			gPerformingSave = false;
+		},
+		'error' : function(){
+			NotifyUserForFailedSave(1);
 		}
 	});
 }
@@ -2521,15 +2524,14 @@ function autoSaveInstance(){
 			'auto_save_on' : 1
 		},
 		'success' : function(pAjaxResult){
-			if(pAjaxResult['err_cnt']){
-				/*
-				alert(pAjaxResult['err_msg']);
-				if(pAjaxResult['validation_err_cnt']){//Ако има грешка при валидацията - показваме наново обекта с маркираните грешки
-					$('#instance_wrapper_' + pInstanceId).replaceWith(pAjaxResult['instance_html']);
-				}*/
+			if(!pAjaxResult['action_is_successful']){
+				NotifyUserForFailedSave();
 			}else{
-				//alert('saved');
+
 			}
+		},
+		'error' : function(){
+			NotifyUserForFailedSave();
 		}
 	});
 }
@@ -2551,14 +2553,26 @@ function PerformSingleFieldAutosave(pInstanceId, pFieldId){
 			'auto_save_on' : 1
 		},
 		'success' : function(pAjaxResult){
-			if(pAjaxResult['err_cnt']){
-
+			if(!pAjaxResult['action_is_successful']){
+				NotifyUserForFailedSave();
 			}else{
 
 			}
+		},
+		'error' : function(){
+			NotifyUserForFailedSave();
 		}
 	});
 
+}
+
+function NotifyUserForFailedSave(pIsGeneralSave){
+	if(pIsGeneralSave){
+		alert('Save failed!');
+	}else{
+		alert('Autosave failed!');
+	}
+	
 }
 
 function autoSaveField(pField){
