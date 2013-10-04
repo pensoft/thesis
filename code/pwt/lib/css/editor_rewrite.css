@@ -611,3 +611,16 @@ cke_dialog_page_contents > table {
 
 /* New Styles End*/
 
+.P-Editor-With-Focus .cke_contents{
+	border-radius: 5px;	
+	border-color: #89c0e8!important;
+	box-shadow: 0 0 3px 3px #d5dee5;	
+}
+
+.P-Editor-With-Focus .cke_contents iframe{
+	background-color: #fefbf3;
+}
+
+.P-Reference-Field-Editor-Holder .cke_top, .P-Matrials-Field-Editor-Holder .cke_top{	
+}
+

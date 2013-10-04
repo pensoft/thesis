@@ -5461,6 +5461,12 @@ header .content_in {
 }
 
 .P-Reference-Field-Editor-Holder, .P-Matrials-Field-Editor-Holder{
-	margin-top:-11px;
+	margin-top:-13px;
+}
+
+@-moz-document url-prefix() { 
+  .P-Reference-Field-Editor-Holder, .P-Matrials-Field-Editor-Holder{
+    margin-top:-11px;
+  }
 }
 

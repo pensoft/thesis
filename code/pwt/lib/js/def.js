@@ -133,6 +133,13 @@ function GetLoadingCKEditorsCount(){
 function ReloadCKEditor(pTextareaId){
 	MarkCKEditorAsLoading(pTextareaId);
 	CKEDITOR.replace(pTextareaId, gCKEditorConfigs[pTextareaId]);
+	CKEDITOR.instances[pTextareaId].on('focus', function(pEvent){
+		$(pEvent.editor.container.$).closest('.P-Data-Resources-Textarea').addClass('P-Editor-With-Focus');
+	});
+	
+	CKEDITOR.instances[pTextareaId].on('blur', function(pEvent){
+		$(pEvent.editor.container.$).closest('.P-Data-Resources-Textarea').removeClass('P-Editor-With-Focus');
+	});
 }
 
 function setCommentsPreviewMode(pMode){
