@@ -266,7 +266,7 @@ class mVersions extends emBase_Model {
 // 		var_dump($lPreviousFieldValue);
 		$lCommentsModel = $this->m_commentsModel;
 		$lModifiedComments = $lCommentsModel->RecalculateFieldCommentPositions($pVersionId, $pInstanceId, $pFieldId, $pContent, $lPreviousFieldValue, false);
-		var_dump($lModifiedComments);
+// 		var_dump($lModifiedComments);
 		try{
 			$lSql = 'BEGIN;';
 			if(!$this->m_con->Execute($lSql)){

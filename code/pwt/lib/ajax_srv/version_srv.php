@@ -9,7 +9,8 @@ $gAction = $_REQUEST ['action'];
 $gDocumentId = $_REQUEST ['document_id'];
 $lResult = array (
 		'err_cnt' => 0,
-		'err_msg' => '' 
+		'err_msg' => '',
+		'action_is_successful' => 1,
 );
 
 try {
@@ -67,6 +68,7 @@ try {
 	}
 } catch ( Exception $pException ) {
 	$lResult ['err_cnt'] = 1;
+	$lResult ['action_is_successful'] = 0;
 	$lResult ['err_msg'] = $pException->getMessage();
 }
 

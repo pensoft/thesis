@@ -34,8 +34,9 @@ class cVersion_Ajax_Srv extends cBase_Controller {
 
 		$lResultArr = array_merge($this->m_action_result, array(
 			'err_cnt' => $this->m_errCnt,
-			'err_msgs' => $this->m_errMsgs
-		));
+			'err_msgs' => $this->m_errMsgs,
+			'action_is_successful' => $this->m_errCnt ? 0 : 1,
+		));		
 		$this->m_pageView = new epPage_Json_View($lResultArr);
 	}
 
@@ -49,8 +50,7 @@ class cVersion_Ajax_Srv extends cBase_Controller {
 			$lInstanceId = (int) $this->GetValueFromRequestWithoutChecks('instance_id');
 			$lContent = trim($this->GetValueFromRequestWithoutChecks('content'));
 
-			$lVersionModel = new mVersions();
-
+			$lVersionModel = new mVersions();			
 			$this->m_action_result = $lVersionModel->SavePwtVersionChange($lVersionId, $lFieldId, $lInstanceId, $lContent, $this->GetUserId());
 
 			if($this->m_action_result['err_cnt']){

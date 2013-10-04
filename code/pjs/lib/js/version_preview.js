@@ -54,7 +54,7 @@ function SetVersionUser(pUid, pUserName){
 	gUserName = pUserName;
 }
 
-function ExecuteSimpleVersionAjaxRequest(pDataToPass, pAsync) {
+function ExecuteSimpleVersionAjaxRequest(pDataToPass, pAsync, pCallbackOnError) {
 	$.ajax({
 		url : gVersionsAjaxSrv,
 		async : pAsync ? pAsync : false,
@@ -62,9 +62,20 @@ function ExecuteSimpleVersionAjaxRequest(pDataToPass, pAsync) {
 		type : 'POST',
 		data : pDataToPass,
 		success : function(pAjaxResult) {
-			if(pAjaxResult['err_cnt']){
-				alert('Error occurred');
+			if(!pAjaxResult['action_is_successful']){
+				if(pCallbackOnError){
+					pCallbackOnError(pAjaxResult)
+				}else{
+					alert('Error occurred');
+				}
 			}else{
+			}
+		},
+		error : function(){
+			if(pCallbackOnError){
+				pCallbackOnError()
+			}else{
+				alert('Error occurred');
 			}
 		}
 	});
@@ -202,9 +213,18 @@ function SaveNodeTrackerContents(pNode) {
 		instance_id : lInstanceId,
 		content : lContent,
 		document_id : gDocumentId
-	});
+	}, false, function(){NotifyUserForFailedSave();});
 
 //	console.log(lFieldId, lInstanceId, lContent);
+}
+
+function NotifyUserForFailedSave(pIsGeneralSave){
+	if(pIsGeneralSave){
+		alert('Save failed!');
+	}else{
+		alert('Autosave failed!');
+	}
+	
 }
 
 function SingleTrackerAcceptAllChanges(pTracker) {

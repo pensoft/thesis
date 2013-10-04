@@ -28,6 +28,7 @@ $lResult = array(
 	'err_cnt' => 0,
 	'err_msg' => '',
 	'validation_err_cnt' => 0,
+	'action_is_successful' => 1
 );
 if($gInstanceId && $gDocumentId){
 	$gGetObjectsModeFromRequest = true;
@@ -48,6 +49,7 @@ if($gInstanceId && $gDocumentId){
 	));
 	if((int) $lSaveDocument->hasErrors()){
 		$lResult['err_cnt'] = 1;
+		$lResult['action_is_successful'] = 0;
 		$lResult['validation_err_cnt'] = 1;
 		$lResult['err_msg'] = br2nl($lSaveDocument->GetErrorMsg());
 		if($lSaveDocument->HasValidationErrors()){
@@ -112,6 +114,7 @@ if($gInstanceId && $gDocumentId){
 }else{
 	$lResult = array(
 		'err_cnt' => 1,
+		'action_is_successful' => 0,
 		'err_msg' => getstr('pwt.missingRequiredParameters'),
 	);
 }
