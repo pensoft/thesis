@@ -56,7 +56,7 @@ $gTemplArr = array(
 	',
 
 
-	//Field
+	/*/Field
 	'fields.input' => '
 												<div class="P-Data-Resources-Subsection-Title">
 													{field_label}
@@ -78,8 +78,31 @@ $gTemplArr = array(
 													</div>
 												</div>
 
+	',	 
+	*/ 
+	  
+	//Fields-new
+	
+	'fields.input' => '
+												<div class="P-Data-Resources-Subsection-Title">
+													{field_label}
+
+													<div class="P-Input-Full-Width {_getInputWrapperClass(has_help_label, has_validation_error, help_label_display_style)}">
+														<div class="P-Input-Inner-Wrapper">
+															<div class="fieldHolder">
+																	{field}
+																	{actions_content}
+																<div class="P-Clear"></div>
+															</div>
+															{_displayFieldExampleLabel(has_example_label, example_label)}
+														</div>
+														{_displayFieldHelpLabel(has_help_label, help_label, help_label_display_style)}
+													</div>
+												</div>
+
 	',
-		
+	
+	
 	'fields.input_youtube_link' => '			
 												{*fields.input}												
 												<script type="text/javascript">
@@ -247,7 +270,7 @@ $gTemplArr = array(
 														<div class="P-Clear"></div>
 													</div>
 													<div class="P-Textarea-Wrapper {_getInputWrapperClass(has_help_label, has_validation_error, help_label_display_style)}">
-														<div class="P-Data-Resources-Textarea SmallTextArea">
+														<div class="P-Data-Resources-Textarea SmallTextArea {css_class}" >
 															{_createEditorToolbarHolder(create_common_toolbar_holder, common_toolbar_holder_id)}
 															{field}
 															{actions_content}

@@ -291,7 +291,7 @@ $gTemplArr = array(
 				<div class="br"></div>
 
 				<div {_showHideTextByViewMode(view_mode)}>{*notes_to_author}{_showRequiredStart(user_role)}:</div>
-				<div {_showHideTextByViewMode2(view_mode)}>' . getstr('admin.article_versions.viewyourpreview') . ':</div>
+				<div {_showHideTextByViewMode2(view_mode)}><b>' . getstr('admin.article_versions.viewyourpreview') . ':</b></div>
 				<div class="br"></div>
 				{!notes_to_author}
 				<div {_showHideTextByViewMode(view_mode)}>{notes_to_author}</div>

@@ -3167,10 +3167,10 @@ function displaySingleCommentInfo($pCommentId, $pRootId, $pCurrentUserIsEditor, 
 					' . showCommentPic($pUserPhotoId, $pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId) . '
 				</div>
 				<div class="P-Comment-Text-Data">
-					<div class="P-Comment-UserName">
+					<div class="P-Comment-UserName unselectable">
 						 ' . DisplayCommentUserName($pIsDisclosed, $pUserRealId, $pCurrentUserIsEditor, $pCurrentUserId, $pCommentUserRealFullName, $pCommentUserUndisclosedName) . '
 					</div>
-					<div class="P-Comment-Date">
+					<div class="P-Comment-Date unselectable">
 						' . displayCommentLastModdate($pCommentId, $pCommentDate, $pCommentDateInSeconds, $pInRoot) . '
 					</div>
 				</div>

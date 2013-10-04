@@ -15,7 +15,7 @@ BEGIN
 	) 
 	THEN -- create one
 		BEGIN 
-			PERFORM pjs."spEnsureUserIsNotAuthorInDoc"("pUid", "pDocumentId", '%s (%s) is an author in this document => must not be a reviewer' );
+			PERFORM pjs."spEnsureUserIsNotAuthorInDoc"("pUid", "pDocumentId", '%s (%s) is an author in this document => can not be a reviewer' );
 		EXCEPTION  WHEN raise_exception THEN  
 			RAISE EXCEPTION USING MESSAGE = SQLERRM;
 		END;

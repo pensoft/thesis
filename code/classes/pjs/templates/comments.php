@@ -19,8 +19,8 @@ $gTemplArr = array(
 				<div class="P-Clear"></div>
 			</div>
 			<div class="P-Comments-Expand-Collapse" id="Comments-Collapse-Expand-Top" style="display:none">
-				<span class="Collapse-Expand"><img src="' . PWT_URL . '/i/double_arows_up.png" alt="" /><a href="javascript:void(0)" onclick="ExpandCollapseAll(0);">Collapse all</a></span>
-				<span class="Collapse-Expand"><img src="' . PWT_URL . '/i/double_arrows_down.png" alt="" /><a href="javascript:void(0)" onclick="ExpandCollapseAll(1);">Expand all</a></span>
+				<span class="Collapse-Expand unselectable"><img src="' . PWT_URL . '/i/double_arows_up.png" alt="" /><a href="javascript:void(0)" onclick="ExpandCollapseAll(0);">Collapse all</a></span>
+				<span class="Collapse-Expand unselectable"><img src="' . PWT_URL . '/i/double_arrows_down.png" alt="" /><a href="javascript:void(0)" onclick="ExpandCollapseAll(1);">Expand all</a></span>
 				<div class="P-Comment-Nav-BtnsNEW">		
 					<span class="Comment-PrevNEW floatLeft{_displayPrevCommentVersionReadonlyClass(preview_is_readonly)}"><a style="cursor:pointer" onclick="SelectPreviousComment()"><img src="/i/docleftarrow.png" alt="" style="vertical-align:middle;" />&nbsp;Prev</a></span>
 					<span class="Comment-NextNEW floatLeft"><a style="cursor:pointer" onclick="SelectNextComment()"><img src="/i/docrightarrow.png" alt="" style="vertical-align:middle;" />&nbsp;Next</a></span>

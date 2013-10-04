@@ -38,6 +38,7 @@ textarea {/* 	font-family: Arial, Helvetica, sans-serif; */
 	border: 1px solid #b3b3a5;
 	width: 100%;
 	overflow: hidden;
+	border-radius: 5px;
 	/*min-height: 380px;*/
 }
 
@@ -5419,3 +5420,47 @@ header .content_in {
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
+/* Inputs with CSS */
+
+.fieldHolder input {
+	background: #fff;
+	width: 100%;
+	height: 30px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border-top: solid 1px #b2b2a4;
+	border-left: solid 1px #bdbdaf;
+	border-right: solid 1px #bdbdaf;
+	border-bottom: solid 1px #C6C6B6;
+	border-radius: 3px;
+	padding: 0 0 0 5px;
+	margin-right: 16px;
+	margin-top: 5px;
+	margin-bottom: 8px;
+	box-shadow: inset 0px
+	 6px
+	 10px
+	 -10px
+	 #888;
+	 cursor: text;
+}
+
+.P-Input-Err .fieldHolder input {
+	margin-top: 6px;
+	background-color: #f6e3dc;
+	border-color: #bf1e1e;
+	box-shadow: 0 0 3px 3px #f7e5e5;
+}
+
+.fieldHolder input:focus {
+	background-color: #fefbf3;
+	border-color: #89c0e8;
+	box-shadow: 0 0 3px 3px #d5dee5
+}
+
+.P-Reference-Field-Editor-Holder{
+	margin-top:-11px;
+}
+

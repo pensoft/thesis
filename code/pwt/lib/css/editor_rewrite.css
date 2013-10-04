@@ -524,6 +524,7 @@ a.cke_dialog_ui_button.P-Dialog-Button-Close span {
 
 .cke_contents {
 	border:1px solid #E2E2DC !important;
+	border-radius: 5px 5px 5px 5px;
 }
 
 .cke_wysiwyg_frame {
