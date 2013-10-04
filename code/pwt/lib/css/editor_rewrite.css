@@ -523,8 +523,12 @@ a.cke_dialog_ui_button.P-Dialog-Button-Close span {
 }
 
 .cke_contents {
-	border:1px solid #bdbdaf !important;
+	border:1px solid #E2E2DC !important;
 	border-radius: 5px 5px 5px 5px;
+}
+
+.P-Reference-Field-Editor-Holder .cke_contents, .P-Matrials-Field-Editor-Holder .cke_contents{
+ 	border:1px solid #bdbdaf !important;
 }
 
 .cke_wysiwyg_frame {
@@ -611,13 +615,13 @@ cke_dialog_page_contents > table {
 
 /* New Styles End*/
 
-.P-Editor-With-Focus .cke_contents{
+.P-Reference-Field-Editor-Holder.P-Editor-With-Focus .cke_contents, .P-Matrials-Field-Editor-Holder.P-Editor-With-Focus .cke_contents{
 	border-radius: 5px;	
 	border-color: #89c0e8!important;
 	box-shadow: 0 0 3px 3px #d5dee5;	
 }
 
-.P-Editor-With-Focus .cke_contents iframe{
+.P-Reference-Field-Editor-Holder.P-Editor-With-Focus .cke_contents iframe, .P-Matrials-Field-Editor-Holder.P-Editor-With-Focus .cke_contents iframe{
 	background-color: #fefbf3;
 }
 

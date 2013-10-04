@@ -51,6 +51,7 @@
 						'border-radius:3px;',
 						'box-shadow: 0 1px 10px rgba(0,0,0,0.3);',
 						'transition:opacity .1s;-o-transition:opacity .1s;-moz-transition:opacity .1s;-webkit-transition:opacity .1s;',
+						'z-index: 1000000000000000',
 					'}',
 					'</style>',
 					'<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>', 
