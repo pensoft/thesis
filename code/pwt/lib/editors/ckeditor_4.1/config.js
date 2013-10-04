@@ -84,7 +84,7 @@ CKEDITOR.editorConfig = function( config )
 	config.floatingtools_Reference = [ [ 'Bold', '-', 'Italic', '-', 'Subscript',
 			'-', 'Superscript', '-', 'SpecialChar', '-', 'Link', '-', 'Unlink' ] ];
 
-	config.contentsCss = '/lib/css/editor_iframe.css';
+//	config.contentsCss = '/lib/css/editor_iframe.css';
 
 	config.toolbarCanCollapse = false;
 

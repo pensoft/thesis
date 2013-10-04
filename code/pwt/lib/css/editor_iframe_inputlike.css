@@ -1,0 +1,28 @@
+html,body {
+	margin: 0px;
+	padding: 0px;
+	font-size: 12px;
+	line-height: 15px;
+	font-family: Tahoma;
+}
+
+p {
+	padding: 6px;
+	margin: 0px;
+}
+
+.P-Figure-Citation-Holder {
+	background:#DDD;
+}
+
+.P-Tables-Citation-Holder {
+	background:#DDD;
+}
+
+.P-References-Citation-Holder {
+	background: #DDD;
+}
+
+.P-SupFiles-Citation-Holder {
+	background:#DDD;
+}

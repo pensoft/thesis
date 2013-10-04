@@ -3903,14 +3903,9 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 //var editor = CKEDITOR.replace(\'' . $pTextareaId . '_textarea\', function(){
 	//var_dump($pToolbarName);
 	$lCitationPluginNames = '';
-	define('EDITOR_FULL_TOOLBAR_NAME', 'FullToolbar');
-	define('EDITOR_FULL_TOOLBAR_NAME_NO_MAXIMIZE', 'FullToolbarNoMaximize');
-	define('EDITOR_SMALL_TOOLBAR_NAME', 'SmallToolbar');
-	define('EDITOR_MODERATE_TOOLBAR_NAME', 'ModerateToolbar');
-	define('EDITOR_MODERATE_TABLE_TOOLBAR_NAME', 'ModerateTableToolbar');
-	define('EDITOR_REFERENCE_CITATION_TOOLBAR_NAME', 'ReferenceCitationToolbar');
-	define('EDITOR_EMPTY_TOOLBAR_NAME', 'EmptyToolbar');
-	switch($pToolbarName){
+	$lCssFileName = 'editor_iframe.css';
+	
+	switch($pToolbarName){		
 		case EDITOR_FULL_TOOLBAR_NAME:
 		case EDITOR_FULL_TOOLBAR_NAME_NO_MAXIMIZE:
 			$lCitationPluginNames = ',figs,tbls,refs,sup_files'; 
@@ -3919,10 +3914,19 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 			$lCitationPluginNames = ',refs';
 			break;
 	}
+	
+	if($pUseFloatingTools){
+		switch($pFloatingToolsToolbarName){
+			case EDITOR_FLOATING_TOOLBAR_NAME_MATERIAL:
+			case EDITOR_FLOATING_TOOLBAR_NAME_REFERENCE:
+				$lCssFileName = 'editor_iframe_inputlike.css';
+				break;
+		}
+	}
 
 	return '<script  type="text/javascript">
 			//<![CDATA[
-		CKEDITOR.config.contentsCss = \'editor_iframe1.css\' ;
+		CKEDITOR.config.contentsCss = \'/lib/css/' . $lCssFileName . '\' ;
 		CKEDITOR.config.language = \'en\';
 
 
