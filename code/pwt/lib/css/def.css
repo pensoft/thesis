@@ -30,8 +30,8 @@ form {
 
 input, textarea, select, option, .P-Select-Value {
 	line-height: 1.8em;
-	font-size: 0.9em;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 1em;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 }
 
 textarea {/* 	font-family: Arial, Helvetica, sans-serif; */
@@ -976,8 +976,8 @@ h1 {
 	padding-right: 5px;
 }
 
-.P-Data-Resources-Textarea {/*padding-top: 10px;*/
-
+.P-Data-Resources-Textarea {
+	/*padding-top: 10px;*/
 }
 
 .P-Textarea-Wrapper.P-Input-With-Desc .P-Data-Resources-Textarea{
@@ -5460,7 +5460,7 @@ header .content_in {
 	box-shadow: 0 0 3px 3px #d5dee5
 }
 
-.P-Reference-Field-Editor-Holder{
+.P-Reference-Field-Editor-Holder, .P-Matrials-Field-Editor-Holder{
 	margin-top:-11px;
 }
 

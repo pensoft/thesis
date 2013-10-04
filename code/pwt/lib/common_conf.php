@@ -213,8 +213,8 @@ define('EDITOR_DEFAULT_HEIGHT', 120);
 define('EDITOR_SMALL_DEFAULT_HEIGHT', 75);
 define('EDITOR_THESIS_HEIGHT', 70);
 define('EDITOR_NEXT_COUPLET_HEIGHT', 42);
-define('EDITOR_MATERIAL_FIELD_HEIGHT', 42);
-define('EDITOR_REFERENCE_FIELD_HEIGHT', 42);
+define('EDITOR_MATERIAL_FIELD_HEIGHT', 29);
+define('EDITOR_REFERENCE_FIELD_HEIGHT', 29);
 
 //Link от където се взима информация за статия с дадено ид в пмц
 define('PMC_FETCH_LINK', 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&rettype=medline&retmode=xml&id=');
