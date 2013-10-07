@@ -3580,6 +3580,17 @@ function cleanHTML(pHTML, pTableFlag) {
 	return theHTML;
 }
 
+function InsertLoadingDivMarkup(){
+	if($('#' + gLoadingDivId).length > 0){
+		return;
+	}
+	var lHolder = $('.P-Wrapper-Container').first();
+	if(!lHolder.length){
+		return;		
+	}
+	lHolder.append('	<div id="' + gLoadingDivId + '"><img src="./i/loading.gif" alt="" /></div>') ;
+}
+
 function showLoading(){
 	if(gPerformingSave || gLoadingIsVisible){
 		return;

@@ -125,11 +125,14 @@ $gTemplArr = array(
 		</iframe>
 		<input type="hidden" value="{document_id}" name="document_id">
 		<script type="text/javascript">
+			InsertLoadingDivMarkup();
+			showLoading();
 			$("#previewIframe").load(function(){
 				resizePreviewIframe("previewIframe");
 				initPreviewSelectCommentEvent();
 				fillCommentPos();
-				positionCommentsBase(true);							
+				positionCommentsBase(true);
+				hideLoading();						
 			});
 			window.onresize = function() {
 				resizePreviewIframe("previewIframe");

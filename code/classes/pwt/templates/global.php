@@ -287,9 +287,11 @@ $gTemplArr = array(
 	',
 
 	'global.htmlendcontent' => '
-						<div id="P-Ajax-Loading-Image">
-							<img src="./i/loading.gif" alt="" />
-						</div>
+					<script>
+						if (typeof InsertLoadingDivMarkup == \'function\') { 
+						  InsertLoadingDivMarkup();
+						}						
+					</script>						
 					</div><!-- End P-Wrapper-Container -->
 					<div class="P-Footer">
 						<div class="P-Footer-Left">
