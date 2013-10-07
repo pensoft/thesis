@@ -1479,8 +1479,13 @@ function submitCommentEdit(pCommentId){
 				alert(lErrorMsg);
 				return;
 			}
-			$('#P-Comment-' + pCommentId).replaceWith(pAjaxResult['html']);
-			positionCommentsBase();
+			if(parseInt(pAjaxResult['is_root'], 10) > 0 && parseInt(pAjaxResult['is_empty'], 10) > 0 && parseInt(pAjaxResult['has_no_children'], 10) > 0){
+				DeleteComment(pCommentId, 1);
+			}else{
+				$('#P-Comment-' + pCommentId).replaceWith(pAjaxResult['html']);
+				positionCommentsBase();
+			}
+			
 		}
 	});
 }

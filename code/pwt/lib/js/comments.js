@@ -32,8 +32,16 @@ function scrollToComment(pCommentId){
 	return false;
 }
 
-function deleteComment( pCommentId ) {
-	if (confirm("Are you sure you want to delete this comment?")) {
+/**
+ * An adapter function - we need it 'cause we need DeleteComment in comments_common.js
+ * @param pCommentId
+ */
+function DeleteComment(pCommentId, pDontRequireConfirmation){
+	deleteComment(pCommentId, pDontRequireConfirmation);
+}
+
+function deleteComment( pCommentId, pDontRequireConfirmation ) {
+	if (pDontRequireConfirmation || confirm("Are you sure you want to delete this comment?")) {
 		$.ajax({
 			url: gDeleteCommentSrv,
 			dataType : 'json',

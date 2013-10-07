@@ -168,6 +168,10 @@ class cComment_Ajax_Srv extends cBase_Controller {
 		unset($_REQUEST['kfor_name']);
 		$this->m_action_result['comment_preview'] = $this->GetCommentPreview($lCommentId, 'comment_edit_preview', true);
 		$this->m_action_result['html'] = $this->m_action_result['comment_preview'];
+		
+		$this->m_action_result['is_root'] = (int)$this->m_commentsModel->CheckIfCommentIsRoot($lCommentId);
+		$this->m_action_result['is_empty'] = (int)$this->m_commentsModel->CheckIfCommentIsEmpty($lCommentId);
+		$this->m_action_result['has_no_children'] = (int)$this->m_commentsModel->CheckIfCommentHasSubcomments($lCommentId);
 	
 	}
 

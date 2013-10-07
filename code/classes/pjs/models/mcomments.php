@@ -701,6 +701,38 @@ class mComments extends emBase_Model {
 		return true;
 	}
 
-
+	function CheckIfCommentIsRoot($pCommentId){
+		$lSql = '
+			SELECT CASE WHEN id = rootid THEN 1 ELSE 0 END as is_root
+			FROM pjs.msg m
+			WHERE id = ' . (int)$pCommentId . '
+		';
+// 		var_dump($lSql);
+		$this->m_con->Execute($lSql);		
+		return $this->m_con->mRs['is_root'] > 0;
+		
+	}
+	
+	function CheckIfCommentIsEmpty($pCommentId){
+		$lSql = '
+			SELECT msg
+			FROM pjs.msg m
+			WHERE id = ' . (int)$pCommentId . '
+		';
+		$this->m_con->Execute($lSql);
+		return trim($this->m_con->mRs['msg']) == '';
+	
+	}
+	
+	function CheckIfCommentHasSubcomments($pCommentId){
+		$lSql = '
+			SELECT min(id) as sub_id 			
+			FROM pjs.msg m
+			WHERE rootid = ' . (int)$pCommentId . ' AND id <> rootid
+		';
+		$this->m_con->Execute($lSql);
+		return (int)$this->m_con->mRs['sub_id'] == 0;
+	
+	}
 }
 ?>

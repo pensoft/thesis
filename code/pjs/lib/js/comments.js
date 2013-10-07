@@ -89,22 +89,24 @@ function SubmitCommentReplyForm(pRootId) {
 	});
 }
 
-function DeleteComment(pCommentId) {
-	$.ajax({
-		url : gPreviewCommentAjaxUrl,
-		dataType : 'json',
-		data : {
-			comment_id : pCommentId,
-			action : 'delete_comment'
-		},
-		success : function(pAjaxResult) {
-			if(pAjaxResult['err_cnt']){
-				alert(pAjaxResult['err_msg']);
-				return;
+function DeleteComment(pCommentId, pDontRequireConfirmation) {
+	if (pDontRequireConfirmation || confirm("Are you sure you want to delete this comment?")) {
+		$.ajax({
+			url : gPreviewCommentAjaxUrl,
+			dataType : 'json',
+			data : {
+				comment_id : pCommentId,
+				action : 'delete_comment'
+			},
+			success : function(pAjaxResult) {
+				if(pAjaxResult['err_cnt']){
+					alert(pAjaxResult['err_msg']);
+					return;
+				}
+				CleanupAfterCommentDelete(pCommentId);
 			}
-			CleanupAfterCommentDelete(pCommentId);
-		}
-	});
+		});
+	}
 }
 
 function scrollToComment(pCommentId) {

@@ -147,6 +147,23 @@ function EditComment(){
 				'document_id' => $gDocumentId,				
 		) );		
 		$gResult['html'] = $lComment->GetVal('single_comment');
+		$lSql = '
+			SELECT CASE WHEN id = rootid THEN 1 ELSE 0 END as is_root,
+				msg, (
+					SELECT min(m1.id) as sub_id 
+					FROM pwt.msg m1 
+				WHERE m1.rootid = m.rootid AND m1.id <> m.id
+			) 
+			FROM pwt.msg m
+			WHERE id = ' . (int)$gCommentId . '
+		';
+		$lCon = new DBCn();
+		$lCon->Open();
+		$lCon->Execute($lSql);
+		$gResult['is_root'] = (int)$lCon->mRs['is_root'];
+		$gResult['is_empty'] = (trim($lCon->mRs['msg']) == '') ? 1 : 0;
+		$gResult['has_no_children'] = ((int)$lCon->mRs['sub_id'] == 0) ? 1 : 0;
+		
 	}catch(Exception $pException){
 		$gResult['err_cnt'] ++;
 		$gResult['err_msg']=  strip_tags($pException->getMessage());
