@@ -697,7 +697,7 @@ function SaveInstance(pInstanceId, pModeAfterSuccessfulSave, pCallbackOnSuccess,
 			'in_popup': pInPopup
 		},
 		'success' : function(pAjaxResult){
-			if(pAjaxResult['action_is_successful']){
+			if(!pAjaxResult['action_is_successful']){
 				alert(pAjaxResult['err_msg']);
 				if(pAjaxResult['validation_err_cnt']){//Ако има грешка при валидацията - показваме наново обекта с маркираните грешки
 					$('#instance_wrapper_' + pInstanceId).replaceWith(pAjaxResult['instance_html']);
