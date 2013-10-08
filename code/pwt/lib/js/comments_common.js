@@ -1450,13 +1450,45 @@ function EnableDisableInlineCommentBtn(pEnable){
 	}
 }
 
+function GetCommentRootId(pCommentId){
+	var lCommentHolder = $('#P-Comment-' + pCommentId);
+	if(!lCommentHolder.length){
+		return;
+	}
+	var lRootHolder = lCommentHolder.closest('.P-Root-Comment');
+	if(!lRootHolder.length){
+		return;
+	}
+	var lRootHolderId = $(lRootHolder).attr('id');
+	var lId = lRootHolderId.slice("P-Root-Comment-Holder-".length);
+	return parseInt(lId, 10);
+}
+
+function HideShowRootCommentReplyAndResolveInfo(pCommentId, pHide){
+	var lReplyHolder = $('#P-Comment-Btn-' + pCommentId); 
+	var lResolveHolder = $('#P-Comment-Resolve-' + pCommentId);
+	if(pHide){
+		lReplyHolder.hide();
+		lResolveHolder.hide();		
+	}else{
+		lReplyHolder.show();
+		lResolveHolder.show();	
+	}	
+}
+
 function displayCommentEditForm(pCommentId, pDontRepositionComments){
+	pCommentId = parseInt(pCommentId, 10);
 	$('#P-Comment-Msg-Holder_' + pCommentId).hide();
 	$('#P-Comment-Edit-Form_' + pCommentId).show();
 	$('#P-Comment-Edit-Form_' + pCommentId).find('textarea').first().focus();
 	if(!pDontRepositionComments){
 		positionCommentsBase();
 	}
+	var lCommentRootId = GetCommentRootId(pCommentId);
+	if(!lCommentRootId || lCommentRootId != pCommentId){
+		return;
+	}
+	HideShowRootCommentReplyAndResolveInfo(lCommentRootId, 1);
 }
 
 function submitCommentEdit(pCommentId){
@@ -1484,6 +1516,10 @@ function submitCommentEdit(pCommentId){
 			}else{
 				$('#P-Comment-' + pCommentId).replaceWith(pAjaxResult['html']);
 				positionCommentsBase();
+				var lCommentRootId = GetCommentRootId(pCommentId);
+				if(lCommentRootId && lCommentRootId == pCommentId){
+					HideShowRootCommentReplyAndResolveInfo(lCommentRootId);
+				}				
 			}
 			
 		}

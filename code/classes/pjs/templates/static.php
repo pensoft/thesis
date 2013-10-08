@@ -2987,7 +2987,7 @@ function DisplayDeleteCommentLink($pId, $pRootId, $pOriginalId, $pUsrId, $pVersi
 }
 
 function displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveUserFullname, $pResolveDate, $pVersionIsReadonly = false){
-	$lResult = '<div class="Comment-Resolve-Info">';
+	$lResult = '<div class="Comment-Resolve-Info" id="P-Comment-Resolve-' . $pCommentId . '">';
 
 	if(!$pVersionIsReadonly){
 		$lResult .= '<input type="checkbox" onclick="ResolveComment(' . $pCommentId . ')" name="is_resolved_' . $pCommentId . '" id="is_resolved_' . $pCommentId . '" value="1" ' . ($pIsResolved ? 'checked="checked"' : '') . '>';
