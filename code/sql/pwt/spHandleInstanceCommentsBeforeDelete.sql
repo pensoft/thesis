@@ -50,11 +50,17 @@ $BODY$
 		FROM pwt.document_object_instances i
 		WHERE i.id = pInstanceId;
 		
+		RAISE NOTICE 'InstanceIds %', lInstanceIds;
 		--Първо трием тези които са изцяло в обекта
 		DELETE 
 		FROM pwt.msg m
 		WHERE start_object_instances_id = ANY (lInstanceIds) 
 			AND end_object_instances_id = ANY (lInstanceIds);
+			
+		UPDATE pwt.msg SET  
+			root_object_instance_id = lParentInstanceId
+		WHERE root_object_instance_id = ANY (lInstanceIds);
+		
 			
 		-- Намираме предходния и следващия обект / field на parent-а след който ще сложим началото на коментара, за тези
 		-- коментари които започват в обекта
