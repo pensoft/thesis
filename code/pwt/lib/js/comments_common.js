@@ -6,6 +6,7 @@ var gCommentPositionEndType = 2;
 var gCommentFormHide = 1;
 var gCommentsVerticalPosition = {};
 var gCommentPreviewElementClass = 'P-Preview-Comment';
+var gCommentHiddenPreviewElementClass = 'P-Preview-Comment-Hidden';
 var gActiveCommentTextClass = 'Active-Comment-Text';
 var gActiveCommentHolderClass = 'Active-Comment-Holder';
 var gUnavailableCommentLabelId = 'P-Comment-Unavailable-Text';
@@ -878,7 +879,9 @@ function positionCommentsBase(pRecacheOrder){
 			return;
 		}else{
 			$(pRow).show();
-		}
+		}		
+		
+		
 		lOffsetParent = $(pRow).offsetParent();		
 //		var lCommentPosition = gCommentsVerticalPosition[lCommentId];
 		var lCommentPosition = getCommentVerticalPosition(lCommentId);
@@ -961,6 +964,38 @@ function positionCommentsBase(pRecacheOrder){
     }
 	lBottomButtons.css('position', 'absolute');
 	lBottomButtons.css('top', lCurrentPosition);
+}
+
+function HideShowCommentPreviewMarkupBase(pCommentId){
+	var lCommentMarkup = GetPreviewContent().find('.' + gCommentPreviewElementClass);
+	if(pCommentId){
+		lCommentMarkup = lCommentMarkup.filter('*[comment_id~="' + pCommentId + '"]');
+	}
+	
+	lCommentMarkup.each(function(){
+		var lCommentIds = $(this).attr('comment_id').split(" ");	
+		var lAllCommentsAreHidden = true;
+		for(var i = 0; i < lCommentIds.length; ++i){
+			var lCommentId = lCommentIds[i];
+			if(CheckIfRootCommentIsVisible(lCommentId)){
+				lAllCommentsAreHidden = false;
+				break;
+			}
+		}
+		if(lAllCommentsAreHidden){
+			$(this).addClass(gCommentHiddenPreviewElementClass)
+		}else{
+			$(this).removeClass(gCommentHiddenPreviewElementClass)
+		}
+	});	
+}
+
+function HideShowSingleCommentPreviewMarkup(pCommentId){
+	HideShowCommentPreviewMarkupBase(pCommentId);
+}
+
+function HideShowAllCommentsPreviewMarkup(){
+	HideShowCommentPreviewMarkupBase();
 }
 
 function initComment(pCommentId, pStartInstanceId, pStartFieldId, pStartOffset, pEndInstanceId, pEndFieldId, pEndOffset, pUserName, pTimestamp){
@@ -1307,6 +1342,7 @@ function FilterComments() {
 			}
 			gFilterRootComments = true;			
 			gVisibleRootCommentIds = pAjaxResult['visible_rootids'];
+			HideShowAllCommentsPreviewMarkup();
 			if(gCurrentActiveCommentId){
 				if(!CheckIfRootCommentIsVisible(gCurrentActiveCommentId)){
 					DeactivateAllComments(1);
@@ -1711,6 +1747,7 @@ function submitPreviewNewComment(pCommentIsGeneral){
 					$('#P-Root-Comments-Holder').children('.P-Root-Comment').last().after(lCommentResult);
 				}
 				gVisibleRootCommentIds.push(lCommentId.toString());
+				HideShowSingleCommentPreviewMarkup(lCommentId);
 				setCommentsWrapEvents();
 				MakeCommentActive(lCommentId);
 				gCurrentCommentSpecificPosition = false;

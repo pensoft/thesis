@@ -342,6 +342,11 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 .P-Preview-Comment {
   background: none repeat scroll 0 0 #FBEBC7;
 }
+
+.P-Preview-Comment-Hidden{
+	background-color:inherit!important;
+}
+
 .P-Preview-Comment.Active-Comment-Text {
   background: none repeat scroll 0 0 #FFE03F;
 }
