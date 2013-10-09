@@ -885,14 +885,26 @@ function positionCommentsBase(pRecacheOrder){
 		lOffsetParent = $(pRow).offsetParent();		
 //		var lCommentPosition = gCommentsVerticalPosition[lCommentId];
 		var lCommentPosition = getCommentVerticalPosition(lCommentId);
+				
 		
 		var lIsGeneral = false;
 		if(lCommentPosition == 0){
 			lIsGeneral = true;
 		}
 				
-		
+		//The part which is not visible in the bottom due to current scroll position
+		var lPartNotVisibleOnScreen = lCommentPosition + $(pRow).outerHeight() - $(window).scrollTop() - $(window).height() + GetFixedFooterHeight();
+		if( gCurrentActiveCommentId == lCommentId && lPartNotVisibleOnScreen > 0 ){
+			lCommentPosition -= lPartNotVisibleOnScreen;
+		}
 		lCommentPosition -= lOffsetParent.offset().top;
+		
+		
+		var lPartUnderOffsetParent = $(window).scrollTop() - lCommentPosition;
+		if(gCurrentActiveCommentId == lCommentId && lPartUnderOffsetParent > 0){
+			lCommentPosition += lPartUnderOffsetParent;
+		}
+		
 		//console.log('Offset parent top ' + lOffsetParent.offset().top);
 		if(gCurrentActiveCommentId == lCommentId && gCurrentCommentSpecificPosition !== false){
 			lCommentPosition = gCurrentCommentSpecificPosition;
@@ -914,11 +926,7 @@ function positionCommentsBase(pRecacheOrder){
         		if(gCurrentActiveCommentId == lCommentId && (!lIsGeneral || gCurrentCommentSpecificPosition !== false)){//Position the current active comment at its real place and move the ones before it up
         			var lFixOffset = (lPreviousCommentPosition + lPreviousCommentHeight) - lCommentPosition ;
         			for(var i = 0; i < pIndex; ++i){
-//        				var lPreviousComment =  lRootComments[i];
-//        				var lPreviousCommentTop = parseInt($(lPreviousComment).css('top'), 10);
-//        				$(lPreviousComment).css('top', lPreviousCommentTop - lFixOffset);
-        				lPositions[i] -= lFixOffset;
-//        				$(lPreviousComment).animate({'top':(lPreviousCommentTop - lFixOffset)});      
+        				lPositions[i] -= lFixOffset;//        				      
         			}
         		}else{
         			lCommentPosition = (lPreviousCommentPosition + lPreviousCommentHeight);
@@ -1755,19 +1763,27 @@ function submitPreviewNewComment(pCommentIsGeneral){
 				
 //				var lOffsetParent = $('#P-Root-Comment-Holder-' + lCommentId).offsetParent();		
 				if(pCommentIsGeneral){
-					gCurrentCommentSpecificPosition = lPreviousScrollPos //+ lOffsetParent.offset().top;
+					gCurrentCommentSpecificPosition = lPreviousScrollPos; //+ lOffsetParent.offset().top;
 				}else{
 					lSelectionIsVisible = CheckIfInlineCommentIsVisible(lCommentId)
 				}
+				
+				if(!pCommentIsGeneral){
+					var lOffsetParent = $('#P-Root-Comment-Holder-' + lCommentId).offsetParent();		
+					if(!lSelectionIsVisible){
+						lPositionToScrollTo = getCommentVerticalPosition(lCommentId) - lOffsetParent.offset().top;
+					}else{
+//						if()
+					}
+										
+				}
+				
 				RecacheCommentsOrder();
 					
 				ExpandSingleComment(lCommentId);
 				displayCommentEditForm(lCommentId, 1);
 				var lPositionToScrollTo = lPreviousScrollPos;
-				if(!pCommentIsGeneral && !lSelectionIsVisible){
-					var lOffsetParent = $('#P-Root-Comment-Holder-' + lCommentId).offsetParent();		
-					lPositionToScrollTo = getCommentVerticalPosition(lCommentId) - lOffsetParent.offset().top;					
-				}
+				
 				$(window).scrollTop(lPositionToScrollTo);
 				setTimeout(function(){$(window).scrollTop(lPositionToScrollTo);}, 401);//A ff fix
 //				console.log($(window).scrollTop())
@@ -1850,6 +1866,11 @@ function CheckIfPreviewSelectionIsVisible(){
 	return true;
 }
 
+/**
+ * Checks if any part of the comment is currently visible on the screen
+ * @param pCommentId
+ * @returns {Boolean}
+ */
 function CheckIfInlineCommentIsVisible(pCommentId){
 	var lDelta = 5;
 	var lStartNode = GetPreviewContent().find(gCommentStartPosNodeName + '[' + gCommentIdAttributeName + '="' + pCommentId + '"]');
