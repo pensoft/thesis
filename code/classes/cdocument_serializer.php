@@ -310,6 +310,7 @@ class cdocument_serializer extends csimple {
 			}
 			//If the instance is not modified - skip
 			if(!array_key_exists($lInstanceId, $this->m_instanceDetails) || !$this->m_instanceDetails[$lInstanceId]['is_modified']){
+				$lCon->MoveNext();
 				continue;
 			}
 			$lFieldData = $lCon->mRs;
