@@ -53,19 +53,17 @@ switch ($gAction) {
 		$lCon->Execute($lSql);
 		$lResult = array();
 		while(! $lCon->Eof()){
-			$lRow = $lCon->mRs;
+			$lRow = $lCon->mRs;			
 			$lInstanceId = $lRow['instance_id'];
 			$lFieldId = $lRow['field_id'];
-			$lCitationType = $lRow['citation_type'];
-				
-			
-			if(!array_key_exists($lResult, $lInstanceId)){
+			$lCitationType = $lRow['citation_type'];			
+			if(!array_key_exists($lInstanceId, $lResult)){				
 				$lResult[$lInstanceId] = array();
 			}
-			if(!array_key_exists($lResult[$lInstanceId], $lFieldId)){
-				$lResult[$lInstanceId][$lFieldId] = array();
+			if(!array_key_exists($lFieldId, $lResult[$lInstanceId])){
+				$lResult[$lInstanceId][$lFieldId] = array();				
 			}
-			if(!array_key_exists($lResult[$lInstanceId][$lFieldId], $lCitationType)){
+			if(!array_key_exists($lCitationType, $lResult[$lInstanceId][$lFieldId])){
 				$lResult[$lInstanceId][$lFieldId][$lCitationType] = array();
 			}
 			$lResult[$lInstanceId][$lFieldId][$lCitationType][$lCon->mRs['citation_id']] = array(
@@ -75,7 +73,7 @@ switch ($gAction) {
 				'citation_objects' => array_values(pg_unescape_array($lCon->mRs['citation_objects']))
 			);
 			$lCon->MoveNext();
-		}
+		}		
 		$lResult = array(
 			'instance_ids' => $lInstanceIds,
 			'citations' => $lResult,
