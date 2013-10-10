@@ -347,6 +347,10 @@ function Con($pCustomDBConArr=null) {
 			if (defined("DB_CONNECTION_OPTIONS"))
 				Single_Query($gCn->mhCn, DB_CONNECTION_OPTIONS);
 		}
+		if(!CheckIfConnectionIsValid($gCn->mhCn)){//The connection has been broken
+			$gCn->Close();
+			$gCn->Open();
+		}
 		return $gCn;
 	}else{
 		if(!is_array($gCnArr)) $gCnArr = array();
@@ -368,8 +372,16 @@ function Con($pCustomDBConArr=null) {
 				Single_Query($lCn->mhCn, $lDBConArr["dbconopt"],$lDBConArr["dbtype"]);
 			$gCnArr[$key]["dbobj"] = $lCn;
 		}
+		if(!CheckIfConnectionIsValid($gCnArr[$key]["dbobj"]->mhCn)){//The connection has been broken
+			$gCnArr[$key]["dbobj"]->Close();
+			$gCnArr[$key]["dbobj"]->Open();
+		}
 		return $gCnArr[$key]["dbobj"];
 	}
+}
+
+function CheckIfConnectionIsValid($pConnection){
+	return is_resource($pConnection) || $pConnection instanceof mysqli;
 }
 
 
