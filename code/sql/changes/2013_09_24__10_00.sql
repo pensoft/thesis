@@ -212,7 +212,12 @@ INSERT INTO pwt.html_control_types(name, is_html, tags_to_keep)
 	
 INSERT INTO pwt.html_control_types(name, is_html, tags_to_keep)	
 	VALUES ('Reference field editor', true, 'tn, tn-part, a, b, i, u, strong, em, sup, sub');
+
+INSERT INTO pwt.html_control_types(name, is_html, tags_to_keep)	
+	VALUES ('Sections title field editor', true, 'tn, tn-part, a, b, i, u, strong, em, sup, sub');
 	
+INSERT INTO pwt.html_control_types(name, is_html, tags_to_keep)	
+	VALUES ('Plate description field editor', true, 'tn, tn-part, a, b, i, u, strong, em, sup, sub');
 /*
 UPDATE pwt.object_fields SET
 	control_type = 54
@@ -242,6 +247,14 @@ WHERE object_id IN (105) AND field_id IN (272);
 UPDATE pwt.object_fields SET
 	control_type = 55
 WHERE object_id IN (102) AND field_id IN (276);
+
+UPDATE pwt.object_fields SET
+	control_type = 56
+WHERE object_id IN (50) AND field_id IN (211);
+
+UPDATE pwt.object_fields SET
+	control_type = 57
+WHERE object_id IN (50) AND field_id IN (211);
 
 /*
 	Modified sps

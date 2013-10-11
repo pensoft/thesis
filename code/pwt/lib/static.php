@@ -3919,6 +3919,8 @@ function createHtmlEditorBase($pTextareaId, $pHeight = EDITOR_DEFAULT_HEIGHT, $p
 		switch($pFloatingToolsToolbarName){
 			case EDITOR_FLOATING_TOOLBAR_NAME_MATERIAL:
 			case EDITOR_FLOATING_TOOLBAR_NAME_REFERENCE:
+			case EDITOR_FLOATING_TOOLBAR_NAME_SECTION_TITLE :
+			case EDITOR_FLOATING_TOOLBAR_NAME_PLATE_DESCRIPTION:
 				$lCssFileName = 'editor_iframe_inputlike.css';
 				break;
 		}

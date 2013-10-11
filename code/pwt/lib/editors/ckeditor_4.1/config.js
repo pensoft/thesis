@@ -83,6 +83,10 @@ CKEDITOR.editorConfig = function( config )
 			'-', 'Superscript', '-', 'SpecialChar', '-', 'Link', '-', 'Unlink' ] ];
 	config.floatingtools_Reference = [ [ 'Bold', '-', 'Italic', '-', 'Subscript',
 			'-', 'Superscript', '-', 'SpecialChar', '-', 'Link', '-', 'Unlink' ] ];
+	config.floatingtools_SectionTitle = [ [ 'Italic', '-', 'Subscript',
+	        '-', 'Superscript', '-', 'SpecialChar', '-', 'Link', '-', 'Unlink' ] ];
+	config.floatingtools_PlateDescription = [ [ 'Bold', '-', 'Italic', '-',
+			'Subscript', '-', 'Superscript', '-', 'SpecialChar', '-', 'Link', '-', 'Unlink' ] ];
 
 //	config.contentsCss = '/lib/css/editor_iframe.css';
 
