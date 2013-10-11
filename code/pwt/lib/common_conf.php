@@ -76,6 +76,8 @@ define('FIELD_HTML_VIDEO_YOUTUBE_LINK_TYPE', 52);
 define('FIELD_HTML_TEXTAREA_TABLE', 53);
 define('FIELD_HTML_TEXTAREA_MATERIAL_FIELD', 54);
 define('FIELD_HTML_TEXTAREA_REFERENCE_FIELD', 55);
+define('FIELD_HTML_TEXTAREA_SECTION_TITLE_FIELD', 56);
+define('FIELD_HTML_TEXTAREA_PLATE_DESCRIPTION_FIELD', 57);
 
 
 define('FIELD_HELP_LABEL_ICON_STYLE', 1);
@@ -200,6 +202,8 @@ define('EDITOR_EMPTY_TOOLBAR_NAME', 'EmptyToolbar');
 define('EDITOR_FLOATING_TOOLBAR_NAME_BASIC', 'Basic');
 define('EDITOR_FLOATING_TOOLBAR_NAME_MATERIAL', 'Material');
 define('EDITOR_FLOATING_TOOLBAR_NAME_REFERENCE', 'Reference');
+define('EDITOR_FLOATING_TOOLBAR_NAME_SECTION_TITLE', 'SectionTitle');
+define('EDITOR_FLOATING_TOOLBAR_NAME_PLATE_DESCRIPTION', 'PlateDescription');
 
 define('EDITOR_FULL_TOOLBAR_NAME_EMPTY', 'FullToolbarEmpty');
 define('EDITOR_FULL_TOOLBAR_NAME_NO_MAXIMIZE_EMPTY', 'FullToolbarNoMaximizeEmpty');
@@ -215,6 +219,8 @@ define('EDITOR_THESIS_HEIGHT', 70);
 define('EDITOR_NEXT_COUPLET_HEIGHT', 42);
 define('EDITOR_MATERIAL_FIELD_HEIGHT', 28);
 define('EDITOR_REFERENCE_FIELD_HEIGHT', 28);
+define('EDITOR_SECTION_TITLE_FIELD_HEIGHT', 28);
+define('EDITOR_PLATE_DESCRIPTION_FIELD_HEIGHT', 28);
 
 //Link от където се взима информация за статия с дадено ид в пмц
 define('PMC_FETCH_LINK', 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&rettype=medline&retmode=xml&id=');

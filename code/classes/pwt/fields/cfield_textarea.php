@@ -48,6 +48,20 @@ class cfield_textarea extends cfield_base {
 				$this->m_pubdata['floating_tools_toolbar_name'] = EDITOR_FLOATING_TOOLBAR_NAME_REFERENCE;
 				$this->m_pubdata['css_class'] = 'P-Reference-Field-Editor-Holder';
 				break;
+			case FIELD_HTML_TEXTAREA_SECTION_TITLE_FIELD :
+				$this->m_pubdata['use_floating_tools'] = 1;
+				$this->m_pubdata['toolbar_name'] = EDITOR_EMPTY_TOOLBAR_NAME;
+				$this->m_pubdata['height'] = EDITOR_SECTION_TITLE_FIELD_HEIGHT;
+				$this->m_pubdata['floating_tools_toolbar_name'] = EDITOR_FLOATING_TOOLBAR_NAME_SECTION_TITLE;
+				$this->m_pubdata['css_class'] = 'P-Section-Title-Field-Editor-Holder';
+				break;
+			case FIELD_HTML_TEXTAREA_PLATE_DESCRIPTION_FIELD :
+				$this->m_pubdata['use_floating_tools'] = 1;
+				$this->m_pubdata['toolbar_name'] = EDITOR_EMPTY_TOOLBAR_NAME;
+				$this->m_pubdata['height'] = EDITOR_PLATE_DESCRIPTION_FIELD_HEIGHT;
+				$this->m_pubdata['floating_tools_toolbar_name'] = EDITOR_FLOATING_TOOLBAR_NAME_PLATE_DESCRIPTION;
+				$this->m_pubdata['css_class'] = 'P-Plate-Description-Field-Editor-Holder';
+				break;
 				
 		}
 		
