@@ -110,7 +110,6 @@ $gTemplArr = array(
 																	<option value="5">Conference proceedings</option>
 																	<option value="6">Thesis</option>
 																	<option value="7">Software</option>
-																	<option value="8">Website</option>
 																</select>
 																<div class="P-Select-Arrow"></div>
 															</div>

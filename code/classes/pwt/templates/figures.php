@@ -116,7 +116,7 @@ $gTemplArr = array(
 	',
 
 	'figures.document_figures_row_baloon' => '
-		<div id="P-Figures-Row-{plate_id}{photo_id}" class="P-PopUp-Data-Table-Row">
+		<div id="P-Figures-Row-{plate_id}{photo_id}" class="P-PopUp-Data-Table-Row-Figs">
 			<table cellspacing="0" cellpadding="0" border="0" width="100%">
 				<tr>
 					<td class="P-PopUp-Checkbox-Holder" align="left" valign="top">
@@ -1271,7 +1271,7 @@ $gTemplArr = array(
 		
 	//For figures preview list
 	'figures.single_figure_preview' => '
-		<div id="P-Figures-Row-{id}" class="P-PopUp-Data-Table-Row">
+		<div id="P-Figures-Row-{id}" class="P-PopUp-Data-Table-Row-Figs">
 			<table cellspacing="0" cellpadding="0" border="0" width="100%">
 				<tr>
 					<td class="P-PopUp-Checkbox-Holder" align="left" valign="top">

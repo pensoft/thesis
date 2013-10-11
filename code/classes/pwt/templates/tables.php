@@ -69,13 +69,13 @@ $gTemplArr = array(
 	',
 
 	'tables.document_tables_row_baloon' => '
-		<div id="P-Table-Row-{id}" class="P-PopUp-Data-Table-Row">
+		<div id="P-Table-Row-{id}" class="P-PopUp-Data-Table-Row-Figs">
 			<table cellspacing="0" cellpadding="0" border="0" width="100%">
 				<tr>
-					<td class="P-PopUp-Checkbox-Holder" align="left" valign="top">
+					<td class="P-PopUp-Checkbox-Holder" align="left" style="vertical-align:top;">
 						<input id="tbl-{id}" type="checkbox" name="tbl-{id}" figurenum="{move_position}" value="{id}"></input>
 					</td>
-					<td class="P-PopUp-Picture-Holder" valign="top">
+					<td class="P-PopUp-Picture-Holder" style="vertical-align:top;">
 						<label for="tbl-{id}">
 							<div>
 								<img src="i/table_pic.png" alt="" />
@@ -83,7 +83,7 @@ $gTemplArr = array(
 							</div>
 						</label>
 					</td>
-					<td valign="top">
+					<td style="vertical-align:top;">
 						<label for="tbl-{id}">
 							<div class="P-Block-Title">{title}</div>
 							<div class="P-Figure-Num">' . getstr('pwt.tableAntet') . ' {move_position}</div>
@@ -261,13 +261,13 @@ $gTemplArr = array(
 	',
 		
 	'tables.single_table_preview' => '
-		<div id="P-Tables-Row-{id}" class="P-PopUp-Data-Table-Row">
+		<div id="P-Tables-Row-{id}" class="P-PopUp-Data-Table-Row-Figs">
 			<table cellspacing="0" cellpadding="0" border="0" width="100%">
 				<tr>
-					<td class="P-PopUp-Checkbox-Holder" align="left" valign="top">
+					<td class="P-PopUp-Checkbox-Holder" align="left" style="vertical-align:top;">
 						<input id="tbl-{id}" type="checkbox" name="tbl-{id}" figurenum="{fignum}" value="{id}">
 					</td>
-					<td class="P-PopUp-Picture-Holder" valign="top">
+					<td class="P-PopUp-Picture-Holder" style="vertical-align:top;">
 						<label for="tbl-{id}">
 							<div>
 								<img src="i/table_pic.png" alt="">
@@ -275,7 +275,7 @@ $gTemplArr = array(
 							</div>
 						</label>
 					</td>
-					<td valign="top">
+					<td style="vertical-align:top;">
 						<label for="tbl-{id}">
 							<div class="P-Block-Title">{caption}</div>
 							<div class="P-Figure-Num">Table {fignum}</div>

@@ -3557,9 +3557,11 @@ div.token-input-dropdown-facebook:after {
 }
 
 .P-Picture-Holder {
-	padding-bottom: 40px;
+	/*padding-bottom: 40px;
 	width: 120px;
-	min-height: 82px;
+	min-height: 82px;*/
+	padding-bottom: 20px !important;
+	width: 120px !important;
 }
 
 .P-Picture-Holder > div {
@@ -3596,7 +3598,7 @@ div.token-input-dropdown-facebook:after {
 	margin-left: 10px;
 	color: #727272;
 	font-size: 11px;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 	font-family: Tahoma;
 	min-height: 25px;
 }
@@ -4128,8 +4130,8 @@ td.P-PopUp-Checkbox-Holder {
 }
 
 .P-PopUp-Data-Table-Row {
-	margin-bottom: 15px;
-	height: 174px !important;
+	margin-bottom: 25px;
+	/*height: 174px !important;*/
 }
 
 .P-PopUp-Data-Table-Row td {
@@ -4955,17 +4957,17 @@ td #docDescr {
 	/*height:auto!important;*/
 }
 .twocolumnminiholder {
-	width: 51px;
-	height: 51px;
+	width: 51px !important; 
+	height: 51px !important;
 	float: left;
-	text-align: center;
+	text-align: center !important;
 	display: table
 }
 .twocolumnmini {
-	display: table-cell;
-	vertical-align: middle;
-	text-align: center;
-	padding: 3px
+	display: table-cell !important;
+	vertical-align: middle !important;
+	text-align: center !important;
+	padding: 3px !important;
 }
 
 #previewIframe.previewIframeWithUnprocessedChanges {
