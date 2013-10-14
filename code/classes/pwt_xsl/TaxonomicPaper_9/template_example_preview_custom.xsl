@@ -307,8 +307,13 @@
 		<div class="P-Article-Preview-Block">			
 		<xsl:if test="count(.) &gt; 0">
 			<div class="P-Article-Preview-Block-Content">
-				<xsl:for-each select=".">
-					<xsl:variable name="lMaterialTypeName" select="./fields/*[@id='209']/value"></xsl:variable>
+				<xsl:for-each select=".">					
+					<xsl:variable name="lMaterialTypeName">
+						<xsl:choose>
+							<xsl:when test="count(./fields/*[@id='209']/value[@value_id &gt; 0]) &gt; 0"><xsl:value-of select="./fields/*[@id='209']/value"/></xsl:when>
+							<xsl:otherwise><xsl:value-of select="./*[@object_id='84']/fields/*[@id='209']/value"/></xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
 
 
 

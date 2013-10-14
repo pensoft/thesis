@@ -707,6 +707,9 @@ function GroupTreatmentMaterials($pTreatmentMaterials){
 	foreach ($pTreatmentMaterials as $lCurrentMaterial){
 		$lTypeNodeList = $lXPath->query('./fields/*[@id=\'209\']/value', $lCurrentMaterial);
 		if(!$lTypeNodeList->length){
+			$lTypeNodeList = $lXPath->query('./*/fields/*[@id=\'209\']/value', $lCurrentMaterial);
+		}
+		if(!$lTypeNodeList->length){
 			continue;
 		}
 		$lTypeNode = $lTypeNodeList->item(0);
