@@ -219,6 +219,9 @@ function SaveNodeTrackerContents(pNode) {
 }
 
 function NotifyUserForFailedSave(pIsGeneralSave){
+	if(gPageIsUnloading){//Request aborted by user
+		return;
+	}
 	if(pIsGeneralSave){
 		alert('Save failed!');
 	}else{
