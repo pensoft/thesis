@@ -633,4 +633,11 @@ cke_dialog_page_contents > table {
 .P-Reference-Field-Editor-Holder .cke_top, .P-Matrials-Field-Editor-Holder .cke_top{	
 }
 
+.fieldWithError .cke_contents{
+	border-color:#bf1e1e!important;
+}
+
+.fieldWithError .cke_contents iframe{
+	background:#f6e3dc!important;
+}
 
