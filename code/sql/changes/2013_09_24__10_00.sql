@@ -254,7 +254,7 @@ WHERE object_id IN (50) AND field_id IN (211);
 
 UPDATE pwt.object_fields SET
 	control_type = 57
-WHERE object_id IN (50) AND field_id IN (211);
+WHERE object_id IN (225, 226, 227, 228, 229, 230) AND field_id IN (487);
 
 /*
 	Modified sps
