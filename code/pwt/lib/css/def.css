@@ -848,6 +848,15 @@ h1 {
 
 .P-Data-Resources-Control {
 	padding-bottom: 20px;
+	/*padding: 0 3px 0 3px;*/
+}
+
+.P-Plate-Part-Holder .P-Data-Resources-Control {
+	padding: 0 5px 0 5px;
+}
+
+.P-Plate-Part-Holder .P-Data-Resources-Control-Txt {
+	padding: 0;
 }
 
 .P-Data-Resources-Control-Left {
@@ -3989,7 +3998,7 @@ td.P-PopUp-Checkbox-Holder {
 
 .P-Plate-Part-Big, .P-Plate-Part-Big-Plate .P-Plate-Part, .P-Plate-Part-Big-Plate .P-Plate-Part-WithPic {
 	/*height: 454px;*/
-	height: 430px;
+	height: 230px;
 }
 
 .P-Edit-Plate-Holder-Background {
