@@ -148,21 +148,25 @@ class cdocument_xsd_generator extends csimple {
 		$lFieldsSql = '';
 		if($this->m_mode == (int)SERIALIZE_INTERNAL_MODE){
 			$lFieldsSql = 'SELECT f.id as field_id, f.type, ft.value_column_name, of.label as field_name, ds.id as data_src_id, ds.query as data_src_query,
-				of.control_type, of.xml_node_name, o.id as template_object_id, of.allow_nulls::int as allow_nulls, o.id as  template_object_id
+				of.control_type, of.xml_node_name, o.id as template_object_id, of.allow_nulls::int as allow_nulls, o.id as  template_object_id,
+				ct.is_html::int as is_html
 			FROM pwt.fields f
 			JOIN pwt.field_types ft ON ft.id = f.type
 			JOIN pwt.object_fields of ON of.field_id = f.id
 			JOIN pwt.v_distinct_document_template_objects o ON o.object_id = of.object_id
+			JOIN pwt.html_control_types ct ON ct.id = of.control_type
 			LEFT JOIN pwt.data_src ds ON ds.id = of.data_src_id
 			WHERE o.document_id = ' . (int)$this->m_document_id . '
 			ORDER BY o.pos ASC, of.id
 			';
 		}elseif ($this->m_mode == (int) SERIALIZE_INPUT_MODE){
 			$lFieldsSql = 'SELECT f.id as field_id, f.type, ft.value_column_name, of.label as field_name, ds.id as data_src_id, ds.query as data_src_query,
-				of.control_type, of.xml_node_name, o.id as template_object_id, of.allow_nulls::int as allow_nulls, rp.id as real_template_object_id, o.display_object_in_xml
+				of.control_type, of.xml_node_name, o.id as template_object_id, of.allow_nulls::int as allow_nulls, rp.id as real_template_object_id, o.display_object_in_xml,
+				ct.is_html::int as is_html
 			FROM pwt.fields f
 			JOIN pwt.field_types ft ON ft.id = f.type
 			JOIN pwt.object_fields of ON of.field_id = f.id
+			JOIN pwt.html_control_types ct ON ct.id = of.control_type
 			JOIN pwt.v_distinct_document_template_objects o ON o.object_id = of.object_id
 			JOIN pwt.v_document_template_objects_xml_parent rp ON rp.child_doc_templ_object_id = o.id AND rp.real_doc_id = ' . $this->m_document_id . '
 			LEFT JOIN pwt.data_src ds ON ds.id = of.data_src_id
@@ -377,7 +381,7 @@ class cdocument_xsd_generator extends csimple {
 			$lComplexContentNode = $lComplexTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:complexContent'));
 			$lExtensionNode = $lComplexContentNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:extension'));
 
-			$lExtensionNode->setAttribute('base', $this->getFieldTypeName($pFieldData['type'], $pFieldData['data_src_id'], $pFieldData['allow_nulls'], $pFieldData['control_type']));
+			$lExtensionNode->setAttribute('base', $this->getFieldTypeName($pFieldData['type'], $pFieldData['data_src_id'], $pFieldData['allow_nulls'], $pFieldData['control_type'], $pFieldData['is_html']));
 			$lIdAttributeNode = $lExtensionNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:attribute'));
 			$lIdAttributeNode->setAttribute('name', 'id');
 			$lIdAttributeNode->setAttribute('type', 'xsd:integer');
@@ -391,7 +395,7 @@ class cdocument_xsd_generator extends csimple {
 
 		}else if ($this->m_mode == (int) SERIALIZE_INPUT_MODE){
 			$lFieldElementXmlNode->setAttribute('name', $pFieldData['xml_node_name']);
-			$lFieldType = $this->getFieldTypeName($pFieldData['type'], $pFieldData['data_src_id'], $pFieldData['allow_nulls'], $pFieldData['control_type']);
+			$lFieldType = $this->getFieldTypeName($pFieldData['type'], $pFieldData['data_src_id'], $pFieldData['allow_nulls'], $pFieldData['control_type'], $pFieldData['is_html']);
 			if($lFieldType != ''){
 				$lFieldElementXmlNode->setAttribute('type', $lFieldType);
 			}
@@ -765,24 +769,17 @@ class cdocument_xsd_generator extends csimple {
 		}
 	}
 
-	function getFieldTypeName($pFieldType, $pDataSrc, $pAllowNull, $pControlType){
-
+	function getFieldTypeName($pFieldType, $pDataSrc, $pAllowNull, $pControlType, $pIsHtml = false){
+		if($pIsHtml){
+			if($pAllowNull){
+				return 'fieldEmpty';
+			}else{
+				return 'fieldNotEmpty';
+			}
+		}
+		
 		//Не слагаме тип на полетата с html контролка.
 		switch($pControlType){
-			case (int)FIELD_HTML_TEXTAREA_TYPE:
-			case (int)FIELD_HTML_TEXTAREA_THESIS_TYPE:
-			case (int)FIELD_HTML_TEXTAREA_ANTITHESIS_TYPE:
-			case (int)FIELD_HTML_TEXTAREA_THESIS_NEXT_COUPLET_TYPE:
-			case (int)FIELD_HTML_TEXTAREA_THESIS_TAXON_NAME_TYPE:
-			case (int)FIELD_HTML_EDITOR_TYPE:
-			case (int)FIELD_HTML_EDITOR_TYPE_NO_CITATIONS:
-			case (int)FIELD_HTML_EDITOR_TYPE_ONLY_REFERENCE_CITATIONS:
-			case (int)FIELD_HTML_TEXTAREA_TABLE:
-				if($pAllowNull){
-					return 'fieldEmpty';
-				}else{
-					return 'fieldNotEmpty';
-				}
 			case (int)FIELD_HTML_TAXON_CLASSIFICATION_AUTOCOMPLETE_TYPE:
 			case (int)FIELD_HTML_SUBJECT_CLASSIFICATION_AUTOCOMPLETE_TYPE:
 			case (int)FIELD_HTML_CHRONOLOGICAL_CLASSIFICATION_AUTOCOMPLETE_TYPE:
