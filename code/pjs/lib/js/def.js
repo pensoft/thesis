@@ -25,6 +25,12 @@ var gMiddleContainerClass = "P-Article-Content";
 
 var gWindowIsLoaded = false;
 
+var gPageIsUnloading = false;
+
+window.addEventListener("beforeunload", function (e) {
+  gPageIsUnloading = true;
+  return null;                                //Webkit, Safari, Chrome etc.
+});
 
 function getAjaxObject() {
 	try{

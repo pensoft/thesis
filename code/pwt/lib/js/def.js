@@ -103,6 +103,19 @@ var gInstancesBeingLoaded = [];
 
 var gCKEditorsBeingLoaded = [];
 
+var gPageIsUnloading = false;
+
+window.addEventListener("beforeunload", function (e) {
+  gPageIsUnloading = true;
+  return null;                                //Webkit, Safari, Chrome etc.
+});
+
+//window.onbeforeunload = function(pEvent) {    
+//	gPageIsUnloading = true;
+//	var lResult = temp();
+//	return lResult;
+//};
+
 function SaveCKEditorConfig(pTextareaId, pConfig){
 	gCKEditorConfigs[pTextareaId] = pConfig;
 }
@@ -716,7 +729,7 @@ function SaveInstance(pInstanceId, pModeAfterSuccessfulSave, pCallbackOnSuccess,
 			}
 			gPerformingSave = false;
 		},
-		'error' : function(){
+		'error' : function(pJQXHR, pTextStatus, pErrorThrown){
 			NotifyUserForFailedSave(1);
 		}
 	});
@@ -2530,7 +2543,7 @@ function autoSaveInstance(){
 
 			}
 		},
-		'error' : function(){
+		'error' : function(pJQXHR, pTextStatus, pErrorThrown){
 			NotifyUserForFailedSave();
 		}
 	});
@@ -2559,7 +2572,7 @@ function PerformSingleFieldAutosave(pInstanceId, pFieldId){
 
 			}
 		},
-		'error' : function(){
+		'error' : function(pJQXHR, pTextStatus, pErrorThrown){
 			NotifyUserForFailedSave();
 		}
 	});
@@ -2567,6 +2580,9 @@ function PerformSingleFieldAutosave(pInstanceId, pFieldId){
 }
 
 function NotifyUserForFailedSave(pIsGeneralSave){
+	if(gPageIsUnloading){//Request aborted by user
+		return;
+	}
 	if(pIsGeneralSave){
 		alert('Save failed!');
 	}else{
