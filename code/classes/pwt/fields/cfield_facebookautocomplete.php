@@ -33,8 +33,10 @@ class cfield_facebookautocomplete extends cfield_base {
 		$lAutocompleteValues = '';
 		$lInput = '';
 		foreach( $lSrcValues as $k => $v){
-			$lInput .= '<input type="hidden" id="' . $k . '_hiddenInp" name="' . $this->m_fieldHtmlIdentifier . '[]" value="' . $k . '"/>';
-			$lAutocompleteValues .= '{"id":"' . $k . '","name":"' . $v . '"},';
+			$lId = (int)$k;
+			$lName = $v;
+			$lInput .= '<input type="hidden" id="' . $lId . '_hiddenInp" name="' . $this->m_fieldHtmlIdentifier . '[]" value="' . $lId . '"/>';
+			$lAutocompleteValues .= '{"id":"' . $lId . '","name":' . json_encode($lName) . '},';
 		}
 		//$lAutocompleteValues = substr($lAutocompleteValues, 0, -1);
 
