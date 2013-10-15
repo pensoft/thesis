@@ -6440,7 +6440,7 @@ function showPJSSubmitButton($pDocumentId, $pDocumentState){
 		if($pDocumentState == NEW_DOCUMENT_STATE){
 			if($user->staff == 1){
 				$lRes = '
-					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\');"' : '') . '>
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="ShowconfirmAndExec(\'' . getstr('pwt.approve_to_submit_confirm_text') . '\', function(){showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\');})"' : '') . '>
 					<div class="P-Green-Btn-Left"></div>
 						<div class="P-Green-Btn-Middle P-Green-Btn-Middle-Big_One">' . getstr('pwt.approve_documentfor_submission_btn') . '</div>
 						<div class="P-Green-Btn-Right"></div>
@@ -6460,13 +6460,13 @@ function showPJSSubmitButton($pDocumentId, $pDocumentState){
 		} elseif ($pDocumentState == IN_PRE_SUBMIT_REVIEW_DOCUMENT_STATE) {
 			if($user->staff == 1){
 				$lRes = '
-					<div style="margin-bottom:20px;" class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\');"' : '') . '>
+					<div style="margin-bottom:20px;" class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="ShowconfirmAndExec(\'' . getstr('pwt.approve_to_submit_confirm_text') . '\', function(){showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . APPROVE_TO_SUBMIT_DOCUMENT_ACTION_TYPE . '\');})"' : '') . '>
 					<div class="P-Green-Btn-Left"></div>
 						<div class="P-Green-Btn-Middle P-Green-Btn-Middle-Big_One">' . getstr('pwt.approve_documentfor_submission_btn') . '</div>
 						<div class="P-Green-Btn-Right"></div>
 					</div>
 					<div class="P-Clear"></div>
-					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . REJECT_TO_APPROVE_DOCUMENT_ACTION_TYPE . '\');"' : '') . '>
+					<div class="P-Green-Btn-Holder' . ((int)ENABLE_FEATURES ? '': ' P-Inactive-Button') . '"' . ((int)ENABLE_FEATURES ? 'onclick="ShowconfirmAndExec(\'' . getstr('pwt.reject_to_submit_confirm_text') . '\', function(){showLoading(); SubmitDocumentAction(\'/xml_validate.php?document_id=' . (int)$pDocumentId . '&action_type=' . REJECT_TO_APPROVE_DOCUMENT_ACTION_TYPE . '\');})"' : '') . '>
 					<div class="P-Green-Btn-Left"></div>
 						<div class="P-Green-Btn-Middle P-Green-Btn-Middle-Big_One">' . getstr('pwt.reject_documentfor_submission_btn') . '</div>
 						<div class="P-Green-Btn-Right"></div>

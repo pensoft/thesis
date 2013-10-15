@@ -2225,9 +2225,9 @@ $STRARRAY = array(
 	'pwt.document_mail_subject_prefix' => '[PENSOFT WRITING TOOL] Manuscript #',
 	'status.Ready-to-submit' => 'Approved for submission',
 	'status.Pre-submit-review' => 'In Pre-submission review',
-	
-	
-	
+	'pwt.approve_to_submit_confirm_text' => 'Are you sure you want to approve this paper?',
+	'pwt.reject_to_submit_confirm_text' => 'Are you sure you want to send feedback for this paper?',
+
 	
 );
 ?>
