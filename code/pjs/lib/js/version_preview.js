@@ -36,6 +36,13 @@ var gFieldContentEditableSelector = ' *[contenteditable="true"][field_id]';
 var gVersionUserDisplayNames = {};
 var gAutosaveTimeoutDuration = 30000;//In milliseconds
 
+var gPageIsUnloading = false;
+
+window.addEventListener("beforeunload", function (e) {
+  gPageIsUnloading = true;
+  return null;                                //Webkit, Safari, Chrome etc.
+});
+
 function DisableChangeTracking(){
 	gTrackChanges = 0;
 }

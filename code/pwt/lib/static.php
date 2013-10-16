@@ -3215,6 +3215,7 @@ function getDocumentPreview($pDocumentId, $pGenerateFullHtml = 0, $pTemplateXSLP
 		// 	var_dump($lDocumentComments);
 			$lDocumentXml = InsertDocumentCommentPositionNodes($lDocumentXml, $lDocumentComments);
 		}
+		$lDocumentXml = prepareDocumentCitations($pDocumentId, $lDocumentXml, null, null);		
 	}
 // 	$lEnd = mktime(). substr((string)microtime(), 1, 6);
 // 	trigger_error('END XML Time ' .  ($lEnd - $lStart), E_USER_NOTICE);
@@ -3620,7 +3621,6 @@ function getDocumentXml($pDocumentId, $pMode = SERIALIZE_INTERNAL_MODE, $pExplic
 	$lCon = new DBCn();
 	$lCon->Open();
 	$lIsModified = '';
-
 	if(!(int)$pDocumentId)
 		return;
 	if($pExplicitGeneration || !array_key_exists($pDocumentId, $lDocumentXmls) || !array_key_exists($pMode, $lDocumentXmls[$pDocumentId])){
