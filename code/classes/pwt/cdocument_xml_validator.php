@@ -63,6 +63,8 @@ class cdocument_xml_validator extends csimple {
 		$this->GetAllNodesErrsByLineNum();
 		//file_put_contents('/tmp/validation.log', 'GetAllNodesErrsByLineNum() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		//file_put_contents('/tmp/validation.log', 'GroupXMLErrors() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
+		$this->GetHtmlFieldErrors();
+		
 		$this->GroupXMLErrors();
 		//file_put_contents('/tmp/validation.log', 'GroupXMLErrors() END -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
 		//file_put_contents('/tmp/validation.log', 'GetCitationErrors() START -- ' . date('h:i:s') . ' --' . "\n\n", FILE_APPEND);
@@ -384,6 +386,45 @@ class cdocument_xml_validator extends csimple {
 		}
 		
 		 
+	}
+	
+	function GetHtmlFieldErrors() {
+		$lSql = '
+		SELECT f.id as field_id, f.type, ft.value_column_name, of.label as field_name, ds.id as data_src_id, ds.query as data_src_query,
+			of.control_type, of.xml_node_name, o.id as template_object_id, of.allow_nulls::int as allow_nulls, o.id as  template_object_id,
+			ct.is_html::int as is_html, ifv.value_str, o.display_name as instance_name
+		FROM pwt.fields f
+		JOIN pwt.field_types ft ON ft.id = f.type
+		JOIN pwt.object_fields of ON of.field_id = f.id
+		JOIN pwt.document_object_instances o ON o.object_id = of.object_id
+		JOIN pwt.instance_field_values ifv ON ifv.instance_id = o.id AND ifv.field_id = f.id
+		JOIN pwt.html_control_types ct ON ct.id = of.control_type
+		LEFT JOIN pwt.data_src ds ON ds.id = of.data_src_id
+		WHERE o.document_id = ' . (int)$this->m_document_id . ' AND ct.is_html::int = 1 AND of.allow_nulls::int = 0
+		ORDER BY o.pos ASC, of.id';
+		
+		$lCon = new DBCn();
+		$lCon->Open();
+		$lCon->Execute($lSql);
+		$lCon->MoveFirst();
+		while (!$lCon->Eof()) {
+			//var_dump($lCon->mRs['value_str']);
+			if(!trim($lCon->mRs['value_str'])) {
+				$this->m_all_errors[] = array (
+						'node_name' => $this->m_err_nodeName,
+						'node_instance_id' => (int)$lCon->mRs['template_object_id'],
+						'node_instance_name' => $lCon->mRs['instance_name'],
+						//'node_attribute_id' => (int)$lCurrentNode->parentNode->getAttribute('id'),
+						//'node_attribute_field_name' => $lCurrentNode->parentNode->getAttribute('field_name'),
+						'node_attribute_id' => (int)$lCon->mRs['field_id'],
+						'node_attribute_field_name' => $lCon->mRs['field_name'],
+						'node_error_type' => XML_MISSING_FIELD_ERROR,
+				);
+			}
+			$lCon->MoveNext();
+		}
+		//var_dump($this->m_all_errors);
+		$lCon->Close();
 	}
 	
 	function CheckLineInNode($pArr, $pStart, $pEnd) {

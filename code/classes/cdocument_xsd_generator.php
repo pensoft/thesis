@@ -771,11 +771,11 @@ class cdocument_xsd_generator extends csimple {
 
 	function getFieldTypeName($pFieldType, $pDataSrc, $pAllowNull, $pControlType, $pIsHtml = false){
 		if($pIsHtml){
-			if($pAllowNull){
+			//if($pAllowNull){
 				return 'fieldEmpty';
-			}else{
-				return 'fieldNotEmpty';
-			}
+			//}else{
+				//return 'fieldNotEmpty';
+			//}
 		}
 		
 		//Не слагаме тип на полетата с html контролка.
