@@ -271,17 +271,14 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 
 	if(!pInstanceId){
 		return lResult;
-	}
-	var lPreviewContent = GetPreviewContent();
-	var lNode = lPreviewContent.find('*[instance_id="' + pInstanceId + '"]');	
+	}	
+	var lNode = GetInstanceFieldNode(pInstanceId, pFieldId);	
 
 	if(!lNode){
 		return lResult;
 	}
 
 	if(!pFieldId){//Ако нямаме field-id сме или в началото или в края на instance-a
-		lNode = lNode.first();
-		lNode = lNode[0];
 		lResult.node = lNode;
 		if(pOffset == 0){
 			lResult.offset = pOffset;
@@ -302,20 +299,7 @@ function calculateCommentPositionAccordingToInternalPosition(pInstanceId, pField
 		}
 		return lResult;
 	}
-	var lFieldNode = lPreviewContent.find('*[instance_id="' + pInstanceId + '"][field_id="' + pFieldId + '"]');	
-	if(lFieldNode.length == 0){
-		var lFieldNodes = lPreviewContent.find('*[instance_id="' + pInstanceId + '"] *[field_id="' + pFieldId + '"]');
-		for(var i = 0; i < lFieldNodes.length; ++ i){
-			var lField = $(lFieldNodes.get(i));
-			var lFieldInstance = lField.closest('*[instance_id]')[0];
-			if($(lFieldInstance).attr('instance_id') === pInstanceId){//Този field е дете на някой подобект
-				lFieldNode = lField[0];
-				break;
-			}
-		}
-	}else{
-		lFieldNode = lFieldNode[0];
-	}
+	var lFieldNode = lNode;
 
 	if(lFieldNode == null){//Някаква грешка е станала щом не може да намерим field-а
 		return lResult;
@@ -1599,17 +1583,17 @@ function initPreviewSelectCommentEvent(){
 		
 	});
 	
-//	$('#' + gPreviewIframeId).contents().bind('click', function(pEvent){		
-//		if(pEvent.originalEvent.detail < 2){
-//			return;
-//		}
-//		console.log(pEvent.originalEvent.detail);
-//		RepairPreviewSelectionAfterMultipleClicks();
-//		gPreviousPreviewSelectionStartNode = false;
-//		CheckSelectedTextForActiveComment();
-//		CheckSelectedTextForActiveChange();		
-//		fillCommentPos();	
-//	});
+	$('#' + gPreviewIframeId).contents().bind('click', function(pEvent){		
+		if(pEvent.originalEvent.detail < 2){
+			return;
+		}
+		console.log(pEvent.originalEvent.detail);
+		RepairPreviewSelectionAfterMultipleClicks(pEvent);
+		gPreviousPreviewSelectionStartNode = false;
+		CheckSelectedTextForActiveComment();
+		CheckSelectedTextForActiveChange();		
+		fillCommentPos();	
+	});
 
 
 	$('#' + gPreviewIframeId).contents().bind('keyup', function(pEvent) {
@@ -1624,7 +1608,7 @@ function initPreviewSelectCommentEvent(){
 	});
 }
 
-function GetPreviewNodeInstanceId(pNode){
+function GetPreviewNodeInstanceAndFieldId(pNode){
 	var lResult = {
 		'instance_id' : 0,
 		'field_id' : 0,
@@ -1650,7 +1634,7 @@ function GetPreviewNodeInstanceId(pNode){
  * outside the field and this prevents the user from placing
  * an inline comment.
  */
-function RepairPreviewSelectionAfterMultipleClicks(){
+function RepairPreviewSelectionAfterMultipleClicks(pClickEvent){
 	var lCommentPos = GetSelectedTextPos();
 	var lStartInstanceId , lStartFieldId, lStartOffset;
 	var lEndInstanceId, lEndFieldId, lEndOffset;
@@ -1680,9 +1664,76 @@ function RepairPreviewSelectionAfterMultipleClicks(){
 	if((!lStartInstanceId || !lStartFieldId) && (!lEndInstanceId || !lEndFieldId)){//Both ends of the selection are outside a field
 		return;
 	}
-
-	var lSelection = GetPreviewSelection();
 	
+	var lEventTarget = pClickEvent.target;
+	var lTargetInstanceAndFieldDetails = GetPreviewNodeInstanceAndFieldId(lEventTarget);
+	if(!lTargetInstanceAndFieldDetails || !lTargetInstanceAndFieldDetails.instance_id || !lTargetInstanceAndFieldDetails.field_id){//The node happened somewhere not in a field
+		return;
+	}
+	var lFieldNode = GetInstanceFieldNode(lTargetInstanceAndFieldDetails.instance_id, lTargetInstanceAndFieldDetails.field_id);
+	if(!lFieldNode){
+		return;
+	}
+	
+	var lSelection = GetPreviewSelection();
+	var lRange = lSelection.getRangeAt(0);
+	if(!lStartInstanceId || !lStartFieldId){//The start node is outside the field
+		if(!lSelection.isBackwards()){//Set the start in the beginning of the field node
+			lRange.setStart(lFieldNode, 0);
+		}else{//The selection is inverted - we should set the end in the end of the field node
+			lRange.setEnd(lFieldNode, lFieldNode.childNodes.length);
+		}
+	}else{//We should correct the end node
+		if(!lSelection.isBackwards()){//Set the end in the end of the field node
+			lRange.setEnd(lFieldNode, lFieldNode.childNodes.length)			
+		}else{//The selection is inverted - we should set the start in the beginning of the field node
+			lRange.setStart(lFieldNode, 0);
+		}
+	}
+	lSelection.removeAllRanges();
+	lSelection.addRange(lRange);
+	
+}
+
+/**
+ * Returns the node which corresponds to 
+ * the specified instance field. 
+ * If no such node has been found - null is returned
+ * @param pInstanceId
+ * @param pFieldId
+ * @returns
+ */
+function GetInstanceFieldNode(pInstanceId, pFieldId){
+	var lPreviewContent = GetPreviewContent();
+	var lNode = lPreviewContent.find('*[instance_id="' + pInstanceId + '"]');	
+
+	if(!lNode){
+		return null;
+	}
+	
+	
+	if(!pFieldId){//Ако нямаме field-id сме или в началото или в края на instance-a
+		lNode = lNode.first();
+		lNode = lNode[0];
+		return lNode;		
+	}
+	var lFieldNode = lPreviewContent.find('*[instance_id="' + pInstanceId + '"][field_id="' + pFieldId + '"]');	
+	if(lFieldNode.length == 0){
+		lFieldNode = null;
+		var lFieldNodes = lPreviewContent.find('*[instance_id="' + pInstanceId + '"] *[field_id="' + pFieldId + '"]');
+		for(var i = 0; i < lFieldNodes.length; ++ i){
+			var lField = $(lFieldNodes.get(i));
+			var lFieldInstance = lField.closest('*[instance_id]')[0];
+			if($(lFieldInstance).attr('instance_id') === pInstanceId){//Този field е дете на някой подобект
+				lFieldNode = lField[0];
+				break;
+			}
+		}
+	}else{
+		lFieldNode = lFieldNode[0];
+	}
+
+	return lFieldNode;
 }
 
 /**
