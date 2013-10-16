@@ -53,9 +53,16 @@ DECLARE
 	lTmpQuery text;
 	
 	cTaxonClassificationControlType CONSTANT int := 22;
+	cTaxonClassificationSingleValueControlType CONSTANT int := 26;
+	
 	cSubjectClassificationControlType CONSTANT int := 27;
+	cSubjectClassificationSingleValueControlType CONSTANT int := 28;
+	
 	cChronologicalClassificationControlType CONSTANT int := 30;
+	cChronologicalClassificationSingleValueControlType CONSTANT int := 29;
+	
 	cGeographicalClassificationControlType CONSTANT int := 32;
+	cGeographicalClassificationSingleValueControlType CONSTANT int := 31;
 	
 	lDataSrcId int;
 	
@@ -148,15 +155,22 @@ BEGIN
 	ELSEIF lRecord.type = lFieldIntArrType THEN
 		IF(
 			lRecord.control_type = cTaxonClassificationControlType OR 
+			lRecord.control_type = cTaxonClassificationSingleValueControlType OR 
+			
 			lRecord.control_type = cSubjectClassificationControlType OR 
+			lRecord.control_type = cSubjectClassificationSingleValueControlType OR
+			
 			lRecord.control_type = cChronologicalClassificationControlType OR 
-			lRecord.control_type = cGeographicalClassificationControlType
+			lRecord.control_type = cChronologicalClassificationSingleValueControlType OR
+			
+			lRecord.control_type = cGeographicalClassificationControlType OR			
+			lRecord.control_type = cGeographicalClassificationSingleValueControlType
 		) THEN
-			IF(lRecord.control_type = cTaxonClassificationControlType) THEN
+			IF(lRecord.control_type = cTaxonClassificationControlType OR lRecord.control_type = cTaxonClassificationSingleValueControlType) THEN
 				lDataSrcId = 44;
-			ELSEIF (lRecord.control_type = cSubjectClassificationControlType) THEN
+			ELSEIF (lRecord.control_type = cSubjectClassificationControlType OR lRecord.control_type = cSubjectClassificationSingleValueControlType) THEN
 				lDataSrcId = 45;
-			ELSEIF (lRecord.control_type = cChronologicalClassificationControlType) THEN
+			ELSEIF (lRecord.control_type = cChronologicalClassificationControlType OR lRecord.control_type = cChronologicalClassificationSingleValueControlType) THEN
 				lDataSrcId = 46;
 			ELSE
 				lDataSrcId = 47;
@@ -164,8 +178,9 @@ BEGIN
 			
 			SELECT INTO lRecord.data_src_id, lRecord.query id, query FROM pwt.data_src WHERE id = lDataSrcId;
 		END IF;
-	
+		--RAISE NOTICE 'DataSrcId %', lRecord.data_src_id;
 		IF NOT (lRecord.data_src_id IS NULL) AND array_upper(lTemp, 1) > 0 THEN
+			
 			lTempTextArray = ARRAY[]::text[];			
 			lTempIntArray = ARRAY[]::int[];
 			lSql = '';

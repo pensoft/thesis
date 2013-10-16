@@ -201,6 +201,13 @@ SELECT *, spSyncDocumentObjectFieldsRecursive(
 )
 FROM pwt.documents;
 
+SELECT *, pwt.spMarkInstanceAsModified(
+	id,
+	document_id
+)
+FROM pwt.document_object_instances
+WHERE object_id IN (83, 84);
+
 DELETE FROM pwt.object_container_tabbed_item_details
 WHERE object_container_tabbed_item_id = 1 AND object_id = 84;
 
@@ -218,11 +225,11 @@ INSERT INTO pwt.html_control_types(name, is_html, tags_to_keep)
 	
 INSERT INTO pwt.html_control_types(name, is_html, tags_to_keep)	
 	VALUES ('Plate description field editor', true, 'tn, tn-part, a, b, i, u, strong, em, sup, sub');
-/*
+
 UPDATE pwt.object_fields SET
 	control_type = 54
 WHERE object_id IN (25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36);
-*/
+
 	
 UPDATE pwt.object_fields SET
 	control_type = 55
@@ -260,6 +267,7 @@ WHERE object_id IN (225, 226, 227, 228, 229, 230) AND field_id IN (487);
 	Modified sps
 	
 	pwt.spGetInstanceCitations
+	pwt.spSaveInstanceFieldFromXml
 */
 
 /*
