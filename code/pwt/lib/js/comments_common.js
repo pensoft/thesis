@@ -1520,11 +1520,13 @@ function HideShowRootCommentReplyAndResolveInfo(pCommentId, pHide){
 	}	
 }
 
-function displayCommentEditForm(pCommentId, pDontRepositionComments){
+function displayCommentEditForm(pCommentId, pDontRepositionComments, pDontFocus){
 	pCommentId = parseInt(pCommentId, 10);
 	$('#P-Comment-Msg-Holder_' + pCommentId).hide();
 	$('#P-Comment-Edit-Form_' + pCommentId).show();
-	$('#P-Comment-Edit-Form_' + pCommentId).find('textarea').first().focus();
+	if(!pDontFocus){
+		focusCommentEditForm(pCommentId);
+	}
 	if(!pDontRepositionComments){
 		positionCommentsBase();
 	}
@@ -1533,6 +1535,10 @@ function displayCommentEditForm(pCommentId, pDontRepositionComments){
 		return;
 	}
 	HideShowRootCommentReplyAndResolveInfo(lCommentRootId, 1);
+}
+
+function focusCommentEditForm(pCommentId){
+	$('#P-Comment-Edit-Form_' + pCommentId).find('textarea').first().focus();
 }
 
 function submitCommentEdit(pCommentId){
@@ -1592,6 +1598,19 @@ function initPreviewSelectCommentEvent(){
 		fillCommentPos();	
 		
 	});
+	
+//	$('#' + gPreviewIframeId).contents().bind('click', function(pEvent){		
+//		if(pEvent.originalEvent.detail < 2){
+//			return;
+//		}
+//		console.log(pEvent.originalEvent.detail);
+//		RepairPreviewSelectionAfterMultipleClicks();
+//		gPreviousPreviewSelectionStartNode = false;
+//		CheckSelectedTextForActiveComment();
+//		CheckSelectedTextForActiveChange();		
+//		fillCommentPos();	
+//	});
+
 
 	$('#' + gPreviewIframeId).contents().bind('keyup', function(pEvent) {
 		gPreviousPreviewSelectionStartNode = false;
@@ -1603,6 +1622,67 @@ function initPreviewSelectCommentEvent(){
 		fillCommentPos();
 		CheckSelectedTextForActiveChange();
 	});
+}
+
+function GetPreviewNodeInstanceId(pNode){
+	var lResult = {
+		'instance_id' : 0,
+		'field_id' : 0,
+	};
+	var lInstanceHolder = $(pNode).closest('*[instance_id]');
+	var lFieldHolder = $(pNode).closest('*[field_id]');
+
+	if(!lInstanceHolder.length)
+		return lResult;
+
+	lResult.instance_id = lInstanceHolder.attr('instance_id');
+	var lFieldHolderParents = lFieldHolder.parents();
+	if(lFieldHolder.length && (jQuery.inArray(lInstanceHolder[0], lFieldHolderParents) > -1 || lInstanceHolder[0] === lFieldHolder[0])){//Field-a е от instance-a
+		lResult.field_id = lFieldHolder.attr('field_id');
+	}
+	return lResult;
+}
+
+/**
+ * Tries to repair the preview selection after multiple
+ * mouse clicks have been performed. We process the selection
+ * because sometimes a double click in a field may select text 
+ * outside the field and this prevents the user from placing
+ * an inline comment.
+ */
+function RepairPreviewSelectionAfterMultipleClicks(){
+	var lCommentPos = GetSelectedTextPos();
+	var lStartInstanceId , lStartFieldId, lStartOffset;
+	var lEndInstanceId, lEndFieldId, lEndOffset;
+	
+	if(lCommentPos && !lCommentPos.selection_is_empty){
+		var lStartNodeDetails = lCommentPos['start_pos'];
+		var lEndNodeDetails = lCommentPos['end_pos'];
+				
+		if(lStartNodeDetails){
+			lStartInstanceId = lStartNodeDetails['instance_id'];
+			lStartFieldId = lStartNodeDetails['field_id'];
+			lStartOffset = lStartNodeDetails['offset'];			
+		}
+	
+		if(lEndNodeDetails){
+			lEndInstanceId = lEndNodeDetails['instance_id'];
+			lEndFieldId = lEndNodeDetails['field_id'];
+			lEndOffset = lEndNodeDetails['offset'];			
+		}		
+	}else{
+		return;
+	}
+	if(lStartInstanceId && lStartFieldId && lEndInstanceId && lEndFieldId){//The selection is valid - both ends are in a field
+		return;
+	}
+	
+	if((!lStartInstanceId || !lStartFieldId) && (!lEndInstanceId || !lEndFieldId)){//Both ends of the selection are outside a field
+		return;
+	}
+
+	var lSelection = GetPreviewSelection();
+	
 }
 
 /**
@@ -1781,11 +1861,15 @@ function submitPreviewNewComment(pCommentIsGeneral){
 				RecacheCommentsOrder();
 					
 				ExpandSingleComment(lCommentId);
-				displayCommentEditForm(lCommentId, 1);
 				var lPositionToScrollTo = lPreviousScrollPos;
+				displayCommentEditForm(lCommentId, 1, 1);
+				
 				
 				$(window).scrollTop(lPositionToScrollTo);
-				setTimeout(function(){$(window).scrollTop(lPositionToScrollTo);}, 401);//A ff fix
+				setTimeout(function(){
+					$(window).scrollTop(lPositionToScrollTo);
+					focusCommentEditForm(lCommentId);
+				}, 401);//A ff fix
 //				console.log($(window).scrollTop())
 				gCommentIsBeingCreated = 0;
 			}
