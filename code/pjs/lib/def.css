@@ -1652,10 +1652,11 @@ button { /*background: url('../i/buttonMiddle.png') repeat-x;*/
 	font-family: Tahoma, Verdana, sans-serif;
 	font-size: 12px;
 	color: #1F1F1F;
-	float: right;
 	padding: 3px 0 5px 0;
 	margin: 0 0 0 0;
 }
+
+
 
 #tasks {
 	background: url('../i/tasks.png') repeat-x;
@@ -7351,4 +7352,43 @@ td.aof_poll_view_list_label{
 } 
 .P-Head-Profile-Menu #profile{
 	display:block;
+}
+
+
+
+/* BUTTONS new index page css BBU
+ 
+<input class="button_green2" type="button" style="float:left; width:147px;" value="Send all emails" />
+  
+*/
+input[type="button"].button_green2 {
+    padding: 6px 22px;
+    font-size: 12px;
+    width: auto;
+    height: auto;
+    color: #FFF;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    cursor: pointer;
+    border: 1px outset #57933B;
+}
+
+input[type="button"]:active:hover{
+	border-style: inset;	
+}
+
+
+.button_green2 {
+    background-image:-moz-linear-gradient(48% -28% -180deg,rgb(87,147,59) 0%,rgb(17,96,48) 100%);
+    background-image:-webkit-gradient(linear,48% -28%,48% 119%,color-stop(0, rgb(178,212,91)),color-stop(1, rgb(68,125,93)));
+    background-image:-webkit-linear-gradient(-180deg,rgb(178,212,91) 0%,rgb(68,125,93) 100%);
+    background-image:linear-gradient(-180deg,rgb(87,147,59) 0%,rgb(17,96,48) 100%);
+}
+
+.button_green2:hover {
+    background-image:-moz-linear-gradient(48% -28% 0deg,rgb(17,96,48) 0%,rgb(87,147,59) 100%);
+    background-image:-webkit-gradient(linear,48% -28%,48% 119%,color-stop(0, rgb(178,212,91)),color-stop(1, rgb(68,125,93)));
+    background-image:-webkit-linear-gradient(0deg,rgb(178,212,91) 0%,rgb(68,125,93) 100%);
+    background-image:linear-gradient(0deg,rgb(87,147,59) 0%,rgb(17,96,48) 100%);
 }
