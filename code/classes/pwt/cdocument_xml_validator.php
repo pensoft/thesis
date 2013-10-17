@@ -408,10 +408,9 @@ class cdocument_xml_validator extends csimple {
 		$lCon->Execute($lSql);
 		$lCon->MoveFirst();
 		while (!$lCon->Eof()) {
-			//var_dump($lCon->mRs['value_str']);
 			if(!trim($lCon->mRs['value_str'])) {
 				$this->m_all_errors[] = array (
-						'node_name' => $this->m_err_nodeName,
+						'node_name' => $lCon->mRs['xml_node_name'],
 						'node_instance_id' => (int)$lCon->mRs['template_object_id'],
 						'node_instance_name' => $lCon->mRs['instance_name'],
 						//'node_attribute_id' => (int)$lCurrentNode->parentNode->getAttribute('id'),
@@ -420,6 +419,7 @@ class cdocument_xml_validator extends csimple {
 						'node_attribute_field_name' => $lCon->mRs['field_name'],
 						'node_error_type' => XML_MISSING_FIELD_ERROR,
 				);
+				$this->m_errorsCounter++;
 			}
 			$lCon->MoveNext();
 		}
