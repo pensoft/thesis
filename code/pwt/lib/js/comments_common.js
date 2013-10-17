@@ -30,6 +30,8 @@ var gEmptySelectionInlineText = 'Select a text in an editable field (orange/gray
 /**
  * Попълваме позицията на коментара спрямо instance/field-а в който е направен
  */
+
+var gFocusCurrentlySelectedCommentForm = false;
 function fillCommentPos() {
 	var lCommentPos = GetSelectedTextPos();		
 	if(lCommentPos && !lCommentPos.selection_is_empty){
@@ -846,6 +848,7 @@ function positionCommentsBase(pRecacheOrder){
 	
 	var lPositions = {};
 	var lOffsetParent = false;
+	var lCurrentlySelectedCommentIdx = -1;
 	$.each(lRootComments, function(pIndex, pRow){
 
 		var lPattern = new RegExp("^P-Root-Comment-Holder-(\\d+)$","i");
@@ -885,9 +888,14 @@ function positionCommentsBase(pRecacheOrder){
 		
 		
 		var lPartUnderOffsetParent = $(window).scrollTop() - lCommentPosition;
-		if(gCurrentActiveCommentId == lCommentId && lPartUnderOffsetParent > 0){
-			lCommentPosition += lPartUnderOffsetParent;
+		
+		if(gCurrentActiveCommentId == lCommentId){
+			lCurrentlySelectedCommentIdx = pIndex;
+			if(lPartUnderOffsetParent > 0){
+				lCommentPosition += lPartUnderOffsetParent;
+			}
 		}
+		
 		
 		//console.log('Offset parent top ' + lOffsetParent.offset().top);
 		if(gCurrentActiveCommentId == lCommentId && gCurrentCommentSpecificPosition !== false){
@@ -932,9 +940,18 @@ function positionCommentsBase(pRecacheOrder){
 //	console.log(lPositions);
 	$.each(lRootComments, function(pIndex, pRow){
 		$(pRow).css('position', 'absolute');
-//		$(pRow).css('top', lPositions[pIndex]);
-		$(pRow).animate({'top' : lPositions[pIndex], 'position': 'absolute'}); 
+//		$(pRow).css('top', lPositions[pIndex]);		
+		$(pRow).animate({'top' : lPositions[pIndex], 'position': 'absolute'});	
 	});
+	
+	if(gFocusCurrentlySelectedCommentForm){	
+		gFocusCurrentlySelectedCommentForm = false;
+		setTimeout(function(){		
+			focusCommentEditForm(gCurrentActiveCommentId);
+		}, 401);//A ff fix
+	}
+			
+			
 	var lFilteredComments = $(lRootComments).filter(':visible');
 	var lLastElementIdx = lFilteredComments.length - 1;
 	if(lLastElementIdx >= 0){
@@ -1913,14 +1930,17 @@ function submitPreviewNewComment(pCommentIsGeneral){
 					
 				ExpandSingleComment(lCommentId);
 				var lPositionToScrollTo = lPreviousScrollPos;
-				displayCommentEditForm(lCommentId, 1, 1);
 				
+				var lBrowserIsMozilla = $.browser.mozilla;
+				var lDontFocusEditForm = false;
+				if(lBrowserIsMozilla){
+					lDontFocusEditForm = true;
+					gFocusCurrentlySelectedCommentForm = true;
+				}
 				
-				$(window).scrollTop(lPositionToScrollTo);
-				setTimeout(function(){
-					$(window).scrollTop(lPositionToScrollTo);
-					focusCommentEditForm(lCommentId);
-				}, 401);//A ff fix
+				displayCommentEditForm(lCommentId, 1, lDontFocusEditForm);				
+				$(window).scrollTop(lPositionToScrollTo);				
+				
 //				console.log($(window).scrollTop())
 				gCommentIsBeingCreated = 0;
 			}
