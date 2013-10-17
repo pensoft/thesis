@@ -1037,132 +1037,131 @@
 		</div>
 		<div class="P-Clear"></div>
 	</xsl:template>
+	
+	<xsl:template name="placePlateMiniImgIfNecessary">
+		<xsl:param name="pInstanceNode"/>
+		<xsl:param name="pPicPrefix"/>
+		<xsl:param name="pPlateType"/>
+		<xsl:if test="$pInstanceNode/fields/*[@id='484']/value != ''">	
+			<xsl:variable name="lImg">	
+				<img alt="">
+					<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=<xsl:value-of select="$pPicPrefix" />_<xsl:value-of select="$pInstanceNode/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
+				</img>
+			</xsl:variable>
+			<xsl:choose>
+				<xsl:when test="$pPlateType='1'">
+					<div style="text-align: center; display: table; width: 90px">
+						<div class="twocolumnmini fig">
+							<xsl:attribute name="rid"><xsl:value-of select="$pInstanceNode/@instance_id" /></xsl:attribute>
+							<xsl:copy-of select="$lImg"></xsl:copy-of>
+						</div>
+					</div>
+				</xsl:when>
+				<xsl:when test="$pPlateType='2'">
+					<div class="twocolumnmini fig">
+						<xsl:attribute name="rid"><xsl:value-of select="$pInstanceNode/@instance_id" /></xsl:attribute>
+						<xsl:copy-of select="$lImg"></xsl:copy-of>
+					</div>
+				</xsl:when>
+				<xsl:when test="$pPlateType='3' or $pPlateType='4'">
+					<div class="twocolumnminiholder">
+						<div class="twocolumnmini fig">
+							<xsl:attribute name="rid"><xsl:value-of select="$pInstanceNode/@instance_id" /></xsl:attribute>
+							<xsl:copy-of select="$lImg"></xsl:copy-of>
+						</div>
+					</div>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:if>
+	</xsl:template>
 
 	<!-- Plate type 1 image preview -->
 	<xsl:template match="*[@object_id='231']" mode="singleFigSmallPreview">
-		<div style="text-align: center; display: table; width: 90px">
-			<div class="twocolumnmini fig">
-				<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='225']/@instance_id" /></xsl:attribute>
-				<img alt="">
-					<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-				</img>
-			</div>
-		</div>
-		<div style="text-align: center; display: table; width: 90px">
-			<div class="twocolumnmini fig">
-				<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='226']/@instance_id" /></xsl:attribute>
-				<img alt="">
-					<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=singlefigmini_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-				</img>
-			</div>
-		</div>
+		<xsl:call-template name="placePlateMiniImgIfNecessary">
+			<xsl:with-param name="pInstanceNode" select="./*[@object_id='225']"></xsl:with-param>
+			<xsl:with-param name="pPicPrefix">singlefigmini</xsl:with-param>
+			<xsl:with-param name="pPlateType">1</xsl:with-param>
+		</xsl:call-template>
+		<xsl:call-template name="placePlateMiniImgIfNecessary">
+			<xsl:with-param name="pInstanceNode" select="./*[@object_id='226']"></xsl:with-param>
+			<xsl:with-param name="pPicPrefix">singlefigmini</xsl:with-param>
+			<xsl:with-param name="pPlateType">1</xsl:with-param>
+		</xsl:call-template>
 	</xsl:template>
 
 	<!-- Plate type 2 image preview -->
 	<xsl:template match="*[@object_id='232']" mode="singleFigSmallPreview">
-		<div class="twocolumnmini fig">
-			<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='225']/@instance_id" /></xsl:attribute>
-			<img style="float: left;"  alt="">
-				<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=plateportraitmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-			</img>
-		</div>
-		<div class="twocolumnmini fig">
-			<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='226']/@instance_id" /></xsl:attribute>
-			<img style="float: left;"  alt="">
-				<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=plateportraitmini_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-			</img>
-		</div>
+		<xsl:call-template name="placePlateMiniImgIfNecessary">
+				<xsl:with-param name="pInstanceNode" select="./*[@object_id='225']"></xsl:with-param>
+				<xsl:with-param name="pPicPrefix">plateportraitmini</xsl:with-param>
+				<xsl:with-param name="pPlateType">2</xsl:with-param>
+			</xsl:call-template>
+		<xsl:call-template name="placePlateMiniImgIfNecessary">
+			<xsl:with-param name="pInstanceNode" select="./*[@object_id='226']"></xsl:with-param>
+			<xsl:with-param name="pPicPrefix">plateportraitmini</xsl:with-param>
+			<xsl:with-param name="pPlateType">2</xsl:with-param>
+		</xsl:call-template>
 	</xsl:template>
 
 	<!-- Plate type 3 image preview -->
 	<xsl:template match="*[@object_id='233']" mode="singleFigSmallPreview">
 		<div>
-			<div class="twocolumnminiholder">
-				<div class="twocolumnmini fig">
-					<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='225']/@instance_id" /></xsl:attribute>
-					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-					</img>
-				</div>
-			</div>
-			<div class="twocolumnminiholder">
-				<div class="twocolumnmini fig">
-					<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='226']/@instance_id" /></xsl:attribute>
-					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-					</img>
-				</div>
-			</div>
-			<div class="twocolumnminiholder">
-				<div class="twocolumnmini fig">
-					<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='227']/@instance_id" /></xsl:attribute>
-					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='227']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-					</img>
-				</div>
-			</div>
-			<div class="twocolumnminiholder">
-				<div class="twocolumnmini fig">
-					<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='228']/@instance_id" /></xsl:attribute>
-					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='228']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-					</img>
-				</div>
-			</div>
+			<xsl:call-template name="placePlateMiniImgIfNecessary">
+				<xsl:with-param name="pInstanceNode" select="./*[@object_id='225']"></xsl:with-param>
+				<xsl:with-param name="pPicPrefix">twocolumnmini</xsl:with-param>
+				<xsl:with-param name="pPlateType">3</xsl:with-param>
+			</xsl:call-template>
+			<xsl:call-template name="placePlateMiniImgIfNecessary">
+				<xsl:with-param name="pInstanceNode" select="./*[@object_id='226']"></xsl:with-param>
+				<xsl:with-param name="pPicPrefix">twocolumnmini</xsl:with-param>
+				<xsl:with-param name="pPlateType">3</xsl:with-param>
+			</xsl:call-template>
+			<xsl:call-template name="placePlateMiniImgIfNecessary">
+				<xsl:with-param name="pInstanceNode" select="./*[@object_id='227']"></xsl:with-param>
+				<xsl:with-param name="pPicPrefix">twocolumnmini</xsl:with-param>
+				<xsl:with-param name="pPlateType">3</xsl:with-param>
+			</xsl:call-template>
+			<xsl:call-template name="placePlateMiniImgIfNecessary">
+				<xsl:with-param name="pInstanceNode" select="./*[@object_id='228']"></xsl:with-param>
+				<xsl:with-param name="pPicPrefix">twocolumnmini</xsl:with-param>
+				<xsl:with-param name="pPlateType">3</xsl:with-param>
+			</xsl:call-template>
 		</div>
 	</xsl:template>
 
 	<!-- Plate type 4 image preview -->
 	<xsl:template match="*[@object_id='234']" mode="singleFigSmallPreview">
 		<div>
-			<div class="twocolumnminiholder">
-				<div class="twocolumnmini fig">
-					<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='225']/@instance_id" /></xsl:attribute>
-					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='225']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-					</img>
-				</div>
-			</div>
-			<div class="twocolumnminiholder">
-				<div class="twocolumnmini fig">
-					<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='226']/@instance_id" /></xsl:attribute>
-					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='226']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-					</img>
-				</div>
-			</div>
-			<div class="twocolumnminiholder">
-				<div class="twocolumnmini fig">
-					<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='227']/@instance_id" /></xsl:attribute>
-					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='227']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-					</img>
-				</div>
-			</div>
-			<div class="twocolumnminiholder">
-				<div class="twocolumnmini fig">
-					<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='228']/@instance_id" /></xsl:attribute>
-					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='228']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-					</img>
-				</div>
-			</div>
-			<div class="twocolumnminiholder">
-				<div class="twocolumnmini fig">
-					<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='229']/@instance_id" /></xsl:attribute>
-					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='229']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-					</img>
-				</div>
-			</div>
-			<div class="twocolumnminiholder">
-				<div class="twocolumnmini fig">
-					<xsl:attribute name="rid"><xsl:value-of select="./*[@object_id='230']/@instance_id" /></xsl:attribute>
-					<img alt="">
-						<xsl:attribute name="src"><xsl:value-of select="$pSiteUrl"/>/showfigure.php?filename=twocolumnmini_<xsl:value-of select="./*[@object_id='230']/fields/*[@id='484']/value"></xsl:value-of>.jpg</xsl:attribute>
-					</img>
-				</div>
-			</div>
+			<xsl:call-template name="placePlateMiniImgIfNecessary">
+				<xsl:with-param name="pInstanceNode" select="./*[@object_id='225']"></xsl:with-param>
+				<xsl:with-param name="pPicPrefix">twocolumnmini</xsl:with-param>
+				<xsl:with-param name="pPlateType">4</xsl:with-param>
+			</xsl:call-template>
+			<xsl:call-template name="placePlateMiniImgIfNecessary">
+				<xsl:with-param name="pInstanceNode" select="./*[@object_id='226']"></xsl:with-param>
+				<xsl:with-param name="pPicPrefix">twocolumnmini</xsl:with-param>
+				<xsl:with-param name="pPlateType">4</xsl:with-param>
+			</xsl:call-template>
+			<xsl:call-template name="placePlateMiniImgIfNecessary">
+				<xsl:with-param name="pInstanceNode" select="./*[@object_id='227']"></xsl:with-param>
+				<xsl:with-param name="pPicPrefix">twocolumnmini</xsl:with-param>
+				<xsl:with-param name="pPlateType">4</xsl:with-param>
+			</xsl:call-template>
+			<xsl:call-template name="placePlateMiniImgIfNecessary">
+				<xsl:with-param name="pInstanceNode" select="./*[@object_id='228']"></xsl:with-param>
+				<xsl:with-param name="pPicPrefix">twocolumnmini</xsl:with-param>
+				<xsl:with-param name="pPlateType">4</xsl:with-param>
+			</xsl:call-template>
+			<xsl:call-template name="placePlateMiniImgIfNecessary">
+				<xsl:with-param name="pInstanceNode" select="./*[@object_id='229']"></xsl:with-param>
+				<xsl:with-param name="pPicPrefix">twocolumnmini</xsl:with-param>
+				<xsl:with-param name="pPlateType">4</xsl:with-param>
+			</xsl:call-template>
+			<xsl:call-template name="placePlateMiniImgIfNecessary">
+				<xsl:with-param name="pInstanceNode" select="./*[@object_id='230']"></xsl:with-param>
+				<xsl:with-param name="pPicPrefix">twocolumnmini</xsl:with-param>
+				<xsl:with-param name="pPlateType">4</xsl:with-param>
+			</xsl:call-template>
 		</div>
 	</xsl:template>
 

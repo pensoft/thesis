@@ -321,7 +321,7 @@ $gTemplArr = array(
 							{article_search}
 							<div class="wrapper">
 								<div id="button">
-									<button class="button_green" onclick=\'window.open("' . PWT_URL . '", "_blank");\'>Start a manuscript</button>
+									<button class="button_green" style="float:right;" onclick=\'window.open("' . PWT_URL . '", "_blank");\'>Start a manuscript</button>
 									{_getYourTasksBtn(show_your_tasks, journal_id)}
 									<a href="/about#Howitworks">How it works</a>
 								</div>

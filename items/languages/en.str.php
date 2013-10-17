@@ -1313,9 +1313,10 @@ $STRARRAY = array(
 	'pwt.figures.editplatebtn' => 'Edit plate',
 	'pwt.figures.editvideobtn' => 'Edit video',
 	'pwt.figures.insertOnly' => 'Insert only',
-	'pwt.figures.nodata' => 'There are no figures to cite. Please insert the <a class="P-Cke-Link" onclick="showAddFigurePopUp();" href="javascript:void(0)">figure</a>.',
-	'pwt.tables.nodata' => 'There are no tables to cite. Please insert the <a class="P-Cke-Link" href="javascript:void(0)" onclick="showTablePopUp();">table</a>.',
-	'pwt.references.nodata' => 'There are no references to cite. Please insert the <a class="P-Cke-Link" onclick="showAddReferencePopUp();" href="javascript:void(0)">reference</a>.',
+	'pwt.figures.nodata' => 'There are no figures to cite. Please insert a <a class="P-Cke-Link" onclick="showAddFigurePopUp();" href="javascript:void(0)">figure</a>.',
+	'pwt.tables.nodata' => 'There are no tables to cite. Please insert a <a class="P-Cke-Link" href="javascript:void(0)" onclick="showTablePopUp();">table</a>.',
+	'pwt.references.nodata' => 'There are no references to cite. Please insert a <a class="P-Cke-Link" onclick="showAddReferencePopUp();" href="javascript:void(0)">reference</a>.',
+	'pwt.supFiles.nodata' => 'There are no supplementary materials to cite.',	
 	'pwt.tooltip.addnewreference' => 'Add reference',
 	'pwt.tooltip.addnewidentkey' => 'Add identification key',
 	'pwt.tooltip.addnewtreatment' => 'Add treatment',
@@ -2224,6 +2225,9 @@ $STRARRAY = array(
 	'pwt.document_mail_subject_prefix' => '[PENSOFT WRITING TOOL] Manuscript #',
 	'status.Ready-to-submit' => 'Approved for submission',
 	'status.Pre-submit-review' => 'In Pre-submission review',
+	'pwt.approve_to_submit_confirm_text' => 'Are you sure you want to approve this paper?',
+	'pwt.reject_to_submit_confirm_text' => 'Are you sure you want to send feedback for this paper?',
+
 	
 );
 ?>

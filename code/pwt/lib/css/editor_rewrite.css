@@ -604,7 +604,12 @@ cke_dialog_page_contents > table {
 }
 
 .P-PopUp-Data-Table-Row {
-	height:174px !important;
+	/*height:174px !important;*/
+}
+
+.P-PopUp-Data-Table-Row-Figs {
+	margin-bottom: 25px !important;
+	/*height:174px !important;*/
 }
 
 .document_references_holder .P-PopUp-Data-Table-Row {
@@ -635,3 +640,4 @@ cke_dialog_page_contents > table {
 .fieldWithError .cke_contents iframe{
 	background:#f6e3dc!important;
 }
+

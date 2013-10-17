@@ -201,11 +201,11 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
   display: table;
 }
 .figure img {
-  max-width: 663px;
-  max-height: 400px;
+  max-width: 620px;
+  max-height: 224px;
 }
 .figure .singlePlatePhoto {
-  max-width: 663px;
+  max-width: 620px;
   min-height: 70px;
 }
 .figure .plate2column {
@@ -214,16 +214,16 @@ h1 + .Checklist > .P-Article-Preview-Block-Content:first-child > h3.h-treatment 
 }
 .figure .plate2column .singlePlatePhoto {
   display: table;
-  width: 296px;
-  height: 296px;
+  width: 224px;
+  height: 224px;
 }
 .figure .plate2column .singlePlatePhoto a {
   display: table-cell;
   vertical-align: middle;
 }
 .figure .plate2column .singlePlatePhoto img {
-  max-width: 296px;
-  max-height: 296px;
+  max-width: 224px;
+  max-height: 224px;
 }
 .figure .singlePlatePhoto {
   margin-top: 10px;

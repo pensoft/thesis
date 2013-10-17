@@ -310,7 +310,7 @@ a[href],label[for] {
 }
 
 .twocolumnmini.fig {
-	padding: 1px;
+	padding: 3px;
 }
 
 .fig-label-RC {
@@ -1093,7 +1093,7 @@ div.sectionBody iframe {
 .twocolumnmini.fig:hover {
 	-moz-box-sizing: border-box;
 	border: 1px solid red;
-	padding: 0px;
+	padding: 2px;
 }
 
 .imageRow {
