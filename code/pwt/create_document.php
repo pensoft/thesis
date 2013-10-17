@@ -17,7 +17,7 @@ $gForm = new ctplkfor(
 				'VType' => 'int',
 				'DisplayName' => getstr('pwt.create_document_papertype'),
 				'SrcValues' => "
-				SELECT id, name, journals as journals, description as desc
+				SELECT id, goodfor as name, journals as journals, description as desc
 					FROM pwt.papertypes
 					WHERE is_active = true
 					ORDER BY ord ASC

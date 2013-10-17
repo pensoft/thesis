@@ -4775,6 +4775,7 @@ td #docDescr {
 
 #papertypes input {
 	margin: 5px 5px;
+	float: left;
 }
 
 #journals  input {
@@ -4782,7 +4783,9 @@ td #docDescr {
 }
 
 #papertypes label {
-	padding: 10px 5px;
+	display: block;
+	padding: 3px 5px;
+	margin-left: 20px;
 }
 
 .boldedFont {
@@ -5475,7 +5478,7 @@ header .content_in {
 	margin-top:-13px;
 }
 
-@-moz-document url-prefix() { 
+@-moz-document url-prefix() {
   .P-Reference-Field-Editor-Holder, .P-Matrials-Field-Editor-Holder{
     margin-top:-11px;
   }
