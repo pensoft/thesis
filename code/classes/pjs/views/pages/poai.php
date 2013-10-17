@@ -152,6 +152,7 @@ class pOai extends pBase_Page_View {
 		
 		$this->m_objectsMetadata['funding_agencies_oai_dc'] = array(
 			'templs' => array(
+				G_HEADER => 'oai.recordsFundingAgenciesHeadOai',
 				G_ROWTEMPL => 'oai.recordsFundingAgenciesRowOai',
 			)
 		);

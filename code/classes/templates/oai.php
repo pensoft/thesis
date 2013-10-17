@@ -207,6 +207,10 @@ $gTemplArr = array (
 		<setSpec>{_xmlEscape(spec)}</setSpec>
 	',
 	
+	'oai.recordsFundingAgenciesHeadOai' => '
+		<dc:relation>info:eu-repo/semantics/altIdentifier/eissn/1314-2828</dc:relation>
+	',
+	
 	'oai.recordsFundingAgenciesRowOai' => '
 		<dc:relation>{relation_prefix}{projectid}</dc:relation>
 	',
