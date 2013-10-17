@@ -320,6 +320,9 @@ function ChangeInstanceMode(pDocumentId, pInstanceId, pRootInstanceId, pLevel, p
 	if(!pRootInstanceId){
 		pRootInstanceId = GetRootInstanceId();
 	}
+	if(!pRootInstanceId){
+		pRootInstanceId = pInstanceId;
+	}
 
 	if(!pLevel){
 		pLevel = getInstanceLevel(pInstanceId);

@@ -1459,6 +1459,9 @@ function GetInstanceContainerDetails($pInstanceId, $pContainerId, $pRootInstance
 	$lSql = 'SELECT type FROM pwt.object_containers WHERE id = ' . $pContainerId;
 	$lCon->Execute($lSql);
 	$lContainerType = (int)$lCon->mRs['type'];
+	if(!$pRootInstanceId){
+		$pRootInstanceId = $pInstanceId;
+	}
 
 	$lSql = 'SELECT char_length(r.pos)/2 as root_level, char_length(i.pos)/2 as current_level,
 		i.document_id, i.is_confirmed::int as is_confirmed, t.xsl_dir_name
