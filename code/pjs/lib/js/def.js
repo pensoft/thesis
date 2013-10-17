@@ -1310,6 +1310,7 @@ function SaveReviewForm(){
 }
 
 function SubmitReviewForm(){
+	$('#P-Ajax-Loading-Image').show();
 	var lJqForm = $('form[name="document_review_form"]');
 	var lData = '&tAction=review&ajax_form_submit=1&';
 	lData += lJqForm.formSerialize();	
@@ -1320,6 +1321,7 @@ function SubmitReviewForm(){
 		async : false,
 		type : 'POST',
 		success : function(pAjaxResult) {
+			$('#P-Ajax-Loading-Image').hide();
 			if(pAjaxResult['form_has_errors']){
 				$('form[name="document_review_form"]').replaceWith(pAjaxResult['form']);
 			}else{

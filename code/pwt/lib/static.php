@@ -6134,7 +6134,7 @@ function displayResolvedInfo($pCommentId, $pIsResolved, $pResolveUid, $pResolveU
 
 	if(!$pVersionIsReadonly){
 		$lResult .= '<input type="checkbox" onclick="ResolveComment(' . $pCommentId . ')" name="is_resolved_' . $pCommentId . '" id="is_resolved_' . $pCommentId . '" value="1" ' . ($pIsResolved ? 'checked="checked"' : '') . '>';
-		$lResult .= '<label id="label_is_resolved_' . $pCommentId . '" for="is_resolved_' . $pCommentId . '" class="' . ($pIsResolved ? ('Resolved-Comment-Label') : '') . '">' . ($pIsResolved ? ('Resolved by: <br/>' . $pResolveUserFullname) : 'Resolve') . '</label>';
+		$lResult .= '<label id="label_is_resolved_' . $pCommentId . '" class="' . ($pIsResolved ? ('Resolved-Comment-Label') : '') . '">' . ($pIsResolved ? ('Resolved by: <br/>' . $pResolveUserFullname) : 'Resolve') . '</label>';
 	}else{
 		if($pIsResolved){
 			$lResult .= '<div class="P-Comment-Resolved-Read-Only-Info">Resolved by: ' . $pResolveUserFullname . '</div>';
