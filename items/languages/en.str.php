@@ -1313,10 +1313,14 @@ $STRARRAY = array(
 	'pwt.figures.editplatebtn' => 'Edit plate',
 	'pwt.figures.editvideobtn' => 'Edit video',
 	'pwt.figures.insertOnly' => 'Insert only',
-	'pwt.figures.nodata' => 'There are no figures to cite. Please insert a <a class="P-Cke-Link" onclick="showAddFigurePopUp();" href="javascript:void(0)">figure</a>.',
+	'pwt.figures.nodata' => 'There are no figures to cite. Please insert a
+		<a class="P-Cke-Link" onclick="CreateNewFigurePopup(1, 1);" href="javascript:void(0)">figure</a>,
+		<a class="P-Cke-Link" onclick="CreateNewFigurePopup(1, 2);" href="javascript:void(0)">plate</a> or
+		<a class="P-Cke-Link" onclick="CreateNewFigurePopup(1, 3);" href="javascript:void(0)">video</a>
+		.',
 	'pwt.tables.nodata' => 'There are no tables to cite. Please insert a <a class="P-Cke-Link" href="javascript:void(0)" onclick="showTablePopUp();">table</a>.',
 	'pwt.references.nodata' => 'There are no references to cite. Please insert a <a class="P-Cke-Link" onclick="showAddReferencePopUp();" href="javascript:void(0)">reference</a>.',
-	'pwt.supFiles.nodata' => 'There are no supplementary materials to cite.',	
+	'pwt.supFiles.nodata' => 'There are no supplementary materials to cite.',
 	'pwt.tooltip.addnewreference' => 'Add reference',
 	'pwt.tooltip.addnewidentkey' => 'Add identification key',
 	'pwt.tooltip.addnewtreatment' => 'Add treatment',
@@ -2213,11 +2217,11 @@ $STRARRAY = array(
 	'pjs.aof_no_comments' => 'There are no comments to this article',
 	'pjs.email_notifications' => 'Email notifications',
 	'pjs.aof_view_poll_link' => 'See Review form',
-	'pjs.comment_is_rejected' => 'This comment has been removed because it does not conform to the journal\'s policy.',	
-	'pwt.ready_to_submit_confirm_text' => 'You are about to submit this manuscript for pre-submission technical review. You will receive an email from us with our feedback / approval.',	
+	'pjs.comment_is_rejected' => 'This comment has been removed because it does not conform to the journal\'s policy.',
+	'pwt.ready_to_submit_confirm_text' => 'You are about to submit this manuscript for pre-submission technical review. You will receive an email from us with our feedback / approval.',
 	'pwt.can_submit_confirm_text' => 'You are about to start a journal submission of this manuscript. Please note that you will not be able to make any changes to the manuscript until you receive the editorial decision.',
 	'pwt.reject_documentfor_submission_btn' => 'Send feedback',
-	
+
 	'pwt.thanks_document_ready_for_review_mail_subject' => ' sent for pre-submission review',
 	'pwt.document_reject_for_submit_mail_subject' => ' needs to be corrected',
 	'pwt.document_ready_for_review_mail_subject' => ' submitted for technical review',
@@ -2228,6 +2232,6 @@ $STRARRAY = array(
 	'pwt.approve_to_submit_confirm_text' => 'Are you sure you want to approve this paper?',
 	'pwt.reject_to_submit_confirm_text' => 'Are you sure you want to send feedback for this paper?',
 
-	
+
 );
 ?>

@@ -134,6 +134,10 @@ function CreateNewSupFilePopup(pPopupInEditor){
 }
 
 function CreateNewFigurePopup(pPopupInEditor, pFigureType){
+	if (pPopupInEditor == 1){
+		gCurrentDialog = CKEDITOR.dialog.getCurrent();
+		gCurrentDialog.hide();
+	}
 	var gFiguresParentInstanceId = getFiguresParentInstanceId();
 	if(!gFiguresParentInstanceId){
 		alert('Could not locate figures parent!');
@@ -189,7 +193,7 @@ function SaveNewElementPopup(pInstanceId, pParentInstanceId, pContainerId, pDisp
 		lAjaxResult['new_instance_id'] = pInstanceId;
 		lAjaxResult['parent_instance_id'] = pParentInstanceId;
 		HandleActiveMenuAfterInstanceCreation(lAjaxResult);
-		
+
 		if(!lShowEditorDialog && !gPreviewMode){
 			if(pDisplayInTree > 0){
 				window.location.href = '/display_document.php?instance_id=' + pInstanceId;
@@ -205,7 +209,7 @@ function SaveNewElementPopup(pInstanceId, pParentInstanceId, pContainerId, pDisp
 		if(lShowEditorDialog){
 			gCurrentDialog.show();
 		}
-		if(gPreviewMode){			
+		if(gPreviewMode){
 			HandlePreviewModeCreateInstance(lAjaxResult);
 		}
 	};
