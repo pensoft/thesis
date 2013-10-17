@@ -56,7 +56,7 @@ class ctemplate_xsd_generator extends csimple {
 		$lDocumentXmlNode = $lSchemaXmlNode->appendChild($this->xsdElem('element'));
 		$lDocumentXmlNode->setAttribute('name', 'document');
 		$lDocumentXmlNode->setAttribute('type', 'documentType');
-		
+
 		// Id Checks for some of the elements
 		$lFragment = $this->m_documentXmlDom->createDocumentFragment();
 		$lElementIdsChecks = '
@@ -89,10 +89,10 @@ class ctemplate_xsd_generator extends csimple {
 								<xsd:selector xpath=".//tbls_citation"/>
 								<xsd:field xpath="@object_id"/>
 							</xsd:keyref>';
-		
+
 		$lFragment->appendXML($lElementIdsChecks);
-		$lDocumentXmlNode->appendChild($lFragment);	
-		
+		$lDocumentXmlNode->appendChild($lFragment);
+
 		$lDocumentTypeNode = $lSchemaXmlNode->appendChild($this->xsdElem('complexType'));
 		$lDocumentTypeNode->setAttribute('name', 'documentType');
 		$lDocumentSeqNode = $lDocumentTypeNode->appendChild($this->xsdElem('sequence'));
@@ -105,8 +105,8 @@ class ctemplate_xsd_generator extends csimple {
 		$lDocTypeNode = $lDocInfoSeqNode->appendChild($this->xsdElem('element'));
 		$lDocTypeNode->setAttribute('name', 'document_type');
 		$lDocTypeComplexType = $lDocTypeNode->appendChild($this->xsdElem('complexType'));
-		
-		
+
+
 		$lDocTypeSimpleContent = $lDocTypeComplexType->appendChild($this->xsdElem('simpleContent'));
 		$lDocTypeRestriction = $lDocTypeSimpleContent->appendChild($this->xsdElem('extension'));
 		$lDocTypeRestriction->setAttribute('base', 'xsd:string');
@@ -119,11 +119,11 @@ class ctemplate_xsd_generator extends csimple {
 		$jbXSDrestrictnionNode->setAttribute('base', 'xsd:integer');
 		$jbXSDenumerationNode = $jbXSDrestrictnionNode->appendChild($this->xsdElem('enumeration'));
 		$jbXSDenumerationNode->setAttribute('value', $this->m_templateId);
-		
+
 		$lJournalNameNode = $lDocInfoSeqNode->appendChild($this->xsdElem('element'));
 		$lJournalNameNode->setAttribute('name', 'journal_name');
 		$lJournalNameComplexType = $lJournalNameNode->appendChild($this->xsdElem('complexType'));
-		
+
 		$lJournalNameSimpleType = $lJournalNameComplexType->appendChild($this->xsdElem('simpleContent'));
 		$lJournalNameRestriction = $lJournalNameSimpleType->appendChild($this->xsdElem('extension'));
 		$lJournalNameRestriction->setAttribute('base', 'xsd:string');
@@ -138,16 +138,6 @@ class ctemplate_xsd_generator extends csimple {
 		$lObjectsXmlNode->setAttribute('name', 'objects');
 		$lObjectsXmlNode->setAttribute('type', 'objectsType');
 
-		$lFiguresXmlNode = $lDocumentSeqNode->appendChild($this->xsdElem('element'));
-		$lFiguresXmlNode->setAttribute('name', 'figures');
-		$lFiguresXmlNode->setAttribute('type', 'figuresType');
-
-
-		$lTablesXmlNode = $lDocumentSeqNode->appendChild($this->xsdElem('element'));
-		$lTablesXmlNode->setAttribute('name', 'tables');
-		$lTablesXmlNode->setAttribute('type', 'tablesType');
-
-
 		$lCon = new DBCn();
 		$lCon->Open();
 
@@ -161,7 +151,7 @@ class ctemplate_xsd_generator extends csimple {
 				JOIN pwt.v_template_objects_xml_parent rp ON rp.child_doc_templ_object_id = o.id
 				LEFT JOIN pwt.object_subobjects os ON os.object_id = rp.object_id AND os.subobject_id = o.object_id
 				WHERE o.template_id = ' . $this->m_templateId . ' AND o.display_object_in_xml = 1 AND rp.real_template_id = ' . (int)$this->m_templateId . '
-					AND (o.parent_id IS NULL OR rp.id IS NOT NULL)
+					AND (o.parent_id = o.id OR rp.id IS NOT NULL)
 				ORDER BY rp.id, o.object_id, o.pos ASC
 			) o
 			ORDER BY o.pos ASC';
@@ -202,7 +192,7 @@ class ctemplate_xsd_generator extends csimple {
 		JOIN pwt.v_template_objects_xml_parent rp ON rp.child_doc_templ_object_id = o.id AND rp.real_template_id = ' . (int)$this->m_templateId . '
 		LEFT JOIN pwt.data_src ds ON ds.id = of.data_src_id
 		WHERE o.template_id = ' . (int)$this->m_templateId . ' AND of.display_in_xml = 1
-			 AND (o.parent_id IS NULL OR rp.id IS NOT NULL)
+			 AND (o.parent_id = o.id OR rp.id IS NOT NULL)
 			 AND (o.display_object_in_xml = 1 OR (o.display_object_in_xml = 4))
 		ORDER BY o.pos ASC, of.id
 		';
@@ -269,8 +259,6 @@ class ctemplate_xsd_generator extends csimple {
 			$this->generateObject($lTemplateObjectId, $lObjectsXmlNode);
 		}
 
-		$this->generateFiguresDefinition();
-		$this->generateTablesDefinition();
 		$this->generateFieldTypesDefinition();
 		$this->generateDataSrcs();
 
@@ -487,117 +475,6 @@ class ctemplate_xsd_generator extends csimple {
 		$lFragment = $this->m_documentXmlDom->createDocumentFragment();
 		$lFragment->appendXML($lBaseTypesXml);
 		$this->m_schemaXmlNode->appendChild($lFragment);
-	}
-
-	/**
-	 * Тук генерираме дефиницията на обектите на фигурите
-	 */
-	function generateFiguresDefinition(){
-		//Дефиниция на всички фигури
-		$lSchemaXmlNode = $this->m_schemaXmlNode;
-		$lFiguresTypeNode = $lSchemaXmlNode->appendChild($this->xsdElem('complexType'));
-		$lFiguresTypeNode->setAttribute('name', 'figuresType');
-
-		$lFiguresSeqNode = $lFiguresTypeNode->appendChild($this->xsdElem('sequence'));
-
-		$lFigureXmlNode = $lFiguresSeqNode->appendChild($this->xsdElem('element'));
-		$lFigureXmlNode->setAttribute('name', 'figure');
-		$lFigureXmlNode->setAttribute('type', 'figureType');
-		$lFigureXmlNode->setAttribute('minOccurs', '0');
-		$lFigureXmlNode->setAttribute('maxOccurs', 'unbounded');
-
-		//Дефиниция на една фигура
-		$lFigureTypeNode = $lSchemaXmlNode->appendChild($this->xsdElem('complexType'));
-		$lFigureTypeNode->setAttribute('name', 'figureType');
-
-		$lFigureSeqNode = $lFigureTypeNode->appendChild($this->xsdElem('sequence'));
-		//Caption
-		$lCaptionXmlNode = $lFigureSeqNode->appendChild($this->xsdElem('element'));
-		$lCaptionXmlNode->setAttribute('name', 'caption');
-		$lCaptionXmlNode->setAttribute('minOccurs', '0');
-		$lCaptionXmlNode->setAttribute('maxOccurs', '1');
-		//Url
-		$lUrlSeq = $lFigureSeqNode->appendChild($this->xsdElem('sequence'));
-		$lUrlSeq->setAttribute('minOccurs', '1');
-		$lUrlSeq->setAttribute('maxOccurs', 'unbounded');
-
-		$lUrlXmlNode = $lUrlSeq->appendChild($this->xsdElem('element'));
-		$lUrlXmlNode->setAttribute('name', 'url');
-		$lUrlXmlNode->setAttribute('minOccurs', '0');
-		$lUrlXmlNode->setAttribute('maxOccurs', '1');
-		$lUrlComplexType = $lUrlXmlNode->appendChild($this->xsdElem('complexType'));
-
-		$lUrlTypeSimpleContent = $lUrlComplexType->appendChild($this->xsdElem('simpleContent'));
-		$lUrlTypeRestriction = $lUrlTypeSimpleContent->appendChild($this->xsdElem('extension'));
-		$lUrlTypeRestriction->setAttribute('base', 'xsd:string');
-		$lUrlIdAttributeNode = $lUrlTypeRestriction->appendChild($this->xsdElem('attribute'));
-		$lUrlIdAttributeNode->setAttribute('name', 'id');
-		$lUrlIdAttributeNode->setAttribute('type', 'xsd:integer');
-
-// 		//PhotoDescription
-		$lPhotoDesc = $lUrlSeq->appendChild($this->xsdElem('element'));
-		$lPhotoDesc->setAttribute('name', 'photo_description');
-		$lPhotoDesc->setAttribute('type', 'fieldEmpty');
-		$lPhotoDesc->setAttribute('minOccurs', '0');
-		$lPhotoDesc->setAttribute('maxOccurs', '1');
-
-
-
-		//Fig node attributes
-		$lIdAttributeNode = $lFigureTypeNode->appendChild($this->xsdElem('attribute'));
-		$lIdAttributeNode->setAttribute('name', 'id');
-		$lIdAttributeNode->setAttribute('type', 'xsd:integer');
-		$lIdAttributeNode->setAttribute('use', 'required');
-
-		$lIsPlateAttributeNode = $lFigureTypeNode->appendChild($this->xsdElem('attribute'));
-		$lIsPlateAttributeNode->setAttribute('name', 'is_plate');
-		$lIsPlateAttributeNode->setAttribute('type', 'xsd:integer');
-
-		$lPlateTypeAttributeNode = $lFigureTypeNode->appendChild($this->xsdElem('attribute'));
-		$lPlateTypeAttributeNode->setAttribute('name', 'type');
-		$lPlateTypeAttributeNode->setAttribute('type', 'xsd:integer');
-		
-	}
-	
-	/**
-	 * Тук генерираме дефиницията на обектите на таблиците
-	 */
-	function generateTablesDefinition(){
-		//Дефиниция на всички фигури
-		$lSchemaXmlNode = $this->m_schemaXmlNode;
-		$lTablesTypeNode = $lSchemaXmlNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:complexType'));
-		$lTablesTypeNode->setAttribute('name', 'tablesType');
-
-		$lTablesSeqNode = $lTablesTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:sequence'));
-
-		$lTableXmlNode = $lTablesSeqNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:element'));
-		$lTableXmlNode->setAttribute('name', 'table');
-		$lTableXmlNode->setAttribute('type', 'tableType');
-		$lTableXmlNode->setAttribute('minOccurs', '0');
-		$lTableXmlNode->setAttribute('maxOccurs', 'unbounded');
-
-		//Дефиниция на една таблица
-		$lTableTypeNode = $lSchemaXmlNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:complexType'));
-		$lTableTypeNode->setAttribute('name', 'tableType');
-
-		$lTableSeqNode = $lTableTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:sequence'));
-		//Caption
-		$lCaptionXmlNode = $lTableSeqNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:element'));
-		$lCaptionXmlNode->setAttribute('name', 'caption');
-		$lCaptionXmlNode->setAttribute('minOccurs', '0');
-		$lCaptionXmlNode->setAttribute('maxOccurs', '1');
-		
-		//Content
-		$lContentXmlNode = $lTableSeqNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:element'));
-		$lContentXmlNode->setAttribute('name', 'content');
-		$lContentXmlNode->setAttribute('type', 'fieldNotEmpty');
-
-		//Table node attributes
-		$lIdAttributeNode = $lTableTypeNode->appendChild($this->m_documentXmlDom->createElementNS(XSD_SCHEMA_LOCATION, 'xsd:attribute'));
-		$lIdAttributeNode->setAttribute('name', 'id');
-		$lIdAttributeNode->setAttribute('type', 'xsd:integer');
-		$lIdAttributeNode->setAttribute('use', 'required');
-	
 	}
 
 	/**
