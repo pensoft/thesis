@@ -144,6 +144,18 @@ class pOai extends pBase_Page_View {
 			)
 		);
 		
+		$this->m_objectsMetadata['funding_agencies_mods'] = array(
+			'templs' => array(
+				G_ROWTEMPL => 'oai.recordsFundingAgenciesRowMods',
+			)
+		);
+		
+		$this->m_objectsMetadata['funding_agencies_oai_dc'] = array(
+			'templs' => array(
+				G_ROWTEMPL => 'oai.recordsFundingAgenciesRowOai',
+			)
+		);
+		
 		$this->m_objectsMetadata['single_record_mods'] = array(
 			'templs' => array(
 				G_HEADER   => 'oai.singleRecordHead',

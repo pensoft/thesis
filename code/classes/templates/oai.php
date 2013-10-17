@@ -84,10 +84,10 @@ $gTemplArr = array (
 						<oai-dc:dc xmlns:oai-dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
 							<dc:title>{_stripXmlTags(title)}</dc:title>
 							{_displayOaiRecordAuthors(authors, metadata_prefix, view_object)}
-							{_displayOaiRecordKeywords(keywords, metadata_prefix, view_object)}							
-							<dc:source>{journal_title} {issue_volume}: {start_page}-{end_page}</dc:source>
-							<dc:description>{_stripXmlTags(abstract)}</dc:description>
-							<dc:relation>{relation}</dc:relation>
+							{_displayOaiRecordKeywords(keywords, metadata_prefix, view_object)}									
+							<dc:source>{journal_title} {issue_volume}: e{article_id}</dc:source>
+							<dc:description>{_stripXmlTags(abstract)}</dc:description>							
+							{_displayOaiRecordFundingAgencies(funding_agencies, metadata_prefix, view_object)}
 							<dc:rights>info:eu-repo/semantics/openAccess</dc:rights>
 							<dc:publisher>Pensoft Publishers</dc:publisher>
 							<dc:date>{_stripXmlTags(pubyear)}</dc:date>
@@ -132,8 +132,7 @@ $gTemplArr = array (
 									</mods:detail>
 									{_displayModsIssueNumber(issue_number, show_issue_number)}
 									<mods:extent unit="pages">
-										<mods:start>{_xmlEscape(start_page)}</mods:start>
-										<mods:end>{_xmlEscape(end_page)}</mods:end>
+										<mods:start>e{article_id}</mods:start>										
 									</mods:extent>
 									<mods:date>{_xmlEscape(pubyear)}</mods:date>
 								</mods:part>
@@ -206,6 +205,10 @@ $gTemplArr = array (
 	
 	'oai.recordsSetRowMods' => '
 		<setSpec>{_xmlEscape(spec)}</setSpec>
+	',
+	
+	'oai.recordsFundingAgenciesRowOai' => '
+		<dc:relation>{relation_prefix}{projectid}</dc:relation>
 	',
 	
 	'oai.recordsAuthorsRowOai' => '<dc:creator>{_stripXmlTags(last_name)},{_stripXmlTags(first_name)}</dc:creator>',

@@ -64,7 +64,7 @@ class mOai extends emBase_Model {
 			t.name as section_type, d.start_page as start_page, d.end_page as end_page, i.volume as issue_volume,
 					j.name as journal_title,
 			j.url_name as set_specs, j.url_name as journal_url_title, a.id as article_id,
-			i.number as issue_number, 1 as show_issue_number, \'info:eu-repo/grantAgreement/EC/FP7/\' as relation
+			i.number as issue_number, 1 as show_issue_number
 			FROM pjs.articles a
 			JOIN pjs.documents d ON d.id = a.id
 			JOIN pjs.article_metadata m ON m.document_id = d.id
@@ -114,6 +114,7 @@ class mOai extends emBase_Model {
 		
 		foreach ($lResultArr as $lIdx => $lData){
 			$lResultArr[$lIdx]['authors'] = $this->GetArticleAuthors($lData['article_id']);
+			$lResultArr[$lIdx]['funding_agencies'] = $this->GetArticleFundingAgencies($lData['article_id']);
 		}
 		
 		$lResult->m_Data = $lResultArr;
@@ -136,6 +137,17 @@ class mOai extends emBase_Model {
 				JOIN public.usr u ON u.id = du.uid
 				WHERE du.document_id = ' . (int)$pArticleId . ' AND du.role_id = ' . (int)AUTHOR_ROLE . ' 
 		';
+		return $this->ArrayOfRows($lSql);
+	}
+	
+	function GetArticleFundingAgencies($pArticleId){
+		$lSql = '
+				SELECT c.*, \'info:eu-repo/grantAgreement/EC/FP7/\' as relation_prefix
+				FROM public.supporting_agencies c
+				JOIN pjs.documents d ON d.id = ' . (int)$pArticleId . '
+				WHERE c.id = ANY(d.supporting_agencies_ids)
+		';
+// 		var_dump( $this->ArrayOfRows($lSql));
 		return $this->ArrayOfRows($lSql);
 	}
 	

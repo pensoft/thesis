@@ -3491,6 +3491,16 @@ function displayOaiRecordAuthors($pAuthorsData, $pMetadataPrefix, $pViewObject){
 	return $lObject->Display();
 }
 
+function displayOaiRecordFundingAgencies($pAgenciesData, $pMetadataPrefix, $pViewObject){
+// 	var_dump($pAgenciesData);	
+	$lObject = new evList_Display(array(
+		'name_in_viewobject' => 'funding_agencies_' . $pMetadataPrefix,
+		'controller_data' => $pAgenciesData,
+		'view_object' => $pViewObject,
+	));
+	return $lObject->Display();
+}
+
 function GetOaiErrCode($pCode){
 	$lErrCodeMsgs = array(
 		OAI_ERR_CODE_BAD_RESUMPTION_TOKEN => 'badResumptionToken',
