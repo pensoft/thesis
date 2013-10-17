@@ -832,7 +832,7 @@ function RecacheCommentsOrder(){
 
 
 var gCommentOrderCached = false;
-function positionCommentsBase(pRecacheOrder){
+function positionCommentsBase(pRecacheOrder, pDontRepositionCurrentComment){
 //	return;
 	if(gCommentsInPreviewMode < 1)
 		return;	
@@ -881,7 +881,7 @@ function positionCommentsBase(pRecacheOrder){
 				
 		//The part which is not visible in the bottom due to current scroll position
 		var lPartNotVisibleOnScreen = lCommentPosition + $(pRow).outerHeight() - $(window).scrollTop() - $(window).height() + GetFixedFooterHeight();
-		if( gCurrentActiveCommentId == lCommentId && lPartNotVisibleOnScreen > 0 ){
+		if( gCurrentActiveCommentId == lCommentId && lPartNotVisibleOnScreen > 0 && !pDontRepositionCurrentComment){
 			lCommentPosition -= lPartNotVisibleOnScreen;
 		}
 		lCommentPosition -= lOffsetParent.offset().top;
@@ -891,7 +891,7 @@ function positionCommentsBase(pRecacheOrder){
 		
 		if(gCurrentActiveCommentId == lCommentId){
 			lCurrentlySelectedCommentIdx = pIndex;
-			if(lPartUnderOffsetParent > 0){
+			if(lPartUnderOffsetParent > 0 && !pDontRepositionCurrentComment){
 				lCommentPosition += lPartUnderOffsetParent;
 			}
 		}
@@ -1210,7 +1210,7 @@ function DeactivateAllComments(pDontRepositionComments) {
 	}
 }
 
-function MakeCommentActive(pCommentId, pDontRepositionComments) {
+function MakeCommentActive(pCommentId, pDontRepositionComments, pDontRepositionCurrentComment) {
 	if(gCurrentActiveCommentId == pCommentId){
 		return;
 	}
@@ -1221,7 +1221,7 @@ function MakeCommentActive(pCommentId, pDontRepositionComments) {
 	var lPreviewContent = GetPreviewContent();
 	lPreviewContent.find('.P-Preview-Comment[' + gTextCommentIdAttribute + '*="' + pCommentId + '"]').addClass(gActiveCommentTextClass);
 	if(!pDontRepositionComments){
-		positionCommentsBase();
+		positionCommentsBase(false, pDontRepositionCurrentComment);
 	}
 }
 
@@ -1436,7 +1436,7 @@ function SelectPreviousNextComment(pPrevious){
 	});
 
 	if(lResultCommentId){
-		MakeCommentActive(lResultCommentId);
+		MakeCommentActive(lResultCommentId, false, true);
 		setTimeout(function(){scrollToComment(lResultCommentId);}, 400);
 		// Move the selection to the end of the comment
 		var lEndCommentNode = lPreviewContent.find(gCommentEndPosNodeName + '[' + gCommentIdAttributeName + '="' + lResultCommentId + '"]')[0];
