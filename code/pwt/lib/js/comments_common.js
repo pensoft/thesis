@@ -1427,7 +1427,7 @@ function SelectPreviousNextComment(pPrevious){
 				}
 			}
 
-			if(lCommentEndOrderRelativeToSelectionStart > 0){
+			if(lCommentEndOrderRelativeToSelectionStart > 0 && lCommentIsVisible){
 				// If the comment is after the selection - it is the first after it
 				lResultCommentId = lCommentId;
 				return false;
