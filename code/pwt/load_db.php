@@ -15,11 +15,12 @@ $lIpFilterCheck = ipfilter($lIp, array(ACCEPT_REQUEST_BY_IPS));
 
 /*
  * dump and load of production database to test server
+ * in order the script to run successfully - the directory DUMP_FILE_PATH has to exist and the apache user should have permissions to write in it
  * 
  * */
  
 if($lIpFilterCheck) {
-	$lTmpFileName = 'pensoft2_' . date('Y') . '_' . date('m') . '_' . date('d') . '__' . date('H') . '_' . date('s');
+	$lTmpFileName = 'pensoft2_' . date('Y') . '_' . date('m') . '_' . date('d') . '__' . date('H') . '_' . date('i');
 	$lDumpCommand = 'export PGPASSWORD=' . PGPASSWORD_PRODUCTION . ' && export PGUSER=' . PGUSER_PRODUCTION . ' && /usr/bin/pg_dump -h ' . PGHOST_PRODUCTION . ' pensoft2 > ' . DUMP_FILE_PATH . $lTmpFileName . '.sql && unset PGPASSWORD && unset PGUSER';
 	$lRestoreCommand = 'psql -U postgres -c \'CREATE DATABASE ' . $lTmpFileName . ' OWNER = postgres\' && psql -U postgres ' . $lTmpFileName . ' -f ' . DUMP_FILE_PATH . $lTmpFileName . '.sql';
 	
@@ -29,7 +30,7 @@ if($lIpFilterCheck) {
 	//var_dump($lOutput1);
 	//var_dump($lOutput2);
 	echo 'Database name: ' . $lTmpFileName;
-	unlink('/tmp/backup/' . $lTmpFileName . '.sql');
+// 	unlink(DUMP_FILE_PATH . $lTmpFileName . '.sql');
 } else {
 	echo 'You don\'t have permissions to do this action';
 }
