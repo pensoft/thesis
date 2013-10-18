@@ -664,7 +664,7 @@
 		<xsl:variable name="lTreatmentURLPrefix">
 			<xsl:choose>
 				<xsl:when test="$lTreatmentURLType='ZooBank'">
-					<xsl:text>http://zoobank.org/?lsid=</xsl:text>
+					<xsl:text>http://zoobank.org/</xsl:text>
 				</xsl:when>
 				<xsl:when test="$lTreatmentURLType='MorphBank'">
 					<xsl:text>http://www.morphbank.net/Browse/ByImage/?tsn=</xsl:text>
