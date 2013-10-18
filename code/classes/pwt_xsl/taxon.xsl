@@ -70,7 +70,7 @@
 		<!--  Тип на линка -->
 		<xsl:variable name="lTreatmentURLPrefix">
 			<xsl:choose>
-				<xsl:when test="$lTreatmentURLType='1'"><xsl:text>http://zoobank.org/?lsid=</xsl:text></xsl:when>
+				<xsl:when test="$lTreatmentURLType='1'"><xsl:text>http://zoobank.org/</xsl:text></xsl:when>
 				<xsl:when test="$lTreatmentURLType='2'"><xsl:text>http://www.morphbank.net/?id=</xsl:text></xsl:when>
 				<xsl:when test="$lTreatmentURLType='3'"><xsl:text>http://www.ncbi.nlm.nih.gov/nuccore/</xsl:text></xsl:when>
 				<xsl:when test="$lTreatmentURLType='4'"><xsl:text></xsl:text></xsl:when>
@@ -106,6 +106,9 @@
 			<xsl:choose>
 				<xsl:when test="contains($lCurrentVal, 'urn:lsid:indexfungorum.org:names:')">
 					<xsl:value-of select="substring($lCurrentVal, 34)" />	
+				</xsl:when>
+				<xsl:when test="contains($lCurrentVal, 'urn:lsid:zoobank.org:act:')">
+					<xsl:value-of select="substring($lCurrentVal, 26)" />	
 				</xsl:when>
 				<xsl:otherwise>
 					<span>
