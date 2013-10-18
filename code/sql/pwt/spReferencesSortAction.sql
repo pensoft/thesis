@@ -13,13 +13,22 @@ $BODY$
 	DECLARE
 		lRes ret_spReferencesSortAction;		
 		lDocumentId bigint;
+		lReferenceIsConfirmed boolean;
+		lReorderingChangeHasOcurred int;
 	BEGIN
 		
-		SELECT INTO lDocumentId document_id
+		SELECT INTO lDocumentId, lReferenceIsConfirmed
+			document_id,is_confirmed
 		FROM pwt.document_object_instances
 		WHERE id = pInstanceId;
 		
-		PERFORM spSaveReferenceOrder(lDocumentId);
+		SELECT INTO lReorderingChangeHasOcurred
+			result
+		FROM spCacheReferenceFields(pInstanceId);
+		
+		IF lReferenceIsConfirmed = true AND lReorderingChangeHasOcurred = 1 THEN
+			PERFORM spSaveReferenceOrder(lDocumentId);
+		END IF;
 		lRes.result = 1;
 		RETURN lRes;		
 	END
