@@ -107,6 +107,9 @@
 				<xsl:when test="contains($lCurrentVal, 'urn:lsid:indexfungorum.org:names:')">
 					<xsl:value-of select="substring($lCurrentVal, 34)" />	
 				</xsl:when>
+				<xsl:when test="contains($lCurrentVal, 'urn:lsid:zoobank.org:act:')">
+					<xsl:value-of select="substring($lCurrentVal, 26)" />	
+				</xsl:when>
 				<xsl:otherwise>
 					<span>
 						<xsl:apply-templates select="$lCurrentVal" mode="formatting"/>						
